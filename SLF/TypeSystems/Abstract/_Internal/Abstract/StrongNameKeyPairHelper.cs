@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// The small chunk denominator.
         /// </summary>
         internal const uint SmallChunkDenominator = 0x00000010;
-        internal const uint ChunkCount            = 0x00000009;
+        internal const uint ChunkCount = 0x00000009;
         /// <summary>
         /// The private key's uint ID, backwards RSA2 in uint form.
         /// </summary>
@@ -219,24 +219,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.remainingSize = (uint) (Marshal.SizeOf(typeof(GeneralKeyHeader)) + modulus.Length);
             }
 
+            public static bool IsDataProperLength(byte[] data)
+            {
+                if (data.Length <= 32)
+                    return false;
+                int a = data[24], b = data[25], c = data[26], d = data[27];
+                uint bitLength = (uint) (a | b << 8 | c << 16 | d << 24);
+                var modulusLength = bitLength / LargeChunkDenominator;
+                if (data.Length < 32 + modulusLength)
+                    return false;
+                return true;
+            }
+
             public PublicKeyData(RSACryptoServiceProvider provider)
                 : this(provider.ExportParameters(false), provider.KeySize)
             {
-            }
-
-            public Tuple<byte[], byte[]> GetPublicKeyToken()
-            {
-                MemoryStream targetStream = new MemoryStream();
-                var targetWriter = new BinaryWriter(targetStream);
-                var targetSha = SHA1.Create();
-                targetStream.Seek(0, SeekOrigin.Begin);
-                var targetReader = new BinaryReader(targetStream);
-                var resultBytes = targetReader.ReadBytes((int) targetStream.Length);
-                var targetHash = targetSha.ComputeHash(resultBytes);
-                byte[] result = new byte[8];
-                for (int i = 0; i < 8; i++)
-                    result[i] = targetHash[targetHash.Length - 1 - i];
-                return new Tuple<byte[], byte[]>(resultBytes, result);
             }
 
             #region IStrongNamePublicKeyInfo Members
@@ -253,7 +250,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
             public PublicKeyTokenData PublicToken
             {
-                get {
+                get
+                {
                     byte[] sourceBytes = null;
                     using (MemoryStream targetStream = new MemoryStream())
                     {
@@ -281,14 +279,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
             public int KeySize
             {
-                get { return (int)this.header.BitLength; }
+                get { return (int) this.header.BitLength; }
             }
 
             public void WriteTo(string filename)
             {
                 using (FileStream targetStream = new FileStream(filename, FileMode.Create, FileAccess.Write))
-                    using (BinaryWriter targetWriter = new BinaryWriter(targetStream))
-                        this.Write(targetWriter);
+                using (BinaryWriter targetWriter = new BinaryWriter(targetStream))
+                    this.Write(targetWriter);
             }
 
             #endregion
@@ -412,7 +410,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 exponent[0] = (byte) ((exponentInt >> 24) & 0xFF);
                 exponent[1] = (byte) ((exponentInt >> 16) & 0xFF);
                 exponent[2] = (byte) ((exponentInt >> 8) & 0xFF);
-                exponent[3] = (byte)  (exponentInt & 0xFF);
+                exponent[3] = (byte) (exponentInt & 0xFF);
                 parameters.Exponent = exponent;
                 return DataFromRSAParameters((int) this.header.BitLength, parameters);
             }
@@ -468,25 +466,103 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             }
         }
 
+        private class PublicKeyStream :
+            IStrongNamePublicKeyInfo
+        {
+            private byte[] dataStream;
+
+            internal PublicKeyStream(byte[] data)
+            {
+                this.dataStream = data;
+            }
+
+            #region IStrongNamePublicKeyInfo Members
+
+            public bool PrivateKeyAvailable
+            {
+                get { return false; }
+            }
+
+            public IStrongNamePrivateKeyInfo PrivateKey
+            {
+                get { throw new NotSupportedException(); }
+            }
+
+            public PublicKeyTokenData PublicToken
+            {
+                get
+                {
+                    return GetPublicKeyToken(this.dataStream);
+                }
+            }
+
+            #endregion
+
+            #region IStrongNameKeyInfo Members
+
+            public StrongNameKeyInfoType InformationType
+            {
+                get { return StrongNameKeyInfoType.Public; }
+            }
+
+            public int KeySize
+            {
+                get { return this.dataStream.Length; }
+            }
+
+            public void WriteTo(string filename)
+            {
+                BinaryWriter bw = new BinaryWriter(new FileStream(filename, FileMode.Create, FileAccess.Write));
+                bw.Write(this.dataStream, 0, this.dataStream.Length);
+                bw.Close();
+                bw.Dispose();
+                bw.BaseStream.Close();
+                bw.BaseStream.Dispose();
+
+            }
+
+            #endregion
+        }
+
+        private static PublicKeyTokenData GetPublicKeyToken(byte[] publicKey)
+        {
+            var targetSha = SHA1.Create();
+            var targetHash = targetSha.ComputeHash(publicKey);
+            byte[] result = new byte[8];
+            for (int i = 0; i < 8; i++)
+                result[i] = targetHash[targetHash.Length - 1 - i];
+            return new PublicKeyTokenData(result[0], result[1], result[2], result[3], result[4], result[5], result[6], result[7]);
+        }
+
         internal static IStrongNameKeyInfo LoadStrongNameKeyData(byte[] data, bool @private = true)
         {
-            using (MemoryStream targetStream = new MemoryStream(data))
+            if (@private)
             {
-                if (@private)
+                using (MemoryStream targetStream = new MemoryStream(data))
                 {
                     PrivateKeyData targetData = new PrivateKeyData();
                     using (var targetReader = new BinaryReader(targetStream))
                         targetData.Read(targetReader);
                     var resultData = targetData.GetData();
-                    StrongNamePrivateKeyInfo result = new StrongNamePrivateKeyInfo(resultData.Item3, resultData.Item2, resultData.Item1, (int)targetData.header.BitLength);
+                    StrongNamePrivateKeyInfo result = new StrongNamePrivateKeyInfo(resultData.Item3, resultData.Item2, resultData.Item1, (int) targetData.header.BitLength);
                     return result;
+                }
+            }
+            else
+            {
+                if (PublicKeyData.IsDataProperLength(data))
+                {
+                    using (MemoryStream targetStream = new MemoryStream(data))
+                    {
+                        PublicKeyData targetData = new PublicKeyData();
+                        using (var targetReader = new BinaryReader(targetStream))
+                            targetData.Read(targetReader);
+                        return targetData;
+                    }
                 }
                 else
                 {
-                    PublicKeyData targetData = new PublicKeyData();
-                    using (var targetReader = new BinaryReader(targetStream))
-                        targetData.Read(targetReader);
-                    return targetData;
+                    return new PublicKeyStream(data);
                 }
             }
         }

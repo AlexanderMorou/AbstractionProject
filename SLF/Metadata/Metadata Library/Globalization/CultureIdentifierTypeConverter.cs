@@ -66,9 +66,14 @@ namespace AllenCopeland.Abstraction.Globalization
         {
             if (value.GetType() == typeof(System.String) && context.PropertyDescriptor != null && context.PropertyDescriptor.PropertyType.IsAssignableFrom(typeof(ICultureIdentifier)))
             {
-                foreach (CultureIdentifier c in CultureIdentifiers.defaultCultureIDByCultureNumber.Values)
+                string actualValue = value.ToString();
+                if (actualValue == CultureIdentifiers.CountryRegions.Spanish_Spain_TraditionalSort)
+                    return CultureIdentifiers.DefaultCultureIDByCultureNumber[CultureIdentifiers.NumericIdentifiers.Spanish_Spain];
+                else if (actualValue == CultureIdentifiers.CountryRegions.Spanish_Spain_InternationalSort)
+                    return CultureIdentifiers.DefaultCultureIDByCultureNumber[CultureIdentifiers.NumericIdentifiers.Spanish_Spain];
+                foreach (CultureIdentifier c in CultureIdentifiers.DefaultCultureIDByCultureNumber.Values)
                 {
-                    if (c.CountryRegion == value.ToString())
+                    if (c.CountryRegion == actualValue)
                         return c;
                 }
             }
@@ -148,7 +153,7 @@ namespace AllenCopeland.Abstraction.Globalization
         public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
         {
             if (context != null && context.PropertyDescriptor != null && context.PropertyDescriptor.PropertyType.IsAssignableFrom(typeof(ICultureIdentifier)))
-                return new StandardValuesCollection(new List<ICultureIdentifier>(CultureIdentifiers.defaultCultureIDByCultureNumber.Values.ToArray().Cast<ICultureIdentifier>()));
+                return new StandardValuesCollection(new List<ICultureIdentifier>(CultureIdentifiers.DefaultCultureIDByCultureNumber.Values.ToArray().Cast<ICultureIdentifier>()));
             return base.GetStandardValues(context);
         }
 

@@ -126,27 +126,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
         #region IMasterDictionary<TKey,TValue> Members
 
-        /// <summary>
-        /// Obtains a subordinate dictionary that adheres
-        /// to the sub-type (<typeparamref name="TSValue"/>) defined.
-        /// </summary>
-        /// <typeparam name="TSKey">The kind of key within the subordinate
-        /// dictionary.</typeparam>
-        /// <typeparam name="TSValue">The specific type of value used in the subordinate dictionary, derives
-        /// from the master dictionary's <typeparamref name="TValue"/>.</typeparam>
-        /// <returns>A <see cref="ISubordinateDictionary{TSKey, TMKey, TSValue, TMValue}"/> contained 
-        /// within the <see cref="MasterDictionaryBase{TKey, TValue}"/></returns>
-        public ISubordinateDictionary<TSKey, TKey, TSValue, TValue> GetSubordinate<TSKey, TSValue>()
-            where TSKey :
-                TKey
-            where TSValue : 
-                TValue
-        {
-            foreach (ISubordinateDictionary isd in this.subordinates)
-                if (isd is ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)
-                    return ((ISubordinateDictionary<TSKey, TKey, TSValue, TValue>)(isd));
-            return null;
-        }
 
         /// <summary>
         /// Returns an enumerable entity that contains the 

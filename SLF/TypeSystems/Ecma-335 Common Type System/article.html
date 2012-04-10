@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Untitled Page</title>
+</head>
+<body>
+	<h2>Introduction</h2><p>If you've ever tried to build dynamic assemblies
+    through using Reflection and Reflection.Emit, you know that it can be
+    pretty powerful; however, once you get into more advanced topics, such as
+    compiler design, or more complex code structures, you notice that
+    Reflection.Emit is a little lacking (ever try closures in IL, it's not fun.)<br />
+		
+	</p><h2>Background&nbsp;</h2><p>
+		There are a few articles that might shed some beginner insight into
+        the focus of this article.&nbsp; The most important being 
+        <a target="_self" href="http://web2.codeproject.com/Articles/12585/The-NET-File-Format#MetaTables">
+        The .NET File Format</a>.&nbsp; This topic basically covers 
+        something similar, but it provides a practical use-case that will get
+         someone started into the trenches of .NET metadata.</p><h2>A Word of
+         Caution&nbsp;</h2><p>This article covers the actual structure of the
+         .NET Metadata inside of most CLI PE Files.&nbsp; Even I'm still learning
+         at this point in the game.&nbsp; So if something is wrong, I'll want
+         to know it too.</p><h2>Getting Started </h2><p>When I started this, I had a 
+    heck of a time trying to figure out what the format of a Windows
+         Executable was, if you go at the problem not knowing the proper terminology
+         for things, it can be a bit challenging to find what you're looking for.&nbsp; 
+         So I decided to actually start into the 
+         <a title="ECMA International" target="_blank" href="http://www.ecma-international.org/publications/standards/Ecma-335.htm">ECMA-335</a>
+          specification (which the above article 'The .NET File Format'&nbsp; nearly
+          copies Partition II word for word.)&nbsp; Once I got into it, I found
+          that it, byte for byte, hands you the format for the MS-DOS stub program
+          and the PE file format.&nbsp; It leaves a lot out, and as I've learned,
+          makes a lot of assumptions towards the resulting image.&nbsp;</p>
+          <blockquote><p><em>It's important to note the MS DOS Stub, PE Format,
+          and so on, are <strong>required</strong> aspects of even <strong>finding</strong>
+          the location of the metadata within an image.</em>&nbsp;</p></blockquote>
+          <p>I took a very research oriented approach to this project (which is still
+          ongoing).&nbsp; I'll be breaking it down into the following sections (of those, I&#39;ve 
+              marked the areas that are noteworthy):</p>
+          <ol><li>DOS Header<ol style="list-style-type: upper-alpha;">
+              <li>Signature (MZ - for Mark Zbikowski)</li>
+              <li>lfanew - aka PEHeaderPointer</li>
+              </ol>
+              </li>
+              <li>Common Object File Format (COFF aka PEImage in my code) &nbsp;</li>
+          <ol style="list-style-type: upper-alpha;"><li>PEImageStandardHeader  (COFF Header)</li><li>PEImageOptionalHeader 
+              (aka PE32 or PE32+ headers)</li><ol style="list-style-type: upper-roman;"><li>StandardFields<ol style="list-style-type: lower-roman; margin-bottom: 0px;">
+                  <li>Image Kind</li>
+                  </ol>
+              </li>
+              <li>NTFields (32/64 bit varieties)<ol style="list-style-type: lower-roman;">
+                  <li>DLL Characteristics</li>
+                  <li>Image Subsystem</li>
+                  </ol>
+		</li>
+              <li>DataDirectories<ol style="list-style-type: upper-roman;">
+                  <li>CLIHeader<span style="border-bottom: 1px dotted rgb(0, 0, 255);" title="Relative Virtual Address">RVA</span>ndSize</li>
+                  </ol>
+              </li>
+              </ol>
+              <li>PEImageSection<ol style="list-style-type: upper-roman;">
+                  <li>Section Characteristics</li>
+                  </ol>
+              </li>
+              </ol>
+              <li>CliMetadataRoot<ol style="list-style-type: upper-alpha;">
+                  <li>Header</li>
+                  <li>Strings Heap</li>
+                  <li>Blob Heap</li>
+                  <li>Guid Heap</li>
+                  <li>UserStrings Heap</li>
+                  <li>Table Stream
+                  <ol style="list-style-type:decimal">
+                        <li>ModuleTable</li>
+                        <li>TypeRefTable</li>
+                        <li>TypeDefinitionTable</li>
+                        <li>FieldTable</li>
+                        <li>MethodDefinitionTable</li>
+                        <li>ParameterTable</li>
+                        <li>InterfaceImplTable</li>
+                        <li>MemberReferenceTable</li>
+                        <li>ConstantTable</li>
+                        <li>CustomAttributeTable</li>
+                        <li>FieldMarshalTable</li>
+                        <li>DeclSecurityTable</li>
+                        <li>ClassLayoutTable</li>
+                        <li>FieldLayoutTable</li>
+                        <li>StandAloneSigTable</li>
+                        <li>EventMapTable</li>
+                        <li>EventTable</li>
+                        <li>PropertyMapTable</li>
+                        <li>PropertyTable</li>
+                        <li>MethodSemanticsTable</li>
+                        <li>MethodImplTable</li>
+                        <li>ModuleReferenceTable</li>
+                        <li>TypeSpecificationTable</li>
+                        <li>ImportMapTable</li>
+                        <li>FieldRelativeVirtualAddressTable</li>
+                        <li>AssemblyTable</li>
+                        <li>AssemblyProcessorTable</li>
+                        <li>AssemblyOSTable</li>
+                        <li>AssemblyReferenceTable</li>
+                        <li>AssemblyReferenceProcessorTable</li>
+                        <li>AssemblyReferenceOSTable</li>
+                        <li>FileTable</li>
+                        <li>ExportedTypeTable</li>
+                        <li>ManifestResourceTable</li>
+                        <li>NestedClassTable</li>
+                        <li>GenericParameterTable</li>
+                        <li>MethodSpecificationTable</li>
+                        <li>GenericParamConstraintTable</li></ol></li>
+                  </ol>
+              </li>
+
+    </ol><h2>History&nbsp;&nbsp;</h2><p>
+		Keep a running update of any changes or improvements you've
+		made here.
+	&nbsp;</p>
+</body>
+</html>

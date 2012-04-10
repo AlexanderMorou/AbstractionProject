@@ -1075,7 +1075,7 @@ namespace AllenCopeland.Abstraction.Globalization
             ///</summary>
             ///<remarks>
             ///CultureID: 0x0440
-            ///Culture Name: ky-KG
+            ///Culture Name: ky-KZ
             ///</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             public const string Kyrgyz_Kyrgyzstan = "Kyrgyz - Kyrgyzstan";
@@ -1541,6 +1541,18 @@ namespace AllenCopeland.Abstraction.Globalization
             ///</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             public const string Spanish_Spain = "Spanish - Spain";
+            ///<summary>
+            ///Country/Region constant for Spanish - Spain (Traditional Sort).
+            ///</summary>
+            ///<remarks>Culture ID: 0x040A
+            ///Culture Name: es-ES-Ts</remarks>
+            public const string Spanish_Spain_TraditionalSort = "Spanish - Spain (Traditional Sort)";
+            ///<summary>
+            ///Country/Region constant for Spanish - Spain (International Sort).
+            ///</summary>
+            ///<remarks>Culture ID: 0x0C0A
+            ///Culture Name: es-ES-Is</remarks>
+            public const string Spanish_Spain_InternationalSort = "Spanish - Spain (International Sort)";
             ///<summary>
             ///Country/Region constant for Spanish - Uruguay.
             ///</summary>

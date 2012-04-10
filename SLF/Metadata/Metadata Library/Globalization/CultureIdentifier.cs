@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Globalization
         /// <summary>
         /// Data member for <see cref="Culture"/>.
         /// </summary>
-        private readonly int culture;
+        private readonly CultureIdentifiers.NumericIdentifiers culture;
         /// <summary>
         /// Data member for <see cref="CountryRegion"/>.
         /// </summary>
@@ -37,13 +37,13 @@ namespace AllenCopeland.Abstraction.Globalization
         /// </summary>
         private readonly string localizedName;
 
-        internal CultureIdentifier(string name, int culture, string localizedName, string countryRegion)
+        internal CultureIdentifier(string name, CultureIdentifiers.NumericIdentifiers culture, string localizedName, string countryRegion)
             : this(name, culture, countryRegion)
         {
             this.localizedName = localizedName;
         }
 
-        internal CultureIdentifier(string name, int culture, string countryRegion)
+        internal CultureIdentifier(string name, CultureIdentifiers.NumericIdentifiers culture, string countryRegion)
         {
             this.name = name;
             this.culture = culture;
@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Globalization
         /// <summary>
         /// Returns the numerical identifier of the culture.
         /// </summary>
-        public int Culture
+        public CultureIdentifiers.NumericIdentifiers Culture
         {
             get { return this.culture; }
         }
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Globalization
         /// <see cref="CultureIdentifier"/> instance.</returns>
         public CultureInfo GetCultureInfo()
         {
-            return CultureInfo.GetCultureInfo(this.Culture);
+            return CultureInfo.GetCultureInfo((int)this.Culture);
         }
 
         public string LocalizedName
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Globalization
 
         public override int GetHashCode()
         {
-            return this.culture;
+            return this.culture.GetHashCode();
         }
     }
 }

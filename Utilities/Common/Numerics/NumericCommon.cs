@@ -3,11 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.IO.Compression;
+using AllenCopeland.Abstraction.Utilities.Properties;
 
 namespace AllenCopeland.Abstraction.Numerics
 {
     public static class NumericCommon
     {
+        internal static byte[] bitCounts = LoadBitLookup();
+
+        private static byte[] LoadBitLookup()
+        {
+            byte[] result = new byte[ushort.MaxValue + 1];
+            GZipStream gzStream = new GZipStream(new MemoryStream(Resources.BitCounts, false), CompressionMode.Decompress);
+            gzStream.Read(result, 0, result.Length);
+            gzStream.Dispose();
+            return result;
+        }
+
+        public static byte CountBits(this ulong value)
+        {
+            uint loDWord = (uint) (value & 0xFFFFFFFF);
+            uint hiDWord = (uint) (value >> 32);
+            /* *
+             * Select out the individual words used to retrieve
+             * information from the cache.
+             * */
+            ushort loDWordLoWord = (ushort) (loDWord & 0xFFFF);
+            ushort loDWordHiWord = (ushort) ((loDWord >> (sizeof(ushort) * 8)));
+            ushort hiDWordLoWord = (ushort) (hiDWord & 0xFFFF);
+            ushort hiDWordHiWord = (ushort) ((hiDWord >> (sizeof(ushort) * 8)));
+            return (byte) (bitCounts[loDWordLoWord] + bitCounts[loDWordHiWord] + bitCounts[hiDWordLoWord] + bitCounts[hiDWordHiWord]);
+        }
+
+        public static byte CountBits(this uint value)
+        {
+            /* *
+             * Select out the hi and lo words used to retrieve
+             * information from the cache.
+             * */
+            ushort loword = (ushort) (value & 0xFFFF);
+            ushort hiword = (ushort) ((value >> (sizeof(ushort) * 8)));
+            return (byte) (bitCounts[loword] + bitCounts[hiword]);
+        }
+
+        public static byte CountBits(this ushort value)
+        {
+            return bitCounts[value];
+        }
+
+        public static byte CountBits(this byte value)
+        {
+            return bitCounts[value];
+        }
+
         /// <summary>
         /// The current system's <see cref="Endianness"/> value based off of
         /// <see cref="BitConverter.IsLittleEndian"/>.
@@ -437,5 +486,44 @@ namespace AllenCopeland.Abstraction.Numerics
                     (value & 0x80U) >> 7);
         }
 
+        public static ulong LeftShift(ulong value, int shift)
+        {
+            return value << shift;
+        }
+
+        public static long LeftShift(long value, int shift)
+        {
+            return value << shift;
+        }
+
+        public static uint LeftShift(uint value, int shift)
+        {
+            return value << shift;
+        }
+
+        public static int LeftShift(int value, int shift)
+        {
+            return value << shift;
+        }
+
+        public static ulong RightShift(ulong value, int shift)
+        {
+            return value >> shift;
+        }
+
+        public static long RightShift(long value, int shift)
+        {
+            return value >> shift;
+        }
+
+        public static uint RightShift(uint value, int shift)
+        {
+            return value >> shift;
+        }
+
+        public static int RightShift(int value, int shift)
+        {
+            return value >> shift;
+        }
     }
 }

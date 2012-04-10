@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO.Compression;
 using System.IO;
-using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Numerics;
 #if x86
 using SlotType = System.UInt32;
 #elif x64
@@ -26,16 +26,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         private const int ByteShiftIndex = 0x3;
         private const int ModulusByteAlignment = 0x8 - 1;
         private const int ModulusSlotBitSize = (int) SlotBitSize - 1;
-        private static byte[] bitCounts = LoadBitLookup();
-
-        internal static byte[] LoadBitLookup()
-        {
-            byte[] result = new byte[ushort.MaxValue + 1];
-            GZipStream gzStream = new GZipStream(new MemoryStream(Resources.BitCounts, false), CompressionMode.Decompress);
-            gzStream.Read(result, 0, result.Length);
-            gzStream.Dispose();
-            return result;
-        }
         private SlotType[] data;
         private const uint SlotBitSize = (uint) SlotFlagValue << SlotShiftIndex;
         private ulong length;
@@ -53,7 +43,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                  * */
                 ushort loword = (ushort) (value & 0xFFFF);
                 ushort hiword = (ushort) ((value >> (sizeof(ushort) * 8)));
-                bitCount += (ulong) (bitCounts[loword] + bitCounts[hiword]);
+                bitCount += (ulong) (NumericCommon.bitCounts[loword] + NumericCommon.bitCounts[hiword]);
 #elif x64
                 //Select out the data in uints
                 uint loDWord = (uint) (value & 0xFFFFFFFF);
@@ -66,7 +56,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 ushort loDWordHiWord = (ushort) ((loDWord >> (sizeof(ushort) * 8)));
                 ushort hiDWordLoWord = (ushort) (hiDWord & 0xFFFF);
                 ushort hiDWordHiWord = (ushort) ((hiDWord >> (sizeof(ushort) * 8)));
-                bitCount += (ulong) (bitCounts[loDWordLoWord] + bitCounts[loDWordHiWord] + bitCounts[hiDWordLoWord] + bitCounts[hiDWordHiWord]);
+                bitCount += (ulong) (NumericCommon.bitCounts[loDWordLoWord] + NumericCommon.bitCounts[loDWordHiWord] + NumericCommon.bitCounts[hiDWordLoWord] + NumericCommon.bitCounts[hiDWordHiWord]);
 #endif
             }
             return bitCount;
@@ -80,9 +70,84 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// in bits.</param>
         public BitVector(ulong bitSize)
         {
+            InitializeWithBitSize(bitSize);
+        }
+
+        private void InitializeWithBitSize(ulong bitSize)
+        {
             this.length = bitSize;
             this.data = new SlotType[(length + SlotBitSize - 1) >> SlotShiftIndex];
         }
+
+        public unsafe BitVector(byte[] bits)
+        {
+            this.InitializeWithBitSize((ulong) bits.Length * (1 << ByteShiftIndex));
+            fixed (byte* bitsPtr = bits)
+            {
+                int length;
+                if ((bits.Length & 7) == 0)
+                {
+                    length = bits.Length >> 3;
+                    fixed (SlotType* slotPtr = this.data)
+                    {
+                        ulong* actualSlotPtr = (ulong*) slotPtr;
+                        ulong* actualBitsPtr = (ulong*) bitsPtr;
+                        for (int i = 0; i < length; i++)
+                        {
+                            *actualSlotPtr = *actualBitsPtr;
+                            actualSlotPtr++;
+                            actualBitsPtr++;
+                        }
+                    }
+                }
+                else if ((bits.Length & 3) == 0)
+                {
+                    length = bits.Length >> 2;
+                    fixed (SlotType* slotPtr = this.data)
+                    {
+                        uint* actualSlotPtr = (uint*) slotPtr;
+                        uint* actualBitsPtr = (uint*) bitsPtr;
+                        for (int i = 0; i < length; i++)
+                        {
+                            *actualSlotPtr = *actualBitsPtr;
+                            actualSlotPtr++;
+                            actualBitsPtr++;
+                        }
+                    }
+                }
+                else if ((bits.Length & 1) == 0)
+                {
+                    length = bits.Length >> 1;
+                    fixed (SlotType* slotPtr = this.data)
+                    {
+                        ushort* actualSlotPtr = (ushort*) slotPtr;
+                        ushort* actualBitsPtr = (ushort*) bitsPtr;
+                        for (int i = 0; i < length; i++)
+                        {
+                            *actualSlotPtr = *actualBitsPtr;
+                            actualSlotPtr++;
+                            actualBitsPtr++;
+                        }
+                    }
+                }
+                else
+                {
+                    fixed (SlotType* slotPtr = this.data)
+                    {
+                        length = bits.Length;
+                        byte* actualSlotPtr = (byte*) slotPtr;
+                        byte* actualBitsPtr = bitsPtr;
+                        for (int i = 0; i < length; i++)
+                        {
+                            *actualSlotPtr = *actualBitsPtr;
+                            actualSlotPtr++;
+                            actualBitsPtr++;
+                        }
+                    }
+                }
+            }
+        }
+
 
 
         /// <summary>
@@ -547,7 +612,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             this.SetInternal(offset, value, bitCount);
         }
 
-        public void Set(ulong offset, short value, byte bitCount) {
+        public void Set(ulong offset, short value, byte bitCount)
+        {
             if (bitCount > 16)
                 throw new ArgumentOutOfRangeException("bitCount");
             this.SetInternal(offset, (ushort) value, bitCount);
@@ -573,70 +639,29 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 throw new ArgumentOutOfRangeException("bitCount");
             if (offset + bitCount > length)
                 throw new ArgumentOutOfRangeException("offset");
-            if ((offset & ModulusByteAlignment) == 0)
-            {
-                if (bitCount <= 8)
-                {
 
-                    byte realValue = (byte) (value & 0xFF);
-                    ulong realOffset = offset >> ByteShiftIndex;
-                    fixed (SlotType* ptr = data)
-                    {
-                        byte* realPtr = (byte*) ptr;
-                        realPtr += realOffset;
-                        *realPtr = realValue;
-                    }
-                }
-                else if (bitCount > 8 && bitCount <= 16)
-                {
-                    ushort realValue = (ushort) (value & 0xFFFF);
-                    ulong realOffset = offset >> ByteShiftIndex;
-                    fixed (SlotType* ptr = data)
-                    {
-                        byte* realPtr = (byte*) ptr;
-                        realPtr += realOffset;
-                        ushort* uint16Ptr = (ushort*) realPtr;
-                        *uint16Ptr = realValue;
-                    }
-                }
-                else if (bitCount > 16 && bitCount <= 32)
-                {
-                    ulong realOffset = offset >> ByteShiftIndex;
-                    fixed (SlotType* ptr = data)
-                    {
-                        byte* realPtr = (byte*) ptr;
-                        realPtr += realOffset;
-                        uint* uint32Ptr = (uint*) realPtr;
-                        *uint32Ptr = value;
-                    }
-                }
+            ulong realOffset = offset >> SlotShiftIndex;
+            ulong realEnd = (realOffset * SlotBitSize) + SlotBitSize;
+
+            if (offset + bitCount > realEnd)
+            {
+                SlotType realValue = value & ((SlotFlagValue << bitCount) - 1);
+                var overflow = (offset + bitCount) & ModulusSlotBitSize;
+                var leftMask = SlotShiftMask << (int) overflow;
+                var rightMask = SlotShiftMask >> bitCount - (int) overflow;
+                data[realOffset] &= rightMask;
+                data[realOffset + 1] &= leftMask;
+                data[realOffset] |= realValue << (int) SlotBitSize - (bitCount - (int) overflow);
+                data[realOffset + 1] |= realValue >> (int) (bitCount - overflow);
             }
             else
             {
-
-                ulong realOffset = offset >> SlotShiftIndex;
-                ulong realEnd = (realOffset * SlotBitSize) + SlotBitSize;
-
-                if (offset + bitCount > realEnd)
-                {
-                    SlotType realValue = value & ((SlotFlagValue << bitCount) - 1);
-                    var overflow = (offset + bitCount) & ModulusSlotBitSize;
-                    var leftMask = SlotShiftMask << (int) overflow;
-                    var rightMask = SlotShiftMask >> bitCount - (int) overflow;
-                    data[realOffset] &= rightMask;
-                    data[realOffset + 1] &= leftMask;
-                    data[realOffset] |= realValue << (int) SlotBitSize - (bitCount - (int) overflow);
-                    data[realOffset + 1] |= realValue >> (int) (bitCount - overflow);
-                }
-                else
-                {
-                    SlotType mask = ((SlotFlagValue << bitCount) - 1);
-                    SlotType realValue = value & mask;
-                    int shift = (int) (offset - (realOffset * SlotBitSize));
-                    SlotType shiftMask = (SlotType) mask << shift;
-                    data[realOffset] &= ~shiftMask;
-                    data[realOffset] |= realValue << shift;
-                }
+                SlotType mask = ((SlotFlagValue << bitCount) - 1);
+                SlotType realValue = value & mask;
+                int shift = (int) (offset - (realOffset * SlotBitSize));
+                SlotType shiftMask = (SlotType) mask << shift;
+                data[realOffset] &= ~shiftMask;
+                data[realOffset] |= realValue << shift;
             }
         }
 
@@ -688,7 +713,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                     return (byte) (((this.data[realOffset] >> (int) (SlotBitSize - overflow)) | (this.data[realOffset + 1] << (int) (count - overflow))) & (SlotType) ((1 << count) - 1));
                 }
                 else
-                    return (byte) ((this.data[realOffset] >> (int) (offset & ModulusSlotBitSize)) & (SlotType)((1 << count) - 1));
+                    return (byte) ((this.data[realOffset] >> (int) (offset & ModulusSlotBitSize)) & (SlotType) ((1 << count) - 1));
             }
         }
 
@@ -1077,6 +1102,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             {
                 return this.length;
             }
+            set
+            {
+                int newCount = (int)((value + SlotBitSize - 1) >> SlotShiftIndex);
+                if (newCount > this.data.Length)
+                {
+                    SlotType[] newSet = new SlotType[newCount];
+                    this.data.CopyTo(newSet, 0);
+                    this.length = value;
+                    this.data = newSet;
+                }
+            }
         }
 
         public unsafe byte[] ToByteArray()
@@ -1198,5 +1234,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             return (long) (this.GetInt64(offset) & mask);
         }
+
+        /* *
+         * Used for the Common Type System.
+         * */
+        internal SlotType[] Data { get { return this.data; } }
     }
 }

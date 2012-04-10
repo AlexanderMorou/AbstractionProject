@@ -13,7 +13,6 @@ namespace AllenCopeland.Abstraction.Globalization
     /// a culture identifier which denotes the neutral 
     /// language of an assembly.
     /// </summary>
-    //[TypeConverter(typeof(CultureIdentifierTypeConverter))]
     public interface ICultureIdentifier
     {
         /// <summary>
@@ -23,7 +22,7 @@ namespace AllenCopeland.Abstraction.Globalization
         /// <summary>
         /// Returns the numerical identifier of the culture.
         /// </summary>
-        int Culture { get; }
+        CultureIdentifiers.NumericIdentifiers Culture { get; }
         /// <summary>
         /// Returns the readable user-friendly description of the country/region.
         /// </summary>

@@ -832,7 +832,7 @@ namespace AllenCopeland.Abstraction.Globalization
             ///Culture name for Kyrgyz - Kyrgyzstan.
             ///</summary>
             ///<remarks>Culture ID: 0x0440
-            ///Culture Name: ky-KG</remarks>
+            ///Culture Name: ky-KZ</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             public const string Kyrgyz_Kyrgyzstan = "Кыргыз (Кыргызстан)";
             ///<summary>
@@ -1191,6 +1191,21 @@ namespace AllenCopeland.Abstraction.Globalization
             ///Culture Name: es-ES</remarks>
             [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
             public const string Spanish_Spain = "español (España)";
+            ///<summary>
+            ///Culture name for Spanish - Spain (Traditional Sort).
+            ///</summary>
+            ///<remarks>Culture ID: 0x040A
+            ///Culture Name: es-ES-Ts</remarks>
+            [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
+            public const string Spanish_Spain_TraditionalSort = "español (España Ordenar tradicional)";
+            ///<summary>
+            ///Culture name for Spanish - Spain (International Sort).
+            ///</summary>
+            ///<remarks><para>Culture ID: 0x0C0A</para>
+            ///<para>Culture Name: es-ES-Is</para>
+            ///<para>Equivalent to <see cref="Spanish_Spain"/>.</para></remarks>
+            [SuppressMessage("Microsoft.Naming", "CA1707:IdentifiersShouldNotContainUnderscores")]
+            public const string Spanish_Spain_InternationalSort = "español (España Ordenar internacional)";
             ///<summary>
             ///Culture name for Spanish - Uruguay.
             ///</summary>
