@@ -20,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         private T[] items;
         private uint rowCount;
         private CliMetadataRoot metadataRoot;
+        private bool fullyRead;
         protected CliMetadataLazyTable(CliMetadataRoot metadataRoot, uint rowCount)
         {
             this.metadataRoot = metadataRoot;
@@ -46,11 +47,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
             if (arrayIndex < 0 ||
                 arrayIndex + this.Count > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
+            this.Read();
             for (uint i = 0; i < this.Count; i++)
-            {
-                this.CheckItemAt(i + 1);
                 array[i + arrayIndex] = this.items[i];
-            }
         }
 
         public int Count
@@ -149,11 +148,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
             if (arrayIndex < 0 ||
                 arrayIndex + this.Count > array.Length)
                 throw new ArgumentOutOfRangeException("arrayIndex");
+            this.Read();
             for (int i = 0; i < this.Count; i++)
-            {
-                this.CheckItemAt((uint)i);
                 array.SetValue(this.items[i], i + arrayIndex);
-            }
         }
 
         int IControlledCollection.IndexOf(object element)
@@ -176,8 +173,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 
         public virtual void Read()
         {
+            if (fullyRead)
+                return;
             for (int i = 0; i < this.Count; i++)
                 this.CheckItemAt((uint) i + 1);
+            fullyRead = true;
         }
 
         public uint RowCount

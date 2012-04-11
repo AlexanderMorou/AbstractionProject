@@ -8,6 +8,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// <summary>
     /// Defines common .NET Versions.
     /// </summary>
+    /// <remarks><para>These versions are included to relate more closely to the common
+    /// view of .NET Versioning.  The primary implementation of .NET is the 
+    /// Microsoft .NET CLR; as such, it's this author's opinion that the average
+    /// programmer will associate with these values.</para></remarks>
     public enum FrameworkVersion
     {
         v1_0_3705     = 1 << 8,

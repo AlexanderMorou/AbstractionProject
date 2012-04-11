@@ -8,7 +8,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
     public interface ICliMetadataLocalVarSignature :
         IReadOnlyCollection<ICliMetadataLocalVarEntrySignature>,
-        ICliMetadataStandaloneSignature
+        ICliMetadataStandAloneSignature
     {
 
     }

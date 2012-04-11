@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class CompiledNamespaceInfo
+    internal class CliNamespaceInfo
     {
         /// <summary>
         /// Returns the <see cref="UInt32"/> value denoting the 
-        /// index within the strings heap of the <see cref="CompiledNamespaceInfo"/>.
+        /// index within the strings heap of the <see cref="CliNamespaceInfo"/>.
         /// </summary>
         public uint NamespaceHeapIndex { get; private set; }
 
@@ -20,12 +22,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public int SubspaceStart { get; private set; }
 
-        public CompiledNamespaceInfo(uint namespaceHeapIndex, bool subspace, int subspaceStart, int subspaceLength)
+        public CliMetadataTypeDefinitionTableRow[] NamespaceTypes { get; private set; }
+
+        public CliNamespaceInfo(uint namespaceHeapIndex, int subspaceStart, int subspaceLength)
         {
             this.NamespaceHeapIndex = namespaceHeapIndex;
-            this.IsSubspace = subspace;
+            this.IsSubspace = true;
             this.SubspaceLength = subspaceLength;
             this.SubspaceStart = subspaceStart;
+            this.NamespaceTypes = null;
+        }
+        public CliNamespaceInfo(uint namespaceHeapIndex, int subspaceStart, int subspaceLength, CliMetadataTypeDefinitionTableRow[] namespaceTypes)
+        {
+            this.NamespaceHeapIndex = namespaceHeapIndex;
+            this.IsSubspace = false;
+            this.SubspaceLength = subspaceLength;
+            this.SubspaceStart = subspaceStart;
+            this.NamespaceTypes = namespaceTypes;
         }
 
     }

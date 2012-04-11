@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
-    public interface ICliMetadataStandaloneSignature :
+    public interface ICliMetadataStandAloneSignature :
         ICliMetadataSignature
     {
     }

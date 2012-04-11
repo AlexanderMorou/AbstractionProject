@@ -78,16 +78,97 @@
     <Reference Include="System.Xml" />
     <!--x86 Platform-->
     <!--Release-->
+    <Reference Include="_abs.slf.compilerservices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Release\_abs.slf.compilerservices.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Release\_abs.slf.metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.typesystems.abstract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Release\_abs.slf.typesystems.abstract.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.automata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Release\_abs.util.automata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Release\_abs.util.common.dll</HintPath>
+    </Reference>
     <!--Debug-->
+    <Reference Include="_abs.slf.compilerservices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Debug\_abs.slf.compilerservices.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Debug\_abs.slf.metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.typesystems.abstract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Debug\_abs.slf.typesystems.abstract.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.automata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Debug\_abs.util.automata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x86" Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x86\Debug\_abs.util.common.dll</HintPath>
+    </Reference>
     <!--x64 Platform-->
     <!--Release-->
+    <Reference Include="_abs.slf.compilerservices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Release\_abs.slf.compilerservices.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Release\_abs.slf.metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.typesystems.abstract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Release\_abs.slf.typesystems.abstract.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.automata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Release\_abs.util.automata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=9f6ec7b8ea170809, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Release\_abs.util.common.dll</HintPath>
+    </Reference>
     <!--Debug-->
+    <Reference Include="_abs.slf.compilerservices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Debug\_abs.slf.compilerservices.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.metadata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Debug\_abs.slf.metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.slf.typesystems.abstract, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Debug\_abs.slf.typesystems.abstract.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.automata, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Debug\_abs.util.automata.dll</HintPath>
+    </Reference>
+    <Reference Include="_abs.util.common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, processorArchitecture=x64" Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Build\x64\Debug\_abs.util.common.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cli\AstIdentifier+IdentifierDefaults.cs" />
     <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\CliGateway.cs" />
-    <Compile Include="Cli\ICompiledType.cs" />
+    <Compile Include="Cli\ICliType.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyProcessorTable.cs" />
@@ -177,8 +258,8 @@
     <Compile Include="Cli\Metadata\Tables\IResolutionScopeRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ITypeDefOrRefRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ITypeOrMethodDefRow.cs" />
-    <Compile Include="Cli\Modules\ICompiledModule.cs" />
-    <Compile Include="_Internal\Cli\CompiledAssembly.cs" />
+    <Compile Include="Cli\Modules\ICliModule.cs" />
+    <Compile Include="_Internal\Cli\CliAssembly.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomModifierSignature.cs" />
@@ -337,12 +418,12 @@
     <Compile Include="_Internal\Cli\CliCommon+BinaryOperatorNames.cs" />
     <Compile Include="_Internal\Cli\CliCommon+TypeCoercionNames.cs" />
     <Compile Include="_Internal\Cli\CliCommon+UnaryOperatorNames.cs" />
-    <Compile Include="_Internal\Cli\CompiledAssembly+_AssemblyInformation.cs" />
+    <Compile Include="_Internal\Cli\CliAssembly+_AssemblyInformation.cs" />
     <Compile Include="Cli\FrameworkPlatform.cs" />
     <Compile Include="Cli\FrameworkVersion.cs" />
     <Compile Include="Cli\ICliManager.cs" />
     <Compile Include="Cli\ICliRuntimeEnvironmentInfo.cs" />
-    <Compile Include="Cli\ICompiledAssembly.cs" />
+    <Compile Include="Cli\ICliAssembly.cs" />
     <Compile Include="Cli\ITypeUniqueIdentifierEx.cs" />
     <Compile Include="Cli\Metadata\AssemblyFlags.cs" />
     <Compile Include="Cli\Metadata\AssemblyHashAlgorithm.cs">
@@ -388,29 +469,16 @@
     <Compile Include="Platforms\WindowsNT\PEImageStandardHeader.cs" />
     <Compile Include="Platforms\WindowsNT\WordVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_Internal\Cli\CompiledNamespaceDeclaration.cs" />
-    <Compile Include="_Internal\Cli\CompiledNamespaceDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceDeclaration.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceDictionary.cs" />
     <Compile Include="_Internal\Cli\CompiledNamespaceInfo.cs" />
+    <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />
     <Compile Include="_Internal\Cli\_Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
-      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
-      <Name>Common Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
-      <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
-      <Name>Metadata Library</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Abstract\TypeSystem Abstract.csproj">
-      <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
-      <Name>TypeSystem Abstract</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,8 +6,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
-    public interface ICliMetadataStandAloneMethodSignature :
-        ICliMetadataStandaloneSignature
+    public interface ICliMetadataStandAloneVarArgMethodSignature :
+        ICliMetadataStandAloneCommonMethodSignature,
+        ICliMetadataMethodSignature
     {
         /// <summary>
         /// Returns the <see cref="ICliMetadataReturnTypeSignature"/>

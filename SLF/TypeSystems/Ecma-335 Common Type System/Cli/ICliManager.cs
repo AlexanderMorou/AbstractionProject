@@ -10,10 +10,10 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public interface ICliManager :
-        IIdentityManager<Type, Assembly, ICompiledAssembly>,
-        IIdentityManager<string, IAssemblyUniqueIdentifier, ICompiledAssembly>,
-        IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICompiledAssembly>,
-        IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICompiledAssembly>
+        IIdentityManager<Type, Assembly, ICliAssembly>,
+        IIdentityManager<string, IAssemblyUniqueIdentifier, ICliAssembly>,
+        IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICliAssembly>,
+        IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>
     {
         /// <summary>
         /// Obtains a <see cref="ICopmiledAssembly"/> reference by
@@ -21,11 +21,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         /// <param name="filename">The <see cref="String"/> value
         /// which denotes the location of the assembly image.</param>
-        /// <returns>A <see cref="ICompiledAssembly"/>
+        /// <returns>A <see cref="ICliAssembly"/>
         /// which denotes the assembly in question.</returns>
         /// <exception cref="System.IO.FileNotFoundException">thrown when 
         /// <paramref name="filename"/> was not found.</exception>
-        ICompiledAssembly ObtainAssemblyReference(string filename);
+        ICliAssembly ObtainAssemblyReference(string filename);
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
         /// which details the framework version

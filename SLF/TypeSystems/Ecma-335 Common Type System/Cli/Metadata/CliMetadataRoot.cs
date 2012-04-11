@@ -54,13 +54,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         {
             byte compressedFirstByte = reader.ReadByte();
             const int sevenBitMask = 0x7F;
-            const int sixteenBitMask = 0xBF;
+            const int fourteenBitmask = 0xBF;
             const int twentyNineBitMask = 0xDF;
             bytesUsed = 1;
             int decompressedResult = 0;
             if ((compressedFirstByte & sevenBitMask) == compressedFirstByte)
                 decompressedResult = compressedFirstByte;
-            else if ((compressedFirstByte & sixteenBitMask) == compressedFirstByte)
+            else if ((compressedFirstByte & fourteenBitmask) == compressedFirstByte)
             {
                 byte hiByte = (byte) (compressedFirstByte & 0x3F);
                 byte loByte = reader.ReadByte();

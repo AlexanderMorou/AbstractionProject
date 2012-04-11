@@ -25,10 +25,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private const string fr86 = "Framework";
         private const string fr64 = "Framework64";
         private static readonly byte[] corLibKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
-        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(1, 0, 5, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
-        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = AstIdentifier.Assembly("System", AstIdentifier.Version(1, 0, 5, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = AstIdentifier.Assembly("System", AstIdentifier.Version(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV2 = AstIdentifier.Assembly("System", AstIdentifier.Version(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV4 = AstIdentifier.Assembly("System", AstIdentifier.Version(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private string[] additionalResolutionPaths;
