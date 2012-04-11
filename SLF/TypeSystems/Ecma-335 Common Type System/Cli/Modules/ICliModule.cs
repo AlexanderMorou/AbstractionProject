@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Modules
 {
-    public interface ICompiledModule :
+    public interface ICliModule :
         IModule
     {
         /// <summary>

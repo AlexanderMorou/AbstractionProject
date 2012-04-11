@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
                 yield return new CliRuntimeEnvironmentInfo(false, FrameworkPlatform.x86Platform, version, true);
                 yield return new CliRuntimeEnvironmentInfo(true, FrameworkPlatform.x86Platform, version, true);
-                if (version == FrameworkVersion.v1_0_3705 || /* Didn't support 64-bit runtimeEnvironment. */
+                if (version == FrameworkVersion.v1_0_3705 || /* Didn't support a 64-bit runtime environment. */
                     version == FrameworkVersion.v1_1_4322)
                     continue;
                 yield return new CliRuntimeEnvironmentInfo(false, FrameworkPlatform.x64Platform, version, true);

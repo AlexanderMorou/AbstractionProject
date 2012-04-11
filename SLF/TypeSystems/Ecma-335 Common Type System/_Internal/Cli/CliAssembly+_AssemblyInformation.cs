@@ -8,14 +8,14 @@ using AllenCopeland.Abstraction.Globalization;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    partial class CompiledAssembly
+    partial class CliAssembly
     {
         private class _AssemblyInformation :
             IAssemblyInformation
         {
-            private CompiledAssembly owner;
+            private CliAssembly owner;
             private IVersion assemblyVersion;
-            public _AssemblyInformation(CompiledAssembly owner)
+            public _AssemblyInformation(CliAssembly owner)
             {
                 this.owner = owner;
             }

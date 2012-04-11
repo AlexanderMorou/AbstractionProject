@@ -14,53 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
     internal static class SignatureParser
     {
-        internal static T Parse<T>(SignatureKinds signatureKind, uint heapIndex, CliMetadataRoot metadataRoot)
-            where T :
-                ICliMetadataSignature
-        {
-
-            MemoryStream ms = new MemoryStream(metadataRoot.BlobHeap[heapIndex]);
-            EndianAwareBinaryReader heapReader = new EndianAwareBinaryReader(ms, Endianness.LittleEndian, false);
-            try
-            {
-                switch (signatureKind)
-                {
-                    case SignatureKinds.MethodDefSig:
-                        return (T) ParseMethodDefSig(heapReader, metadataRoot);
-                    case SignatureKinds.MethodRefSig:
-                        return (T) ParseMethodRefSig(heapReader, metadataRoot);
-                    case SignatureKinds.FieldSig:
-                        return (T) ParseFieldSig(heapReader, metadataRoot);
-                    case SignatureKinds.PropertySig:
-                        return (T) ParsePropertySig(heapReader, metadataRoot);
-                    case SignatureKinds.StandaloneSignature:
-                        return (T) ParseStandaloneSig(heapReader, metadataRoot);
-                    case SignatureKinds.CustomModifier:
-                        return (T) ParseCustomModifier(heapReader, metadataRoot);
-                    case SignatureKinds.Param:
-                        return (T) ParseParam(heapReader, metadataRoot);
-                    case SignatureKinds.Type:
-                        return (T) ParseType(heapReader, metadataRoot);
-                    case SignatureKinds.ArrayShape:
-                        return (T) ParseArrayShape(heapReader, metadataRoot);
-                    case SignatureKinds.TypeSpec:
-                        return (T) ParseTypeSpec(heapReader, metadataRoot);
-                    case SignatureKinds.MethodSpec:
-                        return (T) ParseMethodSpec(heapReader, metadataRoot);
-                    default:
-                        throw new ArgumentOutOfRangeException("signatureKind");
-                }
-            }
-            finally
-            {
-                heapReader.Close();
-                heapReader.Dispose();
-                ms.Close();
-                ms.Dispose();
-            }
-        }
-
-        internal static ICliMetadataStandaloneSignature ParseStandaloneSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
+        internal static ICliMetadataStandAloneSignature ParseStandaloneSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             var prolog = (SignatureKinds) (reader.PeekChar() & 0xFF);
             if (prolog == SignatureKinds.StandaloneLocalVarSig)
@@ -75,13 +29,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         internal static ICliMetadataMethodSignature ParseMethodSignature(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool canHaveRefContext = true)
         {
             const CliMetadataMethodSigFlags legalFlags = CliMetadataMethodSigFlags.HasThis | CliMetadataMethodSigFlags.ExplicitThis;
-            const CliMetadataMethodSigConventions legalConventions = CliMetadataMethodSigConventions.Default | CliMetadataMethodSigConventions.VariableArguments | CliMetadataMethodSigConventions.Generic | CliMetadataMethodSigConventions.StdCall | CliMetadataMethodSigConventions.FastCall | CliMetadataMethodSigConventions.Cdecl;
+            const CliMetadataMethodSigConventions legalConventions  =
+                  CliMetadataMethodSigConventions.Default           |
+                  CliMetadataMethodSigConventions.VariableArguments |
+                  CliMetadataMethodSigConventions.Generic           |
+                  CliMetadataMethodSigConventions.StdCall           |
+                  CliMetadataMethodSigConventions.Cdecl             ;
             const int legalFirst = (int) legalFlags | (int) legalConventions;
             byte firstByte = reader.ReadByte();
             if ((firstByte & legalFirst) == 0 && firstByte != 0)
                 throw new BadImageFormatException("Unknown calling convention encountered.");
             var callingConvention = ((CliMetadataMethodSigConventions) firstByte) & legalConventions;
             var flags = ((CliMetadataMethodSigFlags) firstByte) & legalFlags;
+
 
             int paramCount;
             int genericParamCount = 0;
@@ -128,13 +88,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             return (ICliMetadataMethodRefSignature) ParseMethodSignature(reader, metadataRoot);
         }
 
-        internal static ICliMetadataStandAloneMethodSignature ParseStandaloneMethodSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
+        internal static ICliMetadataStandAloneCommonMethodSignature ParseStandaloneMethodSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             var firstByte = reader.ReadByte();
             var convention = ((CliMetadataMethodSigConventions) firstByte) & CliMetadataMethodSigConventions.Mask;
-            var flags = ((CliMetadataMethodSigFlags) firstByte) & CliMetadataMethodSigFlags.Mask;
-            if (flags == CliMetadataMethodSigFlags.SentinelLowBit)
-                flags = CliMetadataMethodSigFlags.None;
+            var flags = ((CliMetadataMethodSigFlags) firstByte) & (CliMetadataMethodSigFlags.Mask ^ CliMetadataMethodSigFlags.SentinelLowBit);
             int paramCount = CliMetadataRoot.ReadCompressedUnsignedInt(reader);
             var returnType = ParseReturnTypeSignature(reader, metadataRoot);
             bool sentinelAllowed = convention == CliMetadataMethodSigConventions.VariableArguments || convention == CliMetadataMethodSigConventions.Cdecl;
@@ -572,7 +530,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataTypeSpecSignature ParseTypeSpec(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
-            var firstByte = (NativeTypes)(reader.PeekChar() & 0xFF);
+            var firstByte = (NativeTypes) (reader.PeekChar() & 0xFF);
             switch (firstByte)
             {
                 case NativeTypes.Array:

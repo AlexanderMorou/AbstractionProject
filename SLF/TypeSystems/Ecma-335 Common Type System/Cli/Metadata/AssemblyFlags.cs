@@ -13,12 +13,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         uint
     {
         /// <summary>
-        /// The metadata of the <see cref="ICompiledAssembly"/>
+        /// The metadata of the <see cref="ICliAssembly"/>
         /// contains the full unhashed public key.
         /// </summary>
         PublicKey                   = 0x0001,
         /// <summary>
-        /// The metadata of the <see cref="ICompiledAssembly"/>
+        /// The metadata of the <see cref="ICliAssembly"/>
         /// is retargetable.
         /// </summary>
         Retargetable                = 0x0100,

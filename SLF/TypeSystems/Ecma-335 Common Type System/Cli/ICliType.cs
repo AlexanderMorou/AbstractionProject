@@ -8,17 +8,17 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
-    public interface ICompiledType :
+    public interface ICliType :
         IType
     {
         /// <summary>
-        /// Returns the <see cref="ICompiledAssembly"/>
-        /// from which the <see cref="ICompiledType"/> derives.
+        /// Returns the <see cref="ICliAssembly"/>
+        /// from which the <see cref="ICliType"/> derives.
         /// </summary>
-        new ICompiledAssembly Assembly { get; }
+        new ICliAssembly Assembly { get; }
         /// <summary>
         /// Returns the <see cref="CliMetadataTypeDefinitionTableRow"/>
-        /// from which the current <see cref="ICompiledType"/>
+        /// from which the current <see cref="ICliType"/>
         /// is derived.
         /// </summary>
         ICliMetadataTypeDefinitionTableRow Metadata { get; }

@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class CompiledNamespaceDeclaration :
+    internal class CliNamespaceDeclaration :
         INamespaceDeclaration
     {
-        private CompiledAssembly owningAssembly;
+        private CliAssembly owningAssembly;
         private uint namespaceIndex;
         private int partCount;
+
         #region INamespaceDeclaration Members
 
         public IAssembly Assembly
@@ -33,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region INamespaceParent Members
 
-        public Slf.Abstract.Members.IFullMemberDictionary Members
+        public IFullMemberDictionary Members
         {
             get { throw new NotImplementedException(); }
         }
@@ -47,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
 
-        public Slf.Abstract.Members.IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> Fields
+        public IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> Fields
         {
             get { throw new NotImplementedException(); }
         }
@@ -56,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IFieldParent Members
 
-        Slf.Abstract.Members.IFieldMemberDictionary IFieldParent.Fields
+        IFieldMemberDictionary IFieldParent.Fields
         {
             get { throw new NotImplementedException(); }
         }
@@ -65,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
 
-        public Slf.Abstract.Members.IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> Methods
+        public IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> Methods
         {
             get { throw new NotImplementedException(); }
         }
@@ -74,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IMethodParent Members
 
-        Slf.Abstract.Members.IMethodMemberDictionary IMethodParent.Methods
+        IMethodMemberDictionary IMethodParent.Methods
         {
             get { throw new NotImplementedException(); }
         }

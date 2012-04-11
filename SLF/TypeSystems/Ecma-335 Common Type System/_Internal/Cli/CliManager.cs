@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         _ICliManager
     {
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
-        private Dictionary<IAssemblyUniqueIdentifier, CompiledAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CompiledAssembly>();
+        private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
         //"System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
 
         private ICliRuntimeEnvironmentInfo runtimeEnvironment;
@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IAssemblyIdentityManager<Assembly,ICompiledAssembly> Members
 
-        public ICompiledAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
+        public ICliAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
         {
             return this.ObtainAssemblyReference(assemblyIdentity.Location);
         }
@@ -124,9 +124,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IAssemblyIdentityManager<IAssemblyUniqueIdentifier,ICompiledAssembly> Members
 
-        public ICompiledAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
+        public ICliAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
         {
-            CompiledAssembly result;
+            CliAssembly result;
             string[] extensions = new string[] { "exe", "dll" };
             if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
             {
@@ -149,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (validResult != null)
                 {
-                    this.loadedAssemblies.Add(validResult.Item1, new CompiledAssembly(validResult.Item5, this, validResult.Item4, validResult.Item1, validResult.Item2));
+                    this.loadedAssemblies.Add(validResult.Item1, new CliAssembly(validResult.Item5, this, validResult.Item4, validResult.Item1, validResult.Item2));
                     this.fileIdentifiers.Add(validResult.Item5, validResult.Item1);
                 }
                 else
@@ -166,16 +166,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
 
         /// <summary>
-        /// Obtains a <see cref="ICompiledAssembly"/> reference by
+        /// Obtains a <see cref="ICliAssembly"/> reference by
         /// the filename.
         /// </summary>
         /// <param name="filename">The <see cref="String"/> value
         /// which denotes the location of the assembly image.</param>
-        /// <returns>A <see cref="ICompiledAssembly"/>
+        /// <returns>A <see cref="ICliAssembly"/>
         /// which denotes the assembly in question.</returns>
         /// <exception cref="System.IO.FileNotFoundException">thrown when 
         /// <paramref name="filename"/> was not found.</exception>
-        public ICompiledAssembly ObtainAssemblyReference(string filename)
+        public ICliAssembly ObtainAssemblyReference(string filename)
         {
             filename = CliCommon.MinimizeFilename(filename);
             IAssemblyUniqueIdentifier uniqueIdentifier;
@@ -229,14 +229,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 if (assemblyUniqueIdentifier == null)
                                     this.ThrowNoMetadataFound();
                                 IStrongNamePublicKeyInfo publicKeyInfo = pubKeyId.Item1;
-                                CompiledAssembly result;
+                                CliAssembly result;
                                 if (this.loadedAssemblies.ContainsKey(assemblyUniqueIdentifier))
                                 {
                                     peImage.Dispose();
                                     metadataRoot.Dispose();
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
                                 }
-                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CompiledAssembly(filename, this, metadataRoot, assemblyUniqueIdentifier, publicKeyInfo));
+                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(filename, this, metadataRoot, assemblyUniqueIdentifier, publicKeyInfo));
                                 this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
                                 return result;
                             }
@@ -270,13 +270,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IAssemblyIdentityManager<CliMetadataAssemblyTableRow,ICompiledAssembly> Members
 
-        public ICompiledAssembly ObtainAssemblyReference(ICliMetadataAssemblyTableRow assemblyIdentity)
+        public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyTableRow assemblyIdentity)
         {
             var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
-            CompiledAssembly result;
+            CliAssembly result;
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
-                result = new CompiledAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity.MetadataRoot, identity.Item2, identity.Item1);
+                result = new CliAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity.MetadataRoot, identity.Item2, identity.Item1);
                 this.loadedAssemblies.Add(identity.Item2, result);
             }
             return this.loadedAssemblies[identity.Item2];
@@ -295,10 +295,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IAssemblyIdentityManager<CliMetadataAssemblyRefTableRow,ICompiledAssembly> Members
 
-        public ICompiledAssembly ObtainAssemblyReference(ICliMetadataAssemblyRefTableRow assemblyIdentity)
+        public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyRefTableRow assemblyIdentity)
         {
             var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
-            CompiledAssembly result;
+            CliAssembly result;
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
                 return this.ObtainAssemblyReference(identity.Item2);
             return this.loadedAssemblies[identity.Item2];
