@@ -11,7 +11,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     /// a method reference signature.
     /// </summary>
     public interface ICliMetadataMethodRefSignature :
-        ICliMetadataMethodSignature
+        ICliMetadataMethodSignature,
+        ICliMetadataMemberRefSignature
     {
         /// <summary>
         /// Returns the <see cref="IReadOnlyCollection{T}"/> of 

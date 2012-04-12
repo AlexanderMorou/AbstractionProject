@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
             this.items = new T[rowCount];
         }
 
-        #region IControlledCollection<T> Members
+        //#region IControlledCollection<T> Members
 
         public bool Contains(T item)
         {
@@ -106,9 +106,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 
         protected abstract T ReadElementAt(uint index);
 
-        #endregion
+        //#endregion
 
-        #region IEnumerable<T> Members
+        //#region IEnumerable<T> Members
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -119,18 +119,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
             }
         }
 
-        #endregion
+        //#endregion
 
-        #region IEnumerable Members
+        //#region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        #endregion
+        //#endregion
 
-        #region IControlledCollection Members
+        //#region IControlledCollection Members
 
         bool IControlledCollection.Contains(object item)
         {
@@ -165,9 +165,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
             get { return this[index]; }
         }
 
-        #endregion
+        //#endregion
 
-        #region ICliMetadataTable Members
+        //#region ICliMetadataTable Members
 
         public abstract CliMetadataTableKinds Kind { get; }
 
@@ -186,15 +186,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         }
 
 
-        #endregion
+        //#endregion
 
-        #region IDisposable Members
+        //#region IDisposable Members
 
         public void Dispose()
         {
             this.items = null;
         }
 
-        #endregion
+        //#endregion
     }
 }

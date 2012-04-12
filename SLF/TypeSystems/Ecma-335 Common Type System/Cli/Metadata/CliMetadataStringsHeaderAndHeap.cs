@@ -21,7 +21,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         private int[] hashCodes;
         //private uint tailLength = 0;
         private Dictionary<uint, uint> positionToIndexTable = new Dictionary<uint, uint>();
-        private Dictionary<uint, int> substringIndexTable = new Dictionary<uint, int>();
         private EndianAwareBinaryReader reader;
         //public uint Add(string value)
         //{
@@ -157,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             this.reader = new EndianAwareBinaryReader(newStream, Endianness.LittleEndian, false);
         }
 
-        #region IEnumerable<string> Members
+        //#region IEnumerable<string> Members
 
         private IEnumerable<Tuple<int, string>> _Enumerator
         {
@@ -176,16 +175,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                     select _).GetEnumerator();
         }
 
-        #endregion
+        //#endregion
 
-        #region IEnumerable Members
+        //#region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        #endregion
+        //#endregion
 
         internal uint ReadIndex(EndianAwareBinaryReader reader)
         {
@@ -203,5 +202,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                 return 2;
             }
         }
+
+        public void Dispose()
+        {
+            this.data = null;
+            this.hashCodes = null;
+            this.positionToIndexTable = null;
+            this.reader = null;
+        }
+
     }
 }

@@ -212,7 +212,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
-        #region IDisposable Members
+        //#region IDisposable Members
 
         public void Dispose()
         {
@@ -230,6 +230,6 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
-        #endregion
+        //#endregion
     }
 }

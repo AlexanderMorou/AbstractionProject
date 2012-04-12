@@ -31,6 +31,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// which details the framework version
         /// and runtimeEnvironment <see cref="ICliManager"/> is targeting.
         /// </summary>
-        ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
+        new ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
     }
 }

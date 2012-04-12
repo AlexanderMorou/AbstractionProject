@@ -18,11 +18,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.GenericParameters = new ReadOnlyCollection<ICliMetadataTypeSignature>(genericParameters.ToList());
         }
 
-        #region ICliMetadataGenericTypeInstanceSignature Members
+        //#region ICliMetadataGenericTypeInstanceSignature Members
 
         public IReadOnlyCollection<ICliMetadataTypeSignature> GenericParameters { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

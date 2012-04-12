@@ -19,13 +19,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.ParameterType = parameterType;
         }
 
-        #region ICliMetadataParamSignature Members
+        //#region ICliMetadataParamSignature Members
 
         public IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
         public ICliMetadataTypeSignature ParameterType { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

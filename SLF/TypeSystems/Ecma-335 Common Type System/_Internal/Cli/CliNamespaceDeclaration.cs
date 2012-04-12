@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private uint namespaceIndex;
         private int partCount;
 
-        #region INamespaceDeclaration Members
+        //#region INamespaceDeclaration Members
 
         public IAssembly Assembly
         {
@@ -31,9 +31,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region INamespaceParent Members
+        //#region INamespaceParent Members
 
         public IFullMemberDictionary Members
         {
@@ -45,45 +45,45 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
+        //#region IFieldParent<ITopLevelFieldMember,INamespaceParent> Members
 
         public IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> Fields
         {
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IFieldParent Members
+        //#region IFieldParent Members
 
         IFieldMemberDictionary IFieldParent.Fields
         {
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
+        //#region IMethodParent<ITopLevelMethodMember,INamespaceParent> Members
 
         public IMethodMemberDictionary<ITopLevelMethodMember, INamespaceParent> Methods
         {
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IMethodParent Members
+        //#region IMethodParent Members
 
         IMethodMemberDictionary IMethodParent.Methods
         {
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region ITypeParent Members
+        //#region ITypeParent Members
 
         public IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
@@ -120,18 +120,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IDeclaration<IGeneralDeclarationUniqueIdentifier> Members
+        //#region IDeclaration<IGeneralDeclarationUniqueIdentifier> Members
 
         public IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IDeclaration Members
+        //#region IDeclaration Members
 
         public event EventHandler Disposed;
 
@@ -140,15 +140,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { throw new NotImplementedException(); }
         }
 
-        #endregion
+        //#endregion
 
-        #region IDisposable Members
+        //#region IDisposable Members
 
         public void Dispose()
         {
             throw new NotImplementedException();
         }
 
-        #endregion
+        //#endregion
     }
 }

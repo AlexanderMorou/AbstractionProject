@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.Target = target;
         }
 
-        #region ICliMetadataValueOrClassTypeSignature Members
+        //#region ICliMetadataValueOrClassTypeSignature Members
 
         public bool IsClass { get; private set; }
 
@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ITypeDefOrRefRow Target { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

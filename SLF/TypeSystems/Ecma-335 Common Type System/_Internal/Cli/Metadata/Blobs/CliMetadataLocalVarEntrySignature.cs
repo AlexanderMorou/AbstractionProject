@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.VariableKind = variableKind;
         }
 
-        #region ICliMetadataLocalVarEntrySignature Members
+        //#region ICliMetadataLocalVarEntrySignature Members
 
         /// <summary>
         /// Returns the <see cref="CliMetadataLocalVarEntryKind"/>
@@ -23,6 +23,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         /// </summary>
         public CliMetadataLocalVarEntryKind VariableKind { get; set; }
 
-        #endregion
+        //#endregion
     }
 }

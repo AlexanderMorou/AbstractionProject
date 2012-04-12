@@ -22,10 +22,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             return this.Parameters;
         }
 
-        #region ICliMetadataMethodDefSignature Members
+        //#region ICliMetadataMethodDefSignature Members
 
         public new IReadOnlyCollection<ICliMetadataParamSignature> Parameters { get; private set; }
 
-        #endregion
+        //#endregion
     }
 }

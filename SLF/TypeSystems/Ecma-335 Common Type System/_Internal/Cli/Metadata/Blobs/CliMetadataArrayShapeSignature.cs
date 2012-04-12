@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.LowerBounds = new ReadOnlyCollection<uint>(lowerBounds.ToList());
         }
 
-        #region ICliMetadataArrayShapeSignature Members
+        //#region ICliMetadataArrayShapeSignature Members
 
         public uint Rank { get; private set; }
 
@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public IReadOnlyCollection<uint> LowerBounds { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

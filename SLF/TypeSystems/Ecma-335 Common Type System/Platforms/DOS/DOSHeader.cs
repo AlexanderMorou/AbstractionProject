@@ -172,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.DOS
             this.peHeaderPointer = peHeaderPointer;
         }
 
-        #region Properties
+        //#region Properties
 
         /// <summary>
         /// Returns the <see cref="UInt16"/> value which denotes the
@@ -286,7 +286,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.DOS
                 return true;
             }
         }
-        #endregion
+        //#endregion
 
         public void Read(EndianAwareBinaryReader reader)
         {

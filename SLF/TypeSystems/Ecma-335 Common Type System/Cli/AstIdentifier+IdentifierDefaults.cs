@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
@@ -16,21 +17,21 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGeneralDeclarationUniqueIdentifier
         {
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
-            #endregion
+            //#endregion
 
             public DefaultGeneralDeclarationUniqueIdentifier(string name)
             {
                 this.Name = name;
             }
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
-                if (other is IGeneralMemberUniqueIdentifier || 
+                if (other is IGeneralMemberUniqueIdentifier ||
                     other is IGeneralTypeUniqueIdentifier ||
                     other is IAssemblyUniqueIdentifier)
                     return other.Equals(this);
@@ -39,10 +40,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override bool Equals(object obj)
             {
                 if (obj is IGeneralDeclarationUniqueIdentifier)
-                    return this.Equals((IGeneralDeclarationUniqueIdentifier)obj);
+                    return this.Equals((IGeneralDeclarationUniqueIdentifier) obj);
                 return false;
             }
-            #endregion
+            //#endregion
             public override int GetHashCode()
             {
                 if (this.Name == null)
@@ -59,35 +60,43 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGeneralGenericTypeUniqueIdentifier
         {
 
-            public DefaultGenericTypeUniqueIdentifier(string name) :
-                this(name, 0)
+            public DefaultGenericTypeUniqueIdentifier(string name, IAssemblyUniqueIdentifier assembly, IGeneralDeclarationUniqueIdentifier @namespace) :
+                this(name, 0, assembly, @namespace)
             {
             }
 
-            public DefaultGenericTypeUniqueIdentifier(string name, int typeParameters)
+            public DefaultGenericTypeUniqueIdentifier(string name, int typeParameters, IAssemblyUniqueIdentifier assembly, IGeneralDeclarationUniqueIdentifier @namespace)
             {
                 this.Name = name;
                 this.TypeParameters = typeParameters;
+                this.Assembly = assembly;
+                this.Namespace = @namespace;
             }
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralGenericTypeUniqueIdentifier> Members
+            //#region IEquatable<IGeneralGenericTypeUniqueIdentifier> Members
 
             public bool Equals(IGeneralGenericTypeUniqueIdentifier other)
             {
                 if (other == null)
                     return false;
-                return other.TypeParameters == this.TypeParameters && other.Name == this.Name;
+                if (other.Assembly == null && this.Assembly != null ||
+                    other.Assembly != null && this.Assembly == null)
+                    return false;
+                if (this.Assembly == null)
+                    return other.TypeParameters == this.TypeParameters && other.Name == this.Name;
+                else
+                    return other.TypeParameters == this.TypeParameters && other.Name == this.Name && this.Assembly.Equals(other.Assembly);
             }
 
-            #endregion
+            //#endregion
 
-            #region IGenericParamParentUniqueIdentifier Members
+            //#region IGenericParamParentUniqueIdentifier Members
 
             public bool IsGenericConstruct
             {
@@ -95,35 +104,36 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
 
             public int TypeParameters { get; private set; }
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralTypeUniqueIdentifier> Members
+            //#region IEquatable<IGeneralTypeUniqueIdentifier> Members
 
             public bool Equals(IGeneralTypeUniqueIdentifier other)
             {
                 if (other is IGeneralGenericTypeUniqueIdentifier)
-                    return this.Equals((IGeneralGenericTypeUniqueIdentifier)other);
+                    return this.Equals((IGeneralGenericTypeUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IGeneralGenericTypeUniqueIdentifier)
-                    return this.Equals((IGeneralGenericTypeUniqueIdentifier)other);
+                    return this.Equals((IGeneralGenericTypeUniqueIdentifier) other);
                 return false;
             }
+            //#endregion
 
-            #endregion
             public override bool Equals(object obj)
             {
                 if (obj is IGeneralGenericTypeUniqueIdentifier)
-                    return this.Equals((IGeneralGenericTypeUniqueIdentifier)obj);
+                    return this.Equals((IGeneralGenericTypeUniqueIdentifier) obj);
                 return false;
             }
+
             public override int GetHashCode()
             {
                 if (this.Name == null)
@@ -134,28 +144,61 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public override string ToString()
             {
-                if (this.Name == null)
-                    if (this.IsGenericConstruct)
-                        return string.Format("<unknown>`{0}", this.TypeParameters);
+                if (this.Assembly == null)
+                {
+                    if (this.Name == null)
+                        if (this.IsGenericConstruct)
+                            return string.Format("<unknown>`{0}", this.TypeParameters);
+                        else
+                            return "<unknown>";
+                    else if (this.IsGenericConstruct)
+                        return string.Format("{0}`{1}", this._FullName, this.TypeParameters);
                     else
-                        return "<unknown>";
-                else if (this.IsGenericConstruct)
-                    return string.Format("{0}`{1}", this.Name, this.TypeParameters);
+                        return this._FullName;
+                }
                 else
-                    return this.Name;
+                    if (this.Name == null)
+                        if (this.IsGenericConstruct)
+                            return string.Format("<unknown>`{0}, {1}", this.TypeParameters, this.Assembly);
+                        else
+                            return string.Format("<unknown>, {0}", this.Assembly);
+                    else if (this.IsGenericConstruct)
+                        return string.Format("{0}`{1}, {2}", this._FullName, this.TypeParameters, this.Assembly);
+                    else
+                        return string.Format("{0}, {1}", this._FullName, this.Assembly);
             }
+
+            private string _FullName
+            {
+                get
+                {
+                    if (this.Namespace == null)
+                        return this.Name;
+                    else
+                        return string.Format("{0}.{1}", this.Namespace, this.Name);
+
+                }
+            }
+
+            //#region ITypeUniqueIdentifier Members
+
+            public IAssemblyUniqueIdentifier Assembly { get; private set; }
+
+            public IGeneralDeclarationUniqueIdentifier Namespace { get; private set; }
+
+            //#endregion
         }
 
-        private class DefaultTypeUniqueIdentifier : 
+        private class DefaultTypeUniqueIdentifier :
             IGeneralTypeUniqueIdentifier
         {
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralTypeUniqueIdentifier> Members
+            //#region IEquatable<IGeneralTypeUniqueIdentifier> Members
 
             public bool Equals(IGeneralTypeUniqueIdentifier other)
             {
@@ -164,30 +207,33 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return other.Name == this.Name;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other != null && other is IGeneralTypeUniqueIdentifier)
-                    return this.Equals((IGeneralTypeUniqueIdentifier)other);
+                    return this.Equals((IGeneralTypeUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override bool Equals(object obj)
             {
                 if (obj != null && obj is IGeneralTypeUniqueIdentifier)
-                    return this.Equals((IGeneralTypeUniqueIdentifier)obj);
+                    return this.Equals((IGeneralTypeUniqueIdentifier) obj);
                 return false;
             }
 
-            public DefaultTypeUniqueIdentifier(string name)
+            public DefaultTypeUniqueIdentifier(string name, IAssemblyUniqueIdentifier assembly, IGeneralDeclarationUniqueIdentifier @namespace)
             {
                 this.Name = name;
+                this.Assembly = assembly;
+                this.Namespace = @namespace;
             }
+
             public override int GetHashCode()
             {
                 if (this.Name == null)
@@ -196,21 +242,31 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
             public override string ToString()
             {
-                return this.Name;
+                if (this.Assembly == null)
+                    return this.Name;
+                return string.Format("{0}, {1}", this.Name, this.Assembly);
             }
+
+            //#region ITypeUniqueIdentifier Members
+
+            public IAssemblyUniqueIdentifier Assembly { get; private set; }
+
+            public IGeneralDeclarationUniqueIdentifier Namespace { get; private set; }
+
+            //#endregion
         }
 
         private class DefaultMemberUniqueIdentifier :
             IGeneralMemberUniqueIdentifier
         {
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
@@ -219,18 +275,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return other.Name == this.Name;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other != null || other is IGeneralMemberUniqueIdentifier)
-                    return this.Equals((IGeneralMemberUniqueIdentifier)other);
+                    return this.Equals((IGeneralMemberUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public DefaultMemberUniqueIdentifier(string name)
             {
@@ -246,7 +302,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override bool Equals(object obj)
             {
                 if (obj != null || obj is IGeneralMemberUniqueIdentifier)
-                    return this.Equals((IGeneralMemberUniqueIdentifier)obj);
+                    return this.Equals((IGeneralMemberUniqueIdentifier) obj);
                 return false;
             }
 
@@ -260,13 +316,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGenericParameterUniqueIdentifier
         {
 
-            #region IGenericParameterUniqueIdentifier Members
+            //#region IGenericParameterUniqueIdentifier Members
 
             public int? Position { get; private set; }
 
             public bool IsTypeParameter { get; private set; }
 
-            #endregion
+            //#endregion
 
             public DefaultGenericParameterUniqueIdentifier(string name, bool onType)
             {
@@ -287,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.IsTypeParameter = onType;
             }
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
             private string name;
             public string Name
             {
@@ -313,9 +369,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGenericParameterUniqueIdentifier> Members
+            //#region IEquatable<IGenericParameterUniqueIdentifier> Members
 
             public bool Equals(IGenericParameterUniqueIdentifier other)
             {
@@ -326,46 +382,46 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return other.Name == this.Name && other.IsTypeParameter == this.IsTypeParameter;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralTypeUniqueIdentifier> Members
+            //#region IEquatable<IGeneralTypeUniqueIdentifier> Members
 
             public bool Equals(IGeneralTypeUniqueIdentifier other)
             {
                 if (other is IGenericParameterUniqueIdentifier)
-                    return this.Equals((IGenericParameterUniqueIdentifier)other);
+                    return this.Equals((IGenericParameterUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IGenericParameterUniqueIdentifier)
-                    return this.Equals((IGenericParameterUniqueIdentifier)other);
+                    return this.Equals((IGenericParameterUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
                 if (other is IGenericParameterUniqueIdentifier)
-                    return this.Equals((IGenericParameterUniqueIdentifier)other);
+                    return this.Equals((IGenericParameterUniqueIdentifier) other);
                 return false;
             }
 
             public override bool Equals(object obj)
             {
                 if (obj is IGenericParameterUniqueIdentifier)
-                    return this.Equals((IGenericParameterUniqueIdentifier)obj);
+                    return this.Equals((IGenericParameterUniqueIdentifier) obj);
                 return false;
             }
-            #endregion
+            //#endregion
             public override int GetHashCode()
             {
                 return this.Name.GetHashCode() ^ this.IsTypeParameter.GetHashCode();
@@ -427,11 +483,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name
             {
-                get {
+                get
+                {
                     switch (this.Operator)
                     {
                         case CoercibleBinaryOperators.Add:
@@ -472,34 +529,34 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
                 if (other is IBinaryOperatorUniqueIdentifier)
-                    return this.Equals(((IBinaryOperatorUniqueIdentifier)other));
+                    return this.Equals(((IBinaryOperatorUniqueIdentifier) other));
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IBinaryOperatorUniqueIdentifier)
-                    return this.Equals(((IBinaryOperatorUniqueIdentifier)other));
+                    return this.Equals(((IBinaryOperatorUniqueIdentifier) other));
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override bool Equals(object obj)
             {
                 if (obj is IBinaryOperatorUniqueIdentifier)
-                    return this.Equals(((IBinaryOperatorUniqueIdentifier)obj));
+                    return this.Equals(((IBinaryOperatorUniqueIdentifier) obj));
                 return false;
             }
 
@@ -533,7 +590,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     case BinaryOpCoercionContainingSide.RightSide:
                         return string.Format("{0}({1}, <originType>)", this.Name, this.OtherSide);
                     case BinaryOpCoercionContainingSide.Both:
-                        return string.Format("{0}(<originType>, <originType>)", this.Name);                        
+                        return string.Format("{0}(<originType>, <originType>)", this.Name);
                     default:
                         return string.Format("{0}(<unknown>, <unknown>)", this.Name);
                 }
@@ -548,13 +605,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             {
                 this.Operator = @operator;
             }
-            #region IUnaryOperatorUniqueIdentifier Members
+            //#region IUnaryOperatorUniqueIdentifier Members
 
             public CoercibleUnaryOperators Operator { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name
             {
@@ -584,9 +641,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IUnaryOperatorUniqueIdentifier> Members
+            //#region IEquatable<IUnaryOperatorUniqueIdentifier> Members
 
             public bool Equals(IUnaryOperatorUniqueIdentifier other)
             {
@@ -595,29 +652,29 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return other.Operator == this.Operator;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
                 if (other is IUnaryOperatorUniqueIdentifier)
-                    return this.Equals((IUnaryOperatorUniqueIdentifier)other);
+                    return this.Equals((IUnaryOperatorUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IUnaryOperatorUniqueIdentifier)
-                    return this.Equals((IUnaryOperatorUniqueIdentifier)other);
+                    return this.Equals((IUnaryOperatorUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override int GetHashCode()
             {
@@ -627,7 +684,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override bool Equals(object obj)
             {
                 if (obj is IUnaryOperatorUniqueIdentifier)
-                    return this.Equals((IUnaryOperatorUniqueIdentifier)obj);
+                    return this.Equals((IUnaryOperatorUniqueIdentifier) obj);
                 return false;
             }
 
@@ -647,7 +704,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.Parameters = parameters;
             }
 
-            #region ISignatureMemberUniqueIdentifier Members
+            //#region ISignatureMemberUniqueIdentifier Members
 
             public IEnumerable<IType> Parameters { get; private set; }
             private int? parameterCount;
@@ -661,15 +718,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #endregion
+            //#endregion
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralSignatureMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralSignatureMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralSignatureMemberUniqueIdentifier other)
             {
@@ -680,29 +737,29 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return other.Parameters.SequenceEqual(this.Parameters);
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
                 if (other is IGeneralSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralSignatureMemberUniqueIdentifier)other);
+                    return this.Equals((IGeneralSignatureMemberUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IGeneralSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralSignatureMemberUniqueIdentifier)other);
+                    return this.Equals((IGeneralSignatureMemberUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override string ToString()
             {
@@ -743,14 +800,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override bool Equals(object obj)
             {
                 if (obj is IGeneralSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralSignatureMemberUniqueIdentifier)obj);
+                    return this.Equals((IGeneralSignatureMemberUniqueIdentifier) obj);
                 return false;
             }
         }
         private class DefaultTypeCoercionUniqueIdentifier :
             ITypeCoercionUniqueIdentifier
         {
-            #region ITypeCoercionUniqueIdentifier Members
+            //#region ITypeCoercionUniqueIdentifier Members
 
             public TypeConversionRequirement Requirement { get; private set; }
 
@@ -758,32 +815,33 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public IType CoercionType { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name
             {
-                get {
+                get
+                {
                     switch (Requirement)
                     {
                         case TypeConversionRequirement.Explicit:
                             switch (Direction)
-	                        {
+                            {
                                 case TypeConversionDirection.ToContainingType:
                                     return string.Format("explicit operator <originType>({0})", this.CoercionType);
                                 case TypeConversionDirection.FromContainingType:
                                     return string.Format("explicit operator {0}(<originType>)", this.CoercionType);
-	                        }
+                            }
                             return "explicit operator <unknown>(<unknown>)";
                         case TypeConversionRequirement.Implicit:
                             switch (Direction)
-	                        {
+                            {
                                 case TypeConversionDirection.ToContainingType:
                                     return string.Format("implicit operator <originType>({0})", this.CoercionType);
                                 case TypeConversionDirection.FromContainingType:
                                     return string.Format("implicit operator {0}(<originType>)", this.CoercionType);
-	                        }
+                            }
                             return "implicit operator <unknown>(<unknown>)";
                     }
                     switch (Direction)
@@ -798,9 +856,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<ITypeCoercionUniqueIdentifier> Members
+            //#region IEquatable<ITypeCoercionUniqueIdentifier> Members
 
             public bool Equals(ITypeCoercionUniqueIdentifier other)
             {
@@ -809,36 +867,36 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 return other.Direction == this.Direction && other.CoercionType == this.CoercionType && other.Requirement == this.Requirement;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
                 if (other is ITypeCoercionUniqueIdentifier)
-                    return this.Equals((ITypeCoercionUniqueIdentifier)other);
+                    return this.Equals((ITypeCoercionUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override bool Equals(object obj)
             {
                 if (obj is ITypeCoercionUniqueIdentifier)
-                    return this.Equals((ITypeCoercionUniqueIdentifier)obj);
+                    return this.Equals((ITypeCoercionUniqueIdentifier) obj);
                 return false;
             }
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is ITypeCoercionUniqueIdentifier)
-                    return this.Equals((ITypeCoercionUniqueIdentifier)other);
+                    return this.Equals((ITypeCoercionUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override string ToString()
             {
@@ -871,16 +929,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGeneralGenericSignatureMemberUniqueIdentifier
         {
 
-            #region IEquatable<IGeneralGenericSignatureMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralGenericSignatureMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralGenericSignatureMemberUniqueIdentifier other)
             {
                 return other.TypeParameters == this.TypeParameters && other.Name == this.Name && other.ParameterCount == this.ParameterCount && other.Parameters.SequenceEqual(this.Parameters);
             }
 
-            #endregion
+            //#endregion
 
-            #region IGenericParamParentUniqueIdentifier Members
+            //#region IGenericParamParentUniqueIdentifier Members
 
             public bool IsGenericConstruct
             {
@@ -889,10 +947,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public int TypeParameters { get; private set; }
 
-            #endregion
+            //#endregion
 
 
-            #region ISignatureMemberUniqueIdentifier Members
+            //#region ISignatureMemberUniqueIdentifier Members
 
             public IEnumerable<IType> Parameters { get; private set; }
             private int? parameterCount;
@@ -906,53 +964,53 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
             }
 
-            #endregion
+            //#endregion
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralSignatureMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralSignatureMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralSignatureMemberUniqueIdentifier other)
             {
                 if (other is IGeneralGenericSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier)other);
+                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override bool Equals(object obj)
             {
                 if (obj is IGeneralGenericSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier)obj);
+                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier) obj);
                 return false;
             }
 
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
+            //#region IEquatable<IGeneralMemberUniqueIdentifier> Members
 
             public bool Equals(IGeneralMemberUniqueIdentifier other)
             {
                 if (other is IGeneralGenericSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier)other);
+                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IGeneralGenericSignatureMemberUniqueIdentifier)
-                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier)other);
+                    return this.Equals((IGeneralGenericSignatureMemberUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
 
             public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IType> parameters)
@@ -1004,175 +1062,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
-        private class DefaultDelegateUniqueIdentifier :
-            IDelegateUniqueIdentifier
-        {
-            public DefaultDelegateUniqueIdentifier(string name, IEnumerable<IType> parameters, int typeParameters)
-            {
-                this.Name = name;
-                this.Parameters = parameters;
-                this.TypeParameters = typeParameters;
-            }
-            #region IDeclarationUniqueIdentifier Members
-
-            public string Name { get; private set; }
-
-            #endregion
-
-            #region IEquatable<IDelegateUniqueIdentifier> Members
-
-            public bool Equals(IDelegateUniqueIdentifier other)
-            {
-                return other.TypeParameters == this.TypeParameters && other.Name == this.Name && other.ParameterCount == this.ParameterCount && other.Parameters.SequenceEqual(this.Parameters);
-            }
-
-            #endregion
-
-            #region ISignatureMemberUniqueIdentifier Members
-
-            public IEnumerable<IType> Parameters { get; private set; }
-            private int? parameterCount;
-            public int ParameterCount
-            {
-                get
-                {
-                    if (this.parameterCount == null)
-                        this.parameterCount = this.Parameters.Count();
-                    return this.parameterCount.Value;
-                }
-            }
-
-            #endregion
-
-            #region IGenericParamParentUniqueIdentifier Members
-
-            public bool IsGenericConstruct
-            {
-                get { return this.TypeParameters > 0; }
-            }
-
-            public int TypeParameters { get; private set; }
-
-            #endregion
-
-            #region IEquatable<IGeneralGenericTypeUniqueIdentifier> Members
-
-            public bool Equals(IGeneralGenericTypeUniqueIdentifier other)
-            {
-                if (other is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)other);
-                return false;
-            }
-
-            #endregion
-
-            #region IEquatable<IGeneralTypeUniqueIdentifier> Members
-
-            public bool Equals(IGeneralTypeUniqueIdentifier other)
-            {
-                if (other is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)other);
-                return false;
-            }
-
-            #endregion
-
-            public override bool Equals(object obj)
-            {
-                if (obj is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)obj);
-                return false;
-            }
-
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
-
-            public bool Equals(IGeneralDeclarationUniqueIdentifier other)
-            {
-                if (other is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)other);
-                return false;
-            }
-
-            #endregion
-
-            #region IEquatable<IGeneralGenericSignatureMemberUniqueIdentifier> Members
-
-            public bool Equals(IGeneralGenericSignatureMemberUniqueIdentifier other)
-            {
-                if (other is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)other);
-                return false;
-            }
-
-            #endregion
-
-            #region IEquatable<IGeneralSignatureMemberUniqueIdentifier> Members
-
-            public bool Equals(IGeneralSignatureMemberUniqueIdentifier other)
-            {
-                if (other is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)other);
-                return false;
-            }
-
-            #endregion
-
-            #region IEquatable<IGeneralMemberUniqueIdentifier> Members
-
-            public bool Equals(IGeneralMemberUniqueIdentifier other)
-            {
-                if (other is IDelegateUniqueIdentifier)
-                    return this.Equals((IDelegateUniqueIdentifier)other);
-                return false;
-            }
-
-            #endregion
-
-            public override int GetHashCode()
-            {
-                if (this.Name == null)
-                    return -4 ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
-                else
-                    return this.Name.GetHashCode() ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
-            }
-
-            public override string ToString()
-            {
-                StringBuilder builder = new StringBuilder();
-                builder.Append("delegate ");
-                builder.Append(this.Name);
-                if (this.IsGenericConstruct)
-                    builder.AppendFormat("`{0}", this.TypeParameters);
-                builder.Append('(');
-                bool first = true;
-                foreach (var element in this.Parameters)
-                {
-                    if (first)
-                        first = false;
-                    else
-                        builder.Append(", ");
-                    if (element.FullName == null || element.FullName == string.Empty)
-                        builder.Append(element.Name);
-                    else
-                        builder.Append(element.FullName);
-                }
-                builder.Append(')');
-                return builder.ToString();
-            }
-
-            #region IGenericSignatureMemberUniqueIdentifier Members
-
-            public string ToString(string parentName)
-            {
-                return ToString();
-            }
-
-            #endregion
-        }
-
         private class DefaultAssemblyUniqueIdentifier :
             IAssemblyUniqueIdentifier
         {
+            private IMultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier>();
 
             public DefaultAssemblyUniqueIdentifier(string name, IVersion version, ICultureIdentifier cultureIdentifier, byte[] publicKeyToken = null)
             {
@@ -1181,7 +1074,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.Culture = cultureIdentifier;
                 this.PublicKeyToken = publicKeyToken;
             }
-            #region IAssemblyUniqueIdentifier Members
+            //#region IAssemblyUniqueIdentifier Members
 
             public IVersion Version { get; private set; }
 
@@ -1189,15 +1082,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public byte[] PublicKeyToken { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IDeclarationUniqueIdentifier Members
+            //#region IDeclarationUniqueIdentifier Members
 
             public string Name { get; private set; }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IAssemblyUniqueIdentifier> Members
+            //#region IEquatable<IAssemblyUniqueIdentifier> Members
 
             public bool Equals(IAssemblyUniqueIdentifier other)
             {
@@ -1210,18 +1103,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     return other.Name == this.Name && other.Version.Equals(this.Version) && other.Culture == this.Culture && other.PublicKeyToken.SequenceEqual(this.PublicKeyToken);
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
+            //#region IEquatable<IGeneralDeclarationUniqueIdentifier> Members
 
             public bool Equals(IGeneralDeclarationUniqueIdentifier other)
             {
                 if (other is IAssemblyUniqueIdentifier)
-                    return this.Equals((IAssemblyUniqueIdentifier)other);
+                    return this.Equals((IAssemblyUniqueIdentifier) other);
                 return false;
             }
 
-            #endregion
+            //#endregion
 
             public override string ToString()
             {
@@ -1231,7 +1124,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override bool Equals(object other)
             {
                 if (other is IAssemblyUniqueIdentifier)
-                    return this.Equals((IAssemblyUniqueIdentifier)other);
+                    return this.Equals((IAssemblyUniqueIdentifier) other);
                 return false;
             }
 
@@ -1246,6 +1139,37 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 }
                 return this.Name.GetHashCode() ^ this.Culture.GetHashCode() ^ this.Version.GetHashCode();
             }
+
+            #region IAssemblyUniqueIdentifier Members
+
+
+            public IGeneralTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name)
+            {
+                return new DefaultTypeUniqueIdentifier(name, this, @namespace);
+            }
+
+            public IGeneralTypeUniqueIdentifier GetTypeIdentifier(string @namespace, string name)
+            {
+                if (@namespace == null)
+                    return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name);
+                else
+                    return GetTypeIdentifier(AstIdentifier.Declaration(@namespace), name);
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name, int typeParameters)
+            {
+                return new DefaultGenericTypeUniqueIdentifier(name, typeParameters, this, @namespace);
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(string @namespace, string name, int typeParameters)
+            {
+                if (@namespace == null)
+                    return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name, typeParameters);
+                else
+                    return GetTypeIdentifier(AstIdentifier.Declaration(@namespace), name, typeParameters);
+            }
+
+            #endregion
         }
     }
 }

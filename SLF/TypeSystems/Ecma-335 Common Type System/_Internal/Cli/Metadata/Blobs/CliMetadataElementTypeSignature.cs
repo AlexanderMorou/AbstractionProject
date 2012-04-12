@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         }
 
 
-        #region ICliMetadataElementTypeSignature Members
+        //#region ICliMetadataElementTypeSignature Members
 
         /// <summary>
         /// Returns the <see cref="TypeElementClassification"/>
@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ICliMetadataTypeSignature ElementType { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

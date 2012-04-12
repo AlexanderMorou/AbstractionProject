@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <param name="useCoreLibrary">Whether to use the core library, typically mscorlib.</param>
         internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, bool useCoreLibrary)
         {
-            this.UseCoreLibrary = UseCoreLibrary;
+            this.UseCoreLibrary = useCoreLibrary;
             this.ResolveCurrent = resolveCurrent;
             this.Platform = platform;
             this.Version = version;
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.additionalResolutionPaths = additionalResolutionPaths;
         }
 
-        #region ICliRuntimeEnvironmentInfo Members
+        //#region ICliRuntimeEnvironmentInfo Members
 
         public bool ResolveCurrent { get; private set; }
 
@@ -64,10 +64,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public FrameworkVersion Version { get; private set; }
 
-        #endregion
+        //#endregion
 
-        #region ICliRuntimeEnvironmentInfo Members
-
+        //#region ICliRuntimeEnvironmentInfo Members
 
         public IEnumerable<DirectoryInfo> ResolutionPaths
         {
@@ -165,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (UseCoreLibrary)
+                if (!UseCoreLibrary)
                     return null;
                 switch (Version & ~FrameworkVersion.ClientProfile)
                 {
@@ -184,17 +183,219 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        #endregion
+        //#endregion
 
         private static DirectoryInfo gdi(string[] parts)
         {
             return new DirectoryInfo(string.Join(Path.DirectorySeparatorChar.ToString(), parts));
         }
 
-        #region ICliRuntimeEnvironmentInfo Members
+        //#region ICliRuntimeEnvironmentInfo Members
 
 
         public bool UseCoreLibrary { get; private set; }
+
+        //#endregion
+
+        #region IStandardRuntimeEnvironmentInfo Members
+
+        public ITypeUniqueIdentifier ArrayType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Array", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier AsynchronousTask
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier AsynchronousTaskOfT
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier Byte
+        {
+            get {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Byte", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier CompilerGeneratedMetadatum
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier EnumBaseType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Enum", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier Int16
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Int16", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier Int32
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Int32", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier Int64
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Int64", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier NullableBaseType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.ValueTypeBaseType;
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier NullableType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Nullable", 1);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier RootType
+        {
+            get {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Object", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier SByte
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "SByte", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier UInt16
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "UInt16", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier UInt32
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "UInt32", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier UInt64
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "UInt64", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier ValueTypeBaseType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "ValueType", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier VoidType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Void", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier Delegate
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Delegate", 0);
+                return null;
+            }
+        }
+
+        public ITypeUniqueIdentifier MulticastDelegate
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0);
+                return null;
+            }
+        }
 
         #endregion
     }

@@ -6,7 +6,8 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public class CliMetadataUserStringsHeaderAndHeap :
-        CliMetadataBlobTypeHeaderAndHeap<string>
+        CliMetadataBlobTypeHeaderAndHeap<string>,
+        IDisposable
     {
 
         public CliMetadataUserStringsHeaderAndHeap(CliMetadataStreamHeader header)

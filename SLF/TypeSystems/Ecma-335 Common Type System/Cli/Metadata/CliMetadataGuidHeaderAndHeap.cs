@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             }
         }
 
-        #region IEnumerable<Guid> Members
+        //#region IEnumerable<Guid> Members
 
         public IEnumerator<Guid> GetEnumerator()
         {
@@ -103,16 +103,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                 yield return this.data[i];
         }
 
-        #endregion
+        //#endregion
 
-        #region IEnumerable Members
+        //#region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        #endregion
+        //#endregion
 
         internal uint ReadIndex(EndianAwareBinaryReader reader)
         {

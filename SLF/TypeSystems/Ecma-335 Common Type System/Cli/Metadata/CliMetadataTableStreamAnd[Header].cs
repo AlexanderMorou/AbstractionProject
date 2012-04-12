@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public partial class CliMetadataTableStreamAndHeader 
     {
-        #region ICliMetadataStreamHeader Members
+        //#region ICliMetadataStreamHeader Members
 
         /// <summary>
         /// Returns the <see cref="UInt32"/> value which denotes the
@@ -34,6 +34,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// </summary>
         public string Name { get; private set; }
 
-        #endregion
+        //#endregion
     }
 }

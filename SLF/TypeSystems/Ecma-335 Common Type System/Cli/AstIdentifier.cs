@@ -12,19 +12,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public static partial class AstIdentifier
     {
-        private static IMultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier>();
         private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> TypeGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
         private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> MemberGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
 
         private static Dictionary<string, IGeneralTypeUniqueIdentifier> GeneralTypeCache = new Dictionary<string, IGeneralTypeUniqueIdentifier>();
-
-        public static IGeneralGenericTypeUniqueIdentifier Type(string name, int typeParameters)
+        public static IGeneralSignatureMemberUniqueIdentifier Signature(string name, IEnumerable<IType> signature)
         {
-            IGeneralGenericTypeUniqueIdentifier result;
-            lock (GenericTypeCache)
-                if (!GenericTypeCache.TryGetValue(name, typeParameters, out result))
-                    GenericTypeCache.Add(name, typeParameters, result = new DefaultGenericTypeUniqueIdentifier(name, typeParameters));
-            return result;
+            return new DefaultSignatureMemberUniqueIdentifier(name, signature);
         }
 
         /// <summary>
@@ -65,27 +59,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             return new DefaultGenericParameterUniqueIdentifier(name, onType);
         }
-
-        /// <summary>
-        /// Obtains a unique identifier for a type with the <paramref name="name"/>
-        /// provided.
-        /// </summary>
-        /// <param name="name">The display name of the type which differentiates
-        /// it from its siblings.</param>
-        /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/>
-        /// which represents the type.</returns>
-        public static IGeneralTypeUniqueIdentifier Type(string name)
-        {
-            if (!GeneralTypeCache.ContainsKey(name))
-                GeneralTypeCache.Add(name, new DefaultTypeUniqueIdentifier(name));
-            return GeneralTypeCache[name];
-        }
-
-        public static IGeneralSignatureMemberUniqueIdentifier Signature(string name, IEnumerable<IType> signature)
-        {
-            return new DefaultSignatureMemberUniqueIdentifier(name, signature);
-        }
-
         public static IGeneralSignatureMemberUniqueIdentifier Signature(string name, params IType[] signature)
         {
             return Signature(name, (IEnumerable<IType>) signature);
@@ -206,19 +179,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return new DefaultAssemblyUniqueIdentifier(name, assemblyVersion, culture, publicKey);
         }
 
+        public static IAssemblyUniqueIdentifier Assembly(string name, Version assemblyVersion, ICultureIdentifier culture, byte[] publicKey = null)
+        {
+            if (publicKey != null && publicKey.Length != 8)
+                throw new ArgumentOutOfRangeException("publicKey");
+            return new DefaultAssemblyUniqueIdentifier(name, new _Version(assemblyVersion), culture, publicKey);
+        }
+
         public static IGeneralDeclarationUniqueIdentifier Declaration(string name)
         {
             return new DefaultGeneralDeclarationUniqueIdentifier(name);
-        }
-
-        public static IDelegateUniqueIdentifier Delegate(string name, int typeParameterCount, IEnumerable<IType> signature)
-        {
-            return new DefaultDelegateUniqueIdentifier(name, signature, typeParameterCount);
-        }
-
-        public static IDelegateUniqueIdentifier Delegate(string name, int typeParameterCount, params IType[] signature)
-        {
-            return Delegate(name, typeParameterCount, (IEnumerable<IType>) signature);
         }
 
         public static IVersion Version(int major, int minor = 0, int build = 0, int revision = 0)

@@ -12,6 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public abstract class CliMetadataBlobTypeHeaderAndHeap<T> :
         CliMetadataStreamHeader,
+        IDisposable,
         IEnumerable<Tuple<int, T>>
     {
         internal T[] data;
@@ -98,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 
         protected abstract int GetHashCode(T value);
 
-        #region IEnumerable<T> Members
+        //#region IEnumerable<T> Members
 
         public virtual IEnumerator<Tuple<int, T>> GetEnumerator()
         {
@@ -111,16 +112,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                 yield return new Tuple<int, T>(i, this.data[i]);
         }
 
-        #endregion
+        //#endregion
 
-        #region IEnumerable Members
+        //#region IEnumerable Members
 
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
         }
 
-        #endregion
+        //#endregion
 
         internal virtual void Read(EndianAwareBinaryReader reader)
         {
@@ -183,5 +184,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             }
         }
 
+
+        //#region IDisposable Members
+
+        public void Dispose()
+        {
+            this.data = null;
+        }
+
+        //#endregion
     }
 }

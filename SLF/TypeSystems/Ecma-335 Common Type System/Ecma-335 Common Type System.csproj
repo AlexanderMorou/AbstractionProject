@@ -33,7 +33,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
     <DefineConstants>x86</DefineConstants>
@@ -168,7 +168,11 @@
     <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\CliGateway.cs" />
     <Compile Include="Cli\ICliType.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataBlobEntry.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataBlobHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataRoot.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyProcessorTable.cs" />
@@ -260,6 +264,8 @@
     <Compile Include="Cli\Metadata\Tables\ITypeOrMethodDefRow.cs" />
     <Compile Include="Cli\Modules\ICliModule.cs" />
     <Compile Include="_Internal\Cli\CliAssembly.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomModifierSignature.cs" />
@@ -339,6 +345,7 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventMapTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventMapTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventTable.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataExportedTypeTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataExportedTypeTableRow.cs" />
@@ -364,6 +371,7 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataInterfaceImplTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionTableRow+LazyParameters.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionTableRow+LazyTypeParameters.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyFields.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyNestedClasses.cs" />
@@ -471,7 +479,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceDeclaration.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceDictionary.cs" />
-    <Compile Include="_Internal\Cli\CompiledNamespaceInfo.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceInfo.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />

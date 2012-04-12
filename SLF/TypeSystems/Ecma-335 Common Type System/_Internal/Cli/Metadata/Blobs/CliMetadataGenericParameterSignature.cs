@@ -14,13 +14,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.Position = position;
             this.Parent = parent;
         }
-        #region ICliMetadataGenericParameterSignature Members
+        //#region ICliMetadataGenericParameterSignature Members
 
         public CliMetadataGenericParameterParent Parent { get; private set; }
 
         public uint Position { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

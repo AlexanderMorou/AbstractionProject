@@ -17,10 +17,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.IsVariableArgument = isVariableArgument;
         }
 
-        #region ICliMetadataVarArgParamSignature Members
+        //#region ICliMetadataVarArgParamSignature Members
 
         public bool IsVariableArgument { get; private set; }
 
-        #endregion
+        //#endregion
     }
 }
