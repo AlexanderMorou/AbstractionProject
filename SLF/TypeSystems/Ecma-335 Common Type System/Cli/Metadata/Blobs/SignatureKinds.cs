@@ -65,5 +65,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         /// used as a function pointer.
         /// </summary>
         StandaloneSignature,
+        MemberRefSig
     }
 }

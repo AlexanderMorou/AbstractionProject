@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.IsPinned = pinned;
         }
 
-        #region ICliMetadataLocalVarFullEntrySignature Members
+        //#region ICliMetadataLocalVarFullEntrySignature Members
 
         public IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
@@ -30,6 +30,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public bool IsPinned { get; private set; }
 
-        #endregion
+        //#endregion
     }
 }

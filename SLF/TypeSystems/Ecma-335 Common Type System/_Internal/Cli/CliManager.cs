@@ -42,23 +42,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.runtimeEnvironment = runtimeEnvironment;
         }
 
-        #region ITypeIdentityManager<Type> Members
+        //#region ITypeIdentityManager<Type> Members
 
         public IType ObtainTypeReference(Type typeIdentity)
         {
             throw new NotImplementedException();
         }
 
-        #endregion
+        //#endregion
 
-        #region ITypeIdentityManager Members
+        //#region ITypeIdentityManager Members
 
         public bool IsMetadatumInheritable(IType metadatumType)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IType ObtainTypeReference(TypeSystemSpecialIdentity typeIdentity)
         {
             throw new NotImplementedException();
         }
@@ -79,9 +74,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        #endregion
+        //#endregion
 
-        #region IDisposable Members
+        //#region IDisposable Members
 
         public void Dispose()
         {
@@ -94,35 +89,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        #endregion
+        //#endregion
 
-        #region IAssemblyIdentityManager<Assembly,ICompiledAssembly> Members
+        //#region IAssemblyIdentityManager<Assembly,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
         {
             return this.ObtainAssemblyReference(assemblyIdentity.Location);
         }
 
-        #endregion
+        //#endregion
 
-        #region ICliManager Members
+        //#region ICliManager Members
         public ICliRuntimeEnvironmentInfo RuntimeEnvironment
         {
             get { return this.runtimeEnvironment; }
         }
 
-        #endregion
+        //#endregion
 
-        #region ITypeIdentityManager<string> Members
+        //#region ITypeIdentityManager<string> Members
 
         public IType ObtainTypeReference(string typeIdentity)
         {
             throw new NotImplementedException();
         }
 
-        #endregion
+        //#endregion
 
-        #region IAssemblyIdentityManager<IAssemblyUniqueIdentifier,ICompiledAssembly> Members
+        //#region IAssemblyIdentityManager<IAssemblyUniqueIdentifier,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
         {
@@ -159,10 +154,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
-        #endregion
+        //#endregion
 
 
-        #region IAssemblyIdentityManager<string,ICompiledAssembly> Members
+        //#region IAssemblyIdentityManager<string,ICompiledAssembly> Members
 
 
         /// <summary>
@@ -256,9 +251,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new BadImageFormatException("No Assembly metadata entry found.");
         }
 
-        #endregion
+        //#endregion
 
-        #region ITypeIdentityManager<CliMetadataTypeDefinitionTableRow> Members
+        //#region ITypeIdentityManager<CliMetadataTypeDefinitionTableRow> Members
 
         public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
@@ -266,9 +261,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        #endregion
+        //#endregion
 
-        #region IAssemblyIdentityManager<CliMetadataAssemblyTableRow,ICompiledAssembly> Members
+        //#region IAssemblyIdentityManager<CliMetadataAssemblyTableRow,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyTableRow assemblyIdentity)
         {
@@ -282,18 +277,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.loadedAssemblies[identity.Item2];
         }
 
-        #endregion
+        //#endregion
 
-        #region ITypeIdentityManager<CliMetadataTypeRefTableRow> Members
+        //#region ITypeIdentityManager<CliMetadataTypeRefTableRow> Members
 
         public IType ObtainTypeReference(ICliMetadataTypeRefTableRow typeIdentity)
         {
             throw new NotImplementedException();
         }
 
-        #endregion
+        //#endregion
 
-        #region IAssemblyIdentityManager<CliMetadataAssemblyRefTableRow,ICompiledAssembly> Members
+        //#region IAssemblyIdentityManager<CliMetadataAssemblyRefTableRow,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyRefTableRow assemblyIdentity)
         {
@@ -302,6 +297,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
                 return this.ObtainAssemblyReference(identity.Item2);
             return this.loadedAssemblies[identity.Item2];
+        }
+
+        //#endregion
+
+        #region ITypeIdentityManager Members
+
+
+        IStandardRuntimeEnvironmentInfo ITypeIdentityManager.RuntimeEnvironment
+        {
+            get { return this.runtimeEnvironment; }
         }
 
         #endregion

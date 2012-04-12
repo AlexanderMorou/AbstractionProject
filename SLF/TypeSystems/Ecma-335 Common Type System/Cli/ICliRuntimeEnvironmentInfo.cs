@@ -10,7 +10,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// <summary>
     /// Defines properties and methods for working with 
     /// </summary>
-    public interface ICliRuntimeEnvironmentInfo
+    public interface ICliRuntimeEnvironmentInfo :
+        IStandardRuntimeEnvironmentInfo
     {
         /// <summary>
         /// Returns whether the <see cref="ICliRuntimeEnvironmentInfo"/> 
@@ -37,20 +38,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         IEnumerable<DirectoryInfo> ResolutionPaths { get; }
 
-        /// <summary>
-        /// Returns the <see cref="IAssemblyUniqueIdentifier"/> of
-        /// the core library of the Common Language Infrastructure,
-        /// typically mscorlib.
-        /// </summary>
-        IAssemblyUniqueIdentifier CoreLibraryIdentifier { get; }
 
-        /// <summary>
-        /// Returns whether the core library identified by <see cref="CoreLibraryIdentifier"/>
-        /// is present.
-        /// </summary>
-        /// <remarks>If false, the <see cref="CoreLibraryIdentifier"/>
-        /// will return null, type identity resolution from it
-        /// will be unavailable.</remarks>
-        bool UseCoreLibrary { get; }
     }
 }

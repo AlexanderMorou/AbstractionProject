@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.PropertyType = propertyType;
         }
 
-        #region ICliMetadataPropertySignature Members
+        //#region ICliMetadataPropertySignature Members
 
         public bool Instance { get; private set; }
 
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ICliMetadataTypeSignature PropertyType { get; private set; }
 
-        #endregion
+        //#endregion
 
     }
 }

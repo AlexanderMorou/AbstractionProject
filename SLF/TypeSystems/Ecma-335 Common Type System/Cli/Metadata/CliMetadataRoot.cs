@@ -182,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                     case "#Blob":
                         if (this.blob != null)
                             goto sectionExists;
-                        this.blob = new CliMetadataBlobHeaderAndHeap(currentHeader);
+                        this.blob = new CliMetadataBlobHeaderAndHeap(currentHeader, this);
                         ScanAndReadSection(sourceImage, blob, this.blob.Read);
                         break;
                     case "#US":
@@ -247,6 +247,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             {
                 this.blob.Dispose();
                 this.blob = null;
+            }
+            if (this.strings != null)
+            {
+                this.strings.Dispose();
+                this.strings = null;
             }
             this.isDisposed = true;
         }

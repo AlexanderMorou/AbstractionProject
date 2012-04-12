@@ -16,13 +16,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.Shape = shape;
         }
 
-        #region ICliMetadataArrayTypeSignature Members
+        //#region ICliMetadataArrayTypeSignature Members
 
         public ICliMetadataArrayShapeSignature Shape { get; private set; }
 
-        #endregion
+        //#endregion
 
-        #region ICliMetadataElementTypeSignature Members
+        //#region ICliMetadataElementTypeSignature Members
 
         public TypeElementClassification Classification
         {
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ICliMetadataTypeSignature ElementType { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

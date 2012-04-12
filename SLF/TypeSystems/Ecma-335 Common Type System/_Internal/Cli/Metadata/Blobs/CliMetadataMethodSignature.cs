@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.Flags = flags;
         }
 
-        #region ICliMetadataMethodSignature Members
+        //#region ICliMetadataMethodSignature Members
 
         public ICliMetadataReturnTypeSignature ReturnType { get; private set; }
 
@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         protected abstract IEnumerable<ICliMetadataParamSignature> OnGetParameters();
 
-        #endregion
+        //#endregion
 
         public CliMetadataMethodSigConventions CallingConvention { get; private set; }
 

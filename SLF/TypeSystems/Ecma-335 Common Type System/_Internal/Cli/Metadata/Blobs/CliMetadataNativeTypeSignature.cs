@@ -15,11 +15,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.TypeKind = typeKind;
         }
 
-        #region ICliMetadataNativeTypeSignature Members
+        //#region ICliMetadataNativeTypeSignature Members
 
         public NativeTypes TypeKind { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

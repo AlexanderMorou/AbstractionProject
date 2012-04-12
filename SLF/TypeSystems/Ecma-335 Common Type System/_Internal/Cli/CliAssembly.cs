@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private _AssemblyInformation assemblyInformation;
         private IStrongNamePublicKeyInfo strongNameInfo;
         private IAssemblyUniqueIdentifier uniqueIdentifier;
-        private KeyedTree<uint, CliNamespaceInfo> namespaceInformation;
+        private CliNamespaceKeyedTree namespaceInformation;
 
         public CliAssembly(string location, CliManager identityManager, CliMetadataRoot metadataRoot, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
@@ -35,10 +35,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.uniqueIdentifier = uniqueIdentifier;
             this.strongNameInfo = strongNameInfo;
             this.identityManager = identityManager;
-            Stopwatch sw = Stopwatch.StartNew();
-            this.InitializeCommon();
-            sw.Stop();
-            Console.WriteLine(sw.Elapsed);
         }
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
@@ -136,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.uniqueIdentifier; }
         }
 
-        //#region ICompiledAssembly Members
+        ////#region ICompiledAssembly Members
 
         public ICliRuntimeEnvironmentInfo RuntimeEnvironment
         {
@@ -155,16 +151,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
+        private int _CompareTo_(CliMetadataTypeDefinitionTableRow leftRow, CliMetadataTypeDefinitionTableRow rightRow)
+        {
+            return leftRow.Name.CompareTo(rightRow.Name);
+        }
+
         private void InitializeCommon()
         {
             var typeTable = (CliMetadataTypeDefinitionTable) metadataRoot.TableStream.TypeDefinitionTable;
             if (typeTable == null)
                 return;
-            /* *
-             * We're doing a scan of all namespace names,
-             * thus reading them in, in one shot, would 
-             * save on frequent seeks and other checks.
-             * */
             HashSet<uint> namespaceIndices = new HashSet<uint>();
 
             Dictionary<uint, CliMetadataTypeDefinitionTableRow[]> nonNestedTypes = new Dictionary<uint, CliMetadataTypeDefinitionTableRow[]>();
@@ -172,6 +168,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             /* *
              * Breakdown the types by their namespace index, and
              * create a unique list of namespaceIndices via a HashSet<T>.
+             * *
+             * Copy the table to a local set to avoid redundant load
+             * checks, and to instruct it to read the full table sequentially.
              * */
             ICliMetadataTypeDefinitionTableRow[] types = new ICliMetadataTypeDefinitionTableRow[typeTable.Count];
             typeTable.CopyTo(types, 0);
@@ -198,7 +197,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             var namespaceIndicesArray = namespaceIndices.ToArray();
 
-            KeyedTree<uint, CliNamespaceInfo> partialOrFullNamespaces = new KeyedTree<uint, CliNamespaceInfo>();
+            CliMetadataTypeDefinitionTableRow[] topLevelRows;
+            if (nonNestedTypes.TryGetValue(0, out topLevelRows))
+            {
+                int topLevelCount = nonNestedCounts[0];
+                if (topLevelRows.Length != topLevelCount)
+                {
+                    CliMetadataTypeDefinitionTableRow[] topLevelRowsActual = new CliMetadataTypeDefinitionTableRow[topLevelCount];
+                    Array.ConstrainedCopy(topLevelRows, 0, topLevelRowsActual, 0, topLevelCount);
+                    Array.Sort(topLevelRowsActual, _CompareTo_);
+                    topLevelRows = topLevelRowsActual;
+                }
+            }
+            else
+                topLevelRows = new CliMetadataTypeDefinitionTableRow[0];
+
+            CliNamespaceKeyedTree partialOrFullNamespaces = new CliNamespaceKeyedTree(topLevelRows);
             Dictionary<string, uint> partIndex = new Dictionary<string, uint>();
             for (int i = 0; i < namespaceIndicesArray.Length; i++)
             {
@@ -211,15 +225,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                  * Eliminate the null row entries by reducing the sizes
                  * of the arrays.
                  * */
+                if (currentIndex == 0)
+                    continue;
                 if (currentRows.Length != currentCount)
                 {
                     var currentRowsCopy = new CliMetadataTypeDefinitionTableRow[currentCount];
                     Array.ConstrainedCopy(currentRows, 0, currentRowsCopy, 0, currentCount);
+                    Array.Sort(currentRowsCopy, _CompareTo_);
                     currentRows = currentRowsCopy;
                 }
 
-
-                KeyedTree<uint, CliNamespaceInfo> current = partialOrFullNamespaces;
+                CliNamespaceKeyedTree current = partialOrFullNamespaces;
                 string[] breakdown = currentString.Split(new[] { "." }, StringSplitOptions.None);
                 int currentLength = 0;
                 bool first = true;
@@ -245,17 +261,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     int startIndex = currentLength;
                     currentLength += part.Length;
                     bool fullName = currentLength == currentString.Length;
-                    KeyedTreeNode<uint, CliNamespaceInfo> next;
+                    CliNamespaceKeyedTreeNode next;
                     if (!current.TryGetValue(partId, out next))
                         if (fullName)
-                            current = current.Add(partId, new CliNamespaceInfo(currentIndex, startIndex, currentLength - startIndex, currentRows));
+                            current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex, currentRows);
                         else
-                            current = current.Add(partId, new CliNamespaceInfo(currentIndex, startIndex, currentLength - startIndex));
+                            current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex);
                     else
                         current = next;
                 }
             }
             this.namespaceInformation = partialOrFullNamespaces;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            this.metadataRoot = null;
+            this.namespaceInformation = null;
         }
 
     }

@@ -27,12 +27,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         private EndianAwareBinaryReader reader;
         private uint[] itemOffsets;
         private uint[] itemLengths;
+        private CliMetadataRoot metadataRoot;
         private uint _count;
         internal Dictionary<uint, ICliMetadataSignature> signatures = new Dictionary<uint, ICliMetadataSignature>();
 
-        public CliMetadataBlobHeaderAndHeap(CliMetadataStreamHeader originalHeader)
+        public CliMetadataBlobHeaderAndHeap(CliMetadataStreamHeader originalHeader, CliMetadataRoot metadataRoot)
             : base(originalHeader)
         {
+            this.metadataRoot = metadataRoot;
         }
 
         private bool ItemsEqual(byte[] item1, byte[] item2)
@@ -56,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             return data;
         }
 
-        internal T GetSignature<T>(SignatureKinds signatureKind, uint heapIndex, CliMetadataRoot metadataRoot)
+        internal T GetSignature<T>(SignatureKinds signatureKind, uint heapIndex)
             where T :
                 ICliMetadataSignature
         {
@@ -117,6 +119,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                         break;
                     case SignatureKinds.MethodSpec:
                         result = SignatureParser.ParseMethodSpec(this.reader, metadataRoot);
+                        break;
+                    case  SignatureKinds.MemberRefSig:
+                        result = SignatureParser.ParseMemberRefSig(this.reader, metadataRoot);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException("signatureKind");
@@ -213,6 +218,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             if (firstNull != 0)
                 throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
             this.AddDataSpan(byte.MinValue, 1);
+            while (this.ReadDataSpan())
+                ;
         }
 
         private bool ReadDataSpan()
@@ -244,8 +251,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             }
         }
 
-
-        #region IDisposable Members
+        //#region IDisposable Members
 
         public void Dispose()
         {
@@ -254,13 +260,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                 this.blobStream.Dispose();
                 this.blobStream = null;
             }
+            this.blobCacheData = null;
             if (this.signatures != null)
             {
                 this.signatures.Clear();
                 this.signatures = null;
             }
+            this.cachedPosToBlobDataIndexTable = null;
+            this.cachedPosToBlobInfoIndexTable = null;
         }
 
-        #endregion
+        //#endregion
     }
 }

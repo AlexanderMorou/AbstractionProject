@@ -14,10 +14,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.Signature = signature;
         }
 
-        #region ICliMetadataFunctionPointerTypeSignature Members
+        //#region ICliMetadataFunctionPointerTypeSignature Members
 
         public ICliMetadataMethodSignature Signature { get; private set; }
 
-        #endregion
+        //#endregion
     }
 }

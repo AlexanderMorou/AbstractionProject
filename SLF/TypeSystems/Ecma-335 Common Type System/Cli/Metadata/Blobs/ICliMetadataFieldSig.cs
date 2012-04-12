@@ -9,7 +9,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     public interface ICliMetadataFieldSignature :
         ICliMetadataSignature,
         ICliMetadataCustomModifierTypeSignature,
-        ICliMetadataStandAloneSignature
+        ICliMetadataStandAloneSignature,
+        ICliMetadataMemberRefSignature
     {
         /// <summary>
         /// Returns the <see cref="ICliMetadataTypeSignature"/> associated

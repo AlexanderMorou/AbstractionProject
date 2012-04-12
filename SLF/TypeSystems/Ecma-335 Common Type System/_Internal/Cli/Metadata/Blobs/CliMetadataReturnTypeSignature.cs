@@ -19,17 +19,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
         }
 
-        #region ICliMetadataReturnTypeSignature Members
+        //#region ICliMetadataReturnTypeSignature Members
 
         public ICliMetadataTypeSignature ReturnType { get; private set; }
 
-        #endregion
+        //#endregion
 
-        #region ICliMetadataCustomModifierTypeSignature Members
+        //#region ICliMetadataCustomModifierTypeSignature Members
 
         public IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

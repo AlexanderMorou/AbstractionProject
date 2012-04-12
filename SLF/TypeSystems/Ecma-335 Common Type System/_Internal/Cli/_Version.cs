@@ -15,8 +15,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             this.Major = version.Major;
             this.Minor = version.Minor;
-            this.Build = version.Build;
-            this.Revision = version.Revision;
+            this.Build = version.Build == -1 ? 0 : version.Build;
+            this.Revision = version.Revision == -1 ? 0 : version.Revision;
         }
 
         public _Version(QWordLongVersion version)
@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.Revision = revision;
         }
 
-        #region IVersion Members
+        //#region IVersion Members
 
         public int Major { get; set; }
 
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public int Revision { get; set; }
 
-        #endregion
+        //#endregion
 
         public static implicit operator _Version(Version source)
         {

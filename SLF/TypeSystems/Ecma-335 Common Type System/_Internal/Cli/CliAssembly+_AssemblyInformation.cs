@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.owner = owner;
             }
 
-            #region IAssemblyInformation Members
+            //#region IAssemblyInformation Members
 
             public string AssemblyName
             {
@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { throw new NotImplementedException(); }
             }
 
-            #endregion
+            //#endregion
         }
     }
 }

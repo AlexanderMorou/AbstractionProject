@@ -29,12 +29,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         internal static ICliMetadataMethodSignature ParseMethodSignature(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool canHaveRefContext = true)
         {
             const CliMetadataMethodSigFlags legalFlags = CliMetadataMethodSigFlags.HasThis | CliMetadataMethodSigFlags.ExplicitThis;
-            const CliMetadataMethodSigConventions legalConventions  =
-                  CliMetadataMethodSigConventions.Default           |
+            const CliMetadataMethodSigConventions legalConventions =
+                  CliMetadataMethodSigConventions.Default |
                   CliMetadataMethodSigConventions.VariableArguments |
-                  CliMetadataMethodSigConventions.Generic           |
-                  CliMetadataMethodSigConventions.StdCall           |
-                  CliMetadataMethodSigConventions.Cdecl             ;
+                  CliMetadataMethodSigConventions.Generic |
+                  CliMetadataMethodSigConventions.StdCall |
+                  CliMetadataMethodSigConventions.Cdecl;
             const int legalFirst = (int) legalFlags | (int) legalConventions;
             byte firstByte = reader.ReadByte();
             if ((firstByte & legalFirst) == 0 && firstByte != 0)
@@ -542,7 +542,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case NativeTypes.VectorArray:
                 case NativeTypes.EnumSignal:
                     return ParseType(reader, metadataRoot, false);
-                    break;
             }
             throw new BadImageFormatException("Unknown type specification format.");
         }
@@ -550,6 +549,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         internal static ICliMetadataMethodSpecSignature ParseMethodSpec(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             throw new NotImplementedException();
+        }
+
+        internal static ICliMetadataSignature ParseMemberRefSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
+        {
+            byte firstChar = (byte) (reader.PeekChar() & 0xFF);
+            switch (firstChar)
+            {
+                case (byte) CliMetadataMethodSigConventions.Default:
+                case (byte) CliMetadataMethodSigConventions.VariableArguments:
+                case (byte) CliMetadataMethodSigConventions.Generic:
+                    return ParseMethodSignature(reader, metadataRoot);
+                case (byte) SignatureKinds.FieldSig:
+                    return ParseFieldSig(reader, metadataRoot);
+            }
+            throw new BadImageFormatException("Expected Default, VarArg, or Generic calling convention, or a field sig prolog.");
         }
     }
 }

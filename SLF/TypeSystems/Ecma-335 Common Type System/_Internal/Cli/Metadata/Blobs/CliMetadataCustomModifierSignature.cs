@@ -18,13 +18,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.ModifierType = modifierType;
         }
 
-        #region ICliMetadataCustomModifierSignature Members
+        //#region ICliMetadataCustomModifierSignature Members
 
         public bool Required { get; private set; }
 
         public ITypeDefOrRefRow ModifierType { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

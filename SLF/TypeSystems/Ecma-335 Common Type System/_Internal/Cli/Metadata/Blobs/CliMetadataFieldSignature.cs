@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.IsPinned = isPinned;
         }
 
-        #region ICliMetadataFieldSignature Members
+        //#region ICliMetadataFieldSignature Members
 
         /// <summary>
         /// Returns the <see cref="ICliMetadataTypeSignature"/> associated
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public bool IsPinned { get; private set; }
 
-        #endregion
+        //#endregion
 
         public override string ToString()
         {

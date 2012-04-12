@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.Parameters = new ReadOnlyCollection<ICliMetadataVarArgParamSignature>(parameters);
         }
 
-        #region ICliMetadataStandAloneVarArgMethodSignature Members
+        //#region ICliMetadataStandAloneVarArgMethodSignature Members
 
         public ICliMetadataReturnTypeSignature ReturnType { get; private set; }
 
@@ -29,13 +29,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public CliMetadataMethodSigFlags Flags { get; private set; }
 
-        #endregion
+        //#endregion
         public override string ToString()
         {
             return string.Format("{0} ({1})", ReturnType, string.Join<ICliMetadataVarArgParamSignature>(", ", Parameters));
         }
 
-        #region ICliMetadataMethodSignature Members
+        //#region ICliMetadataMethodSignature Members
 
 
         IEnumerable<ICliMetadataParamSignature> ICliMetadataMethodSignature.Parameters
@@ -45,6 +45,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
         }
 
-        #endregion
+        //#endregion
     }
 }
