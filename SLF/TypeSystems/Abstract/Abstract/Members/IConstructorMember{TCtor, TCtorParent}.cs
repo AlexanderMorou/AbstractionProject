@@ -17,8 +17,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     /// <typeparam name="TCtor">The type of <see cref="IConstructorMember{TCtor, TCtorParent}"/>
     /// in the current implementation.</typeparam>
-    /// <typeparam name="TCtorParentIdentifier">The type of <see cref="ITypeUniqueIdentifier{TIdentifier}"/>
-    /// which represents the uniqueness of the parent relative to its siblings.</typeparam>
     /// <typeparam name="TCtorParent">The type of <see cref="ICreatableParent{TCtor, TCtorParent}"/>
     /// that contains the <typeparamref name="TCtor"/> instances.</typeparam>
     public interface IConstructorMember<TCtor, TCtorParent> :

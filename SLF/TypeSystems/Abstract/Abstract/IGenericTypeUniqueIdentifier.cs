@@ -9,8 +9,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with
     /// a generic type unique identifier.
     /// </summary>
-    /// <typeparam name="TIdentifier">The specific kind of unique identifier
-    /// used for comparison purposes.</typeparam>
     public interface IGenericTypeUniqueIdentifier :
         ITypeUniqueIdentifier,
         IGenericParamParentUniqueIdentifier

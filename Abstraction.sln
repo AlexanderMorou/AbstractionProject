@@ -38,9 +38,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract Syntax Tree", "SLF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecma-335 Common Type System", "SLF\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj", "{D455D4FF-54FD-431E-BD27-43DA130A0FAA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli² Type System Test", "Supplementary Projects\Cli² Type System Test\Cli² Type System Test.csproj", "{54398E20-2E0F-4E98-8670-69C89B346CB0}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
 		SccLocalPath0 = .
@@ -84,6 +86,10 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
 		SccProjectName10 = SLF/TypeSystems/Ecma-335\u0020Common\u0020Type\u0020System
 		SccLocalPath10 = SLF\\TypeSystems\\Ecma-335\u0020Common\u0020Type\u0020System
+		SccProjectUniqueName11 = Supplementary\u0020Projects\\Cli²\u0020Type\u0020System\u0020Test\\Cli²\u0020Type\u0020System\u0020Test.csproj
+		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
+		SccProjectName11 = Supplementary\u0020Projects/Cli²\u0020Type\u0020System\u0020Test
+		SccLocalPath11 = Supplementary\u0020Projects\\Cli²\u0020Type\u0020System\u0020Test
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -173,6 +179,14 @@ Global
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Release|x64.Build.0 = Release|x64
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Release|x86.ActiveCfg = Release|x86
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Release|x86.Build.0 = Release|x86
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x64.ActiveCfg = Debug|x64
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x64.Build.0 = Debug|x64
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x86.ActiveCfg = Debug|x86
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x86.Build.0 = Debug|x86
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x64.ActiveCfg = Release|x64
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x64.Build.0 = Release|x64
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x86.ActiveCfg = Release|x86
+		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -191,6 +205,7 @@ Global
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{6F404D32-4996-47B5-BADA-33BB8DD37160} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
+		{54398E20-2E0F-4E98-8670-69C89B346CB0} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}
 	EndGlobalSection
