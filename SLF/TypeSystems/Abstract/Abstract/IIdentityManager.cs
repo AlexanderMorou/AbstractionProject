@@ -5,24 +5,13 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    public enum TypeSystemSpecialIdentity
-    {
-        ArrayType,
-        NullableType,
-        NullableBaseType,
-        AsynchronousTask,
-        AsynchronousTaskOfT,
-        VoidType,
-        CompilerGeneratedMetadatum,
-        RootType
-    }
-
     public interface IIdentityManager<TTypeIdentity, TAssemblyIdentity, TAssembly> :
         ITypeIdentityManager<TTypeIdentity>,
         IAssemblyIdentityManager<TAssemblyIdentity, TAssembly>
         where TAssembly :
             IAssembly
     {
+
     }
 
     /// <summary>
@@ -107,17 +96,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>true if the <paramref name="metadatumType"/>
         /// is inheritable; false, otherwise.</returns>
         bool IsMetadatumInheritable(IType metadatumType);
-
         /// <summary>
-        /// Returns the <see cref="IType"/> from the <paramref name="typeIdentity"/>
-        /// from the underlying model in which it exists.
+        /// Returns the <see cref="IStandardRuntimeEnvironmentInfo"/> necessary to 
+        /// identify the target runtime.
         /// </summary>
-        /// <param name="typeIdentity">The <see cref="TypeSystemSpecialIdentity"/>
-        /// that represents the type's special identity in the base
-        /// model on which the <see cref="IType"/> is defined.
-        /// </param>
-        /// <returns>An <see cref="IType"/> instance relative to the
-        /// <paramref name="typeIdentity"/> provided.</returns>
-        IType ObtainTypeReference(TypeSystemSpecialIdentity typeIdentity);
+        IStandardRuntimeEnvironmentInfo RuntimeEnvironment { get; }
+
     }
 }

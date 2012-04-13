@@ -6,10 +6,13 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    /// <summary>
+    /// Defines properties and methods for working with the unique identifier
+    /// of a generic parameter.
+    /// </summary>
     public interface IGenericParameterUniqueIdentifier :
         ITypeUniqueIdentifier,
         IMemberUniqueIdentifier,
-        IGeneralTypeUniqueIdentifier,
         IGeneralMemberUniqueIdentifier,
         IEquatable<IGenericParameterUniqueIdentifier>
     {

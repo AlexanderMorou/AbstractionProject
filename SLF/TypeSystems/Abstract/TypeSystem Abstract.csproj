@@ -109,12 +109,11 @@
     <Compile Include="Abstract\Documentation\IPropertyDocComment.cs" />
     <Compile Include="Abstract\Documentation\ISignatureMemberDocComment.cs" />
     <Compile Include="Abstract\IAssemblyUniqueIdentifier.cs" />
-    <Compile Include="Abstract\IDelegateUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGeneralDeclarationUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGeneralGenericTypeUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGeneralTypeUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGenericParameterUniqueIdentifier.cs" />
-    <Compile Include="Abstract\IGenericParamParentUniqueIdentifier{TIdentifier}.cs" />
+    <Compile Include="Abstract\IGenericParamParentUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGroupedTypeDictionary.cs" />
     <Compile Include="Abstract\IIdentityManager.cs" />
     <Compile Include="Abstract\IModifiersAndAttributesMetadata.cs" />
@@ -148,6 +147,7 @@
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
     <Compile Include="Abstract\Members\IGenericParameterPropertyMethodMember{1}.cs" />
+    <Compile Include="Abstract\IStandardRuntimeEnvironmentInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

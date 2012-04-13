@@ -11,8 +11,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Modules
         IModule
     {
         /// <summary>
-        /// Returns the <see cref=""/>
+        /// Returns the <see cref="ICliMetadataModuleTableRow"/>
+        /// in which the <see cref="ICliModule"/> is defined.
         /// </summary>
         ICliMetadataModuleTableRow Metadata { get; }
+        new ICliAssembly Parent { get; }
     }
 }

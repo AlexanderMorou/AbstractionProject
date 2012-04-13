@@ -6,11 +6,11 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
-    internal interface ICliMetadataBlobEntry
+    public interface ICliMetadataBlobEntry
     {
-        uint Index { get; }
         int Length { get; }
         byte LengthByteCount { get; }
         ICliMetadataSignature Signature { get; }
+        byte[] BlobData { get; }
     }
 }

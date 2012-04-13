@@ -13,23 +13,17 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
-    public sealed class CliMetadataBlobHeaderAndHeap :
+    public sealed partial class CliMetadataBlobHeaderAndHeap :
         CliMetadataStreamHeader,
         IDisposable
     {
-
-        private byte[][] blobCacheData;
-        private int[] blobCacheHashCodes;
-        private int count;
-        private Dictionary<uint, uint> cachedPosToBlobDataIndexTable = new Dictionary<uint, uint>();
-        private Dictionary<uint, uint> cachedPosToBlobInfoIndexTable = new Dictionary<uint, uint>();
         private MemoryStream blobStream;
         private EndianAwareBinaryReader reader;
-        private uint[] itemOffsets;
-        private uint[] itemLengths;
         private CliMetadataRoot metadataRoot;
-        private uint _count;
-        internal Dictionary<uint, ICliMetadataSignature> signatures = new Dictionary<uint, ICliMetadataSignature>();
+
+        private Dictionary<byte, BlobEntry> smallEntries = new Dictionary<byte, BlobEntry>();
+        private Dictionary<ushort, BlobEntry> mediumEntries = new Dictionary<ushort, BlobEntry>();
+        private Dictionary<uint, BlobEntry> largEntries = new Dictionary<uint, BlobEntry>();
 
         public CliMetadataBlobHeaderAndHeap(CliMetadataStreamHeader originalHeader, CliMetadataRoot metadataRoot)
             : base(originalHeader)
@@ -64,71 +58,105 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         {
             if (heapIndex >= this.Size)
                 throw new ArgumentOutOfRangeException("heapIndex");
-            ICliMetadataSignature result;
-            if (!signatures.TryGetValue(heapIndex, out result))
-            {
-                uint offset;
-                if (this.cachedPosToBlobInfoIndexTable.ContainsKey(heapIndex))
-                    offset = this.itemOffsets[this.cachedPosToBlobInfoIndexTable[heapIndex]];
-                if (heapIndex < this.Size)
-                {
-                    while (!this.cachedPosToBlobDataIndexTable.ContainsKey(heapIndex) &&
-                            this.ReadDataSpan())
-                        ;
-                    uint offsetIndex;
-                    if (this.cachedPosToBlobInfoIndexTable.TryGetValue(heapIndex, out offsetIndex))
-                        offset = this.itemOffsets[offsetIndex];
-                    else
-                        throw new ArgumentOutOfRangeException("heapIndex");
-                }
-                else
-                    throw new ArgumentOutOfRangeException("heapIndex");
 
-                this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
-                switch (signatureKind)
-                {
-                    case SignatureKinds.MethodDefSig:
-                        result = SignatureParser.ParseMethodDefSig(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.MethodRefSig:
-                        result = SignatureParser.ParseMethodRefSig(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.FieldSig:
-                        result = SignatureParser.ParseFieldSig(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.PropertySig:
-                        result = SignatureParser.ParsePropertySig(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.StandaloneSignature:
-                        result = SignatureParser.ParseStandaloneSig(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.CustomModifier:
-                        result = SignatureParser.ParseCustomModifier(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.Param:
-                        result = SignatureParser.ParseParam(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.Type:
-                        result = SignatureParser.ParseType(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.ArrayShape:
-                        result = SignatureParser.ParseArrayShape(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.TypeSpec:
-                        result = SignatureParser.ParseTypeSpec(this.reader, metadataRoot);
-                        break;
-                    case SignatureKinds.MethodSpec:
-                        result = SignatureParser.ParseMethodSpec(this.reader, metadataRoot);
-                        break;
-                    case  SignatureKinds.MemberRefSig:
-                        result = SignatureParser.ParseMemberRefSig(this.reader, metadataRoot);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("signatureKind");
-                }
-                signatures.Add(heapIndex, result);
+            BlobEntry result;
+            if ((heapIndex & 0xFFFFFF00) == 0)
+            {
+                if (!smallEntries.TryGetValue((byte) heapIndex, out result))
+                    throw new IndexOutOfRangeException("heapIndex");
+                else if (result.Signature == null)
+                    LoadSignatureGeneral(signatureKind, heapIndex, result);
             }
-            return (T)result;
+            else if ((heapIndex & 0xFFFF0000) == 0)
+            {
+                if (!mediumEntries.TryGetValue((ushort) heapIndex, out result))
+                    throw new IndexOutOfRangeException("heapIndex");
+                else if (result.Signature == null)
+                    LoadSignatureGeneral(signatureKind, heapIndex, result);
+            }
+            else
+            {
+                if (!largEntries.TryGetValue(heapIndex, out result))
+                    throw new IndexOutOfRangeException("heapIndex");
+                else if (result.Signature == null)
+                    LoadSignatureGeneral(signatureKind, heapIndex, result);
+            }
+
+            return (T) result.Signature;
+        }
+
+        private void LoadSignatureGeneral(SignatureKinds signatureKind, uint heapIndex, BlobEntry entry)
+        {
+            uint offset = heapIndex + entry.LengthByteCount;
+
+            this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
+            switch (signatureKind)
+            {
+                case SignatureKinds.MethodDefSig:
+                    entry.Signature = SignatureParser.ParseMethodDefSig(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.MethodRefSig:
+                    entry.Signature = SignatureParser.ParseMethodRefSig(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.FieldSig:
+                    entry.Signature = SignatureParser.ParseFieldSig(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.PropertySig:
+                    entry.Signature = SignatureParser.ParsePropertySig(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.StandaloneSignature:
+                    entry.Signature = SignatureParser.ParseStandaloneSig(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.CustomModifier:
+                    entry.Signature = SignatureParser.ParseCustomModifier(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.Param:
+                    entry.Signature = SignatureParser.ParseParam(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.Type:
+                    entry.Signature = SignatureParser.ParseType(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.ArrayShape:
+                    entry.Signature = SignatureParser.ParseArrayShape(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.TypeSpec:
+                    entry.Signature = SignatureParser.ParseTypeSpec(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.MethodSpec:
+                    entry.Signature = SignatureParser.ParseMethodSpec(this.reader, metadataRoot);
+                    break;
+                case SignatureKinds.MemberRefSig:
+                    entry.Signature = SignatureParser.ParseMemberRefSig(this.reader, metadataRoot);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("signatureKind");
+            }
+        }
+
+        public ICliMetadataBlobEntry GetEntry(uint heapIndex)
+        {
+            BlobEntry result;
+            if ((heapIndex & 0xFFFFFF00) == 0)
+            {
+                if (!this.smallEntries.TryGetValue((byte) heapIndex, out result))
+                    throw new ArgumentOutOfRangeException("index");
+                else
+                    return result;
+            }
+            else if ((heapIndex & 0xFFFF0000) == 0)
+            {
+                if (!this.mediumEntries.TryGetValue((ushort) heapIndex, out result))
+                    throw new ArgumentOutOfRangeException("index");
+                else
+                    return result;
+            }
+            else
+            {
+                if (!this.largEntries.TryGetValue(heapIndex, out result))
+                    throw new ArgumentOutOfRangeException("index");
+                else
+                    return result;
+            }
         }
 
         protected int GetHashCode(byte[] value)
@@ -146,64 +174,50 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             return result;
         }
 
-        public uint AddDataSpan(uint length, byte compressedByteSize)
-        {
-            this.itemOffsets = itemOffsets.EnsureSpaceExists((int) this._count, 2);
-            this.itemLengths = itemLengths.EnsureSpaceExists((int) this._count, 2);
-            uint offset = 0;
-            if (this._count > 0)
-                offset = this.itemOffsets[this._count];
-            cachedPosToBlobInfoIndexTable.Add(offset, this._count);
-            itemOffsets[this._count] = offset + compressedByteSize;
-            itemLengths[this._count++] = length;
-            itemOffsets[this._count] = offset + length + compressedByteSize;
-            return (uint) this._count - 1;
-        }
-
-        public uint AddData(byte[] value, uint offset)
-        {
-            this.blobCacheData = this.blobCacheData.EnsureSpaceExists(count, 1);
-            this.blobCacheHashCodes = this.blobCacheHashCodes.EnsureSpaceExists(count, 1);
-            cachedPosToBlobDataIndexTable.Add(offset, (uint) count);
-            this.blobCacheData[count] = value;
-            this.blobCacheHashCodes[count] = GetHashCode(value);
-            return (uint) count++;
-        }
-
         public byte[] this[uint index]
         {
             get
             {
                 if (index >= this.Size)
                     throw new ArgumentOutOfRangeException("index");
-                uint offset;
-                uint offsetIndex;
-                if (this.cachedPosToBlobInfoIndexTable.TryGetValue(index, out offsetIndex))
-                    offset = itemOffsets[offsetIndex];
-                else if (index < this.Size)
+                BlobEntry result;
+                if ((index & 0xFFFFFF00) == 0)
                 {
-                    while (!this.cachedPosToBlobInfoIndexTable.ContainsKey(index) &&
-                            this.ReadDataSpan())
-                        ;
-                    if (this.cachedPosToBlobInfoIndexTable.TryGetValue(index, out offsetIndex))
-                        offset = this.itemOffsets[offsetIndex];
-                    else
+                    if (!this.smallEntries.TryGetValue((byte) index, out result))
                         throw new ArgumentOutOfRangeException("index");
+                    else
+                        return LoadBlobDataGeneral(index, ref result);
                 }
-                else
-                    throw new ArgumentOutOfRangeException("index");
-                uint cachedBlobIndex;
-                if (cachedPosToBlobDataIndexTable.TryGetValue(index, out cachedBlobIndex))
-                    return this.blobCacheData[cachedBlobIndex];
+                else if ((index & 0xFFFF0000) == 0)
+                {
+                    if (!this.mediumEntries.TryGetValue((ushort) index, out result))
+                        throw new ArgumentOutOfRangeException("index");
+                    else
+                        return LoadBlobDataGeneral(index, ref result);
+                }
                 else
                 {
-                    byte[] result = new byte[this.itemLengths[offsetIndex]];
-                    this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
-                    this.reader.Read(result, 0, result.Length);
-                    this.AddData(result, index);
-                    return result;
+                    if (!this.largEntries.TryGetValue(index, out result))
+                        throw new ArgumentOutOfRangeException("index");
+                    else
+                        return LoadBlobDataGeneral(index, ref result);
                 }
+
             }
+        }
+
+        private byte[] LoadBlobDataGeneral(uint index, ref BlobEntry result)
+        {
+            if (result.BlobData == null)
+            {
+                this.reader.BaseStream.Seek(index + result.LengthByteCount, SeekOrigin.Begin);
+                byte[] resultBlob = new byte[result.Length];
+                reader.Read(resultBlob, 0, result.Length);
+                result.BlobData = resultBlob;
+                return resultBlob;
+            }
+            else
+                return result.BlobData;
         }
 
         internal void Read(EndianAwareBinaryReader reader)
@@ -217,26 +231,24 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             byte firstNull = (byte) (this.reader.PeekChar() & 0xFF);
             if (firstNull != 0)
                 throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
-            this.AddDataSpan(byte.MinValue, 1);
-            while (this.ReadDataSpan())
-                ;
-        }
+            this.smallEntries.Add(0, new BlobEntry(1) { BlobData = new byte[] { this.reader.ReadByte() } });
+            byte currentItemLengthWidth;
+            long currentPosition = 1;
+            while (currentPosition < this.Size)
+            {
+                int currentLength = CliMetadataRoot.ReadCompressedUnsignedInt(this.reader, out currentItemLengthWidth);
+                if ((currentPosition & 0xFFFFFF00) == 0)
+                    this.smallEntries.Add((byte) currentPosition, new BlobEntry(currentLength));
+                else if ((currentPosition & 0xFFFF0000) == 0)
+                    this.mediumEntries.Add((ushort) currentPosition, new BlobEntry(currentLength));
+                else
+                    this.largEntries.Add((uint) currentPosition, new BlobEntry(currentLength));
+                if (currentPosition + currentItemLengthWidth + currentLength > this.Size)
+                    break;
+                currentPosition += currentItemLengthWidth + currentLength;
+                this.reader.BaseStream.Seek(currentLength, SeekOrigin.Current);
 
-        private bool ReadDataSpan()
-        {
-            uint offset;
-            if (this.itemLengths == null)
-                offset = 0;
-            else
-                offset = this.itemOffsets[this._count];
-            this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
-            int currentLength = 0;
-            byte compressedIntBytes = 0;
-            currentLength = CliMetadataRoot.ReadCompressedUnsignedInt(reader, out compressedIntBytes);
-            if (currentLength + offset + compressedIntBytes >= this.Size)
-                return false;
-            this.AddDataSpan((uint) currentLength, compressedIntBytes);
-            return true;
+            }
         }
 
         private uint _Size { get { return base.Size; } }
@@ -251,7 +263,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             }
         }
 
-        //#region IDisposable Members
 
         public void Dispose()
         {
@@ -260,16 +271,28 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                 this.blobStream.Dispose();
                 this.blobStream = null;
             }
-            this.blobCacheData = null;
-            if (this.signatures != null)
+            if (this.reader != null)
             {
-                this.signatures.Clear();
-                this.signatures = null;
+                this.reader.Close();
+                this.reader.Dispose();
+                this.reader = null;
             }
-            this.cachedPosToBlobDataIndexTable = null;
-            this.cachedPosToBlobInfoIndexTable = null;
+            if (this.smallEntries != null)
+            {
+                this.smallEntries.Clear();
+                this.smallEntries = null;
+            }
+            if (this.mediumEntries != null)
+            {
+                this.mediumEntries.Clear();
+                this.mediumEntries = null;
+            }
+            if (this.largEntries != null)
+            {
+                this.largEntries.Clear();
+                this.largEntries = null;
+            }
         }
 
-        //#endregion
     }
 }

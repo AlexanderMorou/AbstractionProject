@@ -9,7 +9,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     {
         /// <summary>
         /// Returns whether the type represented by the
-        /// <see cref="IGenericTypeUniqueIdentifier{TIdentifier}"/>
+        /// <see cref="IGenericTypeUniqueIdentifier"/>
         /// is generic or not.
         /// </summary>
         bool IsGenericConstruct { get; }
