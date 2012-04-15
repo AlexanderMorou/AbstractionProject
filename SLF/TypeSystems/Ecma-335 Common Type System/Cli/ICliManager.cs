@@ -6,9 +6,14 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using System.Reflection;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli.Modules;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
+    /// <summary>
+    /// Defines properties and methods for resolving the identities 
+    /// of entities from the Common Language Infrastructure.
+    /// </summary>
     public interface ICliManager :
         IIdentityManager<Type, Assembly, ICliAssembly>,
         IIdentityManager<string, IAssemblyUniqueIdentifier, ICliAssembly>,
@@ -32,5 +37,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// and runtimeEnvironment <see cref="ICliManager"/> is targeting.
         /// </summary>
         new ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliMetadataModuleTableRow"/> from the module
+        /// defined within the <paramref name="metadata"/> reference.
+        /// </summary>
+        /// <param name="metadata">The <see cref="ICliMetadataModuleReferenceTableRow"/>
+        /// which represents the module reference.</param>
+        /// <returns>The <see cref="ICliMetadataModuleTableRow"/> which represents
+        /// the actual module's metadata.</returns>
+        ICliMetadataModuleTableRow LoadModule(ICliMetadataModuleReferenceTableRow metadata);
     }
 }

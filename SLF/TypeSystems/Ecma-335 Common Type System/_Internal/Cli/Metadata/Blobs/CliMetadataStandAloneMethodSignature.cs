@@ -16,7 +16,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             this.CallingConvention = convention;
             this.Flags = flags;
             this.ReturnType = returnType;
-            this.Parameters = new ReadOnlyCollection<ICliMetadataVarArgParamSignature>(parameters);
+            if (parameters == null || parameters.Length == 0)
+                this.Parameters = ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>.Empty;
+            else
+                this.Parameters = new ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>(parameters);
         }
 
         //#region ICliMetadataStandAloneVarArgMethodSignature Members

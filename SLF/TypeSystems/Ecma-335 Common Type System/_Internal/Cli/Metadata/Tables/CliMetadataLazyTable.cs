@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Collections;
 using AllenCopeland.Abstraction.IO;
 using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
 {
-    public abstract class CliMetadataLazyTable<T> :
+    internal abstract class CliMetadataLazyTable<T> :
         IControlledCollection<T>,
         IControlledCollection,
         ICliMetadataTable
@@ -32,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 
         public bool Contains(T item)
         {
-            for (int i = 0; i < this.items.Length; i++)
+            for (int i = 0; i < items.Length; i++)
                 if (object.ReferenceEquals(this.items[i], item))
                     return true;
             return false;
@@ -59,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 
         public int IndexOf(T element)
         {
-            for (int i = 0; i < this.Count; i++)
+            for (int i = 0; i < items.Length; i++)
                 if (object.ReferenceEquals(this.items[i], element))
                     return i + 1;
             return -1;
@@ -80,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
                     throw new ArgumentOutOfRangeException("index");
                 if (index == this.Count + 1)
                     return default(T);
-                this.CheckItemAt((uint)index);
+                this.CheckItemAt((uint) index);
                 return this.items[index - 1];
             }
         }
@@ -99,7 +102,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         {
             if (this.items[index - 1] == null)
             {
-                //Debug.Print(string.Format("{0} reading item at index {1}.", this.GetType().Name, index));
+                if (this.items.Length <= index - 1)
+                    this.items = this.items.EnsureMinimalSpaceExists((uint) this.items.Length, (uint) ((index + 1) - this.items.Length), this.rowCount);
                 this.items[index - 1] = ReadElementAt(index);
             }
         }
@@ -114,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         {
             for (int i = 0; i < this.Count; i++)
             {
-                this.CheckItemAt((uint)i + 1);
+                this.CheckItemAt((uint) i + 1);
                 yield return this.items[i];
             }
         }
@@ -175,6 +179,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         {
             if (fullyRead)
                 return;
+            if (this.items.Length != this.rowCount)
+                this.items = this.items.EnsureMinimalSpaceExists((uint) this.items.Length, (uint) (rowCount - items.Length), (uint)this.Count);
             for (int i = 0; i < this.Count; i++)
                 this.CheckItemAt((uint) i + 1);
             fullyRead = true;

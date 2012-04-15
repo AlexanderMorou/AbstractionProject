@@ -10,14 +10,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataPropertySignature : 
         ICliMetadataPropertySignature
     {
-        internal CliMetadataPropertySignature(bool instance, IEnumerable<ICliMetadataParamSignature> parameters, IEnumerable<ICliMetadataCustomModifierSignature> customModifiers, ICliMetadataTypeSignature propertyType)
+        internal CliMetadataPropertySignature(bool instance, ICliMetadataParamSignature[] parameters, ICliMetadataCustomModifierSignature[] customModifiers, ICliMetadataTypeSignature propertyType)
         {
             this.Instance = instance;
-            this.Parameters = new ReadOnlyCollection<ICliMetadataParamSignature>(parameters.ToArray());
-            if (customModifiers == null)
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>();
+            if (parameters == null || parameters.Length == 0)
+                this.Parameters = ArrayReadOnlyCollection<ICliMetadataParamSignature>.Empty;
             else
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
+                this.Parameters = new ArrayReadOnlyCollection<ICliMetadataParamSignature>(parameters);
+            if (customModifiers == null)
+                this.CustomModifiers = ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>.Empty;
+            else
+                this.CustomModifiers = new ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
             this.PropertyType = propertyType;
         }
 

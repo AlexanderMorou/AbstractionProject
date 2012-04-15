@@ -187,6 +187,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public IGeneralDeclarationUniqueIdentifier Namespace { get; private set; }
 
             //#endregion
+
+
+
         }
 
         private class DefaultTypeUniqueIdentifier :
@@ -1153,7 +1156,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 if (@namespace == null)
                     return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name);
                 else
-                    return GetTypeIdentifier(AstIdentifier.Declaration(@namespace), name);
+                    return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name);
             }
 
             public IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name, int typeParameters)
@@ -1166,7 +1169,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 if (@namespace == null)
                     return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name, typeParameters);
                 else
-                    return GetTypeIdentifier(AstIdentifier.Declaration(@namespace), name, typeParameters);
+                    return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name, typeParameters);
             }
 
             #endregion

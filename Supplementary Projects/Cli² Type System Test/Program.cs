@@ -40,12 +40,13 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             platform = FrameworkPlatform.x64Platform;
 #endif
 
-            ICliRuntimeEnvironmentInfo runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(platform);
+            ICliRuntimeEnvironmentInfo runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(platform, useCoreLibrary: false);
             //TestExtractModuleInfo(runtimeEnvironment);
             //BCLTest(runtimeEnvironment);
             //RunTestOn(runtimeEnvironment, @"C:\Users\Allen Copeland\Desktop\Research\Stringer.exe");
+            RunTestOn(runtimeEnvironment, @"C:\windows\microsoft.net\framework\v4.0.30319\System.EnterpriseServices.dll");
             //RunTestOn(runtimeEnvironment, typeof(TestDict).Assembly.Location);
-            RunTestOn(runtimeEnvironment, ObtainFrameworkAssemblies(runtimeEnvironment).ToArray());
+            //RunTestOn(runtimeEnvironment, ObtainFrameworkAssemblies(runtimeEnvironment).ToArray());
             //TestModOptReq(runtimeEnvironment);
 
         }
@@ -55,7 +56,11 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 #if x64
             RunTestOn(runtimeEnvironment, @"C:\Windows\Microsoft.NET\Framework64\v4.0.30319\mscorlib.dll");
 #elif x86
+#if MONO
+            RunTestOn(runtimeEnvironment, @"C:\Program Files (x86)\Mono-2.10.8\lib\mono\4.0\mscorlib.dll");
+#else
             RunTestOn(runtimeEnvironment, @"C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll");
+#endif
 #endif
         }
 
@@ -66,61 +71,32 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 
         private static void RunTestOn(ICliRuntimeEnvironmentInfo runtimeEnvironment, string filename)
         {
-            var timedScanFrom = TimeAction<ICliRuntimeEnvironmentInfo, string>(ScanFrameworkAssembly, runtimeEnvironment, filename);
-            Console.ReadKey(true);
-
-            var timedScanFrom2 = TimeAction<ICliRuntimeEnvironmentInfo, string>(ScanFrameworkAssembly, runtimeEnvironment, filename);
-            Console.ReadKey(true);
-            var timedScanFrom3 = TimeAction<ICliRuntimeEnvironmentInfo, string>(ScanFrameworkAssembly, runtimeEnvironment, filename);
-
-            Console.ReadKey(true);
-
-            var timedScanFrom4 = MiscHelperMethods.TimeAction<string>(ScanFrameworkAssembly, filename);
-            Console.ReadKey(true);
-
-            Console.WriteLine("Initial test took {0}ms", timedScanFrom.TotalMilliseconds);
-            Console.WriteLine("Second test took {0}ms", timedScanFrom2.TotalMilliseconds);
-            Console.WriteLine("Third test took {0}ms", timedScanFrom3.TotalMilliseconds);
-            Console.WriteLine("Initial native test took {0}ms", timedScanFrom4.TotalMilliseconds);
-        }
-
-        private static void ScanFrameworkAssembly(ICliRuntimeEnvironmentInfo runtimeEnvironment, string filename)
-        {
-            Stopwatch timer = Stopwatch.StartNew();
-            ICliManager identityManager = CliGateway.CreateIdentityManager(runtimeEnvironment);
-
-            var assembly = identityManager.ObtainAssemblyReference(filename);
-            timer.Stop();
-            Console.Write("To load base metadata took {0}ms, ", timer.Elapsed.TotalMilliseconds);
-            var fieldMethodTime = MiscHelperMethods.TimeAction(GetFieldsAndMethods, assembly);
-            Console.Write("to read all the field, method, and property signatures took {0}ms, ", fieldMethodTime.TotalMilliseconds);
-            var disposeTime = MiscHelperMethods.TimeAction(DisposeIdentityManager, identityManager);
-            Console.WriteLine("disposal took {0}ms.", disposeTime.TotalMilliseconds);
+            RunTestOn(runtimeEnvironment, new[] { filename });
         }
 
         private static void RunTestOn(ICliRuntimeEnvironmentInfo runtimeEnvironment, IEnumerable<string> filenames)
         {
             Console.WriteLine("To begin test, press any key. . . ");
             Console.ReadKey(true);
-#if THREETIME
+
             var timedScanFrom = TimeAction<ICliRuntimeEnvironmentInfo, IEnumerable<string>>(ScanFrameworkAssemblies, runtimeEnvironment, filenames);
             Console.ReadKey(true);
-
+#if THREETIME
             var timedScanFrom2 = TimeAction<ICliRuntimeEnvironmentInfo, IEnumerable<string>>(ScanFrameworkAssemblies, runtimeEnvironment, filenames);
             Console.ReadKey(true);
-#endif
 
             var timedScanFrom3 = TimeAction<ICliRuntimeEnvironmentInfo, IEnumerable<string>>(ScanFrameworkAssemblies, runtimeEnvironment, filenames);
             Console.ReadKey(true);
+#endif
 
             var timedScanFrom4 = MiscHelperMethods.TimeAction<IEnumerable<string>>(ScanFrameworkAssemblies, filenames);
             Console.ReadKey(true);
 
-#if THREETIME
             Console.WriteLine("Initial test took {0}ms", timedScanFrom.TotalMilliseconds);
+#if THREETIME
             Console.WriteLine("Second test took {0}ms", timedScanFrom2.TotalMilliseconds);
-#endif
             Console.WriteLine("Third test took {0}ms", timedScanFrom3.TotalMilliseconds);
+#endif
             Console.WriteLine("Initial native test took {0}ms", timedScanFrom4.TotalMilliseconds);
         }
 
@@ -130,36 +106,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             action(arg1, arg2);
             sw.Stop();
             return sw.Elapsed;
-        }
-
-        private static void ScanFrameworkAssembly(string filename)
-        {
-            Assembly a;
-            try
-            {
-                a = Assembly.LoadFile(filename);
-            }
-            catch (BadImageFormatException)
-            {
-                return;
-            }
-            Stopwatch sw = Stopwatch.StartNew();
-            var fieldsQuery = (from m in a.GetModules()
-                               from t in m.GetTypes()
-                               let fieldQuery = from f in t.GetFields()
-                                                select f.FieldType
-                               let methodQuery = from meth in t.GetMethods()
-                                                 let paramQuery = from p in meth.GetParameters()
-                                                                  select p.ParameterType
-                                                 select new { Method = meth, ParameterTypes = paramQuery.ToArray() }
-                               let propertyQuery = from prop in t.GetProperties()
-                                                   let paramQuery = from p in prop.GetIndexParameters()
-                                                                    select p.ParameterType
-                                                   select new { Prop = prop, ParameterTypes = paramQuery.ToArray() }
-                               select new { Fields = fieldQuery, Methods = methodQuery }).ToArray();
-
-            sw.Stop();
-            Console.WriteLine("All field, method, and property retrieval took {0}ms", sw.Elapsed.TotalMilliseconds);
         }
 
         private static void ScanFrameworkAssemblies(IEnumerable<string> frameworkFilenames)
@@ -224,7 +170,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                 Console.WriteLine("{0} - {1}::{2}", e.Message, meth.DeclaringType.GetGenericTypeDefinition().FullName, meth.Name);
                 return new Type[0];
             }
-
         }
 
         private static void ScanFrameworkAssemblies(ICliRuntimeEnvironmentInfo environmentInfo, IEnumerable<string> frameworkFilenames)
@@ -235,34 +180,16 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             IList<ICliAssembly> assemblies = new List<ICliAssembly>();
             ScanFrameworkAssemblies(frameworkFilenames, identityManager, assemblies);
             timer.Stop();
+            foreach (var a in assemblies)
+                if (a.Modules.Count > 1)
+                    foreach (var m in a.Modules)
+                        Console.WriteLine("{1} - Module: {0}", m.Value.Name, a.Name);
             Console.Write("To load base metadata took {0}ms, ", timer.Elapsed.TotalMilliseconds);
             var fieldMethodTime = MiscHelperMethods.TimeAction(GetFieldsAndMethods, assemblies);
             Console.Write("to read all the field and method signatures took {0}ms, ", fieldMethodTime.TotalMilliseconds);
             assemblies.Clear();
             var disposeTime = MiscHelperMethods.TimeAction(DisposeIdentityManager, identityManager);
             Console.WriteLine("disposal took {0}ms.", disposeTime.TotalMilliseconds);
-        }
-
-        private static void GetFieldsAndMethods(ICliAssembly assembly)
-        {
-            if (assembly.MetadataRoot.TableStream.FieldTable != null)
-                assembly.MetadataRoot.TableStream.FieldTable.Read();
-            if (assembly.MetadataRoot.TableStream.MethodDefinitionTable != null)
-                assembly.MetadataRoot.TableStream.MethodDefinitionTable.Read();
-            if (assembly.MetadataRoot.TableStream.TypeDefinitionTable != null)
-                assembly.MetadataRoot.TableStream.TypeDefinitionTable.Read();
-            if (assembly.MetadataRoot.TableStream.PropertyMapTable != null)
-                assembly.MetadataRoot.TableStream.PropertyMapTable.Read();
-            if (assembly.MetadataRoot.TableStream.PropertyTable != null)
-                assembly.MetadataRoot.TableStream.PropertyTable.Read();
-            var typeTable = assembly.MetadataRoot.TableStream.TypeDefinitionTable;
-            if (typeTable != null)
-                (from t in typeTable
-                 let fieldQuery = from f in t.Fields
-                                  select TryGetSignature(f)
-                 let methodQuery = from m in t.Methods
-                                   select TryGetSignature(m)
-                 select new { fq = fieldQuery.ToArray(), mq = methodQuery.ToArray() }).ToArray();
         }
 
         private static void GetFieldsAndMethods(IList<ICliAssembly> assemblies)
@@ -294,7 +221,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                                         let methodQuery = from m in t.Methods
                                                           select m.Signature
                                         let propertyQuery = GetProperties(t, GetPropertyMap(t, assembly.MetadataRoot), assembly.MetadataRoot)
-                                        //orderby t.Name
                                         select new { t = t, fq = fieldQuery.ToArray(), mq = methodQuery.ToArray(), pq = propertyQuery == null ? null : propertyQuery.ToArray() }
                         //let uid = assembly.UniqueIdentifier.ToString()
                         //orderby uid
@@ -307,7 +233,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                          where sast != null
                          from sas in sast
                          select sas.Signature).Count();
-            Console.WriteLine("Member count: {0}", junk3);
+            Console.Write("(member count: {0}) ", junk3);
         }
 
         private static ICliMetadataPropertyMapTableRow GetPropertyMap(ICliMetadataTypeDefinitionTableRow typeRow, CliMetadataRoot root)
@@ -378,15 +304,11 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         private static void ScanFrameworkAssemblies(IEnumerable<string> frameworkFilenames, ICliManager identityManager, IList<ICliAssembly> assemblies)
         {
             foreach (var filename in frameworkFilenames)
-            {
                 try
                 {
                     assemblies.Add(identityManager.ObtainAssemblyReference(filename));
                 }
-                catch (BadImageFormatException)
-                {
-                }
-            }
+                catch (BadImageFormatException) { }
         }
 
         private static IEnumerable<string> ObtainFrameworkAssemblies(ICliRuntimeEnvironmentInfo environment)

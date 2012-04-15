@@ -87,13 +87,17 @@
     <Compile Include="Cli\AstIdentifier+IdentifierDefaults.cs" />
     <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\CliGateway.cs" />
+    <Compile Include="Cli\ICliDeclaration.cs" />
     <Compile Include="Cli\ICliType.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs" />
+    <Compile Include="Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Cli\Metadata\ICliMetadataBlobEntry.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataBlobHeap.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataRoot.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataStringsHeader.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyProcessorTable.cs" />
@@ -183,10 +187,12 @@
     <Compile Include="Cli\Metadata\Tables\IResolutionScopeRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ITypeDefOrRefRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ITypeOrMethodDefRow.cs" />
+    <Compile Include="Cli\Metadata\_ICliMetadataBlobEntry.cs" />
     <Compile Include="Cli\Modules\ICliModule.cs" />
     <Compile Include="_Internal\Cli\CliAssembly.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\ArrayReadOnlyCollection{T}.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomModifierSignature.cs" />
@@ -342,7 +348,7 @@
     <Compile Include="Cli\Metadata\Members\MethodSemanticsAttributes.cs" />
     <Compile Include="Cli\Metadata\PlatformInvokeAttributes.cs" />
     <Compile Include="Cli\Metadata\Tables\CliMetadataReferenceIndexSize.cs" />
-    <Compile Include="Cli\Metadata\Tables\CliMetadataLazyTable.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazyTable.cs" />
     <Compile Include="Platforms\WindowsNT\QWordLongVersion.cs" />
     <Compile Include="_Internal\Cli\CliCommon+BinaryOperatorNames.cs" />
     <Compile Include="_Internal\Cli\CliCommon+TypeCoercionNames.cs" />
@@ -401,7 +407,11 @@
     <Compile Include="_Internal\Cli\CliNamespaceDeclaration.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceDictionary.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceInfo.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
+    <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />
     <Compile Include="_Internal\Cli\_Version.cs" />

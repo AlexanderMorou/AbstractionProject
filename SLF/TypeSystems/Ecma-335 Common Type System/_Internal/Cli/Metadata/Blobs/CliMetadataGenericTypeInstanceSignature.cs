@@ -12,10 +12,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         CliMetadataValueOrClassTypeSignature,
         ICliMetadataGenericTypeInstanceSignature
     {
-        public CliMetadataGenericTypeInstanceSignature(bool isClass, ITypeDefOrRefRow genericType, IEnumerable<ICliMetadataTypeSignature> genericParameters)
+        public CliMetadataGenericTypeInstanceSignature(bool isClass, ITypeDefOrRefRow genericType, ICliMetadataTypeSignature[] genericParameters)
             : base(isClass, genericType)
         {
-            this.GenericParameters = new ReadOnlyCollection<ICliMetadataTypeSignature>(genericParameters.ToList());
+            if (genericParameters == null || genericParameters.Length == 0)
+                this.GenericParameters = ArrayReadOnlyCollection<ICliMetadataTypeSignature>.Empty;
+            else
+                this.GenericParameters = new ArrayReadOnlyCollection<ICliMetadataTypeSignature>(genericParameters);
         }
 
         //#region ICliMetadataGenericTypeInstanceSignature Members

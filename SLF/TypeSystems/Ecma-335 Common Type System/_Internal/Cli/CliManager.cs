@@ -20,6 +20,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using System.Diagnostics;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -27,7 +28,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         _ICliManager
     {
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
+
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
+        private Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>>();
+        private MultikeyedDictionary<CliAssembly, string, CliModule> moduleAssemblyIdentities = new MultikeyedDictionary<CliAssembly, string, CliModule>();
         //"System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
 
         private ICliRuntimeEnvironmentInfo runtimeEnvironment;
@@ -106,6 +110,81 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.runtimeEnvironment; }
         }
 
+
+        public ICliMetadataModuleTableRow LoadModule(ICliMetadataModuleReferenceTableRow metadata)
+        {
+            if (metadata.MetadataRoot == null)
+                throw new ArgumentException("metadata must contain proper root.");
+            ICliMetadataFileTable fileTable;
+            var relativeAssembly = GetRelativeAssembly(metadata.MetadataRoot);
+            if (relativeAssembly == null)
+                throw new ArgumentException("No assembly loaded for metadata.", "metadata");
+            if ((fileTable = metadata.MetadataRoot.TableStream.FileTable) != null)
+            {
+                fileTable.Read();
+                ICliMetadataFileTableRow toCheck = null;
+                foreach (var file in fileTable)
+                {
+                    /* *
+                     * Valid metadata.
+                     * */
+                    if (file.NameIndex == metadata.NameIndex &&
+                        file.Flags == CliMetadataFileAttributes.ContainsMetadata)
+                    {
+                        toCheck = file;
+                        break;
+                    }
+                }
+                if (toCheck == null)
+                    throw new BadImageFormatException("There is no file entry in the metadata for the module.");
+                Tuple<PEImage, CliMetadataRoot, string> valid = null;
+
+                foreach (var path in (from dirInfo in this.RuntimeEnvironment.ResolutionPaths
+                                      select dirInfo.FullName).Concat<string>(new string[] { Path.GetDirectoryName(relativeAssembly.Location) }).Distinct().ToArray())
+                {
+                    var currentFilename = string.Format("{0}{1}{2}", path, Path.DirectorySeparatorChar, toCheck.Name);
+                    if (!File.Exists(currentFilename))
+                        continue;
+                    if (this.loadedModules.ContainsKey(path))
+                    {
+                        CliModule result;
+                        if (this.moduleAssemblyIdentities.TryGetValue(relativeAssembly, currentFilename, out result))
+                            return result.Metadata;
+                    }
+                    var current = CliCommon.CheckFilename(currentFilename, false);
+                    if (current == null)
+                        continue;
+                    else
+                    {
+                        valid = Tuple.Create(current.Item3, current.Item4, current.Item6);
+                        break;
+                    }
+                }
+                if (valid == null)
+                    throw new FileNotFoundException("The file associated to the module to load cannot be found.", toCheck.Name);
+                if (valid.Item2.TableStream.ModuleTable == null ||
+                    valid.Item2.TableStream.ModuleTable.Count == 0)
+                    throw new BadImageFormatException("No module module table present in the metadata.");
+                this.loadedModules.Add(valid.Item3, valid);
+                {
+                    CliModule result;
+                    return valid.Item2.TableStream.ModuleTable[1];
+                    //this.moduleAssemblyIdentities.Add(relativeAssembly, valid.Item3, result = new CliModule(relativeAssembly, valid.Item2.TableStream.ModuleTable[1]));
+                    //return result.Metadata;
+                }
+
+            }
+            throw new NotImplementedException();
+        }
+
+        private CliAssembly GetRelativeAssembly(CliMetadataRoot root)
+        {
+            foreach (var assembly in this.loadedAssemblies.Values)
+                if (assembly.MetadataRoot == root)
+                    return assembly;
+            return null;
+        }
+
         //#endregion
 
         //#region ITypeIdentityManager<string> Members
@@ -126,12 +205,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
             {
                 var baseName = assemblyIdentity.Name;
-                Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, string> validResult = null;
+                Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
                 foreach (var path in runtimeEnvironment.ResolutionPaths)
                 {
                     foreach (var ext in extensions)
                     {
-                        var check = CliCommon.CheckFileName(path.FullName, baseName, ext);
+                        var check = CliCommon.CheckFilename(path.FullName, baseName, ext);
                         if (check != null)
                         {
                             if (check.Item1.Equals(assemblyIdentity))
@@ -144,8 +223,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (validResult != null)
                 {
-                    this.loadedAssemblies.Add(validResult.Item1, new CliAssembly(validResult.Item5, this, validResult.Item4, validResult.Item1, validResult.Item2));
-                    this.fileIdentifiers.Add(validResult.Item5, validResult.Item1);
+                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
+                    result.InitializeCommon();
+                    this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                 }
                 else
                     throw new FileNotFoundException(string.Format("Assembly {0} not found.", assemblyIdentity));
@@ -218,8 +298,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         {
                             if (metadataRoot.TableStream.ContainsKey(CliMetadataTableKinds.Assembly))
                             {
-                                var firstAssemblyEntry = metadataRoot.TableStream.AssemblyTable[1];
-                                var pubKeyId = CliCommon.GetAssemblyUniqueIdentifier(firstAssemblyEntry);
+                                var pubKeyId = CliCommon.GetAssemblyUniqueIdentifier(metadataRoot.TableStream.AssemblyTable[1]);
+                                var firstAssemblyRow = pubKeyId.Item3;
                                 IAssemblyUniqueIdentifier assemblyUniqueIdentifier = pubKeyId.Item2;
                                 if (assemblyUniqueIdentifier == null)
                                     this.ThrowNoMetadataFound();
@@ -231,7 +311,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                     metadataRoot.Dispose();
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
                                 }
-                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(filename, this, metadataRoot, assemblyUniqueIdentifier, publicKeyInfo));
+                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(filename, this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
+                                result.InitializeCommon();
                                 this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
                                 return result;
                             }
@@ -271,7 +352,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             CliAssembly result;
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
-                result = new CliAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity.MetadataRoot, identity.Item2, identity.Item1);
+                result = new CliAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity, identity.Item2, identity.Item1);
+                result.InitializeCommon();
                 this.loadedAssemblies.Add(identity.Item2, result);
             }
             return this.loadedAssemblies[identity.Item2];
@@ -310,5 +392,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
+
     }
 }

@@ -10,9 +10,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataFieldSignature :
         ICliMetadataFieldSignature
     {
-        internal CliMetadataFieldSignature(ICliMetadataTypeSignature type, IEnumerable<ICliMetadataCustomModifierSignature> modifiers, bool isPinned = false)
+        internal CliMetadataFieldSignature(ICliMetadataTypeSignature type, ICliMetadataCustomModifierSignature[] modifiers, bool isPinned = false)
         {
-            this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(modifiers.ToArray());
+            if (modifiers==null || modifiers.Length == 0)
+                this.CustomModifiers = ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>.Empty;
+            else
+                this.CustomModifiers = new ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>(modifiers.ToArray());
             this.Type = type;
             this.IsPinned = isPinned;
         }

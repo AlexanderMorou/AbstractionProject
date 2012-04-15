@@ -118,19 +118,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataReturnTypeSignature ParseReturnTypeSignature(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
-            List<ICliMetadataCustomModifierSignature> customModifiers = new List<ICliMetadataCustomModifierSignature>();
+            List<ICliMetadataCustomModifierSignature> customModifiers = null;
         parseNextCustomModifier:
             NativeTypes firstByte = (NativeTypes) (reader.PeekChar() & 0xFF);
             switch (firstByte)
             {
                 case NativeTypes.RequiredModifier:
                 case NativeTypes.OptionalModifier:
+                    if (customModifiers == null)
+                        customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto parseNextCustomModifier;
                 case NativeTypes.ByRef:
-                    return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot), customModifiers);
+                    if (customModifiers == null)
+                        return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot), null);
+                    else
+                        return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
                 case NativeTypes.TypedByReference:
-                    return new CliMetadataReturnTypeSignature(new CliMetadataNativeTypeSignature(firstByte), customModifiers);
+                    if (customModifiers == null)
+                        return new CliMetadataReturnTypeSignature(new CliMetadataNativeTypeSignature(firstByte), null);
+                    else
+                        return new CliMetadataReturnTypeSignature(new CliMetadataNativeTypeSignature(firstByte), customModifiers.ToArray());
                 case NativeTypes.Pointer:
                 case NativeTypes.Type:
                 case NativeTypes.Boolean:
@@ -158,7 +166,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case NativeTypes.VectorArray:
                 case NativeTypes.Void:
                 case NativeTypes.MethodGenericParameter:
-                    return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot, true), customModifiers);
+                    if (customModifiers == null)
+                        return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot, true), null);
+                    else
+                        return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot, true), customModifiers.ToArray());
                 default:
                     throw new BadImageFormatException("Invalid return type signature.");
             }
@@ -169,14 +180,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             var prolog = (SignatureKinds) reader.ReadByte();
             if ((prolog & SignatureKinds.FieldSig) != SignatureKinds.FieldSig)
                 throw new InvalidOperationException();
-            List<ICliMetadataCustomModifierSignature> customModifiers = new List<ICliMetadataCustomModifierSignature>();
+            List<ICliMetadataCustomModifierSignature> customModifiers = null;
         parseNextModifier:
             NativeTypes nextChar = (NativeTypes) (reader.PeekChar() & 0xFF);
             switch (nextChar)
             {
                 case NativeTypes.Pinned:
                     reader.ReadByte();
-                    return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), customModifiers, true);
+                    if (customModifiers == null)
+                        return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), null, true);
+                    else
+                        return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), customModifiers.ToArray(), true);
                 case NativeTypes.Boolean:
                 case NativeTypes.Char:
                 case NativeTypes.SByte:
@@ -204,9 +218,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case NativeTypes.Object:
                 case NativeTypes.VectorArray:
                 case NativeTypes.MethodGenericParameter:
-                    return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), customModifiers);
+                    if (customModifiers == null)
+                        return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), null);
+                    else
+                        return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
                 case NativeTypes.RequiredModifier:
                 case NativeTypes.OptionalModifier:
+                    if (customModifiers == null)
+                        customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto parseNextModifier;
             }
@@ -221,7 +240,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 throw new BadImageFormatException("Expected property or hasthis with property.");
             bool hasThis = (firstChar & (NativeTypes) CliMetadataMethodSigFlags.HasThis) == (NativeTypes) CliMetadataMethodSigFlags.HasThis;
             int paramCount = CliMetadataRoot.ReadCompressedUnsignedInt(reader);
-            IList<ICliMetadataCustomModifierSignature> customModifiers = new List<ICliMetadataCustomModifierSignature>();
+            IList<ICliMetadataCustomModifierSignature> customModifiers = null;
             ICliMetadataTypeSignature propertyType = null;
         nextChar:
             NativeTypes nextChar = (NativeTypes) (reader.PeekChar() & 0xFF);
@@ -229,6 +248,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             {
                 case NativeTypes.OptionalModifier:
                 case NativeTypes.RequiredModifier:
+                    if (customModifiers == null)
+                        customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto nextChar;
                 case NativeTypes.Boolean:
@@ -266,7 +287,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             ICliMetadataParamSignature[] parameters = new ICliMetadataParamSignature[paramCount];
             for (int i = 0; i < paramCount; i++)
                 parameters[i] = ParseParam(reader, metadataRoot);
-            return new CliMetadataPropertySignature(hasThis, parameters, customModifiers, propertyType);
+            if (customModifiers== null)
+                return new CliMetadataPropertySignature(hasThis, parameters, null, propertyType);
+            else
+                return new CliMetadataPropertySignature(hasThis, parameters, customModifiers.ToArray(), propertyType);
         }
 
         internal static ICliMetadataLocalVarSignature ParseLocalVarSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
@@ -281,7 +305,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             {
                 bool currentPinned = false;
                 ICliMetadataTypeSignature currentType = null;
-                List<ICliMetadataCustomModifierSignature> customModifiers = new List<ICliMetadataCustomModifierSignature>();
+                List<ICliMetadataCustomModifierSignature> customModifiers = null;
             parseNext:
                 NativeTypes peekChar = (NativeTypes) (reader.PeekChar() & 0xFF);
                 switch (peekChar)
@@ -318,6 +342,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                         break;
                     case NativeTypes.RequiredModifier:
                     case NativeTypes.OptionalModifier:
+                        if (customModifiers == null)
+                            customModifiers = new List<ICliMetadataCustomModifierSignature>();
                         customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                         goto parseNext;
                     case NativeTypes.Pinned:
@@ -328,7 +354,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     default:
                         break;
                 }
-                localVariables[i] = new CliMetadataLocalVarFullEntrySignature(currentType, customModifiers, currentPinned);
+                if (customModifiers == null)
+                    localVariables[i] = new CliMetadataLocalVarFullEntrySignature(currentType, null, currentPinned);
+                else
+                    localVariables[i] = new CliMetadataLocalVarFullEntrySignature(currentType, customModifiers.ToArray(), currentPinned);
                 continue;
             typedByReferenceEntry:
                 localVariables[i] = new CliMetadataLocalVarEntrySignature(CliMetadataLocalVarEntryKind.TypedReference);
@@ -352,27 +381,41 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataParamSignature ParseParam(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool varArgConvention = false, bool isVarArg = false)
         {
-            List<ICliMetadataCustomModifierSignature> customModifiers = new List<ICliMetadataCustomModifierSignature>();
+            List<ICliMetadataCustomModifierSignature> customModifiers = null;
         parseNextCustomModifier:
             NativeTypes firstByte = (NativeTypes) (reader.PeekChar() & 0xFF);
             switch (firstByte)
             {
                 case NativeTypes.RequiredModifier:
                 case NativeTypes.OptionalModifier:
+                    if (customModifiers == null)
+                        customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto parseNextCustomModifier;
                 case NativeTypes.ByRef:
-                    if (varArgConvention)
-                        return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, customModifiers);
+                    if (customModifiers == null)
+                        if (varArgConvention)
+                            return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, null);
+                        else
+                            return new CliMetadataParamSignature(ParseType(reader, metadataRoot), null);
                     else
-                        return new CliMetadataParamSignature(ParseType(reader, metadataRoot), customModifiers);
+                        if (varArgConvention)
+                            return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, customModifiers.ToArray());
+                        else
+                            return new CliMetadataParamSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
                 case NativeTypes.TypedByReference:
                 case NativeTypes.Type:
                     reader.ReadByte();
-                    if (varArgConvention)
-                        return new CliMetadataVarArgParamSignature(new CliMetadataNativeTypeSignature(firstByte), isVarArg, customModifiers);
+                    if (customModifiers == null)
+                        if (varArgConvention)
+                            return new CliMetadataVarArgParamSignature(new CliMetadataNativeTypeSignature(firstByte), isVarArg, null);
+                        else
+                            return new CliMetadataParamSignature(new CliMetadataNativeTypeSignature(firstByte), null);
                     else
-                        return new CliMetadataParamSignature(new CliMetadataNativeTypeSignature(firstByte), customModifiers);
+                        if (varArgConvention)
+                            return new CliMetadataVarArgParamSignature(new CliMetadataNativeTypeSignature(firstByte), isVarArg, customModifiers.ToArray());
+                        else
+                            return new CliMetadataParamSignature(new CliMetadataNativeTypeSignature(firstByte), customModifiers.ToArray());
                 case NativeTypes.Boolean:
                 case NativeTypes.Char:
                 case NativeTypes.SByte:
@@ -398,10 +441,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case NativeTypes.VectorArray:
                 case NativeTypes.Pointer:
                 case NativeTypes.MethodGenericParameter:
-                    if (varArgConvention)
-                        return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, customModifiers);
+                    if (customModifiers == null)
+                        if (varArgConvention)
+                            return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, null);
+                        else
+                            return new CliMetadataParamSignature(ParseType(reader, metadataRoot), null);
                     else
-                        return new CliMetadataParamSignature(ParseType(reader, metadataRoot), customModifiers);
+                        if (varArgConvention)
+                            return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, customModifiers.ToArray());
+                        else
+                            return new CliMetadataParamSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
                 default:
                     throw new BadImageFormatException("Invalid param type signature.");
             }
@@ -480,7 +529,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             throw new NotImplementedException();
         }
 
-        internal static List<ICliMetadataCustomModifierSignature> ParseCustomModifierSignatures(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
+        internal static ICliMetadataCustomModifierSignature[] ParseCustomModifierSignatures(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             List<ICliMetadataCustomModifierSignature> customModifiers = null;
             NativeTypes peekChar;
@@ -494,7 +543,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             while ((peekChar = (NativeTypes) (reader.PeekChar() & 0xFF)) == NativeTypes.OptionalModifier ||
                 peekChar == NativeTypes.RequiredModifier)
                 customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
-            return customModifiers;
+            if (customModifiers == null)
+                return null;
+            else
+                return customModifiers.ToArray();
         }
 
         internal static ITypeDefOrRefRow ParseTypeRefOrDefOrSpecEncoded(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)

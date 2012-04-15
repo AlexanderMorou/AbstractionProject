@@ -158,13 +158,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             this.depreciatedVersion.Read(reader);
             this.reserved = reader.ReadUInt32();
             this.realVersionLength = reader.ReadInt32();
-            byte[] version = new byte[(this.realVersionLength + 3) >> 2 << 2];//Make it a multiple of four.
+            byte[] version = new byte[(this.realVersionLength + 3) & ~3];//Make it a multiple of four.
             reader.Read(version, 0, version.Length);
             this.version = version;
             this.reservedFlags = reader.ReadUInt16();
             int streamCount = 0;
             streamCount = reader.ReadUInt16();
-            //var streamHeaders = new Dictionary<string, CliMetadataStreamHeader>();
 
             for (int i = 0; i < streamCount; i++)
             {

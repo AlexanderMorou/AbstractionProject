@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         CliMetadataParamSignature,
         ICliMetadataVarArgParamSignature
     {
-        internal CliMetadataVarArgParamSignature(ICliMetadataTypeSignature parameterType, bool isVariableArgument, IEnumerable<ICliMetadataCustomModifierSignature> customModifiers)
+        internal CliMetadataVarArgParamSignature(ICliMetadataTypeSignature parameterType, bool isVariableArgument, ICliMetadataCustomModifierSignature[] customModifiers)
             : base(parameterType, customModifiers)
         {
             this.IsVariableArgument = isVariableArgument;

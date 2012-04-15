@@ -10,12 +10,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataParamSignature :
         ICliMetadataParamSignature
     {
-        internal CliMetadataParamSignature(ICliMetadataTypeSignature parameterType, IEnumerable<ICliMetadataCustomModifierSignature> customModifiers)
+        internal CliMetadataParamSignature(ICliMetadataTypeSignature parameterType, ICliMetadataCustomModifierSignature[] customModifiers)
         {
-            if (customModifiers == null)
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>();
+            if (customModifiers == null || customModifiers.Length == 0)
+                this.CustomModifiers = ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>.Empty;
             else
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
+                this.CustomModifiers = new ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers);
             this.ParameterType = parameterType;
         }
 

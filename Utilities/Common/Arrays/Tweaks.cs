@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Numerics;
 using System.Runtime.CompilerServices;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 #if CODE_ANALYSIS
 /* *
  * Namespace is used to expose a singular type which emits 
@@ -48,14 +48,14 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// <returns>An array of the desired type of members.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="array"/> is null.</exception>
         /// <exception cref="System.InvalidCastException">A member from <paramref name="array"/> could not be cast to the <typeparamref name="TDesiredType"/>.</exception>
-        #if CODE_ANALYSIS
+#if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
          * This is intended to be an explicit cast, the to and from types should be 
          * expressly known.
          * */
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        #endif
+#endif
         public static TDesiredType[] Cast<TDesiredType, TOriginatingType>(this TOriginatingType[] array)
         {
             return TranslateArray<TOriginatingType, TDesiredType>
@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                     item =>
                     {
                         if (item is TDesiredType)
-                            return (TDesiredType)(object)item;
+                            return (TDesiredType) (object) item;
                         else
                             throw new InvalidCastException("A member of the source array cannot be cast to the TDesiredType");
                     }
@@ -81,20 +81,20 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// <returns>An array of members which are valid instances of <typeparamref name="TDesiredType"/>,
         /// other members being skipped.</returns>
         /// <exception cref="System.ArgumentNullException"><paramref name="array"/> is null.</exception>
-        #if CODE_ANALYSIS
+#if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
          * This is intended to be an explicit cast, the to and from types should be 
          * expressly known.
          * */
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        #endif
+#endif
         public static TDesiredType[] SlashCastArray<TDesiredType, TOriginatingType>(TOriginatingType[] array)
         {
             return TranslateFilteredArray<TOriginatingType, TDesiredType>(
-                array, 
-                k => k is TDesiredType, 
-                k => (TDesiredType)(object)k);
+                array,
+                k => k is TDesiredType,
+                k => (TDesiredType) (object) k);
         }
         /// <summary>
         /// Logically filters an array using the iteration-logic delegate provided.
@@ -123,13 +123,13 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// <param name="alterDelegate">The delegate to perform the change on the elements
         /// of <paramref name="items"/>.</param>
         /// <returns></returns>
-        #if CODE_ANALYSIS
+#if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
          * Current languages do not support outgoing type as a point of inference.
          * */
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        #endif
+#endif
         public static TDestinationItem[] TranslateArray<TSourceItem, TDestinationItem>(TSourceItem[] items, Func<TSourceItem, TDestinationItem> alterDelegate)
         {
             var resultItems = new List<TDestinationItem>(items.Length);
@@ -149,15 +149,15 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// kept in the result array.</param>
         /// <param name="translator">The delegate that alters the value of the elements in <paramref name="items"/>.</param>
         /// <returns>A new array that contains the specific items transformed as desired by the two iteration logic delegates.</returns>
-        #if CODE_ANALYSIS
+#if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
          * Current languages do not support outgoing type as a point of inference.
          * */
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        #endif
+#endif
         public static TDestinationItem[] TranslateFilteredArray<TSourceItem, TDestinationItem>
-            (TSourceItem[] items, 
+            (TSourceItem[] items,
             Predicate<TSourceItem> filter,
             Func<TSourceItem, TDestinationItem> translator)
         {
@@ -181,7 +181,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 return temp;
             }
         }
-        
+
         /// <summary>
         /// Merges a <paramref name="series"/> of arrays into a single, large, array.
         /// </summary>
@@ -189,13 +189,13 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// <param name="series">The array of arrays.</param>
         /// <returns>A new <typeparamref name="T"/> array containing all of the
         /// elements from <paramref name="series"/>.</returns>
-        #if CODE_ANALYSIS
+#if CODE_ANALYSIS
         /* *
          * Suppressed Type-Parameter inference code-analysis point.
          * Redesign not possible.
          * */
         [SuppressMessage("Microsoft.Design", "CA1004:GenericMethodsShouldProvideTypeParameter")]
-        #endif
+#endif
         public static T[] MergeArrays<T>(params T[][] series)
         {
             if (series == null)
@@ -275,7 +275,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                         yield return indices;
                 else
                     for (int upperBound = array.GetUpperBound(0); indices[0] <= upperBound; indices[0]++)
-                        yield return (int[])indices.Clone();
+                        yield return (int[]) indices.Clone();
             }
             else
             {
@@ -294,7 +294,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                     upperBounds[i] = array.GetUpperBound(i);
                 }
 
-                int[] lowerBounds = (int[])indices.Clone();
+                int[] lowerBounds = (int[]) indices.Clone();
                 bool finished = false;
                 int topRank = rank - 1;
             Repeater:
@@ -315,7 +315,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                          * Notable use case is parallel processing/initialization
                          * of an array.
                          * */
-                        yield return (int[])indices.Clone();
+                        yield return (int[]) indices.Clone();
                     /* *
                      * Move through the dimensions, starting 
                      * with the highest-order.
@@ -456,7 +456,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             int lowerSA = source.GetLowerBound(0),
                 lowerSB = source.GetLowerBound(1);
 
-            T[,] result = (T[,])(Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB }, new int[] { lowerSA, lowerSB }));
+            T[,] result = (T[,]) (Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB }, new int[] { lowerSA, lowerSB }));
             int lengthSA = upperSA + 1 - lowerSA,
                 lengthSB = upperSB + 1 - lowerSB;
             int copyMaxA = Math.Min(newLengthA, lengthSA),
@@ -536,7 +536,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                 lowerSB = source.GetLowerBound(1),
                 lowerSC = source.GetLowerBound(2);
 
-            T[, ,] result = (T[, ,])(Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB, newLengthC }, new int[] { lowerSA, lowerSB, lowerSC }));
+            T[, ,] result = (T[, ,]) (Array.CreateInstance(typeof(T), new int[] { newLengthA, newLengthB, newLengthC }, new int[] { lowerSA, lowerSB, lowerSC }));
             int lengthSA = upperSA + 1 - lowerSA,
                 lengthSB = upperSB + 1 - lowerSB,
                 lengthSC = upperSC + 1 - lowerSC;
@@ -594,6 +594,30 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                      * Ensures the next growth isn't the next item entered.
                      * */
                     newLength = (itemCount + numberOfNew) * 2;
+                var copy = new T[newLength];
+                for (int i = 0; i < series.Length; i++)
+                    copy[i] = series[i];
+                return copy;
+            }
+            return series;
+        }
+
+        internal static T[] EnsureMinimalSpaceExists<T>(this T[] series, uint itemCount, uint numberOfNew, uint maxTotal)
+        {
+            if (series == null)
+            {
+                var result = new T[(itemCount + numberOfNew) * 2];
+                return result;
+            }
+            else if (series.Length < itemCount + numberOfNew)
+            {
+                uint newLength = ((uint) series.Length) * 2;
+                if (newLength < itemCount + numberOfNew)
+                    /* *
+                     * Ensures the next growth isn't the next item entered.
+                     * */
+                    newLength = (itemCount + numberOfNew) * 2;
+                newLength = (uint) Math.Min(maxTotal, newLength);
                 var copy = new T[newLength];
                 for (int i = 0; i < series.Length; i++)
                     copy[i] = series[i];
