@@ -18,77 +18,22 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         private int count;
         private int substringCount;
         private string[] data;
-        private int[] hashCodes;
-        //private uint tailLength = 0;
         private Dictionary<uint, uint> positionToIndexTable = new Dictionary<uint, uint>();
         private EndianAwareBinaryReader reader;
-        //public uint Add(string value)
-        //{
-        //    int fullCount = count + substringCount;
-        //    this.blobCacheData = this.blobCacheData.EnsureSpaceExists(fullCount, 1);
-        //    this.blobCacheHashCodes = this.blobCacheHashCodes.EnsureSpaceExists(fullCount, 1);
-        //    cachedPosToBlobDataIndexTable.Add(tailLength, (uint) fullCount);
-        //    this.blobCacheData[fullCount] = value;
-        //    if (value == null)
-        //    {
-        //        this.blobCacheHashCodes[substringCount + count++] = -1;
-        //        tailLength++;
-        //    }
-        //    else
-        //    {
-        //        tailLength += (uint) value.Length + 1;
-        //        this.blobCacheHashCodes[substringCount + count++] = value.GetHashCode();
-        //    }
-        //    var result = tailLength;
-        //    return result;
-        //}
 
         private uint AddSubstring(string substringValue, uint position)
         {
-            int fullCount = count + substringCount;
+            int fullCount = count + substringCount++;
             this.data = this.data.EnsureSpaceExists(fullCount, 1);
-            this.hashCodes = this.hashCodes.EnsureSpaceExists(fullCount, 1);
-            positionToIndexTable.Add(position,(uint)fullCount);
+            positionToIndexTable.Add(position, (uint) fullCount);
             this.data[fullCount] = substringValue;
-            this.hashCodes[substringCount++ + count] = substringValue.GetHashCode();
             var result = position;
             return result;
         }
 
-        public void Remove(int index)
-        {
-            if (index + 1 < this.count)
-            {
-                Array.ConstrainedCopy(this.data, index + 1, this.data, index, (this.count - 1) - index);
-                Array.ConstrainedCopy(this.hashCodes, index + 1, this.hashCodes, index, (this.count - 1) - index);
-            }
-            this.data[--count] = null;
-            this.hashCodes[count] = 0;
-        }
         public CliMetadataStringsHeaderAndHeap(CliMetadataStreamHeader originalHeader)
             : base(originalHeader)
         {
-        }
-
-        public bool IsValidOffset(uint offset)
-        {
-            return this.positionToIndexTable.ContainsKey(offset) ||
-                   this.ReadSubstring(offset);
-        }
-
-        public int this[string value]
-        {
-            get
-            {
-                int hashCode = value.GetHashCode();
-                for (int i = 0; i < this.data.Length; i++)
-                {
-                    if (this.hashCodes[i] == hashCode &&
-                        this.data[i] == value)
-                        return i;
-                }
-                return -1;
-            }
         }
 
         public string this[uint index]
@@ -99,9 +44,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                     throw new ArgumentOutOfRangeException("index");
                 if (this.positionToIndexTable.ContainsKey(index))
                     return this.data[this.positionToIndexTable[index]];
-                string subString;
-                //if (this.substringIndexTable.TryGetValue(index, out subString))
-                //    return subString;
                 if (ReadSubstring(index))
                     return this.data[this.positionToIndexTable[index]];
                 throw new ArgumentOutOfRangeException("index");
@@ -142,8 +84,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
                 {
                     char* sourcePtr = (char*) convertedBytes;
                     char* convertCharsPtr = convertChars;
-                    for (int i = 0; i < resultChars.Length; i++, sourcePtr++, convertCharsPtr++)
-                        *convertCharsPtr = *sourcePtr;
+                    for (int i = 0; i < resultChars.Length; i++)
+                        *convertCharsPtr++ = *sourcePtr++;
                 }
             }
             this.AddSubstring(new string(resultChars, 0, resultChars.Length), index);
@@ -206,7 +148,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         public void Dispose()
         {
             this.data = null;
-            this.hashCodes = null;
             this.positionToIndexTable = null;
             this.reader = null;
         }

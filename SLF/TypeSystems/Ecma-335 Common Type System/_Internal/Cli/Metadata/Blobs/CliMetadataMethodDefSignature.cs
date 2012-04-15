@@ -11,10 +11,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         CliMetadataMethodSignature,
         ICliMetadataMethodDefSignature
     {
-        public CliMetadataMethodDefSignature(CliMetadataMethodSigConventions convention, CliMetadataMethodSigFlags flags, ICliMetadataReturnTypeSignature returnType, IEnumerable<ICliMetadataParamSignature> parameters)
+        public CliMetadataMethodDefSignature(CliMetadataMethodSigConventions convention, CliMetadataMethodSigFlags flags, ICliMetadataReturnTypeSignature returnType, ICliMetadataParamSignature[] parameters)
             : base(convention, flags, returnType)
         {
-            this.Parameters = new ReadOnlyCollection<ICliMetadataParamSignature>(parameters.ToArray());
+            if (parameters == null || parameters.Length == 0)
+                this.Parameters = ArrayReadOnlyCollection<ICliMetadataParamSignature>.Empty;
+            else
+                this.Parameters = new ArrayReadOnlyCollection<ICliMetadataParamSignature>(parameters);
         }
 
         protected override IEnumerable<ICliMetadataParamSignature> OnGetParameters()

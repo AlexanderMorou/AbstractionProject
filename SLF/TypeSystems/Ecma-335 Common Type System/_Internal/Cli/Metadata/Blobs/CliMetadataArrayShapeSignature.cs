@@ -12,11 +12,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataArrayShapeSignature :
         ICliMetadataArrayShapeSignature
     {
-        public CliMetadataArrayShapeSignature(uint rank, IEnumerable<uint> sizes, IEnumerable<uint> lowerBounds)
+        public CliMetadataArrayShapeSignature(uint rank, uint[] sizes, uint[] lowerBounds)
         {
             this.Rank = rank;
-            this.Sizes = new ReadOnlyCollection<uint>(sizes.ToList());
-            this.LowerBounds = new ReadOnlyCollection<uint>(lowerBounds.ToList());
+            if (sizes==null || sizes.Length == 0)
+                this.Sizes = ArrayReadOnlyCollection<uint>.Empty;
+            else
+                this.Sizes = new ArrayReadOnlyCollection<uint>(sizes.ToArray());
+            if (lowerBounds == null || lowerBounds.Length == 0)
+                this.LowerBounds = ArrayReadOnlyCollection<uint>.Empty;
+            else
+                this.LowerBounds = new ArrayReadOnlyCollection<uint>(lowerBounds.ToArray());
         }
 
         //#region ICliMetadataArrayShapeSignature Members

@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             /* *
              * Resolve the virtual address of the CliHeader, which yields
-             * the offset in the section's blobCacheData, and the section itself.
+             * the offset in the section's data, and the section itself.
              * */
             var headerSectionScan = image.ResolveRelativeVirtualAddress(image.OptionalHeader.CliHeader.RelativeVirtualAddress);
             if (!headerSectionScan.Resolved)
@@ -84,14 +84,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        internal static unsafe Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, string> CheckFileName(string directory, string filename, string extension)
+        internal static unsafe Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
         {
             string resultedFilename = MinimizeFilename(string.Format("{0}.{1}", Path.Combine(directory, filename), extension));
+            if (!File.Exists(resultedFilename))
+                return null;
+            return CheckFilename(resultedFilename);
+        }
+
+        internal unsafe static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string resultedFilename, bool loadAssemblyInfo = true)
+        {
             FileStream peStream = null;
             PEImage image = null;
             CliMetadataRoot metadataRoot = null;
-            if (!File.Exists(resultedFilename))
-                return null;
             try
             {
                 image = PEImage.LoadImage(resultedFilename, out peStream, true);
@@ -118,12 +123,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
                 metadataRoot = new CliMetadataRoot();
                 metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
-                if (metadataRoot.TableStream.AssemblyTable == null)
-                    return null;
-                var loadedUniqueId = GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(image, metadataRoot));
-                if (loadedUniqueId == null)
-                    return null;
-                return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, string>(loadedUniqueId.Item2, loadedUniqueId.Item1, image, metadataRoot, resultedFilename);
+                if (loadAssemblyInfo)
+                {
+                    if (metadataRoot.TableStream.AssemblyTable == null)
+                        return null;
+                    var loadedUniqueId = GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(image, metadataRoot));
+                    if (loadedUniqueId == null)
+                        return null;
+                    return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string>(loadedUniqueId.Item2, loadedUniqueId.Item1, image, metadataRoot, loadedUniqueId.Item3, resultedFilename);
+                }
+                else
+                    return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string>(null, null, image, metadataRoot, null, resultedFilename);
             }
             catch (BadImageFormatException)
             {
@@ -143,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier> GetAssemblyUniqueIdentifier(Tuple<PEImage, CliMetadataRoot> peAndMetadata)
+        public static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow> GetAssemblyUniqueIdentifier(Tuple<PEImage, CliMetadataRoot> peAndMetadata)
         {
             var assemblyTable = (CliMetadataAssemblyTable) peAndMetadata.Item2.TableStream[CliMetadataTableKinds.Assembly];
             if (assemblyTable.Count == 0)
@@ -153,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return GetAssemblyUniqueIdentifier(firstAssemblyRow);
         }
 
-        internal static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier> GetAssemblyUniqueIdentifier(ICliMetadataAssemblyTableRow firstAssemblyRow)
+        internal static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow> GetAssemblyUniqueIdentifier(ICliMetadataAssemblyTableRow firstAssemblyRow)
         {
             IStrongNamePublicKeyInfo publicKeyInfo;
             /* *
@@ -172,8 +182,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 culture = ValidCultureIdentifiers.TranscodeToCultureIdentifier(culture);
                 cultureId = CultureIdentifiers.GetIdentifierByName(culture);
             }
-            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.Assembly(firstAssemblyRow.Name, new _Version(firstAssemblyRow.Version), cultureId, publicKeyInfo == null ? null : publicKeyInfo.PublicToken.Token);
-            return new Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier>(publicKeyInfo, assemblyUniqueIdentifier);
+            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(firstAssemblyRow.Name, new _Version(firstAssemblyRow.Version), cultureId, publicKeyInfo == null ? null : publicKeyInfo.PublicToken.Token);
+            return Tuple.Create(publicKeyInfo, assemblyUniqueIdentifier, firstAssemblyRow);
         }
 
         internal static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier> GetAssemblyUniqueIdentifier(ICliMetadataAssemblyRefTableRow entry)
@@ -196,7 +206,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             byte[] publicKeyToken = null;
             if (publicKeyInfo == null && entry.PublicKeyOrTokenIndex != 0)
                 publicKeyToken = entry.PublicKeyOrToken;
-            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.Assembly(entry.Name, new _Version(entry.Version), cultureId, publicKeyInfo == null ? publicKeyToken : publicKeyInfo.PublicToken.Token);
+            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(entry.Name, new _Version(entry.Version), cultureId, publicKeyInfo == null ? publicKeyToken : publicKeyInfo.PublicToken.Token);
             return new Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier>(publicKeyInfo, assemblyUniqueIdentifier);
         }
 

@@ -9,9 +9,9 @@ using System.Resources;
 [assembly: AssemblyTitle("Metadata Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("None")]
 [assembly: AssemblyProduct("Metadata Library")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2011")]
+[assembly: AssemblyCopyright("Copyright © Allen Copeland Jr. 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -40,4 +40,4 @@ using System.Resources;
 #else
 [assembly: InternalsVisibleTo("_abs.slf.compilerservices, PublicKey=002400000480000094000000060200000024000052534131000400000100010009e0756ea3c80f41287e7a2b53118c84bd8c573361b8a085268d639dbb675c68adec8c1f5d750cbf75635bdae6a15635762b759daba1cdcc1439a8ab5288a0d204483205a214786c5a23e68c1f0ad76efc12061a3715a280d1ae5ee1e732a9064e826e6396fe4ba5ad62f44500dab91ef574b9e51ebe8fdd04cd356658d69cbe")]
 #endif
-[assembly: NeutralResourcesLanguageAttribute("af-ZA")]
+[assembly: NeutralResourcesLanguageAttribute("")]

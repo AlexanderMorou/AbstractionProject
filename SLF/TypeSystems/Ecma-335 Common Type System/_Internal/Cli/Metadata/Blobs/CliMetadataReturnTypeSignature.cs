@@ -10,13 +10,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataReturnTypeSignature :
         ICliMetadataReturnTypeSignature
     {
-        internal CliMetadataReturnTypeSignature(ICliMetadataTypeSignature returnType, IEnumerable<ICliMetadataCustomModifierSignature> customModifiers)
+        internal CliMetadataReturnTypeSignature(ICliMetadataTypeSignature returnType, ICliMetadataCustomModifierSignature[] customModifiers)
         {
             this.ReturnType = returnType;
             if (customModifiers == null)
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>();
+                this.CustomModifiers = ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>.Empty;
             else
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
+                this.CustomModifiers = new ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers);
         }
 
         //#region ICliMetadataReturnTypeSignature Members

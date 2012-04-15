@@ -13,13 +13,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         ICliMetadataVectorArrayTypeSignature
     {
 
-        internal CliMetadataVectorArrayTypeSignature(IEnumerable<ICliMetadataCustomModifierSignature> customModifiers, ICliMetadataTypeSignature elementType)
+        internal CliMetadataVectorArrayTypeSignature(ICliMetadataCustomModifierSignature[] customModifiers, ICliMetadataTypeSignature elementType)
             : base(TypeElementClassification.Array, elementType)
         {
             if (customModifiers == null)
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>();
+                this.CustomModifiers = ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>.Empty;
             else
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
+                this.CustomModifiers = new ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers);
         }
 
         //#region ICliMetadataCustomModifierTypeSignature Members

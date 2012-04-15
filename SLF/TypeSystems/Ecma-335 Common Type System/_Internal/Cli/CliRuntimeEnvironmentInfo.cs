@@ -13,7 +13,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CliRuntimeEnvironmentInfo :
         ICliRuntimeEnvironmentInfo
-    { // {System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a}
+    {
+        // {System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a}
         //{(00:00:00.0819367, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=5c561934e089, C:\Windows\Microsoft.NET\Framework\v1.1.4322\mscorlib.dll)}
         private const string v1_0_3705 = "v1.0.3705";
         private const string v1_1_4322 = "v1.1.4322";
@@ -25,12 +26,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private const string fr86 = "Framework";
         private const string fr64 = "Framework64";
         private static readonly byte[] corLibKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
-        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
-        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
-        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = AstIdentifier.Assembly("mscorlib", AstIdentifier.Version(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
-        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = AstIdentifier.Assembly("System", AstIdentifier.Version(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
-        private static readonly IAssemblyUniqueIdentifier systemIdentifierV2 = AstIdentifier.Assembly("System", AstIdentifier.Version(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
-        private static readonly IAssemblyUniqueIdentifier systemIdentifierV4 = AstIdentifier.Assembly("System", AstIdentifier.Version(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = AstIdentifier.GetAssemblyIdentifier("System", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier systemIdentifierV2 = AstIdentifier.GetAssemblyIdentifier("System", AstIdentifier.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
+        private static readonly IAssemblyUniqueIdentifier systemIdentifierV4 = AstIdentifier.GetAssemblyIdentifier("System", AstIdentifier.GetVersion(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private string[] additionalResolutionPaths;
 
 
@@ -205,7 +206,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Array", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Array", 0);
             }
         }
 
@@ -215,7 +217,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
             }
         }
 
@@ -225,7 +228,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
             }
         }
 
@@ -234,7 +238,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Byte", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Byte", 0);
             }
         }
 
@@ -244,7 +249,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
             }
         }
 
@@ -254,7 +260,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Enum", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Enum", 0);
             }
         }
 
@@ -264,7 +271,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Int16", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Int16", 0);
             }
         }
 
@@ -274,7 +282,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Int32", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Int32", 0);
             }
         }
 
@@ -284,7 +293,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Int64", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Int64", 0);
             }
         }
 
@@ -304,7 +314,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Nullable", 1);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Nullable", 1);
             }
         }
 
@@ -313,7 +324,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Object", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Object", 0);
             }
         }
 
@@ -323,7 +335,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "SByte", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "SByte", 0);
             }
         }
 
@@ -333,7 +346,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "UInt16", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "UInt16", 0);
             }
         }
 
@@ -343,7 +357,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "UInt32", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "UInt32", 0);
             }
         }
 
@@ -353,7 +368,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "UInt64", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "UInt64", 0);
             }
         }
 
@@ -363,7 +379,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "ValueType", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "ValueType", 0);
             }
         }
 
@@ -373,7 +390,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Void", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Void", 0);
             }
         }
 
@@ -383,7 +401,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Delegate", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Delegate", 0);
             }
         }
 
@@ -393,7 +412,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0);
-                return null;
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0);
             }
         }
 

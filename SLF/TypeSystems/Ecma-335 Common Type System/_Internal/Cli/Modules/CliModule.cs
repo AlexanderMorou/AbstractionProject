@@ -15,6 +15,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         ModuleBase,
         ICliModule
     {
+
         internal CliModule(CliAssembly owner, ICliMetadataModuleTableRow metadata)
             : base(owner)
         {
@@ -48,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         {
             get
             {
-                return AstIdentifier.Declaration(this.Metadata.Name);
+                return AstIdentifier.GetDeclarationIdentifier(this.Metadata.Name);
             }
         }
     }

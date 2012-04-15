@@ -5,11 +5,13 @@ using System.Text;
 using System.Runtime.InteropServices;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public interface ICliAssembly :
-        IAssembly
+        IAssembly,
+        ICliDeclaration<IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow>
     {
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
@@ -28,5 +30,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// is derived.
         /// </summary>
         CliMetadataRoot MetadataRoot { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliMetadataAssemblyTableRow"/> from which the
+        /// <see cref="ICliAssembly"/> is derived.
+        /// </summary>
+        ICliMetadataAssemblyTableRow Metadata { get; }
     }
 }

@@ -8,11 +8,12 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
     internal class CliMetadataLocalVarSignature :
-        ReadOnlyCollection<ICliMetadataLocalVarEntrySignature>,
+        ArrayReadOnlyCollection<ICliMetadataLocalVarEntrySignature>,
         ICliMetadataLocalVarSignature
     {
-        public CliMetadataLocalVarSignature(IEnumerable<ICliMetadataLocalVarEntrySignature> localVariables)
-            : base(localVariables.ToArray())
+        public static readonly CliMetadataLocalVarSignature Empty = new CliMetadataLocalVarSignature(new ICliMetadataLocalVarEntrySignature[0]);
+        public CliMetadataLocalVarSignature(ICliMetadataLocalVarEntrySignature[] localVariables)
+            : base(localVariables)
         {
         }
     }

@@ -13,6 +13,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using System.Reflection;
 using System.Diagnostics;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -28,10 +29,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IAssemblyUniqueIdentifier uniqueIdentifier;
         private CliNamespaceKeyedTree namespaceInformation;
 
-        public CliAssembly(string location, CliManager identityManager, CliMetadataRoot metadataRoot, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
+        private CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
+
+        public CliAssembly(string location, CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
             this.location = location;
-            this.metadataRoot = metadataRoot;
+            this.metadataRoot = metadata.MetadataRoot;
+            this.Metadata = metadata;
             this.uniqueIdentifier = uniqueIdentifier;
             this.strongNameInfo = strongNameInfo;
             this.identityManager = identityManager;
@@ -94,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IModuleDictionary InitializeModules()
         {
-            throw new NotImplementedException();
+            return new CliModuleDictionary(this);
         }
 
         protected override INamespaceDictionary InitializeNamespaces()
@@ -114,12 +118,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IAssemblyInformation OnGetAssemblyInformation()
         {
-            throw new NotImplementedException();
+            return assemblyInformation ?? (assemblyInformation = new _AssemblyInformation(this));
         }
 
         protected override IModule OnGetManifestModule()
         {
-            throw new NotImplementedException();
+            return this.Modules.Values[0];
         }
 
         protected override IStrongNamePublicKeyInfo OnGetPublicKeyInfo()
@@ -132,14 +136,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.uniqueIdentifier; }
         }
 
-        ////#region ICompiledAssembly Members
+        public CliManager IdentityManager
+        {
+            get
+            {
+                return this.identityManager;
+            }
+        }
+
+        //#region ICompiledAssembly Members
 
         public ICliRuntimeEnvironmentInfo RuntimeEnvironment
         {
             get { return this.identityManager.RuntimeEnvironment; }
         }
 
-        public ICliManager IdentityManager
+        ICliManager ICliAssembly.IdentityManager
         {
             get { return this.identityManager; }
         }
@@ -156,12 +168,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return leftRow.Name.CompareTo(rightRow.Name);
         }
 
-        private void InitializeCommon()
+        public CliNamespaceKeyedTree NamespaceInformation
         {
-            var typeTable = (CliMetadataTypeDefinitionTable) metadataRoot.TableStream.TypeDefinitionTable;
-            if (typeTable == null)
+            get
+            {
+                if (this.namespaceInformation == null)
+                    this.InitializeCommon();
+                return this.namespaceInformation;
+            }
+        }
+
+        internal void InitializeCommon()
+        {
+            ICliMetadataModuleTableRow[] modules = this.Modules.GetMetadata();
+            var typeTables = (from moduleRow in modules
+                              let ts = moduleRow.MetadataRoot.TableStream
+                              where ts.TypeDefinitionTable != null
+                              select ts.TypeDefinitionTable).ToArray();
+            if (typeTables.Length == 0)
                 return;
-            HashSet<uint> namespaceIndices = new HashSet<uint>();
+            HashSet<Tuple<int, uint>> namespaceIndices = new HashSet<Tuple<int, uint>>();
 
             Dictionary<uint, CliMetadataTypeDefinitionTableRow[]> nonNestedTypes = new Dictionary<uint, CliMetadataTypeDefinitionTableRow[]>();
             Dictionary<uint, int> nonNestedCounts = new Dictionary<uint, int>();
@@ -172,16 +198,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * Copy the table to a local set to avoid redundant load
              * checks, and to instruct it to read the full table sequentially.
              * */
-            ICliMetadataTypeDefinitionTableRow[] types = new ICliMetadataTypeDefinitionTableRow[typeTable.Count];
-            typeTable.CopyTo(types, 0);
-            for (int i = 0; i < types.Length; i++)
+
+            ICliMetadataTypeDefinitionTableRow[] types = new ICliMetadataTypeDefinitionTableRow[typeTables.Sum(p => p.Count)];
+            for (int moduleIndex = 0, cOff = 0; moduleIndex < typeTables.Length; cOff += typeTables[moduleIndex++].Count)
+                typeTables[moduleIndex].CopyTo(types, cOff);
+            for (int i = 0, moduleIndex = 0, moduleOffset = 0; i < types.Length; i++, moduleOffset++)
             {
+                if (moduleOffset >= typeTables[moduleIndex].Count)
+                {
+                    moduleIndex++;
+                    moduleOffset = 0;
+                }
                 var typeRow = types[i];
                 if ((typeRow.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.NotPublic ||
                     (typeRow.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.Public)
                 {
                     uint nsIndex = typeRow.NamespaceIndex;
-                    namespaceIndices.Add(nsIndex);
+                    namespaceIndices.Add(Tuple.Create(moduleIndex, nsIndex));
                     CliMetadataTypeDefinitionTableRow[] currentRows;
                     if (!nonNestedTypes.TryGetValue(nsIndex, out currentRows))
                     {
@@ -216,10 +249,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             Dictionary<string, uint> partIndex = new Dictionary<string, uint>();
             for (int i = 0; i < namespaceIndicesArray.Length; i++)
             {
-                uint currentIndex = namespaceIndicesArray[i];
+                uint currentIndex = namespaceIndicesArray[i].Item2;
                 var currentRows = nonNestedTypes[currentIndex];
                 var currentCount = nonNestedCounts[currentIndex];
-                string currentString = metadataRoot.StringsHeap[currentIndex];
+                string currentString = modules[namespaceIndicesArray[i].Item1].MetadataRoot.StringsHeap[currentIndex];
 
                 /* *
                  * Eliminate the null row entries by reducing the sizes
@@ -280,5 +313,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.namespaceInformation = null;
         }
 
+        public ICliMetadataAssemblyTableRow Metadata { get; private set; }
+
+        //#region ICliDeclaration Members
+
+        ICliMetadataTableRow ICliDeclaration.Metadata
+        {
+            get { return this.Metadata; }
+        }
+
+        //#endregion
+
+        internal string Location { get { return this.location; } }
     }
 }

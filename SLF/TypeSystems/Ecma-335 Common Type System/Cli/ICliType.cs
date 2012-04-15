@@ -9,7 +9,8 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public interface ICliType :
-        IType
+        IType,
+        ICliDeclaration
     {
         /// <summary>
         /// Returns the <see cref="ICliAssembly"/>
@@ -21,6 +22,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// from which the current <see cref="ICliType"/>
         /// is derived.
         /// </summary>
-        ICliMetadataTypeDefinitionTableRow Metadata { get; }
+        new ICliMetadataTypeDefinitionTableRow Metadata { get; }
     }
 }

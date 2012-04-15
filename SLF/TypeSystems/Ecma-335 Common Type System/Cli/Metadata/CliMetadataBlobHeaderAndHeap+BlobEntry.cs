@@ -9,39 +9,56 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     partial class CliMetadataBlobHeaderAndHeap
     {
-        private class BlobEntry :
-            ICliMetadataBlobEntry
+        private class SmallBlobEntry :
+            _ICliMetadataBlobEntry
         {
-            int length;
-
-            public BlobEntry(int length)
+            sbyte length;
+            public SmallBlobEntry(sbyte length)
             {
                 this.length = length;
             }
-
-            //#region ICliMetadataBlobEntry Members
-
             public int Length { get { return this.length; } }
 
-            public byte LengthByteCount
-            {
-                get
-                {
-                    int length = this.length;
-                    if ((length & 0xFFFFFF80) == 0)
-                        return 1;
-                    else if ((length & 0xFFFFFC00) == 0)
-                        return 2;
-                    else
-                        return 4;
-                }
-            }
+            public byte LengthByteCount { get { return 1; } }
 
             public ICliMetadataSignature Signature { get; set; }
 
-            public byte[] BlobData { get; internal set; }
+            public byte[] BlobData { get; set; }
 
-            //#endregion
+        }
+        private class MediumBlobEntry :
+            _ICliMetadataBlobEntry
+        {
+            short length;
+            public MediumBlobEntry(short length)
+            {
+                this.length = length;
+            }
+            public int Length { get { return this.length; } }
+
+            public byte LengthByteCount { get { return 2; } }
+
+            public ICliMetadataSignature Signature { get; set; }
+
+            public byte[] BlobData { get; set; }
+
+        }
+        private class LargeBlobEntry :
+            _ICliMetadataBlobEntry
+        {
+            int length;
+            public LargeBlobEntry(int length)
+            {
+                this.length = length;
+            }
+            public int Length { get { return this.length; } }
+
+            public byte LengthByteCount { get { return 4; } }
+
+            public ICliMetadataSignature Signature { get; set; }
+
+            public byte[] BlobData { get; set; }
+
         }
     }
 }

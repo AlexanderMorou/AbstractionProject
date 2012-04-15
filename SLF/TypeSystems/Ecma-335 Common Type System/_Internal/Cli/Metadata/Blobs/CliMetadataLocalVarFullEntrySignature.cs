@@ -11,14 +11,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         CliMetadataLocalVarEntrySignature,
         ICliMetadataLocalVarFullEntrySignature
     {
-        public CliMetadataLocalVarFullEntrySignature(ICliMetadataTypeSignature localType, IEnumerable<ICliMetadataCustomModifierSignature> customModifiers, bool pinned)
+        public CliMetadataLocalVarFullEntrySignature(ICliMetadataTypeSignature localType, ICliMetadataCustomModifierSignature[] customModifiers, bool pinned)
             : base(CliMetadataLocalVarEntryKind.Full)
         {
             this.LocalType = localType;
-            if (customModifiers == null)
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>();
+            if (customModifiers == null || customModifiers.Length == 0)
+                this.CustomModifiers = ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>.Empty;
             else
-                this.CustomModifiers = new ReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers.ToArray());
+                this.CustomModifiers = new ArrayReadOnlyCollection<ICliMetadataCustomModifierSignature>(customModifiers);
             this.IsPinned = pinned;
         }
 
