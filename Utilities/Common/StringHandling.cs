@@ -157,6 +157,8 @@ namespace AllenCopeland.Abstraction
 
         internal static string FormatHexadecimal(this byte[] array)
         {
+            if (array == null)
+                return string.Empty;
             StringBuilder sb = new StringBuilder();
             foreach (byte b in array)
                 sb.Append(((int)b).FormatHexadecimal(2));

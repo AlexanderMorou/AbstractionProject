@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf.Cli;
 
@@ -25,6 +26,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private const string v4_5 = "v4.5";
         private const string fr86 = "Framework";
         private const string fr64 = "Framework64";
+        const string s_assembly = "assembly";
+        const string s_gacEarly = "GAC";
+        const string s_gacAny = "GAC_MSIL";
+        const string s_gac32 = "GAC_32";
+        const string s_gac64 = "GAC_64";
+
         private static readonly byte[] corLibKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
@@ -43,16 +50,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <param name="platform">The <see cref="FrameworkPlatform"/> to target.</param>
         /// <param name="version">The <see cref="FrameworkVersion"/> to target.</param>
         /// <param name="useCoreLibrary">Whether to use the core library, typically mscorlib.</param>
-        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, bool useCoreLibrary)
+        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, bool useCoreLibrary, bool useGlobalAccessCache)
         {
             this.UseCoreLibrary = useCoreLibrary;
             this.ResolveCurrent = resolveCurrent;
             this.Platform = platform;
             this.Version = version;
+            this.UseGlobalAccessCache = useGlobalAccessCache;
         }
 
-        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, string[] additionalResolutionPaths, bool useCoreLibrary)
-            : this(resolveCurrent, platform, version, useCoreLibrary)
+        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, string[] additionalResolutionPaths, bool useCoreLibrary, bool useGlobalAccessCache)
+            : this(resolveCurrent, platform, version, useCoreLibrary, useGlobalAccessCache)
         {
             this.additionalResolutionPaths = additionalResolutionPaths;
         }
@@ -73,42 +81,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
-                var parts = runtimeDir.Split(Path.DirectorySeparatorChar);
-                int frIndex = -1, vIndex = -1;
-
-                for (int i = 0; i < parts.Length; i++)
-                {
-                    string current = parts[i];
-                    if (current == fr86 || current == fr64)
-                        frIndex = i;
-                    else
-                    {
-                        switch (current)
-                        {
-                            case v1_1_4322:
-                            case v1_0_3705:
-                            case v2_0_50727:
-                            case v3_0:
-                            case v3_5:
-                            case v4_0_30319:
-                            case v4_5:
-                                vIndex = i;
-                                break;
-                        }
-                    }
-                }
+                string runtimeDir;
+                string[] parts;
+                int frIndex;
+                int vIndex;
+                GetFrameworkVersionAndPlatform(out runtimeDir, out parts, out frIndex, out vIndex);
                 if (frIndex != -1 && vIndex != -1)
                 {
-                    switch (Platform)
-                    {
-                        case FrameworkPlatform.x86Platform:
-                            parts[frIndex] = fr86;
-                            break;
-                        case FrameworkPlatform.x64Platform:
-                            parts[frIndex] = fr64;
-                            break;
-                    }
+                    AdjustFrameworkPath(parts, frIndex);
                     switch (this.Version)
                     {
                         case FrameworkVersion.v1_0_3705:
@@ -130,6 +110,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         case FrameworkVersion.v3_0:
                             parts[vIndex] = v3_0;
                             yield return gdi(parts);
+                            yield return gdi(parts.Add("WPF"));
                             goto case FrameworkVersion.v2_0_50727;
                         case FrameworkVersion.v3_5:
                             parts[vIndex] = v3_5;
@@ -138,6 +119,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         case FrameworkVersion.v4_0_30319:
                             parts[vIndex] = v4_0_30319;
                             yield return gdi(parts);
+                            yield return gdi(parts.Add("WPF"));
                             break;
                         case FrameworkVersion.v4_5:
                             parts[vIndex] = v4_5;
@@ -147,6 +129,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 else
                     yield return new DirectoryInfo(runtimeDir);
+
                 if (ResolveCurrent)
                     yield return new DirectoryInfo(Directory.GetCurrentDirectory());
                 if (additionalResolutionPaths != null && additionalResolutionPaths.Length > 0)
@@ -155,6 +138,50 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         if (Directory.Exists(path))
                             yield return new DirectoryInfo(path);
+                    }
+                }
+            }
+        }
+
+        private void AdjustFrameworkPath(string[] parts, int frIndex)
+        {
+            switch (Platform)
+            {
+                case FrameworkPlatform.x86Platform:
+                    parts[frIndex] = fr86;
+                    break;
+                case FrameworkPlatform.x64Platform:
+                    parts[frIndex] = fr64;
+                    break;
+            }
+        }
+
+        private static void GetFrameworkVersionAndPlatform(out string runtimeDir, out string[] parts, out int frIndex, out int vIndex)
+        {
+            runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
+            parts = runtimeDir.Split(new char[] { Path.DirectorySeparatorChar }, StringSplitOptions.RemoveEmptyEntries);
+            frIndex = -1;
+            vIndex = -1;
+
+
+            for (int i = 0; i < parts.Length; i++)
+            {
+                string current = parts[i];
+                if (current == fr86 || current == fr64)
+                    frIndex = i;
+                else
+                {
+                    switch (current)
+                    {
+                        case v1_1_4322:
+                        case v1_0_3705:
+                        case v2_0_50727:
+                        case v3_0:
+                        case v3_5:
+                        case v4_0_30319:
+                        case v4_5:
+                            vIndex = i;
+                            break;
                     }
                 }
             }
@@ -193,6 +220,64 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region ICliRuntimeEnvironmentInfo Members
 
+
+        public bool UseGlobalAccessCache { get; private set; }
+
+        private IEnumerable<string> _gacLocationFor(IAssemblyUniqueIdentifier uniqueIdentifier)
+        {
+            string wFldr = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+            switch (this.Version & ~FrameworkVersion.ClientProfile)
+            {
+                case FrameworkVersion.v1_0_3705:
+                case FrameworkVersion.v1_1_4322:
+                    if (Platform == FrameworkPlatform.x64Platform)
+                        break;
+                    yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gacEarly, uniqueIdentifier.Name, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                    break;
+                case FrameworkVersion.v2_0_50727:
+                case FrameworkVersion.v3_0:
+                case FrameworkVersion.v3_5:
+                    switch (Platform)
+                    {
+                        case FrameworkPlatform.x86Platform:
+                            yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gac32, uniqueIdentifier.Name, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                            break;
+                        case FrameworkPlatform.x64Platform:
+                            yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gac64, uniqueIdentifier.Name, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                            break;
+                    }
+                    yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gacAny, uniqueIdentifier.Name, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                    goto case FrameworkVersion.v1_0_3705;
+                case FrameworkVersion.v4_5:
+                case FrameworkVersion.v4_0_30319:
+                    string fVer = (Version & ~FrameworkVersion.ClientProfile) == FrameworkVersion.v4_0_30319 ? "v4.0" : "v4.5";
+                    string runtimeDir;
+                    string[] parts;
+                    int frIndex;
+                    int vIndex;
+                    GetFrameworkVersionAndPlatform(out runtimeDir, out parts, out frIndex, out vIndex);
+                    parts = parts.Take(parts.Length - 2).Concat(new[] { s_assembly }).ToArray();
+                    switch (Platform)
+                    {
+                        case FrameworkPlatform.x86Platform:
+                            yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gac32, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                            break;
+                        case FrameworkPlatform.x64Platform:
+                            yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gac64, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                            break;
+                    }
+                    yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gacAny, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, uniqueIdentifier.PublicKeyToken.FormatHexadecimal());
+                    goto case FrameworkVersion.v3_5;
+            }
+
+        }
+
+        public IEnumerable<DirectoryInfo> GacLocationFor(IAssemblyUniqueIdentifier uniqueIdentifier)
+        {
+            foreach (var path in _gacLocationFor(uniqueIdentifier))
+                if (Directory.Exists(path))
+                    yield return new DirectoryInfo(path);
+        }
 
         public bool UseCoreLibrary { get; private set; }
 
@@ -235,7 +320,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ITypeUniqueIdentifier Byte
         {
-            get {
+            get
+            {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Byte", 0);
                 else
@@ -321,7 +407,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ITypeUniqueIdentifier RootType
         {
-            get {
+            get
+            {
                 if (this.UseCoreLibrary)
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Object", 0);
                 else
@@ -418,5 +505,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
+
     }
 }

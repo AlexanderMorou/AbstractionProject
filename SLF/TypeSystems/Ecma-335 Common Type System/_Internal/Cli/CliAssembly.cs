@@ -14,6 +14,8 @@ using System.Reflection;
 using System.Diagnostics;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs;
+using System.IO;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -28,7 +30,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IStrongNamePublicKeyInfo strongNameInfo;
         private IAssemblyUniqueIdentifier uniqueIdentifier;
         private CliNamespaceKeyedTree namespaceInformation;
-
+        private IReadOnlyCollection<ICliAssembly> references;
+        private bool isFromGlobalAssemblyCache;
         private CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
 
         public CliAssembly(string location, CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
@@ -144,7 +147,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        //#region ICompiledAssembly Members
+        //#region ICliAssembly Members
+
+
+        public IReadOnlyCollection<ICliAssembly> References
+        {
+            get {
+                if (this.references == null)
+                {
+                    var refTable = this.metadataRoot.TableStream.AssemblyRefTable;
+                    List<ICliAssembly> references = new List<ICliAssembly>();
+                    if (refTable != null)
+                        foreach (var reference in refTable)
+                            try
+                            {
+                                references.Add(this.IdentityManager.ObtainAssemblyReference(reference));
+                            }
+                            catch (FileNotFoundException) { }
+                    this.references = new ArrayReadOnlyCollection<ICliAssembly>(references.ToArray());
+
+                }
+                return this.references;
+            }
+        }
 
         public ICliRuntimeEnvironmentInfo RuntimeEnvironment
         {
@@ -325,5 +350,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         //#endregion
 
         internal string Location { get { return this.location; } }
+
+        internal bool IsFromGlobalAssemblyCache { get; set; }
+
+        public override string ToString()
+        {
+            return this.UniqueIdentifier.ToString();
+        }
     }
 }

@@ -44,9 +44,9 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //TestExtractModuleInfo(runtimeEnvironment);
             //BCLTest(runtimeEnvironment);
             //RunTestOn(runtimeEnvironment, @"C:\Users\Allen Copeland\Desktop\Research\Stringer.exe");
-            RunTestOn(runtimeEnvironment, @"C:\windows\microsoft.net\framework\v4.0.30319\System.EnterpriseServices.dll");
+            //RunTestOn(runtimeEnvironment, @"C:\windows\microsoft.net\framework\v4.0.30319\System.EnterpriseServices.dll");
             //RunTestOn(runtimeEnvironment, typeof(TestDict).Assembly.Location);
-            //RunTestOn(runtimeEnvironment, ObtainFrameworkAssemblies(runtimeEnvironment).ToArray());
+            RunTestOn(runtimeEnvironment, ObtainFrameworkAssemblies(runtimeEnvironment).ToArray());
             //TestModOptReq(runtimeEnvironment);
 
         }
@@ -176,20 +176,21 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         {
             Stopwatch timer = Stopwatch.StartNew();
             ICliManager identityManager = CliGateway.CreateIdentityManager(environmentInfo);
-
             IList<ICliAssembly> assemblies = new List<ICliAssembly>();
             ScanFrameworkAssemblies(frameworkFilenames, identityManager, assemblies);
             timer.Stop();
-            foreach (var a in assemblies)
-                if (a.Modules.Count > 1)
-                    foreach (var m in a.Modules)
-                        Console.WriteLine("{1} - Module: {0}", m.Value.Name, a.Name);
+            foreach (var assembly in assemblies)
+            {
+                foreach (var reference in assembly.References)
+                    ;
+            }
             Console.Write("To load base metadata took {0}ms, ", timer.Elapsed.TotalMilliseconds);
             var fieldMethodTime = MiscHelperMethods.TimeAction(GetFieldsAndMethods, assemblies);
             Console.Write("to read all the field and method signatures took {0}ms, ", fieldMethodTime.TotalMilliseconds);
             assemblies.Clear();
             var disposeTime = MiscHelperMethods.TimeAction(DisposeIdentityManager, identityManager);
             Console.WriteLine("disposal took {0}ms.", disposeTime.TotalMilliseconds);
+
         }
 
         private static void GetFieldsAndMethods(IList<ICliAssembly> assemblies)

@@ -37,7 +37,20 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// to look for assembly and type identities.
         /// </summary>
         IEnumerable<DirectoryInfo> ResolutionPaths { get; }
+        /// <summary>
+        /// Returns whether 
+        /// </summary>
+        bool UseGlobalAccessCache { get; }
 
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of <see cref="DirectoryInfo"/> structures which
+        /// define the possible locations of a given assembly within the Global Access Cache.
+        /// </summary>
+        /// <param name="uniqueIdentifier">The <see cref="IAssemblyUniqueIdentifier"/> to obtain
+        /// the potential GAC locations for.</param>
+        /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="DirectoryInfo"/> structures which
+        /// define the possible locations of a given assembly within the Global Access Cache.</returns>
+        IEnumerable<DirectoryInfo> GacLocationFor(IAssemblyUniqueIdentifier uniqueIdentifier);
 
     }
 }
