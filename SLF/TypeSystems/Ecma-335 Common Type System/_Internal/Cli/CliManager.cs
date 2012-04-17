@@ -202,28 +202,63 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             CliAssembly result;
             string[] extensions = new string[] { "exe", "dll" };
+            bool gacAssembly = false;
             if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
             {
                 var baseName = assemblyIdentity.Name;
                 Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
+                /* *
+                 * Resolution method:
+                 * Runtime folder, GAC Cache
+                 * */
                 foreach (var path in runtimeEnvironment.ResolutionPaths)
                 {
-                    foreach (var ext in extensions)
+                    var check = CliCommon.CheckFilename(path.FullName, baseName, "exe");
+                    if (check != null && check.Item1.Equals(assemblyIdentity))
                     {
-                        var check = CliCommon.CheckFilename(path.FullName, baseName, ext);
-                        if (check != null)
-                        {
-                            if (check.Item1.Equals(assemblyIdentity))
-                                validResult = check;
-                            break;
-                        }
+                        validResult = check;
+                        break;
+                    }
+                    if (validResult != null)
+                        break;
+                    check = CliCommon.CheckFilename(path.FullName, baseName, "dll");
+                    if (check != null && check.Item1.Equals(assemblyIdentity))
+                    {
+                        validResult = check;
+                        break;
                     }
                     if (validResult != null)
                         break;
                 }
+                if (validResult == null)
+                {
+                    foreach (var path in runtimeEnvironment.GacLocationFor(assemblyIdentity))
+                    {
+                        var check = CliCommon.CheckFilename(path.FullName, baseName, "exe");
+                        if (check != null && check.Item1.Equals(assemblyIdentity))
+                            {
+                                validResult = check;
+                                gacAssembly = true;
+                                break;
+                            }
+                        if (validResult != null)
+                            break;
+                        check = CliCommon.CheckFilename(path.FullName, baseName, "dll");
+                        if (check != null && check.Item1.Equals(assemblyIdentity))
+                        {
+                            validResult = check;
+                            gacAssembly = true;
+                            break;
+                        }
+                        if (validResult != null)
+                            break;
+                    }
+                }
                 if (validResult != null)
                 {
                     this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
+                    if (gacAssembly)
+                        result.IsFromGlobalAssemblyCache = true;
                     result.InitializeCommon();
                     this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                 }
@@ -374,17 +409,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyRefTableRow assemblyIdentity)
         {
-            var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
             CliAssembly result;
+            var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
-                return this.ObtainAssemblyReference(identity.Item2);
+            {
+                var relativeAssembly = GetRelativeAssembly(assemblyIdentity.MetadataRoot);
+                string relativePath = Path.GetDirectoryName(relativeAssembly.Location);
+                var baseName = identity.Item2.Name;
+                Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
+                var check = CliCommon.CheckFilename(relativePath, baseName, "exe");
+                if (check != null && check.Item1.Equals(assemblyIdentity))
+                    validResult = check;
+                else
+                {
+                    check = CliCommon.CheckFilename(relativePath, baseName, "dll");
+                    if (check != null && check.Item1.Equals(assemblyIdentity))
+                        validResult = check;
+                }
+                if (validResult != null)
+                {
+                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
+                    result.InitializeCommon();
+                    this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
+                }
+                else
+                    return this.ObtainAssemblyReference(identity.Item2);
+            }
             return this.loadedAssemblies[identity.Item2];
         }
 
         //#endregion
 
         #region ITypeIdentityManager Members
-
 
         IStandardRuntimeEnvironmentInfo ITypeIdentityManager.RuntimeEnvironment
         {

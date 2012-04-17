@@ -19,14 +19,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return new CliManager(runtimeEnvironment);
         }
 
-        public static ICliManager CreateIdentityManager(FrameworkPlatform platform, FrameworkVersion version = CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true)
+        public static ICliManager CreateIdentityManager(FrameworkPlatform platform, FrameworkVersion version = CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true, bool useGlobalAccessCache = true)
         {
-            return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary));
+            return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache));
         }
 
-        public static ICliManager CreateIdentityManager(FrameworkPlatform platform, FrameworkVersion version, bool resolveCurrent, bool useCoreLibrary, params string[] additionalResolutionPaths)
+        public static ICliManager CreateIdentityManager(FrameworkPlatform platform, FrameworkVersion version, bool resolveCurrent, bool useCoreLibrary, bool useGlobalAccessCache, params string[] additionalResolutionPaths)
         {
-            return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, additionalResolutionPaths));
+            return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache, additionalResolutionPaths));
         }
 
         public static IEnumerable<ICliRuntimeEnvironmentInfo> GetRuntimeEnvironmentInfos()
@@ -41,24 +41,24 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                                                              FrameworkVersion.v4_5 | FrameworkVersion.ClientProfile})
             {
 
-                yield return new CliRuntimeEnvironmentInfo(false, FrameworkPlatform.x86Platform, version, true);
-                yield return new CliRuntimeEnvironmentInfo(true, FrameworkPlatform.x86Platform, version, true);
+                yield return new CliRuntimeEnvironmentInfo(false, FrameworkPlatform.x86Platform, version, true, true);
+                yield return new CliRuntimeEnvironmentInfo(true, FrameworkPlatform.x86Platform, version, true, true);
                 if (version == FrameworkVersion.v1_0_3705 || /* Didn't support a 64-bit runtime environment. */
                     version == FrameworkVersion.v1_1_4322)
                     continue;
-                yield return new CliRuntimeEnvironmentInfo(false, FrameworkPlatform.x64Platform, version, true);
-                yield return new CliRuntimeEnvironmentInfo(true, FrameworkPlatform.x64Platform, version, true);
+                yield return new CliRuntimeEnvironmentInfo(false, FrameworkPlatform.x64Platform, version, true, true);
+                yield return new CliRuntimeEnvironmentInfo(true, FrameworkPlatform.x64Platform, version, true, true);
             }
         }
 
-        public static ICliRuntimeEnvironmentInfo GetRuntimeEnvironmentInfo(FrameworkPlatform platform, FrameworkVersion version = CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true)
+        public static ICliRuntimeEnvironmentInfo GetRuntimeEnvironmentInfo(FrameworkPlatform platform, FrameworkVersion version = CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true, bool useGlobalAccessCache = true)
         {
-            return new CliRuntimeEnvironmentInfo(resolveCurrent, platform, version, useCoreLibrary);
+            return new CliRuntimeEnvironmentInfo(resolveCurrent, platform, version, useCoreLibrary, useGlobalAccessCache);
         }
 
-        public static ICliRuntimeEnvironmentInfo GetRuntimeEnvironmentInfo(FrameworkPlatform platform, FrameworkVersion version, bool resolveCurrent, bool useCoreLibrary, params string[] additionalResolutionPaths)
+        public static ICliRuntimeEnvironmentInfo GetRuntimeEnvironmentInfo(FrameworkPlatform platform, FrameworkVersion version, bool resolveCurrent, bool useCoreLibrary, bool useGlobalAccessCache, params string[] additionalResolutionPaths)
         {
-            return new CliRuntimeEnvironmentInfo(resolveCurrent, platform, version, additionalResolutionPaths, useCoreLibrary);
+            return new CliRuntimeEnvironmentInfo(resolveCurrent, platform, version, additionalResolutionPaths, useCoreLibrary, useGlobalAccessCache);
         }
 
         public static bool IsFullAssembly(string filename)

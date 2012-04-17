@@ -218,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             byte firstNull = (byte) (this.reader.PeekChar() & 0xFF);
             if (firstNull != 0)
                 throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
-            this.smallEntries.Add(0, new SmallBlobEntry(1) { BlobData = new byte[] { this.reader.ReadByte() } });
+            this.smallEntries.Add(0, new SmallBlobEntry(1) { BlobData = new byte[this.reader.ReadByte()] });
             byte currentItemLengthWidth;
             long currentPosition = 1;
             while (currentPosition < this.Size)
