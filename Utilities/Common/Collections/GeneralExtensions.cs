@@ -352,10 +352,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             int count=0;
             for (int i = 0; i < value.Length; i++)
-            {
                 if (value[i] == character)
                     count++;
-            }
             return count;
         }
 

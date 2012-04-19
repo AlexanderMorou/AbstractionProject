@@ -42,9 +42,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         ICliMetadataAssemblyTableRow Metadata { get; }
         /// <summary>
-        /// Returns a <see cref="IReadOnlyCollection{T}"/> of <see cref="ICliAssembly"/>
-        /// instances that are referenced by the current <see cref="ICliAssembly"/>.
+        /// Returns a <see cref="IReadOnlyDictionary{T}"/> of <see cref="ICliMetadataAssemblyRefTableRow"/>
+        /// to <see cref="ICliAssembly"/> instances that are referenced by the current <see cref="ICliAssembly"/>.
         /// </summary>
-        IReadOnlyCollection<ICliAssembly> References { get; }
+        IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> References { get; }
+        ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name);
     }
 }

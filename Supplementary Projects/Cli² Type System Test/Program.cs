@@ -180,21 +180,20 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             ScanFrameworkAssemblies(frameworkFilenames, identityManager, assemblies);
             timer.Stop();
             foreach (var assembly in assemblies)
-            {
-                foreach (var reference in assembly.References)
+                foreach (var reference in assembly.References.Values.ToArray())
                     ;
-            }
             Console.Write("To load base metadata took {0}ms, ", timer.Elapsed.TotalMilliseconds);
             var fieldMethodTime = MiscHelperMethods.TimeAction(GetFieldsAndMethods, assemblies);
             Console.Write("to read all the field and method signatures took {0}ms, ", fieldMethodTime.TotalMilliseconds);
             assemblies.Clear();
             var disposeTime = MiscHelperMethods.TimeAction(DisposeIdentityManager, identityManager);
             Console.WriteLine("disposal took {0}ms.", disposeTime.TotalMilliseconds);
-
         }
 
         private static void GetFieldsAndMethods(IList<ICliAssembly> assemblies)
         {
+            //Stopwatch sw = new Stopwatch();
+            //int typeReferenceCount = 0;
             foreach (var assembly in assemblies)
             {
                 if (assembly.MetadataRoot.TableStream.FieldTable != null)
@@ -211,6 +210,19 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                     assembly.MetadataRoot.TableStream.TypeSpecificationTable.Read();
                 if (assembly.MetadataRoot.TableStream.StandAloneSigTable != null)
                     assembly.MetadataRoot.TableStream.StandAloneSigTable.Read();
+                //if (assembly.MetadataRoot.TableStream.TypeRefTable != null)
+                //{
+                //    sw.Start();
+                //    var typeReferences = (from m in assembly.MetadataRoot.TableStream.TypeRefTable
+                //                          where m.ResolutionScope == CliMetadataResolutionScopeTag.AssemblyReference
+                //                          let typeRefSource = (ICliMetadataAssemblyRefTableRow) m.Source
+                //                          where typeRefSource != null
+                //                          let typeRefAssembly = TryGetReference(assembly, typeRefSource)
+                //                          where typeRefAssembly != null
+                //                          select typeRefAssembly.FindType(m.Namespace, m.Name)).ToArray();
+                //    typeReferenceCount += typeReferences.Length;
+                //    sw.Stop();
+                //}
             }
             var junk = (from assembly in assemblies
                         let typeTable = assembly.MetadataRoot.TableStream.TypeDefinitionTable
@@ -223,8 +235,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                                                           select m.Signature
                                         let propertyQuery = GetProperties(t, GetPropertyMap(t, assembly.MetadataRoot), assembly.MetadataRoot)
                                         select new { t = t, fq = fieldQuery.ToArray(), mq = methodQuery.ToArray(), pq = propertyQuery == null ? null : propertyQuery.ToArray() }
-                        //let uid = assembly.UniqueIdentifier.ToString()
-                        //orderby uid
                         select new { a = assembly, types = typeQuery.ToArray() }).ToArray();
             var junk3 = (from at in junk
                          from t in at.types
@@ -234,7 +244,20 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                          where sast != null
                          from sas in sast
                          select sas.Signature).Count();
-            Console.Write("(member count: {0}) ", junk3);
+            //, firstref lookup: {1}ms for {2} types
+            Console.Write("(member count: {0}) ", junk3/*, sw.ElapsedMilliseconds, typeReferenceCount*/);
+        }
+
+        private static ICliAssembly TryGetReference(ICliAssembly assembly, ICliMetadataAssemblyRefTableRow typeRefSource)
+        {
+            try
+            {
+                return assembly.IdentityManager.ObtainAssemblyReference(typeRefSource);
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
+            }
         }
 
         private static ICliMetadataPropertyMapTableRow GetPropertyMap(ICliMetadataTypeDefinitionTableRow typeRow, CliMetadataRoot root)

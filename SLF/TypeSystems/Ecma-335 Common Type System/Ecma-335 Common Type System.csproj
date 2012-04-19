@@ -190,6 +190,9 @@
     <Compile Include="Cli\Metadata\_ICliMetadataBlobEntry.cs" />
     <Compile Include="Cli\Modules\ICliModule.cs" />
     <Compile Include="_Internal\Cli\CliAssembly.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyReferences+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyReferences+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyReferences.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\ArrayReadOnlyCollection{T}.cs" />

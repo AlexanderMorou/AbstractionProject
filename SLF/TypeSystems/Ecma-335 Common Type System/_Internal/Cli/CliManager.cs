@@ -95,11 +95,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
+        //#region ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow> Members
+
+        public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity)
+        {
+            throw new NotImplementedException();
+        }
+
+        //#endregion
+
         //#region IAssemblyIdentityManager<Assembly,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
         {
-            return this.ObtainAssemblyReference(assemblyIdentity.Location);
+            /* *
+             * Return the assembly relative to the current runtime environment,
+             * using its location might load the wrong one.
+             * */
+            var name = assemblyIdentity.GetName();
+            return this.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier(name.Name, name.Version, CultureIdentifiers.GetIdentifierById((CultureIdentifiers.NumericIdentifiers)name.CultureInfo.LCID), name.GetPublicKeyToken()));
         }
 
         //#endregion
@@ -196,6 +210,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
+        //#region ITypeIdentityManager<CliMetadataTypeDefinitionTableRow> Members
+
+        public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
+        {
+            throw new NotImplementedException();
+        }
+
+        //#endregion
+
+        //#region ITypeIdentityManager<CliMetadataTypeRefTableRow> Members
+
+        public IType ObtainTypeReference(ICliMetadataTypeRefTableRow typeIdentity)
+        {
+            throw new NotImplementedException();
+        }
+
+        //#endregion
+
         //#region IAssemblyIdentityManager<IAssemblyUniqueIdentifier,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
@@ -211,47 +243,41 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                  * Resolution method:
                  * Runtime folder, GAC Cache
                  * */
-                foreach (var path in runtimeEnvironment.ResolutionPaths)
-                {
-                    var check = CliCommon.CheckFilename(path.FullName, baseName, "exe");
-                    if (check != null && check.Item1.Equals(assemblyIdentity))
+                if (runtimeEnvironment.UseGlobalAccessCache)
+                    foreach (var path in runtimeEnvironment.GetGacLocationsFor(assemblyIdentity))
                     {
-                        validResult = check;
-                        break;
-                    }
-                    if (validResult != null)
-                        break;
-                    check = CliCommon.CheckFilename(path.FullName, baseName, "dll");
-                    if (check != null && check.Item1.Equals(assemblyIdentity))
-                    {
-                        validResult = check;
-                        break;
-                    }
-                    if (validResult != null)
-                        break;
-                }
-                if (validResult == null)
-                {
-                    foreach (var path in runtimeEnvironment.GacLocationFor(assemblyIdentity))
-                    {
-                        var check = CliCommon.CheckFilename(path.FullName, baseName, "exe");
-                        if (check != null && check.Item1.Equals(assemblyIdentity))
-                            {
-                                validResult = check;
-                                gacAssembly = true;
-                                break;
-                            }
-                        if (validResult != null)
-                            break;
-                        check = CliCommon.CheckFilename(path.FullName, baseName, "dll");
+                        string extension = "exe";
+                    checkAgain:
+                        var check = CliCommon.CheckFilename(path.FullName, baseName, extension);
                         if (check != null && check.Item1.Equals(assemblyIdentity))
                         {
                             validResult = check;
                             gacAssembly = true;
                             break;
                         }
-                        if (validResult != null)
+                        if (validResult == null && extension == "exe")
+                        {
+                            extension = "dll";
+                            goto checkAgain;
+                        }
+                    }
+                if (validResult == null)
+                {
+                    foreach (var path in runtimeEnvironment.ResolutionPaths)
+                    {
+                        string extension = "exe";
+                    checkAgain:
+                        var check = CliCommon.CheckFilename(path.FullName, baseName, extension);
+                        if (check != null && check.Item1.Equals(assemblyIdentity))
+                        {
+                            validResult = check;
                             break;
+                        }
+                        if (validResult == null && extension == "exe")
+                        {
+                            extension = "dll";
+                            goto checkAgain;
+                        }
                     }
                 }
                 if (validResult != null)
@@ -259,7 +285,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
                     if (gacAssembly)
                         result.IsFromGlobalAssemblyCache = true;
-                    result.InitializeCommon();
+                    //result.InitializeCommon();
                     this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                 }
                 else
@@ -267,7 +293,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             return this.loadedAssemblies[assemblyIdentity];
         }
-
 
         //#endregion
 
@@ -329,6 +354,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             else if (imageKind == PEImageKind.x86Image)
                                 supportedOnPlatform = true;
                         }
+                        else if (this.runtimeEnvironment.Platform == FrameworkPlatform.AnyPlatform)
+                        {
+                            CliHeader header = metadataRoot.Header;
+                            if (imageKind == PEImageKind.x64Image &&
+                                ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly))
+                                supportedOnPlatform = true;
+                            else if (imageKind == PEImageKind.x86Image &&
+                                ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
+                                (header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)
+                                supportedOnPlatform = true;
+                        }
                         if (supportedOnPlatform)
                         {
                             if (metadataRoot.TableStream.ContainsKey(CliMetadataTableKinds.Assembly))
@@ -347,7 +383,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
                                 }
                                 loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(filename, this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
-                                result.InitializeCommon();
+                                //result.InitializeCommon();
                                 this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
                                 return result;
                             }
@@ -369,16 +405,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        //#region ITypeIdentityManager<CliMetadataTypeDefinitionTableRow> Members
-
-        public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-
-            throw new NotImplementedException();
-        }
-
-        //#endregion
-
         //#region IAssemblyIdentityManager<CliMetadataAssemblyTableRow,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyTableRow assemblyIdentity)
@@ -388,19 +414,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
                 result = new CliAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity, identity.Item2, identity.Item1);
-                result.InitializeCommon();
+                //result.InitializeCommon();
                 this.loadedAssemblies.Add(identity.Item2, result);
             }
             return this.loadedAssemblies[identity.Item2];
-        }
-
-        //#endregion
-
-        //#region ITypeIdentityManager<CliMetadataTypeRefTableRow> Members
-
-        public IType ObtainTypeReference(ICliMetadataTypeRefTableRow typeIdentity)
-        {
-            throw new NotImplementedException();
         }
 
         //#endregion
@@ -429,7 +446,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (validResult != null)
                 {
                     this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
-                    result.InitializeCommon();
+                    //result.InitializeCommon();
                     this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                 }
                 else
@@ -440,14 +457,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        #region ITypeIdentityManager Members
+        //#region ITypeIdentityManager Members
 
         IStandardRuntimeEnvironmentInfo ITypeIdentityManager.RuntimeEnvironment
         {
             get { return this.runtimeEnvironment; }
         }
 
-        #endregion
+        //#endregion
 
     }
 }

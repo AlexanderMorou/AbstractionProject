@@ -97,12 +97,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// <paramref name="array"/>.</exception>
             public virtual void CopyTo(TKey[] array, int arrayIndex = 0)
             {
-                if (this.Count == 0)
-                    return;
-                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
-                if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 lock (this.locals.syncObject)
                     this.locals.orderings.Keys.CopyTo(array, arrayIndex);
             }
@@ -247,10 +242,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             protected virtual void GeneralCopyTo(Array array, int arrayIndex)
             {
-                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
-                if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
                         array.SetValue(this.locals.entries[i].Key, i + arrayIndex);

@@ -180,10 +180,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// to the end of the destination <paramref name="array"/>.</exception>
         public void CopyTo(KeyValuePair<TCheck, TNodeTarget>[] array, int arrayIndex = 0)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            if (arrayIndex + this.Count > array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             int i = 0;
             foreach (var item in this)
                 array[arrayIndex + i++] = item;

@@ -120,10 +120,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public void CopyTo(KeyValuePair<TDeclarationIdentifier, TDeclaration>[] array, int arrayIndex = 0)
         {
-            if (this.Count > array.Length)
-                throw new ArgumentException("array");
-            if (arrayIndex < 0 || arrayIndex + this.Count > array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
@@ -230,10 +227,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         void IControlledCollection.CopyTo(Array array, int arrayIndex)
         {
-            if (this.Count > array.Length)
-                throw new ArgumentException("array");
-            if (arrayIndex < 0 || arrayIndex + this.Count > array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
