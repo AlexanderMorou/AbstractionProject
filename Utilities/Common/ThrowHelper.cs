@@ -68,6 +68,17 @@ namespace AllenCopeland.Abstraction
             return new ArgumentException(GetExceptionMessage(message, replacements ?? emptyReplacements), GetArgumentName(argument));
         }
 
+        public static void CopyToCheck(Array array, int arrayIndex, int count)
+        {
+            if (array == null)
+                throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.array));
+            if (array.Length < count)
+                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.array, ExceptionMessageId.InsufficientSpaceForCopy);
+            if (arrayIndex < 0 ||
+                arrayIndex + count > array.Length)
+                throw new ArgumentOutOfRangeException("arrayIndex");
+        }
+
         public static string GetArgumentExceptionWord(ExceptionWordId word)
         {
             switch (word)

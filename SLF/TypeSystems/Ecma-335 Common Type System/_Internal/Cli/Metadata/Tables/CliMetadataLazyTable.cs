@@ -43,13 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
 
         public void CopyTo(T[] array, int arrayIndex = 0)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            if (array.Length < this.Count)
-                throw new ArgumentException("Array not large enough to hold items of the metadata table.", "array");
-            if (arrayIndex < 0 ||
-                arrayIndex + this.Count > array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             this.Read();
             for (uint i = 0; i < this.Count; i++)
                 array[i + arrayIndex] = this.items[i];
@@ -145,13 +139,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
 
         void IControlledCollection.CopyTo(Array array, int arrayIndex = 0)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            if (array.Length < this.Count)
-                throw new ArgumentException("Array not large enough to hold items of the metadata table.", "array");
-            if (arrayIndex < 0 ||
-                arrayIndex + this.Count > array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             this.Read();
             for (int i = 0; i < this.Count; i++)
                 array.SetValue(this.items[i], i + arrayIndex);

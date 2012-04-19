@@ -99,12 +99,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             /// end of the destination <paramref name="array"/>.</exception>
             public virtual void CopyTo(TValue[] array, int arrayIndex = 0)
             {
-                if (array == null)
-                    throw new ArgumentNullException("array");
-                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
-                if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
                         array[arrayIndex + i] = this.locals.entries[i].Value;
@@ -202,10 +197,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 
             protected virtual void GeneralCopyTo(Array array, int arrayIndex)
             {
-                if (arrayIndex < 0 || this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
-                if (this.Count + arrayIndex > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 lock (this.locals.syncObject)
                     for (int i = 0; i < this.Count; i++)
                         array.SetValue(this.locals.entries[i].Value, i + arrayIndex);

@@ -228,10 +228,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public void CopyTo(TypedName[] array, int arrayIndex = 0)
         {
-            if (array == null)
-                throw new ArgumentNullException("array");
-            if (this.Count + arrayIndex > array.Length)
-                throw new ArgumentOutOfRangeException("arrayIndex");
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             for (int i = 0; i < this.Count; i++)
                 array[i + arrayIndex] = this.data[i];
         }

@@ -65,10 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
             public void CopyTo(TNodeTarget[] array, int arrayIndex = 0)
             {
-                if (array == null)
-                    throw new ArgumentNullException("array");
-                if (arrayIndex + this.Count > array.Length)
-                    throw new ArgumentOutOfRangeException("arrayIndex");
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 int index = 0;
                 foreach (var node in this.owner.backup.Values)
                     array[arrayIndex + index++] = node.Target;

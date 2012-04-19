@@ -18,23 +18,23 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IIdentityManager<Type, Assembly, ICliAssembly>,
         IIdentityManager<string, IAssemblyUniqueIdentifier, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICliAssembly>,
-        IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>
+        IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>,
+        ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>
     {
         /// <summary>
-        /// Obtains a <see cref="ICopmiledAssembly"/> reference by
-        /// the filename.
+        /// Obtains a <see cref="ICopmiledAssembly"/> reference by the filename.
         /// </summary>
         /// <param name="filename">The <see cref="String"/> value
         /// which denotes the location of the assembly image.</param>
-        /// <returns>A <see cref="ICliAssembly"/>
-        /// which denotes the assembly in question.</returns>
-        /// <exception cref="System.IO.FileNotFoundException">thrown when 
+        /// <returns>A <see cref="ICliAssembly"/> which denotes the assembly in
+        /// question.</returns>
+        /// <exception cref="System.IO.FileNotFoundException">thrown when
         /// <paramref name="filename"/> was not found.</exception>
         ICliAssembly ObtainAssemblyReference(string filename);
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
-        /// which details the framework version
-        /// and runtimeEnvironment <see cref="ICliManager"/> is targeting.
+        /// which details the framework version and runtimeEnvironment
+        /// <see cref="ICliManager"/> is targeting.
         /// </summary>
         new ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
         /// <summary>

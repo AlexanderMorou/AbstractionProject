@@ -12,6 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public enum FrameworkPlatform :
         ushort
     {
+        AnyPlatform = 0x00B,
         /// <summary>
         /// The expected <see cref="FrameworkPlatform"/> for a given
         /// <see cref="CliManager"/> is the 32-bit machine for the
