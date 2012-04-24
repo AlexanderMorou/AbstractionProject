@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.Collections;
+using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {

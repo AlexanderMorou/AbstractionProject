@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.IO;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
-using System.Collections;
-using AllenCopeland.Abstraction.IO;
-using System.Diagnostics;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
 {

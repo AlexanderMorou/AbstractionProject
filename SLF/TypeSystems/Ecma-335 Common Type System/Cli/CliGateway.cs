@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata;
-using AllenCopeland.Abstraction.Slf._Internal.Cli;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {

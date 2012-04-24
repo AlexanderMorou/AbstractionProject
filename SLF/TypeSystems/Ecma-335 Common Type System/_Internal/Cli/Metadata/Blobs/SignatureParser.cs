@@ -6,9 +6,9 @@ using System.Text;
 using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {

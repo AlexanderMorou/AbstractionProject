@@ -5,11 +5,11 @@
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {

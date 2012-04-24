@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.IO;
+using AllenCopeland.Abstraction.Numerics;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {

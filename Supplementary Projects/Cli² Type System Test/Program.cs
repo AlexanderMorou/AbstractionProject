@@ -14,16 +14,16 @@ using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Platforms.DOS;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
+using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
-using AllenCopeland.Abstraction.Utilities;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
-using AllenCopeland.Abstraction.Slf.Cli.Modules;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 {

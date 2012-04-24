@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using System.Collections;
-using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.IO;
-using System.IO;
 using AllenCopeland.Abstraction.Numerics;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {

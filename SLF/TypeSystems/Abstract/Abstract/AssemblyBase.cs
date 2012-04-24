@@ -1,8 +1,8 @@
 ﻿using System;
-using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |

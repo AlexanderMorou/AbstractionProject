@@ -12,8 +12,8 @@ using SlotType = System.UInt32;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
+    using AllenCopeland.Abstraction.Utilities.Collections;
     using OperationSignature = Action<uint, uint, uint, uint, uint, uint, bool, bool, SlotType[], SlotType[], SlotType[]>;
-using AllenCopeland.Abstraction.Utilities.Collections;
 
     /// <summary>
     /// Provides a base implementation of a 

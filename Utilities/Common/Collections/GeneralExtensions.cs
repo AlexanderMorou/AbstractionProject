@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Numerics;
-using System.ComponentModel;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 //using AllenCopeland.Abstraction.Utilities.Tuples;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |

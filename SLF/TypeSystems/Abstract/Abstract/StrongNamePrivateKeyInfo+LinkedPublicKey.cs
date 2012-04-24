@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using System.Security.Cryptography;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {

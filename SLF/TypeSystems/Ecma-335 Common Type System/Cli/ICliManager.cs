@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using System.Reflection;
-using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
