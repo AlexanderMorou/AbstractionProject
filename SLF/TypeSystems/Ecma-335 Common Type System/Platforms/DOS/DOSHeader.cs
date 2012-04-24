@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using System.IO;
-using AllenCopeland.Abstraction.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
+using AllenCopeland.Abstraction.IO;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.DOS
 {

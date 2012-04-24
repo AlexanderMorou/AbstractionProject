@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Numerics;
-using System.Runtime.CompilerServices;
+using AllenCopeland.Abstraction.Utilities.Collections;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -531,8 +531,8 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
         /// </summary>
         /// <typeparam name="T">The kind of element used within the arrays
         /// copied.</typeparam>
-        /// <param name="source">The three-dimensional array from which copying occurs.</param>
-        /// <param name="destination">The three-dimensional array of <typeparamref name="T"/>
+        /// <param name="source">The four-dimensional array from which copying occurs.</param>
+        /// <param name="destination">The four-dimensional array of <typeparamref name="T"/>
         /// elements in which the elements are received.</param>
         /// <param name="lengthA">The <see cref="Int32"/>
         /// value representing the size of the lowest order dimension

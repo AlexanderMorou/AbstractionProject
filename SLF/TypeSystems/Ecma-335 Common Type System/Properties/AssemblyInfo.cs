@@ -1,7 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Configuration.Assemblies;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Configuration.Assemblies;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using AllenCopeland.Abstraction.IO;
 using System.IO;
-using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Numerics;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {

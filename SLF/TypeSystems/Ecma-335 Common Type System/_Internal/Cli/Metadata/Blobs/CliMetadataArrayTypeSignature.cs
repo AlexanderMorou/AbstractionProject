@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
     internal class CliMetadataArrayTypeSignature :
