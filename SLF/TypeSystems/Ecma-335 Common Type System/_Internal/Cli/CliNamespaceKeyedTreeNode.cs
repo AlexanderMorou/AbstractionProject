@@ -55,5 +55,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public uint Value { get; private set; }
 
         //#endregion
+
+        internal override void PushModuleTypes(CliMetadataTypeDefinitionTableRow[] namespaceTypes)
+        {
+            this.IsSubspace = false;
+            base.PushModuleTypes(namespaceTypes);
+        }
     }
 }

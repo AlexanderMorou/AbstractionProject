@@ -78,5 +78,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             //#endregion
         }
+
     }
 }

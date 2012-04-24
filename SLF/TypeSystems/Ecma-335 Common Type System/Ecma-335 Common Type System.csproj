@@ -88,7 +88,9 @@
     <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\CliGateway.cs" />
     <Compile Include="Cli\ICliDeclaration.cs" />
+    <Compile Include="Cli\ICliGenericTypeParameter.cs" />
     <Compile Include="Cli\ICliType.cs" />
+    <Compile Include="Cli\ICliTypeParent.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
     <Compile Include="Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
@@ -193,8 +195,12 @@
     <Compile Include="_Internal\Cli\CliAssemblyReferences+KeysCollection.cs" />
     <Compile Include="_Internal\Cli\CliAssemblyReferences+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliAssemblyReferences.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase+GenericParameter.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
+    <Compile Include="_Internal\Cli\CliTypeBase.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase+GenericParameterDictionary.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\ArrayReadOnlyCollection{T}.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
@@ -409,7 +415,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceDeclaration.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceDictionary.cs" />
-    <Compile Include="_Internal\Cli\CliNamespaceInfo.cs" />
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+KeysCollection.cs" />
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary.cs" />

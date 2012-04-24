@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// </summary>
     public interface ICliAssembly :
         IAssembly,
-        ICliDeclaration<IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow>
+        ICliDeclaration<IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow>,
+        ICliTypeParent
     {
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
@@ -46,6 +47,5 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// to <see cref="ICliAssembly"/> instances that are referenced by the current <see cref="ICliAssembly"/>.
         /// </summary>
         IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> References { get; }
-        ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name);
     }
 }

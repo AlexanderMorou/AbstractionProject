@@ -525,6 +525,82 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
 
         }
 
+        /// <summary>
+        /// Copies data from the <paramref name="source"/> four-dimensional array
+        /// to the <paramref name="destination"/> four-dimensional array.
+        /// </summary>
+        /// <typeparam name="T">The kind of element used within the arrays
+        /// copied.</typeparam>
+        /// <param name="source">The three-dimensional array from which copying occurs.</param>
+        /// <param name="destination">The three-dimensional array of <typeparamref name="T"/>
+        /// elements in which the elements are received.</param>
+        /// <param name="lengthA">The <see cref="Int32"/>
+        /// value representing the size of the lowest order dimension
+        /// of the copy operation.</param>
+        /// <param name="lengthB">The <see cref="Int32"/>
+        /// value representing the size of the middle lowest order dimension
+        /// of the copy operation.</param>
+        /// <param name="lengthC">The <see cref="Int32"/>
+        /// value representing the size of the middle highest order dimension
+        /// of the copy operation.</param>
+        /// <param name="lengthD">The <see cref="Int32"/>
+        /// value representing the size of the highest order dimension
+        /// of the copy operation.</param>
+        public static void TesseracticCopy<T>(this T[, , ,] source, T[, , ,] destination, int lengthA, int lengthB, int lengthC, int lengthD)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (destination == null)
+                throw new ArgumentNullException("destination");
+            int upperSA = source.GetUpperBound(0),
+                upperSB = source.GetUpperBound(1),
+                upperSC = source.GetUpperBound(2),
+                upperSD = source.GetUpperBound(3);
+            int upperDA = destination.GetUpperBound(0),
+                upperDB = destination.GetUpperBound(1),
+                upperDC = destination.GetUpperBound(2),
+                upperDD = destination.GetUpperBound(3);
+
+            int lowerSA = source.GetLowerBound(0),
+                lowerSB = source.GetLowerBound(1),
+                lowerSC = source.GetLowerBound(2),
+                lowerSD = source.GetLowerBound(3);
+            int lowerDA = destination.GetLowerBound(0),
+                lowerDB = destination.GetLowerBound(1),
+                lowerDC = destination.GetLowerBound(2),
+                lowerDD = destination.GetLowerBound(3);
+
+            int lengthSA = upperSA + 1 - lowerSA,
+                lengthSB = upperSB + 1 - lowerSB,
+                lengthSC = upperSC + 1 - lowerSC,
+                lengthSD = upperSD + 1 - lowerSD;
+            int lengthDA = upperDA + 1 - lowerDA,
+                lengthDB = upperDB + 1 - lowerDB,
+                lengthDC = upperDC + 1 - lowerDC,
+                lengthDD = upperDD + 1 - lowerDD;
+
+            if (lengthA > lengthSA || lengthA > lengthDA)
+                throw new ArgumentOutOfRangeException("lengthA");
+            if (lengthB > lengthSB || lengthB > lengthDB)
+                throw new ArgumentOutOfRangeException("lengthB");
+            if (lengthC > lengthSC || lengthC > lengthDC)
+                throw new ArgumentOutOfRangeException("lengthC");
+            if (lengthD > lengthSD || lengthD > lengthDD)
+                throw new ArgumentOutOfRangeException("lengthD");
+
+            lock (source)
+                lock (destination)
+                    Parallel.For(0, lengthA, outterIndex =>
+                    {
+                        for (int outterMiddleIndex = 0; outterMiddleIndex < lengthB; outterMiddleIndex++)
+                            Parallel.For(0, lengthC, innerMiddleIndex =>
+                            {
+                                for (int innerIndex = 0; innerIndex < lengthD; innerIndex++)
+                                    destination[lowerDA + outterIndex, lowerDB + outterMiddleIndex, lowerDC + innerMiddleIndex, lowerDD + innerIndex] = source[lowerSA + outterIndex, lowerSB + outterMiddleIndex, lowerSC + innerMiddleIndex, lowerSD + innerIndex];
+                            });
+                    });
+        }
+
         public static T[, ,] Resize<T>(this T[, ,] source, int newLengthA, int newLengthB, int newLengthC)
         {
             if (source == null)
@@ -532,6 +608,7 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             int upperSA = source.GetUpperBound(0),
                 upperSB = source.GetUpperBound(1),
                 upperSC = source.GetUpperBound(2);
+
             int lowerSA = source.GetLowerBound(0),
                 lowerSB = source.GetLowerBound(1),
                 lowerSC = source.GetLowerBound(2);
@@ -595,8 +672,9 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                      * */
                     newLength = (itemCount + numberOfNew) * 2;
                 var copy = new T[newLength];
-                for (int i = 0; i < series.Length; i++)
-                    copy[i] = series[i];
+                Array.ConstrainedCopy(series, 0, copy, 0, itemCount);
+                //for (int i = 0; i < series.Length; i++)
+                //    copy[i] = series[i];
                 return copy;
             }
             return series;
@@ -619,8 +697,9 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
                     newLength = (itemCount + numberOfNew) * 2;
                 newLength = (uint) Math.Min(maxTotal, newLength);
                 var copy = new T[newLength];
-                for (int i = 0; i < series.Length; i++)
-                    copy[i] = series[i];
+                Array.ConstrainedCopy(series, 0, copy, 0, (int) itemCount);
+                //for (int i = 0; i < series.Length; i++)
+                //    copy[i] = series[i];
                 return copy;
             }
             return series;
