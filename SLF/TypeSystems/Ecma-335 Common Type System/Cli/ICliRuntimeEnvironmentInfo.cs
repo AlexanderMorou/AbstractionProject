@@ -51,6 +51,5 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="DirectoryInfo"/> structures which
         /// define the possible locations of a given assembly within the Global Access Cache.</returns>
         IEnumerable<DirectoryInfo> GetGacLocationsFor(IAssemblyUniqueIdentifier uniqueIdentifier);
-
     }
 }

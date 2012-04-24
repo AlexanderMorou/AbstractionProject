@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -11,8 +12,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         INamespaceDeclaration
     {
         private CliAssembly owningAssembly;
-        private uint namespaceIndex;
-        private int partCount;
+        CliNamespaceKeyedTreeNode namespaceInfo;
+        private INamespaceParent parent;
+        private INamespaceDictionary namespaces;
+        public CliNamespaceDeclaration(CliAssembly owningAssembly, INamespaceParent parent, CliNamespaceKeyedTreeNode namespaceInfo)
+        {
+            this.owningAssembly = owningAssembly;
+            this.namespaceInfo = namespaceInfo;
+            this.parent = parent;
+        }
 
         //#region INamespaceDeclaration Members
 
@@ -23,12 +31,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public string FullName
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                string fullSpace = this.owningAssembly.MetadataRoot.StringsHeap[this.namespaceInfo.Value];
+                if (this.namespaceInfo.IsSubspace)
+                    return fullSpace.Substring(0, this.namespaceInfo.SubspaceStart + this.namespaceInfo.SubspaceLength);
+                else
+                    return fullSpace;
+            }
         }
 
         public INamespaceParent Parent
         {
-            get { throw new NotImplementedException(); }
+            get { return this.parent; }
         }
 
         //#endregion
@@ -42,7 +57,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public INamespaceDictionary Namespaces
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (namespaces == null)
+                    this.namespaces = new CliNamespaceDictionary(this.owningAssembly, this, this.namespaceInfo);
+                return this.namespaces;
+            }
         }
 
         //#endregion
@@ -126,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { throw new NotImplementedException(); }
+            get { return AstIdentifier.GetDeclarationIdentifier(this.Name); }
         }
 
         //#endregion
@@ -137,7 +156,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public string Name
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                string fullSpace = this.owningAssembly.MetadataRoot.StringsHeap[this.namespaceInfo.Value];
+                return fullSpace.Substring(this.namespaceInfo.SubspaceStart, this.namespaceInfo.SubspaceLength);
+            }
         }
 
         //#endregion
@@ -146,7 +169,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.owningAssembly = null;
+            this.namespaceInfo = null;
         }
 
         //#endregion

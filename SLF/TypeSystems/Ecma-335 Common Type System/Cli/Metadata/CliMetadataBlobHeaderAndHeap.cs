@@ -36,8 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             if (item1 == null && item2 != null ||
                 item2 == null && item1 != null)
                 return false;
-            if (item1 == null &&
-                item2 == null)
+            if (item1 == null && item2 == null)
                 return true;
             if (item1.Length != item2.Length)
                 return false;

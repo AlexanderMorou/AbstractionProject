@@ -16,6 +16,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs;
 using System.IO;
+using AllenCopeland.Abstraction.Slf.Cli.Modules;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -30,8 +31,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IStrongNamePublicKeyInfo strongNameInfo;
         private IAssemblyUniqueIdentifier uniqueIdentifier;
         private CliNamespaceKeyedTree namespaceInformation;
+        private CliNamespaceDictionary namespaces;
         private CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
         private CliAssemblyReferences references;
+        private IDictionary<string, INamespaceDeclaration> namespaceCache = new Dictionary<string, INamespaceDeclaration>();
         public CliAssembly(string location, CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
             this.location = location;
@@ -104,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override INamespaceDictionary InitializeNamespaces()
         {
-            throw new NotImplementedException();
+            return new CliNamespaceDictionary(this, this, this.NamespaceInformation);
         }
 
         protected override IStructTypeDictionary InitializeStructs()
@@ -174,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        private int _CompareTo_(CliMetadataTypeDefinitionTableRow leftRow, CliMetadataTypeDefinitionTableRow rightRow)
+        internal static int _CompareTo_(CliMetadataTypeDefinitionTableRow leftRow, CliMetadataTypeDefinitionTableRow rightRow)
         {
             return leftRow.Name.CompareTo(rightRow.Name);
         }
@@ -249,9 +252,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     CliMetadataTypeDefinitionTableRow[] topLevelRowsActual = new CliMetadataTypeDefinitionTableRow[topLevelCount];
                     Array.ConstrainedCopy(topLevelRows, 0, topLevelRowsActual, 0, topLevelCount);
-                    //Array.Sort(topLevelRowsActual, _CompareTo_);
+                    Array.Sort(topLevelRowsActual, _CompareTo_);
                     topLevelRows = topLevelRowsActual;
                 }
+                else
+                    Array.Sort(topLevelRows, _CompareTo_);
             }
             else
                 topLevelRows = new CliMetadataTypeDefinitionTableRow[0];
@@ -261,6 +266,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             for (int i = 0; i < namespaceIndicesArray.Length; i++)
             {
                 uint currentIndex = namespaceIndicesArray[i].Item2;
+                if (currentIndex == 0)
+                    continue;
                 var currentRows = nonNestedTypes[currentIndex];
                 var currentCount = nonNestedCounts[currentIndex];
                 string currentString = modules[namespaceIndicesArray[i].Item1].MetadataRoot.StringsHeap[currentIndex];
@@ -269,15 +276,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                  * Eliminate the null row entries by reducing the sizes
                  * of the arrays.
                  * */
-                if (currentIndex == 0)
-                    continue;
                 if (currentRows.Length != currentCount)
                 {
                     var currentRowsCopy = new CliMetadataTypeDefinitionTableRow[currentCount];
                     Array.ConstrainedCopy(currentRows, 0, currentRowsCopy, 0, currentCount);
-                    //Array.Sort(currentRowsCopy, _CompareTo_);
+                    Array.Sort(currentRowsCopy, _CompareTo_);
                     currentRows = currentRowsCopy;
                 }
+                else
+                    Array.Sort(currentRows, _CompareTo_);
 
                 CliNamespaceKeyedTree current = partialOrFullNamespaces;
                 string[] breakdown = currentString.Split(new[] { "." }, StringSplitOptions.None);
@@ -285,6 +292,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 bool first = true;
                 foreach (var part in breakdown)
                 {
+                    /* *
+                     * Position tracking, the first element doesn't 
+                     * start with a '.', if it does, the split will
+                     * show such, and the part will still not
+                     * be '.'.
+                     * */
                     if (first)
                         first = false;
                     else
@@ -300,9 +313,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                      * create our own reference lookup for the individual
                      * segments of the namespace's name.
                      * *
-                     * Use the segment's hash code to determine the part index.
-                     * While there's a chance for collision, the chances are slim.
-                     * Given the scope of namespace names, the odds are very unlikely.
+                     * Use the segment's hash code to determine the part index;
+                     * while there's a chance for collision, the chances are slim.
+                     * Main reason is: while the space of possible character combinations
+                     * is small, the chance of a user-written name overlapping, in the
+                     * realm of its sibling namespaces, is unlikely.
                      * */
                     if (!partIndex.TryGetValue(part, out partId))
                         partIndex.Add(part, partId = (uint) part.GetHashCode());
@@ -316,7 +331,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         else
                             current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex);
                     else
+                    {
                         current = next;
+                        if (fullName)
+                            current.PushModuleTypes(currentRows);
+                    }
                 }
             }
             this.namespaceInformation = partialOrFullNamespaces;
@@ -346,6 +365,54 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public override string ToString()
         {
             return this.UniqueIdentifier.ToString();
+        }
+
+        public ICliType GetTypeByMetadata(ICliMetadataTypeDefinitionTableRow metadata)
+        {
+            return (ICliType) this.IdentityManager.ObtainTypeReference(metadata);
+        }
+
+        public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName)
+        {
+            string ns = @namespace;
+
+            int lastIndex = 0;
+            IModule module;
+            if (!this.Modules.TryGetValue(AstIdentifier.GetDeclarationIdentifier(moduleName), out module))
+                return null;
+            ICliModule cliModule = module as ICliModule;
+            if (cliModule == null)
+                return null;
+            CliNamespaceKeyedTree topLevel = this.NamespaceInformation;
+        nextPart:
+            int next = ns.IndexOf('.', lastIndex);
+            if (next != -1)
+            {
+                string current = ns.Substring(lastIndex, next - lastIndex);
+                uint currentHash = (uint) current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return null;
+                lastIndex = next + 1;
+                goto nextPart;
+            }
+            else
+            {
+                string current = ns.Substring(lastIndex);
+                uint currentHash = (uint) current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return null;
+            }
+            if (topLevel.NamespaceTypes != null)
+            {
+                foreach (var nsType in topLevel.NamespaceTypes)
+                    if (nsType.MetadataRoot == cliModule.Metadata.MetadataRoot && nsType.Name == name)
+                        return nsType;
+            }
+            return null;
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
@@ -383,6 +450,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         return nsType;
             }
             return null;
+        }
+
+        internal INamespaceDeclaration GetNamespace(string namespaceName)
+        {
+            return this.Namespaces[namespaceName];
         }
     }
 }

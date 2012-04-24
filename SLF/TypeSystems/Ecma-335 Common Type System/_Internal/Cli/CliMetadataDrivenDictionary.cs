@@ -19,10 +19,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where TDeclaration :
             class,
             IDeclaration
-        where TMetadata :
-            class,
-            ICliMetadataTableRow
     {
+        private bool[] checkedMetadata;
         private TMetadata[] metadataSource;
         private TDeclaration[] declarationData;
         private KeysCollection keys;
@@ -31,7 +29,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected CliMetadataDrivenDictionary(int count)
         {
             this.metadataSource = new TMetadata[count];
-            this.declarationData = new TDeclaration[count]; 
+            this.declarationData = new TDeclaration[count];
+            this.checkedMetadata = new bool[count];
         }
 
         protected abstract TMetadata GetMetadataAt(int index);
@@ -41,14 +40,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckItemAt(int index)
         {
             CheckMetadataAt(index);
-            if (this.declarationData[index] == null)
-                this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index]);
+            lock (this.declarationData)
+                if (this.declarationData[index] == null)
+                    this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index]);
         }
 
         private void CheckMetadataAt(int index)
         {
-            if (this.metadataSource[index] == null)
-                this.metadataSource[index] = this.GetMetadataAt(index);
+            lock (this.metadataSource)
+                if (!this.checkedMetadata[index])
+                {
+                    this.metadataSource[index] = this.GetMetadataAt(index);
+                    this.checkedMetadata[index] = true;
+                }
         }
 
         //#region IControlledDictionary<TDeclarationIdentifier,TDeclaration> Members
@@ -281,7 +285,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        internal TMetadata[] GetMetadata() {
+        internal TMetadata[] GetMetadata()
+        {
             for (int i = 0; i < this.Count; i++)
                 this.CheckMetadataAt(i);
             return this.metadataSource;
