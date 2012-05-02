@@ -440,7 +440,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get {
                 if (this.CanCachePublicKeyInfo)
                 {
-                    if (this.publicKeyInfo != null)
+                    if (this.publicKeyInfo == null)
                         this.publicKeyInfo = this.OnGetPublicKeyInfo();
                     return this.publicKeyInfo;
                 }

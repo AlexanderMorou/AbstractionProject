@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             private CliGenericTypeBase<TIdentifier, TType> owner;
 
             internal GenericParameterDictionary(CliGenericTypeBase<TIdentifier, TType> owner)
-                : base(this.owner.Metadata.TypeParameters.Count)
+                : base(owner.Metadata.TypeParameters.Count)
             {
                 this.owner = owner;
             }

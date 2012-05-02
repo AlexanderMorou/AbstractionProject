@@ -33,12 +33,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         const string s_gac64 = "GAC_64";
 
         private static readonly byte[] corLibKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
+
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = AstIdentifier.GetAssemblyIdentifier("System", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV2 = AstIdentifier.GetAssemblyIdentifier("System", AstIdentifier.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, corLibKey);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV4 = AstIdentifier.GetAssemblyIdentifier("System", AstIdentifier.GetVersion(4, 0, 0, 0), CultureIdentifiers.None, corLibKey);
+
         private string[] additionalResolutionPaths;
 
 
@@ -291,7 +293,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        #region IStandardRuntimeEnvironmentInfo Members
+        //#region IStandardRuntimeEnvironmentInfo Members
 
         public ITypeUniqueIdentifier ArrayType
         {
@@ -512,7 +514,72 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        #endregion
+        public ITypeUniqueIdentifier Boolean
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Boolean", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Boolean", 0);
+            }
+        }
+
+        public ITypeUniqueIdentifier Decimal
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Decimal", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Decimal", 0);
+            }
+        }
+
+        public ITypeUniqueIdentifier Single
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Single", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Single", 0);
+            }
+        }
+
+        public ITypeUniqueIdentifier Double
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Double", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Double", 0);
+            }
+        }
+
+        public ITypeUniqueIdentifier Char
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Char", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Char", 0);
+            }
+        }
+
+        public ITypeUniqueIdentifier String
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "String", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "String", 0);
+            }
+        }
+        //#endregion
 
     }
 }

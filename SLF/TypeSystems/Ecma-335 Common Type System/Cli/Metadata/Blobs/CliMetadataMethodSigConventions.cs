@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     {
         None = 0x0,
         SentinelLowBit = 0x01,
-        Sentinel = NativeTypes.Sentinel,
+        Sentinel = CliMetadataNativeTypes.Sentinel,
         HasThis = 0x20,
         ExplicitThis = 0x40,
         Mask = 0x61,

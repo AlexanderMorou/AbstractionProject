@@ -197,10 +197,12 @@
     <Compile Include="_Internal\Cli\CliAssemblyReferences.cs" />
     <Compile Include="_Internal\Cli\CliGenericTypeBase+GenericParameter.cs" />
     <Compile Include="_Internal\Cli\CliGenericTypeBase.cs" />
+    <Compile Include="_Internal\Cli\CliManager %28TypeSigBreakdown%29.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
     <Compile Include="_Internal\Cli\CliTypeBase.cs" />
     <Compile Include="_Internal\Cli\CliGenericTypeBase+GenericParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\ArrayReadOnlyCollection{T}.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
@@ -389,7 +391,7 @@
     <Compile Include="Cli\Metadata\Members\MethodHeaderFlags.cs" />
     <Compile Include="Cli\Metadata\Members\MethodSectionFlags.cs" />
     <Compile Include="Cli\Metadata\MetadataValidationResult.cs" />
-    <Compile Include="Cli\Metadata\NativeTypes.cs" />
+    <Compile Include="Cli\Metadata\CliMetadataNativeTypes.cs" />
     <Compile Include="Cli\Metadata\ValidCultureIdentifiers.cs" />
     <Compile Include="Cli\Metadata\VtableFixup.cs" />
     <Compile Include="Cli\Metadata\VtableFixupKind.cs" />

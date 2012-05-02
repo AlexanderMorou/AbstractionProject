@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
@@ -10,23 +10,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataStandAloneMethodSignature :
         ICliMetadataStandAloneVarArgMethodSignature
     {
-
+        private IReadOnlyCollection<ICliMetadataParamSignature> _parameters;
+        private ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature> parameters;
         internal CliMetadataStandAloneMethodSignature(CliMetadataMethodSigConventions convention, CliMetadataMethodSigFlags flags, ICliMetadataReturnTypeSignature returnType, ICliMetadataVarArgParamSignature[] parameters)
         {
             this.CallingConvention = convention;
             this.Flags = flags;
             this.ReturnType = returnType;
             if (parameters == null || parameters.Length == 0)
-                this.Parameters = ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>.Empty;
+                this.parameters = ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>.Empty;
             else
-                this.Parameters = new ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>(parameters);
+                this.parameters = new ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>(parameters);
         }
 
         //#region ICliMetadataStandAloneVarArgMethodSignature Members
 
         public ICliMetadataReturnTypeSignature ReturnType { get; private set; }
 
-        public IReadOnlyCollection<ICliMetadataVarArgParamSignature> Parameters { get; private set; }
+        public IReadOnlyCollection<ICliMetadataVarArgParamSignature> Parameters { get { return this.parameters; } }
 
         public CliMetadataMethodSigConventions CallingConvention { get; private set; }
 
@@ -41,10 +42,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         //#region ICliMetadataMethodSignature Members
 
 
-        IEnumerable<ICliMetadataParamSignature> ICliMetadataMethodSignature.Parameters
+        IReadOnlyCollection<ICliMetadataParamSignature> ICliMetadataMethodSignature.Parameters
         {
-            get {
-                return Parameters;
+            get
+            {
+                if (this._parameters == null)
+                    if (this.parameters.Count == 0)
+                        this._parameters = ArrayReadOnlyCollection<ICliMetadataParamSignature>.Empty;
+                    else
+                        this._parameters = new ArrayReadOnlyCollection<ICliMetadataParamSignature>(parameters.Items.Cast<ICliMetadataParamSignature, ICliMetadataVarArgParamSignature>());
+                return this._parameters;
             }
         }
 

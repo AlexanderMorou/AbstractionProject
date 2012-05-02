@@ -16,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// </summary>
     public interface ICliManager :
         IIdentityManager<Type, Assembly, ICliAssembly>,
-        IIdentityManager<string, IAssemblyUniqueIdentifier, ICliAssembly>,
+        IIdentityManager<string, string, ICliAssembly>,
+        IIdentityManager<ITypeUniqueIdentifier, IAssemblyUniqueIdentifier, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>,
         ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>
@@ -46,5 +47,21 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <returns>The <see cref="ICliMetadataModuleTableRow"/> which represents
         /// the actual module's metadata.</returns>
         ICliMetadataModuleTableRow LoadModule(ICliMetadataModuleReferenceTableRow metadata);
+        /// <summary>
+        /// Returns the <see cref="IType"/> from the <paramref name="typeIdentity"/> provided.
+        /// </summary>
+        /// <param name="typeIdentity"></param>
+        /// <returns></returns>
+        IType ObtainTypeReference(PrimitiveType typeIdentity, ICliAssembly relativeSource);
+        /// <summary>
+        /// Resolves the <paramref name="scope"/> provided.
+        /// </summary>
+        /// <param name="scope">The <see cref="ITypeDefOrRefRow"/> to resolve.</param>
+        /// <returns>A <see cref="ICliMetadataTypeDefinitionTableRow"/>
+        /// which denotes the type from which <paramref name="scope"/>
+        /// is derived.</returns>
+        /// <remarks>Loads the appropriate assemblies should it be a type
+        /// reference relative to the current runtime environment.</remarks>
+        ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow scope);
     }
 }

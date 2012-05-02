@@ -120,52 +120,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             List<ICliMetadataCustomModifierSignature> customModifiers = null;
         parseNextCustomModifier:
-            NativeTypes firstByte = (NativeTypes) (reader.PeekChar() & 0xFF);
+            CliMetadataNativeTypes firstByte = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF);
             switch (firstByte)
             {
-                case NativeTypes.RequiredModifier:
-                case NativeTypes.OptionalModifier:
+                case CliMetadataNativeTypes.RequiredModifier:
+                case CliMetadataNativeTypes.OptionalModifier:
                     if (customModifiers == null)
                         customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto parseNextCustomModifier;
-                case NativeTypes.ByRef:
+                case CliMetadataNativeTypes.ByRef:
                     if (customModifiers == null)
                         return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot), null);
                     else
                         return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
-                case NativeTypes.TypedByReference:
+                case CliMetadataNativeTypes.TypedByReference:
                     if (customModifiers == null)
                         return new CliMetadataReturnTypeSignature(new CliMetadataNativeTypeSignature(firstByte), null);
                     else
                         return new CliMetadataReturnTypeSignature(new CliMetadataNativeTypeSignature(firstByte), customModifiers.ToArray());
-                case NativeTypes.Pointer:
-                case NativeTypes.Type:
-                case NativeTypes.Boolean:
-                case NativeTypes.Char:
-                case NativeTypes.SByte:
-                case NativeTypes.Byte:
-                case NativeTypes.Int16:
-                case NativeTypes.UInt16:
-                case NativeTypes.Int32:
-                case NativeTypes.UInt32:
-                case NativeTypes.Int64:
-                case NativeTypes.UInt64:
-                case NativeTypes.Single:
-                case NativeTypes.Double:
-                case NativeTypes.String:
-                case NativeTypes.ValueType:
-                case NativeTypes.Class:
-                case NativeTypes.GenericTypeParameter:
-                case NativeTypes.Array:
-                case NativeTypes.GenericClosure:
-                case NativeTypes.NativeInteger:
-                case NativeTypes.NativeUnsignedInteger:
-                case NativeTypes.FunctionPointer:
-                case NativeTypes.Object:
-                case NativeTypes.VectorArray:
-                case NativeTypes.Void:
-                case NativeTypes.MethodGenericParameter:
+                case CliMetadataNativeTypes.Pointer:
+                case CliMetadataNativeTypes.Type:
+                case CliMetadataNativeTypes.Boolean:
+                case CliMetadataNativeTypes.Char:
+                case CliMetadataNativeTypes.SByte:
+                case CliMetadataNativeTypes.Byte:
+                case CliMetadataNativeTypes.Int16:
+                case CliMetadataNativeTypes.UInt16:
+                case CliMetadataNativeTypes.Int32:
+                case CliMetadataNativeTypes.UInt32:
+                case CliMetadataNativeTypes.Int64:
+                case CliMetadataNativeTypes.UInt64:
+                case CliMetadataNativeTypes.Single:
+                case CliMetadataNativeTypes.Double:
+                case CliMetadataNativeTypes.String:
+                case CliMetadataNativeTypes.ValueType:
+                case CliMetadataNativeTypes.Class:
+                case CliMetadataNativeTypes.GenericTypeParameter:
+                case CliMetadataNativeTypes.Array:
+                case CliMetadataNativeTypes.GenericClosure:
+                case CliMetadataNativeTypes.NativeInteger:
+                case CliMetadataNativeTypes.NativeUnsignedInteger:
+                case CliMetadataNativeTypes.FunctionPointer:
+                case CliMetadataNativeTypes.Object:
+                case CliMetadataNativeTypes.VectorArray:
+                case CliMetadataNativeTypes.Void:
+                case CliMetadataNativeTypes.MethodGenericParameter:
                     if (customModifiers == null)
                         return new CliMetadataReturnTypeSignature(ParseType(reader, metadataRoot, true), null);
                     else
@@ -182,48 +182,48 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 throw new InvalidOperationException();
             List<ICliMetadataCustomModifierSignature> customModifiers = null;
         parseNextModifier:
-            NativeTypes nextChar = (NativeTypes) (reader.PeekChar() & 0xFF);
+            CliMetadataNativeTypes nextChar = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF);
             switch (nextChar)
             {
-                case NativeTypes.Pinned:
+                case CliMetadataNativeTypes.Pinned:
                     reader.ReadByte();
                     if (customModifiers == null)
                         return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), null, true);
                     else
                         return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), customModifiers.ToArray(), true);
-                case NativeTypes.Boolean:
-                case NativeTypes.Char:
-                case NativeTypes.SByte:
-                case NativeTypes.Byte:
-                case NativeTypes.Int16:
-                case NativeTypes.UInt16:
-                case NativeTypes.Int32:
-                case NativeTypes.UInt32:
-                case NativeTypes.Int64:
-                case NativeTypes.UInt64:
-                case NativeTypes.Single:
-                case NativeTypes.ByRef:
-                case NativeTypes.Double:
-                case NativeTypes.String:
-                case NativeTypes.Pointer:
-                case NativeTypes.ValueType:
-                case NativeTypes.Class:
-                case NativeTypes.GenericTypeParameter:
-                case NativeTypes.Array:
-                case NativeTypes.GenericClosure:
-                case NativeTypes.TypedByReference:
-                case NativeTypes.NativeInteger:
-                case NativeTypes.NativeUnsignedInteger:
-                case NativeTypes.FunctionPointer:
-                case NativeTypes.Object:
-                case NativeTypes.VectorArray:
-                case NativeTypes.MethodGenericParameter:
+                case CliMetadataNativeTypes.Boolean:
+                case CliMetadataNativeTypes.Char:
+                case CliMetadataNativeTypes.SByte:
+                case CliMetadataNativeTypes.Byte:
+                case CliMetadataNativeTypes.Int16:
+                case CliMetadataNativeTypes.UInt16:
+                case CliMetadataNativeTypes.Int32:
+                case CliMetadataNativeTypes.UInt32:
+                case CliMetadataNativeTypes.Int64:
+                case CliMetadataNativeTypes.UInt64:
+                case CliMetadataNativeTypes.Single:
+                case CliMetadataNativeTypes.ByRef:
+                case CliMetadataNativeTypes.Double:
+                case CliMetadataNativeTypes.String:
+                case CliMetadataNativeTypes.Pointer:
+                case CliMetadataNativeTypes.ValueType:
+                case CliMetadataNativeTypes.Class:
+                case CliMetadataNativeTypes.GenericTypeParameter:
+                case CliMetadataNativeTypes.Array:
+                case CliMetadataNativeTypes.GenericClosure:
+                case CliMetadataNativeTypes.TypedByReference:
+                case CliMetadataNativeTypes.NativeInteger:
+                case CliMetadataNativeTypes.NativeUnsignedInteger:
+                case CliMetadataNativeTypes.FunctionPointer:
+                case CliMetadataNativeTypes.Object:
+                case CliMetadataNativeTypes.VectorArray:
+                case CliMetadataNativeTypes.MethodGenericParameter:
                     if (customModifiers == null)
                         return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), null);
                     else
                         return new CliMetadataFieldSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
-                case NativeTypes.RequiredModifier:
-                case NativeTypes.OptionalModifier:
+                case CliMetadataNativeTypes.RequiredModifier:
+                case CliMetadataNativeTypes.OptionalModifier:
                     if (customModifiers == null)
                         customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
@@ -234,51 +234,51 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataPropertySignature ParsePropertySig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
-            NativeTypes firstChar = (NativeTypes) (reader.ReadByte() & 0xFF);
-            if (firstChar != (NativeTypes) SignatureKinds.PropertySig &&
-                firstChar != ((NativeTypes) SignatureKinds.PropertySig | (NativeTypes) CliMetadataMethodSigFlags.HasThis))
+            CliMetadataNativeTypes firstChar = (CliMetadataNativeTypes) (reader.ReadByte() & 0xFF);
+            if (firstChar != (CliMetadataNativeTypes) SignatureKinds.PropertySig &&
+                firstChar != ((CliMetadataNativeTypes) SignatureKinds.PropertySig | (CliMetadataNativeTypes) CliMetadataMethodSigFlags.HasThis))
                 throw new BadImageFormatException("Expected property or hasthis with property.");
-            bool hasThis = (firstChar & (NativeTypes) CliMetadataMethodSigFlags.HasThis) == (NativeTypes) CliMetadataMethodSigFlags.HasThis;
+            bool hasThis = (firstChar & (CliMetadataNativeTypes) CliMetadataMethodSigFlags.HasThis) == (CliMetadataNativeTypes) CliMetadataMethodSigFlags.HasThis;
             int paramCount = CliMetadataRoot.ReadCompressedUnsignedInt(reader);
             IList<ICliMetadataCustomModifierSignature> customModifiers = null;
             ICliMetadataTypeSignature propertyType = null;
         nextChar:
-            NativeTypes nextChar = (NativeTypes) (reader.PeekChar() & 0xFF);
+            CliMetadataNativeTypes nextChar = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF);
             switch (nextChar)
             {
-                case NativeTypes.OptionalModifier:
-                case NativeTypes.RequiredModifier:
+                case CliMetadataNativeTypes.OptionalModifier:
+                case CliMetadataNativeTypes.RequiredModifier:
                     if (customModifiers == null)
                         customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto nextChar;
-                case NativeTypes.Boolean:
-                case NativeTypes.Char:
-                case NativeTypes.SByte:
-                case NativeTypes.Byte:
-                case NativeTypes.Int16:
-                case NativeTypes.UInt16:
-                case NativeTypes.Int32:
-                case NativeTypes.UInt32:
-                case NativeTypes.Int64:
-                case NativeTypes.UInt64:
-                case NativeTypes.Single:
-                case NativeTypes.Double:
-                case NativeTypes.String:
-                case NativeTypes.NativeInteger:
-                case NativeTypes.NativeUnsignedInteger:
-                case NativeTypes.Object:
-                case NativeTypes.Type:
-                case NativeTypes.GenericClosure:
-                case NativeTypes.Pointer:
-                case NativeTypes.ValueType:
-                case NativeTypes.Class:
-                case NativeTypes.FunctionPointer:
-                case NativeTypes.MethodGenericParameter:
-                case NativeTypes.GenericTypeParameter:
-                case NativeTypes.Array:
-                case NativeTypes.VectorArray:
-                case NativeTypes.ByRef:
+                case CliMetadataNativeTypes.Boolean:
+                case CliMetadataNativeTypes.Char:
+                case CliMetadataNativeTypes.SByte:
+                case CliMetadataNativeTypes.Byte:
+                case CliMetadataNativeTypes.Int16:
+                case CliMetadataNativeTypes.UInt16:
+                case CliMetadataNativeTypes.Int32:
+                case CliMetadataNativeTypes.UInt32:
+                case CliMetadataNativeTypes.Int64:
+                case CliMetadataNativeTypes.UInt64:
+                case CliMetadataNativeTypes.Single:
+                case CliMetadataNativeTypes.Double:
+                case CliMetadataNativeTypes.String:
+                case CliMetadataNativeTypes.NativeInteger:
+                case CliMetadataNativeTypes.NativeUnsignedInteger:
+                case CliMetadataNativeTypes.Object:
+                case CliMetadataNativeTypes.Type:
+                case CliMetadataNativeTypes.GenericClosure:
+                case CliMetadataNativeTypes.Pointer:
+                case CliMetadataNativeTypes.ValueType:
+                case CliMetadataNativeTypes.Class:
+                case CliMetadataNativeTypes.FunctionPointer:
+                case CliMetadataNativeTypes.MethodGenericParameter:
+                case CliMetadataNativeTypes.GenericTypeParameter:
+                case CliMetadataNativeTypes.Array:
+                case CliMetadataNativeTypes.VectorArray:
+                case CliMetadataNativeTypes.ByRef:
                     propertyType = ParseType(reader, metadataRoot);
                     break;
                 default:
@@ -307,50 +307,50 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 ICliMetadataTypeSignature currentType = null;
                 List<ICliMetadataCustomModifierSignature> customModifiers = null;
             parseNext:
-                NativeTypes peekChar = (NativeTypes) (reader.PeekChar() & 0xFF);
+                CliMetadataNativeTypes peekChar = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF);
                 switch (peekChar)
                 {
-                    case NativeTypes.TypedByReference:
+                    case CliMetadataNativeTypes.TypedByReference:
                         goto typedByReferenceEntry;
-                    case NativeTypes.ByRef:
-                    case NativeTypes.Boolean:
-                    case NativeTypes.Char:
-                    case NativeTypes.SByte:
-                    case NativeTypes.Byte:
-                    case NativeTypes.Int16:
-                    case NativeTypes.UInt16:
-                    case NativeTypes.Int32:
-                    case NativeTypes.UInt32:
-                    case NativeTypes.Int64:
-                    case NativeTypes.UInt64:
-                    case NativeTypes.Single:
-                    case NativeTypes.Double:
-                    case NativeTypes.String:
-                    case NativeTypes.Type:
-                    case NativeTypes.ValueType:
-                    case NativeTypes.Class:
-                    case NativeTypes.GenericTypeParameter:
-                    case NativeTypes.Array:
-                    case NativeTypes.GenericClosure:
-                    case NativeTypes.NativeInteger:
-                    case NativeTypes.NativeUnsignedInteger:
-                    case NativeTypes.FunctionPointer:
-                    case NativeTypes.Object:
-                    case NativeTypes.VectorArray:
-                    case NativeTypes.MethodGenericParameter:
+                    case CliMetadataNativeTypes.ByRef:
+                    case CliMetadataNativeTypes.Boolean:
+                    case CliMetadataNativeTypes.Char:
+                    case CliMetadataNativeTypes.SByte:
+                    case CliMetadataNativeTypes.Byte:
+                    case CliMetadataNativeTypes.Int16:
+                    case CliMetadataNativeTypes.UInt16:
+                    case CliMetadataNativeTypes.Int32:
+                    case CliMetadataNativeTypes.UInt32:
+                    case CliMetadataNativeTypes.Int64:
+                    case CliMetadataNativeTypes.UInt64:
+                    case CliMetadataNativeTypes.Single:
+                    case CliMetadataNativeTypes.Double:
+                    case CliMetadataNativeTypes.String:
+                    case CliMetadataNativeTypes.Type:
+                    case CliMetadataNativeTypes.ValueType:
+                    case CliMetadataNativeTypes.Class:
+                    case CliMetadataNativeTypes.GenericTypeParameter:
+                    case CliMetadataNativeTypes.Array:
+                    case CliMetadataNativeTypes.GenericClosure:
+                    case CliMetadataNativeTypes.NativeInteger:
+                    case CliMetadataNativeTypes.NativeUnsignedInteger:
+                    case CliMetadataNativeTypes.FunctionPointer:
+                    case CliMetadataNativeTypes.Object:
+                    case CliMetadataNativeTypes.VectorArray:
+                    case CliMetadataNativeTypes.MethodGenericParameter:
                         currentType = ParseType(reader, metadataRoot);
                         break;
-                    case NativeTypes.RequiredModifier:
-                    case NativeTypes.OptionalModifier:
+                    case CliMetadataNativeTypes.RequiredModifier:
+                    case CliMetadataNativeTypes.OptionalModifier:
                         if (customModifiers == null)
                             customModifiers = new List<ICliMetadataCustomModifierSignature>();
                         customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                         goto parseNext;
-                    case NativeTypes.Pinned:
+                    case CliMetadataNativeTypes.Pinned:
                         currentPinned = true;
                         reader.ReadByte();
                         goto parseNext;
-                    case NativeTypes.Pointer:
+                    case CliMetadataNativeTypes.Pointer:
                     default:
                         break;
                 }
@@ -367,12 +367,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataCustomModifierSignature ParseCustomModifier(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
-            NativeTypes requiredOrOptional = (NativeTypes) reader.ReadByte();
+            CliMetadataNativeTypes requiredOrOptional = (CliMetadataNativeTypes) reader.ReadByte();
             switch (requiredOrOptional)
             {
-                case NativeTypes.RequiredModifier:
+                case CliMetadataNativeTypes.RequiredModifier:
                     return new CliMetadataCustomModifierSignature(true, ParseTypeRefOrDefOrSpecEncoded(reader, metadataRoot));
-                case NativeTypes.OptionalModifier:
+                case CliMetadataNativeTypes.OptionalModifier:
                     return new CliMetadataCustomModifierSignature(false, ParseTypeRefOrDefOrSpecEncoded(reader, metadataRoot));
                 default:
                     throw new BadImageFormatException("Custom modifiers must be CMOD_OPT OR CMOD_REQD");
@@ -383,16 +383,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             List<ICliMetadataCustomModifierSignature> customModifiers = null;
         parseNextCustomModifier:
-            NativeTypes firstByte = (NativeTypes) (reader.PeekChar() & 0xFF);
+            CliMetadataNativeTypes firstByte = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF);
             switch (firstByte)
             {
-                case NativeTypes.RequiredModifier:
-                case NativeTypes.OptionalModifier:
+                case CliMetadataNativeTypes.RequiredModifier:
+                case CliMetadataNativeTypes.OptionalModifier:
                     if (customModifiers == null)
                         customModifiers = new List<ICliMetadataCustomModifierSignature>();
                     customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
                     goto parseNextCustomModifier;
-                case NativeTypes.ByRef:
+                case CliMetadataNativeTypes.ByRef:
                     if (customModifiers == null)
                         if (varArgConvention)
                             return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, null);
@@ -403,8 +403,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                             return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, customModifiers.ToArray());
                         else
                             return new CliMetadataParamSignature(ParseType(reader, metadataRoot), customModifiers.ToArray());
-                case NativeTypes.TypedByReference:
-                case NativeTypes.Type:
+                case CliMetadataNativeTypes.TypedByReference:
+                case CliMetadataNativeTypes.Type:
                     reader.ReadByte();
                     if (customModifiers == null)
                         if (varArgConvention)
@@ -416,31 +416,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                             return new CliMetadataVarArgParamSignature(new CliMetadataNativeTypeSignature(firstByte), isVarArg, customModifiers.ToArray());
                         else
                             return new CliMetadataParamSignature(new CliMetadataNativeTypeSignature(firstByte), customModifiers.ToArray());
-                case NativeTypes.Boolean:
-                case NativeTypes.Char:
-                case NativeTypes.SByte:
-                case NativeTypes.Byte:
-                case NativeTypes.Int16:
-                case NativeTypes.UInt16:
-                case NativeTypes.Int32:
-                case NativeTypes.UInt32:
-                case NativeTypes.Int64:
-                case NativeTypes.UInt64:
-                case NativeTypes.Single:
-                case NativeTypes.Double:
-                case NativeTypes.String:
-                case NativeTypes.ValueType:
-                case NativeTypes.Class:
-                case NativeTypes.GenericTypeParameter:
-                case NativeTypes.Array:
-                case NativeTypes.GenericClosure:
-                case NativeTypes.NativeInteger:
-                case NativeTypes.NativeUnsignedInteger:
-                case NativeTypes.FunctionPointer:
-                case NativeTypes.Object:
-                case NativeTypes.VectorArray:
-                case NativeTypes.Pointer:
-                case NativeTypes.MethodGenericParameter:
+                case CliMetadataNativeTypes.Boolean:
+                case CliMetadataNativeTypes.Char:
+                case CliMetadataNativeTypes.SByte:
+                case CliMetadataNativeTypes.Byte:
+                case CliMetadataNativeTypes.Int16:
+                case CliMetadataNativeTypes.UInt16:
+                case CliMetadataNativeTypes.Int32:
+                case CliMetadataNativeTypes.UInt32:
+                case CliMetadataNativeTypes.Int64:
+                case CliMetadataNativeTypes.UInt64:
+                case CliMetadataNativeTypes.Single:
+                case CliMetadataNativeTypes.Double:
+                case CliMetadataNativeTypes.String:
+                case CliMetadataNativeTypes.ValueType:
+                case CliMetadataNativeTypes.Class:
+                case CliMetadataNativeTypes.GenericTypeParameter:
+                case CliMetadataNativeTypes.Array:
+                case CliMetadataNativeTypes.GenericClosure:
+                case CliMetadataNativeTypes.NativeInteger:
+                case CliMetadataNativeTypes.NativeUnsignedInteger:
+                case CliMetadataNativeTypes.FunctionPointer:
+                case CliMetadataNativeTypes.Object:
+                case CliMetadataNativeTypes.VectorArray:
+                case CliMetadataNativeTypes.Pointer:
+                case CliMetadataNativeTypes.MethodGenericParameter:
                     if (customModifiers == null)
                         if (varArgConvention)
                             return new CliMetadataVarArgParamSignature(ParseType(reader, metadataRoot), isVarArg, null);
@@ -458,44 +458,44 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataTypeSignature ParseType(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool voidContext = false)
         {
-            NativeTypes firstValue = (NativeTypes) reader.ReadByte();
+            CliMetadataNativeTypes firstValue = (CliMetadataNativeTypes) reader.ReadByte();
             switch (firstValue)
             {
-                case NativeTypes.Void:
+                case CliMetadataNativeTypes.Void:
                     if (voidContext)
-                        return new CliMetadataNativeTypeSignature(NativeTypes.Void);
-                    break;
-                case NativeTypes.Pointer:
+                        return new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Void);
+                    goto default;
+                case CliMetadataNativeTypes.Pointer:
                     return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.Pointer, customModifiers: ParseCustomModifierSignatures(reader, metadataRoot), elementType: ParseType(reader, metadataRoot, true));
-                case NativeTypes.ByRef:
+                case CliMetadataNativeTypes.ByRef:
                     return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.Reference, customModifiers: ParseCustomModifierSignatures(reader, metadataRoot), elementType: ParseType(reader, metadataRoot, true));
-                case NativeTypes.Boolean:
-                case NativeTypes.Char:
-                case NativeTypes.SByte:
-                case NativeTypes.Byte:
-                case NativeTypes.Int16:
-                case NativeTypes.UInt16:
-                case NativeTypes.Int32:
-                case NativeTypes.UInt32:
-                case NativeTypes.Int64:
-                case NativeTypes.UInt64:
-                case NativeTypes.Single:
-                case NativeTypes.Double:
-                case NativeTypes.String:
-                case NativeTypes.NativeInteger:
-                case NativeTypes.NativeUnsignedInteger:
-                case NativeTypes.Object:
-                case NativeTypes.Type:
+                case CliMetadataNativeTypes.Boolean:
+                case CliMetadataNativeTypes.Char:
+                case CliMetadataNativeTypes.SByte:
+                case CliMetadataNativeTypes.Byte:
+                case CliMetadataNativeTypes.Int16:
+                case CliMetadataNativeTypes.UInt16:
+                case CliMetadataNativeTypes.Int32:
+                case CliMetadataNativeTypes.UInt32:
+                case CliMetadataNativeTypes.Int64:
+                case CliMetadataNativeTypes.UInt64:
+                case CliMetadataNativeTypes.Single:
+                case CliMetadataNativeTypes.Double:
+                case CliMetadataNativeTypes.String:
+                case CliMetadataNativeTypes.NativeInteger:
+                case CliMetadataNativeTypes.NativeUnsignedInteger:
+                case CliMetadataNativeTypes.Object:
+                case CliMetadataNativeTypes.Type:
                     return new CliMetadataNativeTypeSignature(firstValue);
-                case NativeTypes.GenericClosure:
-                    NativeTypes valOrClass = (NativeTypes) reader.ReadByte();
+                case CliMetadataNativeTypes.GenericClosure:
+                    CliMetadataNativeTypes valOrClass = (CliMetadataNativeTypes) reader.ReadByte();
                     bool isClass;
                     switch (valOrClass)
                     {
-                        case NativeTypes.ValueType:
+                        case CliMetadataNativeTypes.ValueType:
                             isClass = false;
                             break;
-                        case NativeTypes.Class:
+                        case CliMetadataNativeTypes.Class:
                             isClass = true;
                             break;
                         default:
@@ -507,21 +507,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     for (int i = 0; i < genericParams.Length; i++)
                         genericParams[i] = ParseType(reader, metadataRoot);
                     return new CliMetadataGenericTypeInstanceSignature(isClass, typeRefOrDefOrSpec, genericParams);
-                case NativeTypes.ValueType:
+                case CliMetadataNativeTypes.ValueType:
                     return new CliMetadataValueOrClassTypeSignature(false, ParseTypeRefOrDefOrSpecEncoded(reader, metadataRoot));
-                case NativeTypes.Class:
+                case CliMetadataNativeTypes.Class:
                     return new CliMetadataValueOrClassTypeSignature(true, ParseTypeRefOrDefOrSpecEncoded(reader, metadataRoot));
-                case NativeTypes.FunctionPointer:
+                case CliMetadataNativeTypes.FunctionPointer:
                     return new CliMetadataFunctionPointerTypeSignature(ParseMethodSignature(reader, metadataRoot));
-                case NativeTypes.MethodGenericParameter:
+                case CliMetadataNativeTypes.MethodGenericParameter:
                     return new CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent.Method, (uint) CliMetadataRoot.ReadCompressedUnsignedInt(reader));
-                case NativeTypes.GenericTypeParameter:
+                case CliMetadataNativeTypes.GenericTypeParameter:
                     return new CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent.Type, (uint) CliMetadataRoot.ReadCompressedUnsignedInt(reader));
-                case NativeTypes.Array:
+                case CliMetadataNativeTypes.Array:
                     var arrayType = ParseType(reader, metadataRoot);
                     var arrayStructure = ParseArrayShape(reader, metadataRoot);
                     return new CliMetadataArrayTypeSignature(arrayType, arrayStructure);
-                case NativeTypes.VectorArray:
+                case CliMetadataNativeTypes.VectorArray:
                     return new CliMetadataVectorArrayTypeSignature(ParseCustomModifierSignatures(reader, metadataRoot), ParseType(reader, metadataRoot));
                 default:
                     throw new BadImageFormatException("Unexpected type kind.");
@@ -532,16 +532,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         internal static ICliMetadataCustomModifierSignature[] ParseCustomModifierSignatures(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             List<ICliMetadataCustomModifierSignature> customModifiers = null;
-            NativeTypes peekChar;
-            if ((peekChar = (NativeTypes) (reader.PeekChar() & 0xFF)) == NativeTypes.OptionalModifier ||
-                peekChar == NativeTypes.RequiredModifier)
+            CliMetadataNativeTypes peekChar;
+            if ((peekChar = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF)) == CliMetadataNativeTypes.OptionalModifier ||
+                peekChar == CliMetadataNativeTypes.RequiredModifier)
             {
                 customModifiers = new List<ICliMetadataCustomModifierSignature>();
                 customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
             }
 
-            while ((peekChar = (NativeTypes) (reader.PeekChar() & 0xFF)) == NativeTypes.OptionalModifier ||
-                peekChar == NativeTypes.RequiredModifier)
+            while ((peekChar = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF)) == CliMetadataNativeTypes.OptionalModifier ||
+                peekChar == CliMetadataNativeTypes.RequiredModifier)
                 customModifiers.Add(ParseCustomModifier(reader, metadataRoot));
             if (customModifiers == null)
                 return null;
@@ -582,17 +582,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataTypeSpecSignature ParseTypeSpec(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
-            var firstByte = (NativeTypes) (reader.PeekChar() & 0xFF);
+            var firstByte = (CliMetadataNativeTypes) (reader.PeekChar() & 0xFF);
             switch (firstByte)
             {
-                case NativeTypes.Array:
-                case NativeTypes.GenericClosure:
-                case NativeTypes.FunctionPointer:
-                case NativeTypes.Pointer:
-                case NativeTypes.MethodGenericParameter:
-                case NativeTypes.GenericTypeParameter:
-                case NativeTypes.VectorArray:
-                case NativeTypes.EnumSignal:
+                case CliMetadataNativeTypes.Array:
+                case CliMetadataNativeTypes.GenericClosure:
+                case CliMetadataNativeTypes.FunctionPointer:
+                case CliMetadataNativeTypes.Pointer:
+                case CliMetadataNativeTypes.MethodGenericParameter:
+                case CliMetadataNativeTypes.GenericTypeParameter:
+                case CliMetadataNativeTypes.VectorArray:
+                case CliMetadataNativeTypes.EnumSignal:
                     return ParseType(reader, metadataRoot, false);
             }
             throw new BadImageFormatException("Unknown type specification format.");

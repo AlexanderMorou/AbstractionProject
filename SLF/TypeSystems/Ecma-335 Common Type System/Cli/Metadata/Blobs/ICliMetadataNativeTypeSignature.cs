@@ -8,6 +8,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     public interface ICliMetadataNativeTypeSignature :
         ICliMetadataTypeSignature
     {
-        NativeTypes TypeKind { get; }
+        CliMetadataNativeTypes TypeKind { get; }
     }
 }

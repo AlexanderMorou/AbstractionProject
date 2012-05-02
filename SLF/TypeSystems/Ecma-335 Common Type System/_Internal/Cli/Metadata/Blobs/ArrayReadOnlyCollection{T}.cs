@@ -16,6 +16,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         internal static readonly ArrayReadOnlyCollection<T> Empty = new ArrayReadOnlyCollection<T>();
 
         private ArrayReadOnlyCollection() : this(new T[0]) { }
+
+        internal T[] Items { get { return this.items; } }
+
         internal ArrayReadOnlyCollection(T[] items)
         {
             this.items = items;

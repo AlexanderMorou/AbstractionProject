@@ -9,7 +9,6 @@ using System.Security.Cryptography;
 using System.Text;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -23,10 +22,11 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class CliManager :
+    internal partial class CliManager :
         _ICliManager
     {
         private enum BaseKindCacheType
@@ -83,13 +83,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return ObtainTypeReference((Type) typeIdentity);
             else if (typeIdentity is PrimitiveType)
                 return ObtainTypeReference((PrimitiveType) typeIdentity);
+            else if (typeIdentity is ITypeDefOrRefRow)
+            {
+            }
             throw new ArgumentOutOfRangeException("typeIdentity");
         }
 
-        public IType ObtainTypeReference(PrimitiveType typeIdentity)
-        {
-            throw new NotImplementedException();
-        }
 
         //#endregion
 
@@ -107,16 +106,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         //#endregion
-
-        //#region ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow> Members
-
-        public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity)
-        {
-            throw new NotImplementedException();
-        }
-
-        //#endregion
-
         //#region IAssemblyIdentityManager<Assembly,ICompiledAssembly> Members
 
         public ICliAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
@@ -201,21 +190,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private CliAssembly GetRelativeAssembly(CliMetadataRoot root)
         {
-            foreach (var assembly in this.loadedAssemblies.Values)
-                if (assembly.MetadataRoot == root)
-                    return assembly;
-                else
-                {
-                    foreach (var module in assembly.Modules.Values.Skip(1))
-                    {
-                        var cliModule = module as ICliModule;
-                        if (cliModule == null)
-                            continue;
-                        if (cliModule.Metadata.MetadataRoot == root)
-                            return assembly;
-                    }
-                }
-
+            if (root != null)
+                foreach (var assembly in this.loadedAssemblies.Values)
+                    if (assembly.MetadataRoot == root)
+                        return assembly;
+                    else
+                        foreach (var module in assembly.Modules.Values.Skip(1))
+                        {
+                            var cliModule = module as ICliModule;
+                            if (cliModule == null)
+                                continue;
+                            if (cliModule.Metadata.MetadataRoot == root)
+                                return assembly;
+                        }
             return null;
         }
 
@@ -230,6 +217,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
+        #region ICliManager Members
+
+
+        public IType ObtainTypeReference(PrimitiveType typeIdentity, ICliAssembly relativeSource)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region ITypeIdentityManager<ITypeUniqueIdentifier> Members
+
+        public IType ObtainTypeReference(ITypeUniqueIdentifier typeIdentity)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
         //#region ITypeIdentityManager<CliMetadataTypeDefinitionTableRow> Members
 
         public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
@@ -244,17 +249,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
                      (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface, typeIdentity);
                     else if (this.IsBaseObject(typeIdentity.Extends))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
                     else if (this.IsEnum(typeIdentity))
-                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumerator);
+                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumerator, typeIdentity);
                     else if (this.IsValueType(typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity);
                     else if (this.IsDelegate(typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate, typeIdentity);
                     else
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
                     this.typeCache.Add(typeIdentity, result);
                 }
             }
@@ -385,7 +390,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        private ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow typeIdentity, Func<ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null)
+        private ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow typeIdentity, Func<ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
         {
             if (typeIdentity == null)
                 return null;
@@ -473,14 +478,39 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                     break;
                 case CliMetadataTypeDefOrRefTag.TypeSpecification:
-                    /* *
-                     * No variation of array, pointer, function pointer, 
-                     * generic instance, vector array, could pass the limited
-                     * nature of this check.
-                     * */
+                    if (typeSpec)
+                    {
+                        var spec = typeIdentity as ICliMetadataTypeSpecificationTableRow;
+                        if (spec != null)
+                        {
+                            var specSignature = spec.Signature;
+                            if (specSignature is ICliMetadataGenericTypeInstanceSignature)
+                            {
+                                var genericSig = (ICliMetadataGenericTypeInstanceSignature) specSignature;
+                                return ResolveScope(genericSig.Target, selectionPredicate, typeSpec);
+                            }
+                            else if (specSignature is ICliMetadataVectorArrayTypeSignature)
+                            {
+                                var vectorSig = (ICliMetadataVectorArrayTypeSignature) specSignature;
+                                return ResolveScope(vectorSig.ElementType, selectionPredicate, typeSpec);
+                            }
+                            else if (specSignature is ICliMetadataArrayTypeSignature)
+                            {
+                                var arraySig = (ICliMetadataArrayTypeSignature) specSignature;
+                                return ResolveScope(arraySig.ElementType, selectionPredicate, typeSpec);
+                            }
+                        }
+                    }
                     break;
             }
             return null;
+        }
+
+
+
+        private ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeSignature typeIdentity, Func<ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate, bool typeSpec)
+        {
+            throw new NotImplementedException();
         }
 
         private bool IsBaseObject(ICliMetadataTypeDefinitionTableRow typeIdentity)
@@ -530,14 +560,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         //var nativeSig = signature.Type as ICliMetadataNativeTypeSignature;
                         //switch (nativeSig.TypeKind)
                         //{
-                        //    case NativeTypes.Byte:
-                        //    case NativeTypes.SByte:
-                        //    case NativeTypes.Int16:
-                        //    case NativeTypes.UInt16:
-                        //    case NativeTypes.Int32:
-                        //    case NativeTypes.UInt32:
-                        //    case NativeTypes.Int64:
-                        //    case NativeTypes.UInt64:
+                        //    case CliMetadataNativeTypes.Byte:
+                        //    case CliMetadataNativeTypes.SByte:
+                        //    case CliMetadataNativeTypes.Int16:
+                        //    case CliMetadataNativeTypes.UInt16:
+                        //    case CliMetadataNativeTypes.Int32:
+                        //    case CliMetadataNativeTypes.UInt32:
+                        //    case CliMetadataNativeTypes.Int64:
+                        //    case CliMetadataNativeTypes.UInt64:
                         //        continue;
                         //    default:
                         //        return false;
@@ -773,10 +803,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         result.IsFromGlobalAssemblyCache = true;
                     //result.InitializeCommon();
                     this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
+                    return result;
                 }
                 else
                     throw new FileNotFoundException(string.Format("Assembly {0} not found.", assemblyIdentity));
             }
+            else
+                return result;
             return this.loadedAssemblies[assemblyIdentity];
         }
 
@@ -937,8 +970,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 else
                     return this.ObtainAssemblyReference(identity.Item2);
+                return this.loadedAssemblies[identity.Item2];
             }
-            return this.loadedAssemblies[identity.Item2];
+            return result;
         }
 
         //#endregion
@@ -956,9 +990,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where T :
             ITypeUniqueIdentifier
         {
-            internal M_T(TypeKind kind)
+            private ICliMetadataTypeDefinitionTableRow metadata;
+            internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata)
             {
                 this.TypeKind = kind;
+                this.metadata = metadata;
             }
             protected override IType OnGetDeclaringType()
             {
@@ -1071,7 +1107,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 throw new NotImplementedException();
             }
+
+            public override string FullName
+            {
+                get
+                {
+                    return this.metadata.FullName;
+                }
+            }
         }
 
+
+        public ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow scope)
+        {
+            return ResolveScope(scope, null, true);
+        }
     }
 }

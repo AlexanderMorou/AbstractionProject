@@ -36,6 +36,27 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// definition of the root of all generic asynchronous tasks.
         /// </summary>
         ITypeUniqueIdentifier AsynchronousTaskOfT { get; }
+
+        /// <summary>
+        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// definition of a boolean value.
+        /// </summary>
+        ITypeUniqueIdentifier Boolean { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// definition of a decimal value.
+        /// </summary>
+        ITypeUniqueIdentifier Decimal { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// definition of a single-precision floating-point value.
+        /// </summary>
+        ITypeUniqueIdentifier Single { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// definition of a double-precision floating-point value.
+        /// </summary>
+        ITypeUniqueIdentifier Double { get; }
         /// <summary>
         /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a signed byte.
@@ -46,6 +67,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// definition of an unsigned byte.
         /// </summary>
         ITypeUniqueIdentifier Byte { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// definition of a unicode character.
+        /// </summary>
+        ITypeUniqueIdentifier Char { get; }
         /// <summary>
         /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of the compiler generated metadatum.
@@ -111,6 +137,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// definition of the root of all types.
         /// </summary>
         ITypeUniqueIdentifier RootType { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// definition of a series of unicode characters.
+        /// </summary>
+        ITypeUniqueIdentifier String { get; }
         /// <summary>
         /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the base of all value types.

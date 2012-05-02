@@ -3,15 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal partial class CliGenericTypeBase<TIdentifier, TType> :
+    internal abstract partial class CliGenericTypeBase<TIdentifier, TType> :
         CliTypeBase<TIdentifier>,
         IGenericType<TIdentifier, TType>
         where TIdentifier :
-            ITypeUniqueIdentifier
+            IGenericTypeUniqueIdentifier
+        where TType :
+            IGenericType<TIdentifier, TType>
     {
+
+        protected CliGenericTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadata)
+            : base(assembly, metadata)
+        {
+        }
         
         #region IGenericType<TIdentifier,TType> Members
 

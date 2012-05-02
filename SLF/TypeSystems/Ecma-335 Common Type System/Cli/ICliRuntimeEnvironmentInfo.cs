@@ -19,11 +19,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// directory.
         /// </summary>
         bool ResolveCurrent { get; }
+
         /// <summary>
         /// Returns the framework runtimeEnvironment identity resolution
         /// occurs on.
         /// </summary>
         FrameworkPlatform Platform { get; }
+
         /// <summary>
         /// Returns the <see cref="FrameworkVersion"/> on which identity
         /// resolution occurs.
@@ -37,6 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// to look for assembly and type identities.
         /// </summary>
         IEnumerable<DirectoryInfo> ResolutionPaths { get; }
+
         /// <summary>
         /// Returns whether 
         /// </summary>

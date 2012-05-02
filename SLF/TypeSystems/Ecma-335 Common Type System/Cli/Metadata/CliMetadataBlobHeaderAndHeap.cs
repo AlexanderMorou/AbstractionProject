@@ -146,21 +146,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             throw new ArgumentOutOfRangeException("heapIndex");
         }
 
-        protected int GetHashCode(byte[] value)
-        {
-            int result = value.Length;
-            for (int i = 0; i < value.Length; i++)
-                if ((i & 3) == 0)
-                    result ^= value[i] << 24;
-                else if (i % 3 == 0)
-                    result ^= value[i] << 16;
-                else if ((i & 1) == 0)
-                    result ^= value[i] << 8;
-                else
-                    result ^= value[i];
-            return result;
-        }
-
         public byte[] this[uint index]
         {
             get

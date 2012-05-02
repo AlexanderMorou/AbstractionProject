@@ -7,6 +7,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli.Modules;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -16,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         private KeysCollection keys;
         private ValuesCollection values;
-        private ICliMetadataAssemblyRefTable referenceTable;
+        private ICliMetadataAssemblyRefTable[] referenceTables;
+
         private CliAssembly owner;
         private ICliMetadataAssemblyRefTableRow[] kData;
         private ICliAssembly[] vData;
@@ -25,7 +27,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public CliAssemblyReferences(CliAssembly owner)
         {
             this.owner = owner;
-            this.referenceTable = owner.MetadataRoot.TableStream.AssemblyRefTable;
+            var tablesQuery = (from ICliModule m in this.owner.Modules.Values
+                               let table = m.Metadata.MetadataRoot.TableStream.AssemblyRefTable
+                               where table != null
+                               select table);
+            this.referenceTables = tablesQuery.ToArray();
             this.vData = new ICliAssembly[this.Count];
             this.kData = new ICliMetadataAssemblyRefTableRow[this.Count];
             this.vCheck = new bool[this.Count];
@@ -56,14 +62,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckKeyAt(int index)
         {
             if (this.kData[index] == null)
-                this.kData[index] = this.referenceTable[index + 1];
+                for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
+                {
+                    var currentTable = this.referenceTables[tableIndex];
+                    if (index >= adjustedOffset && index < adjustedOffset + currentTable.Length)
+                    {
+                        this.kData[index] = currentTable[index - adjustedOffset + 1];
+                    }
+                }
         }
 
         private void CheckItemAt(int index)
         {
-            if (this.kData[index] == null)
-                this.kData[index] = this.referenceTable[index + 1];
-            CheckValueAt(index);
+            this.CheckKeyAt(index);
+            this.CheckValueAt(index);
         }
 
         private void CheckValueAt(int index)
@@ -117,9 +129,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.referenceTable == null)
+                if (this.referenceTables == null)
                     return 0;
-                return this.referenceTable.Count;
+                int result = 0;
+                for (int i = 0; i < this.referenceTables.Length; i++)
+                    result += this.referenceTables[i].Count;
+                return result;
             }
         }
 
@@ -148,12 +163,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private void PrepareKeysCopy()
         {
-            for (int i = 0; i < this.Count; i++)
-                if (this.kData[i] == null)
-                {
-                    this.referenceTable.CopyTo(kData, 0);
-                    break;
-                }
+            for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
+                this.referenceTables[tableIndex].CopyTo(kData, adjustedOffset);
         }
 
         private void PrepareValuesCopy()
