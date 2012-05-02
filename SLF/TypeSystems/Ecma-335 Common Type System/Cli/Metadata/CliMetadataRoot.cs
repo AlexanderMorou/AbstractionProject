@@ -255,6 +255,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             this.isDisposed = true;
         }
 
-        internal PEImage SourceImage { get { return this.sourceImage; } }
+        public PEImage SourceImage { get { return this.sourceImage; } }
     }
 }

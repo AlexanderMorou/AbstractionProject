@@ -463,6 +463,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
+
+            #region ICliGenericTypeParameter Members
+
+            public ICliMetadataGenericParameterTableRow Metadata
+            {
+                get { return this.metadata; }
+            }
+
+            #endregion
         }
     }
 }

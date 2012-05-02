@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         /// <see cref="ICliMetadataParamSignature"/> elements
         /// associated to the signature defined.
         /// </summary>
-        IEnumerable<ICliMetadataParamSignature> Parameters { get; }
+        IReadOnlyCollection<ICliMetadataParamSignature> Parameters { get; }
 
         CliMetadataMethodSigConventions CallingConvention { get; }
         /// <summary>

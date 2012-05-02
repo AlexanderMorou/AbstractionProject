@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
@@ -20,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ICliMetadataReturnTypeSignature ReturnType { get; private set; }
 
-        public IEnumerable<ICliMetadataParamSignature> Parameters
+        public IReadOnlyCollection<ICliMetadataParamSignature> Parameters
         {
             get
             {
@@ -28,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
         }
 
-        protected abstract IEnumerable<ICliMetadataParamSignature> OnGetParameters();
+        protected abstract IReadOnlyCollection<ICliMetadataParamSignature> OnGetParameters();
 
         //#endregion
 

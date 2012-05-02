@@ -127,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
-        internal string Filename { get { return this.filename; } }
+        public string Filename { get { return this.filename; } }
 
         private void DisposeReader()
         {

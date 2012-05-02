@@ -174,6 +174,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IAssemblyUniqueIdentifier GetAssemblyIdentifier(string name, IVersion assemblyVersion, ICultureIdentifier culture, byte[] publicKey = null)
         {
+            if (publicKey != null && publicKey.Length == 0)
+                publicKey = null;
             if (publicKey != null && publicKey.Length != 8)
                 throw new ArgumentOutOfRangeException("publicKey");
             return new DefaultAssemblyUniqueIdentifier(name, assemblyVersion, culture, publicKey);
