@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         Interface,
         /// <summary>
-        /// The <see cref="IType"/> is a data structure.
+        /// The <see cref="IType"/> is a publicKey structure.
         /// </summary>
         Struct,
         /// <summary>

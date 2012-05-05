@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public struct GenericParameterData
     {
         /// <summary>
-        /// Provides an empty generic parameter data set.
+        /// Provides an empty generic parameter publicKey set.
         /// </summary>
         public static readonly GenericParameterData[] EmptySet = new GenericParameterData[0];
         /// <summary>

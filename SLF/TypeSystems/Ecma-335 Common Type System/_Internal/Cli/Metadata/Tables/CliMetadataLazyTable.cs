@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
         {
             if (this.items[index - 1] == null)
             {
-                if (this.items.Length <= index - 1)
+                if (this.items.Length < index)
                     this.items = this.items.EnsureMinimalSpaceExists((uint) this.items.Length, (uint) ((index + 1) - this.items.Length), this.rowCount);
                 this.items[index - 1] = ReadElementAt(index);
             }

@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public abstract class AssemblyBase :
         IAssembly
     {
-        #region AssemblyBase data members
+        #region AssemblyBase publicKey members
         /// <summary>
         /// Data member for <see cref="Classes"/>.
         /// </summary>
@@ -152,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         protected abstract IInterfaceTypeDictionary InitializeInterfaces();
         /// <summary>
         /// Initializes the <see cref="IStructTypeDictionary"/> for holding
-        /// the data structures defined outside of a namespace.
+        /// the publicKey structures defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IStructTypeDictionary"/> instance.</returns>
         protected abstract IStructTypeDictionary InitializeStructs();
@@ -459,7 +459,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the <see cref="IModule"/> which exposes
-        /// the manifest data for the current <see cref="AssemblyBase"/>.
+        /// the manifest publicKey for the current <see cref="AssemblyBase"/>.
         /// </summary>
         public IModule ManifestModule
         {

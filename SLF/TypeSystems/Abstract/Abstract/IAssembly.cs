@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IAssemblyInformation AssemblyInformation { get; }
         /// <summary>
         /// Returns the <see cref="IModule"/> which exposes
-        /// the manifest data for the current <see cref="IAssembly"/>.
+        /// the manifest publicKey for the current <see cref="IAssembly"/>.
         /// </summary>
         IModule ManifestModule { get; }
         /// <summary>

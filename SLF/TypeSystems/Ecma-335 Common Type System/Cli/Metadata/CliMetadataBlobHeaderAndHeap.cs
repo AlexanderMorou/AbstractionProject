@@ -199,7 +199,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             this.reader = new EndianAwareBinaryReader(blobStream, Endianness.LittleEndian, false);
             this.blobStream = blobStream;
             //this.reader = new EndianAwareBinaryReader(reader.BaseStream, Endianness.LittleEndian, false);
-            byte firstNull = (byte) (this.reader.PeekChar() & 0xFF);
+            byte firstNull = (byte) (this.reader.PeekByte() & 0xFF);
             if (firstNull != 0)
                 throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
             this.smallEntries.Add(0, new SmallBlobEntry(1) { BlobData = new byte[this.reader.ReadByte()] });

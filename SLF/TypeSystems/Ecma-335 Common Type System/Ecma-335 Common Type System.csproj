@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Cli\Metadata\ICliMetadataBlobEntry.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataBlobHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataMethodBody.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataRoot.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataStringsHeader.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTable.cs" />
@@ -260,6 +261,7 @@
     <Compile Include="Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataMethodBody.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyProcessorTable.cs" />

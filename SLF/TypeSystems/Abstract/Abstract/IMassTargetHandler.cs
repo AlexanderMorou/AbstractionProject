@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines properties and methods for working with a type
-    /// which controlls lots of data.
+    /// which controlls lots of publicKey.
     /// </summary>
     public interface IMassTargetHandler :
         IDisposable

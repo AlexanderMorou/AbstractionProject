@@ -13,7 +13,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
-    /// Defines properties and methods for working with a method of a data structure.
+    /// Defines properties and methods for working with a method of a publicKey structure.
     /// </summary>
     public interface IStructMethodMember :
         IMethodMember<IStructMethodMember, IStructType>,

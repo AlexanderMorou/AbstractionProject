@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <summary>
     /// Defines generic properties and methods for working with a series of <typeparamref name="TSignature"/> 
     /// instances filtered from another 
-    /// <see cref="ISignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> with data relative
+    /// <see cref="ISignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> with publicKey relative
     /// to how far each <typeparamref name="TSignature"/> deviated from the filter criteria.
     /// </summary>
     /// <typeparam name="TSignature">The type of <see cref="ISignatureMember{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/>
@@ -24,8 +24,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// contained by <typeparamref name="TSignature"/> instances in the current implementation.</typeparam>
     /// <typeparam name="TSignatureParent">The type of <see cref="ISignatureParent{TSignature, TSignatureParameter, TSignatureParent}"/>
     /// that contains <typeparamref name="TSignature"/> instances in the current implementation.</typeparam>
-    /// <remarks>The deviation data is used to determine the best signature match for a link operation.
-    /// When calling methods, certain data types implicitly cast to another type, finding the least number
+    /// <remarks>The deviation publicKey is used to determine the best signature match for a link operation.
+    /// When calling methods, certain publicKey types implicitly cast to another type, finding the least number
     /// of implicit conversions is necessary to find the best method to link.</remarks>
     public interface IFilteredSignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent> :
         ISignatureMemberDictionary<TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent>

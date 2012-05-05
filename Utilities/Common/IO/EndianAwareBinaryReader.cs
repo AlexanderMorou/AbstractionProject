@@ -113,5 +113,15 @@ namespace AllenCopeland.Abstraction.IO
             return result;
         }
 
+
+        internal int PeekByte()
+        {
+            long position = this.BaseStream.Position;
+            if (position >= this.BaseStream.Length)
+                return -1;
+            int result = this.ReadByte();
+            this.BaseStream.Position = position;
+            return result;
+        }
     }
 }

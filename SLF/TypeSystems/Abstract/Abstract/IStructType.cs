@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
-    /// Defines properties and methods for working with a simple data structure.
+    /// Defines properties and methods for working with a simple publicKey structure.
     /// </summary>
     public interface IStructType :
         IInstantiableType<IStructCtorMember, IStructEventMember, IStructFieldMember, IStructIndexerMember, IStructMethodMember, IStructPropertyMember, IGeneralGenericTypeUniqueIdentifier, IStructType>,
