@@ -41,14 +41,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Creates a new <see cref="TypedNameSeries"/> with the 
-        /// <paramref name="data"/> provided.
+        /// <paramref name="publicKey"/> provided.
         /// </summary>
-        /// <param name="data">The <see cref="TypedName"/> array that the
+        /// <param name="publicKey">The <see cref="TypedName"/> array that the
         /// <see cref="TypedNameSeries"/> represents.</param>
         public TypedNameSeries(params TypedName[] data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException("publicKey");
             /* *
              * Ensure the typedname is legitimate.
              * */
@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public TypedNameSeries(IEnumerable<TypedName> data)
         {
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException("publicKey");
             this.data = data.ToArray();
             this.actualLength = this.data.Length;
             this.frozen = false;
@@ -80,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the <see cref="IEnumerable{T}"/> for iterating
-        /// the data represented by the <see cref="TypedNameSeries"/>.
+        /// the publicKey represented by the <see cref="TypedNameSeries"/>.
         /// </summary>
         public IEnumerable<TypedName> Data
         {
@@ -194,13 +194,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Adds a series of <see cref="TypedName"/> instances
         /// to the <see cref="TypedNameSeries"/>.
         /// </summary>
-        /// <param name="data">The <see cref="TypedName"/> to add.</param>
+        /// <param name="publicKey">The <see cref="TypedName"/> to add.</param>
         public void AddRange(params TypedName[] data)
         {
             if (this.frozen)
                 throw new InvalidOperationException("Immutable.");
             if (data == null)
-                throw new ArgumentNullException("data");
+                throw new ArgumentNullException("publicKey");
             if (this.data == null)
                 this.data = new TypedName[data.Length];
             this.data = this.data.EnsureSpaceExists(this.actualLength, data.Length);

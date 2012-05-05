@@ -11,9 +11,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
     public enum CliMetadataNativeTypes
     {
         /// <remarks>
-/// Original name: ELEMENT_TYPE_END
-/// </remarks>
-ListEnd                = 0x00, // ELEMENT_TYPE_END
+        /// Original name: ELEMENT_TYPE_END
+        /// </remarks>
+        ListEnd                = 0x00, // ELEMENT_TYPE_END
         /// <remarks>
         /// Original name: ELEMENT_TYPE_VOID
         /// </remarks>

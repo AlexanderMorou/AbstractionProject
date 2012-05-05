@@ -29,14 +29,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal partial class CliManager :
         _ICliManager
     {
-        private enum BaseKindCacheType
-        {
-            ObjectBase,
-            ValueTypeBase,
-            EnumBase,
-            DelegateBase,
-        }
-
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
         private Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>>();
@@ -88,7 +80,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             throw new ArgumentOutOfRangeException("typeIdentity");
         }
-
 
         //#endregion
 
@@ -188,6 +179,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
+
         private CliAssembly GetRelativeAssembly(CliMetadataRoot root)
         {
             if (root != null)
@@ -239,7 +231,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
-            if (IsSpecialModule(typeIdentity))
+            if (CliCommon.IsSpecialModule(typeIdentity))
                 return null;
             IType result;
             lock (this.typeCache)
@@ -247,16 +239,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 ITypeParent parent = null;
                 if (!typeCache.TryGetValue(typeIdentity, out result))
                 {
-                    if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
+                    if (CliCommon.IsBaseObject(this, typeIdentity))
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
+                    else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
                      (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface, typeIdentity);
-                    else if (this.IsBaseObject(typeIdentity.Extends))
+                    else if (CliCommon.IsBaseObject(this, typeIdentity.Extends))
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
-                    else if (this.IsEnum(typeIdentity))
+                    else if (CliCommon.IsEnum(this, typeIdentity))
                         result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumerator, typeIdentity);
-                    else if (this.IsValueType(typeIdentity))
+                    else if (CliCommon.IsValueType(this, typeIdentity))
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity);
-                    else if (this.IsDelegate(typeIdentity))
+                    else if (CliCommon.IsDelegate(this, typeIdentity))
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate, typeIdentity);
                     else
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
@@ -266,361 +260,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        private bool IsSpecialModule(ICliMetadataTypeDefinitionTableRow typeIdentity)
+        private ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow typeIdentity, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
         {
-            if (typeIdentity.ExtendsIndex == 0 &&
-                typeIdentity.NamespaceIndex == 0 &&
-                (typeIdentity.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.NotPublic &&
-                typeIdentity.Name == "<Module>")
-                return true;
-            return false;
+            return CliCommon.ResolveScope(typeIdentity, this, selectionPredicate, typeSpec);
         }
-
-        private bool IsBaseValueType(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (baseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.ValueTypeBase)
-                    return true;
-                return false;
-            }
-            bool result = typeIdentity.Namespace == "System" &&
-                   typeIdentity.Name == "ValueType" &&
-                 ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) &&
-                   IsBaseObject(typeIdentity.Extends);
-            if (result)
-                baseTypeKinds.Add(typeIdentity, BaseKindCacheType.ValueTypeBase);
-            return result;
-        }
-
-        private bool IsBaseObject(ITypeDefOrRefRow typeIdentity)
-        {
-            if (typeIdentity == null)
-                return false;
-            BaseKindCacheType cachedResult;
-            if (this.refBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.ObjectBase)
-                    return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, IsBaseObject);
-            if (resolved != null)
-            {
-                refBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
-                return true;
-            }
-            return false;
-        }
-
-        private bool IsBaseValueType(ITypeDefOrRefRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (this.refBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.ValueTypeBase)
-                    return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, IsBaseValueType);
-            if (resolved != null)
-            {
-                refBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ValueTypeBase);
-                return true;
-            }
-            return false;
-        }
-
-        private bool IsBaseEnumType(ITypeDefOrRefRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (this.refBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.EnumBase)
-                    return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, IsBaseEnumType);
-            if (resolved != null)
-            {
-                refBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.EnumBase);
-                return true;
-            }
-            return false;
-        }
-
-        private bool IsBaseDelegateType(ITypeDefOrRefRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (this.refBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.DelegateBase)
-                    return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, IsBaseDelegateType);
-            if (resolved != null)
-            {
-                refBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
-                return true;
-            }
-            return false;
-        }
-
-        private bool IsBaseEnumType(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (baseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.EnumBase)
-                    return true;
-                return false;
-            }
-            bool result = typeIdentity.Namespace == "System" &&
-                typeIdentity.Name == "Enum" &&
-                ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) &&
-                IsBaseValueType(typeIdentity.Extends);
-            if (result)
-                baseTypeKinds.Add(typeIdentity, BaseKindCacheType.EnumBase);
-            return result;
-        }
-
-        private ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow typeIdentity, Func<ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
-        {
-            if (typeIdentity == null)
-                return null;
-            /* *
-             * This method intentionally yields no exceptions on seek failures,
-             * since it merely asks a question about the type.
-             * */
-            switch (typeIdentity.TypeDefOrRefEncoding)
-            {
-                case CliMetadataTypeDefOrRefTag.TypeDefinition:
-                    {
-                        var typeDef = (ICliMetadataTypeDefinitionTableRow) typeIdentity;
-                        if ((selectionPredicate == null || selectionPredicate(typeDef)))
-                            return typeDef;
-                    }
-                    break;
-                case CliMetadataTypeDefOrRefTag.TypeReference:
-                    var typeRef = typeIdentity as ICliMetadataTypeRefTableRow;
-                    switch (typeRef.ResolutionScope)
-                    {
-                        case CliMetadataResolutionScopeTag.Module:
-                            {
-                                var typeTable = typeRef.MetadataRoot.TableStream.TypeDefinitionTable;
-                                if (typeTable == null)
-                                    return null;
-                                typeTable.Read();
-                                string tidN = typeRef.Name,
-                                       tidNS = typeRef.Namespace;
-                                foreach (var typeDef in typeTable)
-                                    if (typeDef.Name == tidN &&
-                                        typeDef.Namespace == tidNS &&
-                                        (selectionPredicate == null || selectionPredicate(typeDef)))
-                                        return typeDef;
-                                break;
-                            }
-                        case CliMetadataResolutionScopeTag.ModuleReference:
-                            {
-                                var assembly = this.GetRelativeAssembly(typeRef.MetadataRoot);
-                                if (assembly == null)
-                                {
-                                    var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(typeRef.MetadataRoot.SourceImage, typeRef.MetadataRoot));
-                                    if (identifier == null)
-                                    {
-                                        var loadedModule = this.LoadModule((ICliMetadataModuleReferenceTableRow) typeRef.Source);
-                                        if (loadedModule == null)
-                                            return null;
-
-                                        var typeTable = typeRef.MetadataRoot.TableStream.TypeDefinitionTable;
-                                        if (typeTable == null)
-                                            return null;
-                                        typeTable.Read();
-                                        /* *
-                                         * Name index quick check doesn't work here, they're from
-                                         * different string heaps.
-                                         * */
-                                        string tidN = typeRef.Name,
-                                               tidNS = typeRef.Namespace;
-                                        foreach (var typeDef in typeTable)
-                                            if (typeDef.Name == tidN &&
-                                                typeDef.Namespace == tidNS &&
-                                                (selectionPredicate == null || selectionPredicate(typeDef)))
-                                                return typeDef;
-                                        return null;
-                                    }
-                                }
-                                {
-                                    var typeDef = assembly.FindType(typeRef.Namespace, typeRef.Name, typeRef.Source.Name);
-                                    if (typeDef != null)
-                                        if ((selectionPredicate == null || selectionPredicate(typeDef)))
-                                            return typeDef;
-                                    return null;
-                                }
-                            }
-                        case CliMetadataResolutionScopeTag.AssemblyReference:
-                            {
-                                var assemblyRef = typeRef.Source as ICliMetadataAssemblyRefTableRow;
-                                if (assemblyRef == null)
-                                    return null;
-                                var assembly = this.ObtainAssemblyReference(assemblyRef);
-                                var typeDef = assembly.FindType(typeRef.Namespace, typeRef.Name);
-                                if (typeDef != null && (selectionPredicate == null || selectionPredicate(typeDef)))
-                                    return typeDef;
-                            }
-                            break;
-                    }
-                    break;
-                case CliMetadataTypeDefOrRefTag.TypeSpecification:
-                    if (typeSpec)
-                    {
-                        var spec = typeIdentity as ICliMetadataTypeSpecificationTableRow;
-                        if (spec != null)
-                        {
-                            var specSignature = spec.Signature;
-                            if (specSignature is ICliMetadataGenericTypeInstanceSignature)
-                            {
-                                var genericSig = (ICliMetadataGenericTypeInstanceSignature) specSignature;
-                                return ResolveScope(genericSig.Target, selectionPredicate, typeSpec);
-                            }
-                            else if (specSignature is ICliMetadataVectorArrayTypeSignature)
-                            {
-                                var vectorSig = (ICliMetadataVectorArrayTypeSignature) specSignature;
-                                return ResolveScope(vectorSig.ElementType, selectionPredicate, typeSpec);
-                            }
-                            else if (specSignature is ICliMetadataArrayTypeSignature)
-                            {
-                                var arraySig = (ICliMetadataArrayTypeSignature) specSignature;
-                                return ResolveScope(arraySig.ElementType, selectionPredicate, typeSpec);
-                            }
-                        }
-                    }
-                    break;
-            }
-            return null;
-        }
-
-
 
         private ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeSignature typeIdentity, Func<ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate, bool typeSpec)
         {
             throw new NotImplementedException();
-        }
-
-        private bool IsBaseObject(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (baseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.ObjectBase)
-                    return true;
-                return false;
-            }
-            bool result = typeIdentity.Namespace == "System" &&
-                   typeIdentity.Name == "Object" &&
-                 ((typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed) &&
-                 ((typeIdentity.TypeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface) &&
-                   typeIdentity.ExtendsIndex == 0;
-            if (result)
-                baseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
-            return result;
-        }
-
-        private bool IsValueType(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            return ((typeIdentity.TypeAttributes & TypeAttributes.Sealed) == TypeAttributes.Sealed) &&
-                IsBaseValueType(typeIdentity.Extends);
-        }
-
-        private bool IsEnum(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            if ((typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed || !IsBaseEnumType(typeIdentity.Extends))
-                return false;
-            foreach (var field in typeIdentity.Fields)
-                if ((field.FieldAttributes & (FieldAttributes.Literal | FieldAttributes.Static)) == (FieldAttributes.Literal | FieldAttributes.Static))
-                {
-                    /* *
-                     * Checking for valid metadata, not CLS compliance, so checking
-                     * to make sure the fields are all the same type and of the
-                     * type of the enumerator, is unnecessary.
-                     * */
-                    var signature = field.FieldType;
-                    if (signature.Type is ICliMetadataValueOrClassTypeSignature)
-                    {
-                        var cvType = signature.Type as ICliMetadataValueOrClassTypeSignature;
-                        if (cvType.Target != typeIdentity)
-                            return false;
-                        #region bad idea
-                        //var nativeSig = signature.Type as ICliMetadataNativeTypeSignature;
-                        //switch (nativeSig.TypeKind)
-                        //{
-                        //    case CliMetadataNativeTypes.Byte:
-                        //    case CliMetadataNativeTypes.SByte:
-                        //    case CliMetadataNativeTypes.Int16:
-                        //    case CliMetadataNativeTypes.UInt16:
-                        //    case CliMetadataNativeTypes.Int32:
-                        //    case CliMetadataNativeTypes.UInt32:
-                        //    case CliMetadataNativeTypes.Int64:
-                        //    case CliMetadataNativeTypes.UInt64:
-                        //        continue;
-                        //    default:
-                        //        return false;
-                        //}
-                        #endregion
-                    }
-                    else
-                        return false;
-                }
-                else if (((field.FieldAttributes & FieldAttributes.RTSpecialName) == FieldAttributes.RTSpecialName) &&
-                    field.Name == "value__")
-                    continue;
-                else
-                    return false;
-
-            return typeIdentity.Methods.Count == 0;
-        }
-
-        private bool IsDelegate(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            return IsSubclassOf(typeIdentity, IsBaseDelegateType);
-        }
-
-        private bool IsBaseDelegateType(ICliMetadataTypeDefinitionTableRow typeIdentity)
-        {
-            BaseKindCacheType cachedResult;
-            if (baseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
-            {
-                if (cachedResult == BaseKindCacheType.DelegateBase)
-                    return true;
-                return false;
-            }
-            string typeName = typeIdentity.Name,
-                   typeNamespace = typeIdentity.Namespace;
-            bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeNamespace == "System" && (typeName == "Delegate" || typeName == "MulticastDelegate") &&
-                   IsBaseObject(typeIdentity.Extends);
-            if (result)
-                baseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
-            return result;
-        }
-
-
-        private bool IsSubclassOf(ICliMetadataTypeDefinitionTableRow typeIdentity, Func<ICliMetadataTypeDefinitionTableRow, bool> baseDecision)
-        {
-            ICliMetadataTypeDefinitionTableRow current = typeIdentity;
-            while (current != null)
-            {
-                current = ResolveScope(current.Extends);
-                if (current != null &&
-                    baseDecision(current))
-                    return true;
-            }
-            return false;
         }
         //#endregion
 
@@ -1112,7 +759,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return this.metadata.FullName;
+                    if (this.metadata.NamespaceIndex == 0)
+                        return string.Format("{0}", this.metadata.Name);
+                    else
+                        return string.Format("{0}.{1}", this.metadata.Namespace, this.metadata.Name);
                 }
             }
         }
@@ -1122,5 +772,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return ResolveScope(scope, null, true);
         }
+        //#region _ICliManager Members
+
+
+        IDictionary<ICliMetadataTypeDefinitionTableRow, IType> _ICliManager.TypeCache
+        {
+            get { return this.typeCache; }
+        }
+
+        IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> _ICliManager.BaseTypeKinds
+        {
+            get { return this.baseTypeKinds; }
+        }
+
+        IDictionary<ITypeDefOrRefRow, BaseKindCacheType> _ICliManager.RefBaseTypeKinds
+        {
+            get { return this.refBaseTypeKinds; }
+        }
+
+        ICliAssembly _ICliManager.GetRelativeAssembly(CliMetadataRoot root)
+        {
+            return GetRelativeAssembly(root);
+        }
+        //#endregion
     }
 }

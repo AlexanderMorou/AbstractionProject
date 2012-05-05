@@ -14,6 +14,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     internal class StrongNameKeyPairHelper
     {
+        /* *
+         * Refer to: http://blogs.msdn.com/b/shawnfa/archive/2004/06/09/152097.aspx
+         * Basically it's a hack to enable more security in the framework's public keys.
+         * Since the framework's overall function is described publically, they had to
+         * create a means for the BCL to yield a key that was available to all, but 
+         * would not allow others to alter the library and expect it to work.
+         * */
+        internal static readonly byte[] StandardPublicKeyToken = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
+        internal static readonly byte[] StandardPublicKey = new byte[] { 00, 00, 00, 00, 00, 00, 00, 00, 04, 00, 00, 00, 00, 00, 00, 00 };
         /// <summary>
         /// Constant used to represent the RSA algorithm's identifier.
         /// </summary>
@@ -162,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             /// to the <paramref name="writer"/> provided.
             /// </summary>
             /// <param name="writer">The <see cref="BinaryWriter"/> in which to
-            /// store the data of the <see cref="GeneralKeyHeader"/>'s information
+            /// store the publicKey of the <see cref="GeneralKeyHeader"/>'s information
             /// sequentially.</param>
             internal void Write(BinaryWriter writer)
             {
@@ -466,14 +475,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             }
         }
 
-        private class PublicKeyStream :
+        private class StandardPublicKeyStream :
             IStrongNamePublicKeyInfo
         {
             private byte[] dataStream;
 
-            internal PublicKeyStream(byte[] data)
+            public static readonly StandardPublicKeyStream StandardPublicKey = new StandardPublicKeyStream();
+            private static readonly PublicKeyTokenData StandardPublicKeyToken = new PublicKeyTokenData(0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89);
+            private StandardPublicKeyStream()
             {
-                this.dataStream = data;
             }
 
             #region IStrongNamePublicKeyInfo Members
@@ -492,7 +502,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             {
                 get
                 {
-                    return GetPublicKeyToken(this.dataStream);
+                    return StandardPublicKeyToken;
                 }
             }
 
@@ -550,7 +560,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             }
             else
             {
-                if (PublicKeyData.IsDataProperLength(data))
+                if (data.SequenceEqual(StandardPublicKey))
+                    return StandardPublicKeyStream.StandardPublicKey;
+                else if (PublicKeyData.IsDataProperLength(data))
                 {
                     using (MemoryStream targetStream = new MemoryStream(data))
                     {
@@ -561,9 +573,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                     }
                 }
                 else
-                {
-                    return new PublicKeyStream(data);
-                }
+                    throw new ArgumentException("publicKey");
             }
         }
 

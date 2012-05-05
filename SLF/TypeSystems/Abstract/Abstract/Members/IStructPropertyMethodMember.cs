@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
     /// Defines properties and methods for working with the method of a 
-    /// property member defined on a data structure.
+    /// property member defined on a publicKey structure.
     /// </summary>
     public interface IStructPropertyMethodMember :
         IStructMethodMember,
