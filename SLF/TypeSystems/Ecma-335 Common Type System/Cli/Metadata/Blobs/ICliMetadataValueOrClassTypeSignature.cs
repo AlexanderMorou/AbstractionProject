@@ -12,10 +12,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         bool IsClass { get; }
         bool IsValueType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeDefOrRefRow"/> which
+        /// Returns the <see cref="ICliMetadataTypeDefOrRefRow"/> which
         /// is referenced by the 
         /// <see cref="ICliMetadataValueOrClassTypeSignature"/>.
         /// </summary>
-        ITypeDefOrRefRow Target { get; }
+        ICliMetadataTypeDefOrRefRow Target { get; }
     }
 }

@@ -27,7 +27,8 @@
     <DefineConstants>TRACE;DEBUG;x86</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.typesystems.cli.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <BaseAddress>4390912</BaseAddress>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
@@ -177,19 +178,19 @@
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeRefTableRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeSpecificationTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeSpecificationTableRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\ICustomAttributeTypeRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IHasConstantRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IHasCustomAttributeRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IHasDeclSecurityRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IHasFieldMarshalRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IHasSemanticsRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IImplementationRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IMemberForwardedRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IMemberRefParentRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IMethodDefOrRefRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\IResolutionScopeRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\ITypeDefOrRefRow.cs" />
-    <Compile Include="Cli\Metadata\Tables\ITypeOrMethodDefRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataCustomAttributeTypeRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasConstantRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasCustomAttributeRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasDeclSecurityRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasFieldMarshalRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasSemanticsRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataImplementationRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMemberForwardedRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMemberRefParentRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodDefOrRefRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataResolutionScopeRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeDefOrRefRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeOrMethodDefRow.cs" />
     <Compile Include="Cli\Metadata\_ICliMetadataBlobEntry.cs" />
     <Compile Include="Cli\Modules\ICliModule.cs" />
     <Compile Include="_Internal\Cli\CliAssembly.cs" />
@@ -312,6 +313,7 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionTableRow+LazyParameters.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionTableRow+LazyTypeParameters.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyTableRow+LazyMethods.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyEvents.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyFields.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyNestedClasses.cs" />
@@ -342,6 +344,7 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTable.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyProperties.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyTypeParameters.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeRefTable.cs" />

@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IDictionary<ICliMetadataTypeDefinitionTableRow, IType> typeCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, IType>();
 
         private IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> baseTypeKinds = new Dictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType>();
-        private IDictionary<ITypeDefOrRefRow, BaseKindCacheType> refBaseTypeKinds = new Dictionary<ITypeDefOrRefRow, BaseKindCacheType>();
+        private IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> refBaseTypeKinds = new Dictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType>();
         //"System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
 
         private ICliRuntimeEnvironmentInfo runtimeEnvironment;
@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return ObtainTypeReference((Type) typeIdentity);
             else if (typeIdentity is PrimitiveType)
                 return ObtainTypeReference((PrimitiveType) typeIdentity);
-            else if (typeIdentity is ITypeDefOrRefRow)
+            else if (typeIdentity is ICliMetadataTypeDefOrRefRow)
             {
             }
             throw new ArgumentOutOfRangeException("typeIdentity");
@@ -260,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        private ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow typeIdentity, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
+        private ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow typeIdentity, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
         {
             return CliCommon.ResolveScope(typeIdentity, this, selectionPredicate, typeSpec);
         }
@@ -768,7 +768,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
-        public ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow scope)
+        public ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
         {
             return ResolveScope(scope, null, true);
         }
@@ -785,7 +785,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.baseTypeKinds; }
         }
 
-        IDictionary<ITypeDefOrRefRow, BaseKindCacheType> _ICliManager.RefBaseTypeKinds
+        IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> _ICliManager.RefBaseTypeKinds
         {
             get { return this.refBaseTypeKinds; }
         }

@@ -91,10 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                         break;
                     case PEImageKind.RomImage:
                         throw new NotImplementedException();
-                        break;
                     default:
                         throw new BadImageFormatException();
-                        break;
                 }
             }
 
@@ -117,10 +115,8 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                         break;
                     case PEImageKind.RomImage:
                         throw new NotImplementedException();
-                        break;
                     default:
                         throw new BadImageFormatException();
-                        break;
                 }
             }
         }

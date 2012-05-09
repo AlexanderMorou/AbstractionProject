@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataCustomModifierSignature :
         ICliMetadataCustomModifierSignature
     {
-        internal CliMetadataCustomModifierSignature(bool required, ITypeDefOrRefRow modifierType)
+        internal CliMetadataCustomModifierSignature(bool required, ICliMetadataTypeDefOrRefRow modifierType)
         {
             this.Required = required;
             this.ModifierType = modifierType;
@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public bool Required { get; private set; }
 
-        public ITypeDefOrRefRow ModifierType { get; private set; }
+        public ICliMetadataTypeDefOrRefRow ModifierType { get; private set; }
 
         //#endregion
 

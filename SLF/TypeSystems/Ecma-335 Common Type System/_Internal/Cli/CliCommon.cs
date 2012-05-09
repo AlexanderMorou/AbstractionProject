@@ -213,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
-        internal static ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow typeIdentity, _ICliManager manager, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
+        internal static ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow typeIdentity, _ICliManager manager, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
         {
             if (typeIdentity == null)
                 return null;
@@ -357,7 +357,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        internal static bool IsBaseObject(_ICliManager manager, ITypeDefOrRefRow typeIdentity)
+        internal static bool IsBaseObject(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             if (typeIdentity == null)
                 return false;
@@ -378,7 +378,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        internal static bool IsBaseValueType(_ICliManager manager, ITypeDefOrRefRow typeIdentity)
+        internal static bool IsBaseValueType(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
             if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
@@ -397,7 +397,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        internal static bool IsBaseEnumType(_ICliManager manager, ITypeDefOrRefRow typeIdentity)
+        internal static bool IsBaseEnumType(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
             if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
@@ -416,7 +416,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        internal static bool IsBaseDelegateType(_ICliManager manager, ITypeDefOrRefRow typeIdentity)
+        internal static bool IsBaseDelegateType(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
             if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))

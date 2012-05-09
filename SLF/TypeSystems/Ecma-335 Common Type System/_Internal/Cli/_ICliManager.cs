@@ -24,6 +24,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ICliAssembly GetRelativeAssembly(CliMetadataRoot root);
         IDictionary<ICliMetadataTypeDefinitionTableRow, IType> TypeCache { get; }
         IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> BaseTypeKinds { get; }
-        IDictionary<ITypeDefOrRefRow, BaseKindCacheType> RefBaseTypeKinds { get; }
+        IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> RefBaseTypeKinds { get; }
     }
 }

@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataValueOrClassTypeSignature :
         ICliMetadataValueOrClassTypeSignature
     {
-        internal CliMetadataValueOrClassTypeSignature(bool isClass, ITypeDefOrRefRow target)
+        internal CliMetadataValueOrClassTypeSignature(bool isClass, ICliMetadataTypeDefOrRefRow target)
         {
             this.IsClass = isClass;
             this.Target = target;
@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public bool IsValueType { get { return !this.IsClass; } }
 
-        public ITypeDefOrRefRow Target { get; private set; }
+        public ICliMetadataTypeDefOrRefRow Target { get; private set; }
 
         //#endregion
 
