@@ -549,7 +549,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 return customModifiers.ToArray();
         }
 
-        internal static ITypeDefOrRefRow ParseTypeRefOrDefOrSpecEncoded(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
+        internal static ICliMetadataTypeDefOrRefRow ParseTypeRefOrDefOrSpecEncoded(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             var encodedIndex = CliMetadataRoot.ReadCompressedUnsignedInt(reader);
             CliMetadataTypeDefOrRefTag tableSelector = (CliMetadataTypeDefOrRefTag) (encodedIndex & ((1 << (int) CliMetadataTypeDefOrRefTag.ShiftSize) - 1));

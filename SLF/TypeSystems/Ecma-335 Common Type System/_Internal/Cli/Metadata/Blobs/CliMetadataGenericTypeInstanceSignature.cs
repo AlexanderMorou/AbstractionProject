@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         CliMetadataValueOrClassTypeSignature,
         ICliMetadataGenericTypeInstanceSignature
     {
-        public CliMetadataGenericTypeInstanceSignature(bool isClass, ITypeDefOrRefRow genericType, ICliMetadataTypeSignature[] genericParameters)
+        public CliMetadataGenericTypeInstanceSignature(bool isClass, ICliMetadataTypeDefOrRefRow genericType, ICliMetadataTypeSignature[] genericParameters)
             : base(isClass, genericType)
         {
             if (genericParameters == null || genericParameters.Length == 0)

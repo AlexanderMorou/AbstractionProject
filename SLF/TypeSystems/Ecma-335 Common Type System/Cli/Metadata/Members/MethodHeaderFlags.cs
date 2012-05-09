@@ -9,6 +9,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
     /// The flags that describe the header of a 
     /// Common Language Infrastructure method.
     /// </summary>
+    [Flags]
     public enum MethodHeaderFlags :
         byte
     {

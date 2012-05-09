@@ -16,10 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         /// <remarks>Modifier is optional if false.</remarks>
         bool Required { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeDefOrRefRow"/> which is a typespec,
+        /// Returns the <see cref="ICliMetadataTypeDefOrRefRow"/> which is a typespec,
         /// type definition, or type reference which represents the
         /// <see cref="ICliMetadataCustomModifierSignature"/>.
         /// </summary>
-        ITypeDefOrRefRow ModifierType { get; }
+        ICliMetadataTypeDefOrRefRow ModifierType { get; }
     }
 }

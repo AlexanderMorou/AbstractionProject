@@ -56,12 +56,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Resolves the <paramref name="scope"/> provided.
         /// </summary>
-        /// <param name="scope">The <see cref="ITypeDefOrRefRow"/> to resolve.</param>
+        /// <param name="scope">The <see cref="ICliMetadataTypeDefOrRefRow"/> to resolve.</param>
         /// <returns>A <see cref="ICliMetadataTypeDefinitionTableRow"/>
         /// which denotes the type from which <paramref name="scope"/>
         /// is derived.</returns>
         /// <remarks>Loads the appropriate assemblies should it be a type
         /// reference relative to the current runtime environment.</remarks>
-        ICliMetadataTypeDefinitionTableRow ResolveScope(ITypeDefOrRefRow scope);
+        ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope);
     }
 }

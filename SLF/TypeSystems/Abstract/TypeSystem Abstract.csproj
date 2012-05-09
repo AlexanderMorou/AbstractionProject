@@ -52,7 +52,8 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, DEBUG_SNK</DefineConstants>
-    <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.typesystems.abstract.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>

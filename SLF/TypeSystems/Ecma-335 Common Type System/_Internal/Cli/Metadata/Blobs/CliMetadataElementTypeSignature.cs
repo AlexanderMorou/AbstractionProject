@@ -36,13 +36,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             {
                 case TypeElementClassification.Nullable:
                     return string.Format("{0}?", ElementType);
-                    break;
                 case TypeElementClassification.Pointer:
                     return string.Format("{0}*", ElementType);
-                    break;
                 case TypeElementClassification.Reference:
                     return string.Format("{0}&", ElementType);
-                    break;
                 default:
                     break;
             }
