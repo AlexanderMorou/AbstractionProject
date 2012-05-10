@@ -10,7 +10,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public class CliMetadataGuidHeaderAndHeap :
         CliMetadataStreamHeader,
-        IEnumerable<Guid>
+        IEnumerable<Guid>,
+        ICliMetadataGuidHeaderAndHeap
     {
         private int count;
         private Guid[] data;

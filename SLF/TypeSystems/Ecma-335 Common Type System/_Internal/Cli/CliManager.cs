@@ -180,7 +180,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
-        private CliAssembly GetRelativeAssembly(CliMetadataRoot root)
+        private CliAssembly GetRelativeAssembly(ICliMetadataRoot root)
         {
             if (root != null)
                 foreach (var assembly in this.loadedAssemblies.Values)
@@ -289,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         var assembly = this.GetRelativeAssembly(typeIdentity.MetadataRoot);
                         if (assembly == null)
                         {
-                            var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(typeIdentity.MetadataRoot.SourceImage, typeIdentity.MetadataRoot));
+                            var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(typeIdentity.MetadataRoot.SourceImage, typeIdentity.MetadataRoot));
                             if (identifier == null)
                             {
                                 /* *
@@ -335,7 +335,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         var assembly = this.GetRelativeAssembly(typeIdentity.MetadataRoot);
                         if (assembly == null)
                         {
-                            var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(typeIdentity.MetadataRoot.SourceImage, typeIdentity.MetadataRoot));
+                            var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(typeIdentity.MetadataRoot.SourceImage, typeIdentity.MetadataRoot));
                             if (identifier == null)
                             {
                                 var loadedModule = this.LoadModule((ICliMetadataModuleReferenceTableRow) typeIdentity.Source);
@@ -580,7 +580,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
                 result = new CliAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity, identity.Item2, identity.Item1);
-                //result.InitializeCommon();
                 this.loadedAssemblies.Add(identity.Item2, result);
             }
             return this.loadedAssemblies[identity.Item2];
@@ -790,7 +789,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.refBaseTypeKinds; }
         }
 
-        ICliAssembly _ICliManager.GetRelativeAssembly(CliMetadataRoot root)
+        ICliAssembly _ICliManager.GetRelativeAssembly(ICliMetadataRoot root)
         {
             return GetRelativeAssembly(root);
         }

@@ -98,10 +98,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Cli\Metadata\ICliMetadataBlobEntry.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataBlobHeaderAndHeap.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataBlobHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataGuidHeaderAndHeap.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataMethodBody.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataRoot.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataStringsHeader.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataStringsHeaderAndHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataTableStreamAndHeader.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataUserStringsHeaderAndHeap.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyProcessorTable.cs" />

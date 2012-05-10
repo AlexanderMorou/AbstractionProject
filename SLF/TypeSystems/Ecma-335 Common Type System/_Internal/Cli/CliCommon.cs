@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     static partial class CliCommon
     {
 
-        unsafe internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
+        unsafe internal static Tuple<PEImage, ICliMetadataRoot> LoadAssemblyMetadata(string filename)
         {
             const int slotSize = sizeof(SlotType);
 #if x86
@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return LoadAssemblyMetadata(peStream, image);
         }
 
-        unsafe private static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
+        unsafe private static Tuple<PEImage, ICliMetadataRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
         {
             /* *
              * Resolve the virtual address of the CliHeader, which yields
@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
             var metadataRoot = new CliMetadataRoot();
             metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
-            return new Tuple<PEImage, CliMetadataRoot>(image, metadataRoot);
+            return new Tuple<PEImage, ICliMetadataRoot>(image, metadataRoot);
         }
 
         internal static string MinimizeFilename(string filename)
@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     if (metadataRoot.TableStream.AssemblyTable == null)
                         return null;
-                    var loadedUniqueId = GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(image, metadataRoot));
+                    var loadedUniqueId = GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(image, metadataRoot));
                     if (loadedUniqueId == null)
                         return null;
                     return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string>(loadedUniqueId.Item2, loadedUniqueId.Item1, image, metadataRoot, loadedUniqueId.Item3, resultedFilename);
@@ -155,7 +155,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow> GetAssemblyUniqueIdentifier(Tuple<PEImage, CliMetadataRoot> peAndMetadata)
+        public static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow> GetAssemblyUniqueIdentifier(Tuple<PEImage, ICliMetadataRoot> peAndMetadata)
         {
             var assemblyTable = (CliMetadataAssemblyTable) peAndMetadata.Item2.TableStream[CliMetadataTableKinds.Assembly];
             if (assemblyTable.Count == 0)
@@ -254,7 +254,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 var assembly = manager.GetRelativeAssembly(typeRef.MetadataRoot);
                                 if (assembly == null)
                                 {
-                                    var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, CliMetadataRoot>(typeRef.MetadataRoot.SourceImage, typeRef.MetadataRoot));
+                                    var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(typeRef.MetadataRoot.SourceImage, typeRef.MetadataRoot));
                                     if (identifier == null)
                                     {
                                         var loadedModule = manager.LoadModule((ICliMetadataModuleReferenceTableRow) typeRef.Source);
