@@ -13,7 +13,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public class CliMetadataStringsHeaderAndHeap :
         CliMetadataStreamHeader,
-        IEnumerable<Tuple<int, string>>
+        IEnumerable<Tuple<int, string>>,
+        ICliMetadataStringsHeaderAndHeap
     {
         private int count;
         private int substringCount;

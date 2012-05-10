@@ -15,11 +15,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
     internal class CliMetadataMethodBody :
         ICliMetadataMethodBody
     {
-        CliMetadataRoot metadataRoot;
+        ICliMetadataRoot metadataRoot;
         private uint rva;
         private Substream bodySubstream;
         private EndianAwareBinaryReader bodyReader;
-        public CliMetadataMethodBody(CliMetadataRoot metadataRoot, uint rva)
+        public CliMetadataMethodBody(ICliMetadataRoot metadataRoot, uint rva)
         {
 
             var image = metadataRoot.SourceImage;

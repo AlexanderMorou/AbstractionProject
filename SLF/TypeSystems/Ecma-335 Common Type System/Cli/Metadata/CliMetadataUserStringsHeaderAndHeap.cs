@@ -7,7 +7,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public class CliMetadataUserStringsHeaderAndHeap :
         CliMetadataBlobTypeHeaderAndHeap<string>,
-        IDisposable
+        IDisposable,
+        ICliMetadataUserStringsHeaderAndHeap
     {
 
         public CliMetadataUserStringsHeaderAndHeap(CliMetadataStreamHeader header)

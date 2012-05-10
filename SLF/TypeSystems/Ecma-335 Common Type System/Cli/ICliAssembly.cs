@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="CliMetadataRoot"/> from which the <see cref="ICliAssembly"/>
         /// is derived.
         /// </summary>
-        CliMetadataRoot MetadataRoot { get; }
+        ICliMetadataRoot MetadataRoot { get; }
         /// <summary>
         /// Returns the <see cref="ICliMetadataAssemblyTableRow"/> from which the
         /// <see cref="ICliAssembly"/> is derived.

@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public class CliMetadataRoot :
-        IDisposable
+        ICliMetadataRoot
     {
         private const uint metadataSignature = 0x424A5342;
         private CliHeader header;
@@ -111,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// which denotes the header information for the strings heap and
         /// the blobCacheData within the strings heap.
         /// </summary>
-        public CliMetadataStringsHeaderAndHeap StringsHeap
+        public ICliMetadataStringsHeaderAndHeap StringsHeap
         {
             get
             {
@@ -124,28 +124,28 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// denotes the header information for the user strings heap and
         /// the blobCacheData within the user strings heap.
         /// </summary>
-        public CliMetadataUserStringsHeaderAndHeap UserStringsHeap { get { return this.userStrings; } }
+        public ICliMetadataUserStringsHeaderAndHeap UserStringsHeap { get { return this.userStrings; } }
 
         /// <summary>
         /// Returns the <see cref="CliMetadataGuidHeaderAndHeap"/> which
         /// denotes the header information for the guid heap and the
         /// blobCacheData within the guid heap.
         /// </summary>
-        public CliMetadataGuidHeaderAndHeap GuidHeap { get { return this.guids; } }
+        public ICliMetadataGuidHeaderAndHeap GuidHeap { get { return this.guids; } }
 
         /// <summary>
         /// Returns the <see cref="CliMetadataBlobHeaderAndHeap"/> which
         /// denotes the header information for the blob heap and the
         /// blobCacheData within the blob heap.
         /// </summary>
-        public CliMetadataBlobHeaderAndHeap BlobHeap { get { return this.blob; } }
+        public ICliMetadataBlobHeaderAndHeap BlobHeap { get { return this.blob; } }
 
         /// <summary>
         /// Returns the <see cref="CliMetadataTableStreamAndHeader"/>
         /// which denotes the header information for the table stream
         /// and the metadata within the table heap.
         /// </summary>
-        public CliMetadataTableStreamAndHeader TableStream { get { return this.tableStream; } }
+        public ICliMetadataTableStreamAndHeader TableStream { get { return this.tableStream; } }
 
         internal void Read(CliHeader header, FileStream originalStream, EndianAwareBinaryReader reader, uint relativeVirtualAddress, PEImage sourceImage)
         {

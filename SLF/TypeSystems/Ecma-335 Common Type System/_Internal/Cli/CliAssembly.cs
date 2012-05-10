@@ -26,13 +26,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         private string location;
         private CliManager identityManager;
-        private CliMetadataRoot metadataRoot;
+        private ICliMetadataRoot metadataRoot;
         private _AssemblyInformation assemblyInformation;
         private IStrongNamePublicKeyInfo strongNameInfo;
         private IAssemblyUniqueIdentifier uniqueIdentifier;
         private CliNamespaceKeyedTree namespaceInformation;
-        private CliNamespaceDictionary namespaces;
-        private CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
+        private new CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
         private CliAssemblyReferences references;
         private IDictionary<string, INamespaceDeclaration> namespaceCache = new Dictionary<string, INamespaceDeclaration>();
         public CliAssembly(string location, CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
@@ -170,7 +169,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.identityManager; }
         }
 
-        public CliMetadataRoot MetadataRoot
+        public ICliMetadataRoot MetadataRoot
         {
             get { return this.metadataRoot; }
         }

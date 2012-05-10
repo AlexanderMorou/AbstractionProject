@@ -15,7 +15,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     public sealed partial class CliMetadataBlobHeaderAndHeap :
         CliMetadataStreamHeader,
-        IDisposable
+        IDisposable,
+        ICliMetadataBlobHeaderAndHeap
     {
         private MemoryStream blobStream;
         private EndianAwareBinaryReader reader;
@@ -51,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
             return data;
         }
 
-        internal T GetSignature<T>(SignatureKinds signatureKind, uint heapIndex)
+        public T GetSignature<T>(SignatureKinds signatureKind, uint heapIndex)
             where T :
                 ICliMetadataSignature
         {

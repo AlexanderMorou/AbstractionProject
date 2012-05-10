@@ -22,9 +22,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
     {
         private T[] items;
         private uint rowCount;
-        private CliMetadataRoot metadataRoot;
+        private ICliMetadataRoot metadataRoot;
         private bool fullyRead;
-        protected CliMetadataLazyTable(CliMetadataRoot metadataRoot, uint rowCount)
+        protected CliMetadataLazyTable(ICliMetadataRoot metadataRoot, uint rowCount)
         {
             this.metadataRoot = metadataRoot;
             this.rowCount = rowCount;
