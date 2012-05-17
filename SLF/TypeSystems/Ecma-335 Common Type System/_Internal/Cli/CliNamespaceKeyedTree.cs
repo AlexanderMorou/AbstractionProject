@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -20,15 +21,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.NamespaceTypes = namespaceTypes;
         }
 
-        public CliNamespaceKeyedTreeNode Add(uint partId, uint namespaceHeapIndex, int subspaceStart, int subspaceLength)
+        public CliNamespaceKeyedTreeNode Add(uint partId, uint namespaceHeapIndex, int subspaceStart, int subspaceLength, ICliMetadataStringsHeaderAndHeap stringsSection)
         {
-            var result = new CliNamespaceKeyedTreeNode(namespaceHeapIndex, subspaceStart, subspaceLength);
+            var result = new CliNamespaceKeyedTreeNode(namespaceHeapIndex, subspaceStart, subspaceLength, stringsSection);
             base._Add(partId, result);
             return result;
         }
-        public CliNamespaceKeyedTreeNode Add(uint partId, uint namespaceHeapIndex, int subspaceStart, int subspaceLength, CliMetadataTypeDefinitionTableRow[] namespaceTypes)
+        public CliNamespaceKeyedTreeNode Add(uint partId, uint namespaceHeapIndex, int subspaceStart, int subspaceLength, CliMetadataTypeDefinitionTableRow[] namespaceTypes, ICliMetadataStringsHeaderAndHeap stringsSection)
         {
-            var result = new CliNamespaceKeyedTreeNode(namespaceHeapIndex, subspaceStart, subspaceLength, namespaceTypes);
+            var result = new CliNamespaceKeyedTreeNode(namespaceHeapIndex, subspaceStart, subspaceLength, namespaceTypes, stringsSection);
             base._Add(partId, result);
             return result;
         }

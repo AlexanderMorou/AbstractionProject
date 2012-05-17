@@ -9,9 +9,9 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public partial class CliMetadataTableStreamAndHeader 
+    partial class CliMetadataTableStreamAndHeader 
     {
         //#region ICliMetadataStreamHeader Members
 
@@ -35,5 +35,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         public string Name { get; private set; }
 
         //#endregion
+
+        public override string ToString()
+        {
+            return string.Format("{0} section - {1} bytes at {2} - {3} tables", this.Name, this.Size, this.Offset, this.Count);
+        }
     }
 }

@@ -94,7 +94,11 @@
     <Compile Include="Cli\ICliTypeParent.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
+    <Compile Include="_Internal\Cli\CliTypeDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliTypeDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Cli\Metadata\ICliMetadataBlobEntry.cs" />
@@ -264,7 +268,7 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataReturnTypeSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataPointerTypeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\SignatureParser.cs" />
-    <Compile Include="Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
+    <Compile Include="_Internal\Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="_Internal\Cli\Metadata\CliMetadataMethodBody.cs" />
@@ -320,6 +324,8 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyEvents.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyFields.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyImplementationMap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyImplementedInterfaces.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyNestedClasses.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataManifestResourceTable.cs" />
@@ -358,7 +364,7 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeSpecificationTableRow.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTableRow.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataTableStreamAnd[Header].cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataTableStreamAnd[Header].cs" />
     <Compile Include="_Internal\Cli\AssemblyIdentityParser.cs" />
     <Compile Include="_Internal\Cli\CliCommon.cs" />
     <Compile Include="_Internal\Cli\CliManager.cs" />
@@ -390,13 +396,13 @@
     <Compile Include="Cli\Metadata\CilOpcode.cs" />
     <Compile Include="Cli\Metadata\CilOpcodeInstruction.cs" />
     <Compile Include="Cli\Metadata\CliHeader.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataBlobHeaderAndHeap.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataBlobTypeHeaderAndHeap.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataGuidHeaderAndHeap.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataRoot.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataStreamHeader.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataStringsHeaderAndHeap.cs" />
-    <Compile Include="Cli\Metadata\CliMetadataUserStringsHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobTypeHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataGuidHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataRoot.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataStreamHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataStringsHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataUserStringsHeaderAndHeap.cs" />
     <Compile Include="Cli\Metadata\CliRuntimeFlags.cs" />
     <Compile Include="Cli\Metadata\Members\MethodHeaderFlags.cs" />
     <Compile Include="Cli\Metadata\Members\MethodSectionFlags.cs" />
@@ -433,7 +439,9 @@
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
+    <Compile Include="_Internal\Cli\_ICliAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />
+    <Compile Include="_Internal\Cli\_ICliTypeParent.cs" />
     <Compile Include="_Internal\Cli\_Version.cs" />
   </ItemGroup>
   <ItemGroup>

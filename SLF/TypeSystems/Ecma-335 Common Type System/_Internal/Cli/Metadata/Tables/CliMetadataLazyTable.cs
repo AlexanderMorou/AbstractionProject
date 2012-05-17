@@ -190,5 +190,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
         }
 
         //#endregion
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1} entries.", this.Count, this.Kind);
+        }
     }
 }

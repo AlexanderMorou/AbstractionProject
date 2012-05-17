@@ -15,15 +15,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public bool IsSubspace { get; private set; }
         public int SubspaceLength { get; private set; }
         public int SubspaceStart { get; private set; }
+        public ICliMetadataStringsHeaderAndHeap StringsSection { get; private set; }
 
-
-        public CliNamespaceKeyedTreeNode(uint namespaceHeapIndex, int subspaceStart, int subspaceLength)
+        public CliNamespaceKeyedTreeNode(uint namespaceHeapIndex, int subspaceStart, int subspaceLength, ICliMetadataStringsHeaderAndHeap stringsSection)
             : base()
         {
             this.Value= namespaceHeapIndex;
             this.IsSubspace = true;
             this.SubspaceLength = subspaceLength;
             this.SubspaceStart = subspaceStart;
+            this.StringsSection = stringsSection;
         }
 
         /// <summary>
@@ -40,13 +41,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <param name="namespaceTypes">The <see cref="CliMetadataTypeDefinitionTableRow"/> array
         /// which denotes the namespace's defined types.</param>
         /// <remarks>Namespace information with types are fully qualified namespaces.</remarks>
-        internal CliNamespaceKeyedTreeNode(uint namespaceHeapIndex, int subspaceStart, int subspaceLength, CliMetadataTypeDefinitionTableRow[] namespaceTypes)
+        internal CliNamespaceKeyedTreeNode(uint namespaceHeapIndex, int subspaceStart, int subspaceLength, CliMetadataTypeDefinitionTableRow[] namespaceTypes, ICliMetadataStringsHeaderAndHeap stringsSection)
             : base(namespaceTypes)
         {
             this.Value = namespaceHeapIndex;
             this.IsSubspace = false;
             this.SubspaceLength = subspaceLength;
             this.SubspaceStart = subspaceStart;
+            this.StringsSection = stringsSection;
         }
 
 

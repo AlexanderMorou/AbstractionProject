@@ -205,7 +205,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IGeneralTypeUniqueIdentifier GetTypeIdentifier(string @namespace, string name)
         {
-            if (@namespace == null)
+            if (string.IsNullOrEmpty(@namespace))
                 return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name);
             else
                 return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name);
@@ -218,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(string @namespace, string name, int typeParameters)
         {
-            if (@namespace == null)
+            if (string.IsNullOrEmpty(@namespace))
                 return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name, typeParameters);
             else
                 return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name, typeParameters);

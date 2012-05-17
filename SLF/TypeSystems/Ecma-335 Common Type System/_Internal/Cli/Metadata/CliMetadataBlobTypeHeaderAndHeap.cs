@@ -8,9 +8,9 @@ using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public abstract class CliMetadataBlobTypeHeaderAndHeap<T> :
+    internal abstract class CliMetadataBlobTypeHeaderAndHeap<T> :
         CliMetadataStreamHeader,
         IDisposable,
         IEnumerable<Tuple<int, T>>

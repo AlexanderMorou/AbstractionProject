@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -36,7 +37,51 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public INamespaceDeclaration this[string path]
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                string ns = path;
+
+                int lastIndex = 0;
+                CliNamespaceKeyedTree topLevel = this.info;
+                INamespaceDictionary topNamespaceDict = this;
+                StringBuilder pathBuilder = new StringBuilder();
+                bool first = true;
+            nextPart:
+                int next = ns.IndexOf('.', lastIndex);
+                if (first)
+                    first = false;
+                else
+                    pathBuilder.Append('.');
+                if (next != -1)
+                {
+                    string current = ns.Substring(lastIndex, next - lastIndex);
+                    pathBuilder.Append(current);
+                    uint currentHash = (uint) current.GetHashCode();
+                    if (topLevel.ContainsKey(currentHash))
+                    {
+
+                        topLevel = topLevel[currentHash];
+                        topNamespaceDict = topNamespaceDict[AstIdentifier.GetDeclarationIdentifier(pathBuilder.ToString())].Namespaces;
+                    }
+                    else
+                        return null;
+                    lastIndex = next + 1;
+                    goto nextPart;
+                }
+                else
+                {
+                    string current = ns.Substring(lastIndex);
+                    pathBuilder.Append(current);
+                    uint currentHash = (uint) current.GetHashCode();
+                    if (topLevel.ContainsKey(currentHash))
+                    {
+                        topLevel = topLevel[currentHash];
+                        return topNamespaceDict[AstIdentifier.GetDeclarationIdentifier(pathBuilder.ToString())];
+                    }
+                    else
+                        return null;
+                }
+            }
         }
 
         #endregion

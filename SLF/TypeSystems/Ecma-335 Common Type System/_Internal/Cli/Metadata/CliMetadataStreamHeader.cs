@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public class CliMetadataStreamHeader :
+    internal class CliMetadataStreamHeader :
         ICliMetadataStreamHeader
     {
         private uint offset;

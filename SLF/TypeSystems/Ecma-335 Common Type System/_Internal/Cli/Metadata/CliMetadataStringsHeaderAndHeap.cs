@@ -8,13 +8,15 @@ using System.Text;
 using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public class CliMetadataStringsHeaderAndHeap :
+    internal class CliMetadataStringsHeaderAndHeap :
         CliMetadataStreamHeader,
         IEnumerable<Tuple<int, string>>,
-        ICliMetadataStringsHeaderAndHeap
+        ICliMetadataStringsHeaderAndHeap,
+        IDisposable
     {
         private int count;
         private int substringCount;

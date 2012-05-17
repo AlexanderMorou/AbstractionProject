@@ -10,10 +10,11 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public sealed partial class CliMetadataBlobHeaderAndHeap :
+    internal sealed partial class CliMetadataBlobHeaderAndHeap :
         CliMetadataStreamHeader,
         IDisposable,
         ICliMetadataBlobHeaderAndHeap

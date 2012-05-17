@@ -17,6 +17,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using SlotType = System.UInt32;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 #elif x64
 using SlotType = System.UInt64;
 #endif
@@ -26,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     static partial class CliCommon
     {
 
-        unsafe internal static Tuple<PEImage, ICliMetadataRoot> LoadAssemblyMetadata(string filename)
+        unsafe internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
         {
             const int slotSize = sizeof(SlotType);
 #if x86
@@ -40,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return LoadAssemblyMetadata(peStream, image);
         }
 
-        unsafe private static Tuple<PEImage, ICliMetadataRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
+        unsafe private static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
         {
             /* *
              * Resolve the virtual address of the CliHeader, which yields
@@ -66,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
             var metadataRoot = new CliMetadataRoot();
             metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
-            return new Tuple<PEImage, ICliMetadataRoot>(image, metadataRoot);
+            return new Tuple<PEImage, CliMetadataRoot>(image, metadataRoot);
         }
 
         internal static string MinimizeFilename(string filename)
@@ -565,6 +566,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeSignature typeIdentity, _ICliManager manager, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate, bool typeSpec)
         {
             throw new NotImplementedException();
+        }
+
+        internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(ICliMetadataTypeDefinitionTableRow typeMetadata, _ICliAssembly assembly, _ICliManager manager)
+        {
+            if (CliCommon.IsEnum(manager, typeMetadata))
+                return assembly.UniqueIdentifier.GetTypeIdentifier(typeMetadata.Namespace, typeMetadata.Name);
+            else
+            {
+                var declaringTypeMetadata = typeMetadata.DeclaringType;
+                IGeneralDeclarationUniqueIdentifier @namespace = null;
+                if (declaringTypeMetadata == null && typeMetadata.NamespaceIndex != 0)
+                    @namespace = assembly.GetNamespace(typeMetadata.Namespace).UniqueIdentifier;
+                else if (typeMetadata.NamespaceIndex != 0)
+                    @namespace = AstIdentifier.GetDeclarationIdentifier(typeMetadata.Namespace);
+                if (typeMetadata.MetadataRoot.TableStream.GenericParameterTable == null)
+                    return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, 0);
+                else
+                {
+                    if (declaringTypeMetadata != null)
+                        return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count - declaringTypeMetadata.TypeParameters.Count);
+                    else
+                        return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count);
+                }
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         ICliManager IdentityManager { get; }
         /// <summary>
-        /// Returns the <see cref="CliMetadataRoot"/> from which the <see cref="ICliAssembly"/>
+        /// Returns the <see cref="ICliMetadataRoot"/> from which the <see cref="ICliAssembly"/>
         /// is derived.
         /// </summary>
         ICliMetadataRoot MetadataRoot { get; }

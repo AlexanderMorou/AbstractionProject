@@ -9,7 +9,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
     {
         /// <summary>
         /// Returns the <see cref="UInt32"/> value which denotes the
-        /// start of the stream relative to the <see cref="CliMetadataRoot"/>.
+        /// start of the stream relative to the <see cref="ICliMetadataRoot"/>.
         /// </summary>
         uint Offset { get; }
         /// <summary>

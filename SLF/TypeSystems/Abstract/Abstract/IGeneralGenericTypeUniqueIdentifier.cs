@@ -10,5 +10,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IGeneralTypeUniqueIdentifier,
         IEquatable<IGeneralGenericTypeUniqueIdentifier>
     {
+        bool UsesNonstandardGraveAccentElement { get; }
     }
 }
