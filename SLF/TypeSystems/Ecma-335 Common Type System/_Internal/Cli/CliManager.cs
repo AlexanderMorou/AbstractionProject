@@ -23,6 +23,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -105,6 +106,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * Return the assembly relative to the current runtime environment,
              * using its location might load the wrong one.
              * */
+
             var name = assemblyIdentity.GetName();
             return this.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier(name.Name, name.Version, CultureIdentifiers.GetIdentifierById((CultureIdentifiers.NumericIdentifiers) name.CultureInfo.LCID), name.GetPublicKeyToken()));
         }
@@ -167,6 +169,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         break;
                     }
                 }
+
                 if (valid == null)
                     throw new FileNotFoundException("The file associated to the module to load cannot be found.", toCheck.Name);
                 if (valid.Item2.TableStream.ModuleTable == null ||
@@ -321,7 +324,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             else
                             {
                                 CliAssembly identitySource;
-                                this.loadedAssemblies.Add(identifier.Item2, identitySource = new CliAssembly(identifier.Item3.MetadataRoot.SourceImage.Filename, this, identifier.Item3, identifier.Item2, identifier.Item1));
+                                this.loadedAssemblies.Add(identifier.Item2, identitySource = new CliAssembly(this, identifier.Item3, identifier.Item2, identifier.Item1));
                                 var localizedType = identitySource.FindType(typeIdentity.Namespace, typeIdentity.Name);
                                 if (localizedType == null)
                                     throw new TypeLoadException(string.Format("Cannot find type \"{0}.{1}, {2}\"", typeIdentity.Namespace, typeIdentity.Name, identitySource.UniqueIdentifier));
@@ -445,7 +448,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (validResult != null)
                 {
-                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
+                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
                     if (gacAssembly)
                         result.IsFromGlobalAssemblyCache = true;
                     //result.InitializeCommon();
@@ -548,7 +551,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                     metadataRoot.Dispose();
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
                                 }
-                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(filename, this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
+                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
                                 //result.InitializeCommon();
                                 this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
                                 return result;
@@ -579,7 +582,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             CliAssembly result;
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
-                result = new CliAssembly(assemblyIdentity.MetadataRoot.SourceImage.Filename, this, assemblyIdentity, identity.Item2, identity.Item1);
+                result = new CliAssembly(this, assemblyIdentity, identity.Item2, identity.Item1);
                 this.loadedAssemblies.Add(identity.Item2, result);
             }
             return this.loadedAssemblies[identity.Item2];
@@ -610,8 +613,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (validResult != null)
                 {
-                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(validResult.Item6, this, validResult.Item5, validResult.Item1, validResult.Item2));
-                    //result.InitializeCommon();
+                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
                     this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                 }
                 else

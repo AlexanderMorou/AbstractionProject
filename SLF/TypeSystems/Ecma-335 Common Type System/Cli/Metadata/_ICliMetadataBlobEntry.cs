@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public interface _ICliMetadataBlobEntry :
+    internal interface _ICliMetadataBlobEntry :
         ICliMetadataBlobEntry
     {
         new ICliMetadataSignature Signature { get; set; }

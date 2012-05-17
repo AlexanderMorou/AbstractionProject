@@ -33,11 +33,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                string fullSpace = this.owningAssembly.MetadataRoot.StringsHeap[this.namespaceInfo.Value];
-                if (this.namespaceInfo.IsSubspace)
-                    return fullSpace.Substring(0, this.namespaceInfo.SubspaceStart + this.namespaceInfo.SubspaceLength);
-                else
+                string fullSpace = this.namespaceInfo.StringsSection[this.namespaceInfo.Value];
+                if (namespaceInfo.SubspaceLength == 0)
                     return fullSpace;
+                else
+                    return fullSpace.Substring(0, this.namespaceInfo.SubspaceStart + this.namespaceInfo.SubspaceLength);
             }
         }
 
@@ -57,7 +57,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public INamespaceDictionary Namespaces
         {
-            get {
+            get
+            {
                 if (namespaces == null)
                     this.namespaces = new CliNamespaceDictionary(this.owningAssembly, this, this.namespaceInfo);
                 return this.namespaces;
@@ -145,7 +146,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { return AstIdentifier.GetDeclarationIdentifier(this.Name); }
+            get { return AstIdentifier.GetDeclarationIdentifier(this.FullName); }
         }
 
         //#endregion
@@ -158,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                string fullSpace = this.owningAssembly.MetadataRoot.StringsHeap[this.namespaceInfo.Value];
+                string fullSpace = this.namespaceInfo.StringsSection[this.namespaceInfo.Value];
                 return fullSpace.Substring(this.namespaceInfo.SubspaceStart, this.namespaceInfo.SubspaceLength);
             }
         }

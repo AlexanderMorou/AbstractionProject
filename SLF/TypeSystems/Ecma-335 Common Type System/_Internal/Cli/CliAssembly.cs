@@ -22,21 +22,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal partial class CliAssembly :
         AssemblyBase,
-        ICliAssembly
+        _ICliAssembly,
+        _ICliTypeParent
     {
-        private string location;
         private CliManager identityManager;
         private ICliMetadataRoot metadataRoot;
         private _AssemblyInformation assemblyInformation;
         private IStrongNamePublicKeyInfo strongNameInfo;
         private IAssemblyUniqueIdentifier uniqueIdentifier;
+        private IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _types;
         private CliNamespaceKeyedTree namespaceInformation;
         private new CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
         private CliAssemblyReferences references;
-        private IDictionary<string, INamespaceDeclaration> namespaceCache = new Dictionary<string, INamespaceDeclaration>();
-        public CliAssembly(string location, CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
+
+        public CliAssembly(CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
-            this.location = location;
             this.metadataRoot = metadata.MetadataRoot;
             this.Metadata = metadata;
             this.uniqueIdentifier = uniqueIdentifier;
@@ -116,7 +116,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IFullTypeDictionary InitializeTypes()
         {
-            throw new NotImplementedException();
+            return new CliTypeDictionary(this);
         }
 
         protected override IAssemblyInformation OnGetAssemblyInformation()
@@ -269,7 +269,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     continue;
                 var currentRows = nonNestedTypes[currentIndex];
                 var currentCount = nonNestedCounts[currentIndex];
-                string currentString = modules[namespaceIndicesArray[i].Item1].MetadataRoot.StringsHeap[currentIndex];
+                var module = modules[namespaceIndicesArray[i].Item1];
+                string currentString = module.MetadataRoot.StringsHeap[currentIndex];
 
                 /* *
                  * Eliminate the null row entries by reducing the sizes
@@ -326,9 +327,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     CliNamespaceKeyedTreeNode next;
                     if (!current.TryGetValue(partId, out next))
                         if (fullName)
-                            current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex, currentRows);
+                            current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex, currentRows, module.MetadataRoot.StringsHeap);
                         else
-                            current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex);
+                            current = current.Add(partId, currentIndex, startIndex, currentLength - startIndex, module.MetadataRoot.StringsHeap);
                     else
                     {
                         current = next;
@@ -357,7 +358,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        internal string Location { get { return this.location; } }
+        internal string Location { get { return this.MetadataRoot.SourceImage.Filename; } }
 
         internal bool IsFromGlobalAssemblyCache { get; set; }
 
@@ -451,9 +452,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return null;
         }
 
-        internal INamespaceDeclaration GetNamespace(string namespaceName)
+        public INamespaceDeclaration GetNamespace(string @namespace)
         {
-            return this.Namespaces[namespaceName];
+            return this.Namespaces[@namespace];
         }
+
+        #region _ICliTypeParent Members
+
+        _ICliManager _ICliTypeParent.Manager
+        {
+            get { return this.IdentityManager; }
+        }
+
+        _ICliAssembly _ICliTypeParent.Assembly
+        {
+            get { return this; }
+        }
+
+        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types
+        {
+            get { 
+                if (this._types==null)
+                    this._types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(this.NamespaceInformation.NamespaceTypes);
+                return this._types;
+            }
+        }
+
+        #endregion
+
+
     }
 }

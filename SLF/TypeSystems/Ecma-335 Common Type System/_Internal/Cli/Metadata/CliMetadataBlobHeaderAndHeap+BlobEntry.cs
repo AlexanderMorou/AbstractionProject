@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
     partial class CliMetadataBlobHeaderAndHeap
     {

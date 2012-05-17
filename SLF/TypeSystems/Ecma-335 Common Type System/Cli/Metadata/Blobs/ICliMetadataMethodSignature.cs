@@ -8,7 +8,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
     public interface ICliMetadataMethodSignature :
         ICliMetadataStandAloneCommonMethodSignature,
-        ICliMetadataSignature
+        ICliMetadataMemberRefSignature
     {
         ICliMetadataReturnTypeSignature ReturnType { get; }
         /// <summary>

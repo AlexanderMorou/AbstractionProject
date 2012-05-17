@@ -67,6 +67,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public DefaultGenericTypeUniqueIdentifier(string name, int typeParameters, IAssemblyUniqueIdentifier assembly, IGeneralDeclarationUniqueIdentifier @namespace)
             {
+                int graveIndex = name.IndexOf('`');
+                if (graveIndex != -1)
+                {
+                    var gravePart = name.Substring(graveIndex + 1);
+                    int graveTypeParameters;
+                    if (int.TryParse(gravePart, out graveTypeParameters) && graveTypeParameters == typeParameters)
+                    {
+                        if (graveTypeParameters == typeParameters)
+                            name = name.Substring(0, graveIndex);
+                        else
+                            this.UsesNonstandardGraveAccentElement = true;
+                    }
+                }
                 this.Name = name;
                 this.TypeParameters = typeParameters;
                 this.Assembly = assembly;
@@ -137,9 +150,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override int GetHashCode()
             {
                 if (this.Name == null)
-                    return -33 ^ this.TypeParameters;
+                    return -33 ^ this.TypeParameters ^ this.UsesNonstandardGraveAccentElement.GetHashCode();
                 else
-                    return this.Name.GetHashCode() ^ this.TypeParameters;
+                    return this.Name.GetHashCode() ^ this.TypeParameters ^ this.UsesNonstandardGraveAccentElement.GetHashCode();
             }
 
             public override string ToString()
@@ -152,7 +165,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         else
                             return "<unknown>";
                     else if (this.IsGenericConstruct)
-                        return string.Format("{0}`{1}", this._FullName, this.TypeParameters);
+                        if (this.UsesNonstandardGraveAccentElement)
+                            return this._FullName;
+                        else
+                            return string.Format("{0}`{1}", this._FullName, this.TypeParameters);
                     else
                         return this._FullName;
                 }
@@ -163,7 +179,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         else
                             return string.Format("<unknown>, {0}", this.Assembly);
                     else if (this.IsGenericConstruct)
-                        return string.Format("{0}`{1}, {2}", this._FullName, this.TypeParameters, this.Assembly);
+                        if (this.UsesNonstandardGraveAccentElement)
+                            return string.Format("{0}, {1}", this._FullName, this.Assembly);
+                        else
+                            return string.Format("{0}`{1}, {2}", this._FullName, this.TypeParameters, this.Assembly);
                     else
                         return string.Format("{0}, {1}", this._FullName, this.Assembly);
             }
@@ -172,11 +191,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             {
                 get
                 {
-                    if (this.Namespace == null)
+                    if (this.Namespace == null || this.Namespace.Name == string.Empty)
                         return this.Name;
-                    else
-                        return string.Format("{0}.{1}", this.Namespace, this.Name);
-
+                    return string.Format("{0}.{1}", this.Namespace, this.Name);
                 }
             }
 
@@ -189,7 +206,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             //#endregion
 
 
+            //#region IGeneralGenericTypeUniqueIdentifier Members
 
+            public bool UsesNonstandardGraveAccentElement { get; private set; }
+
+            //#endregion
         }
 
         private class DefaultTypeUniqueIdentifier :
@@ -1153,7 +1174,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public IGeneralTypeUniqueIdentifier GetTypeIdentifier(string @namespace, string name)
             {
-                if (@namespace == null)
+                if (string.IsNullOrEmpty(@namespace))
                     return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name);
                 else
                     return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name);
@@ -1166,7 +1187,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(string @namespace, string name, int typeParameters)
             {
-                if (@namespace == null)
+                if (string.IsNullOrEmpty(@namespace))
                     return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name, typeParameters);
                 else
                     return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name, typeParameters);

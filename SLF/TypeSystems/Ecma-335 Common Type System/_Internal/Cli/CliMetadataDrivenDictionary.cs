@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 int index = this.Keys.IndexOf(key);
                 if (index == -1)
                     throw new KeyNotFoundException();
-                return this.values[index];
+                return this.Values[index];
             }
         }
 

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    public class CliMetadataUserStringsHeaderAndHeap :
+    internal class CliMetadataUserStringsHeaderAndHeap :
         CliMetadataBlobTypeHeaderAndHeap<string>,
         IDisposable,
         ICliMetadataUserStringsHeaderAndHeap
