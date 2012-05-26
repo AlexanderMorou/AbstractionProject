@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using System.Reflection;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 {
@@ -36,27 +37,30 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 
         private static ICliManager DoTest()
         {
-            _ICliManager clim = (_ICliManager) CliGateway.CreateIdentityManager(FrameworkPlatform.x86Platform, FrameworkVersion.v4_0_30319, true, true, true, typeof(Program).Assembly.Location);
+            _ICliManager clim = (_ICliManager) CliGateway.CreateIdentityManager(FrameworkPlatform.x86Platform, CliGateway.CurrentVersion, true, true, true, typeof(Program).Assembly.Location);
             var assemblies = (from f in ObtainFrameworkAssemblies(clim.RuntimeEnvironment)
-                              let assembly = (_ICliAssembly)clim.ObtainAssemblyReference(f)
+                              let assembly = (_ICliAssembly) clim.ObtainAssemblyReference(f)
                               select assembly).ToList();
 
             foreach (var t in (from assembly in assemblies
                                from t in assembly.MetadataRoot.TableStream.Values
                                select t))
                 t.Read();
-            var tParamIdentifiers = (from assembly in assemblies
-                                     from ICliModule module in assembly.Modules.Values
-                                     from type in module.Metadata.MetadataRoot.TableStream.TypeDefinitionTable
-                                     where (((type.TypeAttributes & TypeAttributes.VisibilityMask)!= TypeAttributes.Public && ((type.TypeAttributes & TypeAttributes.VisibilityMask) != TypeAttributes.NotPublic))) && type.NamespaceIndex != 0
-                                     let identifier = CliCommon.GetUniqueIdentifier(type, assembly, clim)
-                                     //where identifier is IGeneralGenericTypeUniqueIdentifier
-                                     //let gIdentifier = (IGeneralGenericTypeUniqueIdentifier) identifier
-                                     //where gIdentifier.TypeParameters > 0
-                                     select identifier).ToArray();
-            foreach (var identifier in tParamIdentifiers)
-                Console.WriteLine(identifier);
-            
+            //var tParamIdentifiers = (from assembly in assemblies
+            //                         from ICliModule module in assembly.Modules.Values
+            //                         from type in module.Metadata.MetadataRoot.TableStream.TypeDefinitionTable
+            //                         where type.TypeParameters != null && type.TypeParameters.Count > 0
+            //                         //where (((type.TypeAttributes & TypeAttributes.VisibilityMask)!= TypeAttributes.Public && ((type.TypeAttributes & TypeAttributes.VisibilityMask) != TypeAttributes.NotPublic))) && type.NamespaceIndex != 0
+            //                         let identifier = CliCommon.GetUniqueIdentifier(type, assembly, clim)
+            //                         where identifier is IGeneralGenericTypeUniqueIdentifier
+            //                         let gIdentifier = (IGeneralGenericTypeUniqueIdentifier) identifier
+            //                         where gIdentifier.TypeParameters > 0
+            //                         orderby gIdentifier.ToString()
+            //                         select gIdentifier).ToArray();
+            //foreach (var identifier in tParamIdentifiers)
+            //    Console.WriteLine(identifier);
+            var m = (ICliType)clim.ObtainTypeReference(typeof(ISubordinateDictionary<,,,>));
+            //var u = (ICliType)clim.ObtainTypeReference(clim.ResolveScope(m.Metadata.Extends));
             return clim;
         }
 

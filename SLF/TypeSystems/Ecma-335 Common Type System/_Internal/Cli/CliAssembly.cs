@@ -415,6 +415,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return null;
         }
 
+        public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
+        {
+            if (uniqueIdentifier.Name.Contains('`'))
+                return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
+            else if (uniqueIdentifier is IGenericTypeUniqueIdentifier)
+                return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier)(uniqueIdentifier)).TypeParameters));
+            return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
+        }
+
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
         {
             string ns = @namespace;
