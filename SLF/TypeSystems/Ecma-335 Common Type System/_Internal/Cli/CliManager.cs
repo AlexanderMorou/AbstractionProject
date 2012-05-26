@@ -56,7 +56,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(Type typeIdentity)
         {
-            throw new NotImplementedException();
+            //var assembly = this.ObtainAssemblyReference(typeIdentity.Assembly);
+            return this.ObtainTypeReference(this.ObtainAssemblyReference(typeIdentity.Assembly).UniqueIdentifier.GetTypeIdentifier(typeIdentity.Namespace, typeIdentity.FullName.Substring(typeIdentity.Namespace.Length + 1)));
         }
 
         //#endregion
@@ -107,8 +108,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * using its location might load the wrong one.
              * */
 
-            var name = assemblyIdentity.GetName();
-            return this.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier(name.Name, name.Version, CultureIdentifiers.GetIdentifierById((CultureIdentifiers.NumericIdentifiers) name.CultureInfo.LCID), name.GetPublicKeyToken()));
+            return this.ObtainAssemblyReference(assemblyIdentity.Location);
         }
 
         //#endregion
@@ -212,24 +212,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        #region ICliManager Members
-
-
-        public IType ObtainTypeReference(PrimitiveType typeIdentity, ICliAssembly relativeSource)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region ITypeIdentityManager<ITypeUniqueIdentifier> Members
-
-        public IType ObtainTypeReference(ITypeUniqueIdentifier typeIdentity)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
         //#region ITypeIdentityManager<CliMetadataTypeDefinitionTableRow> Members
 
         public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
@@ -243,20 +225,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (!typeCache.TryGetValue(typeIdentity, out result))
                 {
                     if (CliCommon.IsBaseObject(this, typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
                     else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
                      (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface, typeIdentity);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface, typeIdentity, this);
                     else if (CliCommon.IsBaseObject(this, typeIdentity.Extends))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
                     else if (CliCommon.IsEnum(this, typeIdentity))
-                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumerator, typeIdentity);
+                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumerator, typeIdentity, this);
                     else if (CliCommon.IsValueType(this, typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity, this);
                     else if (CliCommon.IsDelegate(this, typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate, typeIdentity);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate, typeIdentity, this);
                     else
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity);
+                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
                     this.typeCache.Add(typeIdentity, result);
                 }
             }
@@ -634,15 +616,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        private class M_T<T> : TypeBase<T>
+        private class M_T<T> : 
+            TypeBase<T>,
+            ICliType
         where T :
             ITypeUniqueIdentifier
         {
-            private ICliMetadataTypeDefinitionTableRow metadata;
-            internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata)
+            private _ICliManager creatingManager;
+            internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata, _ICliManager creatingManager)
             {
                 this.TypeKind = kind;
-                this.metadata = metadata;
+                this.Metadata = metadata;
+                this.creatingManager = creatingManager;
             }
             protected override IType OnGetDeclaringType()
             {
@@ -683,7 +668,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             protected override IAssembly OnGetAssembly()
             {
-                throw new NotImplementedException();
+                return this.Assembly;
             }
 
             protected override IArrayType OnMakeArray(int rank)
@@ -760,12 +745,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    if (this.metadata.NamespaceIndex == 0)
-                        return string.Format("{0}", this.metadata.Name);
+                    if (this.Metadata.NamespaceIndex == 0)
+                        return string.Format("{0}", this.Metadata.Name);
                     else
-                        return string.Format("{0}.{1}", this.metadata.Namespace, this.metadata.Name);
+                        return string.Format("{0}.{1}", this.Metadata.Namespace, this.Metadata.Name);
                 }
             }
+
+            #region ICliType Members
+
+            public new ICliAssembly Assembly
+            {
+                get
+                {
+                    return this.creatingManager.GetRelativeAssembly(this.Metadata.MetadataRoot);
+                }
+            }
+
+            public ICliMetadataTypeDefinitionTableRow Metadata { get; private set; }
+
+            #endregion
+
+
+            #region ICliDeclaration Members
+
+            ICliMetadataTableRow ICliDeclaration.Metadata
+            {
+                get { return this.Metadata; }
+            }
+
+            #endregion
         }
 
 

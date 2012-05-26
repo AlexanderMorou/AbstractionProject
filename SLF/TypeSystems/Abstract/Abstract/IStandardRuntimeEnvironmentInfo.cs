@@ -22,135 +22,135 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// will be unavailable.</remarks>
         bool UseCoreLibrary { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of all array types.
         /// </summary>
-        ITypeUniqueIdentifier ArrayType { get; }
+        IGeneralTypeUniqueIdentifier ArrayType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of all asynchronous tasks.
         /// </summary>
-        ITypeUniqueIdentifier AsynchronousTask { get; }
+        IGeneralTypeUniqueIdentifier AsynchronousTask { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of all generic asynchronous tasks.
         /// </summary>
-        ITypeUniqueIdentifier AsynchronousTaskOfT { get; }
+        IGeneralTypeUniqueIdentifier AsynchronousTaskOfT { get; }
 
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a boolean value.
         /// </summary>
-        ITypeUniqueIdentifier Boolean { get; }
+        IGeneralTypeUniqueIdentifier Boolean { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a decimal value.
         /// </summary>
-        ITypeUniqueIdentifier Decimal { get; }
+        IGeneralTypeUniqueIdentifier Decimal { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a single-precision floating-point value.
         /// </summary>
-        ITypeUniqueIdentifier Single { get; }
+        IGeneralTypeUniqueIdentifier Single { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a double-precision floating-point value.
         /// </summary>
-        ITypeUniqueIdentifier Double { get; }
+        IGeneralTypeUniqueIdentifier Double { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a signed byte.
         /// </summary>
-        ITypeUniqueIdentifier SByte { get; }
+        IGeneralTypeUniqueIdentifier SByte { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of an unsigned byte.
         /// </summary>
-        ITypeUniqueIdentifier Byte { get; }
+        IGeneralTypeUniqueIdentifier Byte { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a unicode character.
         /// </summary>
-        ITypeUniqueIdentifier Char { get; }
+        IGeneralTypeUniqueIdentifier Char { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of the compiler generated metadatum.
         /// </summary>
-        ITypeUniqueIdentifier CompilerGeneratedMetadatum { get; }
+        IGeneralTypeUniqueIdentifier CompilerGeneratedMetadatum { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of all delegate types
         /// </summary>
-        ITypeUniqueIdentifier Delegate { get; }
+        IGeneralTypeUniqueIdentifier Delegate { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of all enumerations.
         /// </summary>
-        ITypeUniqueIdentifier EnumBaseType { get; }
+        IGeneralTypeUniqueIdentifier EnumBaseType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a signed 16-bit integer.
         /// </summary>
-        ITypeUniqueIdentifier Int16 { get; }
+        IGeneralTypeUniqueIdentifier Int16 { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of an unsigned 16-bit integer.
         /// </summary>
-        ITypeUniqueIdentifier UInt16 { get; }
+        IGeneralTypeUniqueIdentifier UInt16 { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a signed 32-bit integer.
         /// </summary>
-        ITypeUniqueIdentifier Int32 { get; }
+        IGeneralTypeUniqueIdentifier Int32 { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of an unsigned 32-bit integer.
         /// </summary>
-        ITypeUniqueIdentifier UInt32 { get; }
+        IGeneralTypeUniqueIdentifier UInt32 { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a signed 64-bit integer.
         /// </summary>
-        ITypeUniqueIdentifier Int64 { get; }
+        IGeneralTypeUniqueIdentifier Int64 { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of an unsigned 64-bit integer.
         /// </summary>
-        ITypeUniqueIdentifier UInt64 { get; }
+        IGeneralTypeUniqueIdentifier UInt64 { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the root of all multicast delegate types.
         /// </summary>
-        ITypeUniqueIdentifier MulticastDelegate { get; }
+        IGeneralTypeUniqueIdentifier MulticastDelegate { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the base type of a nullable type.
         /// </summary>
-        ITypeUniqueIdentifier NullableBaseType { get; }
+        IGeneralTypeUniqueIdentifier NullableBaseType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition a nullable type.
         /// </summary>
-        ITypeUniqueIdentifier NullableType { get; }
+        IGeneralTypeUniqueIdentifier NullableType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's 
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's 
         /// definition of the root of all types.
         /// </summary>
-        ITypeUniqueIdentifier RootType { get; }
+        IGeneralTypeUniqueIdentifier RootType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of a series of unicode characters.
         /// </summary>
-        ITypeUniqueIdentifier String { get; }
+        IGeneralTypeUniqueIdentifier String { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the base of all value types.
         /// </summary>
-        ITypeUniqueIdentifier ValueTypeBaseType { get; }
+        IGeneralTypeUniqueIdentifier ValueTypeBaseType { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeUniqueIdentifier"/> relative to the runtime's
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> relative to the runtime's
         /// definition of the void type.
         /// </summary>
-        ITypeUniqueIdentifier VoidType { get; }
+        IGeneralTypeUniqueIdentifier VoidType { get; }
     }
 }

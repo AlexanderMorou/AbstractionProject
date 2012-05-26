@@ -295,7 +295,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region IStandardRuntimeEnvironmentInfo Members
 
-        public ITypeUniqueIdentifier ArrayType
+        public IGeneralTypeUniqueIdentifier ArrayType
         {
             get
             {
@@ -306,7 +306,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier AsynchronousTask
+        public IGeneralTypeUniqueIdentifier AsynchronousTask
         {
             get
             {
@@ -317,7 +317,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier AsynchronousTaskOfT
+        public IGeneralTypeUniqueIdentifier AsynchronousTaskOfT
         {
             get
             {
@@ -328,7 +328,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Byte
+        public IGeneralTypeUniqueIdentifier Byte
         {
             get
             {
@@ -339,7 +339,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier CompilerGeneratedMetadatum
+        public IGeneralTypeUniqueIdentifier CompilerGeneratedMetadatum
         {
             get
             {
@@ -350,7 +350,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier EnumBaseType
+        public IGeneralTypeUniqueIdentifier EnumBaseType
         {
             get
             {
@@ -361,7 +361,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Int16
+        public IGeneralTypeUniqueIdentifier Int16
         {
             get
             {
@@ -372,7 +372,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Int32
+        public IGeneralTypeUniqueIdentifier Int32
         {
             get
             {
@@ -383,7 +383,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Int64
+        public IGeneralTypeUniqueIdentifier Int64
         {
             get
             {
@@ -394,7 +394,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier NullableBaseType
+        public IGeneralTypeUniqueIdentifier NullableBaseType
         {
             get
             {
@@ -404,7 +404,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier NullableType
+        public IGeneralTypeUniqueIdentifier NullableType
         {
             get
             {
@@ -415,7 +415,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier RootType
+        public IGeneralTypeUniqueIdentifier RootType
         {
             get
             {
@@ -426,7 +426,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier SByte
+        public IGeneralTypeUniqueIdentifier SByte
         {
             get
             {
@@ -437,7 +437,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier UInt16
+        public IGeneralTypeUniqueIdentifier UInt16
         {
             get
             {
@@ -448,7 +448,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier UInt32
+        public IGeneralTypeUniqueIdentifier UInt32
         {
             get
             {
@@ -459,7 +459,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier UInt64
+        public IGeneralTypeUniqueIdentifier UInt64
         {
             get
             {
@@ -470,7 +470,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier ValueTypeBaseType
+        public IGeneralTypeUniqueIdentifier ValueTypeBaseType
         {
             get
             {
@@ -481,7 +481,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier VoidType
+        public IGeneralTypeUniqueIdentifier VoidType
         {
             get
             {
@@ -492,7 +492,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Delegate
+        public IGeneralTypeUniqueIdentifier Delegate
         {
             get
             {
@@ -503,7 +503,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier MulticastDelegate
+        public IGeneralTypeUniqueIdentifier MulticastDelegate
         {
             get
             {
@@ -514,7 +514,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Boolean
+        public IGeneralTypeUniqueIdentifier Boolean
         {
             get
             {
@@ -525,7 +525,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Decimal
+        public IGeneralTypeUniqueIdentifier Decimal
         {
             get
             {
@@ -536,7 +536,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Single
+        public IGeneralTypeUniqueIdentifier Single
         {
             get
             {
@@ -547,7 +547,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Double
+        public IGeneralTypeUniqueIdentifier Double
         {
             get
             {
@@ -558,7 +558,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier Char
+        public IGeneralTypeUniqueIdentifier Char
         {
             get
             {
@@ -569,7 +569,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ITypeUniqueIdentifier String
+        public IGeneralTypeUniqueIdentifier String
         {
             get
             {

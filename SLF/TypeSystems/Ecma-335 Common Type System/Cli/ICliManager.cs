@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public interface ICliManager :
         IIdentityManager<Type, Assembly, ICliAssembly>,
         IIdentityManager<string, string, ICliAssembly>,
-        IIdentityManager<ITypeUniqueIdentifier, IAssemblyUniqueIdentifier, ICliAssembly>,
+        IIdentityManager<IGeneralTypeUniqueIdentifier, IAssemblyUniqueIdentifier, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>,
         ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>
