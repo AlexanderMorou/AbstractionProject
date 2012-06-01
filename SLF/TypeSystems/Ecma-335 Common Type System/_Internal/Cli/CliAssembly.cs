@@ -25,6 +25,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         _ICliAssembly,
         _ICliTypeParent
     {
+        public class test3 { public abstract class test4 : TypeBase<IGeneralGenericTypeUniqueIdentifier> { } }
+
         private CliManager identityManager;
         private ICliMetadataRoot metadataRoot;
         private _AssemblyInformation assemblyInformation;
@@ -176,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        internal static int _CompareTo_(CliMetadataTypeDefinitionTableRow leftRow, CliMetadataTypeDefinitionTableRow rightRow)
+        internal static int _CompareTo_(ICliMetadataTypeDefinitionTableRow leftRow, ICliMetadataTypeDefinitionTableRow rightRow)
         {
             return leftRow.Name.CompareTo(rightRow.Name);
         }
@@ -420,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (uniqueIdentifier.Name.Contains('`'))
                 return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
             else if (uniqueIdentifier is IGenericTypeUniqueIdentifier)
-                return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier)(uniqueIdentifier)).TypeParameters));
+                return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters));
             return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
         }
 
@@ -452,11 +454,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 else
                     return null;
             }
-            if (topLevel.NamespaceTypes != null)
+            if (topLevel != null && topLevel.NamespaceTypes != null)
             {
-                foreach (var nsType in topLevel.NamespaceTypes)
-                    if (nsType.Name == name)
-                        return nsType;
+                lastIndex = 0;
+                var currentTypes = topLevel.NamespaceTypes;
+            repeatTypeLookup:
+                next = name.IndexOf('+', lastIndex);
+                if (next != -1)
+                {
+                    string current = name.Substring(lastIndex, next - lastIndex);
+                    foreach (var nsType in currentTypes)
+                        if (nsType.Name == current)
+                        {
+                            currentTypes = nsType.NestedClasses;
+                            lastIndex = next + 1;
+                            goto repeatTypeLookup;
+                        }
+                }
+                else
+                {
+                    string current = name.Substring(lastIndex);
+                    foreach (var nsType in currentTypes)
+                        if (nsType.Name == current)
+                            return nsType;
+                }
             }
             return null;
         }
@@ -480,9 +501,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types
         {
-            get { 
-                if (this._types==null)
-                    this._types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(this.NamespaceInformation.NamespaceTypes);
+            get
+            {
+                if (this._types == null)
+                    this._types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(this.NamespaceInformation.NamespaceTypes.ToArray());
                 return this._types;
             }
         }

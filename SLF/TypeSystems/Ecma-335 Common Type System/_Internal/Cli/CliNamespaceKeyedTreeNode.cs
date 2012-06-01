@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -38,10 +39,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// within the full namespace name that the current namespace information starts.</param>
         /// <param name="subspaceLength">The <see cref="Int32"/> value denoting how long the
         /// current namespace segment is.</param>
-        /// <param name="namespaceTypes">The <see cref="CliMetadataTypeDefinitionTableRow"/> array
+        /// <param name="namespaceTypes">The <see cref="ICliMetadataTypeDefinitionTableRow"/> array
         /// which denotes the namespace's defined types.</param>
         /// <remarks>Namespace information with types are fully qualified namespaces.</remarks>
-        internal CliNamespaceKeyedTreeNode(uint namespaceHeapIndex, int subspaceStart, int subspaceLength, CliMetadataTypeDefinitionTableRow[] namespaceTypes, ICliMetadataStringsHeaderAndHeap stringsSection)
+        internal CliNamespaceKeyedTreeNode(uint namespaceHeapIndex, int subspaceStart, int subspaceLength, ICliMetadataTypeDefinitionTableRow[] namespaceTypes, ICliMetadataStringsHeaderAndHeap stringsSection)
             : base(namespaceTypes)
         {
             this.Value = namespaceHeapIndex;
@@ -58,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        internal override void PushModuleTypes(CliMetadataTypeDefinitionTableRow[] namespaceTypes)
+        internal override void PushModuleTypes(ICliMetadataTypeDefinitionTableRow[] namespaceTypes)
         {
             this.IsSubspace = false;
             base.PushModuleTypes(namespaceTypes);

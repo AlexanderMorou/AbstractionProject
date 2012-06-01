@@ -48,11 +48,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// the actual module's metadata.</returns>
         ICliMetadataModuleTableRow LoadModule(ICliMetadataModuleReferenceTableRow metadata);
         /// <summary>
-        /// Returns the <see cref="IType"/> from the <paramref name="typeIdentity"/> provided.
+        /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
         /// </summary>
         /// <param name="typeIdentity"></param>
         /// <returns></returns>
-        IType ObtainTypeReference(PrimitiveType typeIdentity, ICliAssembly relativeSource);
+        IType ObtainTypeReference(RuntimeCoreType coreType, ICliAssembly relativeSource);
         /// <summary>
         /// Resolves the <paramref name="scope"/> provided.
         /// </summary>

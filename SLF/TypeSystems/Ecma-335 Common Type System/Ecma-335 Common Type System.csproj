@@ -98,6 +98,7 @@
     <Compile Include="_Internal\Cli\CliTypeDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
     <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -438,6 +439,7 @@
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
+    <Compile Include="_Internal\Cli\Modules\CliModuleMethod.cs" />
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
     <Compile Include="_Internal\Cli\_ICliAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />

@@ -33,10 +33,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         public static IEnumerable<ICliRuntimeEnvironmentInfo> GetRuntimeEnvironmentInfos()
         {
             foreach (var version in new FrameworkVersion[] { FrameworkVersion.v1_0_3705 ,FrameworkVersion.v1_1_4322, FrameworkVersion.v2_0_50727 , FrameworkVersion.v3_0 , FrameworkVersion.v3_5 , FrameworkVersion.v4_0_30319 , FrameworkVersion.v4_5 ,
-                                                             FrameworkVersion.v1_0_3705 | FrameworkVersion.ClientProfile,  
-                                                             FrameworkVersion.v1_1_4322 | FrameworkVersion.ClientProfile,  
-                                                             FrameworkVersion.v2_0_50727  | FrameworkVersion.ClientProfile,  
-                                                             FrameworkVersion.v3_0  | FrameworkVersion.ClientProfile,  
                                                              FrameworkVersion.v3_5  | FrameworkVersion.ClientProfile,  
                                                              FrameworkVersion.v4_0_30319  | FrameworkVersion.ClientProfile, 
                                                              FrameworkVersion.v4_5 | FrameworkVersion.ClientProfile})

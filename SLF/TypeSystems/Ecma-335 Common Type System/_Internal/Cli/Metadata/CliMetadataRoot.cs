@@ -197,6 +197,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                         this.guids = new CliMetadataGuidHeaderAndHeap(currentHeader);
                         ScanAndReadSection(sourceImage, guids, this.guids.Read);
                         break;
+                    case "#-": //https://github.com/jbevain/cecil/blob/master/Mono.Cecil.PE/ImageReader.cs#L378
                     case "#~":
                         if (this.tableStream != null)
                             goto sectionExists;

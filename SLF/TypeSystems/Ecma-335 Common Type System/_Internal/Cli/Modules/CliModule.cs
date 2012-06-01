@@ -16,10 +16,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         ICliModule
     {
 
-        internal CliModule(CliAssembly owner, ICliMetadataModuleTableRow metadata)
+        internal CliModule(CliAssembly owner, ICliMetadataModuleTableRow metadata, ICliMetadataTypeDefinitionTableRow memberData)
             : base(owner)
         {
             this.Metadata = metadata;
+            
         }
 
         #region ICliModule Members

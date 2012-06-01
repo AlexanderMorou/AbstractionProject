@@ -66,21 +66,21 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IDisposable
     {
         /// <summary>
-        /// Returns the <see cref="IType"/> from the <paramref name="typeIdentity"/>
+        /// Returns the <see cref="IType"/> from the <paramref name="coreType"/>
         /// from the underlying model in which it exists.
         /// </summary>
-        /// <param name="typeIdentity">The <see cref="PrimitiveType"/> that represents the
-        /// type's primitive identity in the base model on which the <see cref="IType"/>
+        /// <param name="coreType">The <see cref="RuntimeCoreType"/> that represents a
+        /// core type in the base model on which the <see cref="IType"/>
         /// is defined.</param>
         /// <returns>An <see cref="IType"/> instance relative to the
-        /// <paramref name="typeIdentity"/> provided.</returns>
-        IType ObtainTypeReference(PrimitiveType typeIdentity);
+        /// <paramref name="coreType"/> provided.</returns>
+        IType ObtainTypeReference(RuntimeCoreType coreType);
         /// <summary>
         /// Returns the <see cref="IType"/> from the
         /// <see cref="typeIdentity"/> from the underlying model in
         /// which it exists.
         /// </summary>
-        /// <param name="typeIdentity">The <see cref="PrimitiveType"/>
+        /// <param name="typeIdentity">The <see cref="Object"/>
         /// which represents the type's primitive identity in the base model on which the 
         /// <see cref="IType"/> is defined.</param>
         /// <returns>An <see cref="IType"/> instance relative to the
