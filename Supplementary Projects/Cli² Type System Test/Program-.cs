@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
-
+        private abstract class Voe : CliAssembly.test3.test4{ }
         private static ICliManager DoTest()
         {
             _ICliManager clim = (_ICliManager) CliGateway.CreateIdentityManager(FrameworkPlatform.x86Platform, CliGateway.CurrentVersion, true, true, true, typeof(Program).Assembly.Location);
@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //                         select gIdentifier).ToArray();
             //foreach (var identifier in tParamIdentifiers)
             //    Console.WriteLine(identifier);
-            var m = (ICliType)clim.ObtainTypeReference(typeof(ISubordinateDictionary<,,,>));
+            var m = (ICliType) clim.ObtainTypeReference(typeof(Voe));
             //var u = (ICliType)clim.ObtainTypeReference(clim.ResolveScope(m.Metadata.Extends));
             return clim;
         }

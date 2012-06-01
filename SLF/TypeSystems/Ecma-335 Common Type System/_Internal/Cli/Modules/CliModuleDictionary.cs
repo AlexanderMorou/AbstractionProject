@@ -64,7 +64,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 
         protected override IModule CreateElementFrom(ICliMetadataModuleTableRow metadata)
         {
-            return new CliModule(this.owner, metadata);
+            throw new NotImplementedException();
+            //return new CliModule(this.owner, metadata);
         }
 
         #region IModuleDictionary Members

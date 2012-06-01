@@ -128,15 +128,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         yield return gdi(parts.Add("WPF"));
                         goto case FrameworkVersion.v2_0_50727;
                     case FrameworkVersion.v3_5:
+                    case FrameworkVersion.v3_5 | FrameworkVersion.ClientProfile:
                         parts[vIndex] = v3_5;
                         yield return gdi(parts);
                         goto case FrameworkVersion.v3_0;
                     case FrameworkVersion.v4_0_30319:
+                    case FrameworkVersion.v4_0_30319 | FrameworkVersion.ClientProfile:
                         parts[vIndex] = v4_0_30319;
                         yield return gdi(parts);
                         yield return gdi(parts.Add("WPF"));
                         break;
                     case FrameworkVersion.v4_5:
+                    case FrameworkVersion.v4_5 | FrameworkVersion.ClientProfile:
                         parts[vIndex] = v4_5;
                         yield return gdi(parts);
                         break;
@@ -581,5 +584,76 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
         //#endregion
 
+
+        #region IStandardRuntimeEnvironmentInfo Members
+
+
+        public IGeneralTypeUniqueIdentifier GetCoreIdentifier(RuntimeCoreType coreType)
+        {
+            switch (coreType)
+            {
+                case RuntimeCoreType.ArrayType:
+                    return ArrayType;
+                case RuntimeCoreType.AsynchronousTask:
+                    return AsynchronousTask;
+                case RuntimeCoreType.AsynchronousTaskOfT:
+                    return AsynchronousTaskOfT;
+                case RuntimeCoreType.Boolean:
+                    return Boolean;
+                case RuntimeCoreType.Decimal:
+                    return Decimal;
+                case RuntimeCoreType.Single:
+                    return Single;
+                case RuntimeCoreType.Double:
+                    return Double;
+                case RuntimeCoreType.SByte:
+                    return SByte;
+                case RuntimeCoreType.Byte:
+                    return Byte;
+                case RuntimeCoreType.Char:
+                    return Char;
+                case RuntimeCoreType.CompilerGeneratedMetadatum:
+                    return CompilerGeneratedMetadatum;
+                case RuntimeCoreType.Delegate:
+                    return Delegate;
+                case RuntimeCoreType.EnumBaseType:
+                    return EnumBaseType;
+                case RuntimeCoreType.Int16:
+                    return Int16;
+                case RuntimeCoreType.UInt16:
+                    return UInt16;
+                case RuntimeCoreType.Int32:
+                    return Int32;
+                case RuntimeCoreType.UInt32:
+                    return UInt32;
+                case RuntimeCoreType.Int64:
+                    return Int64;
+                case RuntimeCoreType.UInt64:
+                    return UInt64;
+                case RuntimeCoreType.MulticastDelegate:
+                    return MulticastDelegate;
+                case RuntimeCoreType.NullableBaseType:
+                    return NullableBaseType;
+                case RuntimeCoreType.NullableType:
+                    return NullableType;
+                case RuntimeCoreType.RootType:
+                    return RootType;
+                case RuntimeCoreType.String:
+                    return String;
+                case RuntimeCoreType.ValueTypeBaseType:
+                    return ValueTypeBaseType;
+                case RuntimeCoreType.VoidType:
+                    return VoidType;
+                default:
+                    throw new ArgumentOutOfRangeException("coreType");
+            }
+        }
+
+        public IEnumerable<IType> GetCoreTypeInterfaces(RuntimeCoreType coreType)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

@@ -288,6 +288,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                     return null;
                                 }
                             }
+                        case CliMetadataResolutionScopeTag.TypeReference:
+                            Stack<ICliMetadataTypeRefTableRow> inheritanceChain = new Stack<ICliMetadataTypeRefTableRow>();
+                            ICliMetadataTypeRefTableRow current = typeRef;
+                            while (current != null && current.ResolutionScope == CliMetadataResolutionScopeTag.TypeReference)
+                            {
+                                inheritanceChain.Push(current);
+                                current = current.Source as ICliMetadataTypeRefTableRow;
+                            }
+                            ICliMetadataTypeDefinitionTableRow definition=null;
+                            if (current != null)
+                                definition = ResolveScope(current, manager, null, typeSpec);
+                            if (definition != null)
+                            {
+                                while (inheritanceChain.Count > 0)
+                                {
+                                    var currentChild = inheritanceChain.Pop();
+                                    bool found=false;
+                                    foreach (var nestedType in definition.NestedClasses)
+                                        if (nestedType.Name == currentChild.Name)
+                                        {
+                                            definition = nestedType;
+                                            found = true;
+                                            break;
+                                        }
+                                    if (!found)
+                                        break;
+                                }
+                                if (definition.Name == typeRef.Name && inheritanceChain.Count == 0 && (selectionPredicate == null || selectionPredicate(manager, definition)))
+                                    return definition;
+                            }
+                            break;
                         case CliMetadataResolutionScopeTag.AssemblyReference:
                             {
                                 var assemblyRef = typeRef.Source as ICliMetadataAssemblyRefTableRow;
@@ -555,7 +586,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ICliMetadataTypeDefinitionTableRow current = typeIdentity;
             while (current != null)
             {
-                current = ResolveScope(current.Extends, manager);
+                current = ResolveScope(current.Extends, manager, typeSpec: true);
                 if (current != null &&
                     baseDecision(manager, current))
                     return true;

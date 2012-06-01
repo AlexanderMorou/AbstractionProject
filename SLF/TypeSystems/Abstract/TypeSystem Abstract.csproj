@@ -140,6 +140,7 @@
     <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
     <Compile Include="Abstract\PrimitiveTypes.cs" />
     <Compile Include="Abstract\PublicKeyTokenData.cs" />
+    <Compile Include="Abstract\RuntimeCoreType.cs" />
     <Compile Include="Abstract\StrongNameKeyInfoType.cs" />
     <Compile Include="Abstract\StrongNamePrivateKeyInfo+LinkedPublicKey.cs" />
     <Compile Include="Abstract\StrongNamePrivateKeyInfo.cs" />

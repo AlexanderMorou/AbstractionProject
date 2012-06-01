@@ -23,114 +23,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CliManager
     {
-        public IType ObtainTypeReference(PrimitiveType typeIdentity, ICliAssembly assembly)
+        public IType ObtainTypeReference(RuntimeCoreType coreType, ICliAssembly assembly)
         {
-            IGeneralTypeUniqueIdentifier resultIdentifier;
-            switch (typeIdentity)
-            {
-                case PrimitiveType.Boolean:
-                    resultIdentifier = this.runtimeEnvironment.Boolean;
-                    break;
-                case PrimitiveType.Byte:
-                    resultIdentifier = this.runtimeEnvironment.Byte;
-                    break;
-                case PrimitiveType.SByte:
-                    resultIdentifier = this.runtimeEnvironment.SByte;
-                    break;
-                case PrimitiveType.Int16:
-                    resultIdentifier = this.runtimeEnvironment.Int16;
-                    break;
-                case PrimitiveType.UInt16:
-                    resultIdentifier = this.runtimeEnvironment.UInt16;
-                    break;
-                case PrimitiveType.Int32:
-                    resultIdentifier = this.runtimeEnvironment.Int32;
-                    break;
-                case PrimitiveType.UInt32:
-                    resultIdentifier = this.runtimeEnvironment.UInt32;
-                    break;
-                case PrimitiveType.Int64:
-                    resultIdentifier = this.runtimeEnvironment.Int64;
-                    break;
-                case PrimitiveType.UInt64:
-                    resultIdentifier = this.runtimeEnvironment.UInt64;
-                    break;
-                case PrimitiveType.Decimal:
-                    resultIdentifier = this.runtimeEnvironment.Decimal;
-                    break;
-                case PrimitiveType.Float:
-                    resultIdentifier = this.runtimeEnvironment.Single;
-                    break;
-                case PrimitiveType.Double:
-                    resultIdentifier = this.runtimeEnvironment.Double;
-                    break;
-                case PrimitiveType.Char:
-                    resultIdentifier = this.runtimeEnvironment.Char;
-                    break;
-                case PrimitiveType.String:
-                    resultIdentifier = this.runtimeEnvironment.String;
-                    break;
-                case PrimitiveType.Null:
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException("typeIdentity");
-            }
-            return this.ObtainTypeReference(resultIdentifier, assembly);
+            return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType), assembly);
         }
 
-        public IType ObtainTypeReference(PrimitiveType typeIdentity)
+        public IType ObtainTypeReference(RuntimeCoreType coreType)
         {
-            IGeneralTypeUniqueIdentifier resultIdentifier;
-            switch (typeIdentity)
-            {
-                case PrimitiveType.Boolean:
-                    resultIdentifier = this.runtimeEnvironment.Boolean;
-                    break;
-                case PrimitiveType.Byte:
-                    resultIdentifier = this.runtimeEnvironment.Byte;
-                    break;
-                case PrimitiveType.SByte:
-                    resultIdentifier = this.runtimeEnvironment.SByte;
-                    break;
-                case PrimitiveType.Int16:
-                    resultIdentifier = this.runtimeEnvironment.Int16;
-                    break;
-                case PrimitiveType.UInt16:
-                    resultIdentifier = this.runtimeEnvironment.UInt16;
-                    break;
-                case PrimitiveType.Int32:
-                    resultIdentifier = this.runtimeEnvironment.Int32;
-                    break;
-                case PrimitiveType.UInt32:
-                    resultIdentifier = this.runtimeEnvironment.UInt32;
-                    break;
-                case PrimitiveType.Int64:
-                    resultIdentifier = this.runtimeEnvironment.Int64;
-                    break;
-                case PrimitiveType.UInt64:
-                    resultIdentifier = this.runtimeEnvironment.UInt64;
-                    break;
-                case PrimitiveType.Decimal:
-                    resultIdentifier = this.runtimeEnvironment.Decimal;
-                    break;
-                case PrimitiveType.Float:
-                    resultIdentifier = this.runtimeEnvironment.Single;
-                    break;
-                case PrimitiveType.Double:
-                    resultIdentifier = this.runtimeEnvironment.Double;
-                    break;
-                case PrimitiveType.Char:
-                    resultIdentifier = this.runtimeEnvironment.Char;
-                    break;
-                case PrimitiveType.String:
-                    resultIdentifier = this.runtimeEnvironment.String;
-                    break;
-                case PrimitiveType.Null:
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException("typeIdentity");
-            }
-            return this.ObtainTypeReference(resultIdentifier);
+            return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType));
         }
 
         //#region ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow> Members
@@ -149,33 +49,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             switch (typeIdentity.TypeKind)
             {
                 case CliMetadataNativeTypes.Boolean:
-                    return this.ObtainTypeReference(PrimitiveType.Boolean, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Boolean, assembly);
                 case CliMetadataNativeTypes.Char:
-                    return this.ObtainTypeReference(PrimitiveType.Char, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Char, assembly);
                 case CliMetadataNativeTypes.SByte:
-                    return this.ObtainTypeReference(PrimitiveType.SByte, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.SByte, assembly);
                 case CliMetadataNativeTypes.Byte:
-                    return this.ObtainTypeReference(PrimitiveType.Byte, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Byte, assembly);
                 case CliMetadataNativeTypes.Int16:
-                    return this.ObtainTypeReference(PrimitiveType.Int16, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Int16, assembly);
                 case CliMetadataNativeTypes.UInt16:
-                    return this.ObtainTypeReference(PrimitiveType.UInt16, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.UInt16, assembly);
                 case CliMetadataNativeTypes.Int32:
-                    return this.ObtainTypeReference(PrimitiveType.Int32, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Int32, assembly);
                 case CliMetadataNativeTypes.UInt32:
-                    return this.ObtainTypeReference(PrimitiveType.UInt32, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.UInt32, assembly);
                 case CliMetadataNativeTypes.Int64:
-                    return this.ObtainTypeReference(PrimitiveType.Int64, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Int64, assembly);
                 case CliMetadataNativeTypes.UInt64:
-                    return this.ObtainTypeReference(PrimitiveType.UInt64, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.UInt64, assembly);
                 case CliMetadataNativeTypes.Single:
-                    return this.ObtainTypeReference(PrimitiveType.Float, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Single, assembly);
                 case CliMetadataNativeTypes.Double:
-                    return this.ObtainTypeReference(PrimitiveType.Double, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Double, assembly);
                 case CliMetadataNativeTypes.String:
-                    return this.ObtainTypeReference(PrimitiveType.String, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.String, assembly);
                 case CliMetadataNativeTypes.Void:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.VoidType, assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.VoidType, assembly);
                 case CliMetadataNativeTypes.TypedByReference:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
                         return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"));
@@ -192,7 +92,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     else
                         return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "UIntPtr"), assembly);
                 case CliMetadataNativeTypes.Object:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.RootType);
+                    if (this.RuntimeEnvironment.UseCoreLibrary)
+                        return this.ObtainTypeReference(RuntimeCoreType.RootType);
+                    else
+                        return this.ObtainTypeReference(RuntimeCoreType.RootType, assembly);
                 case CliMetadataNativeTypes.Type:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
                         return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "Type"));
