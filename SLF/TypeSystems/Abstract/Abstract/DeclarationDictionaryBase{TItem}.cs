@@ -73,16 +73,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// within the <see cref="DeclarationDictionaryBase{TItem}"/>.</returns>
         public int IndexOf(TItem decl)
         {
-            int index = 0;
             if (this.valuesInstance == null)
                 return -1;
             return this.valuesInstance.IndexOf(decl);
-            //foreach (var item in this.Values)
-            //    if (object.ReferenceEquals(item, decl))
-            //        return index;
-            //    else
-            //        index++;
-            //return -1;
         }
     }
 }

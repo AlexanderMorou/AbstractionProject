@@ -19,5 +19,6 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     public interface IReadOnlyCollection<T> :
         IControlledCollection<T>
     {
+
     }
 }

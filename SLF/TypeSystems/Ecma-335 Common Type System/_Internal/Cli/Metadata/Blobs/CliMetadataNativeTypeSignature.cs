@@ -32,25 +32,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case CliMetadataNativeTypes.Char:
                     return "char";
                 case CliMetadataNativeTypes.SByte:
-                    return "sbyte";
+                    return "int8";
                 case CliMetadataNativeTypes.Byte:
-                    return "byte";
+                    return "uint8";
                 case CliMetadataNativeTypes.Int16:
-                    return "short";
+                    return "int16";
                 case CliMetadataNativeTypes.UInt16:
-                    return "ushort";
+                    return "uint16";
                 case CliMetadataNativeTypes.Int32:
-                    return "int";
+                    return "int32";
                 case CliMetadataNativeTypes.UInt32:
-                    return "uint";
+                    return "uint32";
                 case CliMetadataNativeTypes.Int64:
-                    return "long";
+                    return "int64";
                 case CliMetadataNativeTypes.UInt64:
-                    return "ulong";
+                    return "uint64";
                 case CliMetadataNativeTypes.Single:
-                    return "float";
+                    return "float32";
                 case CliMetadataNativeTypes.Double:
-                    return "double";
+                    return "float64";
                 case CliMetadataNativeTypes.String:
                     return "string";
                 case CliMetadataNativeTypes.TypedByReference:
@@ -66,5 +66,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
             return null;
         }
+
+        #region ICliMetadataTypeSignature Members
+
+        public CliMetadataTypeSignatureKind TypeSignatureKind
+        {
+            get { return CliMetadataTypeSignatureKind.NativeType; }
+        }
+
+        #endregion
     }
 }

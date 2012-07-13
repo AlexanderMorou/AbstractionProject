@@ -28,6 +28,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TParameter :
             IParameterMember<TParent>
     {
+        /// <summary>
+        /// Returns the <see cref="ITypeCollectionBase"/> which designates
+        /// the types associated to the parameters of the <see cref="IParameterMemberDictionary"/>
+        /// and the optional and required modifiers that alter their perception.
+        /// </summary>
         ITypeCollectionBase ParameterTypes { get; }
     }
     /// <summary>
@@ -41,6 +46,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Returns the <see cref="IParameterParent"/> which owns the <see cref="IParameterMember"/> series.
         /// </summary>
         new IParameterParent Parent { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeCollectionBase"/> which designates
+        /// the types associated to the parameters of the <see cref="IParameterMemberDictionary"/>
+        /// and the optional and required modifiers that alter their perception.
+        /// </summary>
         ITypeCollectionBase ParameterTypes { get; } 
     }
 }

@@ -18,7 +18,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         ICliMetadataStringsHeaderAndHeap,
         IDisposable
     {
-        private int count;
         private int substringCount;
         private string[] data;
         private Dictionary<uint, uint> positionToIndexTable = new Dictionary<uint, uint>();
@@ -26,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         private uint AddSubstring(string substringValue, uint position)
         {
-            int fullCount = count + substringCount++;
+            int fullCount = substringCount++;
             this.data = this.data.EnsureSpaceExists(fullCount, 1);
             positionToIndexTable.Add(position, (uint) fullCount);
             this.data[fullCount] = substringValue;
@@ -56,15 +55,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private unsafe bool ReadSubstring(uint index)
         {
             reader.BaseStream.Position = index;
-        /* *
-         * To save space, smaller strings that exist as the 
-         * tail end of another string, are condensed accordingly.
-         * *
-         * It's quicker to construct the strings from the 
-         * original source than it is to iterate through the
-         * location table used to quickly look items up.
-         * */
-        readChar:
+            /* *
+             * To save space, smaller strings that exist as the 
+             * tail end of another string, are condensed accordingly.
+             * *
+             * It's quicker to construct the strings from the 
+             * original source than it is to iterate through the
+             * location table used to quickly look items up.
+             * */
             uint loc = index;
             while (loc < base.Size)
             {

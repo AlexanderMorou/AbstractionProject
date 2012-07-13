@@ -7,14 +7,14 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
     internal class CliMetadataGenericParameterSignature :
-        ICliMetadataGenericParameterSignature
+        ICliMetadataGenericParameterTypeSignature
     {
         internal CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent parent , uint position)
         {
             this.Position = position;
             this.Parent = parent;
         }
-        //#region ICliMetadataGenericParameterSignature Members
+        //#region ICliMetadataGenericParameterTypeSignature Members
 
         public CliMetadataGenericParameterParent Parent { get; private set; }
 
@@ -26,5 +26,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             return string.Format("{0}!{1}", Parent == CliMetadataGenericParameterParent.Method ? "!" : string.Empty, Position);
         }
+
+        #region ICliMetadataTypeSignature Members
+
+        public CliMetadataTypeSignatureKind TypeSignatureKind
+        {
+            get { return CliMetadataTypeSignatureKind.GenericParameter; }
+        }
+
+        #endregion
     }
 }

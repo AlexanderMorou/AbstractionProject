@@ -176,7 +176,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>true if the <paramref name="other"/>
         /// <see cref="HashList{T}"/> equals the 
         /// current instance.</returns>
-        public bool Equals(HashList<T> other)
+        public virtual bool Equals(HashList<T> other)
         {
             if (other == null)
                 return false;
@@ -358,10 +358,10 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         }
 
         /// <summary>
-        /// Gets the number of elements actually contained
+        /// Gets the number of elements contained
         /// in the <see cref="HashList{T}"/>.
         /// </summary>
-        /// <returns>The number of elements actually contained
+        /// <returns>The number of elements contained
         /// in the <see cref="HashList{T}"/>.</returns>
         public int Count
         {

@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <paramref name="metadatumType"/> provided.
         /// </summary>
         /// <param name="metadatumType">The <see cref="IType"/>
-        /// of the attribute to return the <see cref="IMetadatum"/>
+        /// of the metadatum to return the <see cref="IMetadatum"/>
         /// of.</param>
         /// <returns>The <see cref="IMetadatum"/> of the
         /// <paramref name="metadatumType"/> provided.</returns>

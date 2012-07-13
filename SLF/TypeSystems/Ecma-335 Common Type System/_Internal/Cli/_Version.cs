@@ -10,7 +10,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal class _Version :
         IVersion
     {
-        Version source;
         public _Version(Version version)
         {
             this.Major = version.Major;

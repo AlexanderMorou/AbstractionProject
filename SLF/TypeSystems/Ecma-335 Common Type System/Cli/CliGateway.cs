@@ -15,6 +15,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public static class CliGateway
     {
         public const FrameworkVersion CurrentVersion = FrameworkVersion.v4_0_30319;
+#if x86
+        public const FrameworkPlatform CurrentPlatform = FrameworkPlatform.x86Platform;
+#elif x64
+        public const FrameworkPlatform CurrentPlatform = FrameworkPlatform.x64Platform;
+#endif
         public static ICliManager CreateIdentityManager(ICliRuntimeEnvironmentInfo runtimeEnvironment)
         {
             return new CliManager(runtimeEnvironment);

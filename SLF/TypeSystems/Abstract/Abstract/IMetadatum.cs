@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -21,13 +22,23 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         IType Type { get; }
         /// <summary>
-        /// The <see cref="Attribute"/> represented by the <see cref="IMetadatum"/>.
-        /// </summary>
-        Attribute WrappedAttribute { get; }
-        /// <summary>
         /// The <see cref="IMetadataEntity"/> on which the <see cref="IMetadatum"/> 
         /// was declared.
         /// </summary>
         IMetadataEntity DeclarationPoint { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IEnumerable{T}"/> of triple elements
+        /// which denote the type, name (from the constructor used), 
+        /// and value of the parameters.
+        /// </summary>
+        IEnumerable<Tuple<IType, string, object>> Parameters { get; }
+        /// <summary>
+        /// Returns the <see cref="IEnumerable{T}"/> of triple elements
+        /// which denote the type, name, and value of the named parameters.
+        /// </summary>
+        IEnumerable<Tuple<IType, string, object>> NamedParameters { get; }
+
+
     }
 }

@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
-    public interface ICliMetadataGenericTypeInstanceSignature :
+    public interface ICliMetadataGenericInstanceTypeSignature :
         ICliMetadataValueOrClassTypeSignature
     {
         IReadOnlyCollection<ICliMetadataTypeSignature> GenericParameters { get; }

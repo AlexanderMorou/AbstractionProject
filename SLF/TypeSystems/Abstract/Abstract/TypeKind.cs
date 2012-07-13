@@ -43,6 +43,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         Other,
         /// <summary>
+        /// The <see cref="IType"/> is a modified type which contains
+        /// optional and required modifiers.
+        /// </summary>
+        Modified,
+        /// <summary>
         /// The <see cref="IType"/> is a part of an assembly workspace, and two or more types
         /// are in conflict for the same type name.
         /// </summary>

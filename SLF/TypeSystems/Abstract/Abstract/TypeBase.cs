@@ -22,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     [DebuggerDisplay("Name = {UniqueIdentifierString}, FullName = {FullName}")]
     public abstract class TypeBase<TIdentifier> :
         DeclarationBase<TIdentifier>,
+        _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>,
         IType
         where TIdentifier :
             ITypeUniqueIdentifier
@@ -52,6 +53,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="ImplementedInterfaces"/>.
         /// </summary>
         private ILockedTypeCollection implementedInterfaces;
+
+        private TypeModifiedCache modifiedTypeCache;
 
         /// <summary>
         /// Returns the <see cref="IType"/> from which the current
@@ -177,6 +180,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             lock (this.syncObject)
                 if (this.arrayCache == null)
                     this.arrayCache = new TypeArrayCache(this, this.OnMakeArray, this.OnMakeArray);
+            lock (this.syncObject)
+                if (this.modifiedTypeCache == null)
+                    this.modifiedTypeCache = new TypeModifiedCache();
         }
 
         protected virtual IType OnGetElementType()
@@ -567,7 +573,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the unique identifier for the current <see cref="TypeBase{TIdentifier}"/> where 
-        /// <see cref="DeclarationBase.Name"/> is not enough to distinguish between two 
+        /// <see cref="DeclarationBase{TIdentifier}.Name"/> is not enough to distinguish between two 
         /// <see cref="TypeBase{TIdentifier}"/> entities.
         /// </summary>
         public override sealed TIdentifier UniqueIdentifier
@@ -623,7 +629,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <param name="metadatumType">The <see cref="IType"/> which determines
         /// the </param>
-        /// <returns>true if <see cref="metadatumType"/> can be assigned to
+        /// <returns>true if <paramref name="metadatumType"/> can be assigned to
         /// from a type of one of the custom attributes contained within 
         /// the <see cref="TypeBase{TIdentifier}"/>.</returns>
         public bool IsDefined(IType metadatumType)
@@ -753,5 +759,85 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
 
+
+        #region IType Members
+
+        public IModifiedType MakeModified(TypeModification[] modifiers)
+        {
+            IModifiedType result;
+            lock (this.syncObject)
+            {
+                this.CacheCheck();
+                var modifiedTypeKey = new TypeModifierSetEntry(modifiers);
+                if (!this.modifiedTypeCache.TryObtainConstruct(modifiedTypeKey, out result))
+                    this.modifiedTypeCache.RegisterConstruct(result = new ModifiedType(this, modifiers), modifiedTypeKey);
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region _IConstructCacheRegistrar<IModifiedType,ITypeModificationEntry> Members
+
+        void _IConstructCacheRegistrar<IModifiedType,ITypeModifierSetEntry>.RegisterConstruct(IModifiedType cachedType, ITypeModifierSetEntry cacheKey)
+        {
+            lock (this.syncObject)
+            {
+                this.CacheCheck();
+                this.modifiedTypeCache.RegisterConstruct(cachedType, cacheKey);
+            }
+        }
+
+        bool _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.ContainsConstruct(ITypeModifierSetEntry cacheKey)
+        {
+            lock (this.syncObject)
+            {
+                if (this.modifiedTypeCache == null)
+                    return false;
+                return this.modifiedTypeCache.ContainsConstruct(cacheKey);
+            }
+        }
+
+        IModifiedType _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.ObtainConstruct(ITypeModifierSetEntry cacheKey)
+        {
+            lock (this.syncObject)
+            {
+                if (this.modifiedTypeCache == null)
+                    return null;
+                return this.modifiedTypeCache.ObtainConstruct(cacheKey);
+            }
+        }
+
+        void _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.UnregisterConstruct(ITypeModifierSetEntry cacheKey)
+        {
+            lock (this.syncObject)
+            {
+                if (this.modifiedTypeCache == null)
+                    return;
+                this.modifiedTypeCache.UnregisterConstruct(cacheKey);
+            }
+        }
+
+        bool _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.TryObtainConstruct(ITypeModifierSetEntry cacheKey, out IModifiedType cachedType)
+        {
+            lock (this.syncObject)
+                if (this.modifiedTypeCache == null)
+                {
+                    cachedType = null;
+                    return false;
+                }
+                else
+                    return this.modifiedTypeCache.TryObtainConstruct(cacheKey, out cachedType);
+        }
+
+        #endregion
+
+        internal TypeModifiedCache ModifiedTypeCache
+        {
+            get
+            {
+                return this.modifiedTypeCache;
+            }
+        }
     }
 }

@@ -40,10 +40,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     return string.Format("{0}*", ElementType);
                 case TypeElementClassification.Reference:
                     return string.Format("{0}&", ElementType);
+                case TypeElementClassification.ModifiedType:
+                    return ElementType.ToString();
                 default:
                     break;
             }
             return null;
         }
+
+        #region ICliMetadataTypeSignature Members
+
+        public virtual CliMetadataTypeSignatureKind TypeSignatureKind
+        {
+            get { return CliMetadataTypeSignatureKind.ElementType; }
+        }
+
+        #endregion
     }
 }

@@ -13,6 +13,11 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using System.Reflection;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Security;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using System.Data;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using System.Reflection.Emit;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 {
@@ -34,18 +39,52 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
+        public class TA : Attribute {
+            public TA(object o) { }
+        }
+        [TA(new[]{"test", "test2"})]
         private abstract class Voe : CliAssembly.test3.test4{ }
         private static ICliManager DoTest()
         {
-            _ICliManager clim = (_ICliManager) CliGateway.CreateIdentityManager(FrameworkPlatform.x86Platform, CliGateway.CurrentVersion, true, true, true, typeof(Program).Assembly.Location);
-            var assemblies = (from f in ObtainFrameworkAssemblies(clim.RuntimeEnvironment)
-                              let assembly = (_ICliAssembly) clim.ObtainAssemblyReference(f)
+            string assemblyLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            _ICliManager clim = (_ICliManager) CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation);
+            var assemblies = (from f in (ObtainFrameworkAssemblies(clim.RuntimeEnvironment).Concat(new string[] { }))
+                              let assembly = AttemptGetAssembly(clim, f)
+                              where assembly != null
                               select assembly).ToList();
 
-            foreach (var t in (from assembly in assemblies
-                               from t in assembly.MetadataRoot.TableStream.Values
-                               select t))
+            foreach (var t in from assembly in assemblies
+                              from t in assembly.MetadataRoot.TableStream.Values
+                              select t)
                 t.Read();
+            var mSet = (from a in assemblies
+                        where a.MetadataRoot.TableStream.StandAloneSigTable != null
+                        from sSig in a.MetadataRoot.TableStream.StandAloneSigTable
+                        where sSig.Signature is ICliMetadataFieldSignature
+                        let len = sSig.SignatureSize
+                        let fSig = ((ICliMetadataFieldSignature) (sSig.Signature))
+                        let data = a.MetadataRoot.BlobHeap[sSig.SignatureIndex]
+                        //where fSig.IsPinned
+                        orderby len descending
+                        select new { FieldSignature = fSig.Type, SignatureSize = len, Assembly = a, StandaloneSignature = sSig, Data = data }).ToArray();
+            //foreach (var s in mSet)
+            //    Console.WriteLine("{0}, {1}, {2}", s.Assembly.Name, s.SignatureSize, s.StandaloneSignature.Index, s.FieldSignature);
+            var curDir = Directory.GetCurrentDirectory().ToLower();
+            var delea = (from mS in mSet
+                         let localeFolder = Path.GetDirectoryName(mS.StandaloneSignature.MetadataRoot.SourceImage.Filename)
+                         where !clim.RuntimeEnvironment.ResolutionPaths.Any(dirInfo => localeFolder.Contains(dirInfo.FullName.ToLower())) ||
+                               localeFolder == assemblyLocation.ToLower() || localeFolder == curDir
+                         where mS.Assembly.Name != "ModOptReqOutput"
+                         orderby mS.Assembly.Name,
+                                 mS.SignatureSize descending
+                         select new { mS.FieldSignature, Size = mS.SignatureSize, Data = mS.Data, Assembly = mS.Assembly }).ToArray();
+            //Console.WriteLine("{0} fields in the Sigtables", mSet.Length);
+
+            
+            Console.WriteLine("{0} fields in the Sigtables", delea.Length);
+            Console.WriteLine();
+
+            //var u = typeof(DataSet).Assembly.ManifestModule.ResolveSignature(0x0045 | 0x11 << 24);
             //var tParamIdentifiers = (from assembly in assemblies
             //                         from ICliModule module in assembly.Modules.Values
             //                         from type in module.Metadata.MetadataRoot.TableStream.TypeDefinitionTable
@@ -59,9 +98,19 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //                         select gIdentifier).ToArray();
             //foreach (var identifier in tParamIdentifiers)
             //    Console.WriteLine(identifier);
-            var m = (ICliType) clim.ObtainTypeReference(typeof(Voe));
-            //var u = (ICliType)clim.ObtainTypeReference(clim.ResolveScope(m.Metadata.Extends));
             return clim;
+        }
+
+        private static _ICliAssembly AttemptGetAssembly(_ICliManager clim, string f)
+        {
+            try
+            {
+                return (_ICliAssembly) clim.ObtainAssemblyReference(f);
+            }
+            catch (BadImageFormatException)
+            {
+                return null;
+            }
         }
 
         private static IEnumerable<string> ObtainFrameworkAssemblies(ICliRuntimeEnvironmentInfo environment)

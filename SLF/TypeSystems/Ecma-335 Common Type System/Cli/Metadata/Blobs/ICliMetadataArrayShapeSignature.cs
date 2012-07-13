@@ -15,6 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     {
         uint Rank { get; }
         IReadOnlyCollection<uint> Sizes { get; }
-        IReadOnlyCollection<uint> LowerBounds { get; }
+        IReadOnlyCollection<int> LowerBounds { get; }
     }
 }

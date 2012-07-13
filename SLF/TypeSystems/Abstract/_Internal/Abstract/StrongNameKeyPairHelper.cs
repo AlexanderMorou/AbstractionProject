@@ -517,13 +517,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
             public int KeySize
             {
-                get { return this.dataStream.Length; }
+                get { return StrongNameKeyPairHelper.StandardPublicKey.Length; }
             }
 
             public void WriteTo(string filename)
             {
                 BinaryWriter bw = new BinaryWriter(new FileStream(filename, FileMode.Create, FileAccess.Write));
-                bw.Write(this.dataStream, 0, this.dataStream.Length);
+                bw.Write(StrongNameKeyPairHelper.StandardPublicKey, 0, StrongNameKeyPairHelper.StandardPublicKey.Length);
                 bw.Close();
                 bw.Dispose();
                 bw.BaseStream.Close();

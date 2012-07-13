@@ -224,5 +224,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// to construct the current <see cref="IType"/>.
         /// </summary>
         ITypeIdentityManager Manager { get; }
+
+        /// <summary>
+        /// Creates a new <see cref="IModifiedType"/> from the current
+        /// <see cref="IType"/> which specifies special constraints about 
+        /// the type.
+        /// </summary>
+        /// <param name="modifiers">The series of <see cref="TypeModification"/> elements
+        /// which specify the types that modify the current type, and which, of those, are
+        /// required.</param>
+        /// <returns>Returns a <see cref="IModifiedType"/> with the 
+        /// <paramref name="modifiers"/> provided.</returns>
+        IModifiedType MakeModified(TypeModification[] modifiers);
     }
 }

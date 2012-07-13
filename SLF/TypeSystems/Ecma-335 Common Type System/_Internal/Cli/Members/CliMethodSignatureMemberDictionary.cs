@@ -24,6 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         internal CliMethodSignatureMemberDictionary(ICliMetadataTypeDefinitionTableRow ownerInfo)
             : base(ExtractOwnerCount(ownerInfo))
         {
+            this.ownerInfo = ownerInfo;
         }
 
         private static int ExtractOwnerCount(ICliMetadataTypeDefinitionTableRow ownerInfo)

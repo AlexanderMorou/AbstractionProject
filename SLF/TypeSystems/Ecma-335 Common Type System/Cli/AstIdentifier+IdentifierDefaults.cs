@@ -722,7 +722,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGeneralSignatureMemberUniqueIdentifier
         {
 
-            public DefaultSignatureMemberUniqueIdentifier(string name, IEnumerable<IType> parameters)
+            public DefaultSignatureMemberUniqueIdentifier(string name, IEnumerable<IModifiedType> parameters)
             {
                 this.Name = name;
                 this.Parameters = parameters;
@@ -730,7 +730,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region ISignatureMemberUniqueIdentifier Members
 
-            public IEnumerable<IType> Parameters { get; private set; }
+            public IEnumerable<IModifiedType> Parameters { get; private set; }
             private int? parameterCount;
             public int ParameterCount
             {
@@ -807,7 +807,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         first = false;
                     else
                         builder.Append(", ");
-                    if (element.FullName == null || element.FullName == string.Empty)
+                    if (string.IsNullOrEmpty(element.FullName))
                         builder.Append(element.Name);
                     else
                         builder.Append(element.FullName);
@@ -976,7 +976,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region ISignatureMemberUniqueIdentifier Members
 
-            public IEnumerable<IType> Parameters { get; private set; }
+            public IEnumerable<IModifiedType> Parameters { get; private set; }
             private int? parameterCount;
             public int ParameterCount
             {
@@ -1037,7 +1037,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             //#endregion
 
 
-            public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IType> parameters)
+            public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IModifiedType> parameters)
             {
                 this.Name = name;
                 this.TypeParameters = typeParameters;
@@ -1076,7 +1076,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                         first = false;
                     else
                         builder.Append(", ");
-                    if (element.FullName == null || element.FullName == string.Empty)
+                    if (string.IsNullOrEmpty(element.FullName))
                         builder.Append(element.Name);
                     else
                         builder.Append(element.FullName);

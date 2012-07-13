@@ -422,7 +422,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (uniqueIdentifier.Name.Contains('`'))
                 return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
             else if (uniqueIdentifier is IGenericTypeUniqueIdentifier)
-                return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters));
+            {
+                var genericUniqueId = uniqueIdentifier as IGenericTypeUniqueIdentifier;
+                if (genericUniqueId.TypeParameters > 0)
+                    return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters));
+            }
             return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
         }
 

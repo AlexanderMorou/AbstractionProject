@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
+namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     internal class ArrayReadOnlyCollection<T> :
-        IReadOnlyCollection<T>,
+        IArrayReadOnlyCollection<T>,
         IReadOnlyCollection
     {
         private T[] items;
@@ -85,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             return Array.IndexOf(this.items, item) != -1;
         }
 
-        void IControlledCollection.CopyTo(Array array, int arrayIndex = 0)
+        void IControlledCollection.CopyTo(Array array, int arrayIndex)
         {
             Array.ConstrainedCopy(this.items, 0, array, arrayIndex, this.items.Length);
         }
@@ -98,6 +97,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         public int IndexOf(object element)
         {
             return Array.IndexOf(this.items, element);
+        }
+
+        #endregion
+
+        #region IArrayReadOnlyCollection<T> Members
+
+        public T[] InternalArray
+        {
+            get { return this.items; }
+        }
+
+        public bool IsAggregate
+        {
+            get { return false; }
+        }
+
+        public T[][] AggregateArrays
+        {
+            get { throw new NotSupportedException(); }
         }
 
         #endregion

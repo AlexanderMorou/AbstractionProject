@@ -5,44 +5,88 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> :
+    internal abstract partial class CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> :
         IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParameter :
+            class,
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignature :
             IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParent :
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
+        private TSignatureParent parent;
         private ICliMetadataMethodDefinitionTableRow metadata;
+        private _ICliManager manager;
+        private bool? lastIsParams;
+        private CliParameterMemberDictionary<TSignature, TSignatureParameter> parameters;
+
+        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliManager manager, TSignatureParent parent)
+        {
+            this.metadata = metadata;
+            this.manager = manager;
+            this.parent = parent;
+        }
+
+        protected ICliMetadataMethodDefinitionTableRow Metadata
+        {
+            get
+            {
+                return this.metadata;
+            }
+        }
+
+        protected CliParameterMemberDictionary<TSignature, TSignatureParameter> Parameters
+        {
+            get
+            {
+                CheckParameters();
+                return this.parameters;
+            }
+        }
+
+        private void CheckParameters()
+        {
+            if (this.parameters == null)
+                this.parameters = this.InitializeParameters();
+        }
+
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
 
-        public TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
 
         public TSignature GetGenericDefinition()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException("Not a generic instance.");
         }
 
         public TSignature MakeGenericClosure(params IType[] typeParameters)
         {
+            if (this.IsGenericConstruct)
+                throw new InvalidOperationException("Not a generic construct.");
             throw new NotImplementedException();
         }
 
         #endregion
 
+
+
         #region IParameterParent<TSignature,TSignatureParameter> Members
 
-        public IParameterMemberDictionary<TSignature, TSignatureParameter> Parameters
+        IParameterMemberDictionary<TSignature, TSignatureParameter> IParameterParent<TSignature, TSignatureParameter>.Parameters
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return this.Parameters;
+            }
         }
+
+        protected abstract CliParameterMemberDictionary<TSignature, TSignatureParameter> InitializeParameters();
 
         #endregion
 
@@ -55,7 +99,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public bool LastIsParams
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (lastIsParams == null)
+                {
+                    var paramArrayAttrType = this.manager.ObtainTypeReference(this.manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayAttribute), manager.GetRelativeAssembly(metadata.MetadataRoot));
+                    var lParam = metadata.Parameters.LastOrDefault();
+                    if (lParam != null && lParam.CustomAttributes.Count > 0)
+                        lastIsParams = CliCommon.GetMetadatum(this.manager, paramArrayAttrType, lParam.CustomAttributes) != null;
+                }
+                return (bool) lastIsParams;
+            }
         }
 
         #endregion
@@ -64,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public TSignatureParent Parent
         {
-            get { throw new NotImplementedException(); }
+            get { return this.parent; }
         }
 
         #endregion
@@ -98,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            this.metadata = null;
         }
 
         #endregion

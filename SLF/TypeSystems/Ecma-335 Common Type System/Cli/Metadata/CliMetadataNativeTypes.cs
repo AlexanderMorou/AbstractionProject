@@ -169,7 +169,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// <remarks>
         /// Original name: ELEMENT_TYPE_PINNED
         /// </remarks>
-        Pinned                 = 0x45, // ELEMENT_TYPE_PINNED
+        Pinned                 = 0x45, //  
         /// <remarks>
         /// Original name: ELEMENT_TYPE_TYPE
         /// </remarks>
