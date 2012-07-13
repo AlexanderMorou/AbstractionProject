@@ -19,5 +19,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         public ICliMetadataMethodSignature Signature { get; private set; }
 
         //#endregion
+
+        #region ICliMetadataTypeSignature Members
+
+        public CliMetadataTypeSignatureKind TypeSignatureKind
+        {
+            get { return CliMetadataTypeSignatureKind.FunctionPointerType; }
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return string.Format("({0})*", this.Signature);
+        }
     }
 }

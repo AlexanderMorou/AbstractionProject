@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
@@ -20,7 +21,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IIdentityManager<IGeneralTypeUniqueIdentifier, IAssemblyUniqueIdentifier, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICliAssembly>,
         IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>,
-        ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>
+        ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>,
+        ITypeIdentityManager<ICliMetadataTypeDefOrRefRow>
     {
         /// <summary>
         /// Obtains a <see cref="ICopmiledAssembly"/> reference by the filename.
@@ -39,29 +41,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         new ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
         /// <summary>
-        /// Returns the <see cref="ICliMetadataModuleTableRow"/> from the module
-        /// defined within the <paramref name="metadata"/> reference.
-        /// </summary>
-        /// <param name="metadata">The <see cref="ICliMetadataModuleReferenceTableRow"/>
-        /// which represents the module reference.</param>
-        /// <returns>The <see cref="ICliMetadataModuleTableRow"/> which represents
-        /// the actual module's metadata.</returns>
-        ICliMetadataModuleTableRow LoadModule(ICliMetadataModuleReferenceTableRow metadata);
-        /// <summary>
         /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
         /// </summary>
         /// <param name="typeIdentity"></param>
         /// <returns></returns>
         IType ObtainTypeReference(RuntimeCoreType coreType, ICliAssembly relativeSource);
         /// <summary>
-        /// Resolves the <paramref name="scope"/> provided.
+        /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
         /// </summary>
-        /// <param name="scope">The <see cref="ICliMetadataTypeDefOrRefRow"/> to resolve.</param>
-        /// <returns>A <see cref="ICliMetadataTypeDefinitionTableRow"/>
-        /// which denotes the type from which <paramref name="scope"/>
-        /// is derived.</returns>
-        /// <remarks>Loads the appropriate assemblies should it be a type
-        /// reference relative to the current runtime environment.</remarks>
-        ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope);
+        /// <param name="uniqueIdentifier">The <see cref="IGeneralTypeUniqueIdentifier"/> of
+        /// to the type to retrieve relative to the scope of
+        /// <paramref name="relativeScope"/>.</param>
+        /// <returns></returns>
+        IType ObtainTypeReference(IGeneralTypeUniqueIdentifier uniqueIdentifier, ICliAssembly relativeSource);
     }
 }

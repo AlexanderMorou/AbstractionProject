@@ -6,12 +6,14 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal abstract class CliTypeBase<TIdentifier> :
         TypeBase<TIdentifier>,
-        ICliType
+        _ICliType
         where TIdentifier :
             ITypeUniqueIdentifier
     {
@@ -152,6 +154,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ICliMetadataTableRow ICliDeclaration.Metadata
         {
             get { return this.Metadata; }
+        }
+
+        #endregion
+
+        #region _ICliType Members
+
+        public IModifiedType MakeModified(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

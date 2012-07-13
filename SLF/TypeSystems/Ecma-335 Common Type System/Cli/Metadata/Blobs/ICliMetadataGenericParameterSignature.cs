@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         /// </summary>
         Method,
     }
-    public interface ICliMetadataGenericParameterSignature :
+    public interface ICliMetadataGenericParameterTypeSignature :
         ICliMetadataTypeSignature
     {
         /// <summary>

@@ -37,5 +37,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             return string.Format("{0}{1}", ElementType, Shape);
         }
+
+        #region ICliMetadataTypeSignature Members
+
+        public CliMetadataTypeSignatureKind TypeSignatureKind
+        {
+            get { return CliMetadataTypeSignatureKind.ArrayType; }
+        }
+
+        #endregion
     }
 }

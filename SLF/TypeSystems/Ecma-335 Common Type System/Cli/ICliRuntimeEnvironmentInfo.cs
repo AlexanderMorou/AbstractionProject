@@ -55,5 +55,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// define the possible locations of a given assembly within the Global Access Cache.</returns>
         IEnumerable<DirectoryInfo> GetGacLocationsFor(IAssemblyUniqueIdentifier uniqueIdentifier);
 
+        /// <summary>
+        /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> of the <paramref name="coreType"/>
+        /// provided.
+        /// </summary>
+        /// <param name="coreType">The <see cref="CliRuntimeCoreType"/>
+        /// to obtain the <see cref="IGeneralTypeUniqueIdentifier"/> of.</param>
+        /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/> relative to the 
+        /// <paramref name="coreType"/> provided.</returns>
+        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType);
+
     }
 }

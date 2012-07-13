@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return false;
             }
 
-            void IControlledCollection.CopyTo(Array array, int arrayIndex = 0)
+            void IControlledCollection.CopyTo(Array array, int arrayIndex)
             {
                 ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 this.owner.PrepareKeysCopy();

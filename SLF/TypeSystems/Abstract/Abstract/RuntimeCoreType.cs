@@ -12,14 +12,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         ArrayType,
         /// <summary>
-        /// The definition of the root of all asynchronous tasks.
-        /// </summary>
-        AsynchronousTask,
-        /// <summary>
-        /// The definition of the root of all generic asynchronous tasks.
-        /// </summary>
-        AsynchronousTaskOfT,
-        /// <summary>
         /// The definition of a boolean value.
         /// </summary>
         Boolean,
@@ -48,14 +40,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         Char,
         /// <summary>
-        /// The definition of the root of the compiler generated metadatum.
-        /// </summary>
-        CompilerGeneratedMetadatum,
-        /// <summary>
-        /// The definition of the root of all delegate types
-        /// </summary>
-        Delegate,
-        /// <summary>
         /// The definition of the root of all enumerations.
         /// </summary>
         EnumBaseType,
@@ -83,18 +67,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// The definition of an unsigned 64-bit integer.
         /// </summary>
         UInt64,
-        /// <summary>
-        /// The definition of the root of all multicast delegate types.
-        /// </summary>
-        MulticastDelegate,
-        /// <summary>
-        /// The definition of the base type of a nullable type.
-        /// </summary>
-        NullableBaseType,
-        /// <summary>
-        /// The definition a nullable type.
-        /// </summary>
-        NullableType,
         /// <summary>
         /// The  
         /// definition of the root of all types.

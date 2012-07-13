@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 {
@@ -15,12 +16,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         ModuleBase,
         ICliModule
     {
+        private ICliMetadataTypeDefinitionTableRow memberData;
 
-        internal CliModule(CliAssembly owner, ICliMetadataModuleTableRow metadata, ICliMetadataTypeDefinitionTableRow memberData)
+        internal CliModule(CliAssembly owner, ICliMetadataModuleTableRow metadata)
             : base(owner)
         {
             this.Metadata = metadata;
-            
+            this.memberData = ScanForMemberData(metadata);
+        }
+
+        private static ICliMetadataTypeDefinitionTableRow ScanForMemberData(ICliMetadataModuleTableRow metadata)
+        {
+            if (metadata.MetadataRoot.TableStream.TypeDefinitionTable != null)
+                foreach (ICliMetadataTypeDefinitionTableRow typeInfo in metadata.MetadataRoot.TableStream.TypeDefinitionTable)
+                    if (typeInfo.Name == "<Module>" && typeInfo.ExtendsIndex == 0 && typeInfo.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition)
+                        return typeInfo;
+            return null;
         }
 
         #region ICliModule Members

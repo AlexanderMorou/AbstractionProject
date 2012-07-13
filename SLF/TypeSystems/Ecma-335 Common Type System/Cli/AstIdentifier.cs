@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> MemberGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
 
         private static Dictionary<string, IGeneralTypeUniqueIdentifier> GeneralTypeCache = new Dictionary<string, IGeneralTypeUniqueIdentifier>();
-        public static IGeneralSignatureMemberUniqueIdentifier GetSignatureIdentifier(string name, IEnumerable<IType> signature)
+        public static IGeneralSignatureMemberUniqueIdentifier GetSignatureIdentifier(string name, IEnumerable<IModifiedType> signature)
         {
             return new DefaultSignatureMemberUniqueIdentifier(name, signature);
         }
@@ -59,9 +59,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             return new DefaultGenericParameterUniqueIdentifier(name, onType);
         }
-        public static IGeneralSignatureMemberUniqueIdentifier GetSignatureIdentifier(string name, params IType[] signature)
+        public static IGeneralSignatureMemberUniqueIdentifier GetSignatureIdentifier(string name, params IModifiedType[] signature)
         {
-            return GetSignatureIdentifier(name, (IEnumerable<IType>) signature);
+            return GetSignatureIdentifier(name, (IEnumerable<IModifiedType>) signature);
         }
 
         public static IGeneralSignatureMemberUniqueIdentifier GetCtorSignatureIdentifier()
@@ -69,12 +69,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return GetSignatureIdentifier(".cctor");
         }
 
-        public static IGeneralSignatureMemberUniqueIdentifier GetCtorSignatureIdentifier(params IType[] signature)
+        public static IGeneralSignatureMemberUniqueIdentifier GetCtorSignatureIdentifier(params IModifiedType[] signature)
         {
-            return GetSignatureIdentifier(".ctor", (IEnumerable<IType>) signature);
+            return GetSignatureIdentifier(".ctor", (IEnumerable<IModifiedType>) signature);
         }
 
-        public static IGeneralSignatureMemberUniqueIdentifier GetCtorSignatureIdentifier(IEnumerable<IType> signature)
+        public static IGeneralSignatureMemberUniqueIdentifier GetCtorSignatureIdentifier(IEnumerable<IModifiedType> signature)
         {
             return GetSignatureIdentifier(".ctor", signature);
         }
@@ -84,24 +84,24 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return new DefaultMemberUniqueIdentifier(name);
         }
 
-        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, IEnumerable<IType> signature)
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, IEnumerable<IModifiedType> signature)
         {
             return GetGenericSignatureIdentifier(name, 0, signature);
         }
 
-        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, params IType[] signature)
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, params IModifiedType[] signature)
         {
-            return GetGenericSignatureIdentifier(name, 0, (IEnumerable<IType>) signature);
+            return GetGenericSignatureIdentifier(name, 0, (IEnumerable<IModifiedType>) signature);
         }
 
-        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, IEnumerable<IType> signature)
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, IEnumerable<IModifiedType> signature)
         {
             return new DefaultGenericSignatureMemberUniqueIdentifier(name, typeParameters: typeParams, parameters: signature);
         }
 
-        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, params IType[] signature)
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, params IModifiedType[] signature)
         {
-            return GetGenericSignatureIdentifier(name, typeParams, (IEnumerable<IType>) signature);
+            return GetGenericSignatureIdentifier(name, typeParams, (IEnumerable<IModifiedType>) signature);
         }
 
         public static IBinaryOperatorUniqueIdentifier GetBinaryOperatorBothIdentifier(CoercibleBinaryOperators @operator)

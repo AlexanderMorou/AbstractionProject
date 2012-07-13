@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         internal StrongNamePrivateKeyInfo(bool o, byte[] data, int l, int ks) {
-            this.keySize = keySize;
+            this.keySize = ks;
             this.data = new Tuple<int, byte[], bool>(l, data, o);
         }
 

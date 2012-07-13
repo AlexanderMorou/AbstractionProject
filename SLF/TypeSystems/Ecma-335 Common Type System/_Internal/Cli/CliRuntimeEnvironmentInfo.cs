@@ -594,10 +594,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 case RuntimeCoreType.ArrayType:
                     return ArrayType;
-                case RuntimeCoreType.AsynchronousTask:
-                    return AsynchronousTask;
-                case RuntimeCoreType.AsynchronousTaskOfT:
-                    return AsynchronousTaskOfT;
                 case RuntimeCoreType.Boolean:
                     return Boolean;
                 case RuntimeCoreType.Decimal:
@@ -612,10 +608,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return Byte;
                 case RuntimeCoreType.Char:
                     return Char;
-                case RuntimeCoreType.CompilerGeneratedMetadatum:
-                    return CompilerGeneratedMetadatum;
-                case RuntimeCoreType.Delegate:
-                    return Delegate;
                 case RuntimeCoreType.EnumBaseType:
                     return EnumBaseType;
                 case RuntimeCoreType.Int16:
@@ -630,12 +622,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return Int64;
                 case RuntimeCoreType.UInt64:
                     return UInt64;
-                case RuntimeCoreType.MulticastDelegate:
-                    return MulticastDelegate;
-                case RuntimeCoreType.NullableBaseType:
-                    return NullableBaseType;
-                case RuntimeCoreType.NullableType:
-                    return NullableType;
                 case RuntimeCoreType.RootType:
                     return RootType;
                 case RuntimeCoreType.String:
@@ -655,5 +641,46 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
+
+        #region ICliRuntimeEnvironmentInfo Members
+
+
+        public IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType)
+        {
+            switch (coreType)
+            {
+                case CliRuntimeCoreType.AsynchronousTask:
+                    return AsynchronousTask;
+                case CliRuntimeCoreType.AsynchronousTaskOfT:
+                    return AsynchronousTaskOfT;
+                case CliRuntimeCoreType.CompilerGeneratedMetadatum:
+                    return CompilerGeneratedMetadatum;
+                case CliRuntimeCoreType.Delegate:
+                    return Delegate;
+                case CliRuntimeCoreType.MulticastDelegate:
+                    return MulticastDelegate;
+                case CliRuntimeCoreType.NullableBaseType:
+                    return NullableBaseType;
+                case CliRuntimeCoreType.NullableType:
+                    return NullableType;
+                case CliRuntimeCoreType.ParamArrayAttribute:
+                    return ParamArrayAttribute;
+                default:
+                    throw new ArgumentOutOfRangeException("coreType");
+            }
+        }
+
+        #endregion
+
+        public IGeneralTypeUniqueIdentifier ParamArrayAttribute
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "ParamArrayAttribute", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "ParamArrayAttribute", 0);
+            }
+        }
     }
 }

@@ -30,11 +30,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             StringBuilder sb = new StringBuilder();
             if (Required)
-            {
-                sb.Append("modreq ");
-            }
+                sb.Append("modreq(");
             else
-                sb.Append("modopt ");
+                sb.Append("modopt(");
             switch (ModifierType.TypeDefOrRefEncoding)
             {
                 case CliMetadataTypeDefOrRefTag.TypeDefinition:
@@ -47,6 +45,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     sb.Append(((ICliMetadataTypeSpecificationTableRow) ModifierType).Signature);
                     break;
             }
+            sb.Append(")");
             return sb.ToString();
         }
 

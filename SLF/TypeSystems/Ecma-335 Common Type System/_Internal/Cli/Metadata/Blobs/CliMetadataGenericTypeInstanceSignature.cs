@@ -8,11 +8,11 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
-    internal class CliMetadataGenericTypeInstanceSignature :
+    internal class CliMetadataGenericInstanceTypeSignature :
         CliMetadataValueOrClassTypeSignature,
-        ICliMetadataGenericTypeInstanceSignature
+        ICliMetadataGenericInstanceTypeSignature
     {
-        public CliMetadataGenericTypeInstanceSignature(bool isClass, ICliMetadataTypeDefOrRefRow genericType, ICliMetadataTypeSignature[] genericParameters)
+        public CliMetadataGenericInstanceTypeSignature(bool isClass, ICliMetadataTypeDefOrRefRow genericType, ICliMetadataTypeSignature[] genericParameters)
             : base(isClass, genericType)
         {
             if (genericParameters == null || genericParameters.Length == 0)
@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 this.GenericParameters = new ArrayReadOnlyCollection<ICliMetadataTypeSignature>(genericParameters);
         }
 
-        //#region ICliMetadataGenericTypeInstanceSignature Members
+        //#region ICliMetadataGenericInstanceTypeSignature Members
 
         public IReadOnlyCollection<ICliMetadataTypeSignature> GenericParameters { get; private set; }
 
@@ -31,5 +31,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             return string.Format("{0}<{1}>", base.ToString(), string.Join<ICliMetadataTypeSignature>(", ", GenericParameters));
         }
+
+        #region ICliMetadataTypeSignature Members
+
+        public CliMetadataTypeSignatureKind TypeSignatureKind
+        {
+            get { return CliMetadataTypeSignatureKind.GenericInstType; }
+        }
+
+        #endregion
     }
 }

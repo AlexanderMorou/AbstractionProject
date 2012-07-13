@@ -403,5 +403,18 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             return new CovariantReadOnlyCollection<TLower, THigher>(source);
         }
 
+
+        internal static IArrayReadOnlyCollection<T> Concat<T>(this IArrayReadOnlyCollection<T> first, IArrayReadOnlyCollection<T> second)
+        {
+            if (first.IsAggregate)
+                if (second.IsAggregate)
+                    return new ConcatenatedArrayReadOnlyCollection<T>(first.AggregateArrays, second.AggregateArrays);
+                else
+                    return new ConcatenatedArrayReadOnlyCollection<T>(first.AggregateArrays, second.InternalArray);
+            else if (second.IsAggregate)
+                return new ConcatenatedArrayReadOnlyCollection<T>(first.InternalArray, second.AggregateArrays);
+            else
+                return new ConcatenatedArrayReadOnlyCollection<T>(first.InternalArray, second.InternalArray);
+        }
     }
 }

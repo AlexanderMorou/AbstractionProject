@@ -46,5 +46,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// as an open generic wherein the current <see cref="IType"/> is a closed-form generic.
         /// </summary>
         GenericTypeDefinition,
+        /// <summary>
+        /// The <see cref="IType.ElementType"/> represents the original, unmodified, 
+        /// definition of the <see cref="IType"/>.
+        /// </summary>
+        ModifiedType,
     }
 }

@@ -117,6 +117,8 @@
     <Compile Include="Abstract\IGenericParamParentUniqueIdentifier.cs" />
     <Compile Include="Abstract\IGroupedTypeDictionary.cs" />
     <Compile Include="Abstract\IIdentityManager.cs" />
+    <Compile Include="Abstract\IModifiedType.cs" />
+    <Compile Include="Abstract\IModifiedTypeUniqueIdentifier.cs" />
     <Compile Include="Abstract\IModifiersAndAttributesMetadata.cs" />
     <Compile Include="Abstract\IStrongNameKeyInfo.cs" />
     <Compile Include="Abstract\IStrongNamePrivateKeyInfo.cs" />
@@ -138,6 +140,9 @@
     <Compile Include="Abstract\Members\ISignatureMemberUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
+    <Compile Include="Abstract\ModifiedType.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Abstract\PrimitiveTypes.cs" />
     <Compile Include="Abstract\PublicKeyTokenData.cs" />
     <Compile Include="Abstract\RuntimeCoreType.cs" />
@@ -145,6 +150,7 @@
     <Compile Include="Abstract\StrongNamePrivateKeyInfo+LinkedPublicKey.cs" />
     <Compile Include="Abstract\StrongNamePrivateKeyInfo.cs" />
     <Compile Include="Abstract\StrongNamePublicKeyInfo.cs" />
+    <Compile Include="Abstract\TypeModification.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
@@ -175,9 +181,9 @@
     <Compile Include="Abstract\ICoercibleType{TType}.cs" />
     <Compile Include="Abstract\ICoercibleType{TCoercion, TType}.cs" />
     <Compile Include="Abstract\ICreatableType.cs" />
-    <Compile Include="Abstract\ICustomAttributeCollection.cs" />
-    <Compile Include="Abstract\ICustomAttributeInstance.cs" />
-    <Compile Include="Abstract\ICustomAttributedDeclaration.cs" />
+    <Compile Include="Abstract\IMetadataCollection.cs" />
+    <Compile Include="Abstract\IMetadatum.cs" />
+    <Compile Include="Abstract\IMetadataEntity.cs" />
     <Compile Include="Abstract\IDeclaration.cs" />
     <Compile Include="Abstract\IDeclarationDictionary.cs" />
     <Compile Include="Abstract\IDeclarations{TItem}.cs" />
@@ -342,8 +348,13 @@
     <Compile Include="Abstract\TypedNameSeries.cs" />
     <Compile Include="Abstract\IDeclarationUniqueIdentifier.cs" />
     <Compile Include="Abstract\ITypeUniqueIdentifier.cs" />
+    <Compile Include="_Internal\Abstract\EmptyFullMemberDictionary.cs" />
+    <Compile Include="_Internal\Abstract\ITypeModificationEntry.cs" />
     <Compile Include="_Internal\Abstract\StrongNameKeyPairHelper.cs" />
     <Compile Include="_Internal\Abstract\TypeArrayCache.cs" />
+    <Compile Include="_Internal\Abstract\TypeModificationEntry.cs" />
+    <Compile Include="_Internal\Abstract\TypeModifiedCache.cs" />
+    <Compile Include="_Internal\Abstract\_IConstructRegistrar{T}.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">

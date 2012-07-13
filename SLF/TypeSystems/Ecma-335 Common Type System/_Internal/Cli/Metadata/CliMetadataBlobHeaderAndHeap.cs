@@ -86,6 +86,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             throw new ArgumentOutOfRangeException("heapIndex");
         }
 
+        #region ICliMetadataBlobHeaderAndHeap Members
+
+
+        public int SizeOf(uint heapIndex)
+        {
+            if (heapIndex >= this.Size)
+                throw new ArgumentOutOfRangeException("index");
+            SmallBlobEntry smallResult;
+            MediumBlobEntry mediumResult;
+            LargeBlobEntry largeResult;
+            if (smallEntries.TryGetValue(heapIndex, out smallResult))
+                return smallResult.Length;
+            else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
+            {
+                return mediumResult.Length;
+            }
+            else if (largEntries.TryGetValue(heapIndex, out largeResult))
+            {
+                return largeResult.Length;
+            }
+            throw new IndexOutOfRangeException("heapIndex");
+
+        }
+
+        #endregion
         private void LoadSignatureGeneral(SignatureKinds signatureKind, uint heapIndex, _ICliMetadataBlobEntry entry)
         {
             uint offset = heapIndex + entry.LengthByteCount;
@@ -266,6 +291,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 this.largEntries = null;
             }
         }
+
 
     }
 }

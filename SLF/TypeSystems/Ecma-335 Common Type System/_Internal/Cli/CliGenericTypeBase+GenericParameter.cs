@@ -472,6 +472,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
+
+            #region IType Members
+
+
+            public IModifiedType MakeModified(TypeModification[] modifiers)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
         }
     }
 }

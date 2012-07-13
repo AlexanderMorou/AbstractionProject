@@ -140,7 +140,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new TypeLoadException(string.Format("Could not load {0}.", typeIdentity.ToString()));
         }
 
-        private IType ObtainTypeReference(IGeneralTypeUniqueIdentifier typeIdentity, ICliAssembly originatingAssembly)
+        public IType ObtainTypeReference(IGeneralTypeUniqueIdentifier typeIdentity, ICliAssembly originatingAssembly)
         {
             /* *
              * With no assembly as a guide, a guess has to be made.

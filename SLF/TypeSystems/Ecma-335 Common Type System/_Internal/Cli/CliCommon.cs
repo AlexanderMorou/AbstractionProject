@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata;
-using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
-using System.IO;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
+using AllenCopeland.Abstraction.Utilities.Collections;
 #if x86
 using SlotType = System.UInt32;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
-using System.Reflection;
-using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 #elif x64
 using SlotType = System.UInt64;
 #endif
@@ -29,13 +30,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         unsafe internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
         {
-            const int slotSize = sizeof(SlotType);
-#if x86
-            const int slotSizeIndex = 2;
-#elif x64
-            const int slotSizeIndex = 3;
-#endif
-            const int bitCountIndex = 3;
             FileStream peStream;
             var image = PEImage.LoadImage(filename, out peStream, true);
             return LoadAssemblyMetadata(peStream, image);
@@ -213,7 +207,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return new Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier>(publicKeyInfo, assemblyUniqueIdentifier);
         }
 
-
         internal static ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow typeIdentity, _ICliManager manager, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
         {
             if (typeIdentity == null)
@@ -296,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 inheritanceChain.Push(current);
                                 current = current.Source as ICliMetadataTypeRefTableRow;
                             }
-                            ICliMetadataTypeDefinitionTableRow definition=null;
+                            ICliMetadataTypeDefinitionTableRow definition = null;
                             if (current != null)
                                 definition = ResolveScope(current, manager, null, typeSpec);
                             if (definition != null)
@@ -304,7 +297,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 while (inheritanceChain.Count > 0)
                                 {
                                     var currentChild = inheritanceChain.Pop();
-                                    bool found=false;
+                                    bool found = false;
                                     foreach (var nestedType in definition.NestedClasses)
                                         if (nestedType.Name == currentChild.Name)
                                         {
@@ -339,9 +332,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         if (spec != null)
                         {
                             var specSignature = spec.Signature;
-                            if (specSignature is ICliMetadataGenericTypeInstanceSignature)
+                            if (specSignature is ICliMetadataGenericInstanceTypeSignature)
                             {
-                                var genericSig = (ICliMetadataGenericTypeInstanceSignature) specSignature;
+                                var genericSig = (ICliMetadataGenericInstanceTypeSignature) specSignature;
                                 return ResolveScope(genericSig.Target, manager, selectionPredicate, typeSpec);
                             }
                             else if (specSignature is ICliMetadataVectorArrayTypeSignature)
@@ -621,6 +614,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count);
                 }
             }
+        }
+
+        internal static IMetadatum GetMetadatum(_ICliManager manager, IType metadataType, IReadOnlyCollection<ICliMetadataCustomAttributeTableRow> metadata)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static IMetadatum GetMetadatum(_ICliManager manager, ICliMetadataCustomAttributeTableRow metadata)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal static IModifiedType MakeModified(ICliMetadataTypeSignature original, IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
+        {
+            var current = manager.ObtainTypeReference(original) as _ICliType;
+            return current.MakeModified(modifiers);
         }
     }
 }
