@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// containing the module that contains the entrypoint.</param>
         /// <param name="resources">The <see cref="RVAndSize"/> of the implementation-specific resources
         /// contained within the <see cref="PEImage"/>.</param>
-        /// <param name="strongNameSignature">The <see cref="RVAndSize"/> of the hash blobCacheData for the <see cref="PEImage"/>
+        /// <param name="strongNameSignature">The <see cref="RVAndSize"/> of the hash data for the <see cref="PEImage"/>
         /// used by the CLI loader for binding and versioning.</param>
         /// <param name="codeManagerTable"></param>
         /// <param name="vtableFixups">The <see cref="RVAndSize"/> of an array representing the sizes
@@ -156,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         public RVAndSize Resources { get { return this.resources; } }
 
         /// <summary>
-        /// Returns the <see cref="RVAndSize"/> of the hash blobCacheData for
+        /// Returns the <see cref="RVAndSize"/> of the hash data for
         /// the <see cref="PEImage"/> used by the CLI loader for binding and versioning.
         /// </summary>
         public RVAndSize StrongNameSignature { get { return this.strongNameSignature; } }

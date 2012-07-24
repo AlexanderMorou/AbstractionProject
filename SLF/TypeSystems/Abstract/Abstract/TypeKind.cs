@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// The <see cref="IType"/> is an enumeration.
         /// </summary>
-        Enumerator,
+        Enumeration,
         /// <summary>
         /// The <see cref="IType"/> is an interface.
         /// </summary>

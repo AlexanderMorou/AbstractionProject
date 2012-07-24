@@ -7,39 +7,39 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
     /// <summary>
     /// Defines the characteristics of a given
-    /// <see cref="PEImageSection"/>.
+    /// <see cref="CoffSection"/>.
     /// </summary>
     [Flags]
-    public enum PEImageSectionCharacteristics :
+    public enum CoffSectionCharacteristics :
         uint
     {
         /// <summary>
-        /// The <see cref="PEImageSection"/> contains code.
+        /// The <see cref="CoffSection"/> contains code.
         /// </summary>
         ContainsCode                = 1 << 5,
         /// <summary>
-        /// The <see cref="PEImageSection"/> contains initialized
-        /// blobCacheData.
+        /// The <see cref="CoffSection"/> contains initialized
+        /// data.
         /// </summary>
         ContainsInitializedData     = 1 << 6,
         /// <summary>
-        /// The <see cref="PEImageSection"/> contains uninitialized
-        /// blobCacheData.
+        /// The <see cref="CoffSection"/> contains uninitialized
+        /// data.
         /// </summary>
         ContainsUninitializedData   = 1 << 7,
         /// <summary>
-        /// The <see cref="PEImageSection"/> contains blobCacheData
+        /// The <see cref="CoffSection"/> contains data
         /// associated to the linking process.
         /// </summary>
         LinkerInfo                  = 1 << 9,
         /// <summary>
-        /// The <see cref="PEImageSection"/> contains blobCacheData
+        /// The <see cref="CoffSection"/> contains data
         /// associated to the linking process that is supposed
         /// to be omitted when the <see cref="PEImage"/> is created.
         /// </summary>
         LinkRemove                  = 1 << 11,
         /// <summary>
-        /// The <see cref="PEImageSection"/> contains blobCacheData
+        /// The <see cref="CoffSection"/> contains data
         /// associated to common blocks of code.
         /// </summary>
         /// <remarks>
@@ -67,50 +67,50 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         AlignmentMask               = 15 << 20,
         /// <summary>
         /// The number of relocations contained within the 
-        /// <see cref="PEImageSection"/> exceeds the 16-bit boundary.
+        /// <see cref="CoffSection"/> exceeds the 16-bit boundary.
         /// </summary>
-        /// <remarks><para>The <see cref="PEImageSection.NumberOfRelocations"/>
+        /// <remarks><para>The <see cref="CoffSection.NumberOfRelocations"/>
         /// is <see cref="UInt16.MaxValue"/> and the actual 
         /// relocation count is stored in the VirtualAddress of the
         /// first relocation.</para>
         /// <para>It is an error if <see cref="RelocationOverflow"/>
-        /// is set and <see cref="PEImageSection.NumberOfRelocations"/>
+        /// is set and <see cref="CoffSection.NumberOfRelocations"/>
         /// is less than <see cref="UInt16.MaxValue"/></para></remarks>
         RelocationOverflow          = 01 << 24,
         /// <summary>
-        /// The <see cref="PEImageSection"/> can be discarded as needed.
+        /// The <see cref="CoffSection"/> can be discarded as needed.
         /// </summary>
         MemoryIsDiscardable         = 01 << 25,
         /// <summary>
-        /// The memory for the <see cref="PEImageSection"/> cannot be cached.
+        /// The memory for the <see cref="CoffSection"/> cannot be cached.
         /// </summary>
         MemoryNotCached             = 01 << 26,
         /// <summary>
-        /// The Memory for the <see cref="PEImageSection"/>
+        /// The Memory for the <see cref="CoffSection"/>
         /// cannot be paged.
         /// </summary>
         MemoryCannotBePaged         = 01 << 27,
         /// <summary>
-        /// The memory for the <see cref="PEImageSection"/> can be shared
+        /// The memory for the <see cref="CoffSection"/> can be shared
         /// in memory.
         /// </summary>
         MemoryCanBeShared           = 01 << 28,
         /// <summary>
-        /// The <see cref="PEImageSection"/> at runtime can be
+        /// The <see cref="CoffSection"/> at runtime can be
         /// executed.
         /// </summary>
         MemoryIsExecutable          = 1 << 29,
         /// <summary>
-        /// The <see cref="PEImageSection"/> at runtime can be
+        /// The <see cref="CoffSection"/> at runtime can be
         /// read from.
         /// </summary>
         MemoryIsReadable            = 1 << 30,
         /// <summary>
-        /// The <see cref="PEImageSection"/> at runtime can be
+        /// The <see cref="CoffSection"/> at runtime can be
         /// written to.
         /// </summary>
-        /// <remarks>The blobCacheData being written to is a copy of the
-        /// <see cref="PEImageSection"/>, any changes won't be
+        /// <remarks>The data being written to is a copy of the
+        /// <see cref="CoffSection"/>, any changes won't be
         /// persisted across program sessions.</remarks>
         MemoryIsWritable            = 1U << 31,
     }

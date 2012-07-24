@@ -39,18 +39,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// modifiers and are thusly always 
     /// publically accessible.</para></remarks>
     public interface IPropertySignatureMember :
+        IMetadataEntity,
         IMember
     {
         /// <summary>
         /// Returns the type that the <see cref="IPropertySignatureMember"/> is defined as.
         /// </summary>
         IType PropertyType { get; }
-        /// <summary>
-        /// Returns the <see cref="IModifiersAndAttributesMetadata"/> which 
-        /// describes the custom attributes, and the required and optional 
-        /// modifiers specified on the member.
-        /// </summary>
-        IModifiersAndAttributesMetadata Metadata { get; }
         /// <summary>
         /// Returns whether the <see cref="IPropertySignatureMember"/>
         /// can be read from.

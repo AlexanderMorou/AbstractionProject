@@ -2,19 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CliNamespaceDeclaration :
-        INamespaceDeclaration
+        INamespaceDeclaration,
+        _ICliTypeParent
     {
         private CliAssembly owningAssembly;
         CliNamespaceKeyedTreeNode namespaceInfo;
         private INamespaceParent parent;
         private INamespaceDictionary namespaces;
+        private CliFullTypeDictionary types;
+        private CliClassTypeDictionary classes;
+        private CliDelegateTypeDictionary delegates;
+        private CliEnumTypeDictionary enumerations;
+        private CliInterfaceTypeDictionary interfaces;
+        private CliStructTypeDictionary structs;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="owningAssembly"></param>
+        /// <param name="parent"></param>
+        /// <param name="namespaceInfo"></param>
         public CliNamespaceDeclaration(CliAssembly owningAssembly, INamespaceParent parent, CliNamespaceKeyedTreeNode namespaceInfo)
         {
             this.owningAssembly = owningAssembly;
@@ -112,32 +130,61 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IClassTypeDictionary Classes
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.classes == null)
+                    this.classes = new CliClassTypeDictionary(this, (CliFullTypeDictionary)this.Types);
+                return this.classes;
+            }
         }
 
         public IDelegateTypeDictionary Delegates
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.delegates == null)
+                    this.delegates = new CliDelegateTypeDictionary(this, (CliFullTypeDictionary) this.Types);
+                return this.delegates;
+            }
         }
 
         public IEnumTypeDictionary Enums
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.enumerations == null)
+                    this.enumerations = new CliEnumTypeDictionary(this, (CliFullTypeDictionary) this.Types);
+                return this.enumerations;
+            }
         }
 
         public IInterfaceTypeDictionary Interfaces
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.interfaces == null)
+                    this.interfaces = new CliInterfaceTypeDictionary(this, (CliFullTypeDictionary) this.Types);
+                return this.interfaces;
+            }
         }
 
         public IStructTypeDictionary Structs
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.structs == null)
+                    this.structs = new CliStructTypeDictionary(this, (CliFullTypeDictionary) this.Types);
+                return this.structs;
+            }
         }
 
         public IFullTypeDictionary Types
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.types == null)
+                    this.types = new CliFullTypeDictionary(this.namespaceInfo.NamespaceTypes, this);
+                return this.types;
+            }
         }
 
         //#endregion
@@ -175,5 +222,43 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         //#endregion
+
+        #region _ICliTypeParent Members
+
+        public _ICliManager Manager
+        {
+            get { return (_ICliManager)((_ICliAssembly)this.Assembly).IdentityManager;}
+        }
+
+        _ICliAssembly _ICliTypeParent.Assembly
+        {
+            get { return (_ICliAssembly)this.Assembly; }
+        }
+
+        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
+        #region ICliTypeParent Members
+
+        public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
+        {
+            return CliCommon.FindTypeImplementation(@namespace, name, this.namespaceInfo);
+        }
+
+        public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName)
+        {
+            return CliCommon.FindTypeImplementation(@namespace, name, moduleName, this.namespaceInfo, this.Assembly.Modules);
+        }
+
+        public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
+        {
+            return CliCommon.FindTypeImplementation(uniqueIdentifier, this.namespaceInfo);
+        }
+
+        #endregion
     }
 }

@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 
         /// <summary>
         /// Returns the <see cref="UInt32"/> value which denotes the
-        /// number of bytes represented by the blobCacheData pointed to by the
+        /// number of bytes represented by the data pointed to by the
         /// <see cref="RVAndSize"/>.
         /// </summary>
         public uint Size

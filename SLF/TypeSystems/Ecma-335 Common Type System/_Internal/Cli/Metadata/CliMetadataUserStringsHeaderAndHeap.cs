@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         {
             if (data.Length == 0)
                 return string.Empty;
-            if ((data.Length & 1) != 1) // (blobCacheData.Length % 2) != 1
+            if ((data.Length & 1) != 1) // (data.Length % 2) != 1
                 throw new BadImageFormatException("The userstring count was not odd.");
             char[] result = new char[data.Length >> 1];
             fixed (byte* dataPointer = data)

@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 {
@@ -62,9 +63,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
             }
         }
 
-        protected override IModule CreateElementFrom(ICliMetadataModuleTableRow metadata)
+        protected override IModule CreateElementFrom(ICliMetadataModuleTableRow metadata, int index)
         {
-            //throw new NotImplementedException();
             return new CliModule(this.owner, metadata);
         }
 
@@ -77,5 +77,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 
         #endregion
 
+        protected override IGeneralDeclarationUniqueIdentifier GetIdentifierAt(int index, ICliMetadataModuleTableRow metadata)
+        {
+            return AstIdentifier.GetDeclarationIdentifier(metadata.Name);
+        }
     }
 }

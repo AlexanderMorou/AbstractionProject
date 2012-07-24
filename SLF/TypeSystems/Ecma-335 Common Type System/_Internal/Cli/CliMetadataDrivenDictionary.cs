@@ -15,6 +15,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IDeclarationDictionary,
         IDisposable
         where TDeclarationIdentifier :
+            class,
             IDeclarationUniqueIdentifier
         where TDeclaration :
             class,
@@ -25,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private TDeclaration[] declarationData;
         private KeysCollection keys;
         private ValuesCollection values;
-
+        private object syncObject = new object();
         protected CliMetadataDrivenDictionary(int count)
         {
             this.metadataSource = new TMetadata[count];
@@ -33,21 +34,46 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.checkedMetadata = new bool[count];
         }
 
+        internal CliMetadataDrivenDictionary() { }
+
+        internal void Initialize(TMetadata[] metadata)
+        {
+            this.metadataSource = metadata;
+            int count = this.metadataSource.Length;
+            this.declarationData = new TDeclaration[count];
+            this.checkedMetadata = new bool[count];
+            for (int i = 0; i < count; i++)
+                this.checkedMetadata[i] = true;
+        }
+
         protected abstract TMetadata GetMetadataAt(int index);
 
-        protected abstract TDeclaration CreateElementFrom(TMetadata metadata);
+        protected abstract TDeclaration CreateElementFrom(TMetadata metadata, int index);
 
         private void CheckItemAt(int index)
         {
-            CheckMetadataAt(index);
-            lock (this.declarationData)
+            this.CheckMetadataAt(index);
+            lock (this.syncObject)
+            {
                 if (this.declarationData[index] == null)
-                    this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index]);
+                    this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index], index);
+            }
         }
+
+        private TDeclarationIdentifier CheckIdentifierAt(int index)
+        {
+            lock (this.syncObject)
+            {
+                CheckMetadataAt(index);
+                return this.GetIdentifierAt(index, this.metadataSource[index]);
+            }
+        }
+
+        protected abstract TDeclarationIdentifier GetIdentifierAt(int index, TMetadata metadata);
 
         private void CheckMetadataAt(int index)
         {
-            lock (this.metadataSource)
+            lock (this.syncObject)
                 if (!this.checkedMetadata[index])
                 {
                     this.metadataSource[index] = this.GetMetadataAt(index);
@@ -128,7 +154,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
-                array[i + arrayIndex] = new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier) this.declarationData[i].UniqueIdentifier, this.declarationData[i]);
+                array[i + arrayIndex] = new KeyValuePair<TDeclarationIdentifier, TDeclaration>(this.CheckIdentifierAt(i), this.declarationData[i]);
             }
         }
 
@@ -139,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (index < 0 || index >= this.Count)
                     throw new ArgumentOutOfRangeException();
                 this.CheckItemAt(index);
-                return new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier) this.declarationData[index].UniqueIdentifier, this.declarationData[index]);
+                return new KeyValuePair<TDeclarationIdentifier, TDeclaration>(this.CheckIdentifierAt(index), this.declarationData[index]);
             }
         }
 
@@ -169,7 +195,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
-                yield return new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier) this.declarationData[i].UniqueIdentifier, this.declarationData[i]);
+                yield return new KeyValuePair<TDeclarationIdentifier, TDeclaration>(this.CheckIdentifierAt(i), this.declarationData[i]);
             }
         }
 
@@ -235,7 +261,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             for (int i = 0; i < this.Count; i++)
             {
                 this.CheckItemAt(i);
-                array.SetValue(new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier) this.declarationData[i].UniqueIdentifier, this.declarationData[i]), i + arrayIndex);
+                array.SetValue(new KeyValuePair<TDeclarationIdentifier, TDeclaration>(this.CheckIdentifierAt(i), this.declarationData[i]), i + arrayIndex);
             }
         }
 

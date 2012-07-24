@@ -18,30 +18,43 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         ICliMetadataRoot metadataRoot;
         private uint rva;
         private Substream bodySubstream;
+        private ICliMetadataLocalVarSignature locals;
         private EndianAwareBinaryReader bodyReader;
+        private bool initialized;
+        private object syncObject = new object();
         public CliMetadataMethodBody(ICliMetadataRoot metadataRoot, uint rva)
         {
 
-            var image = metadataRoot.SourceImage;
             this.metadataRoot = metadataRoot;
-            var rvaLocationScan = image.ResolveRelativeVirtualAddress(rva);
-            if (rvaLocationScan.Resolved)
-            {
+            this.rva = rva;
+        }
 
-                var section = rvaLocationScan.Section;
-                this.bodySubstream = new Substream(section.SectionData, rvaLocationScan.Offset, 32, false);
-                this.bodyReader = new EndianAwareBinaryReader(bodySubstream, Endianness.LittleEndian, false);
-                var peekedChar = bodyReader.PeekByte();
-                //var peekedChar = bodyReader.ReadByte();
-                if (peekedChar != -1)
+        private void Initialize()
+        {
+            lock (syncObject)
+            {
+                if (this.initialized)
+                    return;
+                var image = this.metadataRoot.SourceImage;
+                var rvaLocationScan = image.ResolveRelativeVirtualAddress(this.rva);
+                if (rvaLocationScan.Resolved)
                 {
-                    MethodHeaderFlags headerType = ((MethodHeaderFlags) peekedChar) & (MethodHeaderFlags.NarrowFormat | MethodHeaderFlags.WideFormat);
-                    if (headerType == MethodHeaderFlags.NarrowFormat)
-                        this.ReadNarrow((byte) peekedChar);
-                    else
-                        this.ReadWide((byte) peekedChar);
+
+                    var section = rvaLocationScan.Section;
+                    this.bodySubstream = new Substream(section.SectionData, rvaLocationScan.Offset, 32, false);
+                    this.bodyReader = new EndianAwareBinaryReader(bodySubstream, Endianness.LittleEndian, false);
+                    var peekedChar = bodyReader.PeekByte();
+                    //var peekedChar = bodyReader.ReadByte();
+                    if (peekedChar != -1)
+                    {
+                        MethodHeaderFlags headerType = ((MethodHeaderFlags) peekedChar) & (MethodHeaderFlags.NarrowFormat | MethodHeaderFlags.WideFormat);
+                        if (headerType == MethodHeaderFlags.NarrowFormat)
+                            this.ReadNarrow((byte) peekedChar);
+                        else
+                            this.ReadWide((byte) peekedChar);
+                    }
                 }
-                this.rva = rva;
+                this.initialized = true;
             }
         }
 
@@ -57,14 +70,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             {
                 var sigTableKind = (CliMetadataTableKinds) (1UL << (int)((localVarSigToken & 0xFF000000) >> 24));
                 var sigIndex = localVarSigToken & 0x00FFFFFF;
-                ICliMetadataTable sigTable;
-                if (metadataRoot.TableStream.TryGetValue(sigTableKind, out sigTable))
+                ICliMetadataTable table;
+                if (metadataRoot.TableStream.TryGetValue(sigTableKind, out table))
                 {
-                    var entry = (ICliMetadataTableRow) sigTable[(int)sigIndex];
-                    if (entry is ICliMetadataStandAloneSigTableRow)
+                    if (table is ICliMetadataStandAloneSigTable)
                     {
-                        var sigEntry = (ICliMetadataStandAloneSigTableRow) entry;
-                        
+                        ICliMetadataStandAloneSigTable sigTable = (ICliMetadataStandAloneSigTable) table;
+                        var entry = sigTable[(int) sigIndex];
+                        if (entry.Signature is ICliMetadataLocalVarSignature)
+                        {
+                            var sigEntry = (ICliMetadataLocalVarSignature) entry.Signature;
+                            this.locals = sigEntry;
+                        }
                     }
                 }
             }
@@ -74,6 +91,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         {
             byte nBytes = (byte) ((firstByte & 0xFC) >> 2);
 
+        }
+
+        public ICliMetadataLocalVarSignature Locals
+        {
+            get
+            {
+                lock (syncObject)
+                    if (!this.initialized)
+                        this.Initialize();
+                return this.locals;
+            }
         }
     }
 }

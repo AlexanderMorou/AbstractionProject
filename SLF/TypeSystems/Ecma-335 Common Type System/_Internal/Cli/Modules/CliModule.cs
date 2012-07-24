@@ -28,9 +28,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         private static ICliMetadataTypeDefinitionTableRow ScanForMemberData(ICliMetadataModuleTableRow metadata)
         {
             if (metadata.MetadataRoot.TableStream.TypeDefinitionTable != null)
-                foreach (ICliMetadataTypeDefinitionTableRow typeInfo in metadata.MetadataRoot.TableStream.TypeDefinitionTable)
-                    if (typeInfo.Name == "<Module>" && typeInfo.ExtendsIndex == 0 && typeInfo.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition)
-                        return typeInfo;
+                return metadata.MetadataRoot.TableStream.TypeDefinitionTable[1];
+                //foreach (ICliMetadataTypeDefinitionTableRow typeInfo in metadata.MetadataRoot.TableStream.TypeDefinitionTable)
+                //    if (typeInfo.Name == "<Module>" && typeInfo.ExtendsIndex == 0 && typeInfo.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition)
+                //        return typeInfo;
             return null;
         }
 
@@ -64,5 +65,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
                 return AstIdentifier.GetDeclarationIdentifier(this.Metadata.Name);
             }
         }
+    
+        #region ICliModule Members
+
+
+        public ICliMetadataTypeDefinitionTableRow GlobalScope
+        {
+            get { return this.memberData; }
+        }
+
+        #endregion
     }
 }

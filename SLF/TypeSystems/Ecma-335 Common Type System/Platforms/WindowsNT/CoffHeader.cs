@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Numerics;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
-    public struct PEImageStandardHeader
+    public struct CoffHeader
     {
         public const Endianness TargetEndianness = Endianness.LittleEndian;
         public const uint peSignature = 0x4550;
@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         private RVAndSize symbolTableRVAndSize;
         private ushort optionalHeaderSize;
         private static readonly DateTime buildEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        private PEImageStandardCharacteristics characteristics;
+        private CoffStandardCharacteristics characteristics;
 
         public PEImageMachine Machine
         {
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
-        public PEImageStandardCharacteristics Characteristics
+        public CoffStandardCharacteristics Characteristics
         {
             get
             {
@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             this.secondsElapsedSinceEpoc = reader.ReadUInt32();
             this.symbolTableRVAndSize.Read(reader);
             this.optionalHeaderSize = reader.ReadUInt16();
-            this.characteristics = (PEImageStandardCharacteristics) reader.ReadUInt16();
+            this.characteristics = (CoffStandardCharacteristics) reader.ReadUInt16();
         }
 
         internal void Write(EndianAwareBinaryWriter writer)

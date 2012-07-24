@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
     {
         /// <summary>
         /// The assembly table contains zero or one row describing 
-        /// meta-blobCacheData about the active assembly.
+        /// meta-data about the active assembly.
         /// </summary>
         /// <remarks>Metadata Validation Rules (as per ECMA-335 22.2):
         /// <list type="table">
@@ -77,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         AssemblyProcessor               = 1UL << 0x21,
         /// <summary>
         /// The assembly table contains zero or one row describing 
-        /// meta-blobCacheData about the active assembly.
+        /// meta-data about the active assembly.
         /// </summary>
         /// <remarks>Metadata Validation Rules (as per ECMA-335 22.2):
         /// <list type="table">

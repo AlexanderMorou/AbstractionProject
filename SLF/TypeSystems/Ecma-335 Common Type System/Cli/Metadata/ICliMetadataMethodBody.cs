@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
@@ -10,5 +11,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
     /// </summary>
     public interface ICliMetadataMethodBody
     {
+        ICliMetadataLocalVarSignature Locals { get; }
     }
 }

@@ -12,7 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
     /// <see cref="PEImage"/> optional header.
     /// </summary>
     [StructLayout(LayoutKind.Explicit)]
-    public partial struct PEImageOptionalHeader
+    public partial struct PEImageExtendedHeader
     {
         [FieldOffset(0)]
         private StandardFields standardFields;
@@ -21,13 +21,13 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         [FieldOffset(28)]
         private NTFields64 ntFields64;
         [FieldOffset(116)]
-        private DataDirectories dataDirectories;
+        private ConstructRedirects constructRedirects;
 
 
         private static readonly int sfSize = Marshal.SizeOf(typeof(StandardFields));
         private static readonly int nt32Size = Marshal.SizeOf(typeof(NTFields32));
         private static readonly int nt64Size = Marshal.SizeOf(typeof(NTFields64));
-        private static readonly int ddSize = Marshal.SizeOf(typeof(DataDirectories));
+        private static readonly int ddSize = Marshal.SizeOf(typeof(ConstructRedirects));
 
 
         public byte LinkerMajorVersion { get { return this.standardFields.LinkerMajorVersion; } }
@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         }
 
         /// <summary>
-        /// Returns the value used to align the section blobCacheData
+        /// Returns the value used to align the section data
         /// in memory when the <see cref="PEImage"/> is loaded
         /// into memory.
         /// </summary>
@@ -117,7 +117,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         }
 
         /// <summary>
-        /// Returns the value used to align the section blobCacheData
+        /// Returns the value used to align the section data
         /// within the file itself, used to calculate where the individual
         /// sections are.
         /// </summary>
@@ -299,6 +299,10 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="PEImageDllCharacteristics"/> which determines the 
+        /// characteristics of a dynamic link library image.
+        /// </summary>
         public PEImageDllCharacteristics DllCharacteristics
         {
             get
@@ -317,6 +321,13 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="UInt64"/> value which determines the 
+        /// size of the stack in virtual memory for the image during run-time.
+        /// </summary>
+        /// <remarks>In 64-bit images the full <see cref="UInt64"/> value
+        /// is used; however in 32-bit images, only the low-order <see cref="UInt32"/>
+        /// is used.</remarks>
         public ulong StackReserveSize
         {
             get
@@ -335,6 +346,14 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="UInt64"/> value which determines the
+        /// size of the stack in physical memory for the image 
+        /// during run-time.
+        /// </summary>
+        /// <remarks>In 64-bit images the full <see cref="UInt64"/> value
+        /// is used; however in 32-bit images, only the low-order <see cref="UInt32"/>
+        /// is used.</remarks>
         public ulong StackCommitSize
         {
             get
@@ -353,6 +372,13 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="UInt64"/> value which determines the size of the 
+        /// heap in virtual memory for the image during run-time.
+        /// </summary>
+        /// <remarks>In 64-bit images the full <see cref="UInt64"/> value
+        /// is used; however in 32-bit images, only the low-order <see cref="UInt32"/>
+        /// is used.</remarks>
         public ulong HeapReserveSize
         {
             get
@@ -371,6 +397,13 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
+        /// <summary>
+        /// Returns the <see cref="UInt64"/> value which determines the size of the
+        /// heap in physical memory for the image during run-time.
+        /// </summary>
+        /// <remarks>In 64-bit images the full <see cref="UInt64"/> value
+        /// is used; however in 32-bit images, only the low-order <see cref="UInt32"/>
+        /// is used.</remarks>
         public ulong HeapCommitSize
         {
             get
@@ -394,38 +427,87 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         /// relative virtual address and size of the exports table
         /// of the <see cref="PEImage"/>.
         /// </summary>
-        public RVAndSize ExportTable { get { return this.dataDirectories.ExportTable; } }
+        public RVAndSize ExportTable { get { return this.constructRedirects.ExportTable; } }
 
         /// <summary>
         /// Returns the <see cref="RVAndSize"/> which denotes the
         /// relative virtual address and size of the exports table
         /// of the <see cref="PEImage"/>.
         /// </summary>
-        public RVAndSize ImportTable { get { return this.dataDirectories.ImportTable; } }
+        public RVAndSize ImportTable { get { return this.constructRedirects.ImportTable; } }
 
-        public RVAndSize ExceptionTable { get { return this.dataDirectories.ExceptionTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the
+        /// relative virtual address and size of the exception table
+        /// of the <see cref="PEImage"/>.
+        /// </summary>
+        public RVAndSize ExceptionTable { get { return this.constructRedirects.ExceptionTable; } }
 
-        public RVAndSize CertificateTable { get { return this.dataDirectories.CertificateTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative
+        /// virtual address, and size, of the certificate table.
+        /// </summary>
+        public RVAndSize CertificateTable { get { return this.constructRedirects.CertificateTable; } }
 
-        public RVAndSize BaseRelocationTable { get { return this.dataDirectories.BaseRelocationTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual
+        /// address and size of the base relocation table.
+        /// </summary>
+        public RVAndSize BaseRelocationTable { get { return this.constructRedirects.BaseRelocationTable; } }
 
-        public RVAndSize DebugInformationTable { get { return this.dataDirectories.DebugInformationTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual address
+        /// and size of the debug information table.
+        /// </summary>
+        public RVAndSize DebugInformationTable { get { return this.constructRedirects.DebugInformationTable; } }
 
-        public RVAndSize Copyright { get { return this.dataDirectories.Copyright; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual address and size
+        /// of the copyright information for the PE.
+        /// </summary>
+        public RVAndSize Copyright { get { return this.constructRedirects.Copyright; } }
 
-        public RVAndSize GlobalPointer { get { return this.dataDirectories.GlobalPointer; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual address
+        /// and size of the global pointer.
+        /// </summary>
+        public RVAndSize GlobalPointer { get { return this.constructRedirects.GlobalPointer; } }
 
-        public RVAndSize ThreadLocalStorage { get { return this.dataDirectories.ThreadLocalStorage; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual address
+        /// and size of the thread local storage.
+        /// </summary>
+        public RVAndSize ThreadLocalStorage { get { return this.constructRedirects.ThreadLocalStorage; } }
 
-        public RVAndSize LoadConfigurationTable { get { return this.dataDirectories.LoadConfigurationTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual
+        /// address and size of the load configuration table.
+        /// </summary>
+        public RVAndSize LoadConfigurationTable { get { return this.constructRedirects.LoadConfigurationTable; } }
 
-        public RVAndSize BoundImportTable { get { return this.dataDirectories.BoundImportTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual
+        /// address and size of the bound import table.
+        /// </summary>
+        public RVAndSize BoundImportTable { get { return this.constructRedirects.BoundImportTable; } }
 
-        public RVAndSize ImportAddressTable { get { return this.dataDirectories.ImportAddressTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual address
+        /// and size of the import address table.
+        /// </summary>
+        public RVAndSize ImportAddressTable { get { return this.constructRedirects.ImportAddressTable; } }
 
-        public RVAndSize DelayImportAddressTable { get { return this.dataDirectories.DelayImportAddressTable; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual
+        /// address and size of the delay import address table.
+        /// </summary>
+        public RVAndSize DelayImportAddressTable { get { return this.constructRedirects.DelayImportAddressTable; } }
 
-        public RVAndSize CliHeader { get { return this.dataDirectories.CliHeader; } }
+        /// <summary>
+        /// Returns the <see cref="RVAndSize"/> which denotes the relative virtual
+        /// address and size of the common language infrastructure (ECMA-335) header.
+        /// </summary>
+        public RVAndSize CliHeader { get { return this.constructRedirects.CliHeader; } }
 
 
         internal void Read(EndianAwareBinaryReader reader)
@@ -444,7 +526,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                 default:
                     throw new NotSupportedException();
             }
-            dataDirectories.Read(reader);
+            constructRedirects.Read(reader);
         }
 
         internal void Write(EndianAwareBinaryWriter writer)
@@ -463,7 +545,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                 default:
                     throw new NotSupportedException();
             }
-            dataDirectories.Write(writer);
+            constructRedirects.Write(writer);
         }
 
 

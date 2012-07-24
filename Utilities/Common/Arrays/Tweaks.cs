@@ -212,6 +212,11 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             return result;
         }
 
+        public static T[] MergeSeries<T>(this IEnumerable<T[]> series)
+        {
+            return MergeArrays(series.ToArray());
+        }
+
         public static T[] Interleave<T>(T[] itemsA, T[] itemsB)
         {
             T[] result = new T[itemsA.Length * 2];
@@ -705,5 +710,26 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             return series;
         }
 
+        public static Tuple<T1[], T2[]> SplitSet<T1, T2>(this IEnumerable<Tuple<T1, T2>> set)
+        {
+            if (set == null)
+                throw new ArgumentNullException("set");
+            return SplitSet<T1, T2>(set.ToArray());
+        }
+
+        public static Tuple<T1[], T2[]> SplitSet<T1, T2>(this Tuple<T1, T2>[] set)
+        {
+            if (set == null)
+                throw new ArgumentNullException("set");
+            T1[] first = new T1[set.Length];
+            T2[] second = new T2[set.Length];
+            for (int pairIndex = 0; pairIndex < set.Length; pairIndex++)
+            {
+                var currentPair = set[pairIndex];
+                first[pairIndex] = currentPair.Item1;
+                second[pairIndex] = currentPair.Item2;
+            }
+            return new Tuple<T1[], T2[]>(first, second);
+        }
     }
 }

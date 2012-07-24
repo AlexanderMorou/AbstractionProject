@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.ownerInfo.Methods[index];
         }
 
-        protected override TSignature CreateElementFrom(ICliMetadataMethodDefinitionTableRow metadata)
+        protected override TSignature CreateElementFrom(ICliMetadataMethodDefinitionTableRow metadata, int index)
         {
             throw new NotImplementedException();
         }
@@ -118,5 +118,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
+
+        protected override IGeneralGenericSignatureMemberUniqueIdentifier GetIdentifierAt(int index, ICliMetadataMethodDefinitionTableRow metadata)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

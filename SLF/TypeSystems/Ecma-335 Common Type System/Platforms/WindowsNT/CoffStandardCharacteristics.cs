@@ -9,7 +9,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
     /// The characteristics of a standard image.
     /// </summary>
     [Flags]
-    public enum PEImageStandardCharacteristics :
+    public enum CoffStandardCharacteristics :
         ushort
     {
         /// <summary>
@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         DebugInfoStripped                   = 1 << 09,
         /// <summary>
         /// The <see cref="PEImage"/> described was not intended
-        /// to be ran from a removeable blobCacheData source, and thus should be
+        /// to be ran from a removeable data source, and thus should be
         /// moved to the swap file.
         /// </summary>
         IfRanFromRemoveableSourceUseSwap    = 1 << 10,

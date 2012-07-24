@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// from the current state.
         /// </summary>
         new IFiniteAutomataSingleTargetTransitionTable<TCheck, TState> OutTransitions { get; }
+        void ReduceSources();
     }
     public class ReductionEventArgs : 
         EventArgs

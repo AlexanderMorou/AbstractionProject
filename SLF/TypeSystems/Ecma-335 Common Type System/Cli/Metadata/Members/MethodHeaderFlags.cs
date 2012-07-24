@@ -13,6 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
     public enum MethodHeaderFlags :
         byte
     {
+        WideFormatBit = 0x01,
         /// <summary>
         /// <para>The method header is narrow and utilizes only
         /// six (6) bits; as a result this will be the only flag
@@ -28,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
         /// <para>This flag is equivalent to the 
         /// CorILMethod_FatFormat, name changed for convenience.</para>
         /// </summary>
-        WideFormat = 0x3, //CorILMethod_FatFormat
+        WideFormat = WideFormatBit | NarrowFormat, //CorILMethod_FatFormat
         /// <summary>
         /// <para>The method header contains more sections following this header.</para>
         /// <para>This flag is equivalent to the 

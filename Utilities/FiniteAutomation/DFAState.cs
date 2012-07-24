@@ -219,6 +219,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        protected virtual IEnumerable<Tuple<TSourceElement, FiniteAutomationSourceKind>> ReduceSources(IEnumerable<Tuple<TSourceElement, FiniteAutomationSourceKind>> currentSources)
+        {
+            return currentSources;
+        }
         
         protected static void Reduce(TState target, bool recognizer)
         {
@@ -527,6 +531,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
              * the original state and use it to retarget those values
              * to the replacement.
              * */
+
             original.IterateSources((source, kind) =>
                 {
                     switch (kind)
@@ -619,6 +624,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             foreach (var transition in target.OutTransitions)
                 if (!(observed.Contains(transition.Value)))
                     PropagateSources(transition.Value, results, observed, limiter);
+        }
+
+
+        public void ReduceSources()
+        {
+            this.SetSources(this.ReduceSources(this.Sources).ToDictionary(p => p.Item1, p => p.Item2));
         }
 
     }

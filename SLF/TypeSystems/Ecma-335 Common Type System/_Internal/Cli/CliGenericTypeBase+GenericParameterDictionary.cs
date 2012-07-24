@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.owner.Metadata.TypeParameters[index];
             }
 
-            protected override IGenericTypeParameter<TIdentifier, TType> CreateElementFrom(ICliMetadataGenericParameterTableRow metadata)
+            protected override IGenericTypeParameter<TIdentifier, TType> CreateElementFrom(ICliMetadataGenericParameterTableRow metadata, int index)
             {
                 throw new NotImplementedException();
             }
@@ -44,7 +44,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #endregion
 
-
+            protected override IGenericParameterUniqueIdentifier GetIdentifierAt(int index, ICliMetadataGenericParameterTableRow metadata)
+            {
+                return AstIdentifier.GetGenericParameterIdentifier(index, true);
+            }
         }
     }
 }

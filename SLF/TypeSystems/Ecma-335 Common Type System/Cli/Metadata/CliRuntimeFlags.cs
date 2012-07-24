@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// </summary>
         NativeEntrypointDefined  = 1 << 04,
         /// <summary>
-        /// The runtime environment should track debug blobCacheData.
+        /// The runtime environment should track debug data.
         /// </summary>
         TrackDebugData           = 1 << 16,
     }

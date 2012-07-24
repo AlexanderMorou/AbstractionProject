@@ -30,21 +30,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public bool Contains(TDeclarationIdentifier item)
             {
                 for (int i = 0; i < this.owner.Count; i++)
-                {
-                    this.owner.CheckItemAt(i);
-                    if (this.owner.declarationData[i].UniqueIdentifier.Equals(item))
+                    if (this.owner.CheckIdentifierAt(i).Equals(item))
                         return true;
-                }
                 return false;
             }
 
             public void CopyTo(TDeclarationIdentifier[] array, int arrayIndex = 0)
             {
                 for (int i = 0; i < this.owner.Count; i++)
-                {
-                    this.owner.CheckItemAt(i);
-                    array[i + arrayIndex] = (TDeclarationIdentifier)this.owner.declarationData[i].UniqueIdentifier;
-                }
+                    array[i + arrayIndex] = this.owner.CheckIdentifierAt(i);
             }
 
             public TDeclarationIdentifier this[int index]
@@ -54,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (index < 0 || index >= this.Count)
                         throw new ArgumentOutOfRangeException("index");
                     this.owner.CheckItemAt(index);
-                    return (TDeclarationIdentifier) this.owner.declarationData[index].UniqueIdentifier;
+                    return this.owner.CheckIdentifierAt(index);
                 }
             }
 
@@ -69,8 +63,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 for (int i = 0; i < this.owner.Count; i++)
                 {
-                    this.owner.CheckItemAt(i);
-                    if (this.owner.declarationData[i].UniqueIdentifier.Equals(element))
+                    if (this.owner.CheckIdentifierAt(i).Equals(element))
                         return i;
                 }
                 return -1;
@@ -83,10 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public IEnumerator<TDeclarationIdentifier> GetEnumerator()
             {
                 for (int i = 0; i < this.owner.Count; i++)
-                {
-                    this.owner.CheckItemAt(i);
-                    yield return (TDeclarationIdentifier) this.owner.declarationData[i].UniqueIdentifier;
-                }
+                    yield return this.owner.CheckIdentifierAt(i);
             }
 
             #endregion
@@ -113,10 +103,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             void IControlledCollection.CopyTo(Array array, int arrayIndex)
             {
                 for (int i = 0; i < this.owner.Count; i++)
-                {
-                    this.owner.CheckItemAt(i);
-                    array.SetValue(this.owner.declarationData[i].UniqueIdentifier, i + arrayIndex);
-                }
+                    array.SetValue(this.owner.CheckIdentifierAt(i), i + arrayIndex);
             }
 
             object IControlledCollection.this[int index]

@@ -7,20 +7,17 @@ using AllenCopeland.Abstraction.IO;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
-    partial struct PEImageOptionalHeader
+    partial struct PEImageExtendedHeader
     {
         /* *
          * http://webster.cs.ucr.edu/Page_TechDocs/pe.txt
          * */
         private struct NTFields32
         {
-            //[FieldOffset(0)]
             private uint imageBase;
 
-            //[FieldOffset(4)]
             private uint sectionAlignment;
 
-            //[FieldOffset(8)]
             private uint fileAlignment;
 
             private DWordVersion osVersion;
@@ -29,40 +26,28 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 
             private DWordVersion subsystemVersion;
 
-            //[FieldOffset(24)]
             private uint reserved;
 
-            //[FieldOffset(28)]
             private uint imageSize;
 
-            //[FieldOffset(32)]
             private uint headerSize;
 
-            //[FieldOffset(36)]
             private uint fileChecksum;
 
-            //[FieldOffset(40)]
             private PEImageSubsystem subsystem;
 
-            //[FieldOffset(42)]
             private PEImageDllCharacteristics dllCharacteristics;
 
-            //[FieldOffset(44)]
             private uint stackReserveSize;
 
-            //[FieldOffset(48)]
             private uint stackCommitSize;
 
-            //[FieldOffset(52)]
             private uint heapReserveSize;
 
-            //[FieldOffset(56)]
             private uint heapCommitSize;
 
-            //[FieldOffset(60)]
             private uint loaderFlags;
 
-            //[FieldOffset(64)]
             private uint dataDirectoryCount;
 
             public const int DefaultDataDirectoryCount = 0x10;
@@ -85,10 +70,10 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             /// <param name="imageBase">The preferred load address of the 
             /// <see cref="PEImage"/>.</param>
             /// <param name="sectionAlignment">The <see cref="UInt32"/> value
-            /// used to align the section blobCacheData in memory when the
+            /// used to align the section data in memory when the
             /// <see cref="PEImage"/> is loaded into memory.</param>
             /// <param name="fileAlignment">The <see cref="UInt32"/>
-            /// value used to align the section blobCacheData within the file itself,
+            /// value used to align the section data within the file itself,
             /// used to calculate where the individual sections are.
             /// </param>
             /// <param name="osMajor">The <see cref="UInt16"/> value determining 
@@ -153,14 +138,14 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             public uint ImageBase { get { return this.imageBase; } }
 
             /// <summary>
-            /// Returns the value used to align the section blobCacheData
+            /// Returns the value used to align the section data
             /// in memory when the <see cref="PEImage"/> is loaded
             /// into memory.
             /// </summary>
             public uint SectionAlignment { get { return this.sectionAlignment; } }
 
             /// <summary>
-            /// Returns the value used to align the section blobCacheData
+            /// Returns the value used to align the section data
             /// within the file itself, used to calculate where the individual
             /// sections are.
             /// </summary>
@@ -219,7 +204,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             public uint HeapReserveSize { get { return this.heapReserveSize; } }
             public uint HeapCommitSize { get { return this.heapCommitSize; } }
 
-            [Obsolete("Loader flags is opsolete.")]
+            [Obsolete("Loader flags is opsolete.", true)]
             public uint LoaderFlags { get { return this.loaderFlags; } }
 
             internal void Read(EndianAwareBinaryReader reader)

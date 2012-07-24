@@ -76,9 +76,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             try
             {
                 image = PEImage.LoadImage(filename, out peStream, false);
-                if (image.OptionalHeader.CliHeader.RelativeVirtualAddress == 0)
+                if (image.ExtendedHeader.CliHeader.RelativeVirtualAddress == 0)
                     return false;
-                var headerSectionScan = image.ResolveRelativeVirtualAddress(image.OptionalHeader.CliHeader.RelativeVirtualAddress);
+                var headerSectionScan = image.ResolveRelativeVirtualAddress(image.ExtendedHeader.CliHeader.RelativeVirtualAddress);
                 if (!headerSectionScan.Resolved)
                     return false;
 

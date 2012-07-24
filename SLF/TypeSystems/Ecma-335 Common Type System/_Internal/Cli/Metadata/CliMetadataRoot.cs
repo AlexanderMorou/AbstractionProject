@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         /// <summary>
         /// Returns the <see cref="CliMetadataStringsHeaderAndHeap"/>
         /// which denotes the header information for the strings heap and
-        /// the blobCacheData within the strings heap.
+        /// the data within the strings heap.
         /// </summary>
         public ICliMetadataStringsHeaderAndHeap StringsHeap
         {
@@ -123,21 +123,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         /// <summary>
         /// Returns the <see cref="CliMetadataUserStringsHeaderAndHeap"/> which
         /// denotes the header information for the user strings heap and
-        /// the blobCacheData within the user strings heap.
+        /// the data within the user strings heap.
         /// </summary>
         public ICliMetadataUserStringsHeaderAndHeap UserStringsHeap { get { return this.userStrings; } }
 
         /// <summary>
         /// Returns the <see cref="CliMetadataGuidHeaderAndHeap"/> which
         /// denotes the header information for the guid heap and the
-        /// blobCacheData within the guid heap.
+        /// data within the guid heap.
         /// </summary>
         public ICliMetadataGuidHeaderAndHeap GuidHeap { get { return this.guids; } }
 
         /// <summary>
         /// Returns the <see cref="CliMetadataBlobHeaderAndHeap"/> which
         /// denotes the header information for the blob heap and the
-        /// blobCacheData within the blob heap.
+        /// data within the blob heap.
         /// </summary>
         public ICliMetadataBlobHeaderAndHeap BlobHeap { get { return this.blob; } }
 

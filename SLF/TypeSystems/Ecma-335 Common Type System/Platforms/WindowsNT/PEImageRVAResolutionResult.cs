@@ -8,7 +8,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
     public struct PEImageRVAResolutionResult 
     {
         private uint offset;
-        private PEImageSection section;
+        private CoffSection section;
 
         /// <summary>
         /// The default result of a resolution should there be no section
@@ -24,12 +24,12 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         /// </summary>
         /// <param name="offset">The <see cref="UInt32"/> value which denotes the
         /// offset, relative to the start of 
-        /// <see cref="PEImageSection.SectionData"/>,
+        /// <see cref="CoffSection.SectionData"/>,
         /// that the relative virtual address represented.</param>
-        /// <param name="section">The <see cref="PEImageSection"/> which denotes
+        /// <param name="section">The <see cref="CoffSection"/> which denotes
         /// which section within the <see cref="PEImage"/> the
         /// relative virtual address was in.</param>
-        internal PEImageRVAResolutionResult(uint offset, PEImageSection section)
+        internal PEImageRVAResolutionResult(uint offset, CoffSection section)
         {
             this.offset = offset;
             this.section = section;
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         /// <summary>
         /// Returns the <see cref="UInt32"/> value which denotes the
         /// offset, relative to the start of 
-        /// <see cref="PEImageSection.SectionData"/>,
+        /// <see cref="CoffSection.SectionData"/>,
         /// that the relative virtual address represented.
         /// </summary>
         public uint Offset
@@ -56,11 +56,11 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         }
 
         /// <summary>
-        /// Returns the <see cref="PEImageSection"/> which denotes
+        /// Returns the <see cref="CoffSection"/> which denotes
         /// which section within the <see cref="PEImage"/> the
         /// relative virtual address was in.
         /// </summary>
-        public PEImageSection Section
+        public CoffSection Section
         {
             get
             { return this.section; }
