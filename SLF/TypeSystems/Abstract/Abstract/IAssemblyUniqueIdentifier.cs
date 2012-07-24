@@ -29,7 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// is assigned.
         /// </summary>
         byte[] PublicKeyToken { get; }
-
         /// <summary>
         /// Creates a new <see cref="IGeneralGenericTypeUniqueIdentifier"/>
         /// relative to the assembly represented by the current

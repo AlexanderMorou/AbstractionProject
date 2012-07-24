@@ -34,6 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
         private Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>>();
         private MultikeyedDictionary<CliAssembly, string, CliModule> moduleAssemblyIdentities = new MultikeyedDictionary<CliAssembly, string, CliModule>();
+        private IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> typeKindCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, TypeKind>();
         private IDictionary<ICliMetadataTypeDefinitionTableRow, IType> typeCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, IType>();
 
         private IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> baseTypeKinds = new Dictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType>();
@@ -231,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     else if (CliCommon.IsBaseObject(this, typeIdentity.Extends))
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
                     else if (CliCommon.IsEnum(this, typeIdentity))
-                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumerator, typeIdentity, this);
+                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumeration, typeIdentity, this);
                     else if (CliCommon.IsValueType(this, typeIdentity))
                         result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity, this);
                     else if (CliCommon.IsDelegate(this, typeIdentity))
@@ -495,7 +496,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var metadataRoot = peAndMetadata.Item2;
                     using (peImage)
                     {
-                        var imageKind = peImage.OptionalHeader.ImageKind;
+                        var imageKind = peImage.ExtendedHeader.ImageKind;
                         bool supportedOnPlatform = false;
                         if (this.runtimeEnvironment.Platform == FrameworkPlatform.x64Platform)
                         {
@@ -935,6 +936,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.typeCache; }
         }
 
+        IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> _ICliManager.TypeKindCache
+        {
+            get { return this.typeKindCache; }
+        }
+
         IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> _ICliManager.BaseTypeKinds
         {
             get { return this.baseTypeKinds; }
@@ -945,7 +951,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.refBaseTypeKinds; }
         }
 
-        ICliAssembly _ICliManager.GetRelativeAssembly(ICliMetadataRoot root)
+        _ICliAssembly _ICliManager.GetRelativeAssembly(ICliMetadataRoot root)
         {
             return GetRelativeAssembly(root);
         }

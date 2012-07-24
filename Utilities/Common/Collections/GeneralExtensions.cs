@@ -143,6 +143,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             return new Tuple<TKey[], TValue[]>(resultA, resultB);
         }
 
+
         /// <summary>
         /// Creates a new <see cref="IDictionary{TKey, TValue}"/> with the keys of <paramref name="source"/>
         /// and values as yielded by <paramref name="valueGen"/>.
@@ -372,12 +373,15 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public static T[] ConcatinateSeries<T>(this T[][] series)
         {
             int count = 0;
-            for (int i = 0; i < series.Length; )
-                count += series[i++].Length;
+            for (int arrayIndex = 0; arrayIndex < series.Length; )
+                count += series[arrayIndex++].Length;
             T[] result = new T[count];
-            for (int i = 0, k = 0; i < series.Length; i++)
-                for (int j = 0; j < series[i].Length; j++, k++)
-                    result[k] = series[i][j];
+            for (int arrayIndex = 0, resultIndex = 0; arrayIndex < series.Length; arrayIndex++)
+            {
+                var currentSet = series[arrayIndex];
+                for (int elementIndex = 0; elementIndex < currentSet.Length; elementIndex++, resultIndex++)
+                    result[resultIndex] = currentSet[elementIndex];
+            }
             return result;
         }
 

@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         ForceIntegrity          = 1 << 07,
         /// <summary>
         /// The <see cref="PEImage"/> is compatible
-        /// with blobCacheData execution prevention (DEP.)
+        /// with data execution prevention (DEP.)
         /// </summary>
         DEPCompatible           = 1 << 08,
         /// <summary>

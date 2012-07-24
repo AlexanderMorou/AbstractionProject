@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                  * */
                 return false;
             if (tailLength + currentDataCount > this.Size)
-                throw new BadImageFormatException(string.Format("The blobCacheData within the {0} heap entry is longer than expected.", this.Name));
+                throw new BadImageFormatException(string.Format("The data within the {0} heap entry is longer than expected.", this.Name));
             currentData = new byte[currentDataCount];
             for (int i = 0; i < currentDataCount && tailLength < this.Size; i++, tailLength++)
             {

@@ -23,8 +23,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal interface _ICliManager :
         ICliManager
     {
-        ICliAssembly GetRelativeAssembly(ICliMetadataRoot root);
+        _ICliAssembly GetRelativeAssembly(ICliMetadataRoot root);
         IDictionary<ICliMetadataTypeDefinitionTableRow, IType> TypeCache { get; }
+        IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> TypeKindCache { get; }
         IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> BaseTypeKinds { get; }
         IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> RefBaseTypeKinds { get; }
         /// <summary>

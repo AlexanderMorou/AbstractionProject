@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.IO;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
-    partial struct PEImageOptionalHeader
+    partial struct PEImageExtendedHeader
     {
         private struct StandardFields
         {

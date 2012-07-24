@@ -118,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IFullTypeDictionary InitializeTypes()
         {
-            return new CliTypeDictionary(this);
+            return new CliFullTypeDictionary(this._Types, this);
         }
 
         protected override IAssemblyInformation OnGetAssemblyInformation()
@@ -196,6 +196,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal void InitializeCommon()
         {
             ICliMetadataModuleTableRow[] modules = this.Modules.GetMetadata();
+
             var typeTables = (from moduleRow in modules
                               let ts = moduleRow.MetadataRoot.TableStream
                               where ts.TypeDefinitionTable != null
@@ -213,18 +214,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * Copy the table to a local set to avoid redundant load
              * checks, and to instruct it to read the full table sequentially.
              * */
-
-            ICliMetadataTypeDefinitionTableRow[] types = new ICliMetadataTypeDefinitionTableRow[typeTables.Sum(p => p.Count)];
+            int totalTypeCount = 0;
+            for (int typeTable = 0; typeTable < typeTables.Length; typeTable++)
+                totalTypeCount += typeTables[typeTable].Count;
+            ICliMetadataTypeDefinitionTableRow[] types = new ICliMetadataTypeDefinitionTableRow[totalTypeCount];
             for (int moduleIndex = 0, cOff = 0; moduleIndex < typeTables.Length; cOff += typeTables[moduleIndex++].Count)
                 typeTables[moduleIndex].CopyTo(types, cOff);
-            for (int i = 0, moduleIndex = 0, moduleOffset = 0; i < types.Length; i++, moduleOffset++)
+            for (int typeIndex = 0, moduleIndex = 0, moduleOffset = 0; typeIndex < types.Length; typeIndex++, moduleOffset++)
             {
                 if (moduleOffset >= typeTables[moduleIndex].Count)
                 {
                     moduleIndex++;
                     moduleOffset = 0;
                 }
-                var typeRow = types[i];
+                var typeRow = types[typeIndex];
                 if ((typeRow.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.NotPublic ||
                     (typeRow.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.Public)
                 {
@@ -249,10 +252,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (nonNestedTypes.TryGetValue(0, out topLevelRows))
             {
                 int topLevelCount = nonNestedCounts[0];
-                if (topLevelRows.Length != topLevelCount)
+                int noModuleCount = 0;
+                for (int typeIndex = 0; typeIndex < topLevelCount; typeIndex++)
+                    if (topLevelRows[typeIndex].Index != 1)
+                        noModuleCount++;
+
+                if (topLevelRows.Length != noModuleCount)
                 {
-                    CliMetadataTypeDefinitionTableRow[] topLevelRowsActual = new CliMetadataTypeDefinitionTableRow[topLevelCount];
-                    Array.ConstrainedCopy(topLevelRows, 0, topLevelRowsActual, 0, topLevelCount);
+                    CliMetadataTypeDefinitionTableRow[] topLevelRowsActual = new CliMetadataTypeDefinitionTableRow[noModuleCount];
+                    /* *
+                     * Filter the entries based off of their index.  The special <Module> type
+                     * is the global fields and methods.  There's no need to include them and 
+                     * have to inject checks elsewhere to filter it out.
+                     * */
+                    for (int typeIndex = 0, cOffset = 0; typeIndex < topLevelCount; typeIndex++)
+                        if (topLevelRows[typeIndex].Index != 1)
+                            topLevelRowsActual[cOffset++] = topLevelRows[typeIndex];
+                    //Array.ConstrainedCopy(topLevelRows, 0, topLevelRowsActual, 0, topLevelCount);
                     Array.Sort(topLevelRowsActual, _CompareTo_);
                     topLevelRows = topLevelRowsActual;
                 }
@@ -264,14 +280,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             CliNamespaceKeyedTree partialOrFullNamespaces = new CliNamespaceKeyedTree(topLevelRows);
             Dictionary<string, uint> partIndex = new Dictionary<string, uint>();
-            for (int i = 0; i < namespaceIndicesArray.Length; i++)
+            for (int namespaceIndex = 0; namespaceIndex < namespaceIndicesArray.Length; namespaceIndex++)
             {
-                uint currentIndex = namespaceIndicesArray[i].Item2;
+                uint currentIndex = namespaceIndicesArray[namespaceIndex].Item2;
                 if (currentIndex == 0)
                     continue;
                 var currentRows = nonNestedTypes[currentIndex];
                 var currentCount = nonNestedCounts[currentIndex];
-                var module = modules[namespaceIndicesArray[i].Item1];
+                var module = modules[namespaceIndicesArray[namespaceIndex].Item1];
                 string currentString = module.MetadataRoot.StringsHeap[currentIndex];
 
                 /* *
@@ -369,52 +385,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.UniqueIdentifier.ToString();
         }
 
-        public ICliType GetTypeByMetadata(ICliMetadataTypeDefinitionTableRow metadata)
-        {
-            return (ICliType) this.IdentityManager.ObtainTypeReference(metadata);
-        }
-
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName)
         {
-            string ns = @namespace;
-
-            int lastIndex = 0;
-            IModule module;
-            if (!this.Modules.TryGetValue(AstIdentifier.GetDeclarationIdentifier(moduleName), out module))
-                return null;
-            ICliModule cliModule = module as ICliModule;
-            if (cliModule == null)
-                return null;
-            CliNamespaceKeyedTree topLevel = this.NamespaceInformation;
-        nextPart:
-            int next = ns.IndexOf('.', lastIndex);
-            if (next != -1)
-            {
-                string current = ns.Substring(lastIndex, next - lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
-                if (topLevel.ContainsKey(currentHash))
-                    topLevel = topLevel[currentHash];
-                else
-                    return null;
-                lastIndex = next + 1;
-                goto nextPart;
-            }
-            else
-            {
-                string current = ns.Substring(lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
-                if (topLevel.ContainsKey(currentHash))
-                    topLevel = topLevel[currentHash];
-                else
-                    return null;
-            }
-            if (topLevel.NamespaceTypes != null)
-            {
-                foreach (var nsType in topLevel.NamespaceTypes)
-                    if (nsType.MetadataRoot == cliModule.Metadata.MetadataRoot && nsType.Name == name)
-                        return nsType;
-            }
-            return null;
+            return CliCommon.FindTypeImplementation(@namespace, name, moduleName, this.NamespaceInformation, this.Modules);
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
@@ -432,58 +405,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
         {
-            string ns = @namespace;
-
-            int lastIndex = 0;
-            CliNamespaceKeyedTree topLevel = this.NamespaceInformation;
-        nextPart:
-            int next = ns.IndexOf('.', lastIndex);
-            if (next != -1)
-            {
-                string current = ns.Substring(lastIndex, next - lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
-                if (topLevel.ContainsKey(currentHash))
-                    topLevel = topLevel[currentHash];
-                else
-                    return null;
-                lastIndex = next + 1;
-                goto nextPart;
-            }
-            else
-            {
-                string current = ns.Substring(lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
-                if (topLevel.ContainsKey(currentHash))
-                    topLevel = topLevel[currentHash];
-                else
-                    return null;
-            }
-            if (topLevel != null && topLevel.NamespaceTypes != null)
-            {
-                lastIndex = 0;
-                var currentTypes = topLevel.NamespaceTypes;
-            repeatTypeLookup:
-                next = name.IndexOf('+', lastIndex);
-                if (next != -1)
-                {
-                    string current = name.Substring(lastIndex, next - lastIndex);
-                    foreach (var nsType in currentTypes)
-                        if (nsType.Name == current)
-                        {
-                            currentTypes = nsType.NestedClasses;
-                            lastIndex = next + 1;
-                            goto repeatTypeLookup;
-                        }
-                }
-                else
-                {
-                    string current = name.Substring(lastIndex);
-                    foreach (var nsType in currentTypes)
-                        if (nsType.Name == current)
-                            return nsType;
-                }
-            }
-            return null;
+            return CliCommon.FindTypeImplementation(@namespace, name, this.NamespaceInformation);
         }
 
         public INamespaceDeclaration GetNamespace(string @namespace)

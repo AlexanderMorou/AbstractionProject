@@ -108,12 +108,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// </summary>
         IType ReturnType { get; }
         /// <summary>
-        /// Returns the <see cref="IModifiersAndAttributesMetadata"/> which defines 
-        /// meta-publicKey about the return-type's custom attributes, and the return-type's
-        /// required and optional parameters.
-        /// </summary>
-        IModifiersAndAttributesMetadata ReturnTypeMetadata { get; }
-        /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember"/> generic variant.
         /// </summary>

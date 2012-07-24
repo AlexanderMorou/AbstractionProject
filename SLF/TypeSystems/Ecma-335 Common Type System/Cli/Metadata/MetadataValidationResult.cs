@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// </summary>
         /// <remarks><para>
         /// Information failing this rule is not actually wrong,
-        /// it's just that the compiler could have condensed the blobCacheData
+        /// it's just that the compiler could have condensed the data
         /// more efficiently, the information is, thus, still portable.
         /// </para>
         /// <para>All conforming implementations shall support metadata
@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// </summary>
         /// <remarks>Metadata with violates the expected CLS rules is still valid and portable;
         /// however some languages may exist that are incapable of processing it, even though
-        /// the blobCacheData structures themselves are blobCacheData-wise accurate.</remarks>
+        /// the blobCacheData structures themselves are data-wise accurate.</remarks>
         Cls,
     }
 }

@@ -7,15 +7,15 @@ using AllenCopeland.Abstraction.IO;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
-    public partial struct PEImageOptionalHeader
+    public partial struct PEImageExtendedHeader
     {
         /// <summary>
-        /// The blobCacheData directories which denote the
+        /// The data directories which denote the
         /// relative virtual address and sizes of the
         /// tables contained within the <see cref="PEImage"/>.
         /// </summary>
         [StructLayout(LayoutKind.Sequential, Size = 1 << 7)]
-        private struct DataDirectories
+        private struct ConstructRedirects
         {
             /// <summary>
             /// Data member for <see cref="ExportTable"/>.
@@ -25,19 +25,61 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             /// Data member for <see cref="ImportTable"/>.
             /// </summary>
             private RVAndSize importTable;
+            /// <summary>
+            /// Data member for <see cref="ResourceTable"/>.
+            /// </summary>
             private RVAndSize resourceTable;
+            /// <summary>
+            /// Data member for <see cref="ExceptionTable"/>.
+            /// </summary>
             private RVAndSize exceptionTable;
+            /// <summary>
+            /// Data member for <see cref="CertificateTable"/>.
+            /// </summary>
             private RVAndSize certificateTable;
+            /// <summary>
+            /// Data member for <see cref="BaseRelocationTable"/>.
+            /// </summary>
             private RVAndSize baseRelocationTable;
+            /// <summary>
+            /// Data member for <see cref="DebugInformationTable"/>.
+            /// </summary>
             private RVAndSize debugInformationTable;
+            /// <summary>
+            /// Data member for <see cref="Copyright"/> information.
+            /// </summary>
             private RVAndSize copyright;
+            /// <summary>
+            /// Data member for <see cref="GlobalPointer"/>.
+            /// </summary>
             private RVAndSize globalPointer;
+            /// <summary>
+            /// Data member for <see cref="ThreadLocalStorage"/>.
+            /// </summary>
             private RVAndSize threadLocalStorage;
+            /// <summary>
+            /// Data member for <see cref="LoadConfigurationTable"/>.
+            /// </summary>
             private RVAndSize loadConfigurationTable;
+            /// <summary>
+            /// Data member for <see cref="BoundImportTable"/>.
+            /// </summary>
             private RVAndSize boundImportTable;
+            /// <summary>
+            /// Data member for <see cref="ImportAddressTable"/>.
+            /// </summary>
             private RVAndSize importAddressTable;
+            /// <summary>
+            /// Data member for <see cref="DelayImportAddressTable"/>.
+            /// </summary>
             private RVAndSize delayImportAddressTable;
-            private RVAndSize clrHeader;
+            /// <summary>
+            /// Data member for <see cref="CliHeader"/>
+            /// </summary>
+            private RVAndSize cliHeader;
+            /// <summary>
+            /// Data member is reserved.
+            /// </summary>
             private RVAndSize reserved;
 
             /// <summary>
@@ -78,12 +120,12 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 
             public RVAndSize DelayImportAddressTable { get { return this.delayImportAddressTable; } }
 
-            public RVAndSize CliHeader { get { return this.clrHeader; } }
+            public RVAndSize CliHeader { get { return this.cliHeader; } }
 
             internal void Read(EndianAwareBinaryReader reader)
             {
                 if (reader.BaseStream.Position + 128 > reader.BaseStream.Length)
-                    throw new BadImageFormatException("Image ends suddenly in blobCacheData directories.");
+                    throw new BadImageFormatException("Image ends suddenly in data directories.");
                 this.exportTable.Read(reader);
                 this.importTable.Read(reader);
                 this.resourceTable.Read(reader);
@@ -98,7 +140,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                 this.boundImportTable.Read(reader);
                 this.importAddressTable.Read(reader);
                 this.delayImportAddressTable.Read(reader);
-                this.clrHeader.Read(reader);
+                this.cliHeader.Read(reader);
                 this.reserved.Read(reader);
             }
 
@@ -118,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                 this.boundImportTable.Write(writer);
                 this.importAddressTable.Write(writer);
                 this.delayImportAddressTable.Write(writer);
-                this.clrHeader.Write(writer);
+                this.cliHeader.Write(writer);
                 this.reserved.Write(writer);
             }
         }

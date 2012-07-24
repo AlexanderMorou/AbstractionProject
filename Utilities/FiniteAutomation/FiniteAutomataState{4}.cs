@@ -310,7 +310,8 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         protected void UnifySources(TState target)
         {
             foreach (TSourceElement source in target.sources.Keys)
-                this.sources.Add(source, target.sources[source]);
+                if (!this.sources.ContainsKey(source))
+                    this.sources.Add(source, target.sources[source]);
         }
 #pragma warning disable 693
         internal void ReplicateSourcesToAlt<TState2, TForwardNodeTarget>(TState2 altTarget)
@@ -368,6 +369,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             {
                 return this.sources.Count;
             }
+        }
+        internal void SetSources(Dictionary<TSourceElement, FiniteAutomationSourceKind> sources)
+        {
+            this.sources = sources;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         SHA1 = 0x8004,
         /// <summary>
         /// A secure hash algorithm, part of the collective SHA-2, 
-        /// which uses 64 rounds that yields 256 bits of blobCacheData for the
+        /// which uses 64 rounds that yields 256 bits of data for the
         /// message digest.
         /// </summary>
         /// <remarks>In conforming implementations,
@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// <summary>
         /// A secure hash algorithm, part of the collective SHA-2,
         /// which uses 80 rounds, a truncated variation of
-        /// <see cref="SHA512"/>, that yields 384 bits of blobCacheData for
+        /// <see cref="SHA512"/>, that yields 384 bits of data for
         /// the message digest.
         /// </summary>
         /// <remarks>In conforming implementations,
@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         SHA384 = 0x800D,
         /// <summary>
         /// A secure hash algorithm, part of the collective SHA-2,
-        /// which uses 80 rounds, that yields 512 bits of blobCacheData for
+        /// which uses 80 rounds, that yields 512 bits of data for
         /// the message digest.
         /// </summary>
         /// <remarks>In conforming implementations,

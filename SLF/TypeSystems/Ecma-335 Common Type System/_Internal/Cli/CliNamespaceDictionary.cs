@@ -91,9 +91,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.info.Keys[index];
         }
 
-        protected override INamespaceDeclaration CreateElementFrom(uint metadata)
+        protected override INamespaceDeclaration CreateElementFrom(uint metadata, int index)
         {
             return new CliNamespaceDeclaration(this.owner, this.parent, this.info[metadata]);
+        }
+
+        protected override IGeneralDeclarationUniqueIdentifier GetIdentifierAt(int index, uint metadata)
+        {
+            var namespaceInfo = this.info[metadata];
+            string fullSpace = namespaceInfo.StringsSection[namespaceInfo.Value];
+            if (namespaceInfo.SubspaceLength != 0)
+                fullSpace = fullSpace.Substring(0, namespaceInfo.SubspaceStart + namespaceInfo.SubspaceLength);
+            return AstIdentifier.GetDeclarationIdentifier(fullSpace);
         }
     }
 }

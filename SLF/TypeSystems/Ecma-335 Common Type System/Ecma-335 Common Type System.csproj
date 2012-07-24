@@ -97,18 +97,34 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTableSubset.cs" />
+    <Compile Include="_Internal\Cli\CliClassTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliDelegateTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliEnumTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliFullTypeDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullTypeDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliInterfaceTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
-    <Compile Include="_Internal\Cli\CliTypeDictionary+KeysCollection.cs" />
-    <Compile Include="_Internal\Cli\CliTypeDictionary+ValuesCollection.cs" />
-    <Compile Include="_Internal\Cli\CliTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
-    <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase+ParameterDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType.cs" />
-    <Compile Include="_Internal\Cli\Members\CliModifiersAndAttributesMetadata.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase+ParameterMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliParameterMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliSignatureTypeCollection.cs" />
+    <Compile Include="_Internal\Cli\Members\_ICliMethodSignatureParent.cs" />
+    <Compile Include="_Internal\Cli\Members\_ICliParameterParent.cs" />
     <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -442,22 +458,22 @@
     <Compile Include="Cli\Metadata\VtableFixupKind.cs" />
     <Compile Include="Platforms\DOS\DOSHeader.cs" />
     <Compile Include="Platforms\WindowsNT\DWordVersion.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageOptionalHeader+NTFields32.cs" />
+    <Compile Include="Platforms\WindowsNT\PEImageExtendedHeader+NTFields32.cs" />
     <Compile Include="Platforms\WindowsNT\PEImageDLLCharacteristics.cs" />
     <Compile Include="Platforms\WindowsNT\PEImageMachine.cs" />
     <Compile Include="Platforms\WindowsNT\PEImageKind.cs" />
     <Compile Include="Platforms\WindowsNT\PEImageRVAResolutionResult.cs" />
     <Compile Include="Platforms\WindowsNT\PEImageSubsystem.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageSection.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageSectionCharacteristics.cs" />
+    <Compile Include="Platforms\WindowsNT\CoffSection.cs" />
+    <Compile Include="Platforms\WindowsNT\CoffSectionCharacteristics.cs" />
     <Compile Include="Platforms\WindowsNT\RVAndSize.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageOptionalHeader+DataDirectories.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageOptionalHeader+NTFields64.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageOptionalHeader+StandardFields.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageOptionalHeader.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageStandardCharacteristics.cs" />
+    <Compile Include="Platforms\WindowsNT\PEImageExtendedHeader+DataDirectories.cs" />
+    <Compile Include="Platforms\WindowsNT\PEImageExtendedHeader+NTFields64.cs" />
+    <Compile Include="Platforms\WindowsNT\PEImageExtendedHeader+StandardFields.cs" />
+    <Compile Include="Platforms\WindowsNT\PEImageExtendedHeader.cs" />
+    <Compile Include="Platforms\WindowsNT\CoffStandardCharacteristics.cs" />
     <Compile Include="Platforms\WindowsNT\PEImage.cs" />
-    <Compile Include="Platforms\WindowsNT\PEImageStandardHeader.cs" />
+    <Compile Include="Platforms\WindowsNT\CoffHeader.cs" />
     <Compile Include="Platforms\WindowsNT\WordVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceDeclaration.cs" />

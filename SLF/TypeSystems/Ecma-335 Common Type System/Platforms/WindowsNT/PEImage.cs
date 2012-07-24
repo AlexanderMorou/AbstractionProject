@@ -16,9 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         IDisposable
     {
         private DOSHeader dosHeader;
-        private PEImageStandardHeader standardHeader;
-        private PEImageOptionalHeader optionalHeader;
-        private ReadOnlyCollection<PEImageSection> sections;
+        private CoffHeader coffHeader;
+        private PEImageExtendedHeader extendedHeader;
+        private ReadOnlyCollection<CoffSection> sections;
         private EndianAwareBinaryReader reader;
         string filename;
         private bool keepImageOpen;
@@ -60,18 +60,18 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
                 throw new BadImageFormatException();
             
             reader.BaseStream.Seek(dosHeader.PEHeaderPointer, SeekOrigin.Begin);
-            standardHeader.Read(reader);
-            optionalHeader.Read(reader);
-            PEImageSection[] sections = new PEImageSection[this.standardHeader.SectionCount];
+            coffHeader.Read(reader);
+            extendedHeader.Read(reader);
+            CoffSection[] sections = new CoffSection[this.coffHeader.SectionCount];
             for (int i = 0; i < sections.Length; i++)
-                sections[i] = PEImageSection.Read(reader, keepImageOpen);
-            this.sections = new ReadOnlyCollection<PEImageSection>(sections);
+                sections[i] = CoffSection.Read(reader, keepImageOpen);
+            this.sections = new ReadOnlyCollection<CoffSection>(sections);
             this.keepImageOpen = keepImageOpen;
         }
 
         public DOSHeader DOSHeader { get { return this.dosHeader; } }
-        public PEImageStandardHeader StandardHeader { get { return this.standardHeader; } }
-        public PEImageOptionalHeader OptionalHeader { get { return this.optionalHeader; } }
+        public CoffHeader CoffHeader { get { return this.coffHeader; } }
+        public PEImageExtendedHeader ExtendedHeader { get { return this.extendedHeader; } }
 
         public static PEImage LoadImage(string filename)
         {
@@ -100,19 +100,19 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             return PEImageRVAResolutionResult.ResolutionFailure;
         }
 
-        public PEImageSection DataSection
+        public CoffSection DataSection
         {
             get
             {
-                return this.ResolveRelativeVirtualAddress(this.optionalHeader.BaseOfData).Section;
+                return this.ResolveRelativeVirtualAddress(this.extendedHeader.BaseOfData).Section;
             }
         }
 
-        public PEImageSection CodeSection
+        public CoffSection CodeSection
         {
             get
             {
-                return this.ResolveRelativeVirtualAddress(this.optionalHeader.BaseOfCode).Section;
+                return this.ResolveRelativeVirtualAddress(this.extendedHeader.BaseOfCode).Section;
             }
         }
 

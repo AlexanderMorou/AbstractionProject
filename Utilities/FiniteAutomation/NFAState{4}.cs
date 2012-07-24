@@ -127,6 +127,8 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     result.MoveTo(transition, curDFA);
                     foreach (var item in set)
                         item.ReplicateSourcesToAlt<TDFA, TDFA>(curDFA);
+                    curDFA.ReduceSources();
+
                     ReplicateStateTransitions(newElement.DFA, mergedTable, entrySet);
                 }
             }

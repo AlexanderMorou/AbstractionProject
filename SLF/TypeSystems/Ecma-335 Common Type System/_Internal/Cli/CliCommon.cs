@@ -17,6 +17,9 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 #if x86
 using SlotType = System.UInt32;
 #elif x64
@@ -41,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * Resolve the virtual address of the CliHeader, which yields
              * the offset in the section's publicKey, and the section itself.
              * */
-            var headerSectionScan = image.ResolveRelativeVirtualAddress(image.OptionalHeader.CliHeader.RelativeVirtualAddress);
+            var headerSectionScan = image.ResolveRelativeVirtualAddress(image.ExtendedHeader.CliHeader.RelativeVirtualAddress);
             if (!headerSectionScan.Resolved)
                 throw new BadImageFormatException("No Section for the CLI header found.");
             var headerSection = headerSectionScan.Section;
@@ -81,6 +84,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        public static IEnumerable<TypeModification> Resolve(this IEnumerable<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
+        {
+            return from modifier in modifiers
+                   select new TypeModification(manager.ObtainTypeReference(modifier.ModifierType), modifier.Required);
+        }
+
         internal static unsafe Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
         {
             string resultedFilename = MinimizeFilename(string.Format("{0}.{1}", Path.Combine(directory, filename), extension));
@@ -97,9 +106,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             try
             {
                 image = PEImage.LoadImage(resultedFilename, out peStream, true);
-                if (image.OptionalHeader.CliHeader.RelativeVirtualAddress == 0)
+                if (image.ExtendedHeader.CliHeader.RelativeVirtualAddress == 0)
                     return null;
-                var headerSectionScan = image.ResolveRelativeVirtualAddress(image.OptionalHeader.CliHeader.RelativeVirtualAddress);
+                var headerSectionScan = image.ResolveRelativeVirtualAddress(image.ExtendedHeader.CliHeader.RelativeVirtualAddress);
                 if (!headerSectionScan.Resolved)
                     return null;
 
@@ -521,23 +530,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         var cvType = signature.Type as ICliMetadataValueOrClassTypeSignature;
                         if (cvType.Target != typeIdentity)
                             return false;
-                        #region bad idea
-                        //var nativeSig = signature.Type as ICliMetadataNativeTypeSignature;
-                        //switch (nativeSig.TypeKind)
-                        //{
-                        //    case CliMetadataNativeTypes.Byte:
-                        //    case CliMetadataNativeTypes.SByte:
-                        //    case CliMetadataNativeTypes.Int16:
-                        //    case CliMetadataNativeTypes.UInt16:
-                        //    case CliMetadataNativeTypes.Int32:
-                        //    case CliMetadataNativeTypes.UInt32:
-                        //    case CliMetadataNativeTypes.Int64:
-                        //    case CliMetadataNativeTypes.UInt64:
-                        //        continue;
-                        //    default:
-                        //        return false;
-                        //}
-                        #endregion
                     }
                     else
                         return false;
@@ -565,9 +557,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return true;
                 return false;
             }
-            string typeName = typeIdentity.Name,
-                   typeNamespace = typeIdentity.Namespace;
-            bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeNamespace == "System" && (typeName == "Delegate" || typeName == "MulticastDelegate") &&
+            string typeName;
+            bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeIdentity.Namespace == "System" && ((typeName = typeIdentity.Name) == "Delegate" || typeName == "MulticastDelegate") &&
                    IsBaseObject(manager, typeIdentity.Extends);
             if (result)
                 manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
@@ -592,8 +583,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(ICliMetadataTypeDefinitionTableRow typeMetadata, _ICliAssembly assembly, _ICliManager manager)
+        internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(ICliMetadataTypeDefinitionTableRow typeMetadata, _ICliManager manager, _ICliAssembly assembly = null)
         {
+            if (assembly == null)
+                assembly = (_ICliAssembly) manager.GetRelativeAssembly(typeMetadata.MetadataRoot);
             if (CliCommon.IsEnum(manager, typeMetadata))
                 return assembly.UniqueIdentifier.GetTypeIdentifier(typeMetadata.Namespace, typeMetadata.Name);
             else
@@ -606,13 +599,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     @namespace = AstIdentifier.GetDeclarationIdentifier(typeMetadata.Namespace);
                 if (typeMetadata.MetadataRoot.TableStream.GenericParameterTable == null)
                     return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, 0);
+                else if (declaringTypeMetadata != null)
+                    return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count - declaringTypeMetadata.TypeParameters.Count);
                 else
-                {
-                    if (declaringTypeMetadata != null)
-                        return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count - declaringTypeMetadata.TypeParameters.Count);
-                    else
-                        return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count);
-                }
+                    return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, typeMetadata.TypeParameters.Count);
             }
         }
 
@@ -626,10 +616,156 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
+        internal static bool IsDefined(this IReadOnlyCollection<ICliMetadataCustomAttributeTableRow> customAttributes, IType targetType, _ICliManager manager)
+        {
+            throw new NotImplementedException();
+        }
+
         internal static IModifiedType MakeModified(ICliMetadataTypeSignature original, IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
         {
-            var current = manager.ObtainTypeReference(original) as _ICliType;
-            return current.MakeModified(modifiers);
+            return ((_ICliType) manager.ObtainTypeReference(original)).MakeModified(modifiers);
+        }
+
+
+        public static TypeKind DetermineTypeKind(this ICliMetadataTypeDefinitionTableRow typeIdentity, _ICliManager manager)
+        {
+            if (IsSpecialModule(typeIdentity))
+                return TypeKind.Other;
+
+            TypeKind result;
+            lock (manager.TypeKindCache)
+            {
+                if (!manager.TypeKindCache.TryGetValue(typeIdentity, out result))
+                {
+                    if (IsBaseObject(manager, typeIdentity))
+                        result = TypeKind.Class;
+                    else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
+                             (typeIdentity.TypeAttributes & TypeAttributes.Sealed)    != TypeAttributes.Sealed)
+                        result = TypeKind.Interface;
+                    else if (IsBaseObject(manager, typeIdentity.Extends))
+                        result = TypeKind.Class;
+                    else if (IsEnum(manager, typeIdentity))
+                        result = TypeKind.Enumeration;
+                    else if (IsValueType(manager, typeIdentity))
+                        result = TypeKind.Struct;
+                    else if (IsDelegate(manager, typeIdentity))
+                        result = TypeKind.Delegate;
+                    else
+                        result = TypeKind.Class;
+                    manager.TypeKindCache.Add(typeIdentity, result);
+                }
+            }
+            return result;
+        }
+        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(IGeneralTypeUniqueIdentifier uniqueIdentifier, CliNamespaceKeyedTree topLevel)
+        {
+            if (uniqueIdentifier.Name.Contains('`'))
+                return FindTypeImplementation(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
+            else if (uniqueIdentifier is IGenericTypeUniqueIdentifier)
+            {
+                var genericUniqueId = uniqueIdentifier as IGenericTypeUniqueIdentifier;
+                if (genericUniqueId.TypeParameters > 0)
+                    return FindTypeImplementation(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters), topLevel);
+            }
+            return FindTypeImplementation(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
+        }
+
+
+        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(string @namespace, string name, string moduleName, CliNamespaceKeyedTree topLevel, IModuleDictionary moduleDictionary)
+        {
+            string ns = @namespace;
+
+            int lastIndex = 0;
+            IModule module;
+            if (!moduleDictionary.TryGetValue(AstIdentifier.GetDeclarationIdentifier(moduleName), out module))
+                return null;
+            ICliModule cliModule = module as ICliModule;
+            if (cliModule == null)
+                return null;
+        nextPart:
+            int next = ns.IndexOf('.', lastIndex);
+            if (next != -1)
+            {
+                string current = ns.Substring(lastIndex, next - lastIndex);
+                uint currentHash = (uint) current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return null;
+                lastIndex = next + 1;
+                goto nextPart;
+            }
+            else
+            {
+                string current = ns.Substring(lastIndex);
+                uint currentHash = (uint) current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return null;
+            }
+            if (topLevel.NamespaceTypes != null)
+            {
+                foreach (var nsType in topLevel.NamespaceTypes)
+                    if (nsType.MetadataRoot == cliModule.Metadata.MetadataRoot && nsType.Name == name)
+                        return nsType;
+            }
+            return null;
+        }
+
+        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(string @namespace, string name, CliNamespaceKeyedTree topLevel)
+        {
+            string ns = @namespace;
+
+            int lastIndex = 0;
+        nextPart:
+            int next = ns.IndexOf('.', lastIndex);
+            if (next != -1)
+            {
+                string current = ns.Substring(lastIndex, next - lastIndex);
+                uint currentHash = (uint) current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return null;
+                lastIndex = next + 1;
+                goto nextPart;
+            }
+            else
+            {
+                string current = ns.Substring(lastIndex);
+                uint currentHash = (uint) current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return null;
+            }
+            if (topLevel != null && topLevel.NamespaceTypes != null)
+            {
+                lastIndex = 0;
+                var currentTypes = topLevel.NamespaceTypes;
+            repeatTypeLookup:
+                next = name.IndexOf('+', lastIndex);
+                if (next != -1)
+                {
+                    string current = name.Substring(lastIndex, next - lastIndex);
+                    foreach (var nsType in currentTypes)
+                        if (nsType.Name == current)
+                        {
+                            currentTypes = nsType.NestedClasses;
+                            lastIndex = next + 1;
+                            goto repeatTypeLookup;
+                        }
+                }
+                else
+                {
+                    string current = name.Substring(lastIndex);
+                    foreach (var nsType in currentTypes)
+                        if (nsType.Name == current)
+                            return nsType;
+                }
+            }
+            return null;
         }
     }
 }

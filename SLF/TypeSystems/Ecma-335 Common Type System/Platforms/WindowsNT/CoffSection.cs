@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
     [StructLayout(LayoutKind.Sequential)]
-    public class PEImageSection :
+    public class CoffSection :
         IDisposable
     {
         private const byte sizeOfName = 0x08;
@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         private uint pointerToLineNumbers;
         private ushort numberOfRelocations;
         private ushort numberOfLineNumbers;
-        private PEImageSectionCharacteristics characteristics;
+        private CoffSectionCharacteristics characteristics;
         private Substream sectionData;
         private EndianAwareBinaryReader sectionDataReader;
         private bool keepImageOpen;
@@ -69,37 +69,37 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         /// </summary>
         public uint VirtualAddress { get { return this.virtualAddress; } }
         /// <summary>
-        /// Returns the size of the initialized blobCacheData on disk in
+        /// Returns the size of the initialized data on disk in
         /// bytes, is a multiple of
-        /// <see cref="PEImageOptionalHeader.NTFields32.FileAlignment"/>, or
-        /// <see cref="PEImageOptionalHeader.NTFields64.FileAlignment"/>
+        /// <see cref="PEImageExtendedHeader.NTFields32.FileAlignment"/>, or
+        /// <see cref="PEImageExtendedHeader.NTFields64.FileAlignment"/>
         /// (iif the image is a 64-bit image.)
         /// </summary>
         public uint SizeOfRawData { get { return this.sizeOfRawData; } }
         /// <summary>
         /// Returns the <see cref="Int32"/> value denoting the pointer
-        /// to the raw blobCacheData of the section.
+        /// to the raw data of the section.
         /// </summary>
         public uint PointerToRawData { get { return this.pointerToRawData; } }
         /// <summary>
         /// Returns the <see cref="Int32"/> value to the relocations
-        /// contained within the <see cref="PEImageSection"/>.
+        /// contained within the <see cref="CoffSection"/>.
         /// </summary>
         public uint PointerToRelocations { get { return this.pointerToRelocations; } }
 
         /// <summary>
         /// Returns the <see cref="Int32"/> value to the line numbers
-        /// contained within the <see cref="PEImageSection"/>.
+        /// contained within the <see cref="CoffSection"/>.
         /// </summary>
         public uint PointerToLineNumbers { get { return this.pointerToLineNumbers; } }
         public ushort NumberOfRelocations { get { return this.numberOfRelocations; } }
         public ushort NumberOfLineNumbers { get { return this.numberOfLineNumbers; } }
 
-        public PEImageSectionCharacteristics Characteristics { get { return this.characteristics; } }
+        public CoffSectionCharacteristics Characteristics { get { return this.characteristics; } }
 
-        internal static PEImageSection Read(EndianAwareBinaryReader reader, bool keepImageOpen)
+        internal static CoffSection Read(EndianAwareBinaryReader reader, bool keepImageOpen)
         {
-            PEImageSection result = new PEImageSection();
+            CoffSection result = new CoffSection();
             result.name = new byte[sizeOfName];
             reader.Read(result.name, 0, sizeOfName);
             result.virtualSize = reader.ReadUInt32();
@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             result.pointerToLineNumbers = reader.ReadUInt32();
             result.numberOfRelocations = reader.ReadUInt16();
             result.numberOfLineNumbers = reader.ReadUInt16();
-            result.characteristics = (PEImageSectionCharacteristics) reader.ReadUInt32();
+            result.characteristics = (CoffSectionCharacteristics) reader.ReadUInt32();
             result.sectionData = new Substream(reader.BaseStream, result.pointerToRawData, result.virtualSize);
             result.keepImageOpen = keepImageOpen;
             //if (bufferSectionData)

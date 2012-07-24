@@ -16,5 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Modules
         /// </summary>
         ICliMetadataModuleTableRow Metadata { get; }
         new ICliAssembly Parent { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliMetadataTypeDefinitionTableRow"/> which
+        /// denotes the global scope of the module.
+        /// </summary>
+        ICliMetadataTypeDefinitionTableRow GlobalScope { get; }
     }
 }

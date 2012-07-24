@@ -173,11 +173,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { throw new NotImplementedException(); }
         }
 
-        public IModifiersAndAttributesMetadata ReturnTypeMetadata
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
         {
             throw new NotImplementedException();
@@ -256,5 +251,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
+
+
+        internal _ICliManager Manager { get { return this.manager; } }
     }
 }
