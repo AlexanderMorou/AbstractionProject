@@ -21,21 +21,45 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             class,
             IDeclaration
     {
+        const int METADATA_SOURCE_ARRAY = 0;
+        const int METADATA_SOURCE_COLLECTION = 1;
+        private int state = METADATA_SOURCE_ARRAY;
         private bool[] checkedMetadata;
+        private IControlledCollection<TMetadata> metadataCollection;
         private TMetadata[] metadataSource;
         private TDeclaration[] declarationData;
         private KeysCollection keys;
         private ValuesCollection values;
         private object syncObject = new object();
-        protected CliMetadataDrivenDictionary(int count)
+        protected CliMetadataDrivenDictionary(int count, int state = METADATA_SOURCE_ARRAY)
         {
-            this.metadataSource = new TMetadata[count];
+
+            if (state == METADATA_SOURCE_ARRAY)
+            {
+                this.checkedMetadata = new bool[count];
+                this.metadataSource = new TMetadata[count];
+            }
             this.declarationData = new TDeclaration[count];
-            this.checkedMetadata = new bool[count];
+        }
+
+        protected CliMetadataDrivenDictionary(TMetadata[] metadata)
+        {
+            this.Initialize(metadata);
+        }
+
+        protected CliMetadataDrivenDictionary(IControlledCollection<TMetadata> metadata)
+        {
+            this.Initialize(metadata);
         }
 
         internal CliMetadataDrivenDictionary() { }
 
+        /// <summary>
+        /// Initializes the metadata driven dictionary with the metadata given
+        /// up front.
+        /// </summary>
+        /// <param name="metadata">The <typeparamref name="TMetadata"/> elements
+        /// from which the elements are derived.</param>
         internal void Initialize(TMetadata[] metadata)
         {
             this.metadataSource = metadata;
@@ -44,6 +68,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.checkedMetadata = new bool[count];
             for (int i = 0; i < count; i++)
                 this.checkedMetadata[i] = true;
+        }
+
+        internal void Initialize(IControlledCollection<TMetadata> collection)
+        {
+            this.metadataCollection = collection;
+            this.state = METADATA_SOURCE_COLLECTION;
+            this.declarationData = new TDeclaration[collection.Count];
         }
 
         protected abstract TMetadata GetMetadataAt(int index);
@@ -56,7 +87,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (this.syncObject)
             {
                 if (this.declarationData[index] == null)
-                    this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index], index);
+                {
+                    if (this.state == METADATA_SOURCE_ARRAY)
+                        this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index], index);
+                    else if (this.state == METADATA_SOURCE_COLLECTION)
+                        this.declarationData[index] = this.CreateElementFrom(this.metadataCollection[index], index);
+                    else
+                        throw new InvalidOperationException();
+                }
             }
         }
 
@@ -65,7 +103,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (this.syncObject)
             {
                 CheckMetadataAt(index);
-                return this.GetIdentifierAt(index, this.metadataSource[index]);
+                if (this.state == METADATA_SOURCE_ARRAY)
+                    return this.GetIdentifierAt(index, this.metadataSource[index]);
+                else
+                    return this.GetIdentifierAt(index, this.metadataCollection[index]);
             }
         }
 
@@ -74,11 +115,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckMetadataAt(int index)
         {
             lock (this.syncObject)
-                if (!this.checkedMetadata[index])
+            {
+                if (this.state == METADATA_SOURCE_ARRAY)
                 {
-                    this.metadataSource[index] = this.GetMetadataAt(index);
-                    this.checkedMetadata[index] = true;
+                    if (!this.checkedMetadata[index])
+                    {
+                        this.metadataSource[index] = this.GetMetadataAt(index);
+                        this.checkedMetadata[index] = true;
+                    }
                 }
+            }
         }
 
         //#region IControlledDictionary<TDeclarationIdentifier,TDeclaration> Members
@@ -103,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public TDeclaration this[TDeclarationIdentifier key]
+        public virtual TDeclaration this[TDeclarationIdentifier key]
         {
             get
             {
@@ -137,7 +183,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public int Count
         {
-            get { return this.metadataSource.Length; }
+            get {
+                if (this.state == METADATA_SOURCE_ARRAY)
+                    return this.metadataSource.Length;
+                else if (this.state == METADATA_SOURCE_COLLECTION)
+                    return this.metadataCollection.Count;
+                else
+                    throw new InvalidOperationException();
+            }
         }
 
         public bool Contains(KeyValuePair<TDeclarationIdentifier, TDeclaration> item)
@@ -296,6 +349,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.declarationData[i].Dispose();
             this.declarationData = null;
             this.metadataSource = null;
+            this.metadataCollection = null;
         }
 
         //#endregion
@@ -313,9 +367,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal TMetadata[] GetMetadata()
         {
-            for (int i = 0; i < this.Count; i++)
-                this.CheckMetadataAt(i);
-            return this.metadataSource;
+            if (this.state == METADATA_SOURCE_ARRAY)
+            {
+                for (int i = 0; i < this.Count; i++)
+                    this.CheckMetadataAt(i);
+                return this.metadataSource;
+            }
+            else if (this.state == METADATA_SOURCE_COLLECTION)
+                return this.metadataCollection.ToArray();
+            throw new InvalidOperationException();
         }
     }
 }

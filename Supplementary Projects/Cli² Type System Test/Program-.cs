@@ -308,8 +308,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             Stopwatch sw = Stopwatch.StartNew();
             //var assemblies = (from f in identifiers
             //                  let assembly = clim.ObtainAssemblyReference(f)
-            //                  where assembly != null
-            //                  select assembly).Distinct().ToList();
+            //                  select assembly).ToList();
             //sw.Stop();
             //TimeSpan t1 = sw.Elapsed;
             //sw.Restart();
@@ -319,7 +318,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //    t.Read();
             //sw.Stop();
             //var t2 = sw.Elapsed;
-            TimeSpan t1 = default(TimeSpan), t2 = default(TimeSpan);
+            TimeSpan t1 = TimeSpan.Zero, t2 = TimeSpan.Zero;
             //StringBuilder sb = new StringBuilder();
             //sb.Append("new string[] { ");
             //bool first = true;
@@ -335,14 +334,17 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //var de = sb.ToString();
             //sw.Restart();
             Console.WriteLine("starting filter");
+            var assem = clim.ObtainAssemblyReference(CliCommon.mscorlibIdentifierv2);
             var clId = AstIdentifier.GetAssemblyIdentifier("System.EnterpriseServices", v40, cultureCommon, microsoftAltKey);
             var doubleModuleLib = clim.ObtainAssemblyReference(clId);
+            Console.WriteLine(doubleModuleLib.FrameworkVersion);
             var nsId = AstIdentifier.GetDeclarationIdentifier("System.EnterpriseServices");
-            var filteredTypes = doubleModuleLib.Namespaces[nsId.Name].Classes.Keys;
-            foreach (var m in doubleModuleLib.Namespaces[nsId.Name].Types.Values)
-                ;
+            var de = clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier).FindType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2));
+            var filteredTypes = doubleModuleLib.Namespaces[nsId].Classes.Keys;
+            foreach (var m in doubleModuleLib.Namespaces[nsId].Types.Keys)
+                m.GetHashCode();
             foreach (var filteredType in filteredTypes)
-                ;
+                filteredType.GetHashCode();
             sw.Stop();
             var t3 = sw.Elapsed;
             Console.WriteLine(t3);

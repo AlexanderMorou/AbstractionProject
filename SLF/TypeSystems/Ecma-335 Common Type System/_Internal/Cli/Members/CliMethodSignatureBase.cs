@@ -22,14 +22,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     {
         private TSignatureParent parent;
         private ICliMetadataMethodDefinitionTableRow metadata;
-        private _ICliManager manager;
+        private _ICliAssembly assembly;
         private bool? lastIsParams;
         private CliParameterMemberDictionary<TSignature, TSignatureParameter> parameters;
 
-        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliManager manager, TSignatureParent parent)
+        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, TSignatureParent parent)
         {
             this.metadata = metadata;
-            this.manager = manager;
+            this.assembly = assembly;
             this.parent = parent;
         }
 
@@ -38,6 +38,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get
             {
                 return this.metadata;
+            }
+        }
+
+        internal _ICliManager Manager
+        {
+            get
+            {
+                return (_ICliManager) this.assembly.IdentityManager;
             }
         }
 
@@ -103,10 +111,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 if (lastIsParams == null)
                 {
-                    var paramArrayAttrType = this.manager.ObtainTypeReference(this.manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayAttribute), manager.GetRelativeAssembly(metadata.MetadataRoot));
+                    var paramArrayAttrType = this.Manager.ObtainTypeReference(this.Manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), Manager.GetRelativeAssembly(metadata.MetadataRoot));
                     var lParam = metadata.Parameters.LastOrDefault();
                     if (lParam != null && lParam.CustomAttributes.Count > 0)
-                        lastIsParams = CliCommon.GetMetadatum(this.manager, paramArrayAttrType, lParam.CustomAttributes) != null;
+                        lastIsParams = CliCommon.GetMetadatum(this.Manager, paramArrayAttrType, lParam.CustomAttributes) != null;
                 }
                 return (bool) lastIsParams;
             }
@@ -252,7 +260,5 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-
-        internal _ICliManager Manager { get { return this.manager; } }
     }
 }

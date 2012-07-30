@@ -22,12 +22,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         /// </summary>
         /// <param name="metadata">The <see cref="ICliMetadataMethodDefinitionTableRow"/> from which the
         /// <see cref="CliModuleMethod"/> is derived.</param>
-        /// <param name="manager">The <see cref="_ICliManager"/> which maintains the type identity 
-        /// resolution of the <paramref name="owner"/>.</param>
+        /// <param name="assembly">The <see cref="_ICliAssembly"/> which contains the <see cref="CliModuleMethod"/>.</param>
         /// <param name="owner">The <see cref="ICliModule"/> from which the
         /// <see cref="CliModuleMethod"/> is derived.</param>
-        internal CliModuleMethod(ICliMetadataMethodDefinitionTableRow metadata, _ICliManager manager, ICliModule owner)
-            : base(metadata, manager, owner)
+        internal CliModuleMethod(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, ICliModule owner)
+            : base(metadata, assembly, owner)
         {
         }
 

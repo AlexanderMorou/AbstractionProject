@@ -47,5 +47,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// to <see cref="ICliAssembly"/> instances that are referenced by the current <see cref="ICliAssembly"/>.
         /// </summary>
         IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> References { get; }
+
+        /// <summary>
+        /// Returns the <see cref="CliFrameworkVersion"/> which the <see cref="ICliAssembly"/>
+        /// targets.
+        /// </summary>
+        CliFrameworkVersion FrameworkVersion { get; }
     }
 }

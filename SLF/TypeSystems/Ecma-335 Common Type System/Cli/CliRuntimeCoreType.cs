@@ -36,11 +36,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         NullableType,
         /// <summary>
-        /// The definition of the parameter array attribute to be applied
+        /// The definition of the parameter array metadatum to be applied
         /// to the final parameter of a method which signifies that
         /// the method accepts multiple arguments as one in place of 
         /// the array.
         /// </summary>
-        ParamArrayAttribute,
+        ParamArrayMetadatum,
     }
 }

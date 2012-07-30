@@ -89,8 +89,10 @@
     <Compile Include="Cli\AstIdentifier.cs" />
     <Compile Include="Cli\CliGateway.cs" />
     <Compile Include="Cli\CliRuntimeCoreType.cs" />
+    <Compile Include="Cli\CliRuntimeTarget.cs" />
     <Compile Include="Cli\ICliDeclaration.cs" />
     <Compile Include="Cli\ICliGenericTypeParameter.cs" />
+    <Compile Include="Cli\ICliRuntimeTarget.cs" />
     <Compile Include="Cli\ICliType.cs" />
     <Compile Include="Cli\ICliTypeParent.cs" />
     <Compile Include="Cli\Metadata\Blobs\CliMetadataTypeSignatureKind.cs" />
@@ -353,6 +355,8 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataInterfaceImplTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataInterfaceImplTableRow+LazyCustomAttributes.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataInterfaceImplTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazySequentialSet.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazySet.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataManifestResourceTableRow+LazyCustomAttributes.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMemberReferenceTableRow+LazyCustomAttributes.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionTableRow+LazyCustomAttributes.cs" />
@@ -481,6 +485,7 @@
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+KeysCollection.cs" />
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTableIndexedRow.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleMethod.cs" />

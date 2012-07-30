@@ -672,7 +672,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A <see cref="IMetadataCollection"/> instance.</returns>
         protected abstract IMetadataCollection InitializeCustomAttributes();
 
-
         #region IDeclaration Members
 
         string IDeclaration.Name
@@ -933,5 +932,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return fields != null;
             }
         }
+
     }
 }
