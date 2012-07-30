@@ -18,13 +18,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         // {System.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a}
         //{(00:00:00.0819367, mscorlib, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=5c561934e089, C:\Windows\Microsoft.NET\Framework\v1.1.4322\mscorlib.dll)}
-        private const string v1_0_3705 = "v1.0.3705";
-        private const string v1_1_4322 = "v1.1.4322";
-        private const string v2_0_50727 = "v2.0.50727";
-        private const string v3_0 = "v3.0";
-        private const string v3_5 = "v3.5";
-        private const string v4_0_30319 = "v4.0.30319";
-        private const string v4_5 = "v4.5";
         private const string fr86 = "Framework";
         private const string fr64 = "Framework64";
         const string s_assembly = "assembly";
@@ -49,10 +42,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <paramref name="platform"/>, <paramref name="version"/>, and whether to <paramref name="useCoreLibrary"/>.
         /// </summary>
         /// <param name="resolveCurrent">Whether to use the current directory via <see cref="Directory.GetCurrentDirectory()"/>.</param>
-        /// <param name="platform">The <see cref="FrameworkPlatform"/> to target.</param>
-        /// <param name="version">The <see cref="FrameworkVersion"/> to target.</param>
+        /// <param name="platform">The <see cref="CliFrameworkPlatform"/> to target.</param>
+        /// <param name="version">The <see cref="CliFrameworkVersion"/> to target.</param>
         /// <param name="useCoreLibrary">Whether to use the core library, typically mscorlib.</param>
-        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, bool useCoreLibrary, bool useGlobalAccessCache)
+        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, CliFrameworkPlatform platform, CliFrameworkVersion version, bool useCoreLibrary, bool useGlobalAccessCache)
         {
             this.UseCoreLibrary = useCoreLibrary;
             this.ResolveCurrent = resolveCurrent;
@@ -61,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.UseGlobalAccessCache = useGlobalAccessCache;
         }
 
-        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, FrameworkPlatform platform, FrameworkVersion version, string[] additionalResolutionPaths, bool useCoreLibrary, bool useGlobalAccessCache)
+        internal CliRuntimeEnvironmentInfo(bool resolveCurrent, CliFrameworkPlatform platform, CliFrameworkVersion version, string[] additionalResolutionPaths, bool useCoreLibrary, bool useGlobalAccessCache)
             : this(resolveCurrent, platform, version, useCoreLibrary, useGlobalAccessCache)
         {
             this.additionalResolutionPaths = additionalResolutionPaths;
@@ -71,9 +64,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public bool ResolveCurrent { get; private set; }
 
-        public FrameworkPlatform Platform { get; private set; }
+        public CliFrameworkPlatform Platform { get; private set; }
 
-        public FrameworkVersion Version { get; private set; }
+        public CliFrameworkVersion Version { get; private set; }
 
         //#endregion
 
@@ -106,41 +99,41 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 AdjustFrameworkPath(parts, frIndex);
                 switch (this.Version)
                 {
-                    case FrameworkVersion.v1_0_3705:
-                        if (Platform == FrameworkPlatform.x64Platform)
+                    case CliFrameworkVersion.v1_0_3705:
+                        if (Platform == CliFrameworkPlatform.x64Platform)
                             break;
-                        parts[vIndex] = v1_0_3705;
+                        parts[vIndex] = CliCommon.VersionString_1_0_3705;
                         yield return gdi(parts);
                         break;
-                    case FrameworkVersion.v1_1_4322:
-                        if (Platform == FrameworkPlatform.x64Platform)
+                    case CliFrameworkVersion.v1_1_4322:
+                        if (Platform == CliFrameworkPlatform.x64Platform)
                             break;
-                        parts[vIndex] = v1_1_4322;
+                        parts[vIndex] = CliCommon.VersionString_1_1_4322;
                         yield return gdi(parts);
                         break;
-                    case FrameworkVersion.v2_0_50727:
-                        parts[vIndex] = v2_0_50727;
+                    case CliFrameworkVersion.v2_0_50727:
+                        parts[vIndex] = CliCommon.VersionString_2_0_50727;
                         yield return gdi(parts);
                         break;
-                    case FrameworkVersion.v3_0:
-                        parts[vIndex] = v3_0;
+                    case CliFrameworkVersion.v3_0:
+                        parts[vIndex] = CliCommon.VersionString_3_0;
                         yield return gdi(parts);
                         yield return gdi(parts.Add("WPF"));
-                        goto case FrameworkVersion.v2_0_50727;
-                    case FrameworkVersion.v3_5:
-                    case FrameworkVersion.v3_5 | FrameworkVersion.ClientProfile:
-                        parts[vIndex] = v3_5;
+                        goto case CliFrameworkVersion.v2_0_50727;
+                    case CliFrameworkVersion.v3_5:
+                    case CliFrameworkVersion.v3_5 | CliFrameworkVersion.ClientProfile:
+                        parts[vIndex] = CliCommon.VersionString_3_5;
                         yield return gdi(parts);
-                        goto case FrameworkVersion.v3_0;
-                    case FrameworkVersion.v4_0_30319:
-                    case FrameworkVersion.v4_0_30319 | FrameworkVersion.ClientProfile:
-                        parts[vIndex] = v4_0_30319;
+                        goto case CliFrameworkVersion.v3_0;
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_0_30319 | CliFrameworkVersion.ClientProfile:
+                        parts[vIndex] = CliCommon.VersionString_4_0_30319;
                         yield return gdi(parts);
                         yield return gdi(parts.Add("WPF"));
                         break;
-                    case FrameworkVersion.v4_5:
-                    case FrameworkVersion.v4_5 | FrameworkVersion.ClientProfile:
-                        parts[vIndex] = v4_5;
+                    case CliFrameworkVersion.v4_5:
+                    case CliFrameworkVersion.v4_5 | CliFrameworkVersion.ClientProfile:
+                        parts[vIndex] = CliCommon.VersionString_4_5;
                         yield return gdi(parts);
                         break;
                 }
@@ -161,10 +154,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             switch (Platform)
             {
-                case FrameworkPlatform.x86Platform:
+                case CliFrameworkPlatform.x86Platform:
                     parts[frIndex] = fr86;
                     break;
-                case FrameworkPlatform.x64Platform:
+                case CliFrameworkPlatform.x64Platform:
                     parts[frIndex] = fr64;
                     break;
             }
@@ -187,13 +180,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     switch (current)
                     {
-                        case v1_1_4322:
-                        case v1_0_3705:
-                        case v2_0_50727:
-                        case v3_0:
-                        case v3_5:
-                        case v4_0_30319:
-                        case v4_5:
+                        case CliCommon.VersionString_1_1_4322:
+                        case CliCommon.VersionString_1_0_3705:
+                        case CliCommon.VersionString_2_0_50727:
+                        case CliCommon.VersionString_3_0:
+                        case CliCommon.VersionString_3_5:
+                        case CliCommon.VersionString_4_0_30319:
+                        case CliCommon.VersionString_4_5:
                             vIndex = i;
                             break;
                     }
@@ -208,17 +201,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 if (!UseCoreLibrary)
                     return null;
-                switch (Version & ~FrameworkVersion.ClientProfile)
+                switch (Version & ~CliFrameworkVersion.ClientProfile)
                 {
-                    case FrameworkVersion.v1_0_3705:
-                    case FrameworkVersion.v1_1_4322:
+                    case CliFrameworkVersion.v1_0_3705:
+                    case CliFrameworkVersion.v1_1_4322:
                         return mscorlibIdentifierv1;
-                    case FrameworkVersion.v2_0_50727:
-                    case FrameworkVersion.v3_0:
-                    case FrameworkVersion.v3_5:
+                    case CliFrameworkVersion.v2_0_50727:
+                    case CliFrameworkVersion.v3_0:
+                    case CliFrameworkVersion.v3_5:
                         return mscorlibIdentifierv2;
-                    case FrameworkVersion.v4_0_30319:
-                    case FrameworkVersion.v4_5:
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_5:
                         return mscorlibIdentifierv4;
                 }
                 return null;
@@ -241,31 +234,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             string wFldr = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
             string pktHex = uniqueIdentifier.PublicKeyToken.FormatHexadecimal();
-            switch (this.Version & ~FrameworkVersion.ClientProfile)
+            switch (this.Version & ~CliFrameworkVersion.ClientProfile)
             {
-                case FrameworkVersion.v1_0_3705:
-                case FrameworkVersion.v1_1_4322:
-                    if (Platform == FrameworkPlatform.x64Platform)
+                case CliFrameworkVersion.v1_0_3705:
+                case CliFrameworkVersion.v1_1_4322:
+                    if (Platform == CliFrameworkPlatform.x64Platform)
                         break;
                     yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gacEarly, uniqueIdentifier.Name, uniqueIdentifier.Version, pktHex);
                     break;
-                case FrameworkVersion.v2_0_50727:
-                case FrameworkVersion.v3_0:
-                case FrameworkVersion.v3_5:
+                case CliFrameworkVersion.v2_0_50727:
+                case CliFrameworkVersion.v3_0:
+                case CliFrameworkVersion.v3_5:
                     switch (Platform)
                     {
-                        case FrameworkPlatform.x86Platform:
+                        case CliFrameworkPlatform.x86Platform:
                             yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gac32, uniqueIdentifier.Name, uniqueIdentifier.Version, pktHex);
                             break;
-                        case FrameworkPlatform.x64Platform:
+                        case CliFrameworkPlatform.x64Platform:
                             yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gac64, uniqueIdentifier.Name, uniqueIdentifier.Version, pktHex);
                             break;
                     }
                     yield return string.Format("{0}{1}{2}{1}{3}{1}{4}{1}{5}__{6}", wFldr, Path.DirectorySeparatorChar, s_assembly, s_gacAny, uniqueIdentifier.Name, uniqueIdentifier.Version, pktHex);
-                    goto case FrameworkVersion.v1_0_3705;
-                case FrameworkVersion.v4_5:
-                case FrameworkVersion.v4_0_30319:
-                    string fVer = (Version & ~FrameworkVersion.ClientProfile) == FrameworkVersion.v4_0_30319 ? "v4.0" : "v4.5";
+                    goto case CliFrameworkVersion.v1_0_3705;
+                case CliFrameworkVersion.v4_5:
+                case CliFrameworkVersion.v4_0_30319:
+                    string fVer = (Version & ~CliFrameworkVersion.ClientProfile) == CliFrameworkVersion.v4_0_30319 ? "v4.0" : "v4.5";
                     string runtimeDir;
                     string[] parts;
                     int frIndex;
@@ -274,15 +267,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     parts = parts.Take(parts.Length - 2).Concat(new[] { s_assembly }).ToArray();
                     switch (Platform)
                     {
-                        case FrameworkPlatform.x86Platform:
+                        case CliFrameworkPlatform.x86Platform:
                             yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gac32, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, pktHex);
                             break;
-                        case FrameworkPlatform.x64Platform:
+                        case CliFrameworkPlatform.x64Platform:
                             yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gac64, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, pktHex);
                             break;
                     }
                     yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gacAny, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, pktHex);
-                    goto case FrameworkVersion.v3_5;
+                    goto case CliFrameworkVersion.v3_5;
             }
 
         }
@@ -645,7 +638,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #region ICliRuntimeEnvironmentInfo Members
 
 
-        public IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType)
+        public IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly assembly)
         {
             switch (coreType)
             {
@@ -663,7 +656,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return NullableBaseType;
                 case CliRuntimeCoreType.NullableType:
                     return NullableType;
-                case CliRuntimeCoreType.ParamArrayAttribute:
+                case CliRuntimeCoreType.ParamArrayMetadatum:
                     return ParamArrayAttribute;
                 default:
                     throw new ArgumentOutOfRangeException("coreType");

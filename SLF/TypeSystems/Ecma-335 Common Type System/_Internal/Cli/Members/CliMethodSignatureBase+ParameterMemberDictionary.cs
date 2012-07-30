@@ -19,8 +19,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodSignatureParent<TSignature, TSignatureParent>
     {
 
-        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliManager manager, TSignatureParent parent)
-            : base(metadata, manager, parent)
+        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, TSignatureParent parent)
+            : base(metadata, assembly, parent)
         {
         }
 

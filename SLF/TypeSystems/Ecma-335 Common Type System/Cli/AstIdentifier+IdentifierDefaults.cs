@@ -267,8 +267,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override string ToString()
             {
                 if (this.Assembly == null)
-                    return this.Name;
-                return string.Format("{0}, {1}", this.Name, this.Assembly);
+                    return this._FullName;
+                return string.Format("{0}, {1}", this._FullName, this.Assembly);
+            }
+
+            private string _FullName
+            {
+                get
+                {
+                    if (this.Namespace == null || this.Namespace.Name == string.Empty)
+                        return this.Name;
+                    return string.Format("{0}.{1}", this.Namespace, this.Name);
+                }
             }
 
             //#region ITypeUniqueIdentifier Members

@@ -30,8 +30,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     static partial class CliCommon
     {
+        internal const string VersionString_1_0_3705 = "v1.0.3705";
+        internal const string VersionString_1_1_4322 = "v1.1.4322";
+        internal const string VersionString_2_0_50727 = "v2.0.50727";
+        internal const string VersionString_3_0 = "v3.0";
+        internal const string VersionString_3_5 = "v3.5";
+        internal const string VersionString_4_0_30319 = "v4.0.30319";
+        internal const string VersionString_4_5 = "v4.5";
 
-        unsafe internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+
+        internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
         {
             FileStream peStream;
             var image = PEImage.LoadImage(filename, out peStream, true);
@@ -90,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                    select new TypeModification(manager.ObtainTypeReference(modifier.ModifierType), modifier.Required);
         }
 
-        internal static unsafe Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
+        internal static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
         {
             string resultedFilename = MinimizeFilename(string.Format("{0}.{1}", Path.Combine(directory, filename), extension));
             if (!File.Exists(resultedFilename))

@@ -151,6 +151,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region ICliAssembly Members
 
+        public new CliFrameworkVersion FrameworkVersion
+        {
+            get 
+            {
+                switch (this.metadataRoot.Version)
+                {
+                    case CliCommon.VersionString_1_0_3705:
+                        return CliFrameworkVersion.v1_0_3705;
+
+                    case CliCommon.VersionString_1_1_4322:
+                        return CliFrameworkVersion.v1_1_4322;
+
+                    case CliCommon.VersionString_2_0_50727:
+                        return CliFrameworkVersion.v2_0_50727;
+
+                    case CliCommon.VersionString_3_0:
+                        return CliFrameworkVersion.v3_0;
+
+                    case CliCommon.VersionString_3_5:
+                        return CliFrameworkVersion.v3_5;
+
+                    case CliCommon.VersionString_4_0_30319:
+                        return CliFrameworkVersion.v4_0_30319;
+
+                    case CliCommon.VersionString_4_5:
+                        return CliFrameworkVersion.v4_5;
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
+        }
+
         public IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> References
         {
             get
@@ -195,6 +227,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal void InitializeCommon()
         {
+            const int CLIMETADATA_TYPEDEFINITION_MODULE_INDEX = 0x00000001;
             ICliMetadataModuleTableRow[] modules = this.Modules.GetMetadata();
 
             var typeTables = (from moduleRow in modules
@@ -220,11 +253,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ICliMetadataTypeDefinitionTableRow[] types = new ICliMetadataTypeDefinitionTableRow[totalTypeCount];
             for (int moduleIndex = 0, cOff = 0; moduleIndex < typeTables.Length; cOff += typeTables[moduleIndex++].Count)
                 typeTables[moduleIndex].CopyTo(types, cOff);
+            ICliMetadataTypeDefinitionTable moduleTypes = typeTables[0];
             for (int typeIndex = 0, moduleIndex = 0, moduleOffset = 0; typeIndex < types.Length; typeIndex++, moduleOffset++)
             {
-                if (moduleOffset >= typeTables[moduleIndex].Count)
+                if (moduleOffset >= moduleTypes.Count)
                 {
                     moduleIndex++;
+                    if (moduleIndex < typeTables.Length)
+                        moduleTypes = typeTables[moduleIndex];
                     moduleOffset = 0;
                 }
                 var typeRow = types[typeIndex];
@@ -254,7 +290,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 int topLevelCount = nonNestedCounts[0];
                 int noModuleCount = 0;
                 for (int typeIndex = 0; typeIndex < topLevelCount; typeIndex++)
-                    if (topLevelRows[typeIndex].Index != 1)
+                    if (topLevelRows[typeIndex].Index != CLIMETADATA_TYPEDEFINITION_MODULE_INDEX)
                         noModuleCount++;
 
                 if (topLevelRows.Length != noModuleCount)
@@ -266,9 +302,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                      * have to inject checks elsewhere to filter it out.
                      * */
                     for (int typeIndex = 0, cOffset = 0; typeIndex < topLevelCount; typeIndex++)
-                        if (topLevelRows[typeIndex].Index != 1)
+                        if (topLevelRows[typeIndex].Index != CLIMETADATA_TYPEDEFINITION_MODULE_INDEX)
                             topLevelRowsActual[cOffset++] = topLevelRows[typeIndex];
-                    //Array.ConstrainedCopy(topLevelRows, 0, topLevelRowsActual, 0, topLevelCount);
+
                     Array.Sort(topLevelRowsActual, _CompareTo_);
                     topLevelRows = topLevelRowsActual;
                 }
@@ -311,10 +347,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 foreach (var part in breakdown)
                 {
                     /* *
-                     * Position tracking, the first element doesn't 
-                     * start with a '.', if it does, the split will
-                     * show such, and the part will still not
-                     * be '.'.
+                     * Position tracking, there is no period preceeding 
+                     * the first namespace identifier.
                      * */
                     if (first)
                         first = false;
@@ -436,7 +470,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
-
 
     }
 }

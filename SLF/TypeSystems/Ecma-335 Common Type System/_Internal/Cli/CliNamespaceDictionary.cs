@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private INamespaceParent parent;
 
         internal CliNamespaceDictionary(CliAssembly owner, INamespaceParent parent, CliNamespaceKeyedTree info)
-            : base(info.Count)
+            : base(info.Keys)
         {
             this.owner = owner;
             this.info = info;
@@ -86,9 +86,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
+        public override INamespaceDeclaration this[IGeneralDeclarationUniqueIdentifier key]
+        {
+            get
+            {
+                INamespaceDeclaration result;
+                if (base.TryGetValue(key, out result))
+                    return result;
+                else
+                    return this[key.Name];
+            }
+        }
+
         protected override uint GetMetadataAt(int index)
         {
-            return this.info.Keys[index];
+            throw new NotImplementedException();
         }
 
         protected override INamespaceDeclaration CreateElementFrom(uint metadata, int index)

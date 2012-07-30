@@ -13,24 +13,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public interface ICliRuntimeEnvironmentInfo :
         IStandardRuntimeEnvironmentInfo
     {
+
         /// <summary>
         /// Returns whether the <see cref="ICliRuntimeEnvironmentInfo"/> 
         /// should resolve information at the current entry application's
         /// directory.
         /// </summary>
         bool ResolveCurrent { get; }
-
-        /// <summary>
-        /// Returns the framework runtimeEnvironment identity resolution
-        /// occurs on.
-        /// </summary>
-        FrameworkPlatform Platform { get; }
-
-        /// <summary>
-        /// Returns the <see cref="FrameworkVersion"/> on which identity
-        /// resolution occurs.
-        /// </summary>
-        FrameworkVersion Version { get; }
 
         /// <summary>
         /// Returns the <see cref="IEnumerable{T}"/> of
@@ -41,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IEnumerable<DirectoryInfo> ResolutionPaths { get; }
 
         /// <summary>
-        /// Returns whether 
+        /// Returns whether to use the global access cache.
         /// </summary>
         bool UseGlobalAccessCache { get; }
 
@@ -57,13 +46,43 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         /// <summary>
         /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> of the <paramref name="coreType"/>
-        /// provided.
+        /// provided relative to <paramref name="assembly"/>.
         /// </summary>
         /// <param name="coreType">The <see cref="CliRuntimeCoreType"/>
         /// to obtain the <see cref="IGeneralTypeUniqueIdentifier"/> of.</param>
+        /// <param name="relativeAssembly">The <see cref="ICliAssembly"/> which </param>
         /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/> relative to the 
         /// <paramref name="coreType"/> provided.</returns>
-        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType);
+        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly relativeAssembly);
+
+        /// <summary>
+        /// Returns the framework runtimeEnvironment identity resolution
+        /// occurs on.
+        /// </summary>
+        CliFrameworkPlatform Platform { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IAssemblyUniqueIdentifier"/> of
+        /// the core library of the runtime environment
+        /// represented by the <see cref="IStandardRuntimeEnvironmentInfo"/>.
+        /// </summary>
+        IAssemblyUniqueIdentifier CoreLibraryIdentifier { get; }
+
+        /// <summary>
+        /// Returns whether the core library identified by <see cref="CoreLibraryIdentifier"/>
+        /// is present.
+        /// </summary>
+        /// <remarks>If false, the <see cref="CoreLibraryIdentifier"/>
+        /// will return null, type identity resolution from it
+        /// will be unavailable.</remarks>
+        bool UseCoreLibrary { get; }
+
+        /// <summary>
+        /// Returns the <see cref="CliFrameworkVersion"/> on which identity
+        /// resolution occurs.
+        /// </summary>
+        CliFrameworkVersion Version { get; }
+
 
     }
 }

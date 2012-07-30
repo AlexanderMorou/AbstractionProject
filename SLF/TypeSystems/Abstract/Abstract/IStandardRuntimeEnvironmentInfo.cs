@@ -7,22 +7,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IStandardRuntimeEnvironmentInfo
     {
-
-        /// <summary>
-        /// Returns the <see cref="IAssemblyUniqueIdentifier"/> of
-        /// the core library of the runtime environment
-        /// represented by the <see cref="IStandardRuntimeEnvironmentInfo"/>.
-        /// </summary>
-        IAssemblyUniqueIdentifier CoreLibraryIdentifier { get; }
-        /// <summary>
-        /// Returns whether the core library identified by <see cref="CoreLibraryIdentifier"/>
-        /// is present.
-        /// </summary>
-        /// <remarks>If false, the <see cref="CoreLibraryIdentifier"/>
-        /// will return null, type identity resolution from it
-        /// will be unavailable.</remarks>
-        bool UseCoreLibrary { get; }
-
         /// <summary>
         /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> of the <paramref name="coreType"/>
         /// provided.

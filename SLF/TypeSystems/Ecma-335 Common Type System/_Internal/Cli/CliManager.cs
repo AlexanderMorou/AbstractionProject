@@ -498,7 +498,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         var imageKind = peImage.ExtendedHeader.ImageKind;
                         bool supportedOnPlatform = false;
-                        if (this.runtimeEnvironment.Platform == FrameworkPlatform.x64Platform)
+                        if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.x64Platform)
                         {
                             /* *
                              * x64 is backwards compatible with x86, therefore
@@ -517,7 +517,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             else if (imageKind == PEImageKind.x64Image)
                                 supportedOnPlatform = true;
                         }
-                        else if (this.runtimeEnvironment.Platform == FrameworkPlatform.x86Platform)
+                        else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.x86Platform)
                         {
                             /* *
                              * ... however, the reverse is not true.
@@ -527,7 +527,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             else if (imageKind == PEImageKind.x86Image)
                                 supportedOnPlatform = true;
                         }
-                        else if (this.runtimeEnvironment.Platform == FrameworkPlatform.AnyPlatform)
+                        else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.AnyPlatform)
                         {
                             CliHeader header = metadataRoot.Header;
                             if (imageKind == PEImageKind.x64Image &&

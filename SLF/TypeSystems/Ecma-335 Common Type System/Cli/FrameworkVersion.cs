@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
@@ -12,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// view of .NET Versioning.  The primary implementation of .NET is the 
     /// Microsoft .NET CLR; as such, it's this author's opinion that the average
     /// programmer will associate with these values.</para></remarks>
-    public enum FrameworkVersion
+    public enum CliFrameworkVersion
     {
         v1_0_3705     = 1 << 8,
         v1_1_4322     = 2 << 8,

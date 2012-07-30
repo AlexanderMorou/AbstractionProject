@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
@@ -21,10 +22,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     {
         private ICliMetadataTypeDefinitionTableRow ownerInfo;
 
-        internal CliMethodSignatureMemberDictionary(ICliMetadataTypeDefinitionTableRow ownerInfo)
-            : base(ExtractOwnerCount(ownerInfo))
+        internal CliMethodSignatureMemberDictionary(IReadOnlyCollection<ICliMetadataMethodDefinitionTableRow> methods)
+            : base(methods)
         {
-            this.ownerInfo = ownerInfo;
         }
 
         private static int ExtractOwnerCount(ICliMetadataTypeDefinitionTableRow ownerInfo)

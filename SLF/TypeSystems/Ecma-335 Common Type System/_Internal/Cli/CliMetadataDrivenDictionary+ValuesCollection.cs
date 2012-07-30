@@ -30,12 +30,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 for (int i = 0; i < this.owner.Count; i++)
                 {
-                    if (this.owner.metadataSource[i] != null)
-                    {
-                        this.owner.CheckItemAt(i);
-                        if (this.owner.declarationData[i] == item)
-                            return true;
-                    }
+                    this.owner.CheckItemAt(i);
+                    if (this.owner.declarationData[i] == item)
+                        return true;
                 }
                 return false;
             }
@@ -71,12 +68,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 for (int i = 0; i < this.owner.Count; i++)
                 {
-                    if (this.owner.metadataSource[i] != null)
-                    {
-                        this.owner.CheckItemAt(i);
-                        if (this.owner.declarationData[i] == element)
-                            return i;
-                    }
+                    this.owner.CheckItemAt(i);
+                    if (this.owner.declarationData[i] == element)
+                        return i;
                 }
                 return -1;
             }
