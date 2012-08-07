@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// </summary>
     public interface IIntermediateDelegateType :
         IIntermediateParameterParent<IDelegateType, IIntermediateDelegateType, IDelegateTypeParameterMember, IIntermediateDelegateTypeParameterMember>,
-        IIntermediateGenericType<IDelegateUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
+        IIntermediateGenericType<IGeneralGenericTypeUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
         IDelegateType
     {
         /// <summary>

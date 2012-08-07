@@ -98,17 +98,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected override uint GetMetadataAt(int index)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override INamespaceDeclaration CreateElementFrom(uint metadata, int index)
+        protected override INamespaceDeclaration CreateElementFrom(int index, uint metadata)
         {
             return new CliNamespaceDeclaration(this.owner, this.parent, this.info[metadata]);
         }
 
-        protected override IGeneralDeclarationUniqueIdentifier GetIdentifierAt(int index, uint metadata)
+        protected override IGeneralDeclarationUniqueIdentifier GetIdentifierFrom(int index, uint metadata)
         {
             var namespaceInfo = this.info[metadata];
             string fullSpace = namespaceInfo.StringsSection[namespaceInfo.Value];

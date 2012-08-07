@@ -180,7 +180,6 @@
       <DependentUpon>SymbolType.cs</DependentUpon>
     </Compile>
     <Compile Include="_Internal\DictionaryHelpers.cs" />
-    <Compile Include="_Internal\GenericLayer\_SymbolType.cs" />
     <Compile Include="Compilers\AnonymousTypeDisplayStyle.cs" />
     <Compile Include="Compilers\AnonymousTypeMember.cs" />
     <Compile Include="Compilers\AnonymousTypePatternAid.cs" />
@@ -1021,6 +1020,9 @@
     <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
     <Compile Include="Translation\IntermediateCodeTranslatorBase.cs" />
     <Compile Include="Translation\IntermediateSpanTranslationClasses.cs" />
+    <Compile Include="_Internal\GenericLayer\_SymbolType.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Utilities\Common\Common Utilities.csproj">

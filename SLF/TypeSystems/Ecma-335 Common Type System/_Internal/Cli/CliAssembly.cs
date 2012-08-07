@@ -22,8 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal partial class CliAssembly :
         AssemblyBase,
-        _ICliAssembly,
-        _ICliTypeParent
+        _ICliAssembly
     {
         public class test3 { public abstract class test4 : TypeBase<IGeneralGenericTypeUniqueIdentifier> { } }
 
@@ -155,31 +154,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get 
             {
-                switch (this.metadataRoot.Version)
-                {
-                    case CliCommon.VersionString_1_0_3705:
-                        return CliFrameworkVersion.v1_0_3705;
-
-                    case CliCommon.VersionString_1_1_4322:
-                        return CliFrameworkVersion.v1_1_4322;
-
-                    case CliCommon.VersionString_2_0_50727:
-                        return CliFrameworkVersion.v2_0_50727;
-
-                    case CliCommon.VersionString_3_0:
-                        return CliFrameworkVersion.v3_0;
-
-                    case CliCommon.VersionString_3_5:
-                        return CliFrameworkVersion.v3_5;
-
-                    case CliCommon.VersionString_4_0_30319:
-                        return CliFrameworkVersion.v4_0_30319;
-
-                    case CliCommon.VersionString_4_5:
-                        return CliFrameworkVersion.v4_5;
-                    default:
-                        throw new InvalidOperationException();
-                }
+                return CliCommon.GetFrameworkVersionFromString(this.metadataRoot.Version);
             }
         }
 

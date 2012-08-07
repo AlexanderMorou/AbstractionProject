@@ -19,17 +19,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             private CliGenericTypeBase<TIdentifier, TType> owner;
 
             internal GenericParameterDictionary(CliGenericTypeBase<TIdentifier, TType> owner)
-                : base(owner.Metadata.TypeParameters.Count)
+                : base(owner.Metadata.TypeParameters)
             {
                 this.owner = owner;
             }
 
-            protected override ICliMetadataGenericParameterTableRow GetMetadataAt(int index)
-            {
-                return this.owner.Metadata.TypeParameters[index];
-            }
-
-            protected override IGenericTypeParameter<TIdentifier, TType> CreateElementFrom(ICliMetadataGenericParameterTableRow metadata, int index)
+            protected override IGenericTypeParameter<TIdentifier, TType> CreateElementFrom(int index, ICliMetadataGenericParameterTableRow metadata)
             {
                 throw new NotImplementedException();
             }
@@ -44,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #endregion
 
-            protected override IGenericParameterUniqueIdentifier GetIdentifierAt(int index, ICliMetadataGenericParameterTableRow metadata)
+            protected override IGenericParameterUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataGenericParameterTableRow metadata)
             {
                 return AstIdentifier.GetGenericParameterIdentifier(index, true);
             }

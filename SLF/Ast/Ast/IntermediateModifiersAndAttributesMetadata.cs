@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IMetadataEntity Members
 
-        IMetadataCollection IMetadataEntity.CustomAttributes
+        IMetadataCollection IMetadataEntity.Metadata
         {
             get
             {

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
-using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
@@ -655,7 +654,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        IMetadataCollection IMetadataEntity.CustomAttributes
+        IMetadataCollection IMetadataEntity.Metadata
         {
             get
             {

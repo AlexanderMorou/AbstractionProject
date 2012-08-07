@@ -22,6 +22,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 #if x86
 using SlotType = System.UInt32;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 #elif x64
 using SlotType = System.UInt64;
 #endif
@@ -652,7 +653,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (IsBaseObject(manager, typeIdentity))
                         result = TypeKind.Class;
                     else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
-                             (typeIdentity.TypeAttributes & TypeAttributes.Sealed)    != TypeAttributes.Sealed)
+                             (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
                         result = TypeKind.Interface;
                     else if (IsBaseObject(manager, typeIdentity.Extends))
                         result = TypeKind.Class;
@@ -778,6 +779,94 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
             return null;
+        }
+
+        public static IBinaryOperatorUniqueIdentifier GetBinaryOperatorUniqueIdentifier(ICliMetadataTypeDefinitionTableRow owner, ICliMetadataMethodDefinitionTableRow metadata)
+        {
+            CoercibleBinaryOperators op = (CoercibleBinaryOperators) (-1);
+            switch (metadata.Name)
+            {
+                case BinaryOperatorNames.Addition:
+                    op = CoercibleBinaryOperators.Add;
+                    break;
+                case BinaryOperatorNames.BitwiseAnd:
+                    op = CoercibleBinaryOperators.BitwiseAnd;
+                    break;
+                case BinaryOperatorNames.BitwiseOr:
+                    op = CoercibleBinaryOperators.BitwiseOr;
+                    break;
+                case BinaryOperatorNames.Division:
+                    op = CoercibleBinaryOperators.Divide;
+                    break;
+                case BinaryOperatorNames.Equality:
+                    op = CoercibleBinaryOperators.IsEqualTo;
+                    break;
+                case BinaryOperatorNames.ExclusiveOr:
+                    op = CoercibleBinaryOperators.ExclusiveOr;
+                    break;
+                case BinaryOperatorNames.GreaterThan:
+                    op = CoercibleBinaryOperators.GreaterThan;
+                    break;
+                case BinaryOperatorNames.GreaterThanOrEqual:
+                    op = CoercibleBinaryOperators.GreaterThanOrEqualTo;
+                    break;
+                case BinaryOperatorNames.Inequality:
+                    op = CoercibleBinaryOperators.IsNotEqualTo;
+                    break;
+                case BinaryOperatorNames.LeftShift:
+                    op = CoercibleBinaryOperators.LeftShift;
+                    break;
+                case BinaryOperatorNames.LessThan:
+                    op = CoercibleBinaryOperators.LessThan;
+                    break;
+                case BinaryOperatorNames.LessThanOrEqual:
+                    op = CoercibleBinaryOperators.LessThanOrEqualTo;
+                    break;
+                case BinaryOperatorNames.Modulus:
+                    op = CoercibleBinaryOperators.Modulus;
+                    break;
+                case BinaryOperatorNames.Multiply:
+                    op = CoercibleBinaryOperators.Multiply;
+                    break;
+                case BinaryOperatorNames.RightShift:
+                    op = CoercibleBinaryOperators.RightShift;
+                    break;
+                case BinaryOperatorNames.Subtraction:
+                    op = CoercibleBinaryOperators.Subtract;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid method presented.", "metadata");
+            }
+            throw new NotImplementedException();
+        }
+
+        public static CliFrameworkVersion GetFrameworkVersionFromString(string s)
+        {
+            switch (s)
+            {
+                case CliCommon.VersionString_1_0_3705:
+                    return CliFrameworkVersion.v1_0_3705;
+
+                case CliCommon.VersionString_1_1_4322:
+                    return CliFrameworkVersion.v1_1_4322;
+
+                case CliCommon.VersionString_2_0_50727:
+                    return CliFrameworkVersion.v2_0_50727;
+
+                case CliCommon.VersionString_3_0:
+                    return CliFrameworkVersion.v3_0;
+
+                case CliCommon.VersionString_3_5:
+                    return CliFrameworkVersion.v3_5;
+
+                case CliCommon.VersionString_4_0_30319:
+                    return CliFrameworkVersion.v4_0_30319;
+
+                case CliCommon.VersionString_4_5:
+                    return CliFrameworkVersion.v4_5;
+                default:
+                    throw new InvalidOperationException();
+            }
         }
     }
 }

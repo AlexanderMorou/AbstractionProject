@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             TType
     {
         /// <summary>
-        /// Data member for <see cref="CustomAttributes"/>.
+        /// Data member for <see cref="Metadata"/>.
         /// </summary>
         private IMetadataDefinitionCollection customAttributes;
         /// <summary>

@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// The type of operator that is overloaded by the <see cref="IBinaryOperatorCoercionMember"/>.
     /// </summary>
     public enum CoercibleBinaryOperators :
-        byte
+        sbyte
     {
         /// <summary>
         /// Addition binary operator, often '+'.

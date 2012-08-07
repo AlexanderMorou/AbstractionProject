@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #region IMetadataEntity Members
 
-        public IMetadataCollection CustomAttributes
+        public IMetadataCollection Metadata
         {
             get { throw new NotImplementedException(); }
         }

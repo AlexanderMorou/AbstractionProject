@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
             }
         }
 
-        protected override IModule CreateElementFrom(ICliMetadataModuleTableRow metadata, int index)
+        protected override IModule CreateElementFrom(int index, ICliMetadataModuleTableRow metadata)
         {
             return new CliModule(this.owner, metadata);
         }
@@ -77,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 
         #endregion
 
-        protected override IGeneralDeclarationUniqueIdentifier GetIdentifierAt(int index, ICliMetadataModuleTableRow metadata)
+        protected override IGeneralDeclarationUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataModuleTableRow metadata)
         {
             return AstIdentifier.GetDeclarationIdentifier(metadata.Name);
         }

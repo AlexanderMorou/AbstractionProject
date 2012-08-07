@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         internal static IEnumerable<IDeclaration> EmptyDeclarations = GetEmptyDeclarations();
         internal static IEnumerable<IGeneralDeclarationUniqueIdentifier> EmptyIdentifiers = GetEmptyIdentifiers();
         /// <summary>
-        /// Data member for <see cref="CustomAttributes"/>.
+        /// Data member for <see cref="Metadata"/>.
         /// </summary>
         private IMetadataCollection customAttributes;
         /// <summary>
@@ -609,7 +609,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="IMetadataCollection"/> associated to the
         /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
-        public IMetadataCollection CustomAttributes
+        public IMetadataCollection Metadata
         {
             get
             {
@@ -655,7 +655,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #endregion
 
         /// <summary>
-        /// Initializes the <see cref="CustomAttributes"/> for the current
+        /// Initializes the <see cref="Metadata"/> for the current
         /// <see cref="TypeBase{TIdentifier}"/>.
         /// </summary>
         /// <returns>A <see cref="IMetadataCollection"/> of
@@ -770,7 +770,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 this.CacheCheck();
                 var modifiedTypeKey = new TypeModifierSetEntry(modifiers);
                 if (!this.modifiedTypeCache.TryObtainConstruct(modifiedTypeKey, out result))
-                    this.modifiedTypeCache.RegisterConstruct(result = new ModifiedType(this, modifiers), modifiedTypeKey);
+                    this.modifiedTypeCache.RegisterConstruct(modifiedTypeKey, result = new ModifiedType(this, modifiers));
             }
             return result;
         }
@@ -779,12 +779,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region _IConstructCacheRegistrar<IModifiedType,ITypeModificationEntry> Members
 
-        void _IConstructCacheRegistrar<IModifiedType,ITypeModifierSetEntry>.RegisterConstruct(IModifiedType cachedType, ITypeModifierSetEntry cacheKey)
+        void _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.RegisterConstruct(ITypeModifierSetEntry cacheKey, IModifiedType cachedType)
         {
             lock (this.syncObject)
             {
                 this.CacheCheck();
-                this.modifiedTypeCache.RegisterConstruct(cachedType, cacheKey);
+                this.modifiedTypeCache.RegisterConstruct(cacheKey, cachedType);
             }
         }
 

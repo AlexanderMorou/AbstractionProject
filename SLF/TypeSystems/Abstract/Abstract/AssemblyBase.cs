@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         private INamespaceDictionary namespaces;
         /// <summary>
-        /// Data member for <see cref="CustomAttributes"/>.
+        /// Data member for <see cref="Metadata"/>.
         /// </summary>
         private IMetadataCollection attributes;
         /// <summary>
@@ -637,7 +637,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="IMetadataCollection"/> 
         /// associated to the <see cref="AssemblyBase"/>.
         /// </summary>
-        public IMetadataCollection CustomAttributes
+        public IMetadataCollection Metadata
         {
             get
             {
@@ -874,7 +874,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
         /// <summary>
-        /// Returns whether the <see cref="CustomAttributes"/> have been initialized
+        /// Returns whether the <see cref="Metadata"/> have been initialized
         /// for the <see cref="AssemblyBase"/>.
         /// </summary>
         protected bool AreCustomAttributesInitialized

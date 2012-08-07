@@ -7,7 +7,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     interface _IConstructCacheRegistrar<TType, TCacheKey>
     {
-        void RegisterConstruct(TType cachedType, TCacheKey cacheKey);
+        void RegisterConstruct(TCacheKey cacheKey, TType cachedType);
         bool ContainsConstruct(TCacheKey cacheKey);
         TType ObtainConstruct(TCacheKey cacheKey);
         void UnregisterConstruct(TCacheKey cacheKey);

@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 
         #region _IConstructCacheRegistrar<IModifiedType,ITypeModificationEntry> Members
 
-        public void RegisterConstruct(IModifiedType cachedType, ITypeModifierSetEntry cacheKey)
+        public void RegisterConstruct(ITypeModifierSetEntry cacheKey, IModifiedType cachedType)
         {
             lock (this.syncObject)
                 this.cacheDictionary.Add(cacheKey, cachedType);
