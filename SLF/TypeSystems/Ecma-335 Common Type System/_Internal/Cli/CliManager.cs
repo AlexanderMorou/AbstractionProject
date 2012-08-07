@@ -24,6 +24,7 @@ using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
+using System.Threading;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -36,9 +37,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private MultikeyedDictionary<CliAssembly, string, CliModule> moduleAssemblyIdentities = new MultikeyedDictionary<CliAssembly, string, CliModule>();
         private IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> typeKindCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, TypeKind>();
         private IDictionary<ICliMetadataTypeDefinitionTableRow, IType> typeCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, IType>();
-
+        private Dictionary<Type, IType> systemTypeCache = new Dictionary<Type, IType>();
         private IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> baseTypeKinds = new Dictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType>();
         private IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> refBaseTypeKinds = new Dictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType>();
+        private object cacheLock = new object();
+        private object cacheClearLock = new object();
         //"System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
 
         private ICliRuntimeEnvironmentInfo runtimeEnvironment;
@@ -57,12 +60,249 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(Type typeIdentity)
         {
-            //var assembly = this.ObtainAssemblyReference(typeIdentity.Assembly);
-            return this.ObtainTypeReference(this.ObtainAssemblyReference(typeIdentity.Assembly).UniqueIdentifier.GetTypeIdentifier(typeIdentity.Namespace, typeIdentity.FullName.Substring(typeIdentity.Namespace.Length + 1)));
+            lock (cacheClearLock)
+            {
+                /* *
+                 * Notes: First, remove byref
+                 *        Second, remove pointers 
+                 *        Third, remove arrays
+                 *        Fourth, remove 'nullable' status
+                 *        Finally, Breakdown generic-type
+                 * */
+                /*-------------------------------------------------------*\
+                |  Cache note: The breakdown stage cache points are to    |
+                |              re-establish the System.Type with the      |
+                |              staged built IType that results from       |
+                |              this call.  So each permutation            |
+                |              is available in cache for later use.       |
+                |---------------------------------------------------------|
+                |              This reduces further call overhead with    |
+                |              a light memory cost and single reference   |
+                |              per stage.                                 |
+                \*-------------------------------------------------------*/
+                Type t = typeIdentity;
+                if (t == null)
+                    throw new ArgumentNullException("type");
+                IType result;
+                lock (cacheLock)
+                    if (systemTypeCache.TryGetValue(t, out result))
+                        return result;
+                Type byRefType = null;
+                #region Type breakdown
+
+                #region ByReference
+                bool byRef = t.IsByRef;
+                if (byRef)
+                {
+                    byRefType = t;
+                    t = t.GetElementType();
+                }
+                #endregion
+
+                #region Array Breakdown
+
+                int arrayDepth = 0;
+                for (Type j = t; j.IsArray; j = j.GetElementType())
+                    arrayDepth++;
+                int[] ranks = new int[arrayDepth];
+                int rankCount = arrayDepth;
+                arrayDepth = 0;
+                /* *
+                 * Fill in the array ranks.
+                 * Ignore that it's reversed order since 
+                 * the type system by default is in reverse rank
+                 * order.
+                 * */
+                Stack<Type> arrayTypes = new Stack<Type>();
+                for (; t.IsArray; t = t.GetElementType())
+                {
+                    ranks[rankCount - ++arrayDepth] = t.GetArrayRank();
+                    arrayTypes.Push(t);
+                }
+                if (arrayTypes.Count == 0)
+                    arrayTypes = null;
+                #endregion
+
+                #region Pointers
+                int ptrThreshold = 0;
+                Stack<Type> pointerTypes = new Stack<Type>();
+                while (t.IsPointer)
+                {
+                    pointerTypes.Push(t);
+                    t = t.GetElementType();
+                    ptrThreshold++;
+                }
+                if (pointerTypes.Count == 0)
+                    pointerTypes = null;
+                #endregion
+
+                #region Nullable breakdown
+                bool nullable = false;
+                Type nullableType = null;
+                if (t.IsGenericType && (!t.IsGenericTypeDefinition && t.GetGenericTypeDefinition() == typeof(Nullable<>)))
+                {
+                    nullableType = t;
+                    nullable = true;
+                    t = t.GetGenericArguments()[0];
+                }
+                #endregion
+
+                #region Closed GenericType breakdown
+                ITypeCollection typeParameters = null;
+                Type closedGenericType = null;
+                if (t.IsGenericType && !t.IsGenericTypeDefinition)
+                {
+                    closedGenericType = t;
+                    typeParameters = new LockedTypeCollection(from gArg in t.GetGenericArguments()
+                                                              select this.ObtainTypeReference(gArg));
+                    //typeParameters = t.GetGenericArguments().ToCollection(this);
+                    t = t.GetGenericTypeDefinition();
+                }
+                #endregion
+
+                #endregion
+
+                #region Initial type instantiation/retrieval.
+                bool cacheLockEntered = false;
+                Monitor.Enter(cacheLock, ref cacheLockEntered);
+                if (systemTypeCache.ContainsKey(t))
+                {
+                    result = systemTypeCache[t];
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                }
+                else if (t.IsGenericParameter)
+                {
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                    #region GenericParameter-Parameter resolution.
+                    bool positiveMatch = true;
+                    if (t.DeclaringMethod == null && t.DeclaringType != null)
+                    {
+                        IGenericType lookupPoint = (IGenericType) this.ObtainTypeReference(t.DeclaringType);
+                        if (!(t.GenericParameterPosition < 0 || t.GenericParameterPosition >= lookupPoint.GenericParameters.Count))
+                        {
+                            result = lookupPoint.GenericParameters[t.GenericParameterPosition];
+                            positiveMatch = true;
+                        }
+                    }
+                    else if (t.DeclaringMethod != null)
+                    {
+                        IType lookupAid = this.ObtainTypeReference(t.DeclaringMethod.DeclaringType);
+
+                    }
+                    #endregion
+                positiveExit:
+                    if (!positiveMatch)
+                        return null;
+                }
+                else if (t.IsEnum)
+                {
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                    result = ObtainLocalizedTypeReference(t, TypeKind.Enumeration);
+                }
+                else if (t.IsSubclassOf(typeof(Delegate)) && t != typeof(MulticastDelegate))
+                {
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                    result = ObtainLocalizedTypeReference(t, TypeKind.Delegate);
+                    //result = new CompiledDelegateType(t, this);
+                }
+                else if (t.IsClass)
+                {
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                    result = ObtainLocalizedTypeReference(t, TypeKind.Class);
+                }
+                else if (t.IsValueType ||
+                         t == typeof(Enum))
+                {
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                    result = ObtainLocalizedTypeReference(t, TypeKind.Struct);
+                }
+                else if (t.IsInterface)
+                {
+                    if (cacheLockEntered)
+                        Monitor.Exit(cacheLock);
+                    result = ObtainLocalizedTypeReference(t, TypeKind.Interface);
+                }
+                #endregion
+
+                CacheAdd(t, result);
+
+                #region GenericParameter production
+                IGenericType gType;
+                if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType) (result))).IsGenericDefinition)
+                {
+                    result = gType.MakeGenericClosure(typeParameters);
+                    CacheAdd(closedGenericType, result);
+                }
+                if (nullable)
+                    CacheAdd(nullableType, result = result.MakeNullable());
+                if (ptrThreshold > 0)
+                    while (ptrThreshold-- > 0)
+                        CacheAdd(pointerTypes.Pop(), result = result.MakePointer());
+                if (arrayTypes != null)
+                {
+                    for (int i = 0; i < arrayDepth; i++)
+                    {
+                        var arrayType = arrayTypes.Pop();
+                        if (ranks[i] == 1)
+                        {
+                            //Make sure it's a vector array.
+                            if (arrayType.GetElementType().MakeArrayType() == arrayType)
+                                CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                            else
+                                /* *
+                                 * Single-dimensional arrays which are not equivalent to the 
+                                 * above 'make vector array' result are not supported
+                                 * as actual types of elements.
+                                 * */
+                                CacheAdd(arrayType, result = result.MakeArray(new int[] { 0 }));
+                        }
+                        else
+                            CacheAdd(arrayType, result = result.MakeArray(ranks[i]));
+                    }
+                }
+                if (byRef)
+                    CacheAdd(byRefType, result = result.MakeByReference());
+                #endregion
+                return result;
+            }
+        }
+
+        private IType ObtainLocalizedTypeReference(Type baseElementType, TypeKind typeKind)
+        {
+            var typeHandle = (uint)baseElementType.MetadataToken;
+            var typeIndex = typeHandle & 0x00FFFFFF;
+            CliMetadataTableKinds typeTable = (CliMetadataTableKinds) ((ulong)1 << (int)((typeHandle & 0xFF000000U) >> 24));
+            if (typeTable == CliMetadataTableKinds.GenericParameter)
+            {
+
+            }
+            else if (typeTable == CliMetadataTableKinds.TypeDefinition)
+            {
+
+            }
+            throw new NotSupportedException();
         }
 
         //#endregion
 
+        private void CacheAdd(Type t, IType result)
+        {
+            lock (cacheLock)
+                if (!systemTypeCache.ContainsKey(t))
+                {
+#if DEBUG
+                    if (!t.HasElementType)
+                        Debug.WriteLine("Cached {0}.", t);
+#endif
+                    systemTypeCache.Add(t, result);
+                }
+        }
         //#region ITypeIdentityManager Members
 
         public bool IsMetadatumInheritable(IType metadatumType)

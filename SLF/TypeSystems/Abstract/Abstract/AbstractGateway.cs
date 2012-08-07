@@ -95,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public static bool StandardIsDefined(this IMetadataEntity target, IType metadatumType)
         {
-            foreach (IMetadatum inst in target.CustomAttributes)
+            foreach (IMetadatum inst in target.Metadata)
                 if (metadatumType.IsAssignableFrom(inst.Type))
                     return true;
             return false;

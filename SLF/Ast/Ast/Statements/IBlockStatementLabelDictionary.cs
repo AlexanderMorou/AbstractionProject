@@ -14,5 +14,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
     public interface IBlockStatementLabelDictionary :
         IReadOnlyDictionary<string, ILabelStatement>
     {
+
     }
 }

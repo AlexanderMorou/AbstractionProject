@@ -170,7 +170,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IMetadataEntity Members
 
-        IMetadataCollection IMetadataEntity.CustomAttributes
+        IMetadataCollection IMetadataEntity.Metadata
         {
             get
             {

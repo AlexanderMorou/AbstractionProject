@@ -11,7 +11,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal class CliMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent> :
         CliMetadataDrivenDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, ICliMetadataMethodDefinitionTableRow, TSignature>,
-        IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>
+        IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>,
+        IMethodSignatureMemberDictionary
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignature :
@@ -20,108 +21,60 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TSignatureParent :
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
-        private ICliMetadataTypeDefinitionTableRow ownerInfo;
+        private TSignatureParent parent;
 
-        internal CliMethodSignatureMemberDictionary(IReadOnlyCollection<ICliMetadataMethodDefinitionTableRow> methods)
+        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, IReadOnlyCollection<ICliMetadataMethodDefinitionTableRow> methods)
             : base(methods)
         {
+            this.parent = parent;
         }
 
-        private static int ExtractOwnerCount(ICliMetadataTypeDefinitionTableRow ownerInfo)
-        {
-            return ownerInfo.Methods.Count;
-        }
-
-        protected override ICliMetadataMethodDefinitionTableRow GetMetadataAt(int index)
-        {
-            return this.ownerInfo.Methods[index];
-        }
-
-        protected override TSignature CreateElementFrom(ICliMetadataMethodDefinitionTableRow metadata, int index)
+        protected override TSignature CreateElementFrom(int index, ICliMetadataMethodDefinitionTableRow metadata)
         {
             throw new NotImplementedException();
         }
 
-        #region IMethodSignatureMemberDictionary<TSignatureParameter,TSignature,TSignatureParent> Members
 
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region ISignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier,TSignature,TSignatureParameter,TSignatureParent> Members
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, ITypeCollectionBase search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(ITypeCollectionBase search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(bool strict, params IType[] search)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(params IType[] search)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-        #region IMemberDictionary<TSignatureParent,IGeneralGenericSignatureMemberUniqueIdentifier,TSignature> Members
+        //#region IMemberDictionary<TSignatureParent,IGeneralGenericSignatureMemberUniqueIdentifier,TSignature> Members
 
         public TSignatureParent Parent
         {
-            get { return (TSignatureParent) (object) ownerInfo; }
+            get { return parent; }
         }
 
-        #endregion
+        //#endregion
 
-        protected override IGeneralGenericSignatureMemberUniqueIdentifier GetIdentifierAt(int index, ICliMetadataMethodDefinitionTableRow metadata)
+        protected override IGeneralGenericSignatureMemberUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataMethodDefinitionTableRow metadata)
         {
             throw new NotImplementedException();
         }
+
+        //#region IMethodSignatureMemberDictionary Members
+
+        int IMethodSignatureMemberDictionary.IndexOf(IMethodSignatureMember method)
+        {
+            if (method is TSignature)
+                return this.IndexOf((TSignature) method);
+            return -1;
+        }
+
+        //#endregion
+
+
+        //#region IMemberDictionary Members
+
+        IMemberParent IMemberDictionary.Parent
+        {
+            get { return this.Parent; }
+        }
+
+        public int IndexOf(IMember member)
+        {
+            if (member is TSignature)
+                return this.IndexOf((TSignature) member);
+            return -1;
+        }
+
+        //#endregion
     }
 }

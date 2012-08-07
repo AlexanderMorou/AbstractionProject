@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IntermediateAssembly<TLanguage, TProvider, TAssembly>
     {
         /// <summary>
-        /// Data member for <see cref="CustomAttributes"/>.
+        /// Data member for <see cref="Metadata"/>.
         /// </summary>
         private IMetadataDefinitionCollection attributes;
         /// <summary>

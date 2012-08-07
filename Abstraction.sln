@@ -16,10 +16,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypeSystem Abstract", "SLF\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supplementary Projects", "Supplementary Projects", "{68E33B8D-8D5C-436B-881C-4EC52CC7723D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bug Test Application", "Supplementary Projects\Bug Test Application\Bug Test Application.csproj", "{6F404D32-4996-47B5-BADA-33BB8DD37160}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualBasic.NET", "SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj", "{9C89419D-F2A1-4882-8408-6708A038E025}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Metadata", "Metadata", "{AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Metadata Library", "SLF\Metadata\Metadata Library\Metadata Library.csproj", "{A94A88DA-2500-4372-A433-A07AC3BFA05F}"
@@ -34,15 +30,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{FBCCA75F-27CA-
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compilers", "Compilers", "{B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract Syntax Tree", "SLF\Ast\Abstract Syntax Tree.csproj", "{02607DC2-E98B-43AE-B906-FE151A70A68D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecma-335 Common Type System", "SLF\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj", "{D455D4FF-54FD-431E-BD27-43DA130A0FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli² Type System Test", "Supplementary Projects\Cli² Type System Test\Cli² Type System Test.csproj", "{54398E20-2E0F-4E98-8670-69C89B346CB0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli Type System Test", "Supplementary Projects\Cli Type System Test\Cli Type System Test.csproj", "{54398E20-2E0F-4E98-8670-69C89B346CB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract Syntax Tree", "SLF\Ast\Abstract Syntax Tree.csproj", "{02607DC2-E98B-43AE-B906-FE151A70A68D}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 12
+		SccNumberOfProjects = 10
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
 		SccLocalPath0 = .
@@ -50,46 +46,38 @@ Global
 		SccProjectTopLevelParentUniqueName1 = Abstraction.sln
 		SccProjectName1 = SLF/TypeSystems/Abstract
 		SccLocalPath1 = SLF\\TypeSystems\\Abstract
-		SccProjectUniqueName2 = Supplementary\u0020Projects\\Bug\u0020Test\u0020Application\\Bug\u0020Test\u0020Application.csproj
+		SccProjectUniqueName2 = SLF\\Metadata\\Metadata\u0020Library\\Metadata\u0020Library.csproj
 		SccProjectTopLevelParentUniqueName2 = Abstraction.sln
-		SccProjectName2 = Supplementary\u0020Projects/Bug\u0020Test\u0020Application
-		SccLocalPath2 = Supplementary\u0020Projects\\Bug\u0020Test\u0020Application
-		SccProjectUniqueName3 = SLF\\Languages\\VisualBasic.NET\\VisualBasic.NET.csproj
+		SccProjectName2 = SLF/Metadata/Metadata\u0020Library
+		SccLocalPath2 = SLF\\Metadata\\Metadata\u0020Library
+		SccProjectUniqueName3 = Utilities\\FiniteAutomation\\Finite\u0020Automation.csproj
 		SccProjectTopLevelParentUniqueName3 = Abstraction.sln
-		SccProjectName3 = SLF/Languages/VisualBasic.NET
-		SccLocalPath3 = SLF\\Languages\\VisualBasic.NET
-		SccProjectUniqueName4 = SLF\\Metadata\\Metadata\u0020Library\\Metadata\u0020Library.csproj
+		SccProjectName3 = Utilities/FiniteAutomation
+		SccLocalPath3 = Utilities\\FiniteAutomation
+		SccProjectUniqueName4 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
 		SccProjectTopLevelParentUniqueName4 = Abstraction.sln
-		SccProjectName4 = SLF/Metadata/Metadata\u0020Library
-		SccLocalPath4 = SLF\\Metadata\\Metadata\u0020Library
-		SccProjectUniqueName5 = Utilities\\FiniteAutomation\\Finite\u0020Automation.csproj
+		SccProjectName4 = UI/Ownerdrawn\u0020Controls
+		SccLocalPath4 = UI\\Ownerdrawn\u0020Controls
+		SccProjectUniqueName5 = SLF\\Compilers\\Abstraction\u0020Compiler\u0020Services\\Abstraction\u0020Compiler\u0020Services.csproj
 		SccProjectTopLevelParentUniqueName5 = Abstraction.sln
-		SccProjectName5 = Utilities/FiniteAutomation
-		SccLocalPath5 = Utilities\\FiniteAutomation
-		SccProjectUniqueName6 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
+		SccProjectName5 = SLF/Compilers/Abstraction\u0020Compiler\u0020Services
+		SccLocalPath5 = SLF\\Compilers\\Abstraction\u0020Compiler\u0020Services
+		SccProjectUniqueName6 = Utilities\\Common\\Common\u0020Utilities.csproj
 		SccProjectTopLevelParentUniqueName6 = Abstraction.sln
-		SccProjectName6 = UI/Ownerdrawn\u0020Controls
-		SccLocalPath6 = UI\\Ownerdrawn\u0020Controls
-		SccProjectUniqueName7 = SLF\\Compilers\\Abstraction\u0020Compiler\u0020Services\\Abstraction\u0020Compiler\u0020Services.csproj
+		SccProjectName6 = Utilities/Common
+		SccLocalPath6 = Utilities\\Common
+		SccProjectUniqueName7 = SLF\\TypeSystems\\Ecma-335\u0020Common\u0020Type\u0020System\\Ecma-335\u0020Common\u0020Type\u0020System.csproj
 		SccProjectTopLevelParentUniqueName7 = Abstraction.sln
-		SccProjectName7 = SLF/Compilers/Abstraction\u0020Compiler\u0020Services
-		SccLocalPath7 = SLF\\Compilers\\Abstraction\u0020Compiler\u0020Services
-		SccProjectUniqueName8 = SLF\\Ast\\Abstract\u0020Syntax\u0020Tree.csproj
+		SccProjectName7 = SLF/TypeSystems/Ecma-335\u0020Common\u0020Type\u0020System
+		SccLocalPath7 = SLF\\TypeSystems\\Ecma-335\u0020Common\u0020Type\u0020System
+		SccProjectUniqueName8 = Supplementary\u0020Projects\\Cli\u0020Type\u0020System\u0020Test\\Cli\u0020Type\u0020System\u0020Test.csproj
 		SccProjectTopLevelParentUniqueName8 = Abstraction.sln
-		SccProjectName8 = SLF/Ast
-		SccLocalPath8 = SLF\\Ast
-		SccProjectUniqueName9 = Utilities\\Common\\Common\u0020Utilities.csproj
+		SccProjectName8 = Supplementary\u0020Projects/Cli\u0020Type\u0020System\u0020Test
+		SccLocalPath8 = Supplementary\u0020Projects\\Cli\u0020Type\u0020System\u0020Test
+		SccProjectUniqueName9 = SLF\\Ast\\Abstract\u0020Syntax\u0020Tree.csproj
 		SccProjectTopLevelParentUniqueName9 = Abstraction.sln
-		SccProjectName9 = Utilities/Common
-		SccLocalPath9 = Utilities\\Common
-		SccProjectUniqueName10 = SLF\\TypeSystems\\Ecma-335\u0020Common\u0020Type\u0020System\\Ecma-335\u0020Common\u0020Type\u0020System.csproj
-		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
-		SccProjectName10 = SLF/TypeSystems/Ecma-335\u0020Common\u0020Type\u0020System
-		SccLocalPath10 = SLF\\TypeSystems\\Ecma-335\u0020Common\u0020Type\u0020System
-		SccProjectUniqueName11 = Supplementary\u0020Projects\\Cli²\u0020Type\u0020System\u0020Test\\Cli²\u0020Type\u0020System\u0020Test.csproj
-		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
-		SccProjectName11 = Supplementary\u0020Projects/Cli²\u0020Type\u0020System\u0020Test
-		SccLocalPath11 = Supplementary\u0020Projects\\Cli²\u0020Type\u0020System\u0020Test
+		SccProjectName9 = SLF/Ast
+		SccLocalPath9 = SLF\\Ast
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -123,22 +111,6 @@ Global
 		{161EAA8C-20C6-4B82-925A-4B8B112910AB}.Release|x64.Build.0 = Release|x64
 		{161EAA8C-20C6-4B82-925A-4B8B112910AB}.Release|x86.ActiveCfg = Release|x86
 		{161EAA8C-20C6-4B82-925A-4B8B112910AB}.Release|x86.Build.0 = Release|x86
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Debug|x64.ActiveCfg = Debug|x64
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Debug|x64.Build.0 = Debug|x64
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Debug|x86.ActiveCfg = Debug|x86
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Debug|x86.Build.0 = Debug|x86
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Release|x64.ActiveCfg = Release|x64
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Release|x64.Build.0 = Release|x64
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Release|x86.ActiveCfg = Release|x86
-		{6F404D32-4996-47B5-BADA-33BB8DD37160}.Release|x86.Build.0 = Release|x86
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x64.ActiveCfg = Debug|x64
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x64.Build.0 = Debug|x64
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x86.ActiveCfg = Debug|x86
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x86.Build.0 = Debug|x86
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x64.ActiveCfg = Release|x64
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x64.Build.0 = Release|x64
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.ActiveCfg = Release|x86
-		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.Build.0 = Release|x86
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F}.Debug|x64.ActiveCfg = Debug|x64
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F}.Debug|x64.Build.0 = Debug|x64
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F}.Debug|x86.ActiveCfg = Debug|x86
@@ -163,14 +135,6 @@ Global
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}.Release|x64.Build.0 = Release|x64
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}.Release|x86.ActiveCfg = Release|x86
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}.Release|x86.Build.0 = Release|x86
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x64.ActiveCfg = Debug|x64
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x64.Build.0 = Debug|x64
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x86.ActiveCfg = Debug|x86
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x86.Build.0 = Debug|x86
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x64.ActiveCfg = Release|x64
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x64.Build.0 = Release|x64
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x86.ActiveCfg = Release|x86
-		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x86.Build.0 = Release|x86
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Debug|x64.ActiveCfg = Debug|x64
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Debug|x64.Build.0 = Debug|x64
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Debug|x86.ActiveCfg = Debug|x86
@@ -187,6 +151,14 @@ Global
 		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x64.Build.0 = Release|x64
 		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x86.ActiveCfg = Release|x86
 		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x86.Build.0 = Release|x86
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x64.ActiveCfg = Debug|x64
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x64.Build.0 = Debug|x64
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x86.ActiveCfg = Debug|x86
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x86.Build.0 = Debug|x86
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x64.ActiveCfg = Release|x64
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x64.Build.0 = Release|x64
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x86.ActiveCfg = Release|x86
+		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,11 +172,9 @@ Global
 		{161EAA8C-20C6-4B82-925A-4B8B112910AB} = {C83E49F5-9884-4A95-BB30-E3138DC4FF86}
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA} = {C83E49F5-9884-4A95-BB30-E3138DC4FF86}
 		{02607DC2-E98B-43AE-B906-FE151A70A68D} = {460F9AF5-9236-4661-B1AD-42E5CB44CABD}
-		{9C89419D-F2A1-4882-8408-6708A038E025} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
-		{6F404D32-4996-47B5-BADA-33BB8DD37160} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{54398E20-2E0F-4E98-8670-69C89B346CB0} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}

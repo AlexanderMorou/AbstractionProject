@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Always)]
     public partial class IntermediateDelegateType :
-        IntermediateGenericTypeBase<IDelegateUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
+        IntermediateGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
         IIntermediateDelegateType
     {
         private IntermediateFullMemberDictionary members;
@@ -333,11 +333,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return TypeBase<IDelegateUniqueIdentifier>.EmptyIdentifiers;
+                return TypeBase<IGeneralGenericTypeUniqueIdentifier>.EmptyIdentifiers;
             }
         }
 
-        protected override IDelegateUniqueIdentifier OnGetUniqueIdentifier()
+        protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
             if (this.TypeParametersInitialized)
                 if (this.AreParametersInitialized)

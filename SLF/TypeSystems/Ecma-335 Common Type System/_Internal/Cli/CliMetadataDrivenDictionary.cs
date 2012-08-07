@@ -77,9 +77,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.declarationData = new TDeclaration[collection.Count];
         }
 
-        protected abstract TMetadata GetMetadataAt(int index);
+        protected virtual TMetadata GetMetadataAt(int index)
+        {
+            return default(TMetadata);
+        }
 
-        protected abstract TDeclaration CreateElementFrom(TMetadata metadata, int index);
+        protected abstract TDeclaration CreateElementFrom(int index, TMetadata metadata);
 
         private void CheckItemAt(int index)
         {
@@ -89,9 +92,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (this.declarationData[index] == null)
                 {
                     if (this.state == METADATA_SOURCE_ARRAY)
-                        this.declarationData[index] = this.CreateElementFrom(this.metadataSource[index], index);
+                        this.declarationData[index] = this.CreateElementFrom(index, this.metadataSource[index]);
                     else if (this.state == METADATA_SOURCE_COLLECTION)
-                        this.declarationData[index] = this.CreateElementFrom(this.metadataCollection[index], index);
+                        this.declarationData[index] = this.CreateElementFrom(index, this.metadataCollection[index]);
                     else
                         throw new InvalidOperationException();
                 }
@@ -104,13 +107,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 CheckMetadataAt(index);
                 if (this.state == METADATA_SOURCE_ARRAY)
-                    return this.GetIdentifierAt(index, this.metadataSource[index]);
+                    return this.GetIdentifierFrom(index, this.metadataSource[index]);
                 else
-                    return this.GetIdentifierAt(index, this.metadataCollection[index]);
+                    return this.GetIdentifierFrom(index, this.metadataCollection[index]);
             }
         }
 
-        protected abstract TDeclarationIdentifier GetIdentifierAt(int index, TMetadata metadata);
+        protected abstract TDeclarationIdentifier GetIdentifierFrom(int index, TMetadata metadata);
 
         private void CheckMetadataAt(int index)
         {

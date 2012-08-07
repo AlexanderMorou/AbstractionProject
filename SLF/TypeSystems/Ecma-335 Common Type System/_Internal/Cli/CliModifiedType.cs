@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IMetadataCollection InitializeCustomAttributes()
         {
-            return this.original.CustomAttributes;
+            return this.original.Metadata;
         }
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers

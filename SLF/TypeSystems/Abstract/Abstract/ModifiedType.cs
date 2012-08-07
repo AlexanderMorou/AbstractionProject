@@ -127,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         protected override IMetadataCollection InitializeCustomAttributes()
         {
-            return this.original.CustomAttributes;
+            return this.original.Metadata;
         }
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers

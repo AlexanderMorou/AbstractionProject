@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="IMetadataCollection"/> 
         /// associated to the <see cref="IMetadataEntity"/>.
         /// </summary>
-        IMetadataCollection CustomAttributes { get; }
+        IMetadataCollection Metadata { get; }
         /// <summary>
         /// Determines whether the <paramref name="metadatumType"/> 
         /// is defined on the current 

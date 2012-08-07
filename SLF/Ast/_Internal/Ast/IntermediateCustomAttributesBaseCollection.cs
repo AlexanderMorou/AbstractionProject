@@ -133,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 }
                 else if (current is ICompiledType)
                 {
-                    foreach (var item in current.CustomAttributes)
+                    foreach (var item in current.Metadata)
                         if (CheckAttribute(noMultipleEncounters, noMultipleEncountersInter, attrUType, item))
                             yield return item;
                     /* *
@@ -153,17 +153,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
          * Determines whether an attribute, based upon the current hierarchy structure of the 
          * parent, should be included in the series.
          * */
-        private bool CheckAttribute(HashList<ICompiledType> noMultipleEncounters, HashList<IIntermediateType> noMultipleEncountersInter, ICompiledClassType attrUType, IMetadatum item)
+        private bool CheckAttribute(HashList<ICliType> noMultipleEncounters, HashList<IIntermediateType> noMultipleEncountersInter, ICliType attrUType, IMetadatum item)
         {
             ICompiledType k = null;
-            if (item.Type is ICompiledType && (!(noMultipleEncounters.Contains(k = (ICompiledType)item.Type))))
+            if (item.Type is ICliType && (!(noMultipleEncounters.Contains(k = (ICompiledType) item.Type))))
             {
                 /* *
                  * If it's a compiled attribute, this is eaiser.
                  * Use the method compiled classes uses to determine attribute usage
                  * and use that to determine inclusion.
                  * */
-                MetadataUsage kUsage = k.UnderlyingSystemType.GetAttributeUsage();
+                MetadatumUsage kUsage = k.UnderlyingSystemType.GetAttributeUsage();
                 if (!kUsage.Inherited)
                     return false;
                 if (!kUsage.AllowMultiple)
@@ -202,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                              * */
                             break;
                         }
-                    MetadataUsage lUsage = new MetadataUsage((attrTypeIsIntermediate ? (attrTypeI.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute) : (attrType.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute)) as AttributeUsageAttribute);
+                    MetadataUsage lUsage = new MetadataUsage((attrTypeIsIntermediate ? (attrTypeI.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute) : (attrType.Metadata[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute)) as AttributeUsageAttribute);
                     if (!lUsage.Inherited)
                         return false;
                     if (!lUsage.AllowMultiple)

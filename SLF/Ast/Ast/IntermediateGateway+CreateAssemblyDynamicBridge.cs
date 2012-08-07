@@ -9,7 +9,6 @@ using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Languages;
 #if TYPESYSTEM_CLI
 using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Slf.Cli.Members;
 #endif
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |

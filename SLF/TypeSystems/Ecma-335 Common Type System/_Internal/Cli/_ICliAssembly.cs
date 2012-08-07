@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal interface _ICliAssembly :
+        _ICliTypeParent,
         ICliAssembly
     {
         ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name);

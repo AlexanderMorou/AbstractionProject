@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
             }
 
-            protected override IMethodSignatureParameterMember<TSignature, TSignatureParent> CreateElementFrom(ICliMetadataParameterTableRow metadata, int index)
+            protected override IMethodSignatureParameterMember<TSignature, TSignatureParent> CreateElementFrom(int index, ICliMetadataParameterTableRow metadata)
             {
                 return new ParameterMember(metadata, this.Parent, index);
             }

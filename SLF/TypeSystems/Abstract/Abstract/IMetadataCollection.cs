@@ -10,14 +10,14 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
-    /// Provides a series of custom attributes on a <see cref="IMetadataEntity"/>.
+    /// Provides a series of metadatum entries on a <see cref="IMetadataEntity"/>.
     /// </summary>
     public interface IMetadataCollection :
         IReadOnlyCollection<IMetadatum>,
         IDisposable
     {
         /// <summary>
-        /// Returns whether an attribute of the
+        /// Returns whether a metadatum of the
         /// <paramref name="metadatumType"/> provided is in the 
         /// <see cref="IMetadataCollection"/>.
         /// </summary>

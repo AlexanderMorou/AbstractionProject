@@ -337,9 +337,12 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             var assem = clim.ObtainAssemblyReference(CliCommon.mscorlibIdentifierv2);
             var clId = AstIdentifier.GetAssemblyIdentifier("System.EnterpriseServices", v40, cultureCommon, microsoftAltKey);
             var doubleModuleLib = clim.ObtainAssemblyReference(clId);
+            var ded = clim.ObtainTypeReference(typeof(Func<,,>).GetGenericArguments()[0]);
+            //var t = Type.GetType("System.EnterpriseServices.Thunk.COMAdminTxIsolationLevelOptions, System.EnterpriseServices, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
             Console.WriteLine(doubleModuleLib.FrameworkVersion);
             var nsId = AstIdentifier.GetDeclarationIdentifier("System.EnterpriseServices");
             var de = clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier).FindType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2));
+            var foundType = doubleModuleLib.FindType("System.EnterpriseServices.Thunk", "COMAdminTxIsolationLevelOptions");
             var filteredTypes = doubleModuleLib.Namespaces[nsId].Classes.Keys;
             foreach (var m in doubleModuleLib.Namespaces[nsId].Types.Keys)
                 m.GetHashCode();

@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
@@ -24,44 +25,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IParameterMember<TParent>
     {
         private _ICliManager manager;
-        private int methodIndex;
-        private uint parameterStartIndex = 0;
-        private ICliMetadataRoot metadataRoot;
         private TParent parent;
-
+        private ICliMetadataMethodSignature signature;
         public CliParameterMemberDictionary(_ICliManager manager, int methodIndex, ICliMetadataRoot metadataRoot)
-            : base(DeriveCount(methodIndex, metadataRoot))
         {
-            this.metadataRoot = metadataRoot;
-            this.methodIndex = methodIndex;
             this.manager = manager;
             var method = metadataRoot.TableStream.MethodDefinitionTable[methodIndex];
-            this.parameterStartIndex = method.ParameterStartIndex;
+            this.signature = method.Signature;
+            this.Initialize(method.Parameters);
         }
 
-        private static int DeriveCount(int methodIndex, ICliMetadataRoot metadataRoot)
-        {
-            if (methodIndex == 0)
-                return 0;
-            if (metadataRoot.TableStream.MethodDefinitionTable != null)
-            {
-                var method = metadataRoot.TableStream.MethodDefinitionTable[methodIndex];
-                var parameterStartIndex = method.ParameterStartIndex;
-                var nextMethod = metadataRoot.TableStream.MethodDefinitionTable[methodIndex + 1];
-                uint parameterCount;
-                if (nextMethod == null)
-                    parameterCount = (uint) (metadataRoot.TableStream.ParameterTable.Count - parameterStartIndex);
-                else
-                    parameterCount = nextMethod.ParameterStartIndex - parameterStartIndex;
-                return (int)parameterCount;
-            }
-            return 0;
-        }
-
-        protected override ICliMetadataParameterTableRow GetMetadataAt(int index)
-        {
-            return this.metadataRoot.TableStream.ParameterTable[(int)(this.parameterStartIndex + index)];
-        }
+        //private static int DeriveCount(int methodIndex, ICliMetadataRoot metadataRoot)
+        //{
+        //    if (methodIndex == 0)
+        //        return 0;
+        //    if (metadataRoot.TableStream.MethodDefinitionTable != null)
+        //    {
+        //        var method = metadataRoot.TableStream.MethodDefinitionTable[methodIndex];
+        //        var parameterStartIndex = method.ParameterStartIndex;
+        //        var nextMethod = metadataRoot.TableStream.MethodDefinitionTable[methodIndex + 1];
+        //        uint parameterCount;
+        //        if (nextMethod == null)
+        //            parameterCount = (uint) (metadataRoot.TableStream.ParameterTable.Count - parameterStartIndex);
+        //        else
+        //            parameterCount = nextMethod.ParameterStartIndex - parameterStartIndex;
+        //        return (int)parameterCount;
+        //    }
+        //    return 0;
+        //}
 
         /// <summary>
         /// Returns the <typeparamref name="TParent"/>
@@ -78,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public ITypeCollectionBase ParameterTypes
         {
-            get { return new CliSignatureTypeCollection(this.manager, this.metadataRoot.TableStream.MethodDefinitionTable[methodIndex].Signature); }
+            get { return new CliSignatureTypeCollection(this.manager, this.signature); }
         }
 
         #endregion
@@ -99,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        protected override IGeneralMemberUniqueIdentifier GetIdentifierAt(int index, ICliMetadataParameterTableRow metadata)
+        protected override IGeneralMemberUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataParameterTableRow metadata)
         {
             return AstIdentifier.GetMemberIdentifier(metadata.Name);
         }

@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 {
     [DebuggerDisplay("Delegates: {Count}")]
     public class IntermediateDelegateTypeDictionary :
-        IntermediateGenericTypeDictionary<IDelegateUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
+        IntermediateGenericTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IDelegateType, IIntermediateDelegateType>,
         IIntermediateDelegateTypeDictionary
     {
         public IntermediateDelegateTypeDictionary(IIntermediateTypeParent parent, IntermediateFullTypeDictionary master)

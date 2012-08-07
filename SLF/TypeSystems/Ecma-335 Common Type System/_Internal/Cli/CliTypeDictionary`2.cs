@@ -41,12 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.filterKind = filterKind;
         }
 
-        protected override int GetMetadataAt(int index)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override TType CreateElementFrom(int metadata, int index)
+        protected override TType CreateElementFrom(int index, int metadata)
         {
             return (TType)this.master.Values[metadata].Entry;
         }
@@ -92,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        protected override TIdentifier GetIdentifierAt(int index, int metadata)
+        protected override TIdentifier GetIdentifierFrom(int index, int metadata)
         {
             return this.filteredIdentifiers[index];
         }
