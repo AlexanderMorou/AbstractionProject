@@ -17,8 +17,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         private ICliMetadataModuleReferenceTableRow[] modules;
 
         public CliModuleDictionary(CliAssembly owner)
-            : base(GetModuleCount(owner))
+            : base()
         {
+            this.modules = GetReferenceModules(owner);
+            base.Initialize(this.modules.Length + 1);
             this.owner = owner;
         }
 

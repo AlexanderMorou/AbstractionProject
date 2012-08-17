@@ -41,12 +41,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="ICliMetadataAssemblyTableRow"/> from which the
         /// <see cref="ICliAssembly"/> is derived.
         /// </summary>
-        ICliMetadataAssemblyTableRow Metadata { get; }
+        ICliMetadataAssemblyTableRow MetadataEntry { get; }
         /// <summary>
         /// Returns a <see cref="IReadOnlyDictionary{T}"/> of <see cref="ICliMetadataAssemblyRefTableRow"/>
         /// to <see cref="ICliAssembly"/> instances that are referenced by the current <see cref="ICliAssembly"/>.
         /// </summary>
-        IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> References { get; }
+        IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> CliReferences { get; }
 
         /// <summary>
         /// Returns the <see cref="CliFrameworkVersion"/> which the <see cref="ICliAssembly"/>

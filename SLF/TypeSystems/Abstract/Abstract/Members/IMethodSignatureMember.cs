@@ -108,6 +108,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// </summary>
         IType ReturnType { get; }
         /// <summary>
+        /// Returns the <see cref="IMetadataCollection"/> which represents
+        /// the <see cref="IMetadatum"/> elements defined upon the return type
+        /// of the <see cref="IMethodSignatureMember"/>.
+        /// </summary>
+        IMetadataCollection ReturnTypeMetadata { get; }
+        /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember"/> generic variant.
         /// </summary>

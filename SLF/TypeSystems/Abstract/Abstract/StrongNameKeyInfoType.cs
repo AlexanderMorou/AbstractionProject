@@ -12,11 +12,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public enum StrongNameKeyInfoType
     {
         /// <summary>
-        /// The key information represents publicKey about a public key.
+        /// The key information represents data about a public key.
         /// </summary>
         Public,
         /// <summary>
-        /// The key information represents publicKey about a private key.
+        /// The key information represents data about a private key.
         /// </summary>
         Private
     }

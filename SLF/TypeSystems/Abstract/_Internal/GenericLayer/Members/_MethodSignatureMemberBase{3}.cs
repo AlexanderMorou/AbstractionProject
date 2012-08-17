@@ -200,9 +200,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get
             {
                 if (this.IsGenericConstruct)
-                    return AstIdentifier.GenericSignature(this.Name, this.Original.TypeParameters.Count, this.Parameters.ParameterTypes);
+                    return AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Original.TypeParameters.Count, this.Parameters.ParameterTypes);
                 else
-                    return AstIdentifier.GenericSignature(this.Name, 0, this.Parameters.ParameterTypes);
+                    return AstIdentifier.GetGenericSignatureIdentifier(this.Name, 0, this.Parameters.ParameterTypes);
             }
         }
 

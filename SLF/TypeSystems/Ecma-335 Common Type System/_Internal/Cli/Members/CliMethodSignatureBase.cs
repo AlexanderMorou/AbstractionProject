@@ -21,23 +21,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         private TSignatureParent parent;
-        private ICliMetadataMethodDefinitionTableRow metadata;
+        private ICliMetadataMethodDefinitionTableRow metadataEntry;
         private _ICliAssembly assembly;
         private bool? lastIsParams;
         private CliParameterMemberDictionary<TSignature, TSignatureParameter> parameters;
 
-        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, TSignatureParent parent)
+        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliAssembly assembly, TSignatureParent parent)
         {
-            this.metadata = metadata;
+            this.metadataEntry = metadataEntry;
             this.assembly = assembly;
             this.parent = parent;
         }
 
-        protected ICliMetadataMethodDefinitionTableRow Metadata
+        protected ICliMetadataMethodDefinitionTableRow MetadataEntry
         {
             get
             {
-                return this.metadata;
+                return this.metadataEntry;
             }
         }
 
@@ -111,8 +111,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 if (lastIsParams == null)
                 {
-                    var paramArrayAttrType = this.Manager.ObtainTypeReference(this.Manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), Manager.GetRelativeAssembly(metadata.MetadataRoot));
-                    var lParam = metadata.Parameters.LastOrDefault();
+                    var paramArrayAttrType = this.Manager.ObtainTypeReference(this.Manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), Manager.GetRelativeAssembly(metadataEntry.MetadataRoot));
+                    var lParam = metadataEntry.Parameters.LastOrDefault();
                     if (lParam != null && lParam.CustomAttributes.Count > 0)
                         lastIsParams = CliCommon.GetMetadatum(this.Manager, paramArrayAttrType, lParam.CustomAttributes) != null;
                 }
@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public string Name
         {
-            get { return this.metadata.Name; }
+            get { return this.metadataEntry.Name; }
         }
 
         IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
@@ -160,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public void Dispose()
         {
-            this.metadata = null;
+            this.metadataEntry = null;
         }
 
         #endregion
@@ -197,7 +197,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IMetadataCollection Metadata
         {
-            get { throw new NotImplementedException(); }
+            get {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IMetadataCollection ReturnTypeMetadata
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         public bool IsDefined(IType metadatumType)
@@ -235,7 +245,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public bool IsGenericConstruct
         {
-            get { return this.metadata.TypeParameters.Count > 0; }
+            get { return this.metadataEntry.TypeParameters.Count > 0; }
         }
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters

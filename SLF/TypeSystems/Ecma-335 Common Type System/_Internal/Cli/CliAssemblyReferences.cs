@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -23,15 +24,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private ICliMetadataAssemblyRefTableRow[] kData;
         private ICliAssembly[] vData;
         private bool[] vCheck;
+        private object syncObject;
 
         public CliAssemblyReferences(CliAssembly owner)
         {
             this.owner = owner;
-            var tablesQuery = (from ICliModule m in this.owner.Modules.Values
-                               let table = m.Metadata.MetadataRoot.TableStream.AssemblyRefTable
-                               where table != null
-                               select table);
-            this.referenceTables = tablesQuery.ToArray();
+            this.referenceTables = owner.ObtainAssemblyRefTables().ToArray();
             this.vData = new ICliAssembly[this.Count];
             this.kData = new ICliMetadataAssemblyRefTableRow[this.Count];
             this.vCheck = new bool[this.Count];
@@ -43,9 +41,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.keys == null)
-                    this.keys = new KeysCollection(this);
-                return this.keys;
+                lock (syncObject)
+                {
+                    if (this.keys == null)
+                        this.keys = new KeysCollection(this);
+                    return this.keys;
+                }
             }
         }
 
@@ -53,71 +54,84 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.values == null)
-                    this.values = new ValuesCollection(this);
-                return this.values;
+                lock (syncObject)
+                {
+                    if (this.values == null)
+                        this.values = new ValuesCollection(this);
+                    return this.values;
+                }
             }
         }
 
         private void CheckKeyAt(int index)
         {
-            if (this.kData[index] == null)
-                for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
-                {
-                    var currentTable = this.referenceTables[tableIndex];
-                    if (index >= adjustedOffset && index < adjustedOffset + currentTable.Length)
+            lock (syncObject)
+                if (this.kData[index] == null)
+                    for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
                     {
-                        this.kData[index] = currentTable[index - adjustedOffset + 1];
+                        var currentTable = this.referenceTables[tableIndex];
+                        if (index >= adjustedOffset && index < adjustedOffset + currentTable.Length)
+                            this.kData[index] = currentTable[index - adjustedOffset + 1];
                     }
-                }
         }
 
         private void CheckItemAt(int index)
         {
-            this.CheckKeyAt(index);
-            this.CheckValueAt(index);
+            lock (syncObject)
+            {
+                this.CheckKeyAt(index);
+                this.CheckValueAt(index);
+            }
         }
 
         private void CheckValueAt(int index)
         {
-            if (!this.vCheck[index])
-            {
-                try { this.vData[index] = this.owner.IdentityManager.ObtainAssemblyReference(this.kData[index]); }
-                catch (FileNotFoundException) { }
-                this.vCheck[index] = true;
-            }
+            lock (syncObject)
+                if (!this.vCheck[index])
+                {
+                    try { this.vData[index] = this.owner.IdentityManager.ObtainAssemblyReference(this.kData[index]); }
+                    catch (FileNotFoundException) { }
+                    this.vCheck[index] = true;
+                }
         }
 
         public ICliAssembly this[ICliMetadataAssemblyRefTableRow key]
         {
             get
             {
-                if (key.MetadataRoot != this.owner.Metadata)
-                    throw new KeyNotFoundException();
-                int index = this.Keys.IndexOf(key);
-                if (index == -1)
-                    throw new KeyNotFoundException();
-                return this.Values[index];
+                lock (syncObject)
+                {
+                    if (this.owner.IdentityManager.GetRelativeAssembly(key.MetadataRoot) != this.owner)
+                        throw new KeyNotFoundException();
+                    int index = this.Keys.IndexOf(key);
+                    if (index == -1)
+                        throw new KeyNotFoundException();
+                    return this.Values[index];
+                }
             }
         }
 
         public bool ContainsKey(ICliMetadataAssemblyRefTableRow key)
         {
-            return this.Keys.Contains(key);
+            lock (syncObject)
+                return this.Keys.Contains(key);
         }
 
         public bool TryGetValue(ICliMetadataAssemblyRefTableRow key, out ICliAssembly value)
         {
-            int index = this.Keys.IndexOf(key);
-            if (index == -1)
+            lock (syncObject)
             {
-                value = null;
-                return false;
-            }
-            else
-            {
-                value = this.Values[index];
-                return true;
+                int index = this.Keys.IndexOf(key);
+                if (index == -1)
+                {
+                    value = null;
+                    return false;
+                }
+                else
+                {
+                    value = this.Values[index];
+                    return true;
+                }
             }
         }
 
@@ -129,12 +143,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.referenceTables == null)
-                    return 0;
-                int result = 0;
-                for (int i = 0; i < this.referenceTables.Length; i++)
-                    result += this.referenceTables[i].Count;
-                return result;
+                lock (syncObject)
+                {
+                    if (this.referenceTables == null)
+                        return 0;
+                    int result = 0;
+                    for (int i = 0; i < this.referenceTables.Length; i++)
+                        result += this.referenceTables[i].Count;
+                    return result;
+                }
             }
         }
 
@@ -142,36 +159,49 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (item.Key == null || item.Value == null)
                 throw new ArgumentException("Required part of element missing.", "element");
-            int index = this.Keys.IndexOf(item.Key);
-            if (index != -1)
+            lock (this.syncObject)
             {
-                if (this.Values[index] == item.Value)
-                    return true;
+                int index = this.Keys.IndexOf(item.Key);
+                if (index != -1)
+                {
+                    if (this.Values[index] == item.Value)
+                        return true;
+                }
+                return false;
             }
-            return false;
         }
 
         public void CopyTo(KeyValuePair<ICliMetadataAssemblyRefTableRow, ICliAssembly>[] array, int arrayIndex = 0)
         {
             ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
             PrepareValuesCopy();
-            for (int i = 0; i < this.Count; i++)
-            {
-                array[i + arrayIndex] = new KeyValuePair<ICliMetadataAssemblyRefTableRow, ICliAssembly>(this.Keys[i], this.Values[i]);
-            }
+            lock (this.syncObject)
+                for (int i = 0; i < this.Count; i++)
+                    array[i + arrayIndex] = new KeyValuePair<ICliMetadataAssemblyRefTableRow, ICliAssembly>(kData[i], vData[i]);
         }
 
         private void PrepareKeysCopy()
         {
-            for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
-                this.referenceTables[tableIndex].CopyTo(kData, adjustedOffset);
+            lock (this.syncObject)
+            {
+                for (int keyIndex = 0; keyIndex < this.kData.Length; keyIndex++)
+                    if (this.kData[keyIndex] == null)
+                        goto PrepareCopy;
+                return;
+            PrepareCopy:
+                for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
+                    this.referenceTables[tableIndex].CopyTo(kData, adjustedOffset);
+            }
         }
 
         private void PrepareValuesCopy()
         {
-            this.PrepareKeysCopy();
-            for (int i = 0; i < this.Count; i++)
-                CheckValueAt(i);
+            lock (this.syncObject)
+            {
+                this.PrepareKeysCopy();
+                for (int i = 0; i < this.Count; i++)
+                    CheckValueAt(i);
+            }
         }
 
         public KeyValuePair<ICliMetadataAssemblyRefTableRow, ICliAssembly> this[int index]
@@ -195,11 +225,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (element.Key == null || element.Value == null)
                 throw new ArgumentException("Required part of element missing.", "element");
-            int index = this.Keys.IndexOf(element.Key);
-            if (index != -1)
+            lock (this.syncObject)
             {
-                if (this.Values[index] == element.Value)
-                    return index;
+                int index = this.Keys.IndexOf(element.Key);
+                if (index != -1)
+                {
+                    if (this.Values[index] == element.Value)
+                        return index;
+                }
             }
             return -1;
         }
@@ -298,5 +331,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
+
     }
 }

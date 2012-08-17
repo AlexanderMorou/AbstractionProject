@@ -29,10 +29,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// </summary>
             private IType pointer;
             /// <summary>
-            /// Data member for the nullable cache.
-            /// </summary>
-            private IType nullable;
-            /// <summary>
             /// Data member for the byreference cache.
             /// </summary>
             private IType byRefType;
@@ -40,6 +36,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// Data member for <see cref="MakeArray(Int32)"/>.
             /// </summary>
             private TypeArrayCache arrayCache;
+            private IType nullable;
 
             #region IGenericParameter<TGenericParameter> Members
 
@@ -240,7 +237,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public bool IsSubclassOf(IType other)
             {
-                return other.Equals(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType));
+                return other.Equals(this.Manager.ObtainTypeReference(RuntimeCoreType.RootType));
             }
 
             public bool IsAssignableFrom(IType target)
@@ -265,7 +262,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public IType BaseType
             {
-                get { return this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType); }
+                get { return this.Manager.ObtainTypeReference(RuntimeCoreType.RootType); }
             }
 
             public ILockedTypeCollection ImplementedInterfaces
@@ -540,7 +537,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// is a pointer or by-reference type.</exception>
             protected IArrayType OnMakeArray(int rank)
             {
-                return new ArrayType(this, rank);
+                return this.Manager.MakeArray(this, rank);
             }
 
             /// <summary>
@@ -559,7 +556,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// had zero elements.</exception>
             protected IArrayType OnMakeArray(params int[] lowerBounds)
             {
-                return new ArrayType(this, lowerBounds);
+                return this.Manager.MakeArray(this, lowerBounds);
             }
 
             /// <summary>
@@ -571,7 +568,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// <see cref="IType"/> is already a by-reference type.</exception>
             protected IType OnMakeByReference()
             {
-                return new ByRefType(this);
+                return this.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
             }
 
             /// <summary>
@@ -583,7 +580,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// <see cref="IType"/> is a by-reference type.</exception>
             protected IType OnMakePointer()
             {
-                return new PointerType(this);
+                return this.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
             }
 
             /// <summary>
@@ -596,7 +593,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             protected IType OnMakeNullable()
             {
                 if (this.IsNullable)
-                    return new NullableType(this);
+                    return this.Manager.MakeClassificationType(this, TypeElementClassification.Nullable);
                 throw new InvalidOperationException("Cannot make into a nullable type, generic parameters are neither reference nor non-reference types unless explicitly stated as a struct.");
             }
 

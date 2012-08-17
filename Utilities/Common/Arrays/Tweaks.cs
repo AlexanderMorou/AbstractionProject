@@ -731,5 +731,22 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             }
             return new Tuple<T1[], T2[]>(first, second);
         }
+
+        /// <summary>
+        /// Returns a <see cref="IEnumerable{T}"/> for the <paramref name="array"/> provided.
+        /// </summary>
+        /// <typeparam name="T">The type of <paramref name="array"/> elements.</typeparam>
+        /// <param name="array">The series of <typeparamref name="T"/> values which needs an enumerator.</param>
+        /// <returns>An <see cref="IEnumerable{T}"/> for the <paramref name="array"/> provided.</returns>
+        /// <remarks>The <see cref="IEnumerable{T}"/> yielded obscures the original
+        /// <paramref name="array"/> by providing a new enumerable source.</remarks>
+        public static IEnumerable<T> GetEnumerable<T>(this T[] array)
+        {
+            if (array == null ||
+                array.Length == 0)
+                yield break;
+            foreach (var t in array)
+                yield return t;
+        }
     }
 }

@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Numerics;
-using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace AllenCopeland.Abstraction.Slf.Cli
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     partial class AstIdentifier
     {
@@ -19,7 +18,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
             //#endregion
 
             public DefaultGeneralDeclarationUniqueIdentifier(string name)
@@ -59,6 +62,18 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         private class DefaultGenericTypeUniqueIdentifier :
             IGeneralGenericTypeUniqueIdentifier
         {
+            private IAssemblyUniqueIdentifier assembly;
+            public DefaultGenericTypeUniqueIdentifier(string name, IGeneralTypeUniqueIdentifier parent, IGeneralDeclarationUniqueIdentifier @namespace = null)
+                : this(name, 0, parent, @namespace)
+            {
+                this.ParentIdentifier = parent;
+            }
+
+            public DefaultGenericTypeUniqueIdentifier(string name, int typeParameters, IGeneralTypeUniqueIdentifier parent, IGeneralDeclarationUniqueIdentifier @namespace = null)
+                : this(name, typeParameters, assembly:null, @namespace:@namespace)
+            {
+                this.ParentIdentifier = parent;
+            }
 
             public DefaultGenericTypeUniqueIdentifier(string name, IAssemblyUniqueIdentifier assembly, IGeneralDeclarationUniqueIdentifier @namespace) :
                 this(name, 0, assembly, @namespace)
@@ -88,7 +103,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -113,10 +132,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public bool IsGenericConstruct
             {
-                get { return this.TypeParameters > 0; }
+                get
+                {
+                    return this.TypeParameters > 0;
+                }
             }
 
-            public int TypeParameters { get; private set; }
+            public int TypeParameters
+            {
+                get;
+                private set;
+            }
             //#endregion
 
             //#region IEquatable<IGeneralTypeUniqueIdentifier> Members
@@ -166,11 +192,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                             return "<unknown>";
                     else if (this.IsGenericConstruct)
                         if (this.UsesNonstandardGraveAccentElement)
-                            return this._FullName;
+                            return this.FullName;
                         else
-                            return string.Format("{0}`{1}", this._FullName, this.TypeParameters);
+                            return string.Format("{0}`{1}", this.FullName, this.TypeParameters);
                     else
-                        return this._FullName;
+                        return this.FullName;
                 }
                 else
                     if (this.Name == null)
@@ -180,14 +206,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                             return string.Format("<unknown>, {0}", this.Assembly);
                     else if (this.IsGenericConstruct)
                         if (this.UsesNonstandardGraveAccentElement)
-                            return string.Format("{0}, {1}", this._FullName, this.Assembly);
+                            return string.Format("{0}, {1}", this.FullName, this.Assembly);
                         else
-                            return string.Format("{0}`{1}, {2}", this._FullName, this.TypeParameters, this.Assembly);
+                            return string.Format("{0}`{1}, {2}", this.FullName, this.TypeParameters, this.Assembly);
                     else
-                        return string.Format("{0}, {1}", this._FullName, this.Assembly);
+                        return string.Format("{0}, {1}", this.FullName, this.Assembly);
             }
 
-            private string _FullName
+            public string FullName
             {
                 get
                 {
@@ -199,26 +225,69 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region ITypeUniqueIdentifier Members
 
-            public IAssemblyUniqueIdentifier Assembly { get; private set; }
+            public IAssemblyUniqueIdentifier Assembly
+            {
+                get {
+                    if (this.assembly == null && this.ParentIdentifier != null)
+                        return this.ParentIdentifier.Assembly;
+                    return this.assembly; }
+                private set { this.assembly = value; }
+            }
 
-            public IGeneralDeclarationUniqueIdentifier Namespace { get; private set; }
+            public IGeneralDeclarationUniqueIdentifier Namespace
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
 
             //#region IGeneralGenericTypeUniqueIdentifier Members
 
-            public bool UsesNonstandardGraveAccentElement { get; private set; }
+            public bool UsesNonstandardGraveAccentElement
+            {
+                get;
+                private set;
+            }
 
             //#endregion
+
+            public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name)
+            {
+                return new DefaultTypeUniqueIdentifier(name, this);
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetNestedIdentifier(string name, int typeParameterCount)
+            {
+                return new DefaultGenericTypeUniqueIdentifier(name, typeParameterCount, this);
+            }
+
+            public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                return new DefaultTypeUniqueIdentifier(name, this, @namespace);
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetNestedIdentifier(string name, int typeParameterCount, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                return new DefaultGenericTypeUniqueIdentifier(name, typeParameterCount, this, @namespace);
+            }
+
+            public IGeneralTypeUniqueIdentifier ParentIdentifier { get; private set; }
         }
 
         private class DefaultTypeUniqueIdentifier :
             IGeneralTypeUniqueIdentifier
         {
+            private IAssemblyUniqueIdentifier assembly;
+
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -258,6 +327,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 this.Namespace = @namespace;
             }
 
+            public DefaultTypeUniqueIdentifier(string name, IGeneralTypeUniqueIdentifier parentIdentifier)
+            {
+                this.Name = name;
+                this.ParentIdentifier = parentIdentifier;
+            }
+
+            public DefaultTypeUniqueIdentifier(string name, IGeneralTypeUniqueIdentifier parentIdentifier, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                this.Name = name;
+                this.ParentIdentifier = parentIdentifier;
+                this.Namespace = @namespace;
+            }
+
             public override int GetHashCode()
             {
                 if (this.Name == null)
@@ -267,25 +349,66 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             public override string ToString()
             {
                 if (this.Assembly == null)
-                    return this._FullName;
-                return string.Format("{0}, {1}", this._FullName, this.Assembly);
+                    return this.FullName;
+                return string.Format("{0}, {1}", this.FullName, this.Assembly);
             }
 
-            private string _FullName
+            public string FullName
             {
                 get
                 {
                     if (this.Namespace == null || this.Namespace.Name == string.Empty)
-                        return this.Name;
-                    return string.Format("{0}.{1}", this.Namespace, this.Name);
+                        if (this.ParentIdentifier == null)
+                            return this.Name;
+                        else
+                            return string.Format("{0}+{1}", this.ParentIdentifier.FullName, this.Name);
+                    if (this.ParentIdentifier == null)
+                        return string.Format("{0}.{1}", this.Namespace, this.Name);
+                    else
+                        return string.Format("{0}+{1}.{2}", this.ParentIdentifier.FullName, this.Namespace, this.Name);
                 }
             }
 
             //#region ITypeUniqueIdentifier Members
 
-            public IAssemblyUniqueIdentifier Assembly { get; private set; }
+            public IAssemblyUniqueIdentifier Assembly
+            {
+                get
+                {
+                    if (this.assembly == null && this.ParentIdentifier != null)
+                        return this.ParentIdentifier.Assembly;
+                    return this.assembly;
+                }
+                private set { this.assembly = value; }
+            }
 
-            public IGeneralDeclarationUniqueIdentifier Namespace { get; private set; }
+            public IGeneralDeclarationUniqueIdentifier Namespace
+            {
+                get;
+                private set;
+            }
+
+            public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name)
+            {
+                return new DefaultTypeUniqueIdentifier(name, this);
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetNestedIdentifier(string name, int typeParameterCount)
+            {
+                return new DefaultGenericTypeUniqueIdentifier(name, typeParameterCount, this);
+            }
+
+            public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                return new DefaultTypeUniqueIdentifier(name, this, @namespace);
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetNestedIdentifier(string name, int typeParameterCount, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                return new DefaultGenericTypeUniqueIdentifier(name, typeParameterCount, this, @namespace);
+            }
+
+            public IGeneralTypeUniqueIdentifier ParentIdentifier { get; private set; }
 
             //#endregion
         }
@@ -296,7 +419,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -352,26 +479,34 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region IGenericParameterUniqueIdentifier Members
 
-            public int? Position { get; private set; }
+            public int? Position
+            {
+                get;
+                private set;
+            }
 
-            public bool IsTypeParameter { get; private set; }
+            public bool IsTypeParameter
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
-            public DefaultGenericParameterUniqueIdentifier(string name, bool onType)
+            public DefaultGenericParameterUniqueIdentifier(string name, bool onType, IAssembly assembly = null)
             {
                 this.Name = name;
                 this.IsTypeParameter = onType;
             }
 
-            public DefaultGenericParameterUniqueIdentifier(int index, string name, bool onType)
+            public DefaultGenericParameterUniqueIdentifier(int index, string name, bool onType, IAssembly assembly = null)
             {
                 this.Position = index;
                 this.Name = name;
                 this.IsTypeParameter = onType;
             }
 
-            public DefaultGenericParameterUniqueIdentifier(int index, bool onType)
+            public DefaultGenericParameterUniqueIdentifier(int index, bool onType, IAssembly assembly = null)
             {
                 this.Position = index;
                 this.IsTypeParameter = onType;
@@ -464,7 +599,52 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             {
                 return this.Name;
             }
-        }
+
+            public IAssemblyUniqueIdentifier Assembly
+            {
+                get;
+                private set;
+            }
+
+            public IGeneralDeclarationUniqueIdentifier Namespace
+            {
+                get
+                {
+                    return null;
+                }
+            }
+
+
+            public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name)
+            {
+                throw new NotSupportedException();
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetNestedIdentifier(string name, int typeParameterCount)
+            {
+                throw new NotSupportedException();
+            }
+
+            public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                throw new NotSupportedException();
+            }
+
+            public IGeneralGenericTypeUniqueIdentifier GetNestedIdentifier(string name, int typeParameterCount, IGeneralDeclarationUniqueIdentifier @namespace)
+            {
+                throw new NotSupportedException();
+            }
+
+            public IGeneralTypeUniqueIdentifier ParentIdentifier
+            {
+                get { return null; }
+            }
+
+            public string FullName
+            {
+                get { return null; }
+            }
+        };
 
         private class DefaultBinaryOperatorUniqueIdentifier :
             IBinaryOperatorUniqueIdentifier,
@@ -474,14 +654,22 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             /// Returns the <see cref="CoercibleBinaryOperators"/> coerced
             /// by the <see cref="IBinaryOperatorUniqueIdentifier"/>.
             /// </summary>
-            public CoercibleBinaryOperators Operator { get; private set; }
+            public CoercibleBinaryOperators Operator
+            {
+                get;
+                private set;
+            }
 
             /// <summary>
             /// Returns which side the required self reference
             /// the <see cref="IBinaryOperatorUniqueIdentifier"/>'s
             /// parent is on.
             /// </summary>
-            public BinaryOpCoercionContainingSide ContainingSide { get; private set; }
+            public BinaryOpCoercionContainingSide ContainingSide
+            {
+                get;
+                private set;
+            }
 
             /// <summary>
             /// Returns the type of the other side of the expression
@@ -490,7 +678,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             /// <remarks>If <see cref="ContainingSide"/>
             /// is <see cref="BinaryOpCoercionContainingSide.Both"/>
             /// <see cref="OtherSide"/> returns null.</remarks>
-            public IType OtherSide { get; private set; }
+            public IType OtherSide
+            {
+                get;
+                private set;
+            }
 
             public DefaultBinaryOperatorUniqueIdentifier(CoercibleBinaryOperators @operator, BinaryOpCoercionContainingSide containingSide, IType otherSide)
             {
@@ -526,37 +718,37 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     switch (this.Operator)
                     {
                         case CoercibleBinaryOperators.Add:
-                            return CliCommon.BinaryOperatorNames.Addition;
+                            return AbstractGateway.BinaryOperatorNames.Addition;
                         case CoercibleBinaryOperators.Subtract:
-                            return CliCommon.BinaryOperatorNames.Subtraction;
+                            return AbstractGateway.BinaryOperatorNames.Subtraction;
                         case CoercibleBinaryOperators.Multiply:
-                            return CliCommon.BinaryOperatorNames.Multiply;
+                            return AbstractGateway.BinaryOperatorNames.Multiply;
                         case CoercibleBinaryOperators.Divide:
-                            return CliCommon.BinaryOperatorNames.Division;
+                            return AbstractGateway.BinaryOperatorNames.Division;
                         case CoercibleBinaryOperators.Modulus:
-                            return CliCommon.BinaryOperatorNames.Modulus;
+                            return AbstractGateway.BinaryOperatorNames.Modulus;
                         case CoercibleBinaryOperators.BitwiseAnd:
-                            return CliCommon.BinaryOperatorNames.BitwiseAnd;
+                            return AbstractGateway.BinaryOperatorNames.BitwiseAnd;
                         case CoercibleBinaryOperators.BitwiseOr:
-                            return CliCommon.BinaryOperatorNames.BitwiseOr;
+                            return AbstractGateway.BinaryOperatorNames.BitwiseOr;
                         case CoercibleBinaryOperators.ExclusiveOr:
-                            return CliCommon.BinaryOperatorNames.ExclusiveOr;
+                            return AbstractGateway.BinaryOperatorNames.ExclusiveOr;
                         case CoercibleBinaryOperators.LeftShift:
-                            return CliCommon.BinaryOperatorNames.LeftShift;
+                            return AbstractGateway.BinaryOperatorNames.LeftShift;
                         case CoercibleBinaryOperators.RightShift:
-                            return CliCommon.BinaryOperatorNames.RightShift;
+                            return AbstractGateway.BinaryOperatorNames.RightShift;
                         case CoercibleBinaryOperators.IsEqualTo:
-                            return CliCommon.BinaryOperatorNames.Equality;
+                            return AbstractGateway.BinaryOperatorNames.Equality;
                         case CoercibleBinaryOperators.IsNotEqualTo:
-                            return CliCommon.BinaryOperatorNames.Inequality;
+                            return AbstractGateway.BinaryOperatorNames.Inequality;
                         case CoercibleBinaryOperators.LessThan:
-                            return CliCommon.BinaryOperatorNames.LessThan;
+                            return AbstractGateway.BinaryOperatorNames.LessThan;
                         case CoercibleBinaryOperators.GreaterThan:
-                            return CliCommon.BinaryOperatorNames.GreaterThan;
+                            return AbstractGateway.BinaryOperatorNames.GreaterThan;
                         case CoercibleBinaryOperators.LessThanOrEqualTo:
-                            return CliCommon.BinaryOperatorNames.LessThanOrEqual;
+                            return AbstractGateway.BinaryOperatorNames.LessThanOrEqual;
                         case CoercibleBinaryOperators.GreaterThanOrEqualTo:
-                            return CliCommon.BinaryOperatorNames.GreaterThanOrEqual;
+                            return AbstractGateway.BinaryOperatorNames.GreaterThanOrEqual;
                         default:
                             return null;
                     }
@@ -641,7 +833,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
             //#region IUnaryOperatorUniqueIdentifier Members
 
-            public CoercibleUnaryOperators Operator { get; private set; }
+            public CoercibleUnaryOperators Operator
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -654,21 +850,21 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     switch (this.Operator)
                     {
                         case CoercibleUnaryOperators.Plus:
-                            return CliCommon.UnaryOperatorNames.Plus;
+                            return AbstractGateway.UnaryOperatorNames.Plus;
                         case CoercibleUnaryOperators.Negation:
-                            return CliCommon.UnaryOperatorNames.Negation;
+                            return AbstractGateway.UnaryOperatorNames.Negation;
                         case CoercibleUnaryOperators.EvaluatesToFalse:
-                            return CliCommon.UnaryOperatorNames.False;
+                            return AbstractGateway.UnaryOperatorNames.False;
                         case CoercibleUnaryOperators.EvaluatesToTrue:
-                            return CliCommon.UnaryOperatorNames.True;
+                            return AbstractGateway.UnaryOperatorNames.True;
                         case CoercibleUnaryOperators.LogicalInvert:
-                            return CliCommon.UnaryOperatorNames.LogicalNot;
+                            return AbstractGateway.UnaryOperatorNames.LogicalNot;
                         case CoercibleUnaryOperators.Complement:
-                            return CliCommon.UnaryOperatorNames.OnesComplement;
+                            return AbstractGateway.UnaryOperatorNames.OnesComplement;
                         case CoercibleUnaryOperators.Increment:
-                            return CliCommon.UnaryOperatorNames.Increment;
+                            return AbstractGateway.UnaryOperatorNames.Increment;
                         case CoercibleUnaryOperators.Decrement:
-                            return CliCommon.UnaryOperatorNames.Decrement;
+                            return AbstractGateway.UnaryOperatorNames.Decrement;
                         default:
                             return string.Empty;
                     }
@@ -732,7 +928,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             IGeneralSignatureMemberUniqueIdentifier
         {
 
-            public DefaultSignatureMemberUniqueIdentifier(string name, IEnumerable<IModifiedType> parameters)
+            public DefaultSignatureMemberUniqueIdentifier(string name, IEnumerable<IType> parameters)
             {
                 this.Name = name;
                 this.Parameters = parameters;
@@ -740,7 +936,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region ISignatureMemberUniqueIdentifier Members
 
-            public IEnumerable<IModifiedType> Parameters { get; private set; }
+            public IEnumerable<IType> Parameters
+            {
+                get;
+                private set;
+            }
             private int? parameterCount;
             public int ParameterCount
             {
@@ -756,7 +956,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -843,11 +1047,23 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             //#region ITypeCoercionUniqueIdentifier Members
 
-            public TypeConversionRequirement Requirement { get; private set; }
+            public TypeConversionRequirement Requirement
+            {
+                get;
+                private set;
+            }
 
-            public TypeConversionDirection Direction { get; private set; }
+            public TypeConversionDirection Direction
+            {
+                get;
+                private set;
+            }
 
-            public IType CoercionType { get; private set; }
+            public IType CoercionType
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -976,17 +1192,28 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             public bool IsGenericConstruct
             {
-                get { return this.TypeParameters > 0; }
+                get
+                {
+                    return this.TypeParameters > 0;
+                }
             }
 
-            public int TypeParameters { get; private set; }
+            public int TypeParameters
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
 
             //#region ISignatureMemberUniqueIdentifier Members
 
-            public IEnumerable<IModifiedType> Parameters { get; private set; }
+            public IEnumerable<IType> Parameters
+            {
+                get;
+                private set;
+            }
             private int? parameterCount;
             public int ParameterCount
             {
@@ -1002,7 +1229,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
@@ -1047,7 +1278,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             //#endregion
 
 
-            public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IModifiedType> parameters)
+            public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IType> parameters)
             {
                 this.Name = name;
                 this.TypeParameters = typeParameters;
@@ -1110,17 +1341,33 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
             //#region IAssemblyUniqueIdentifier Members
 
-            public IVersion Version { get; private set; }
+            public IVersion Version
+            {
+                get;
+                private set;
+            }
 
-            public ICultureIdentifier Culture { get; private set; }
+            public ICultureIdentifier Culture
+            {
+                get;
+                private set;
+            }
 
-            public byte[] PublicKeyToken { get; private set; }
+            public byte[] PublicKeyToken
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 
             //#region IDeclarationUniqueIdentifier Members
 
-            public string Name { get; private set; }
+            public string Name
+            {
+                get;
+                private set;
+            }
 
             //#endregion
 

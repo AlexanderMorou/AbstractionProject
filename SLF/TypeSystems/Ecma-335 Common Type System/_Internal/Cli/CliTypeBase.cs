@@ -18,12 +18,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ITypeUniqueIdentifier
     {
         private CliAssembly assembly;
-        private ICliMetadataTypeDefinitionTableRow metadata;
+        private ICliMetadataTypeDefinitionTableRow metadataEntry;
 
-        internal CliTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadata)
+        internal CliTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadataEntry)
         {
             this.assembly = assembly;
-            this.metadata = metadata;
+            this.metadataEntry = metadataEntry;
         }
 
         protected override IType OnGetDeclaringType()
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.assembly.IdentityManager.ObtainTypeReference(this.DeclaringType);
         }
 
-        protected override bool CanCacheImplementsList
+        protected internal override bool CanCacheImplementsList
         {
             get { return true; }
         }
@@ -61,31 +61,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.assembly;
         }
 
-        protected override IArrayType OnMakeArray(int rank)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IArrayType OnMakeArray(params int[] lowerBounds)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IType OnMakeByReference()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IType OnMakePointer()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IType OnMakeNullable()
-        {
-            throw new NotImplementedException();
-        }
-
         public override bool IsGenericConstruct
         {
             get { throw new NotImplementedException(); }
@@ -98,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override string OnGetNamespaceName()
         {
-            return this.metadata.Namespace;
+            return this.metadataEntry.Namespace;
         }
 
         protected override IType BaseTypeImpl
@@ -132,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             //    if (this.metadata.NamespaceIndex > 0)
             //        return this.metadata.Name
 
-            return this.metadata.Name;
+            return this.metadataEntry.Name;
         }
 
         #region ICliType Members
@@ -142,18 +117,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.assembly; }
         }
 
-        public ICliMetadataTypeDefinitionTableRow Metadata
+        public ICliMetadataTypeDefinitionTableRow MetadataEntry
         {
-            get { return this.metadata; }
+            get { return this.metadataEntry; }
         }
 
         #endregion
 
         #region ICliDeclaration Members
 
-        ICliMetadataTableRow ICliDeclaration.Metadata
+        ICliMetadataTableRow ICliDeclaration.MetadataEntry
         {
-            get { return this.Metadata; }
+            get { return this.MetadataEntry; }
         }
 
         #endregion

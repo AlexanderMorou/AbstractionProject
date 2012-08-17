@@ -32,6 +32,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the current <see cref="IMetadataCollection"/>.
         /// </summary>
         IMetadataEntity Parent { get; }
+
         /// <summary>
         /// Returns the <see cref="IMetadatum"/> of the
         /// <paramref name="metadatumType"/> provided.

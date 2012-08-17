@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             get
             {
-                return AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes);
+                return AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes);
             }
         }
 

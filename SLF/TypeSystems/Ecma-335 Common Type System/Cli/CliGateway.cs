@@ -9,6 +9,8 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
@@ -24,6 +26,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             return new CliManager(runtimeEnvironment);
         }
+
+        public static IVersion ToVersion(this QWordLongVersion version)
+        {
+            return new _Version(version.MajorVersion, version.MinorVersion, version.BuildNumber, version.RevisionNumber);
+        }
+
 
         public static ICliManager CreateIdentityManager(CliFrameworkPlatform platform, CliFrameworkVersion version = CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true, bool useGlobalAccessCache = true)
         {

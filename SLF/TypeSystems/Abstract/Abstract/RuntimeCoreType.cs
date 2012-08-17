@@ -8,9 +8,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public enum RuntimeCoreType
     {
         /// <summary>
+        /// The type described doesn't match any listed.
+        /// </summary>
+        None,
+        /// <summary>
         /// The definition of the root of all array types.
         /// </summary>
-        ArrayType,
+        Array,
         /// <summary>
         /// The definition of a boolean value.
         /// </summary>
@@ -42,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// The definition of the root of all enumerations.
         /// </summary>
-        EnumBaseType,
+        RootEnum,
         /// <summary>
         /// The definition of a signed 16-bit integer.
         /// </summary>
@@ -79,10 +83,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// The definition of the base of all value types.
         /// </summary>
-        ValueTypeBaseType,
+        RootStruct,
         /// <summary>
         /// The definition of the void type.
         /// </summary>
         VoidType,
+        /// <summary>
+        /// The definition of the Type type.
+        /// </summary>
+        Type,
     }
 }

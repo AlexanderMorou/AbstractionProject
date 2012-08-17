@@ -96,9 +96,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             if (this.normalArrayCache == null)
                 this.normalArrayCache = new Dictionary<int, IArrayType>();
             //Cache element check.
-            if (!this.normalArrayCache.ContainsKey(rank))
-                this.normalArrayCache.Add(rank, creator(rank));
-            return this.normalArrayCache[rank];
+            IArrayType result;
+            if (!this.normalArrayCache.TryGetValue(rank, out result))
+                this.normalArrayCache.Add(rank, result = creator(rank));
+            return result;
         }
 
         public IArrayType CreateArray()

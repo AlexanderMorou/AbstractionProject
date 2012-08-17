@@ -11,15 +11,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public enum PrimitiveType
     {
         /// <summary>
-        /// A boolean publicKey type.
+        /// A boolean data type.
         /// </summary>
         Boolean,
         /// <summary>
-        /// A byte publicKey type.
+        /// A byte data type.
         /// </summary>
         Byte,
         /// <summary>
-        /// A signed byte publicKey type.
+        /// A signed byte data type.
         /// </summary>
         SByte,
         /// <summary>

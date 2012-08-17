@@ -26,13 +26,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// was declared.
         /// </summary>
         IMetadataEntity DeclarationPoint { get; }
-
         /// <summary>
         /// Returns the <see cref="IEnumerable{T}"/> of triple elements
         /// which denote the type, name (from the constructor used), 
         /// and value of the parameters.
         /// </summary>
-        IEnumerable<Tuple<IType, string, object>> Parameters { get; }
+        IEnumerable<Tuple<IType, object>> Parameters { get; }
         /// <summary>
         /// Returns the <see cref="IEnumerable{T}"/> of triple elements
         /// which denote the type, name, and value of the named parameters.

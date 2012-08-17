@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return TypeKind.Modified; }
         }
 
-        protected override bool CanCacheImplementsList
+        protected internal override bool CanCacheImplementsList
         {
             get { return true; }
         }
@@ -111,31 +111,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected override IAssembly OnGetAssembly()
         {
             return this.original.Assembly;
-        }
-
-        protected override IArrayType OnMakeArray(int rank)
-        {
-            throw new NotSupportedException("Modified types are the final order of type, and thus no array-based derivations can exist.");
-        }
-
-        protected override IArrayType OnMakeArray(params int[] lowerBounds)
-        {
-            return OnMakeArray(0);
-        }
-
-        protected override IType OnMakeByReference()
-        {
-            throw new NotSupportedException("Modified types are the final order of type, and thus no by-reference based derivations can exist.");
-        }
-
-        protected override IType OnMakePointer()
-        {
-            throw new NotSupportedException("Modified types are the final order of type, and thus no pointer based derivations can exist.");
-        }
-
-        protected override IType OnMakeNullable()
-        {
-            throw new NotSupportedException("Modified types are the final order of type, and thus no nullable based derivations can exist.");
         }
 
         public override bool IsGenericConstruct

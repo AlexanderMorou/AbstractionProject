@@ -58,7 +58,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 public override ITypeCoercionUniqueIdentifier UniqueIdentifier
                 {
                     get {
-                        return AstIdentifier.TypeOperator(this.Requirement, this.Direction, this.CoercionType);
+                        return AstIdentifier.GetTypeOperatorIdentifier(this.Requirement, this.Direction, this.CoercionType);
                     }
                 }
 

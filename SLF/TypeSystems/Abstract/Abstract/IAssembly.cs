@@ -1,5 +1,6 @@
 ﻿using System;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -38,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IAssemblyInformation AssemblyInformation { get; }
         /// <summary>
         /// Returns the <see cref="IModule"/> which exposes
-        /// the manifest publicKey for the current <see cref="IAssembly"/>.
+        /// the manifest data for the current <see cref="IAssembly"/>.
         /// </summary>
         IModule ManifestModule { get; }
         /// <summary>
@@ -57,5 +58,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// associated to the <see cref="IAssembly"/>.
         /// </summary>
         IStrongNamePublicKeyInfo PublicKeyInfo { get; }
+        /// <summary>
+        /// Returns the <see cref="IReadOnlyDictionary{TKey, TValue}">IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly></see> which 
+        /// </summary>
+        IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> References { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IType"/> relative to the <paramref name="typeIdentifier"/>
+        /// provided.
+        /// </summary>
+        /// <param name="typeIdentifier">The <see cref="IGeneralTypeUniqueIdentifier"/> to obtain
+        /// the <see cref="IType"/> of.</param>
+        /// <returns>A <see cref="IType"/> relative to the <paramref name="typeIdentifier"/>
+        /// provided.</returns>
+        IType GetType(IGeneralTypeUniqueIdentifier typeIdentifier);
     }
 }

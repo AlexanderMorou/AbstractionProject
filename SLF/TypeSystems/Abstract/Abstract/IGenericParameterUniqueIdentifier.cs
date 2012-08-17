@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// of a generic parameter.
     /// </summary>
     public interface IGenericParameterUniqueIdentifier :
-        ITypeUniqueIdentifier,
+        IGeneralTypeUniqueIdentifier,
         IMemberUniqueIdentifier,
         IGeneralMemberUniqueIdentifier,
         IEquatable<IGenericParameterUniqueIdentifier>

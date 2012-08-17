@@ -275,7 +275,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

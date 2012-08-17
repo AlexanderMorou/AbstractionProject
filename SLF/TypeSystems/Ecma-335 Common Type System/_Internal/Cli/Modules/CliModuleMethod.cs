@@ -54,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         {
             get
             {
-                var flags = this.Metadata.Flags;
+                var flags = this.MetadataEntry.Flags;
                 if ((flags & MethodAttributes.Public) == MethodAttributes.Public)
                     return AccessLevelModifiers.Public;
                 else if ((flags & MethodAttributes.Assembly) == MethodAttributes.Assembly)

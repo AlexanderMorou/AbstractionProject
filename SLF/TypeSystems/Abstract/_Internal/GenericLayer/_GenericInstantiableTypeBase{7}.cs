@@ -1009,7 +1009,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
         protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            return AstIdentifier.Type(this.Name, this.Original.TypeParameters.Count);
+            return this.Assembly.UniqueIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name, this.Original.TypeParameters.Count);
         }
     }
 }

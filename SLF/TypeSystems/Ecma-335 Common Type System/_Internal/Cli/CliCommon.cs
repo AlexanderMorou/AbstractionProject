@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             /* *
              * Resolve the virtual address of the CliHeader, which yields
-             * the offset in the section's publicKey, and the section itself.
+             * the offset in the section's data, and the section itself.
              * */
             var headerSectionScan = image.ResolveRelativeVirtualAddress(image.ExtendedHeader.CliHeader.RelativeVirtualAddress);
             if (!headerSectionScan.Resolved)
@@ -201,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 culture = ValidCultureIdentifiers.TranscodeToCultureIdentifier(culture);
                 cultureId = CultureIdentifiers.GetIdentifierByName(culture);
             }
-            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(firstAssemblyRow.Name, new _Version(firstAssemblyRow.Version), cultureId, publicKeyInfo == null ? null : publicKeyInfo.PublicToken.Token);
+            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(firstAssemblyRow.Name, firstAssemblyRow.Version.ToVersion(), cultureId, publicKeyInfo == null ? null : publicKeyInfo.PublicToken.Token);
             return Tuple.Create(publicKeyInfo, assemblyUniqueIdentifier, firstAssemblyRow);
         }
 
@@ -225,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             byte[] publicKeyToken = null;
             if (publicKeyInfo == null && entry.PublicKeyOrTokenIndex != 0)
                 publicKeyToken = entry.PublicKeyOrToken;
-            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(entry.Name, new _Version(entry.Version), cultureId, publicKeyInfo == null ? publicKeyToken : publicKeyInfo.PublicToken.Token);
+            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(entry.Name, entry.Version.ToVersion(), cultureId, publicKeyInfo == null ? publicKeyToken : publicKeyInfo.PublicToken.Token);
             return new Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier>(publicKeyInfo, assemblyUniqueIdentifier);
         }
 
@@ -378,10 +378,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static bool IsSpecialModule(ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
-            if (typeIdentity.ExtendsIndex == 0 &&
-                typeIdentity.NamespaceIndex == 0 &&
-                (typeIdentity.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.NotPublic &&
-                typeIdentity.Name == "<Module>")
+            if (typeIdentity.Index == 1)
                 return true;
             return false;
         }
@@ -732,6 +729,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             int lastIndex = 0;
         nextPart:
+            if (ns == null)
+                goto typeSearch;
             int next = ns.IndexOf('.', lastIndex);
             if (next != -1)
             {
@@ -753,30 +752,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 else
                     return null;
             }
+            typeSearch:
             if (topLevel != null && topLevel.NamespaceTypes != null)
             {
-                lastIndex = 0;
                 var currentTypes = topLevel.NamespaceTypes;
-            repeatTypeLookup:
-                next = name.IndexOf('+', lastIndex);
-                if (next != -1)
-                {
-                    string current = name.Substring(lastIndex, next - lastIndex);
-                    foreach (var nsType in currentTypes)
-                        if (nsType.Name == current)
-                        {
-                            currentTypes = nsType.NestedClasses;
-                            lastIndex = next + 1;
-                            goto repeatTypeLookup;
-                        }
-                }
-                else
-                {
-                    string current = name.Substring(lastIndex);
-                    foreach (var nsType in currentTypes)
-                        if (nsType.Name == current)
-                            return nsType;
-                }
+                foreach (var nsType in currentTypes)
+                    if (nsType.Name == name)
+                        return nsType;
             }
             return null;
         }
@@ -868,5 +850,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     throw new InvalidOperationException();
             }
         }
+
+        public static RuntimeCoreType GetCoreType(this IType type) { return type.Manager.ObtainCoreType(type); }
+
+
+        internal static IEnumerable<ICliMetadataAssemblyRefTable> ObtainAssemblyRefTables(this CliAssembly owner)
+        {
+            return (from ICliModule m in owner.Modules.Values
+                    let table = m.Metadata.MetadataRoot.TableStream.AssemblyRefTable
+                    where table != null
+                    select table);
+        }
+
     }
 }

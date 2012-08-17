@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Cli
+namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
 {
     internal class _Version :
         IVersion
@@ -16,14 +15,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.Minor = version.Minor;
             this.Build = version.Build == -1 ? 0 : version.Build;
             this.Revision = version.Revision == -1 ? 0 : version.Revision;
-        }
-
-        public _Version(QWordLongVersion version)
-        {
-            this.Major = version.MajorVersion;
-            this.Minor = version.MinorVersion;
-            this.Build= version.BuildNumber;
-            this.Revision = version.RevisionNumber;
         }
 
         public _Version(int major, int minor, int build, int revision) {

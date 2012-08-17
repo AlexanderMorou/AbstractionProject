@@ -1,10 +1,11 @@
 ﻿using AllenCopeland.Abstraction.Slf.Compilers;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using System.Collections.Generic;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
@@ -32,12 +33,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// representing the lower bound values for the 
         /// <see cref="IArrayType"/>.
         /// </summary>
-        /// <remarks>
-        /// Arrays which define a specialized lower bounds will have
-        /// associated field, parameter, property, and return type
-        /// marked with the <see cref="LowerBoundTargetAttribute"/>.
-        /// </remarks>
-        int[] LowerBounds { [return: LowerBoundTarget(0)] get; }
+        IEnumerable<int> LowerBounds { get; }
+        /// <summary>
+        /// Returns the <see cref="System.Int32"/> series representing
+        /// the lengths of the dimensions of the array.
+        /// </summary>
+        IEnumerable<uint> Lengths { get; }
         /// <summary>
         /// Returns whether every dimension has a zero-based index.
         /// </summary>

@@ -171,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             /// to the <paramref name="writer"/> provided.
             /// </summary>
             /// <param name="writer">The <see cref="BinaryWriter"/> in which to
-            /// store the publicKey of the <see cref="GeneralKeyHeader"/>'s information
+            /// store the data of the <see cref="GeneralKeyHeader"/>'s information
             /// sequentially.</param>
             internal void Write(BinaryWriter writer)
             {

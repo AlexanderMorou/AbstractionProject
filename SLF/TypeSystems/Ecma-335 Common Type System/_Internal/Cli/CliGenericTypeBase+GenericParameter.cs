@@ -18,9 +18,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ICliGenericTypeParameter
         {
             private CliGenericTypeBase<TIdentifier, TType> owner;
-            private ICliMetadataGenericParameterTableRow metadata;
+            private ICliMetadataGenericParameterTableRow metadataEntry;
             private int index;
-            #region IGenericParameter<IGenericTypeParameter<TIdentifier,TType>,TType> Members
+            //#region IGenericParameter<IGenericTypeParameter<TIdentifier,TType>,TType> Members
 
             public TType Parent
             {
@@ -32,9 +32,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return AstIdentifier.GetGenericParameterIdentifier(this.index); }
             }
 
-            #endregion
+            //#endregion
 
-            #region IGenericParameter<IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IGenericParameter<IGenericTypeParameter<TIdentifier,TType>> Members
 
             public IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> Constructors
             {
@@ -61,9 +61,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { throw new NotImplementedException(); }
             }
 
-            #endregion
+            //#endregion
 
-            #region ICreatableParent<IGenericParameterConstructorMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region ICreatableParent<IGenericParameterConstructorMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
 
             IConstructorMemberDictionary<IGenericParameterConstructorMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>> ICreatableParent<IGenericParameterConstructorMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>.Constructors
             {
@@ -75,9 +75,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return null; }
             }
 
-            #endregion
+            //#endregion
 
-            #region ICreatableParent Members
+            //#region ICreatableParent Members
 
             IConstructorMemberDictionary ICreatableParent.Constructors
             {
@@ -89,9 +89,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return this.TypeInitializer; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IType Members
+            //#region IType Members
 
             public TypeElementClassification ElementClassification
             {
@@ -228,18 +228,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return this.owner.Manager; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEquatable<IType> Members
+            //#region IEquatable<IType> Members
 
             public bool Equals(IType other)
             {
                 return object.ReferenceEquals(this, other);
             }
 
-            #endregion
+            //#endregion
 
-            #region IMetadataEntity Members
+            //#region IMetadataEntity Members
 
             public IMetadataCollection Metadata
             {
@@ -251,22 +251,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new NotImplementedException();
             }
 
-            #endregion
+            //#endregion
 
-            #region IScopedDeclaration Members
+            //#region IScopedDeclaration Members
 
             public AccessLevelModifiers AccessLevel
             {
                 get { return AccessLevelModifiers.Public; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IDeclaration Members
+            //#region IDeclaration Members
 
             public string Name
             {
-                get { return this.metadata.Name; }
+                get { return this.metadataEntry.Name; }
             }
 
             IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
@@ -276,115 +276,115 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public event EventHandler Disposed;
 
-            #endregion
+            //#endregion
 
-            #region IDisposable Members
+            //#region IDisposable Members
 
             public void Dispose()
             {
                 this.owner = null;
-                this.metadata = null;
+                this.metadataEntry = null;
             }
 
-            #endregion
+            //#endregion
 
-            #region IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
 
             IMethodSignatureMemberDictionary<IGenericParameterMethodMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>> IMethodSignatureParent<IGenericParameterMethodMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>.Methods
             {
                 get { return this.Methods; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IMethodSignatureParent Members
+            //#region IMethodSignatureParent Members
 
             IMethodSignatureMemberDictionary IMethodSignatureParent.Methods
             {
                 get { return (IMethodSignatureMemberDictionary) this.Methods; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
 
             IEventSignatureMemberDictionary<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>> IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>.Events
             {
                 get { return this.Events; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier,TType>>,IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier,TType>>,IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
 
             IEventSignatureMemberDictionary<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier, TType>>, IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>> IEventSignatureParent<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier, TType>>, IEventSignatureParameterMember<IGenericParameterEventMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>.Events
             {
                 get { return this.Events; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IEventSignatureParent Members
+            //#region IEventSignatureParent Members
 
             IEventSignatureMemberDictionary IEventSignatureParent.Events
             {
                 get { return (IEventSignatureMemberDictionary) this.Events; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
 
             IIndexerSignatureMemberDictionary<IGenericParameterIndexerMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>> IIndexerSignatureParent<IGenericParameterIndexerMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>.Indexers
             {
                 get { return this.Indexers; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IIndexerSignatureParent Members
+            //#region IIndexerSignatureParent Members
 
             IIndexerSignatureMemberDictionary IIndexerSignatureParent.Indexers
             {
                 get { return (IIndexerSignatureMemberDictionary)this.Indexers; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IPropertySignatureParent<IGenericParameterPropertyMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IPropertySignatureParent<IGenericParameterPropertyMember<IGenericTypeParameter<TIdentifier,TType>>,IGenericTypeParameter<TIdentifier,TType>> Members
 
             IPropertySignatureMemberDictionary<IGenericParameterPropertyMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>> IPropertySignatureParent<IGenericParameterPropertyMember<IGenericTypeParameter<TIdentifier, TType>>, IGenericTypeParameter<TIdentifier, TType>>.Properties
             {
                 get { return this.Properties; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IPropertySignatureParent Members
+            //#region IPropertySignatureParent Members
 
             IPropertySignatureMemberDictionary IPropertySignatureParent.Properties
             {
                 get { return (IPropertySignatureMemberDictionary) this.Properties; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IType<IGenericParameterUniqueIdentifier,IGenericTypeParameter<TIdentifier,TType>> Members
+            //#region IType<IGenericParameterUniqueIdentifier,IGenericTypeParameter<TIdentifier,TType>> Members
 
             public IGenericTypeParameter<TIdentifier, TType> ElementType
             {
                 get { throw new InvalidOperationException(Resources.ObjectStateThrowMessage); }
             }
 
-            #endregion
+            //#endregion
 
-            #region IGenericParameter Members
+            //#region IGenericParameter Members
 
             public GenericParameterVariance Variance
             {
                 get
                 {
-                    var variance = this.metadata.Flags & GenericParameterAttributes.VarianceMask;
+                    var variance = this.metadataEntry.Flags & GenericParameterAttributes.VarianceMask;
                     switch (variance)
                     {
                         case GenericParameterAttributes.Contravariant:
@@ -401,7 +401,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    switch (metadata.Flags & GenericParameterAttributes.SpecialConstraintMask)
+                    switch (metadataEntry.Flags & GenericParameterAttributes.SpecialConstraintMask)
                     {
                         case GenericParameterAttributes.NotNullableValueTypeConstraint:
                             return GenericTypeParameterSpecialConstraint.Struct;
@@ -453,27 +453,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return (IGenericParameterPropertyMemberDictionary) this.Properties; }
             }
 
-            #endregion
+            //#endregion
 
-            #region IGenericTypeParameter Members
+            //#region IGenericTypeParameter Members
 
             IGenericType IGenericTypeParameter.Parent
             {
                 get { return this.Parent; }
             }
 
-            #endregion
+            //#endregion
 
-            #region ICliGenericTypeParameter Members
-
-            public ICliMetadataGenericParameterTableRow Metadata
-            {
-                get { return this.metadata; }
-            }
-
-            #endregion
-
-            #region IType Members
+            //#region IType Members
 
 
             public IModifiedType MakeModified(TypeModification[] modifiers)
@@ -481,7 +472,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new NotImplementedException();
             }
 
-            #endregion
+            //#endregion
+
+            public ICliMetadataGenericParameterTableRow MetadataEntry
+            {
+                get { return this.metadataEntry; }
+            }
         }
     }
 }

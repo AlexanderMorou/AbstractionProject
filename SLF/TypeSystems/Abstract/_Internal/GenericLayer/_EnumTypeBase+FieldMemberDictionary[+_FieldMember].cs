@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 public override IGeneralMemberUniqueIdentifier UniqueIdentifier
                 {
-                    get { return AstIdentifier.Member(this.Name); }
+                    get { return AstIdentifier.GetMemberIdentifier(this.Name); }
                 }
 
                 #region IInstanceMember Members
