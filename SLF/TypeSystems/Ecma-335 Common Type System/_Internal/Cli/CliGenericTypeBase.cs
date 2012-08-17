@@ -16,8 +16,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IGenericType<TIdentifier, TType>
     {
 
-        protected CliGenericTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadata)
-            : base(assembly, metadata)
+        protected CliGenericTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadataEntry)
+            : base(assembly, metadataEntry)
         {
         }
         

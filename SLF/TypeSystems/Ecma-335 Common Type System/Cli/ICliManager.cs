@@ -43,16 +43,23 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
         /// </summary>
-        /// <param name="typeIdentity"></param>
-        /// <returns></returns>
-        IType ObtainTypeReference(RuntimeCoreType coreType, ICliAssembly relativeSource);
+        /// <param name="coreType">The <see cref="RuntimeCoreType"/> which denotes the
+        /// core type to obtain a type reference of.</param>
+        /// <param name="relativeSource">The <see cref="IAssembly"/> which represents
+        /// the lookup scope for the type to retrieve.</param>
+        /// <returns>A <see cref="IType"/> relative to the <paramref name="coreType"/>
+        /// within the scope of <paramref name="relativeSource"/>.</returns>
+        IType ObtainTypeReference(RuntimeCoreType coreType, IAssembly relativeSource);
         /// <summary>
-        /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
+        /// Returns the <see cref="IType"/> from the <paramref name="uniqueIdentifier"/> provided.
         /// </summary>
         /// <param name="uniqueIdentifier">The <see cref="IGeneralTypeUniqueIdentifier"/> of
         /// to the type to retrieve relative to the scope of
         /// <paramref name="relativeScope"/>.</param>
-        /// <returns></returns>
-        IType ObtainTypeReference(IGeneralTypeUniqueIdentifier uniqueIdentifier, ICliAssembly relativeSource);
+        /// <param name="relativeSource">The <see cref="IAssembly"/> which represents
+        /// the lookup scope for the type to retrieve.</param>
+        /// <returns>A <see cref="IType"/> relative to the <paramref name="uniqueIdentifier"/>
+        /// within the scope of <paramref name="relativeSource"/>.</returns>
+        IType ObtainTypeReference(IGeneralTypeUniqueIdentifier uniqueIdentifier, IAssembly relativeSource);
     }
 }

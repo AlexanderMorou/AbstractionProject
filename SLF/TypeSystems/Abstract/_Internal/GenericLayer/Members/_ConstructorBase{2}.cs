@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Signature(".ctor", this.Parameters.ParameterTypes.ToArray());
+                    this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(".ctor", this.Parameters.ParameterTypes.ToArray());
                 return this.uniqueIdentifier;
             }
         }

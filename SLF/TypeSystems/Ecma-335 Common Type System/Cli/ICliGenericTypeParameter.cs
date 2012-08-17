@@ -14,6 +14,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="ICliMetadataGenericParameterTableRow"/> which represents the metadata
         /// from which the <see cref="ICliGenericTypeParameter"/> is derived.
         /// </summary>
-        ICliMetadataGenericParameterTableRow Metadata { get; }
+        ICliMetadataGenericParameterTableRow MetadataEntry { get; }
     }
 }

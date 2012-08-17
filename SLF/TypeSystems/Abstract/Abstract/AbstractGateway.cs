@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Provides common helper methods for interacting with
     /// the abstract type system.
     /// </summary>
-    public static class AbstractGateway
+    public static partial class AbstractGateway
     {
         /// <summary>
         /// Determines how the <paramref name="modifiers"/> <paramref name="compare"/> to the

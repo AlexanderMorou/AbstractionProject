@@ -34,12 +34,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _types;
         private CliNamespaceKeyedTree namespaceInformation;
         private new CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
-        private CliAssemblyReferences references;
-
+        private CliAssemblyReferences cliReferences;
+        
         public CliAssembly(CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
             this.metadataRoot = metadata.MetadataRoot;
-            this.Metadata = metadata;
+            this.MetadataEntry = metadata;
             this.uniqueIdentifier = uniqueIdentifier;
             this.strongNameInfo = strongNameInfo;
             this.identityManager = identityManager;
@@ -158,13 +158,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> References
+        public IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> CliReferences
         {
             get
             {
-                if (this.references == null)
-                    this.references = new CliAssemblyReferences(this);
-                return this.references;
+                if (this.cliReferences == null)
+                    this.cliReferences = new CliAssemblyReferences(this);
+                return this.cliReferences;
             }
         }
 
@@ -374,13 +374,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.namespaceInformation = null;
         }
 
-        public ICliMetadataAssemblyTableRow Metadata { get; private set; }
+        public ICliMetadataAssemblyTableRow MetadataEntry { get; private set; }
 
         //#region ICliDeclaration Members
 
-        ICliMetadataTableRow ICliDeclaration.Metadata
+        ICliMetadataTableRow ICliDeclaration.MetadataEntry
         {
-            get { return this.Metadata; }
+            get { return this.MetadataEntry; }
         }
 
         //#endregion
@@ -409,7 +409,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (genericUniqueId.TypeParameters > 0)
                     return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters));
             }
-            return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
+            if (uniqueIdentifier.Namespace == null)
+                return this.FindType(null, uniqueIdentifier.Name);
+            else
+                return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
@@ -446,5 +449,57 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
+
+        protected override IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences()
+        {
+            return new CliAbstractAssemblyReferences(this);
+        }
+
+        public override IType GetType(IGeneralTypeUniqueIdentifier identifier)
+        {
+            var nestingHierarchy = new Stack<IGeneralTypeUniqueIdentifier>();
+            var id = (IGeneralTypeUniqueIdentifier)identifier;
+            while (id != null)
+            {
+                nestingHierarchy.Push(id);
+                id = id.ParentIdentifier;
+            }
+            ICliMetadataTypeDefinitionTableRow typeDefinition = null;
+            bool first = true;
+            while (nestingHierarchy.Count > 0)
+            {
+                var current = nestingHierarchy.Pop();
+                if (first)
+                {
+                    /* *
+                        * Going off of a true namespace setup.
+                        * */
+                    var topLevelType = this.FindType(current);
+                    if (topLevelType == null)
+                        goto nullResult;
+                    typeDefinition = topLevelType;
+                    first = false;
+                }
+                else
+                {
+                    bool found = false;
+                    foreach (var nestedType in typeDefinition.NestedClasses)
+                        if (nestedType.Name == current.Name &&
+                            current.Namespace == null && string.IsNullOrEmpty(nestedType.Namespace) ||
+                            (current.Namespace != null && nestedType.Namespace == current.Namespace.Name))
+                        {
+                            typeDefinition = nestedType;
+                            found = true;
+                            break;
+                        }
+                    if (!found)
+                        goto nullResult;
+                }
+            }
+            if (typeDefinition != null)
+                return this.IdentityManager.ObtainTypeReference(typeDefinition);
+        nullResult:
+            return null;
+        }
     }
 }

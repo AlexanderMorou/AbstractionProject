@@ -188,13 +188,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            if (this.original is ICompiledType)
-            {
-                if (this.declaringType == null)
-                    this.declaringType = this.OnGetDeclaringTypeImpl();
-                return this.declaringType;
-            }
-            else
+            //if (this.original is ICliType)
+            //{
+            //    if (this.declaringType == null)
+            //        this.declaringType = this.OnGetDeclaringTypeImpl();
+            //    return this.declaringType;
+            //}
+            //else
                 /* *
                  * Can't predict the volatility of non-compiled types.
                  * */
@@ -225,17 +225,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        protected override bool CanCacheImplementsList
+        protected internal override bool CanCacheImplementsList
         {
             get
             {
                 if (this.IsDisposed)
                     throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                 /* *
-                 * Certifiable that compiled types won't change during the
-                 * active runtime lifetime.
+                 * Cheat using internal knowledge of the original, if it's available.
                  * */
-                return this.Original is ICompiledType;
+                var tbOrig = original as TypeBase<TTypeIdentifier>;
+                if (tbOrig != null)
+                    return tbOrig.CanCacheImplementsList;
+                return false;
             }
         }
 
@@ -333,8 +335,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private object disposeLock = new object();
         public override void Dispose()
         {
-            if (CliGateway.CompiledTypeCache.Values.Contains(this))
-                this.RemoveFromCache();
             if (this.IsDisposed)
                 return;
             lock (disposeLock)
@@ -353,46 +353,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { return true; }
         }
 
-        protected override IArrayType OnMakeArray(int rank)
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new ArrayType(this, rank);
-        }
-
-        protected override IArrayType OnMakeArray(params int[] lowerBounds)
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new ArrayType(this, lowerBounds);
-        }
-
-        protected override IType OnMakeByReference()
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new ByRefType(this);
-        }
-
-        protected override IType OnMakePointer()
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new PointerType(this);
-        }
-
-        protected override IType OnMakeNullable()
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new NullableType(this);
-        }
-
         protected override bool IsSubclassOfImpl(IType other)
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return other.Equals(this.Manager.ObtainTypeReference(TypeSystemSpecialIdentity.RootType));
+            return other.Equals(this.Manager.ObtainTypeReference(RuntimeCoreType.RootType));
         }
 
         protected override IMetadataCollection InitializeCustomAttributes()

@@ -53,7 +53,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <param name="relativeAssembly">The <see cref="ICliAssembly"/> which </param>
         /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/> relative to the 
         /// <paramref name="coreType"/> provided.</returns>
-        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly relativeAssembly);
+        /// <remarks><paramref name="relativeAssembly"/> can be null.</remarks>
+        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly relativeAssembly = null);
 
         /// <summary>
         /// Returns the framework runtimeEnvironment identity resolution

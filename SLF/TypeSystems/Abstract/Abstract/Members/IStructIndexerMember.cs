@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
     /// Defines properties and methods for working with an
-    /// indexer defined on a publicKey structure.
+    /// indexer defined on a data structure.
     /// </summary>
     public interface IStructIndexerMember :
         IIndexerMember<IStructIndexerMember, IStructType>

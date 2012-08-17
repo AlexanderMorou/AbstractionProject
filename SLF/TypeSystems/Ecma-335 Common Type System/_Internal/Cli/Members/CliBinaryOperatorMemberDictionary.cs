@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
         protected override IBinaryOperatorUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataMethodDefinitionTableRow metadata)
         {
-            return CliCommon.GetBinaryOperatorUniqueIdentifier((this.Parent as ICliType).Metadata, metadata);
+            return CliCommon.GetBinaryOperatorUniqueIdentifier((this.Parent as ICliType).MetadataEntry, metadata);
         }
 
         protected override IBinaryOperatorCoercionMember<TCoercionParent> CreateElementFrom(int index, ICliMetadataMethodDefinitionTableRow metadata)

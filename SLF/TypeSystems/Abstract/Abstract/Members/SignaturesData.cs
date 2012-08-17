@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     public struct SignaturesData
     {
         /// <summary>
-        /// An empty signature publicKey set.
+        /// An empty signature data set.
         /// </summary>
         public static readonly SignaturesData Empty = new SignaturesData();
         public static readonly SignaturesData DefaultConstructorSet = new SignaturesData(SignatureData.Empty);

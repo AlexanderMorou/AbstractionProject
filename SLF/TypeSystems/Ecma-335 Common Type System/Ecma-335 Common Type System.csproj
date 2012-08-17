@@ -97,6 +97,10 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTableSubset.cs" />
+    <Compile Include="_Internal\Cli\ArrayType.cs" />
+    <Compile Include="_Internal\Cli\ByRefType.cs" />
+    <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences.cs" />
     <Compile Include="_Internal\Cli\CliClassTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -113,11 +117,19 @@
     <Compile Include="_Internal\Cli\CliInterfaceTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="_Internal\Cli\CliManager+TypeCache.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
     <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
+    <Compile Include="_Internal\Cli\CompiledGenericTypeParentTypeBase.cs" />
+    <Compile Include="_Internal\Cli\DefaultCliIdentifiers.cs" />
+    <Compile Include="_Internal\Cli\LockedEmptyMetadataCollection.cs" />
+    <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItemIdentifier, TMItem}.cs" />
+    <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItem}+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItem}+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\LockedFullMembersBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliBinaryOperatorMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliCoercionMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
@@ -491,12 +503,14 @@
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleMethod.cs" />
+    <Compile Include="_Internal\Cli\PointerType.cs" />
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
     <Compile Include="_Internal\Cli\_ICliAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />
     <Compile Include="_Internal\Cli\_ICliType.cs" />
     <Compile Include="_Internal\Cli\_ICliTypeParent.cs" />
-    <Compile Include="_Internal\Cli\_Version.cs" />
+    <Compile Include="_Internal\Cli\_LockedGroupMembersMasterPass.cs" />
+    <Compile Include="_Internal\Cli\_LockedRelativeHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Allen Copeland.pfx" />

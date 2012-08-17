@@ -28,12 +28,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         private _ICliTypeParent parent;
         private CliFullTypeDictionary master;
-        //private int[] filteredTypes;
         private TIdentifier[] filteredIdentifiers;
         private TypeKind filterKind;
+
+        /// <summary>
+        /// Creates a new <see cref="CliTypeDictionary{TIdentifier, TType}"/>
+        /// with the <paramref name="parent"/>, <paramref name="master"/> and <paramref name="filterKind"/>
+        /// provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="_ICliTypeParent"/> which contains the types.</param>
+        /// <param name="master">The <see cref="CliFullTypeDictionary"/>
+        /// which contains the full set of types to filter out.</param>
+        /// <param name="filterKind">The <see cref="TypeKind"/> which denotes the
+        /// type of elements filtered by the <see cref="CliTypeDictionary{TIdentifier, TType}"/>.</param>
         public CliTypeDictionary(_ICliTypeParent parent, CliFullTypeDictionary master, TypeKind filterKind)
         {
             this.master = master;
+            /* *
+             * Filter out the parent dictionary's types,
+             * obtain the indices of the items from the parent dictionary,
+             * as well as the identifiers that uniquely define each.
+             * */
             var filteredSet = master.ObtainSubset<TIdentifier, TType>(filterKind).SplitSet();
             this.filteredIdentifiers = filteredSet.Item2;
             base.Initialize(filteredSet.Item1);
@@ -64,7 +79,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         return "data structures";
                     default:
                         throw new InvalidOperationException();
-                        break;
                 }
             }
         }

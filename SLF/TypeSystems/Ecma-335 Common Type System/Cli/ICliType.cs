@@ -22,6 +22,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// from which the current <see cref="ICliType"/>
         /// is derived.
         /// </summary>
-        new ICliMetadataTypeDefinitionTableRow Metadata { get; }
+        new ICliMetadataTypeDefinitionTableRow MetadataEntry { get; }
     }
 }

@@ -7,6 +7,52 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 {
+    /// <summary>
+    /// Defines the kinds of tables within CLI metadata.
+    /// </summary>
+    /// <remarks>
+    /// <list type="definition">
+    /// <item><term><see cref="CliMetadataTableKinds.Assembly"/></term><description>
+    /// Metadata Validation Rules (as per ECMA-335 22.2):
+    /// <list type="table">
+    /// <listheader><term>Category</term>
+    /// <description>Description</description>
+    /// </listheader>
+    /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
+    /// </term><description>Assembly shall contain zero or one row.
+    /// </description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
+    /// </term><description>
+    /// <see cref="ICliMetadataAssemblyTableRow.HashAlgorithmIdentifier"/> shall
+    /// be one of the specified values within
+    /// <see cref="AssemblyHashAlgorithm"/>.
+    /// </description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
+    /// </term><description><see cref="ICliMetadataAssemblyTableRow.MajorVersion"/>, 
+    /// <see cref="ICliMetadataAssemblyTableRow.MinorVersion"/> and 
+    /// <see cref="ICliMetadataAssemblyTableRow.Revision"/> can each have any value.
+    /// </description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
+    /// </term><description><see cref="ICliMetadataAssemblyTableRow.Flags"/>
+    /// shall have only those values as defined in
+    /// <see cref="CliMetadataAssemblyFlags"/>.
+    /// </description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
+    /// </term><description><see cref="ICliMetadataAssemblyTableRow.NameIndex"/>
+    /// shall index a non-empty string in the String heap.
+    /// </description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
+    /// </term><description>The string indexed by <see cref="ICliMetadataAssemblyTableRow.NameIndex"/>
+    /// can be of unlimited length.</description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
+    /// </term><description><see cref="ICliMetadataAssemblyTableRow.CultureIndex"/>
+    /// can be null or non-null.</description></item>
+    /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
+    /// </term><description>If <see cref="ICliMetadataAssemblyTableRow.CultureIndex"/>
+    /// is non-null it shall index a string from <see cref="ValidCultureIdentifiers"/>.</description></item>
+    /// </list></description></item>
+    /// </list>
+    /// </remarks>
     [Flags]
     public enum CliMetadataTableKinds :
         ulong
@@ -15,44 +61,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         /// The assembly table contains zero or one row describing 
         /// meta-data about the active assembly.
         /// </summary>
-        /// <remarks>Metadata Validation Rules (as per ECMA-335 22.2):
-        /// <list type="table">
-        /// <listheader><term>Category</term>
-        /// <description>Description</description>
-        /// </listheader>
-        /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
-        /// </term><description>Assembly shall contain zero or one row.
-        /// </description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
-        /// </term><description>
-        /// <see cref="ICliMetadataAssemblyTableRow.HashAlgorithmIdentifier"/> shall
-        /// be one of the specified values within
-        /// <see cref="AssemblyHashAlgorithm"/>.
-        /// </description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
-        /// </term><description><see cref="ICliMetadataAssemblyTableRow.MajorVersion"/>, 
-        /// <see cref="ICliMetadataAssemblyTableRow.MinorVersion"/> and 
-        /// <see cref="ICliMetadataAssemblyTableRow.Revision"/> can each have any value.
-        /// </description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
-        /// </term><description><see cref="ICliMetadataAssemblyTableRow.Flags"/>
-        /// shall have only those values as defined in
-        /// <see cref="CliMetadataAssemblyFlags"/>.
-        /// </description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
-        /// </term><description><see cref="ICliMetadataAssemblyTableRow.NameIndex"/>
-        /// shall index a non-empty string in the String heap.
-        /// </description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
-        /// </term><description>The string indexed by <see cref="ICliMetadataAssemblyTableRow.NameIndex"/>
-        /// can be of unlimited length.</description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
-        /// </term><description><see cref="ICliMetadataAssemblyTableRow.CultureIndex"/>
-        /// can be null or non-null.</description></item>
-        /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
-        /// </term><description>If <see cref="ICliMetadataAssemblyTableRow.CultureIndex"/>
-        /// is non-null it shall index a string from <see cref="ValidCultureIdentifiers"/>.</description></item>
-        /// </list></remarks>
         Assembly                        = 1UL << 0x20,
         /// <summary>
         /// The AssemblyOS describes information about the operating system

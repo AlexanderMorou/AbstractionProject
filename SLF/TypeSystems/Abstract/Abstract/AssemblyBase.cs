@@ -4,12 +4,13 @@ using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Utilities.Properties;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Utilities.Collections;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
@@ -69,6 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="Fields"/>.
         /// </summary>
         private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
+        private IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> references;
         private IFullMemberDictionary members;
         private IStrongNamePublicKeyInfo publicKeyInfo;
         private object syncObject = new object();
@@ -152,7 +154,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         protected abstract IInterfaceTypeDictionary InitializeInterfaces();
         /// <summary>
         /// Initializes the <see cref="IStructTypeDictionary"/> for holding
-        /// the publicKey structures defined outside of a namespace.
+        /// the data structures defined outside of a namespace.
         /// </summary>
         /// <returns>A new <see cref="IStructTypeDictionary"/> instance.</returns>
         protected abstract IStructTypeDictionary InitializeStructs();
@@ -437,7 +439,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public IStrongNamePublicKeyInfo PublicKeyInfo
         {
-            get {
+            get
+            {
                 if (this.CanCachePublicKeyInfo)
                 {
                     if (this.publicKeyInfo == null)
@@ -459,7 +462,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         /// <summary>
         /// Returns the <see cref="IModule"/> which exposes
-        /// the manifest publicKey for the current <see cref="AssemblyBase"/>.
+        /// the manifest data for the current <see cref="AssemblyBase"/>.
         /// </summary>
         public IModule ManifestModule
         {
@@ -734,7 +737,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         IMethodMemberDictionary IMethodParent.Methods
         {
-            get { return (IMethodMemberDictionary)this.Methods; }
+            get { return (IMethodMemberDictionary) this.Methods; }
         }
 
         #endregion
@@ -760,7 +763,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         IFieldMemberDictionary IFieldParent.Fields
         {
-            get { return (IFieldMemberDictionary)this.Fields; }
+            get { return (IFieldMemberDictionary) this.Fields; }
         }
 
         #endregion
@@ -788,7 +791,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return classes != null;
+                lock (this.SyncObject)
+                    return classes != null;
             }
         }
         /// <summary>
@@ -799,7 +803,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return delegates != null;
+                lock (this.SyncObject)
+                    return delegates != null;
             }
         }
 
@@ -811,7 +816,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return enums != null;
+                lock (this.SyncObject)
+                    return enums != null;
             }
         }
 
@@ -823,7 +829,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return interfaces != null;
+                lock (this.SyncObject)
+                    return interfaces != null;
             }
         }
 
@@ -835,7 +842,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return structs != null;
+                lock (this.SyncObject)
+                    return structs != null;
             }
         }
 
@@ -847,7 +855,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return types != null;
+                lock (this.SyncObject)
+                    return types != null;
             }
         }
         /// <summary>
@@ -858,7 +867,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return manifestModule != null;
+                lock (this.SyncObject)
+                    return manifestModule != null;
             }
         }
 
@@ -870,7 +880,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return namespaces != null;
+                lock (this.SyncObject)
+                    return namespaces != null;
             }
         }
         /// <summary>
@@ -881,7 +892,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return attributes != null;
+                lock (this.SyncObject)
+                    return attributes != null;
             }
         }
 
@@ -893,7 +905,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return modules != null;
+                lock (this.SyncObject)
+                    return modules != null;
             }
         }
 
@@ -905,7 +918,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return members != null;
+                lock (this.SyncObject)
+                    return members != null;
             }
         }
 
@@ -917,7 +931,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return methods != null;
+                lock (this.SyncObject)
+                    return methods != null;
             }
         }
 
@@ -929,9 +944,32 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             get
             {
-                return fields != null;
+                lock (this.SyncObject)
+                    return fields != null;
             }
         }
 
+        public IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> References
+        {
+            get
+            {
+                lock (this.SyncObject)
+                    if (this.references == null)
+                        this.references = this.InitializeReferences();
+                return this.references;
+            }
+        }
+
+        protected abstract IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences();
+
+        /// <summary>
+        /// Returns the <see cref="IType"/> for the <paramref name="identifier"/>
+        /// provided.
+        /// </summary>
+        /// <param name="identifier">The <see cref="IGeneralTypeUniqueIdentifier"/> to obtain the
+        /// <see cref="IType"/> of.</param>
+        /// <returns>A <see cref="IType"/> from the current <see cref="AssemblyBase"/>
+        /// which is represented by the <paramref name="identifier"/>.</returns>
+        public abstract IType GetType(IGeneralTypeUniqueIdentifier identifier);
     }
 }

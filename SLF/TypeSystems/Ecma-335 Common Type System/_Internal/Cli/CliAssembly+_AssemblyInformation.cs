@@ -5,6 +5,8 @@ using System.Text;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -31,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get {
                     if (this.assemblyVersion == null)
-                        this.assemblyVersion = new _Version(this.owner.metadataRoot.TableStream.AssemblyTable[1].Version);
+                        this.assemblyVersion = this.owner.metadataRoot.TableStream.AssemblyTable[1].Version.ToVersion();
                     return this.assemblyVersion;
                 }
             }

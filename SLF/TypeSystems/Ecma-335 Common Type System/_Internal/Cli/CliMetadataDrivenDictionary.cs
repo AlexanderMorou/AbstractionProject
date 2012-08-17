@@ -33,7 +33,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private object syncObject = new object();
         protected CliMetadataDrivenDictionary(int count, int state = METADATA_SOURCE_ARRAY)
         {
-
             if (state == METADATA_SOURCE_ARRAY)
             {
                 this.checkedMetadata = new bool[count];
@@ -50,6 +49,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected CliMetadataDrivenDictionary(IControlledCollection<TMetadata> metadata)
         {
             this.Initialize(metadata);
+        }
+        protected void Initialize(int count)
+        {
+            this.state = METADATA_SOURCE_ARRAY;
+            this.checkedMetadata = new bool[count];
+            this.metadataSource = new TMetadata[count];
         }
 
         internal CliMetadataDrivenDictionary() { }

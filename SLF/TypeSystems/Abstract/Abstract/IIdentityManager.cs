@@ -62,7 +62,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IType ObtainTypeReference(TTypeIdentity typeIdentity);
     }
 
+    public interface IGenericConstructIdentityManager<TGenericConstruct, TGenericParameter>
+        where TGenericConstruct :
+                IGenericParamParent<TGenericParameter, TGenericConstruct>
+        where TGenericParameter :
+                IGenericParameter<TGenericParameter, TGenericConstruct>
+    {
+        TGenericConstruct MakeGenericClosure(TGenericConstruct source, ITypeCollectionBase closureArguments);
+    }
+
     public interface ITypeIdentityManager :
+        IGenericConstructIdentityManager<IClassType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IClassType>>,
+        IGenericConstructIdentityManager<IDelegateType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IDelegateType>>,
+        IGenericConstructIdentityManager<IInterfaceType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>>,
+        IGenericConstructIdentityManager<IStructType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IStructType>>,
         IDisposable
     {
         /// <summary>
@@ -87,6 +100,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <paramref name="typeIdentity"/> provided.</returns>
         IType ObtainTypeReference(object typeIdentity);
         /// <summary>
+        /// Returns whether the <see cref="IType"/> is a metadatum type.
+        /// </summary>
+        /// <param name="possibleMetadatumType">The <see cref="IType"/> which represents
+        /// the potential metadatum type.</param>
+        /// <returns>true, if the <paramref name="possibleMetadatumType"/>
+        /// can be used as metadata; false, otherwise.</returns>
+        bool IsMetadatumType(IType possibleMetadatumType);
+        /// <summary>
         /// Returns whether the <see cref="IType"/> from the
         /// as a metadatum entity is inheritable.
         /// </summary>
@@ -101,6 +122,78 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// identify the target runtime.
         /// </summary>
         IStandardRuntimeEnvironmentInfo RuntimeEnvironment { get; }
+        /// <summary>
+        /// Creates a new <see cref="IType"/> with the <paramref name="elementType"/>
+        /// relative to the <paramref name="classification"/> provided.
+        /// </summary>
+        /// <param name="elementType">The <see cref="IType"/> which needs a special <paramref name="classification"/></param>
+        /// <param name="classification">The <see cref="TypeElementClassification"/> which denotes
+        /// how to marshal the resulted <paramref name="elementType"/> classification.</param>
+        /// <returns>A <see cref="IType"/> which represents the special <paramref name="classification"/>
+        /// of <paramref name="elementType"/>.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="classification"/> is not one of:
+        /// <list type="number"><item><term>Nullable</term></item>
+        /// <item><term>Pointer</term></item>
+        /// <item><term>Reference</term></item></list></exception>
+        IType MakeClassificationType(IType elementType, TypeElementClassification classification);
+        /// <summary>
+        /// Creates a new <see cref="IArrayType"/> with the <paramref name="elementType"/>
+        /// provided.
+        /// </summary>
+        /// <param name="elementType">The <see cref="IType"/> to create
+        /// a single-dimensional array from.</param>
+        /// <returns>A <see cref="IArrayType"/> which represents the <paramref name="elementType"/>
+        /// as an array with one dimension, with no lower-bound or length specified.</returns>
+        IArrayType MakeArray(IType elementType);
+        /// <summary>
+        /// Creates a new <see cref="IArrayType"/> with the <paramref name="elementType"/>
+        /// and <paramref name="rank"/>.
+        /// </summary>
+        /// <param name="elementType">The <see cref="IType"/> to create a multi-dimensional
+        /// array from.</param>
+        /// <param name="rank">The <see cref="Int32"/> value which denotes the nubmer of dimensions in the
+        /// multi-dimensional array.</param>
+        /// <returns>A <see cref="IArrayType"/> which represents the <paramref name="elementType"/>
+        /// as an array with <paramref name="rank"/> dimensions, each with 
+        /// no lower bound or length specified.</returns>
+        IArrayType MakeArray(IType elementType, int rank);
+        /// <summary>
+        /// Creates a new <see cref="IArrayType"/> with the <paramref name="elementType"/>,
+        /// <paramref name="lowerBounds"/>, and <paramref name="lengths"/> provided.
+        /// </summary>
+        /// <param name="elementType">The <see cref="IType"/> to create an n-dimensional array from.</param>
+        /// <param name="lowerBounds">The <see cref="Int32"/> series which represents the 
+        /// lower bounds of the result <see cref="IArrayType"/> dimensions.</param>
+        /// <param name="lengths">The <see cref="Int32"/> series which represents the 
+        /// lengths of the result <see cref="IArrayType"/> dimensions.</param>
+        /// <returns>A new <see cref="IArrayType"/> which represents the <paramref name="elementType"/>
+        /// as an array with its <paramref name="lowerBounds"/> and <paramref name="lengths"/> provided.</returns>
+        /// <remarks><para><paramref name="lowerBounds"/> and <paramref name="lengths"/> need not contain the same number
+        /// of elements.</para><para>The number of dimensions within the result <see cref="IArrayType"/> will
+        /// be the greater of the number of elements within <paramref name="lowerBounds"/> and
+        /// <paramref name="lengths"/>.</para>
+        /// <para>If <paramref name="lowerBounds"/> and <paramref name="lengths"/> are both null
+        /// then the resultant array is a single-dimensional array with no lower bounds and
+        /// length specified.</para></remarks>
+        IArrayType MakeArray(IType elementType, int[] lowerBounds = null, uint[] lengths = null);
+        /// <summary>
+        /// Creates a new <see cref="IModifiedType"/> with the <paramref name="modifications"/>
+        /// provided.
+        /// </summary>
+        /// <param name="elementType">The <see cref="IType"/> to create a modified variation of.</param>
+        /// <param name="modifications">The <see cref="TypeModification"/> series which represents
+        /// the optional and required nature of the type modifiers.</param>
+        /// <returns>An <see cref="IModifiedType"/> which represents the modified <paramref name="elementType"/>
+        /// as per the <paramref name="modifications"/> provided.</returns>
+        IModifiedType MakeModifiedType(IType elementType, params TypeModification[] modifications);
+        /// <summary>
+        /// Returns the <see cref="RuntimeCoreType"/> associated to the
+        /// <paramref name="type"/> provided.
+        /// </summary>
+        /// <param name="type">The <see cref="IType"/> to obtain the <see cref="RuntimeCoreType"/>
+        /// of.</param>
+        /// <returns></returns>
+        RuntimeCoreType ObtainCoreType(IType type);
 
     }
 }

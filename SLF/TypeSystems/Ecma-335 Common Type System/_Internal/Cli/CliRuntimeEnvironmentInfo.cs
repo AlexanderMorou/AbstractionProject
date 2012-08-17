@@ -346,7 +346,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public IGeneralTypeUniqueIdentifier EnumBaseType
+        public IGeneralTypeUniqueIdentifier RootEnum
         {
             get
             {
@@ -395,7 +395,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (this.UseCoreLibrary)
-                    return this.ValueTypeBaseType;
+                    return this.RootStruct;
                 return null;
             }
         }
@@ -466,7 +466,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public IGeneralTypeUniqueIdentifier ValueTypeBaseType
+        public IGeneralTypeUniqueIdentifier RootStruct
         {
             get
             {
@@ -485,6 +485,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Void", 0);
                 else
                     return AstIdentifier.GetTypeIdentifier("System", "Void", 0);
+            }
+        }
+
+        public IGeneralTypeUniqueIdentifier TypeType
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Type", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Type", 0);
             }
         }
 
@@ -585,7 +596,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             switch (coreType)
             {
-                case RuntimeCoreType.ArrayType:
+                case RuntimeCoreType.Array:
                     return ArrayType;
                 case RuntimeCoreType.Boolean:
                     return Boolean;
@@ -601,8 +612,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return Byte;
                 case RuntimeCoreType.Char:
                     return Char;
-                case RuntimeCoreType.EnumBaseType:
-                    return EnumBaseType;
+                case RuntimeCoreType.RootEnum:
+                    return RootEnum;
                 case RuntimeCoreType.Int16:
                     return Int16;
                 case RuntimeCoreType.UInt16:
@@ -619,10 +630,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return RootType;
                 case RuntimeCoreType.String:
                     return String;
-                case RuntimeCoreType.ValueTypeBaseType:
-                    return ValueTypeBaseType;
+                case RuntimeCoreType.RootStruct:
+                    return RootStruct;
                 case RuntimeCoreType.VoidType:
                     return VoidType;
+                case RuntimeCoreType.Type:
+                    return TypeType;
                 default:
                     throw new ArgumentOutOfRangeException("coreType");
             }
@@ -642,6 +655,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             switch (coreType)
             {
+                case CliRuntimeCoreType.RootMetadatum:
+                    return RootMetadatum;
                 case CliRuntimeCoreType.AsynchronousTask:
                     return AsynchronousTask;
                 case CliRuntimeCoreType.AsynchronousTaskOfT:
@@ -673,6 +688,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "ParamArrayAttribute", 0);
                 else
                     return AstIdentifier.GetTypeIdentifier("System", "ParamArrayAttribute", 0);
+            }
+        }
+
+        public IGeneralTypeUniqueIdentifier RootMetadatum
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Attribute", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System", "Attribute", 0);
             }
         }
     }

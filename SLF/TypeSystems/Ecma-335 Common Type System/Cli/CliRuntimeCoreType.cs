@@ -42,5 +42,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// the array.
         /// </summary>
         ParamArrayMetadatum,
+        /// <summary>
+        /// The definition of the root metadatum type.
+        /// </summary>
+        RootMetadatum,
     }
 }

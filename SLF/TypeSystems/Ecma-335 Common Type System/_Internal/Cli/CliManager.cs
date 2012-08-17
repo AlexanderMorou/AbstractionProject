@@ -31,12 +31,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal partial class CliManager :
         _ICliManager
     {
+        private TypeCache typeCache;
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
         private Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>>();
         private MultikeyedDictionary<CliAssembly, string, CliModule> moduleAssemblyIdentities = new MultikeyedDictionary<CliAssembly, string, CliModule>();
-        private IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> typeKindCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, TypeKind>();
-        private IDictionary<ICliMetadataTypeDefinitionTableRow, IType> typeCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, IType>();
         private Dictionary<Type, IType> systemTypeCache = new Dictionary<Type, IType>();
         private IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> baseTypeKinds = new Dictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType>();
         private IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> refBaseTypeKinds = new Dictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType>();
@@ -53,6 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// which the <see cref="CliManager"/> targets.</param>
         public CliManager(ICliRuntimeEnvironmentInfo runtimeEnvironment)
         {
+            this.typeCache = new TypeCache(this);
             this.runtimeEnvironment = runtimeEnvironment;
         }
 
@@ -424,7 +424,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
-        private CliAssembly GetRelativeAssembly(ICliMetadataRoot root)
+        internal CliAssembly GetRelativeAssembly(ICliMetadataRoot root)
         {
             if (root != null)
                 foreach (var assembly in this.loadedAssemblies.Values)
@@ -457,32 +457,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
-            if (CliCommon.IsSpecialModule(typeIdentity))
-                return null;
-            IType result;
-            lock (this.typeCache)
-            {
-                if (!typeCache.TryGetValue(typeIdentity, out result))
-                {
-                    if (CliCommon.IsBaseObject(this, typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
-                    else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
-                     (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface, typeIdentity, this);
-                    else if (CliCommon.IsBaseObject(this, typeIdentity.Extends))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
-                    else if (CliCommon.IsEnum(this, typeIdentity))
-                        result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumeration, typeIdentity, this);
-                    else if (CliCommon.IsValueType(this, typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity, this);
-                    else if (CliCommon.IsDelegate(this, typeIdentity))
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate, typeIdentity, this);
-                    else
-                        result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this);
-                    this.typeCache.Add(typeIdentity, result);
-                }
-            }
-            return result;
+            return this.typeCache.ObtainTypeReference(typeIdentity);
         }
 
         private ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow typeIdentity, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate = null, bool typeSpec = false)
@@ -643,6 +618,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ICliAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
         {
+            if (assemblyIdentity == null)
+                throw new ArgumentNullException("assemblyIdentity");
             CliAssembly result;
             string[] extensions = new string[] { "exe", "dll" };
             bool gacAssembly = false;
@@ -842,8 +819,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
-                var relativeAssembly = GetRelativeAssembly(assemblyIdentity.MetadataRoot);
-                string relativePath = Path.GetDirectoryName(relativeAssembly.Location);
+                string relativePath = Path.GetDirectoryName(assemblyIdentity.MetadataRoot.SourceImage.Filename);
                 var baseName = identity.Item2.Name;
                 Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
                 var check = CliCommon.CheckFilename(relativePath, baseName, "exe");
@@ -1002,12 +978,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata, _ICliManager creatingManager)
             {
                 this.TypeKind = kind;
-                this.Metadata = metadata;
+                this.MetadataEntry = metadata;
                 this.creatingManager = creatingManager;
             }
             protected override IType OnGetDeclaringType()
             {
-                throw new NotImplementedException();
+                if (this.MetadataEntry.DeclaringType == null)
+                    return null;
+                return this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
             }
 
             private TypeKind TypeKind { get; set; }
@@ -1017,7 +995,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return TypeKind; }
             }
 
-            protected override bool CanCacheImplementsList
+            protected internal override bool CanCacheImplementsList
             {
                 get { throw new NotImplementedException(); }
             }
@@ -1047,31 +1025,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.Assembly;
             }
 
-            protected override IArrayType OnMakeArray(int rank)
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IArrayType OnMakeArray(params int[] lowerBounds)
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IType OnMakeByReference()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IType OnMakePointer()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IType OnMakeNullable()
-            {
-                throw new NotImplementedException();
-            }
-
             public override bool IsGenericConstruct
             {
                 get { throw new NotImplementedException(); }
@@ -1084,7 +1037,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             protected override string OnGetNamespaceName()
             {
-                throw new NotImplementedException();
+                return this.MetadataEntry.Namespace;
             }
 
             protected override IType BaseTypeImpl
@@ -1109,22 +1062,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             protected override ITypeIdentityManager OnGetManager()
             {
-                throw new NotImplementedException();
+                return this.creatingManager;
             }
 
             protected override string OnGetName()
             {
-                throw new NotImplementedException();
+                return this.MetadataEntry.Name;
             }
 
             public override string FullName
             {
                 get
                 {
-                    if (this.Metadata.NamespaceIndex == 0)
-                        return string.Format("{0}", this.Metadata.Name);
+                    if (this.MetadataEntry.NamespaceIndex == 0)
+                        return string.Format("{0}", this.MetadataEntry.Name);
                     else
-                        return string.Format("{0}.{1}", this.Metadata.Namespace, this.Metadata.Name);
+                        return string.Format("{0}.{1}", this.MetadataEntry.Namespace, this.MetadataEntry.Name);
                 }
             }
 
@@ -1134,20 +1087,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return this.creatingManager.GetRelativeAssembly(this.Metadata.MetadataRoot);
+                    return this.creatingManager.GetRelativeAssembly(this.MetadataEntry.MetadataRoot);
                 }
             }
 
-            public ICliMetadataTypeDefinitionTableRow Metadata { get; private set; }
+            public ICliMetadataTypeDefinitionTableRow MetadataEntry { get; private set; }
 
             #endregion
 
 
             #region ICliDeclaration Members
 
-            ICliMetadataTableRow ICliDeclaration.Metadata
+            ICliMetadataTableRow ICliDeclaration.MetadataEntry
             {
-                get { return this.Metadata; }
+                get { return this.MetadataEntry; }
             }
 
             #endregion
@@ -1173,12 +1126,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IDictionary<ICliMetadataTypeDefinitionTableRow, IType> _ICliManager.TypeCache
         {
-            get { return this.typeCache; }
+            get { return this.typeCache.metadataTypeCache; }
         }
 
         IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> _ICliManager.TypeKindCache
         {
-            get { return this.typeKindCache; }
+            get { return this.typeCache.typeKindCache; }
         }
 
         IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> _ICliManager.BaseTypeKinds
@@ -1196,5 +1149,154 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return GetRelativeAssembly(root);
         }
         //#endregion
+
+
+        public IType MakeClassificationType(IType elementType, TypeElementClassification classification)
+        {
+            return this.typeCache.MakeClassificationType(elementType, classification);
+        }
+
+        public IArrayType MakeArray(IType elementType)
+        {
+            return this.MakeArray(elementType, 1);
+        }
+
+        public IArrayType MakeArray(IType elementType, int rank)
+        {
+            var cache = this.typeCache.GetArrayCache(elementType);
+            IArrayType result;
+            lock (cache)
+                result = cache.CreateArray(rank);
+            return result;
+        }
+
+        public IArrayType MakeArray(IType elementType, int[] lowerBounds = null, uint[] lengths = null)
+        {
+            var cache = this.typeCache.GetArrayCache(elementType);
+            IArrayType result;
+            lock (cache)
+                result = cache.CreateArray(lowerBounds);
+            return result;
+        }
+
+        public IClassType MakeGenericClosure(IClassType source, ITypeCollectionBase closureArguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IDelegateType MakeGenericClosure(IDelegateType source, ITypeCollectionBase closureArguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IInterfaceType MakeGenericClosure(IInterfaceType source, ITypeCollectionBase closureArguments)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IStructType MakeGenericClosure(IStructType source, ITypeCollectionBase closureArguments)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public IModifiedType MakeModifiedType(IType elementType, params TypeModification[] modifications)
+        {
+            var modifiedCache = this.typeCache.GetModifiedTypeCache(elementType);
+            IModifiedType result;
+            lock (modifiedCache)
+            {
+                TypeModifierSetEntry entry = new TypeModifierSetEntry(modifications);
+                if (!modifiedCache.TryObtainConstruct(entry, out result))
+                    modifiedCache.RegisterConstruct(entry, result = new ModifiedType(elementType, modifications));
+            }
+            return result;
+        }
+
+        public RuntimeCoreType ObtainCoreType(IType type)
+        {
+            if (!(type is ICliType))
+                return RuntimeCoreType.None;
+            var cliType = (ICliType) type;
+            var metadata = cliType.MetadataEntry;
+            if (this.RuntimeEnvironment.UseCoreLibrary)
+            {
+                var assembly = cliType.Assembly;
+                if (assembly.UniqueIdentifier == this.RuntimeEnvironment.CoreLibraryIdentifier)
+                    return DiscernCoreTypeKind(metadata.Namespace, metadata.Name);
+                return RuntimeCoreType.None;
+            }
+            else
+                return DiscernCoreTypeKind(metadata.Namespace, metadata.Name);
+        }
+
+        private static RuntimeCoreType DiscernCoreTypeKind(string @namespace, string name)
+        {
+            if (@namespace == "System")
+            {
+                switch (name)
+                {
+                    case "SByte":
+                        return RuntimeCoreType.SByte;
+                    case "Int16":
+                        return RuntimeCoreType.Int16;
+                    case "Int32":
+                        return RuntimeCoreType.Int32;
+                    case "Int64":
+                        return RuntimeCoreType.Int64;
+                    case "Byte":
+                        return RuntimeCoreType.Byte;
+                    case "UInt16":
+                        return RuntimeCoreType.UInt16;
+                    case "UInt32":
+                        return RuntimeCoreType.UInt32;
+                    case "UInt64":
+                        return RuntimeCoreType.UInt64;
+                    case "Single":
+                        return RuntimeCoreType.Single;
+                    case "Double":
+                        return RuntimeCoreType.Double;
+                    case "Type":
+                        return RuntimeCoreType.Type;
+                    case "Decimal":
+                        return RuntimeCoreType.Decimal;
+                    case "Boolean":
+                        return RuntimeCoreType.Boolean;
+                    case "Array":
+                        return RuntimeCoreType.Array;
+                    case "Enum":
+                        return RuntimeCoreType.RootEnum;
+                    case "ValueType":
+                        return RuntimeCoreType.RootStruct;
+                    case "Object":
+                        return RuntimeCoreType.RootType;
+                    case "String":
+                        return RuntimeCoreType.String;
+                    case "Void":
+                        return RuntimeCoreType.VoidType;
+                    case "Char":
+                        return RuntimeCoreType.Char;
+                }
+            }
+            return RuntimeCoreType.None;
+        }
+
+        public bool IsMetadatumType(IType possibleMetadatumType)
+        {
+            if (possibleMetadatumType == null)
+                throw new ArgumentNullException("possibleMetadatumType");
+            var metadataIdentifier = this.runtimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum);
+            IType rootMetadatum;
+            if (this.runtimeEnvironment.UseCoreLibrary)
+                rootMetadatum = this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum));
+            else
+            {
+                var assembly = possibleMetadatumType.Assembly;
+
+                rootMetadatum = this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum), assembly);
+            }
+            return rootMetadatum.IsAssignableFrom(possibleMetadatumType);
+        }
+
     }
 }

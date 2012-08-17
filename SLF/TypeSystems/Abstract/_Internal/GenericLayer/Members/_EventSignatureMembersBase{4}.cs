@@ -38,23 +38,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public TEvent Find(string eventName, IDelegateType searchCriteria)
         {
-            return this.Find(searchCriteria).Filter(@event => @event.Name == eventName).Values.FirstOrDefault();
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria)
-        {
-            return this.Find(true, searchCriteria.Parameters.ParameterTypes);
+            return (from e in this.Values
+                    where e.Name == eventName
+                    where e.SignatureSource == EventSignatureSource.Delegate &&
+                          e.SignatureType == searchCriteria ||
+                          e.SignatureSource == EventSignatureSource.Declared &&
+                          e.Parameters.ParameterTypes.SequenceEqual(searchCriteria.Parameters.ParameterTypes)
+                    select e).FirstOrDefault();
         }
 
         #endregion
 
 
         #region IEventSignatureMemberDictionary Members
-
-        IFilteredSignatureMemberDictionary IEventSignatureMemberDictionary.Find(IDelegateType searchCriteria)
-        {
-            return (IFilteredSignatureMemberDictionary)this.Find(searchCriteria);
-        }
 
         IEventSignatureMember IEventSignatureMemberDictionary.Find(string eventName, IDelegateType searchCriteria)
         {

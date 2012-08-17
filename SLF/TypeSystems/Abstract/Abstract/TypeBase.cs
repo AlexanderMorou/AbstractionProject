@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     [DebuggerDisplay("Name = {UniqueIdentifierString}, FullName = {FullName}")]
     public abstract class TypeBase<TIdentifier> :
         DeclarationBase<TIdentifier>,
-        _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>,
+        //_IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>,
         IType
         where TIdentifier :
             ITypeUniqueIdentifier
@@ -46,15 +46,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         private IType byRefType;
         /// <summary>
-        /// Data member for <see cref="MakeArray(Int32)"/>.
-        /// </summary>
-        private TypeArrayCache arrayCache;
-        /// <summary>
         /// Data member for <see cref="ImplementedInterfaces"/>.
         /// </summary>
         private ILockedTypeCollection implementedInterfaces;
 
-        private TypeModifiedCache modifiedTypeCache;
 
         /// <summary>
         /// Returns the <see cref="IType"/> from which the current
@@ -72,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// 
         /// </summary>
-        protected abstract bool CanCacheImplementsList { get; }
+        internal protected abstract bool CanCacheImplementsList { get; }
 
         /// <summary>
         /// Returns the <see cref="ITypeCollection"/> which represents
@@ -128,7 +123,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the current <see cref="TypeBase{TIdentifier}"/>
         /// is a pointer or by-reference type.</exception>
-        protected abstract IArrayType OnMakeArray(int rank);
+        internal IArrayType OnMakeArray(int rank)
+        {
+            return this.Manager.MakeArray(this, rank);
+        }
 
         /// <summary>
         /// Implementation version of <see cref="MakeArray(Int32[])"/> which 
@@ -144,7 +142,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// is null.</exception>
         /// <exception cref="System.ArgumentException"><paramref name="lowerBounds"/>
         /// had zero elements.</exception>
-        protected abstract IArrayType OnMakeArray(params int[] lowerBounds);
+        internal IArrayType OnMakeArray(params int[] lowerBounds)
+        {
+            return this.Manager.MakeArray(this, lowerBounds: lowerBounds);
+        }
 
         /// <summary>
         /// Implementation version of <see cref="MakeByReference"/> which creates 
@@ -153,7 +154,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A new <see cref="IType"/> by reference.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown when the current
         /// <see cref="IType"/> is already a by-reference type.</exception>
-        protected abstract IType OnMakeByReference();
+        internal IType OnMakeByReference()
+        {
+            return this.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
+        }
 
         /// <summary>
         /// Implementation version of <see cref="MakePointer"/> which creates a new 
@@ -162,7 +166,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A new <see cref="IType"/> as a pointer type.</returns>
         /// <exception cref="System.InvalidOperationException">Thrown when the current
         /// <see cref="IType"/> is a by-reference type.</exception>
-        protected abstract IType OnMakePointer();
+        internal IType OnMakePointer()
+        {
+            return this.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
+        }
 
         /// <summary>
         /// Makes the current <see cref="TypeBase{TIdentifier}"/> as a 
@@ -171,19 +178,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A <see cref="IType"/> instance
         /// which represents the current <see cref="TypeBase{TIdentifier}"/>
         /// as a nullable type.</returns>
-        protected abstract IType OnMakeNullable();
+        internal IType OnMakeNullable()
+        {
+            return this.Manager.MakeClassificationType(this, TypeElementClassification.Nullable);
+        }
 
         private object syncObject = new object();
-
-        private void CacheCheck()
-        {
-            lock (this.syncObject)
-                if (this.arrayCache == null)
-                    this.arrayCache = new TypeArrayCache(this, this.OnMakeArray, this.OnMakeArray);
-            lock (this.syncObject)
-                if (this.modifiedTypeCache == null)
-                    this.modifiedTypeCache = new TypeModifiedCache();
-        }
 
         protected virtual IType OnGetElementType()
         {
@@ -260,9 +260,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// or by-reference type.</exception>
         public IArrayType MakeArray(int rank)
         {
-            CacheCheck();
-            lock (this.syncObject)
-                return arrayCache.CreateArray(rank);
+            return this.Manager.MakeArray(this, rank);
         }
 
         /// <summary>
@@ -289,9 +287,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// had zero elements.</exception>
         public IArrayType MakeArray(params int[] lowerBounds)
         {
-            CacheCheck();
-            lock (this.syncObject)
-                return this.arrayCache.CreateArray(lowerBounds);
+            return this.Manager.MakeArray(this, lowerBounds);
         }
 
         /// <summary>
@@ -545,8 +541,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 try
                 {
-                    if (this.arrayCache != null)
-                        this.arrayCache.Dispose();
                     if (this.byRefType != null)
                     {
                         this.byRefType.Dispose();
@@ -764,80 +758,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public IModifiedType MakeModified(TypeModification[] modifiers)
         {
-            IModifiedType result;
-            lock (this.syncObject)
-            {
-                this.CacheCheck();
-                var modifiedTypeKey = new TypeModifierSetEntry(modifiers);
-                if (!this.modifiedTypeCache.TryObtainConstruct(modifiedTypeKey, out result))
-                    this.modifiedTypeCache.RegisterConstruct(modifiedTypeKey, result = new ModifiedType(this, modifiers));
-            }
-            return result;
+            return this.Manager.MakeModifiedType(this, modifiers);
         }
 
         #endregion
 
-        #region _IConstructCacheRegistrar<IModifiedType,ITypeModificationEntry> Members
-
-        void _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.RegisterConstruct(ITypeModifierSetEntry cacheKey, IModifiedType cachedType)
-        {
-            lock (this.syncObject)
-            {
-                this.CacheCheck();
-                this.modifiedTypeCache.RegisterConstruct(cacheKey, cachedType);
-            }
-        }
-
-        bool _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.ContainsConstruct(ITypeModifierSetEntry cacheKey)
-        {
-            lock (this.syncObject)
-            {
-                if (this.modifiedTypeCache == null)
-                    return false;
-                return this.modifiedTypeCache.ContainsConstruct(cacheKey);
-            }
-        }
-
-        IModifiedType _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.ObtainConstruct(ITypeModifierSetEntry cacheKey)
-        {
-            lock (this.syncObject)
-            {
-                if (this.modifiedTypeCache == null)
-                    return null;
-                return this.modifiedTypeCache.ObtainConstruct(cacheKey);
-            }
-        }
-
-        void _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.UnregisterConstruct(ITypeModifierSetEntry cacheKey)
-        {
-            lock (this.syncObject)
-            {
-                if (this.modifiedTypeCache == null)
-                    return;
-                this.modifiedTypeCache.UnregisterConstruct(cacheKey);
-            }
-        }
-
-        bool _IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>.TryObtainConstruct(ITypeModifierSetEntry cacheKey, out IModifiedType cachedType)
-        {
-            lock (this.syncObject)
-                if (this.modifiedTypeCache == null)
-                {
-                    cachedType = null;
-                    return false;
-                }
-                else
-                    return this.modifiedTypeCache.TryObtainConstruct(cacheKey, out cachedType);
-        }
-
-        #endregion
-
-        internal TypeModifiedCache ModifiedTypeCache
-        {
-            get
-            {
-                return this.modifiedTypeCache;
-            }
-        }
     }
 }

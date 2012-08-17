@@ -13,13 +13,13 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
-    /// Provides a publicKey structure for defining a series of extended signature declarations which
+    /// Provides a data structure for defining a series of extended signature declarations which
     /// contain a parameter set and return-type.
     /// </summary>
     public struct ExtendedSignaturesData
     {
         /// <summary>
-        /// An empty extended signature series publicKey set.
+        /// An empty extended signature series data set.
         /// </summary>
         public static readonly ExtendedSignaturesData Empty = new ExtendedSignaturesData();
         /// <summary>

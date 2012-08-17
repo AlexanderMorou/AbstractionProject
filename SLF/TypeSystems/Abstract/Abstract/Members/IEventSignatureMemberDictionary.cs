@@ -45,19 +45,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
             IEventSignatureParent<TEvent, TEventParameter, TEventParent>
     {
         /// <summary>
-        /// Searches for <typeparamref name="TEvent"/> instances which match
-        /// the <paramref name="searchCriteria"/>.
-        /// </summary>
-        /// <param name="searchCriteria">The <see cref="IDelegateType"/> 
-        /// that designates the signature to look for.</param>
-        /// <returns>A new 
-        /// <see cref="IFilteredSignatureMemberDictionary{TSignatureIdentifier, TSignature, TSignatureParameter, TSignatureParent}"/> of 
-        /// <typeparamref name="TEvent"/> instances that matched the
-        /// <paramref name="searchCriteria"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when
-        /// <paramref name="searchCriteria"/> is null.</exception>
-        IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria);
-        /// <summary>
         /// Searches for the <typeparamref name="TEvent"/> instance that match 
         /// the <paramref name="searchCriteria"/> with the given
         /// <paramref name="eventName"/>.
@@ -78,18 +65,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     public interface IEventSignatureMemberDictionary :
         ISignatureMemberDictionary
     {
-        /// <summary>
-        /// Searches for <see cref="IEventSignatureMember"/> instances which
-        /// match the <paramref name="searchCriteria"/>.
-        /// </summary>
-        /// <param name="searchCriteria">The <see cref="IDelegateType"/>
-        /// that designates the signature to look for.</param>
-        /// <returns>A new <see cref="IFilteredSignatureMemberDictionary"/>
-        /// of <see cref="IEventMember"/> instances that matched the 
-        /// <paramref name="searchCriteria"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when
-        /// <paramref name="searchCriteria"/> is null.</exception>
-        IFilteredSignatureMemberDictionary Find(IDelegateType searchCriteria);
         /// <summary>
         /// Searches for the <see cref="IEventSignatureMember"/> instance that match 
         /// the <paramref name="searchCriteria"/> with the given

@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <see cref="ICliMetadataTableRow"/> from which the
         /// <see cref="ICliDeclaration"/> is derived.
         /// </summary>
-        ICliMetadataTableRow Metadata { get; }
+        ICliMetadataTableRow MetadataEntry { get; }
     }
 
     public interface ICliDeclaration<TIdentifier, TMetadata> :
@@ -29,6 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the <typeparamref name="ICliMetadataTableRow"/> from which the
         /// <see cref="ICliDeclaration{TIdentifier, TMetadata}"/> is derived.
         /// </summary>
-        new TMetadata Metadata { get; }
+        new TMetadata MetadataEntry { get; }
     }
 }

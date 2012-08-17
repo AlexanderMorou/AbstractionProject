@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IMember
     {
         /// <summary>
-        /// Returns the type of publicKey stored in the field.
+        /// Returns the type of data stored in the field.
         /// </summary>
         IType FieldType { get; }
     }

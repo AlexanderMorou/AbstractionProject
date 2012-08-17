@@ -180,7 +180,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes); }
+            get { return AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes); }
         }
         
         public bool IsDefined(IType metadatumType)

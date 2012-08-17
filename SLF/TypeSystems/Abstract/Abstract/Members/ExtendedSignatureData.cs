@@ -13,7 +13,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
-    /// Provides extended signature publicKey for signatures that have a name and
+    /// Provides extended signature data for signatures that have a name and
     /// return type.
     /// </summary>
     public struct ExtendedSignatureData

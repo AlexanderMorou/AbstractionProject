@@ -71,13 +71,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            if (this.Original is ICompiledType)
-            {
-                if (this.declaringType == null)
-                    this.declaringType = this.OnGetDeclaringTypeImpl();
-                return this.declaringType;
-            }
-            else
+            //if (this.Original is ICli)
+            //{
+            //    if (this.declaringType == null)
+            //        this.declaringType = this.OnGetDeclaringTypeImpl();
+            //    return this.declaringType;
+            //}
+            //else
                 /* *
                  * Can't predict the volatility of non-compiled types.
                  * */
@@ -94,8 +94,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
         public override void Dispose()
         {
-            if (CliGateway.CompiledTypeCache.Values.Contains(this))
-                this.RemoveFromCache();
+            //if (CliGateway.CompiledTypeCache.Values.Contains(this))
+            //    this.RemoveFromCache();
             if (this.IsDisposed)
                 return;
             lock (disposeLock)
@@ -172,41 +172,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
 
-        protected override IArrayType OnMakeArray(int rank)
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new ArrayType(this, rank);
-        }
-
-        protected override IArrayType OnMakeArray(params int[] lowerBounds)
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new ArrayType(this, lowerBounds);
-        }
-
-        protected override IType OnMakeByReference()
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new ByRefType(this);
-        }
-
-        protected override IType OnMakePointer()
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new PointerType(this);
-        }
-
-        protected override IType OnMakeNullable()
-        {
-            if (this.IsDisposed)
-                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return new NullableType(this);
-        }
-
         protected override bool IsSubclassOfImpl(IType other)
         {
             if (this.IsDisposed)
@@ -273,10 +238,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override TypeKind TypeImpl
         {
-            get { return TypeKind.Enumerator; }
+            get { return TypeKind.Enumeration; }
         }
 
-        protected override bool CanCacheImplementsList
+        protected internal override bool CanCacheImplementsList
         {
             get {
                 return true;
@@ -420,7 +385,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            return AstIdentifier.Type(this.Name);
+            return this.Assembly.UniqueIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name);
         }
 
         protected override ITypeIdentityManager OnGetManager()

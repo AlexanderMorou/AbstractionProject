@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CliManager
     {
-        public IType ObtainTypeReference(RuntimeCoreType coreType, ICliAssembly assembly)
+        public IType ObtainTypeReference(RuntimeCoreType coreType, IAssembly assembly)
         {
             return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType), assembly);
         }
@@ -97,10 +97,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     else
                         return this.ObtainTypeReference(RuntimeCoreType.RootType, assembly);
                 case CliMetadataNativeTypes.Type:
-                    if (this.RuntimeEnvironment.UseCoreLibrary)
-                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "Type"));
-                    else
-                        return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Type"), assembly);
+                    return this.ObtainTypeReference(RuntimeCoreType.Type, assembly);
                 default:
                     throw new NotSupportedException("Native type not supported.");
             }
@@ -140,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new TypeLoadException(string.Format("Could not load {0}.", typeIdentity.ToString()));
         }
 
-        public IType ObtainTypeReference(IGeneralTypeUniqueIdentifier typeIdentity, ICliAssembly originatingAssembly)
+        public IType ObtainTypeReference(IGeneralTypeUniqueIdentifier typeIdentity, IAssembly originatingAssembly)
         {
             /* *
              * With no assembly as a guide, a guess has to be made.
@@ -154,9 +151,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var type = coreLibrary.FindType(typeIdentity);
                     if (type != null)
                         return this.ObtainTypeReference(type);
+                }
+                if (originatingAssembly != null)
+                {
                     foreach (var assembly in originatingAssembly.References.Values)
-                        if ((type = assembly.FindType(typeIdentity)) != null)
-                            return this.ObtainTypeReference(type);
+                    {
+                        var test = assembly.GetType(typeIdentity);
+                        if (test != null)
+                            return test;
+                    }
+                        //if ((type = assembly.FindType(typeIdentity)) != null)
+                        //    return this.ObtainTypeReference(type);
                 }
             }
             else

@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             string typeName;
             switch (coreType)
             {
-                case RuntimeCoreType.ArrayType:
+                case RuntimeCoreType.Array:
                     typeName = "Array";
                     break;
                 case RuntimeCoreType.Boolean:
@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 case RuntimeCoreType.Char:
                     typeName = "Char";
                     break;
-                case RuntimeCoreType.EnumBaseType:
+                case RuntimeCoreType.RootEnum:
                     typeName = "Enum";
                     break;
                 case RuntimeCoreType.Int16:
@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 case RuntimeCoreType.String:
                     typeName = "String";
                     break;
-                case RuntimeCoreType.ValueTypeBaseType:
+                case RuntimeCoreType.RootStruct:
                     typeName = "ValueType";
                     break;
                 case RuntimeCoreType.VoidType:

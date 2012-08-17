@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// Returns the types of the parameters represented
         /// by the <see cref="ISignatureMemberUniqueIdentifier"/>.
         /// </summary>
-        IEnumerable<IModifiedType> Parameters { get; }
+        IEnumerable<IType> Parameters { get; }
         /// <summary>
         /// Returns the number of parameters within
         /// the signature identifier.

@@ -87,7 +87,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
-    <Compile Include="Abstract\AstIdentifier+IdentifierDefaults.cs" />
+    <Compile Include="Abstract\AstIdentifier.cs" />
+    <Compile Include="Abstract\AstIdentifier+IdentifierDefaults.cs">
+      <DependentUpon>AstIdentifier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Abstract\AbstractGateway+BinaryOperatorNames.cs" />
+    <Compile Include="Abstract\AbstractGateway+UnaryOperatorNames.cs" />
     <Compile Include="Abstract\Documentation\IDocComment.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeElement.cs" />
     <Compile Include="Abstract\Documentation\IDocCommentCodeReference.cs" />
@@ -353,6 +358,7 @@
     <Compile Include="Abstract\IDeclarationUniqueIdentifier.cs" />
     <Compile Include="Abstract\ITypeUniqueIdentifier.cs" />
     <Compile Include="_Internal\Abstract\EmptyFullMemberDictionary.cs" />
+    <Compile Include="_Internal\Abstract\GenericTypeCache.cs" />
     <Compile Include="_Internal\Abstract\ITypeModificationEntry.cs" />
     <Compile Include="_Internal\Abstract\Members\BinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase{TCtor, TCtorParent}.cs" />
@@ -391,6 +397,8 @@
     <Compile Include="_Internal\Abstract\TypeModificationEntry.cs" />
     <Compile Include="_Internal\Abstract\TypeModifiedCache.cs" />
     <Compile Include="_Internal\Abstract\_IConstructRegistrar{T}.cs" />
+    <Compile Include="_Internal\Abstract\_IType.cs" />
+    <Compile Include="_Internal\Abstract\_Version.cs" />
     <Compile Include="_Internal\GenericLayer\IGeneralParamsParent{TParam, TParent}.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}+Parameters.cs" />
     <Compile Include="_Internal\GenericLayer\Members\_ConstructorBase{2}.cs" />
