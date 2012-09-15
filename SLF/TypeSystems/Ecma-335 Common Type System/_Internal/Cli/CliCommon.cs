@@ -51,6 +51,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return LoadAssemblyMetadata(peStream, image);
         }
 
+        public static IGeneralTypeUniqueIdentifier ObtainTypeIdentifier(ICliMetadataTypeDefinitionTableRow typeDefinition, IAssemblyUniqueIdentifier aId)
+        {
+            int tcCount = (typeDefinition.DeclaringType != null) ? (typeDefinition.TypeParameters.Count - typeDefinition.DeclaringType.TypeParameters.Count) : typeDefinition.TypeParameters.Count;
+            if (typeDefinition.DeclaringType != null)
+                if (typeDefinition.NamespaceIndex == 0)
+                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, tcCount);
+                else
+                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, tcCount, AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace));
+            else
+                if (typeDefinition.NamespaceIndex == 0)
+                    return aId.GetTypeIdentifier((string) null, typeDefinition.Name, tcCount);
+                else
+                    return aId.GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace), typeDefinition.Name, tcCount);
+        }
+
+        public static IGeneralTypeUniqueIdentifier ObtainTypeIdentifier(ICliMetadataTypeRefTableRow typeReference)
+        {
+            throw new NotImplementedException();
+        }
+
         unsafe private static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
         {
             /* *
@@ -667,6 +687,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             return result;
         }
+
         public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(IGeneralTypeUniqueIdentifier uniqueIdentifier, CliNamespaceKeyedTree topLevel)
         {
             if (uniqueIdentifier.Name.Contains('`'))
@@ -714,9 +735,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 else
                     return null;
             }
-            if (topLevel.NamespaceTypes != null)
+            if (topLevel._Types != null)
             {
-                foreach (var nsType in topLevel.NamespaceTypes)
+                foreach (var nsType in topLevel._Types)
                     if (nsType.MetadataRoot == cliModule.Metadata.MetadataRoot && nsType.Name == name)
                         return nsType;
             }
@@ -753,9 +774,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return null;
             }
             typeSearch:
-            if (topLevel != null && topLevel.NamespaceTypes != null)
+            if (topLevel != null && topLevel._Types != null)
             {
-                var currentTypes = topLevel.NamespaceTypes;
+                var currentTypes = topLevel._Types;
                 foreach (var nsType in currentTypes)
                     if (nsType.Name == name)
                         return nsType;
@@ -819,6 +840,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 default:
                     throw new ArgumentException("Invalid method presented.", "metadata");
             }
+            if (metadata.Signature.Parameters.Count != 2)
+            {
+                throw new ArgumentException("Invalid method presented.", "metadata");
+            }
+            var lParamType = metadata.Signature.Parameters[0].ParameterType;
+            var rParamType = metadata.Signature.Parameters[1].ParameterType;
+            
+            //return AstIdentifier.GetBinaryOperatorIdentifier(
             throw new NotImplementedException();
         }
 
@@ -828,22 +857,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 case CliCommon.VersionString_1_0_3705:
                     return CliFrameworkVersion.v1_0_3705;
-
                 case CliCommon.VersionString_1_1_4322:
                     return CliFrameworkVersion.v1_1_4322;
-
                 case CliCommon.VersionString_2_0_50727:
                     return CliFrameworkVersion.v2_0_50727;
-
                 case CliCommon.VersionString_3_0:
                     return CliFrameworkVersion.v3_0;
-
                 case CliCommon.VersionString_3_5:
                     return CliFrameworkVersion.v3_5;
-
                 case CliCommon.VersionString_4_0_30319:
                     return CliFrameworkVersion.v4_0_30319;
-
                 case CliCommon.VersionString_4_5:
                     return CliFrameworkVersion.v4_5;
                 default:
@@ -853,13 +876,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static RuntimeCoreType GetCoreType(this IType type) { return type.Manager.ObtainCoreType(type); }
 
-
         internal static IEnumerable<ICliMetadataAssemblyRefTable> ObtainAssemblyRefTables(this CliAssembly owner)
         {
             return (from ICliModule m in owner.Modules.Values
                     let table = m.Metadata.MetadataRoot.TableStream.AssemblyRefTable
                     where table != null
                     select table);
+        }
+
+        internal static int GetDepth(this IGeneralTypeUniqueIdentifier identifier)
+        {
+            int depth = 0;
+            var id = (IGeneralTypeUniqueIdentifier) identifier;
+            while (id != null)
+            {
+                depth++;
+                id = id.ParentIdentifier;
+            }
+            return depth;
+        }
+
+        internal static Stack<IGeneralTypeUniqueIdentifier> GetNestingHierarchy(this IGeneralTypeUniqueIdentifier identifier)
+        {
+            var nestingHierarchy = new Stack<IGeneralTypeUniqueIdentifier>();
+            var id = (IGeneralTypeUniqueIdentifier) identifier;
+            while (id != null)
+            {
+                nestingHierarchy.Push(id);
+                id = id.ParentIdentifier;
+            }
+            return nestingHierarchy;
         }
 
     }

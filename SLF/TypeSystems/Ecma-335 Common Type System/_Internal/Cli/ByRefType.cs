@@ -119,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.array));
         }
 
-        public IArrayType MakeArray(params int[] lowerBounds)
+        public IArrayType MakeArray(int[] lowerBounds, uint[] lengths)
         {
             throw ThrowHelper.ObtainNotSupportedException(ExceptionMessageId.TypeInvalidElementType, ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.by_reference_type), ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.array));
         }

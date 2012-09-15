@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.arrayCache.CreateArray();
         }
 
-        public IArrayType MakeArray(params int[] lowerBounds)
+        public IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null)
         {
             CacheCheck();
             return this.arrayCache.CreateArray(lowerBounds);
@@ -281,7 +281,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (this.syncObject)
             {
                 if (this.arrayCache == null)
-                    this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, this.manager, k), l => new ArrayType(this, this.manager, l));
+                    this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, k, this.manager), (lowerBounds, lengths) => new ArrayType(this, this.manager, lowerBounds, lengths));
                 if (this.modifiedTypeCache == null)
                     this.modifiedTypeCache = new TypeModifiedCache();
             }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Utilities.Properties;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -20,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             : base(assembly, metadataEntry)
         {
         }
-        
+
         #region IGenericType<TIdentifier,TType> Members
 
         public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
@@ -39,16 +40,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public new TType ElementType
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-
-        #region IDeclaration Members
-
-        public new IGeneralDeclarationUniqueIdentifier UniqueIdentifier
-        {
-            get { throw new NotImplementedException(); }
+            get { throw new InvalidOperationException(Resources.ObjectStateThrowMessage); }
         }
 
         #endregion
@@ -76,12 +68,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters);
         }
 
         IGenericParamParent IGenericParamParent.MakeGenericClosure(params IType[] typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters);
         }
 
         public bool ContainsGenericParameters
@@ -96,17 +88,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        #region IGenericType Members
+        protected override TIdentifier OnGetUniqueIdentifier()
+        {
+            return (TIdentifier)CliCommon.ObtainTypeIdentifier(this.MetadataEntry, this.Assembly.UniqueIdentifier);
+        }
 
+        #region IGenericType Members
 
         IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters);
         }
 
         IGenericType IGenericType.MakeGenericClosure(params IType[] typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters);
         }
 
         #endregion

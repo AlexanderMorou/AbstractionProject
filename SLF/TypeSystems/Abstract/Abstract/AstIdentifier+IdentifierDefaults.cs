@@ -87,13 +87,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 {
                     var gravePart = name.Substring(graveIndex + 1);
                     int graveTypeParameters;
-                    if (int.TryParse(gravePart, out graveTypeParameters) && graveTypeParameters == typeParameters)
-                    {
+                    if (int.TryParse(gravePart, out graveTypeParameters))
                         if (graveTypeParameters == typeParameters)
                             name = name.Substring(0, graveIndex);
                         else
                             this.UsesNonstandardGraveAccentElement = true;
-                    }
+                    else
+                        this.UsesNonstandardGraveAccentElement = true;
                 }
                 this.Name = name;
                 this.TypeParameters = typeParameters;
@@ -117,13 +117,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 if (other == null)
                     return false;
-                if (other.Assembly == null && this.Assembly != null ||
-                    other.Assembly != null && this.Assembly == null)
+                /* *
+                 * Assembly ID resolution can be nested, thus
+                 * obtain it only once.
+                 * */
+                IAssemblyUniqueIdentifier tAssem = this.Assembly,
+                                          oAssem = other.Assembly;
+                if (oAssem == null && tAssem != null ||
+                    oAssem != null && tAssem == null)
                     return false;
-                if (this.Assembly == null)
+                if (tAssem == null)
                     return other.TypeParameters == this.TypeParameters && other.Name == this.Name;
                 else
-                    return other.TypeParameters == this.TypeParameters && other.Name == this.Name && this.Assembly.Equals(other.Assembly);
+                    return other.TypeParameters == this.TypeParameters && other.Name == this.Name && tAssem.Equals(oAssem);
             }
 
             //#endregion
@@ -176,50 +182,41 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             public override int GetHashCode()
             {
                 if (this.Name == null)
-                    return -33 ^ this.TypeParameters ^ this.UsesNonstandardGraveAccentElement.GetHashCode();
+                    return -33 ^ this.TypeParameters ^ (this.UsesNonstandardGraveAccentElement ? 0x40 : 0x00);
                 else
-                    return this.Name.GetHashCode() ^ this.TypeParameters ^ this.UsesNonstandardGraveAccentElement.GetHashCode();
+                    return this.Name.GetHashCode() ^ this.TypeParameters ^ (this.UsesNonstandardGraveAccentElement ? 0x40 : 0x00);
             }
 
             public override string ToString()
             {
                 if (this.Assembly == null)
-                {
-                    if (this.Name == null)
-                        if (this.IsGenericConstruct)
-                            return string.Format("<unknown>`{0}", this.TypeParameters);
-                        else
-                            return "<unknown>";
-                    else if (this.IsGenericConstruct)
-                        if (this.UsesNonstandardGraveAccentElement)
-                            return this.FullName;
-                        else
-                            return string.Format("{0}`{1}", this.FullName, this.TypeParameters);
-                    else
-                        return this.FullName;
-                }
+                    return this.FullName;
                 else
-                    if (this.Name == null)
-                        if (this.IsGenericConstruct)
-                            return string.Format("<unknown>`{0}, {1}", this.TypeParameters, this.Assembly);
-                        else
-                            return string.Format("<unknown>, {0}", this.Assembly);
-                    else if (this.IsGenericConstruct)
-                        if (this.UsesNonstandardGraveAccentElement)
-                            return string.Format("{0}, {1}", this.FullName, this.Assembly);
-                        else
-                            return string.Format("{0}`{1}, {2}", this.FullName, this.TypeParameters, this.Assembly);
-                    else
-                        return string.Format("{0}, {1}", this.FullName, this.Assembly);
+                    return string.Format("{0}, {1}", this.FullName, this.Assembly);
             }
 
             public string FullName
             {
                 get
                 {
-                    if (this.Namespace == null || this.Namespace.Name == string.Empty)
-                        return this.Name;
-                    return string.Format("{0}.{1}", this.Namespace, this.Name);
+                    StringBuilder sb = new StringBuilder();
+                    if (this.ParentIdentifier != null)
+                    {
+                        sb.Append(this.ParentIdentifier.FullName);
+                        sb.Append('+');
+                    }
+                    if (this.Namespace != null && string.IsNullOrEmpty(this.Namespace.Name))
+                    {
+                        sb.Append('.');
+                        sb.Append(this.Namespace);
+                    }
+                    sb.Append(this.Name ?? "<unknown>");
+                    if (this.TypeParameters > 0 && !this.UsesNonstandardGraveAccentElement)
+                    {
+                        sb.Append('`');
+                        sb.Append(this.TypeParameters);
+                    }
+                    return sb.ToString();
                 }
             }
 

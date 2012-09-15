@@ -9,10 +9,9 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal interface _ICliAssembly :
-        _ICliTypeParent,
+        _ICliTopLevelTypeParent,
         ICliAssembly
     {
-        ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name);
         INamespaceDeclaration GetNamespace(string @namespace);
     }
 }

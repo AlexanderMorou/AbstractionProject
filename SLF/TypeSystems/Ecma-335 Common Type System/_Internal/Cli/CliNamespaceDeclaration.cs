@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CliNamespaceDeclaration :
         INamespaceDeclaration,
-        _ICliTypeParent
+        _ICliTopLevelTypeParent
     {
         private CliAssembly owningAssembly;
         CliNamespaceKeyedTreeNode namespaceInfo;
@@ -182,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get {
                 if (this.types == null)
-                    this.types = new CliFullTypeDictionary(this.namespaceInfo.NamespaceTypes, this);
+                    this.types = new CliFullTypeDictionary(this.namespaceInfo._Types, this);
                 return this.types;
             }
         }
@@ -223,14 +223,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        #region _ICliTypeParent Members
+        #region __ICliTypeParent Members
 
         public _ICliManager Manager
         {
             get { return (_ICliManager)((_ICliAssembly)this.Assembly).IdentityManager;}
         }
 
-        _ICliAssembly _ICliTypeParent.Assembly
+        _ICliAssembly __ICliTypeParent.Assembly
         {
             get { return (_ICliAssembly)this.Assembly; }
         }

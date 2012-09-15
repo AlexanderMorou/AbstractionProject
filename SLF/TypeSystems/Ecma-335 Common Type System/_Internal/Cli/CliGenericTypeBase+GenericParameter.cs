@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Properties;
+//2.2046226218487755 -- kg -> pounds
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -20,6 +21,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             private CliGenericTypeBase<TIdentifier, TType> owner;
             private ICliMetadataGenericParameterTableRow metadataEntry;
             private int index;
+            private IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> constructors;
+            private IGenericParameterEventMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> events;
+            private IGenericParameterIndexerMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> indexers;
+            private IGenericParameterMethodMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> methods;
+            private IGenericParameterPropertyMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> properties;
+            internal GenericParameter(CliGenericTypeBase<TIdentifier, TType> owner, ICliMetadataGenericParameterTableRow metadataEntry, int index)
+            {
+                this.owner = owner;
+                this.metadataEntry = metadataEntry;
+                this.index = index;
+            }
             //#region IGenericParameter<IGenericTypeParameter<TIdentifier,TType>,TType> Members
 
             public TType Parent
@@ -29,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IGenericParameterUniqueIdentifier UniqueIdentifier
             {
-                get { return AstIdentifier.GetGenericParameterIdentifier(this.index); }
+                get { return AstIdentifier.GetGenericParameterIdentifier(this.index, this.Name); }
             }
 
             //#endregion
@@ -38,27 +50,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> Constructors
             {
-                get { throw new NotImplementedException(); }
+                get { return this.constructors ?? (this.constructors = this.InitializeConstructors()); }
             }
 
             public IGenericParameterEventMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> Events
             {
-                get { throw new NotImplementedException(); }
+                get { return this.events ?? (this.events = this.InitializeEvents()); }
             }
 
             public IGenericParameterIndexerMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> Indexers
             {
-                get { throw new NotImplementedException(); }
+                get { return this.indexers ?? (this.indexers = this.InitializeIndexers()); }
             }
 
             public IGenericParameterMethodMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> Methods
             {
-                get { throw new NotImplementedException(); }
+                get { return this.methods ?? (this.methods = this.InitializeMethods()); }
             }
 
             public IGenericParameterPropertyMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> Properties
             {
-                get { throw new NotImplementedException(); }
+                get { return this.properties ?? (this.properties = this.InitializeProperties()); }
             }
 
             //#endregion
@@ -115,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IType DeclaringType
             {
-                get { throw new NotImplementedException(); }
+                get { return this.owner; }
             }
 
             public TypeKind Type
@@ -125,37 +137,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public bool IsNullable
             {
-                get { throw new NotImplementedException(); }
+                get { return this.SpecialConstraint == GenericTypeParameterSpecialConstraint.Struct; }
             }
 
             public IArrayType MakeArray(int rank)
             {
-                throw new NotImplementedException();
+                return this.owner.Manager.MakeArray(this, rank);
             }
 
             public IArrayType MakeArray()
             {
-                throw new NotImplementedException();
+                return this.owner.Manager.MakeArray(this);
             }
 
-            public IArrayType MakeArray(params int[] lowerBounds)
+            public IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null)
             {
-                throw new NotImplementedException();
+                return this.owner.Manager.MakeArray(this, lowerBounds, lengths);
             }
 
             public IType MakePointer()
             {
-                throw new NotImplementedException();
+                return this.owner.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
             }
 
             public IType MakeByReference()
             {
-                throw new NotImplementedException();
+                return this.owner.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
             }
 
             public IType MakeNullable()
             {
-                throw new NotImplementedException();
+                return this.owner.Manager.MakeClassificationType(this, TypeElementClassification.Nullable);
             }
 
             public bool IsSubclassOf(IType other)
@@ -215,7 +227,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             IGeneralTypeUniqueIdentifier IType.UniqueIdentifier
             {
-                get { throw new NotImplementedException(); }
+                get { return this.UniqueIdentifier; }
             }
 
             public bool IsDefined(IType metadatumType, bool inherited)
@@ -401,7 +413,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    switch (metadataEntry.Flags & GenericParameterAttributes.SpecialConstraintMask)
+                    switch (metadataEntry.Flags & (GenericParameterAttributes.SpecialConstraintMask ^ GenericParameterAttributes.DefaultConstructorConstraint))
                     {
                         case GenericParameterAttributes.NotNullableValueTypeConstraint:
                             return GenericTypeParameterSpecialConstraint.Struct;
@@ -478,6 +490,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get { return this.metadataEntry; }
             }
+
+            private IGenericParameterConstructorMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> InitializeConstructors()
+            {
+                throw new NotImplementedException();
+            }
+
+            private IGenericParameterEventMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> InitializeEvents()
+            {
+                throw new NotImplementedException();
+            }
+
+            private IGenericParameterIndexerMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> InitializeIndexers()
+            {
+                throw new NotImplementedException();
+            }
+
+            private IGenericParameterMethodMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> InitializeMethods()
+            {
+                throw new NotImplementedException();
+            }
+
+            private IGenericParameterPropertyMemberDictionary<IGenericTypeParameter<TIdentifier, TType>> InitializeProperties()
+            {
+                throw new NotImplementedException();
+            }
+
         }
     }
 }

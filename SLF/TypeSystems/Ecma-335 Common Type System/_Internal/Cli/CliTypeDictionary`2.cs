@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             class,
             IType<TIdentifier, TType>
     {
-        private _ICliTypeParent parent;
+        private __ICliTypeParent parent;
         private CliFullTypeDictionary master;
         private TIdentifier[] filteredIdentifiers;
         private TypeKind filterKind;
@@ -36,12 +36,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// with the <paramref name="parent"/>, <paramref name="master"/> and <paramref name="filterKind"/>
         /// provided.
         /// </summary>
-        /// <param name="parent">The <see cref="_ICliTypeParent"/> which contains the types.</param>
+        /// <param name="parent">The <see cref="__ICliTypeParent"/> which contains the types.</param>
         /// <param name="master">The <see cref="CliFullTypeDictionary"/>
         /// which contains the full set of types to filter out.</param>
         /// <param name="filterKind">The <see cref="TypeKind"/> which denotes the
         /// type of elements filtered by the <see cref="CliTypeDictionary{TIdentifier, TType}"/>.</param>
-        public CliTypeDictionary(_ICliTypeParent parent, CliFullTypeDictionary master, TypeKind filterKind)
+        public CliTypeDictionary(__ICliTypeParent parent, CliFullTypeDictionary master, TypeKind filterKind)
         {
             this.master = master;
             /* *

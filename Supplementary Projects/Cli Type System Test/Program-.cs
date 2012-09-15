@@ -336,10 +336,13 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             Console.WriteLine("starting filter");
             var coreLibId = clim.RuntimeEnvironment.CoreLibraryIdentifier;
             var assem = clim.ObtainAssemblyReference(coreLibId);
-            var uniqueId = coreLibId.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2).GetNestedIdentifier("ValueCollection").GetNestedIdentifier("Enumerator");
-            var dictionaryValuesEnum = assem.GetType(uniqueId).MakeArray(3, -3000);
-            var testTypedName = dictionaryValuesEnum.GetTypedName("TestTypedName"); 
-            Console.WriteLine(testTypedName);
+            var uniqueId = coreLibId.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2).GetNestedIdentifier("ValueCollection", 0).GetNestedIdentifier("Enumerator", 0);
+            var dictionaryValuesEnum = assem.GetType(uniqueId).MakeArray(new int[] { 3, -3000, 29, 589, int.MinValue }, new uint[] { 5, 3005, 8, 9, 9, 2 }).MakeArray(new int[] { 3, 3 }, new uint[] { 3 });
+            var dd = assem.GetType(uniqueId);
+            Console.WriteLine(dd.UniqueIdentifier.Equals(uniqueId));
+            //var m = dictionaryValuesEnum.ToString();
+            var testTypedName = dictionaryValuesEnum.GetTypedName("TestTypedName");
+            //Console.WriteLine(m);
             sw.Stop();
             var t3 = sw.Elapsed;
             Console.WriteLine(t3);

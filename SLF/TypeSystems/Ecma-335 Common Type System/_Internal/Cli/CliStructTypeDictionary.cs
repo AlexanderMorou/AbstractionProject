@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CliTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IStructType>,
         IStructTypeDictionary
     {
-        public CliStructTypeDictionary(_ICliTypeParent parent, CliFullTypeDictionary master)
+        public CliStructTypeDictionary(__ICliTypeParent parent, CliFullTypeDictionary master)
             : base(parent, master, TypeKind.Struct)
         {
         }

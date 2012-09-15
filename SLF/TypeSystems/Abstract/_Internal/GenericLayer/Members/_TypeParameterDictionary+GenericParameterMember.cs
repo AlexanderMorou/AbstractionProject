@@ -187,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// is null.</exception>
             /// <exception cref="System.ArgumentException"><paramref name="lowerBounds"/>
             /// had zero elements.</exception>
-            public IArrayType MakeArray(params int[] lowerBounds)
+            public IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null)
             {
                 ArrayCacheCheck();
                 return this.arrayCache.CreateArray(lowerBounds);
@@ -541,7 +541,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             }
 
             /// <summary>
-            /// Implementation version of <see cref="MakeArray(Int32[])"/> which 
+            /// Implementation version of <see cref="MakeArray(Int32[], UInt32[])"/> which 
             /// creates a new non-standard multi-dimensional 
             /// or single-dimension array with the 
             /// <paramref name="lowerBounds"/> of each dimension
@@ -554,9 +554,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// is null.</exception>
             /// <exception cref="System.ArgumentException"><paramref name="lowerBounds"/>
             /// had zero elements.</exception>
-            protected IArrayType OnMakeArray(params int[] lowerBounds)
+            protected IArrayType OnMakeArray(int[] lowerBounds, uint[] lengths)
             {
-                return this.Manager.MakeArray(this, lowerBounds);
+                return this.Manager.MakeArray(this, lowerBounds, lengths);
             }
 
             /// <summary>

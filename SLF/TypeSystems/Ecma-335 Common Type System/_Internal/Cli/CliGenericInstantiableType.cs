@@ -14,9 +14,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal abstract partial class CliGenericInstantiableTypeBase<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TType> :
-        CliGenericTypeBase<IGeneralGenericTypeUniqueIdentifier, TType>,
+        CliGenericParentType<IGeneralGenericTypeUniqueIdentifier, TType>,
         IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
-        _ICliTypeParent,
+        __ICliTypeParent,
         _ICliMethodParent
         where TIndexer :
             class,
@@ -43,30 +43,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>,
             IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>
     {
-        /// <summary>
-        /// Data member for <see cref="Classes"/>.
-        /// </summary>
-        private CliClassTypeDictionary classes;
-        /// <summary>
-        /// Data member for <see cref="Delegates"/>.
-        /// </summary>
-        private CliDelegateTypeDictionary delegates;
-        /// <summary>
-        /// Data member for <see cref="Enums"/>
-        /// </summary>
-        private CliEnumTypeDictionary enums;
-        /// <summary>
-        /// Data member for <see cref="Interfaces"/>
-        /// </summary>
-        private CliInterfaceTypeDictionary interfaces;
-        /// <summary>
-        /// Data member for <see cref="Structs"/>.
-        /// </summary>
-        private CliStructTypeDictionary structs;
-        /// <summary>
-        /// Data member for <see cref="Types"/>.
-        /// </summary>
-        private CliFullTypeDictionary types;
         /// <summary>
         /// Data member for <see cref="BinaryOperatorCoercions"/>.
         /// </summary>
@@ -279,78 +255,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IPropertyMemberDictionary IPropertyParent.Properties
         {
             get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-
-        #region ITypeParent Members
-
-        public IClassTypeDictionary Classes
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IDelegateTypeDictionary Delegates
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IEnumTypeDictionary Enums
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IInterfaceTypeDictionary Interfaces
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IStructTypeDictionary Structs
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IFullTypeDictionary Types
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-
-        #region _ICliTypeParent Members
-
-        public new _ICliManager Manager
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public new _ICliAssembly Assembly
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-
-        #region ICliTypeParent Members
-
-        public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName)
-        {
-            throw new NotImplementedException();
-        }
-
-        public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

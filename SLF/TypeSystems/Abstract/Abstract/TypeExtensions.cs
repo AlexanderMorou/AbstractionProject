@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Utilities.Collections;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using System.Text;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
@@ -22,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// generic.
     /// </summary>
     [Flags]
-    public enum TypeParameterSources 
+    public enum TypeParameterSources
     {
         /// <summary>
         /// The source of the type-replacements is the 
@@ -98,10 +99,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.name));
             if (type.IsGenericConstruct && type is IGenericType)
             {
-                if (type.IsGenericConstruct && !((IGenericType)(type)).IsGenericDefinition)
-                    type = ((IGenericType)(type.ElementType)).MakeGenericClosure(typeParameters.ToCollection());
-                else if (type.IsGenericConstruct && ((IGenericType)(type)).IsGenericDefinition)
-                    type = ((IGenericType)(type)).MakeGenericClosure(typeParameters.ToCollection());
+                if (type.IsGenericConstruct && !((IGenericType) (type)).IsGenericDefinition)
+                    type = ((IGenericType) (type.ElementType)).MakeGenericClosure(typeParameters.ToCollection());
+                else if (type.IsGenericConstruct && ((IGenericType) (type)).IsGenericDefinition)
+                    type = ((IGenericType) (type)).MakeGenericClosure(typeParameters.ToCollection());
             }
             else if (typeParameters.Length == 0)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.typeParameters, ExceptionMessageId.TypeNotGeneric);
@@ -160,14 +161,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     if (target is IGenericParameter)
                         if (numericTypeParams)
                         {
-                            var genericParameter = (IGenericParameter)target;
+                            var genericParameter = (IGenericParameter) target;
                             if (genericParameter.Parent is IType)
-                                return string.Format( "!{0}", genericParameter.Position);
+                                return string.Format("!{0}", genericParameter.Position);
                             else
                                 return string.Format("!!{0}", genericParameter.Position);
                         }
                         else
-                            return ((IGenericParameter)(target)).Name;
+                            return ((IGenericParameter) (target)).Name;
                     string targetName = target.Name;
                     var genericTarget = target as IGenericType;
                     if (typeParameterDisplayMode == TypeParameterDisplayMode.SystemStandard && genericTarget != null && genericTarget.IsGenericConstruct)
@@ -200,16 +201,39 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     if (target is IArrayType)
                     {
                         var arrayVariant = target as IArrayType;
-                        if (arrayVariant.IsZeroBased)
-                            if (arrayVariant.ArrayRank == 1)
-                                if (arrayVariant.IsVectorArray)
-                                    return string.Format("{0}[]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
+                        if (arrayVariant.Flags == ArrayFlags.Vector)
+                            return string.Format("{0}[]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
+                        else if ((arrayVariant.Flags & ArrayFlags.DimensionLengths) == ArrayFlags.DimensionLengths || (arrayVariant.Flags & ArrayFlags.DimensionLowerBounds) == ArrayFlags.DimensionLowerBounds)
+                        {
+                            var lengths = arrayVariant.Lengths;
+                            var lowerBounds = arrayVariant.LowerBounds;
+                            int lengthCount = 0,
+                                lowerBoundCount = 0;
+                            if (lengths != null)
+                                lengthCount = lengths.Count;
+                            if (lowerBounds != null)
+                                lowerBoundCount = lowerBounds.Count;
+                            StringBuilder sb = new StringBuilder();
+                            bool first = true;
+                            for (int i = 0; i < arrayVariant.ArrayRank; i++)
+                            {
+                                if (first)
+                                    first = false;
                                 else
-                                    return string.Format("{0}[*]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
-                            else
-                                return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), ','.Repeat(arrayVariant.ArrayRank - 1));
+                                    sb.Append(",");
+                                bool addedDots = false;
+                                if (addedDots = (i < lowerBoundCount))
+                                    sb.AppendFormat("{0}...", lowerBounds[i]);
+                                if (i < lengthCount)
+                                    if (addedDots)
+                                        sb.Append(lowerBounds[i] + lengths[i] - 1);
+                                    else
+                                        sb.AppendFormat("0...{0}", lengths[i] - 1);
+                            }
+                            return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), sb.ToString());
+                        }
                         else
-                            return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), string.Join(",", arrayVariant.LowerBounds.OnAll(q => q == 0 ? string.Empty : string.Format("{0}...", q)).ToArray()));
+                            return string.Format("{0}[{1}]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams), ','.Repeat(arrayVariant.ArrayRank - 1));
                     }
                     else
                         return string.Format("{0}[?,...]", target.ElementType.BuildTypeName(shortFormGeneric, numericTypeParams));
@@ -229,7 +253,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                          * */
                         bool debuggerStandard = typeParameterDisplayMode == TypeParameterDisplayMode.DebuggerStandard;
                         return string.Format("{0}{2}{1}{3}", target.ElementType.BuildTypeName(typeParameterDisplayMode: typeParameterDisplayMode), string.Join(",",
-                                ((IGenericType)(target)).GenericParameters.OnAll(genericReplacement =>
+                                ((IGenericType) (target)).GenericParameters.OnAll(genericReplacement =>
                                 {
                                     if (shortFormGeneric)
                                         if (genericReplacement.IsGenericTypeParameter)
@@ -248,7 +272,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                              * */
                                             if (numericTypeParams)
                                             {
-                                                var genericParameterReplacement = (IGenericParameter)genericReplacement;
+                                                var genericParameterReplacement = (IGenericParameter) genericReplacement;
                                                 if (genericParameterReplacement.Parent is IType)
                                                     return string.Format("!{0}", genericParameterReplacement.Position);
                                                 else
@@ -261,7 +285,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                     else if (genericReplacement.IsGenericTypeParameter)
                                         if (numericTypeParams)
                                         {
-                                            var genericParameterReplacement = (IGenericParameter)genericReplacement;
+                                            var genericParameterReplacement = (IGenericParameter) genericReplacement;
                                             if (genericParameterReplacement.Parent is IType)
                                                 return string.Format("[!{0}]", genericParameterReplacement.Position);
                                             else
@@ -315,11 +339,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
             if (type.IsGenericConstruct && type is IGenericType)
             {
-                if (((IGenericType)(type)).IsGenericDefinition)
+                if (((IGenericType) (type)).IsGenericDefinition)
                     return true;
                 else
                 {
-                    return ((IGenericType)(type)).GenericParameters.ContainsGenericParameters();
+                    return ((IGenericType) (type)).GenericParameters.ContainsGenericParameters();
                 }
             }
             else
@@ -409,14 +433,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                      * it's a method.  Primarily to aid in possible other 
                      * uses.
                      * */
-                    if ((parameterSource & TypeParameterSources.Method) == TypeParameterSources.Method && 
-                        ((IGenericParameter)(target)).DeclaringType == null &&
-                        ((IGenericParameter)(target)).Position < methodReplacements.Count)
-                            return methodReplacements[((IGenericParameter)(target)).Position];
-                    if ((parameterSource & TypeParameterSources.Type) == TypeParameterSources.Type && 
-                        ((IGenericParameter)(target)).DeclaringType != null &&
-                        ((IGenericParameter)(target)).Position < typeReplacements.Count)
-                            return typeReplacements[((IGenericParameter)(target)).Position];
+                    if ((parameterSource & TypeParameterSources.Method) == TypeParameterSources.Method &&
+                        ((IGenericParameter) (target)).DeclaringType == null &&
+                        ((IGenericParameter) (target)).Position < methodReplacements.Count)
+                        return methodReplacements[((IGenericParameter) (target)).Position];
+                    if ((parameterSource & TypeParameterSources.Type) == TypeParameterSources.Type &&
+                        ((IGenericParameter) (target)).DeclaringType != null &&
+                        ((IGenericParameter) (target)).Position < typeReplacements.Count)
+                        return typeReplacements[((IGenericParameter) (target)).Position];
                 }
             }
             else
@@ -425,7 +449,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 {
                     case TypeElementClassification.Array:
                         if (target is IArrayType)
-                            return target.ElementType.Disambiguify(typeReplacements, methodReplacements, parameterSource).MakeArray(((IArrayType)target).ArrayRank);
+                            return target.ElementType.Disambiguify(typeReplacements, methodReplacements, parameterSource).MakeArray(((IArrayType) target).ArrayRank);
                         break;
                     case TypeElementClassification.Nullable:
                         return target.ElementType.Disambiguify(typeReplacements, methodReplacements, parameterSource).MakeNullable();
@@ -435,12 +459,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         return target.ElementType.Disambiguify(typeReplacements, methodReplacements, parameterSource).MakeByReference();
                     case TypeElementClassification.GenericTypeDefinition:
                         if (target.ElementType is IGenericType)
-                            return ((IGenericType)target.ElementType).MakeGenericClosure(((IGenericType)target).GenericParameters.OnAll(gP => gP.Disambiguify(typeReplacements, methodReplacements, parameterSource)).ToCollection());
+                            return ((IGenericType) target.ElementType).MakeGenericClosure(((IGenericType) target).GenericParameters.OnAll(gP => gP.Disambiguify(typeReplacements, methodReplacements, parameterSource)).ToCollection());
                         break;
                     case TypeElementClassification.None:
                         if (target is IGenericType &&
-                           (parameterSource == TypeParameterSources.Type && ((IGenericType)(target)).GenericParameters.Count == typeReplacements.Count))
-                            return ((IGenericType)(target)).MakeGenericClosure(typeReplacements);
+                           (parameterSource == TypeParameterSources.Type && ((IGenericType) (target)).GenericParameters.Count == typeReplacements.Count))
+                            return ((IGenericType) (target)).MakeGenericClosure(typeReplacements);
 
                         break;
                 }

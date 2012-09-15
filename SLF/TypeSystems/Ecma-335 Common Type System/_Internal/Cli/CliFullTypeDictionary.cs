@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IFullDeclarationDictionary<IGeneralTypeUniqueIdentifier, IType>,
         IFullTypeDictionary
     {
-        private _ICliTypeParent parent;
+        private __ICliTypeParent parent;
         private ICliMetadataTypeDefinitionTableRow[] typeDefinitions;
         private IType[] resultTypes;
         private TypeKind[] resultKinds;
@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private KeysCollection keys;
         private ValuesCollection values;
 
-        public CliFullTypeDictionary(IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> typeDefinitions, _ICliTypeParent parent)
+        public CliFullTypeDictionary(IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> typeDefinitions, __ICliTypeParent parent)
         {
             if (typeDefinitions is IArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>)
             {

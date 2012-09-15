@@ -1,5 +1,7 @@
 ﻿using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Collections.Generic;
+using System;
+using AllenCopeland.Abstraction.Utilities.Collections;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -33,20 +35,47 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// representing the lower bound values for the 
         /// <see cref="IArrayType"/>.
         /// </summary>
-        IEnumerable<int> LowerBounds { get; }
+        IReadOnlyCollection<int> LowerBounds { get; }
         /// <summary>
         /// Returns the <see cref="System.Int32"/> series representing
         /// the lengths of the dimensions of the array.
         /// </summary>
-        IEnumerable<uint> Lengths { get; }
+        IReadOnlyCollection<uint> Lengths { get; }
         /// <summary>
         /// Returns whether every dimension has a zero-based index.
         /// </summary>
         bool IsZeroBased { get; }
         /// <summary>
-        /// Returns whether the <see cref="IArrayType"/>
-        /// is a single-dimensional zero-based indexing array.
+        /// Returns the <see cref="ArrayFlags"/> value which denotes
+        /// information about the array's structure.
         /// </summary>
-        bool IsVectorArray { get; }
+        ArrayFlags Flags { get; }
+    }
+
+    /// <summary>
+    /// Provides information about an array's structure.
+    /// </summary>
+    [Flags]
+    public enum ArrayFlags { 
+        /// <summary>
+        /// The array is a single-dimensional array with no
+        /// lower-bound or length specified.
+        /// </summary>
+        Vector = 0,
+        /// <summary>
+        /// The array is a multi-dimensional array with possible
+        /// lengths and lower bounds specified.
+        /// </summary>
+        Multidimensional = 1,
+        /// <summary>
+        /// The array is a multi-dimensional array with 
+        /// lower-bound information specified.
+        /// </summary>
+        DimensionLowerBounds = 2,
+        /// <summary>
+        /// The array is a multi-dimensional array with
+        /// length information specified.
+        /// </summary>
+        DimensionLengths = 4,
     }
 }
