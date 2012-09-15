@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private CliNamespaceKeyedTree namespaceInformation;
         private new CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
         private CliAssemblyReferences cliReferences;
-        
+
         public CliAssembly(CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
             this.metadataRoot = metadata.MetadataRoot;
@@ -152,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public new CliFrameworkVersion FrameworkVersion
         {
-            get 
+            get
             {
                 return CliCommon.GetFrameworkVersionFromString(this.metadataRoot.Version);
             }
@@ -425,14 +425,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.Namespaces[@namespace];
         }
 
-        #region _ICliTypeParent Members
+        #region __ICliTypeParent Members
 
-        _ICliManager _ICliTypeParent.Manager
+        _ICliManager __ICliTypeParent.Manager
         {
             get { return this.IdentityManager; }
         }
 
-        _ICliAssembly _ICliTypeParent.Assembly
+        _ICliAssembly __ICliTypeParent.Assembly
         {
             get { return this; }
         }
@@ -441,9 +441,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this._types == null)
-                    this._types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(this.NamespaceInformation.NamespaceTypes.ToArray());
-                return this._types;
+                return this.NamespaceInformation._Types;
             }
         }
 
@@ -457,13 +455,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override IType GetType(IGeneralTypeUniqueIdentifier identifier)
         {
-            var nestingHierarchy = new Stack<IGeneralTypeUniqueIdentifier>();
-            var id = (IGeneralTypeUniqueIdentifier)identifier;
-            while (id != null)
-            {
-                nestingHierarchy.Push(id);
-                id = id.ParentIdentifier;
-            }
+            var typeDefinition = GetTypeDefinition(identifier);
+            if (typeDefinition != null)
+                return this.IdentityManager.ObtainTypeReference(typeDefinition);
+            return null;
+        }
+
+        private ICliMetadataTypeDefinitionTableRow GetTypeDefinition(IGeneralTypeUniqueIdentifier identifier)
+        {
+            var nestingHierarchy = identifier.GetNestingHierarchy();
             ICliMetadataTypeDefinitionTableRow typeDefinition = null;
             bool first = true;
             while (nestingHierarchy.Count > 0)
@@ -472,11 +472,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (first)
                 {
                     /* *
-                        * Going off of a true namespace setup.
-                        * */
+                     * Going off of a true namespace setup.
+                     * */
                     var topLevelType = this.FindType(current);
                     if (topLevelType == null)
-                        goto nullResult;
+                        return null;
                     typeDefinition = topLevelType;
                     first = false;
                 }
@@ -493,13 +493,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             break;
                         }
                     if (!found)
-                        goto nullResult;
+                        return null;
                 }
             }
-            if (typeDefinition != null)
-                return this.IdentityManager.ObtainTypeReference(typeDefinition);
-        nullResult:
-            return null;
+            return typeDefinition;
         }
     }
 }

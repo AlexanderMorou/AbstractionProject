@@ -8,7 +8,8 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal interface _ICliTypeParent :
+    internal interface __ICliTypeParent :
+        _ICliTypeParent,
         ICliTypeParent
     {
         /// <summary>
@@ -17,6 +18,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         _ICliManager Manager { get; }
         new _ICliAssembly Assembly { get; }
+    }
+
+    internal interface _ICliTopLevelTypeParent :
+        __ICliTypeParent
+    {
+        ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName);
+    }
+
+    internal interface _ICliTypeParent
+    {
         /// <summary>
         /// Returns a <see cref="IReadOnlyCollection"/> of <see cref="ICliMetadataTypeDefinitionTableRow"/> instances
         /// which denote the types defined within the local scope of the <see cref="_ICliTypeParent"/>.

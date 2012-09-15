@@ -967,6 +967,70 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         //#endregion
+        private class M_T<T, D> :
+            CliGenericTypeBase<T, D>,
+            _ICliType
+            where T :
+        IGenericTypeUniqueIdentifier
+            where D :
+        IGenericType<T, D>
+        {
+            private _ICliManager creatingManager;
+
+            internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata, _ICliManager creatingManager, CliAssembly assembly)
+                : base(assembly, metadata)
+            {
+                this.TypeKind = kind;
+                this.MetadataEntry = metadata;
+                this.creatingManager = creatingManager;
+            }
+            protected override IType OnGetDeclaringType()
+            {
+                if (this.MetadataEntry.DeclaringType == null)
+                    return null;
+                return this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
+            }
+
+            private TypeKind TypeKind { get; set; }
+
+            protected override TypeKind TypeImpl
+            {
+                get { return TypeKind; }
+            }
+
+            #region ICliType Members
+
+            public new ICliAssembly Assembly
+            {
+                get
+                {
+                    return this.creatingManager.GetRelativeAssembly(this.MetadataEntry.MetadataRoot);
+                }
+            }
+
+            public ICliMetadataTypeDefinitionTableRow MetadataEntry { get; private set; }
+
+            #endregion
+
+
+            #region ICliDeclaration Members
+
+            ICliMetadataTableRow ICliDeclaration.MetadataEntry
+            {
+                get { return this.MetadataEntry; }
+            }
+
+            #endregion
+
+            #region _ICliType Members
+
+            public IModifiedType MakeModified(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers)
+            {
+                throw new NotSupportedException();
+            }
+
+            #endregion
+        }
 
         private class M_T<T> :
             TypeBase<T>,
@@ -1175,7 +1239,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var cache = this.typeCache.GetArrayCache(elementType);
             IArrayType result;
             lock (cache)
-                result = cache.CreateArray(lowerBounds);
+                result = cache.CreateArray(lowerBounds, lengths);
             return result;
         }
 

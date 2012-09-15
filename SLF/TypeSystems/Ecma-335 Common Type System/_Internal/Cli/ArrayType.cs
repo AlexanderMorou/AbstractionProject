@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Collections;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -18,7 +19,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    public sealed class ArrayType :
+    internal sealed class ArrayType :
         IArrayType,
         _IType
     {
@@ -31,8 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Data member for <see cref="ArrayRank"/>.
         /// </summary>
         private int rank;
-        private bool isVectorArray = true;
-        private object syncObject;
+        private object syncObject = new object();
         /// <summary>
         /// Data member for <see cref="MakeArray(Int32)"/>.
         /// </summary>
@@ -45,8 +45,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private ILockedTypeCollection implInterfaces;
         private IMetadataCollection metadata;
 
-        private int[] lowerBounds;
-        private uint[] lengths;
+        private IReadOnlyCollection<int> lowerBounds;
+        private IReadOnlyCollection<uint> lengths;
         private IMetadataCollection customAttributes;
 
         private CliManager manager;
@@ -68,9 +68,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.rank, ExceptionMessageId.RankMustBeOneOrGreater, rank.ToString());
             this.rank = rank;
             this.elementType = elementType;
-            this.lowerBounds = new int[this.rank];
-            if (rank > 1)
-                isVectorArray = false;
             this.manager = manager;
         }
 
@@ -79,14 +76,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
         }
 
-        internal ArrayType(IType elementType, CliManager manager, params int[] lowerBounds)
+        internal ArrayType(IType elementType, CliManager manager, int[] lowerBounds, uint[] lengths, int rank = -1)
         {
             if (lowerBounds == null)
                 throw new ArgumentNullException("lowerBounds");
             this.elementType = elementType;
-            this.lowerBounds = lowerBounds;
-            this.rank = lowerBounds.Length;
-            isVectorArray = false;
+            this.lowerBounds = new ArrayReadOnlyCollection<int>(lowerBounds);
+            this.lengths = new ArrayReadOnlyCollection<uint>(lengths);
+            this.rank = rank < 0 ? Math.Max(lowerBounds == null ? 0 : lowerBounds.Length, (lengths == null) ? 0 : lengths.Length) : rank;
             this.manager = manager;
         }
 
@@ -132,11 +129,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// associated field, parameter, property, and return type
         /// marked with the <see cref="LowerBoundTargetAttribute"/>.
         /// </remarks>
-        public IEnumerable<int> LowerBounds
+        public IReadOnlyCollection<int> LowerBounds
         {
             get
             {
-                return this.lowerBounds.GetEnumerable();
+                return this.lowerBounds;
             }
         }
 
@@ -148,17 +145,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.rank; }
         }
 
-        /// <summary>
-        /// Returns whether the <see cref="ArrayType"/>
-        /// is a single-dimensional zero-based indexing array.
-        /// </summary>
-        public bool IsVectorArray
-        {
-            get
-            {
-                return this.isVectorArray;
-            }
-        }
         //#endregion
 
         //#region IType Members
@@ -225,10 +211,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.arrayCache.CreateArray();
         }
 
-        public IArrayType MakeArray(params int[] lowerBounds)
+        public IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null)
         {
             CacheCheck();
-            return this.arrayCache.CreateArray(lowerBounds);
+            return this.arrayCache.CreateArray(lowerBounds, lengths);
         }
 
         public IType MakePointer()
@@ -432,7 +418,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.modifiedTypeCache == null)
                 this.modifiedTypeCache = new TypeModifiedCache();
             if (this.arrayCache == null)
-                this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, this.manager, k), l => new ArrayType(this, this.manager, l));
+                this.arrayCache = new TypeArrayCache(this, k => new ArrayType(this, k, this.manager), (lowerBounds, lengths) => new ArrayType(this, this.manager, lowerBounds, lengths));
         }
 
         //#region IMetadataEntity Members
@@ -461,9 +447,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
 
 
-        public IEnumerable<uint> Lengths
+        public IReadOnlyCollection<uint> Lengths
         {
-            get { return this.lengths.GetEnumerable(); }
+            get { return this.lengths; }
         }
 
 
@@ -478,6 +464,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.modifiedTypeCache.RegisterConstruct(modifiedTypeKey, result = new ModifiedType(this, modifiers));
             }
             return result;
+        }
+
+
+        public ArrayFlags Flags
+        {
+            get {
+                ArrayFlags result = ArrayFlags.Vector;
+                if (this.lengths != null && this.lengths.Count > 0)
+                    result |= ArrayFlags.Multidimensional | ArrayFlags.DimensionLengths;
+                if (this.lowerBounds != null && this.lowerBounds.Count > 0)
+                    result |= ArrayFlags.Multidimensional | ArrayFlags.DimensionLowerBounds;
+                return result;
+            }
         }
     }
 }

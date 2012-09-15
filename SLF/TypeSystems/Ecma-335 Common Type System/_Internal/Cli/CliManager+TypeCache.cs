@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 TypeArrayCache result;
                 lock (arrayCache)
                     if (!arrayCache.TryGetValue(target, out result))
-                        arrayCache.Add(target, result = new TypeArrayCache(target, r => new ArrayType(target, r, this.manager), l => new ArrayType(target, this.manager, l)));
+                        arrayCache.Add(target, result = new TypeArrayCache(target, r => new ArrayType(target, r, this.manager), (lowerBounds, lengths) => new ArrayType(target, this.manager, lowerBounds, lengths)));
                 return result;
             }
 
@@ -78,21 +78,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     if (!metadataTypeCache.TryGetValue(typeIdentity, out result))
                     {
+                        var refAssem = this.manager.GetRelativeAssembly(typeIdentity.MetadataRoot);
                         if (CliCommon.IsBaseObject(this.manager, typeIdentity))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this.manager);
+                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IClassType>(TypeKind.Class, typeIdentity, this.manager, refAssem);
                         else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
                          (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Interface, typeIdentity, this.manager);
+                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>(TypeKind.Interface, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsBaseObject(this.manager, typeIdentity.Extends))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this.manager);
+                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IClassType>(TypeKind.Class, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsEnum(this.manager, typeIdentity))
                             result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumeration, typeIdentity, this.manager);
                         else if (CliCommon.IsValueType(this.manager, typeIdentity))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Struct, typeIdentity, this.manager);
+                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IStructType>(TypeKind.Struct, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsDelegate(this.manager, typeIdentity))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Delegate, typeIdentity, this.manager);
+                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IDelegateType>(TypeKind.Delegate, typeIdentity, this.manager, refAssem);
                         else
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier>(TypeKind.Class, typeIdentity, this.manager);
+                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IClassType>(TypeKind.Class, typeIdentity, this.manager, refAssem);
                         this.metadataTypeCache.Add(typeIdentity, result);
                     }
                 }

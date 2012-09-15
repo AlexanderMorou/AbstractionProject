@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
        CliTypeDictionary<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
        IInterfaceTypeDictionary
     {
-        public CliInterfaceTypeDictionary(_ICliTypeParent parent, CliFullTypeDictionary master)
+        public CliInterfaceTypeDictionary(__ICliTypeParent parent, CliFullTypeDictionary master)
             : base(parent, master, TypeKind.Interface)
         {
         }

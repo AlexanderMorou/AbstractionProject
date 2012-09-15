@@ -11,7 +11,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         ITypeParent
     {
         ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name);
-        ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName);
         ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier);
     }
 }

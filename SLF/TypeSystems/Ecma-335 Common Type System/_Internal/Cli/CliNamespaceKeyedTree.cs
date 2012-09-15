@@ -12,15 +12,16 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CliNamespaceKeyedTree :
-        ControlledKeyedTree<uint, uint, CliNamespaceKeyedTreeNode>
+        ControlledKeyedTree<uint, uint, CliNamespaceKeyedTreeNode>,
+        _ICliTypeParent
     {
-        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> NamespaceTypes { get; private set; }
+        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types { get; private set; }
 
         protected CliNamespaceKeyedTree() { }
 
         internal CliNamespaceKeyedTree(ICliMetadataTypeDefinitionTableRow[] namespaceTypes)
         {
-            this.NamespaceTypes = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(namespaceTypes);
+            this._Types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(namespaceTypes);
         }
 
         public CliNamespaceKeyedTreeNode Add(uint partId, uint namespaceHeapIndex, int subspaceStart, int subspaceLength, ICliMetadataStringsHeaderAndHeap stringsSection)
@@ -38,16 +39,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal virtual void PushModuleTypes(ICliMetadataTypeDefinitionTableRow[] namespaceTypes)
         {
-            if (this.NamespaceTypes == null)
-                this.NamespaceTypes = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(namespaceTypes);
+            if (this._Types == null)
+                this._Types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(namespaceTypes);
             else
             {
-                int len = this.NamespaceTypes.Count;
-                var copy = this.NamespaceTypes.ToArray().EnsureMinimalSpaceExists((uint) len, (uint) namespaceTypes.Length, (uint) (len + namespaceTypes.Length));
+                int len = this._Types.Count;
+                var copy = this._Types.ToArray().EnsureMinimalSpaceExists((uint) len, (uint) namespaceTypes.Length, (uint) (len + namespaceTypes.Length));
                 namespaceTypes.CopyTo(copy, len);
                 Array.Sort<ICliMetadataTypeDefinitionTableRow>(copy, CliAssembly._CompareTo_);
-                this.NamespaceTypes = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(copy);
+                this._Types = new ArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>(copy);
             }
         }
+
     }
 }

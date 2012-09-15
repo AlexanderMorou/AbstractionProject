@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// is null.</exception>
         /// <exception cref="System.ArgumentException">
         /// <paramref name="lowerBounds"/> had zero elements.</exception>
-        IArrayType MakeArray(params int[] lowerBounds);
+        IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null);
 
         /// <summary>
         /// Creates a new pointer <see cref="IType"/>.

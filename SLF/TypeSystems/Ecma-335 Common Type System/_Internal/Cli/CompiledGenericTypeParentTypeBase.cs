@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal abstract partial class CompiledGenericTypeParentTypeBase<TIdentifier, TType> :
         CliGenericTypeBase<TIdentifier, TType>,
         IGenericType<TIdentifier, TType>,
-        _ICliTypeParent
+        __ICliTypeParent
         where TIdentifier :
             IGenericTypeUniqueIdentifier
         where TType :

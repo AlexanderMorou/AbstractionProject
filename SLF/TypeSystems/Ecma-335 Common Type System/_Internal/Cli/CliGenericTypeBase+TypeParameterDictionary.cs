@@ -11,14 +11,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     partial class CliGenericTypeBase<TIdentifier, TType>
     {
-        private class GenericParameterDictionary :
+        private class TypeParameterDictionary :
             CliMetadataDrivenDictionary<IGenericParameterUniqueIdentifier, ICliMetadataGenericParameterTableRow, IGenericTypeParameter<TIdentifier, TType>>,
             IGenericParameterDictionary<IGenericTypeParameter<TIdentifier, TType>, TType>,
             IGenericParameterDictionary
         {
             private CliGenericTypeBase<TIdentifier, TType> owner;
 
-            internal GenericParameterDictionary(CliGenericTypeBase<TIdentifier, TType> owner)
+            /// <summary>
+            /// Creates a new <see cref="GenericParameterDicitonary"/> with the <paramref name="owner"/> provided.
+            /// </summary>
+            /// <param name="owner">The <see cref="CliGenericTypeBase{TIdentifier, TType}"/> which 
+            /// contains the generic parameters.</param>
+            internal TypeParameterDictionary(CliGenericTypeBase<TIdentifier, TType> owner)
                 : base(owner.MetadataEntry.TypeParameters)
             {
                 this.owner = owner;
@@ -26,9 +31,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             protected override IGenericTypeParameter<TIdentifier, TType> CreateElementFrom(int index, ICliMetadataGenericParameterTableRow metadata)
             {
-                throw new NotImplementedException();
+                return new GenericParameter(this.owner, metadata, index);
             }
-
 
             #region IGenericParameterDictionary<IGenericTypeParameter<TIdentifier,TType>,TType> Members
 

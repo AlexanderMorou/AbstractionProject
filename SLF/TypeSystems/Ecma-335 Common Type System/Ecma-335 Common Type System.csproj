@@ -114,6 +114,7 @@
     <Compile Include="_Internal\Cli\CliFullTypeDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliFullTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CliGenericInstantiableType.cs" />
+    <Compile Include="_Internal\Cli\CliGenericParentType.cs" />
     <Compile Include="_Internal\Cli\CliInterfaceTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -255,7 +256,7 @@
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
     <Compile Include="_Internal\Cli\CliTypeBase.cs" />
-    <Compile Include="_Internal\Cli\CliGenericTypeBase+GenericParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase+TypeParameterDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />

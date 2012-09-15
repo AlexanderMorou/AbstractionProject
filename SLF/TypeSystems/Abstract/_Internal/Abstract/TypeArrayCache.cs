@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Collections;
 /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -27,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
          * the same type.
          * */
         private IDictionary<int, IArrayType> normalArrayCache;
-        private Dictionary<int[], IArrayType> nonstandardArrayCache;
+        private MultikeyedDictionary<int[], uint[], IArrayType> lengthsAndLowersCache;
         /* *
          * The element type that all the array types share.
          * */
@@ -37,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
          * the eventing alternative.
          * */
         private Func<int, IArrayType> creatorVector;
-        private Func<int[], IArrayType> creatorMulti;
+        private Func<int[], uint[], IArrayType> creatorMulti;
         /// <summary>
         /// Creates a new <see cref="TypeArrayCache"/> with the
         /// <paramref name="source"/>, <paramref name="creatorVector"/> and
@@ -48,10 +49,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
         /// <param name="creatorVector">The <see cref="Func{T, TResult}"/> which creates
         /// the vector array instances relative to the <paramref name="source"/> type.
         /// </param>
-        /// <param name="creatorMulti">The <see cref="Func{T, TResult}"/> which creates
+        /// <param name="creatorMulti">The <see cref="Func{T1, T2, TResult}"/> which creates
         /// the multi-dimensional instances relative to the <paramref name="source"/> type.
         /// </param>
-        internal TypeArrayCache(IType source, Func<int, IArrayType> creatorVector, Func<int[], IArrayType> creatorMulti)
+        internal TypeArrayCache(IType source, Func<int, IArrayType> creatorVector, Func<int[], uint[], IArrayType> creatorMulti)
         {
             this.source = source;
             this.creatorVector = creatorVector;
@@ -71,12 +72,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
                 this.normalArrayCache.Clear();
             }
             //Dispose the elements of the non-standard array cache.
-            if (this.nonstandardArrayCache != null)
+            if (this.lengthsAndLowersCache != null)
             {
-                var elements = this.nonstandardArrayCache.Keys.ToArray();
+                var elements = this.lengthsAndLowersCache.ToArray();
                 for (int i = 0; i < elements.Length; i++)
-                    this.nonstandardArrayCache[elements[i]].Dispose();
-                this.nonstandardArrayCache.Clear();
+                {
+                    elements[i].Value.Dispose();
+                    this.lengthsAndLowersCache.Remove(elements[i].Keys.Key1, elements[i].Keys.Key2);
+                }
             }
             //Release delegates.
             creatorVector = null;
@@ -107,17 +110,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
             return this.CreateArray(1);
         }
 
-        public IArrayType CreateArray(params int[] lowerBounds)
+        public IArrayType CreateArray(int[] lowerBounds, uint[] lengths = null)
         {
-            if (lowerBounds == null)
-                throw new ArgumentNullException("lowerBounds");
-            if (lowerBounds.Length == 1 && lowerBounds[0] == 0)
+            if (lowerBounds == null && lengths == null)
+                throw new ArgumentNullException("lowerBounds and lengths");
+            if (lowerBounds.Length == 1 && lowerBounds[0] == 0 && (lengths == null || lengths.Length == 1 && lengths[0] == 0))
+                /* *
+                 * Creating a zero-length type is pointless.
+                 * */
                 return this.CreateArray();
-            var result = CreateArrayInternal(lowerBounds, creatorMulti);
+            var result = CreateArrayInternal(lowerBounds, lengths, creatorMulti);
             return result;
         }
 
-        internal IArrayType CreateArrayInternal(int[] lowerBounds, Func<int[], IArrayType> creator)
+        internal IArrayType CreateArrayInternal(int[] lowerBounds, uint[] lengths, Func<int[], uint[], IArrayType> creator)
         {
             /* *
              * Can't define a non-zero vector array.  The CLI doesn't provide innate support
@@ -125,24 +131,43 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
              * */
             bool found = false;
             IArrayType result = null;
-            if (this.nonstandardArrayCache == null)
-                this.nonstandardArrayCache = new Dictionary<int[], IArrayType>();
-            foreach (var cacheElement in this.nonstandardArrayCache)
+            if (lengths == null && lowerBounds == null)
+                throw new ArgumentNullException("lowerBounds");
+            if (this.lengthsAndLowersCache == null)
+                this.lengthsAndLowersCache = new MultikeyedDictionary<int[], uint[], IArrayType>();
+
+            if (lengths == null)
+                lengths = new uint[0];
+            else if (lowerBounds == null)
+                lowerBounds = new int[0];
+            foreach (var cacheElement in this.lengthsAndLowersCache)
             {
-                var array = cacheElement.Key;
+                var currentLowerBounds = cacheElement.Keys.Key1;
+                var currentLengths = cacheElement.Keys.Key2;
                 /* *
                  * Search for a series of lower-bounds that is the same.
                  * */
-                if (array.Length != lowerBounds.Length)
+                if (currentLowerBounds.Length != lowerBounds.Length ||
+                    currentLengths.Length != lengths.Length)
                     continue;
                 else
                 {
                     /* *
                      * Only where all the lower bounds are equal...
                      * */
-                    for (int i = 0; i < array.Length; i++)
-                        if (!(found = (lowerBounds[i] == array[i])))
+                    found = true;
+                    for (int i = 0; i < currentLowerBounds.Length; i++)
+                        if (lowerBounds[i] != currentLowerBounds[i])
+                        {
+                            found = false;
                             break;
+                        }
+                    for (int i = 0; i < currentLengths.Length; i++)
+                        if (lengths[i] != currentLengths[i])
+                        {
+                            found = false;
+                            break;
+                        }
                     if (found)
                     {
                         result = cacheElement.Value;
@@ -155,7 +180,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract
              * provided at initialization if the member does not exist.
              * */
             if (!found)
-                this.nonstandardArrayCache.Add(lowerBounds, result = creator(lowerBounds));
+                this.lengthsAndLowersCache.Add(lowerBounds, lengths, result = creator(lowerBounds, lengths));
+                //this.noLengthsCache.Add(lowerBounds, result = creator(lowerBounds));
             return result;
         }
     }

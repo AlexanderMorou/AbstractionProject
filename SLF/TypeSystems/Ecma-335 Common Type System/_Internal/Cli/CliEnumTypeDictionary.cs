@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
        CliTypeDictionary<IGeneralTypeUniqueIdentifier, IEnumType>,
        IEnumTypeDictionary
     {
-        public CliEnumTypeDictionary(_ICliTypeParent parent, CliFullTypeDictionary master)
+        public CliEnumTypeDictionary(__ICliTypeParent parent, CliFullTypeDictionary master)
             : base(parent, master, TypeKind.Enumeration)
         {
         }
