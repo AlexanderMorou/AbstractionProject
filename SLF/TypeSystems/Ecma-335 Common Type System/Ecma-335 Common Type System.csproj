@@ -119,7 +119,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="_Internal\Cli\CliManager+TypeCache.cs" />
+    <Compile Include="_Internal\Cli\CliMemberExtensions.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
+    <Compile Include="_Internal\Cli\CliPropertyData.cs" />
     <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>

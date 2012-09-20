@@ -274,8 +274,8 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         private static void Test()
         {
 
-            string assemblyLocation = Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            Console.WriteLine(assemblyLocation);
+            string assemblyLocation = @"C:\Users\Allen Copeland\AppData\Local\Temporary Projects\ConsoleApplication1\bin\Debug";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            //Console.WriteLine(assemblyLocation);
             var timedProcess = Process1(assemblyLocation);
             Console.WriteLine(timedProcess);
             timedProcess = Process1(assemblyLocation);
@@ -319,6 +319,16 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //sw.Stop();
             //var t2 = sw.Elapsed;
             TimeSpan t1 = TimeSpan.Zero, t2 = TimeSpan.Zero;
+            var id = AstIdentifier.GetAssemblyIdentifier("ConsoleApplication1", AstIdentifier.GetVersion(1), CultureIdentifiers.None);
+            var assem = clim.ObtainAssemblyReference(id);
+            var types = assem.MetadataRoot.TableStream.TypeDefinitionTable.ToArray();
+            var targetType = types[2];
+            var memberData = targetType.GetMemberData();
+            return new Tuple<TimeSpan, TimeSpan>(t1, t2);
+        }
+
+        private static void Junk()
+        {
             //StringBuilder sb = new StringBuilder();
             //sb.Append("new string[] { ");
             //bool first = true;
@@ -334,20 +344,37 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //var de = sb.ToString();
             //sw.Restart();
             Console.WriteLine("starting filter");
-            var coreLibId = clim.RuntimeEnvironment.CoreLibraryIdentifier;
-            var assem = clim.ObtainAssemblyReference(coreLibId);
-            var uniqueId = coreLibId.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2).GetNestedIdentifier("ValueCollection", 0).GetNestedIdentifier("Enumerator", 0);
-            var dictionaryValuesEnum = assem.GetType(uniqueId).MakeArray(new int[] { 3, -3000, 29, 589, int.MinValue }, new uint[] { 5, 3005, 8, 9, 9, 2 }).MakeArray(new int[] { 3, 3 }, new uint[] { 3 });
-            var dd = assem.GetType(uniqueId);
-            Console.WriteLine(dd.UniqueIdentifier.Equals(uniqueId));
-            //var m = dictionaryValuesEnum.ToString();
-            var testTypedName = dictionaryValuesEnum.GetTypedName("TestTypedName");
-            //Console.WriteLine(m);
-            sw.Stop();
-            var t3 = sw.Elapsed;
-            Console.WriteLine(t3);
+
+            //var coreLibId = clim.RuntimeEnvironment.CoreLibraryIdentifier;
+            //var assem = clim.ObtainAssemblyReference(coreLibId);
+            //var uniqueId = coreLibId.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2).GetNestedIdentifier("ValueCollection", 0).GetNestedIdentifier("Enumerator", 0);
+            //var dictionaryValuesEnum = assem.GetType(uniqueId).MakeArray(new int[] { 3, -3000, 29, 589, int.MinValue }, new uint[] { 5, 3005, 8, 9, 9, 2 }).MakeArray(new int[] { 3, 3 }, new uint[] { 3 });
+            //var dd = assem.GetType(uniqueId);
+            //Console.WriteLine(dd.UniqueIdentifier.Equals(uniqueId));
+            ////var m = dictionaryValuesEnum.ToString();
+            //var testTypedName = dictionaryValuesEnum.GetTypedName("TestTypedName");
+            ////Console.WriteLine(m);
+            //sw.Stop();
+            //var t3 = sw.Elapsed;
+            ////var fp = assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.First(p=>p.GetMethod != null && p.SetMethod != null);
+            ////var m = fp.GetPropertyData(assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable.First(p => p.Properties.Contains(fp)));
+            //assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable.Read();
+            //assem.MetadataEntry.MetadataRoot.TableStream.MethodSemanticsTable.Read();
+            //assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.Read();
+            //assem.MetadataEntry.MetadataRoot.TableStream.MethodDefinitionTable.Read();
+            //sw.Restart();
+            //var typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+            //                        let set = t.GetMemberData().ToArray()
+            //                        where set.Length > 0
+            //                        orderby set.Length descending
+            //                        select new { Type = t, Members = set }).ToArray();
+            //sw.Stop();
+            ;
+            //var propertySets1 = sw.Elapsed;
+            //Console.WriteLine("Unloaded property retrieval took: {0}", propertySets1);
+            ////Console.WriteLine("Loaded property retrieval took: {0}", propertySets2);
+            //Console.WriteLine(t3);
             //Console.WriteLine(type);
-            return new Tuple<TimeSpan, TimeSpan>(t1, t2);
         }
 
         private static _ICliAssembly AttemptGetAssembly(_ICliManager clim, string f)

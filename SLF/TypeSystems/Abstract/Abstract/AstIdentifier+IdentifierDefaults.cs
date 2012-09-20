@@ -123,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                  * */
                 IAssemblyUniqueIdentifier tAssem = this.Assembly,
                                           oAssem = other.Assembly;
-                if (oAssem == null && tAssem != null ||
+            if (oAssem == null && tAssem != null ||
                     oAssem != null && tAssem == null)
                     return false;
                 if (tAssem == null)
