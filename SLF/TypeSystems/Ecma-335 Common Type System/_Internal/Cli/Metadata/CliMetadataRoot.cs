@@ -8,6 +8,8 @@ using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Members;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
@@ -33,6 +35,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private CliMetadataTableStreamAndHeader tableStream;
         private uint streamPosition;
         private FileStream originalStream;
+        private IEnumerable<ICliMetadataMethodSemanticsTableRow> propertySemantics;
+        private IEnumerable<ICliMetadataMethodSemanticsTableRow> eventSemantics;
+
 
         public static int ReadCompressedUnsignedInt(EndianAwareBinaryReader reader)
         {
@@ -254,9 +259,40 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 this.strings.Dispose();
                 this.strings = null;
             }
+            if (this.propertySemantics != null)
+                this.propertySemantics = null;
+            if (this.eventSemantics != null)
+                this.eventSemantics = null;
             this.isDisposed = true;
         }
 
         public PEImage SourceImage { get { return this.sourceImage; } }
+
+
+        public IEnumerable<ICliMetadataMethodSemanticsTableRow> PropertySemantics
+        {
+            get
+            {
+                if (this.propertySemantics == null)
+                    this.propertySemantics = (from s in this.TableStream.MethodSemanticsTable
+                                              where s.AssociationSource == CliMetadataHasSemanticsTag.Property &&
+                                                   (s.Semantics & MethodSemanticsAttributes.Getter | MethodSemanticsAttributes.Setter | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
+                                              select s).ToArray().GetEnumerable();
+                return this.propertySemantics;
+            }
+        }
+
+        public IEnumerable<ICliMetadataMethodSemanticsTableRow> EventSemantics
+        {
+            get
+            {
+                if (this.eventSemantics == null)
+                    this.eventSemantics = (from s in this.TableStream.MethodSemanticsTable
+                                              where s.AssociationSource == CliMetadataHasSemanticsTag.Event &&
+                                                   (s.Semantics & MethodSemanticsAttributes.AddOn | MethodSemanticsAttributes.Fire | MethodSemanticsAttributes.RemoveOn | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
+                                              select s).ToArray().GetEnumerable();
+                return this.eventSemantics;
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private ICliMetadataAssemblyRefTableRow[] kData;
         private ICliAssembly[] vData;
         private bool[] vCheck;
-        private object syncObject;
+        private object syncObject = new object();
 
         public CliAssemblyReferences(CliAssembly owner)
         {

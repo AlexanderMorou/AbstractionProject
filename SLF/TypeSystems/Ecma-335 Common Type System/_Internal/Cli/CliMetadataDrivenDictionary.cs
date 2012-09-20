@@ -55,6 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.state = METADATA_SOURCE_ARRAY;
             this.checkedMetadata = new bool[count];
             this.metadataSource = new TMetadata[count];
+            this.declarationData = new TDeclaration[count];
         }
 
         internal CliMetadataDrivenDictionary() { }

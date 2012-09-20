@@ -11,6 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
     /// </summary>
     public enum MethodSemanticsAttributes
     {
+        None = 0x0,
         Setter = 0x01,
         Getter = 0x02,
         Other = 0x04,
