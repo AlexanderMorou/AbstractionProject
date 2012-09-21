@@ -35,6 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private CliMetadataTableStreamAndHeader tableStream;
         private uint streamPosition;
         private FileStream originalStream;
+        private IEnumerable<ICliMetadataMethodSemanticsTableRow> fullSemantics;
         private IEnumerable<ICliMetadataMethodSemanticsTableRow> propertySemantics;
         private IEnumerable<ICliMetadataMethodSemanticsTableRow> eventSemantics;
 
@@ -268,6 +269,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         public PEImage SourceImage { get { return this.sourceImage; } }
 
+        public IEnumerable<ICliMetadataMethodSemanticsTableRow> FullSemantics
+        {
+            get
+            {
+                if (this.fullSemantics == null)
+                    if (this.tableStream.MethodSemanticsTable == null)
+                        this.fullSemantics = new ICliMetadataMethodSemanticsTableRow[0];
+                    else
+                        this.fullSemantics = this.tableStream.MethodSemanticsTable.ToArray().GetEnumerable();
+                return this.fullSemantics;
+            }
+        }
 
         public IEnumerable<ICliMetadataMethodSemanticsTableRow> PropertySemantics
         {
@@ -290,7 +303,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     this.eventSemantics = (from s in this.TableStream.MethodSemanticsTable
                                               where s.AssociationSource == CliMetadataHasSemanticsTag.Event &&
                                                    (s.Semantics & MethodSemanticsAttributes.AddOn | MethodSemanticsAttributes.Fire | MethodSemanticsAttributes.RemoveOn | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
-                                              select s).ToArray().GetEnumerable();
+                                           select s).ToArray().GetEnumerable();
                 return this.eventSemantics;
             }
         }
