@@ -20,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
     {
         private int substringCount;
         private string[] data;
+        private object syncObject = new object();
         private Dictionary<uint, uint> positionToIndexTable = new Dictionary<uint, uint>();
         private EndianAwareBinaryReader reader;
 
@@ -42,55 +43,61 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         {
             get
             {
-                if (index >= base.Size)
+                lock (syncObject)
+                {
+                    if (index >= base.Size)
+                        throw new ArgumentOutOfRangeException("index");
+                    if (this.positionToIndexTable.ContainsKey(index))
+                        return this.data[this.positionToIndexTable[index]];
+                    if (ReadSubstring(index))
+                        return this.data[this.positionToIndexTable[index]];
                     throw new ArgumentOutOfRangeException("index");
-                if (this.positionToIndexTable.ContainsKey(index))
-                    return this.data[this.positionToIndexTable[index]];
-                if (ReadSubstring(index))
-                    return this.data[this.positionToIndexTable[index]];
-                throw new ArgumentOutOfRangeException("index");
+                }
             }
         }
 
         private unsafe bool ReadSubstring(uint index)
         {
-            reader.BaseStream.Position = index;
-            /* *
-             * To save space, smaller strings that exist as the 
-             * tail end of another string, are condensed accordingly.
-             * *
-             * It's quicker to construct the strings from the 
-             * original source than it is to iterate through the
-             * location table used to quickly look items up.
-             * */
-            uint loc = index;
-            while (loc < base.Size)
+            lock (syncObject)
             {
-                byte current = reader.ReadByte();
-                if (current == 0)
-                    break;
-                loc++;
-            }
-            uint size = loc - index;
-            reader.BaseStream.Position = index;
-            byte[] result = new byte[size];
-
-            for (int i = 0; i < size; i++)
-                result[i] = reader.ReadByte();
-            var convertResult = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, result);
-            char[] resultChars = new char[convertResult.Length >> 1];
-            fixed (byte* convertedBytes = convertResult)
-            {
-                fixed (char* convertChars = resultChars)
+                reader.BaseStream.Position = index;
+                /* *
+                 * To save space, smaller strings that exist as the 
+                 * tail end of another string, are condensed accordingly.
+                 * *
+                 * It's quicker to construct the strings from the 
+                 * original source than it is to iterate through the
+                 * location table used to quickly look items up.
+                 * */
+                uint loc = index;
+                while (loc < base.Size)
                 {
-                    char* sourcePtr = (char*) convertedBytes;
-                    char* convertCharsPtr = convertChars;
-                    for (int i = 0; i < resultChars.Length; i++)
-                        *convertCharsPtr++ = *sourcePtr++;
+                    byte current = reader.ReadByte();
+                    if (current == 0)
+                        break;
+                    loc++;
                 }
+                uint size = loc - index;
+                reader.BaseStream.Position = index;
+                byte[] result = new byte[size];
+
+                for (int i = 0; i < size; i++)
+                    result[i] = reader.ReadByte();
+                var convertResult = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, result);
+                char[] resultChars = new char[convertResult.Length >> 1];
+                fixed (byte* convertedBytes = convertResult)
+                {
+                    fixed (char* convertChars = resultChars)
+                    {
+                        char* sourcePtr = (char*) convertedBytes;
+                        char* convertCharsPtr = convertChars;
+                        for (int i = 0; i < resultChars.Length; i++)
+                            *convertCharsPtr++ = *sourcePtr++;
+                    }
+                }
+                this.AddSubstring(new string(resultChars, 0, resultChars.Length), index);
+                return loc < base.Size;
             }
-            this.AddSubstring(new string(resultChars, 0, resultChars.Length), index);
-            return loc < base.Size;
         }
 
         internal void Read(EndianAwareBinaryReader reader)

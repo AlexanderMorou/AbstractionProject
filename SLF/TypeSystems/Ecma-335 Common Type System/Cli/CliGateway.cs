@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 #if x86
         public const CliFrameworkPlatform CurrentPlatform = CliFrameworkPlatform.x86Platform;
 #elif x64
-        public const FrameworkPlatform CurrentPlatform = FrameworkPlatform.x64Platform;
+        public const CliFrameworkPlatform CurrentPlatform = CliFrameworkPlatform.x64Platform;
 #endif
         public static ICliManager CreateIdentityManager(ICliRuntimeEnvironmentInfo runtimeEnvironment)
         {

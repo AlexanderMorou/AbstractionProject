@@ -20,9 +20,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 #if x86
 using SlotType = System.UInt32;
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
 #elif x64
 using SlotType = System.UInt64;
 #endif
