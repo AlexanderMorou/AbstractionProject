@@ -36,6 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 #endif
         private static byte[] microsoftKey = new byte[] { 0x31, 0xbf, 0x38, 0x56, 0xad, 0x36, 0x4e, 0x35 };
         private static byte[] microsoftAltKey = new byte[] { 0xb0, 0x3f, 0x5f, 0x7f, 0x11, 0xd5, 0xa, 0x3a };
+        private static byte[] xnaKey = new byte[] { 0x84, 0x2c, 0xf8, 0xbe, 0x1d, 0xe5, 0x05, 0x53 };
         private static IVersion v10 = AstIdentifier.GetVersion(1, 0, 0, 0);
         private static IVersion v20 = AstIdentifier.GetVersion(2, 0, 0, 0);
         private static IVersion v40 = AstIdentifier.GetVersion(4, 0, 0, 0);
@@ -279,7 +280,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                          select member).ToArray();
             sw.Stop();
             Console.WriteLine("From Reflection: {0}", sw.Elapsed);
-            string assemblyLocation = @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Debug";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            string assemblyLocation = @"C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86";// @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Release";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
             //Console.WriteLine(assemblyLocation);
             var timedProcess = Process1(assemblyLocation);
             Console.WriteLine(timedProcess);
@@ -291,7 +292,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 
         private static Tuple<TimeSpan, TimeSpan> Process1(string assemblyLocation)
         {
-            _ICliManager clim = (_ICliManager) CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation);
+            _ICliManager clim = (_ICliManager)CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation);
             var timedProcess = DoProcess(clim);
             Console.ReadKey(true);
             clim.Dispose();
@@ -325,8 +326,9 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //var t2 = sw.Elapsed;
             TimeSpan t1 = TimeSpan.Zero, t2 = TimeSpan.Zero;
 
-            var id = AstIdentifier.GetAssemblyIdentifier("Test Member Kinds", AstIdentifier.GetVersion(1), CultureIdentifiers.None);
-            //var coreLibId = clim.RuntimeEnvironment.CoreLibraryIdentifier;
+            //var id = AstIdentifier.GetAssemblyIdentifier("Test Member Kinds", AstIdentifier.GetVersion(1), CultureIdentifiers.None);
+            var id = clim.RuntimeEnvironment.CoreLibraryIdentifier;
+            //var id = AstIdentifier.GetAssemblyIdentifier("Microsoft.Xna.Framework.Graphics", v40, CultureIdentifiers.None, xnaKey);
             var assem = clim.ObtainAssemblyReference(id);//typeof(Program).Assembly);
             //var uniqueId = coreLibId.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2).GetNestedIdentifier("ValueCollection", 0).GetNestedIdentifier("Enumerator", 0);
             //var dictionaryValuesEnum = assem.GetType(uniqueId).MakeArray(new int[] { 3, -3000, 29, 589, int.MinValue }, new uint[] { 5, 3005, 8, 9, 9, 2 }).MakeArray(new int[] { 3, 3 }, new uint[] { 3 });
@@ -348,18 +350,30 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             assem.MetadataEntry.MetadataRoot.TableStream.EventTable.Read();
             sw.Restart();
             var typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-                                    let set = t.GetMemberData().ToArray()
-                                    select new { Type = t, Members = set }).ToArray();
+                                    let members = t.GetMemberData().ToArray()
+                                    select new { Type = t, Members = members }).ToArray();
             sw.Stop();
             var propertySets1 = sw.Elapsed;
             sw.Restart();
             typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-                                let set = t.GetMemberData().ToArray()
-                                select new { Type = t, Members = set }).ToArray();
+                                let members = t.GetMemberData().ToArray()
+                                select new { Type = t, Members = members }).ToArray();
             sw.Stop();
+            //var graphicsResource = typePropertySets.First(t=>t.Type.Name == "GraphicsResource");
+            //var disposeMethod = graphicsResource.Members.First(m =>
+            //    {
+            //        if (m.Item2 is ICliMetadataMethodDefinitionTableRow)
+            //        {
+            //            var mdtr = (ICliMetadataMethodDefinitionTableRow)m.Item2;
+            //            if (mdtr.Name == "Dispose" && mdtr.Parameters.Count == 0)
+            //                return true;
+            //        }
+            //        return false;
+            //    });
+            //var q = graphicsResource.Type.ImplementationMap;
             var propertySets2 = sw.Elapsed;
-            Console.WriteLine("Unloaded property retrieval took: {0}", propertySets1);
-            Console.WriteLine("Loaded property retrieval took: {0}", propertySets2);
+            //Console.WriteLine("Unloaded property retrieval took: {0}", propertySets1);
+            //Console.WriteLine("Loaded property retrieval took: {0}", propertySets2);
             //Console.WriteLine(t3);
             //Console.WriteLine(type);
             //var id = AstIdentifier.GetAssemblyIdentifier("ConsoleApplication1", AstIdentifier.GetVersion(1), CultureIdentifiers.None);
@@ -367,7 +381,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //var types = assem.MetadataRoot.TableStream.TypeDefinitionTable.ToArray();
             //var targetType = types[2];
             //var memberData = targetType.GetMemberData();
-            return new Tuple<TimeSpan, TimeSpan>(t1, t2);
+            return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
         }
 
         private static void Junk()
@@ -395,7 +409,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         {
             try
             {
-                return (_ICliAssembly) clim.ObtainAssemblyReference(f);
+                return (_ICliAssembly)clim.ObtainAssemblyReference(f);
             }
             catch (BadImageFormatException)
             {

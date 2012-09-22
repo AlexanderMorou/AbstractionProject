@@ -110,6 +110,9 @@
     <Compile Include="_Internal\Cli\CliEnumTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="_Internal\Cli\CliFullMemberDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullMemberDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\CliFullTypeDictionary+KeysCollection.cs" />
     <Compile Include="_Internal\Cli\CliFullTypeDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliFullTypeDictionary.cs" />
@@ -120,6 +123,7 @@
     </Compile>
     <Compile Include="_Internal\Cli\CliManager+TypeCache.cs" />
     <Compile Include="_Internal\Cli\CliMemberExtensions.cs" />
+    <Compile Include="_Internal\Cli\CliMemberType.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
     <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
       <SubType>Code</SubType>
@@ -509,6 +513,7 @@
     <Compile Include="_Internal\Cli\TypeIdentityParser.cs" />
     <Compile Include="_Internal\Cli\_ICliAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />
+    <Compile Include="_Internal\Cli\_ICliMemberParent.cs" />
     <Compile Include="_Internal\Cli\_ICliType.cs" />
     <Compile Include="_Internal\Cli\_ICliTypeParent.cs" />
     <Compile Include="_Internal\Cli\_LockedGroupMembersMasterPass.cs" />
