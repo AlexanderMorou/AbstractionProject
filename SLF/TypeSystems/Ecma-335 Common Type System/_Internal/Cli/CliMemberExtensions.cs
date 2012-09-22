@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             /* *
              * Build our own list of methods tied to semantics,
              * this is about 3 times faster than querying the full
-             * set each time.
+             * set each time, but uses a little more memory.
              * */
             uint fieldCount = target.Fields == null ? 0 : (uint) target.Fields.Count;
             var properties = target.Properties;
