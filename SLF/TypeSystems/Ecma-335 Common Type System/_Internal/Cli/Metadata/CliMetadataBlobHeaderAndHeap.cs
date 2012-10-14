@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         public int SizeOf(uint heapIndex)
         {
             if (heapIndex >= this.Size)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             SmallBlobEntry smallResult;
             MediumBlobEntry mediumResult;
             LargeBlobEntry largeResult;
@@ -178,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             get
             {
                 if (index >= this.Size)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 SmallBlobEntry smallResult;
                 MediumBlobEntry mediumResult;
                 LargeBlobEntry largeResult;

@@ -327,7 +327,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 var result = base.InitializeParameters();
                 result.Unlock();
-                result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
+                result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                 result.Lock();
                 return result;
             }
@@ -519,16 +519,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (returnType != null)
             {
                 bool isAsync = this.IsAsynchronous;
-                if (returnType == CommonTypeRefs.Void && this.Name.Length >= 5)
+                if (returnType == IdentityManager.ObtainTypeReference(IdentityManager.RuntimeEnvironment.GetCoreIdentifier(RuntimeCoreType.VoidType)) && this.Name.Length >= 5)
                 {
                     if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                         this.IsAsynchronousCandidate = true;
                 }
-                else if (returnType == CommonTypeRefs.Task)
+                else if (returnType == IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Task")))//CommonTypeRefs.Task)
                 {
                     this.IsAsynchronousCandidate = true;
                 }
-                else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == CommonTypeRefs.TaskOfT)
+                else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Task", 1)))
                 {
                     this.IsAsynchronousCandidate = true;
                 }
@@ -739,6 +739,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     throw new InvalidOperationException();
                 return this.ObtainPreviousDefinition();
             }
+        }
+
+        private IClassMethodMember ObtainPreviousDefinition()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

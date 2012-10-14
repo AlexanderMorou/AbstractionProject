@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -55,6 +56,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is used to marshal type identities in the current type model.</param>
         /// <param name="version">The <see cref="CSharpLanguageVersion"/>
         /// to which the <see cref="ICSharpAssembly"/>
         /// is built against.</param>
@@ -67,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <paramref name="name"/> is <see cref="String.Empty"/>
         /// or <paramref name="version"/> is not one of 
         /// <see cref="CSharpLanguageVersion"/>.</exception>
-        new ICSharpAssembly CreateAssembly(string name, CSharpLanguageVersion version);
+        ICSharpAssembly CreateAssembly(string name, IIntermediateCliManager identityManager, CSharpLanguageVersion version);
         /// <summary>
         /// Returns the <see cref="ILanguageVendor"/> of a particular language.
         /// </summary>

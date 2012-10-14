@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public bool Contains(IType attributeType)
             {
-                return Parent.CustomAttributes.Contains(attributeType);
+                return Parent.Metadata.Contains(attributeType);
             }
 
             IMetadataEntity IMetadataCollection.Parent
@@ -40,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public IMetadatum this[IType attributeType]
             {
-                get { return Parent.CustomAttributes[attributeType]; }
+                get { return Parent.Metadata[attributeType]; }
             }
 
             #endregion
@@ -49,12 +49,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public int Count
             {
-                get { return Parent.CustomAttributes.FullCount; }
+                get { return Parent.Metadata.FullCount; }
             }
 
             public bool Contains(IMetadatum item)
             {
-                foreach (var _item in Parent.CustomAttributes.Flatten())
+                foreach (var _item in Parent.Metadata.Flatten())
                     if (_item == item)
                         return true;
                 return false;
@@ -63,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             public int IndexOf(IMetadatum element)
             {
                 int index = 0;
-                foreach (var _item in Parent.CustomAttributes.Flatten())
+                foreach (var _item in Parent.Metadata.Flatten())
                     if (_item == element)
                         return index;
                     else
@@ -82,13 +82,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     int i = 0;
 
-                    foreach (var definitions in Parent.CustomAttributes)
+                    foreach (var definitions in Parent.Metadata)
                         foreach (var definition in definitions)
                             if (i == index)
                                 return definition;
                             else
                                 i++;
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 }
             }
 
@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 IMetadatum[] result = new IMetadatum[this.Count];
                 int i = 0;
-                foreach (var definitions in this.Parent.CustomAttributes)
+                foreach (var definitions in this.Parent.Metadata)
                     foreach (var definition in definitions)
                         result[i++] = definition;
                 return result;
@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public IEnumerator<IMetadatum> GetEnumerator()
             {
-                foreach (var definitions in this.Parent.CustomAttributes)
+                foreach (var definitions in this.Parent.Metadata)
                     foreach (var definition in definitions)
                         yield return definition;
                 yield break;

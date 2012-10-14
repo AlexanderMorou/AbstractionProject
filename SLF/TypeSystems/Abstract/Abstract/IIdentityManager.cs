@@ -5,11 +5,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    public interface IIdentityManager<TTypeIdentity, TAssemblyIdentity, TAssembly> :
+    public interface IIdentityManager<TTypeIdentity, TAssemblyIdentity> :
         ITypeIdentityManager<TTypeIdentity>,
-        IAssemblyIdentityManager<TAssemblyIdentity, TAssembly>
-        where TAssembly :
-            IAssembly
+        IAssemblyIdentityManager<TAssemblyIdentity>
     {
 
     }
@@ -21,10 +19,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     /// <typeparam name="TAssemblyIdentity">The  type used in the containing model
     /// to represent <typeparamref name="TAssembly"/> instances.</typeparam>
-    /// <typeparam name="TAssembly">The type of <see cref="TAssembly"/>
-    /// to retrieve.</typeparam>
-    public interface IAssemblyIdentityManager<TAssemblyIdentity, TAssembly> :
-        IDisposable
+    public interface IAssemblyIdentityManager<TAssemblyIdentity> :
+        IAssemblyIdentityManager
     {
         /// <summary>
         /// Returns the <see cref="IAssembly"/> from the <paramref name="assemblyIdentity"/> 
@@ -35,8 +31,29 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the <see cref="IAssembly"/> is defined.</param>
         /// <returns>An <see cref="IAssembly"/> instance relative to the
         /// <paramref name="assemblyIdentity"/> provided.</returns>
-        TAssembly ObtainAssemblyReference(TAssemblyIdentity assemblyIdentity);
+        IAssembly ObtainAssemblyReference(TAssemblyIdentity assemblyIdentity);
     }
+
+
+    /// <summary>
+    /// Defines properties and methods for obtaining a model specific representation
+    /// of a <see cref="IType"/> relative to a <see cref="IAssemblyUniqueIdentifier"/>.
+    /// </summary>
+    public interface IAssemblyIdentityManager :
+        IDisposable
+    {
+        /// <summary>
+        /// Returns the <see cref="IAssembly"/> from the <paramref name="assemblyIdentity"/> 
+        /// from the underlying model in which it exists.
+        /// </summary>
+        /// <param name="assemblyIdentity">The <see cref="IAssemblyUniqueIdentifier"/>
+        /// which represents the assembly's identity in the base model on which
+        /// the <see cref="IAssembly"/> is defined.</param>
+        /// <returns>An <see cref="IAssembly"/> instance relative to the
+        /// <paramref name="assemblyIdentity"/> provided.</returns>
+        IAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity);
+    }
+
 
     /// <summary>
     /// Defines properties and methods for obtaining a model specific representation
@@ -100,23 +117,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <paramref name="typeIdentity"/> provided.</returns>
         IType ObtainTypeReference(object typeIdentity);
         /// <summary>
-        /// Returns whether the <see cref="IType"/> is a metadatum type.
+        /// Returns the <see cref="IType"/> associated to the <paramref name="identifier"/>
+        /// provided.
         /// </summary>
-        /// <param name="possibleMetadatumType">The <see cref="IType"/> which represents
-        /// the potential metadatum type.</param>
-        /// <returns>true, if the <paramref name="possibleMetadatumType"/>
-        /// can be used as metadata; false, otherwise.</returns>
-        bool IsMetadatumType(IType possibleMetadatumType);
+        /// <param name="identifier">The <see cref="IGeneralTypeUniqueIdentifier"/>
+        /// which denotes information about the type identity to retrieve.</param>
+        /// <returns>A <see cref="IType"/> relative to the <paramref name="identifier"/>
+        /// provided.</returns>
+        IType ObtainTypeReference(IGeneralTypeUniqueIdentifier identifier);
         /// <summary>
-        /// Returns whether the <see cref="IType"/> from the
-        /// as a metadatum entity is inheritable.
+        /// Returns the <see cref="ITypeIdentityMetadataService"/> which handles 
+        /// marshalling information about metadata types.
         /// </summary>
-        /// <param name="metadatumType">The <see cref="IType"/>,
-        /// which represents a metadatum to be applied to a member,
-        /// to discern the inheritability of.</param>
-        /// <returns>true if the <paramref name="metadatumType"/>
-        /// is inheritable; false, otherwise.</returns>
-        bool IsMetadatumInheritable(IType metadatumType);
+        ITypeIdentityMetadataService MetadatumHandler { get; }
         /// <summary>
         /// Returns the <see cref="IStandardRuntimeEnvironmentInfo"/> necessary to 
         /// identify the target runtime.
@@ -194,6 +207,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// of.</param>
         /// <returns></returns>
         RuntimeCoreType ObtainCoreType(IType type);
-
+        /// <summary>
+        /// Obtains the proper <see cref="IType"/> associated to a given kind of internal
+        /// metadatum.
+        /// </summary>
+        /// <param name="kind">The <see cref="MetadatumKind"/>
+        /// to obtain a relative instance of.</param>
+        /// <returns>A <see cref="IType"/> which represents the metadatum of the <paramref name="kind"/>
+        /// provided.</returns>
+        IType GetMetadatum(MetadatumKind kind);
     }
 }

@@ -29,5 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// associated to the fields and members.
         /// </summary>
         new IIntermediateFullMemberDictionary Members { get; }
+
     }
 }

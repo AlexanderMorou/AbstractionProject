@@ -55,6 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             TGrandParent
     {
         private IntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> parameters;
+        private ITypeIdentityManager identityManager;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
@@ -62,9 +63,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateGrandParent"/>
         /// which contains the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
-        public IntermediateParameterParentMemberBase(TIntermediateGrandParent parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateParameterParentMemberBase(TIntermediateGrandParent parent, ITypeIdentityManager identityManager)
             : base(parent)
         {
+            this.identityManager = identityManager;
         }
 
         /// <summary>
@@ -75,9 +80,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateGrandParent"/>
         /// which contains the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
-        public IntermediateParameterParentMemberBase(string name, TIntermediateGrandParent parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateParameterParentMemberBase(string name, TIntermediateGrandParent parent, ITypeIdentityManager identityManager)
             : base(name, parent)
         {
+            this.identityManager = identityManager;
         }
 
         /// <summary>
@@ -208,7 +217,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 var lastParam = this.parameters.Values.LastOrDefault();
                 if (lastParam == null)
                     return false;
-                return lastParam.CustomAttributes.Contains(CommonTypeRefs.ParameterArrayAttribute);
+                return lastParam.Metadata.Contains(this.identityManager.GetMetadatum(MetadatumKind.ParameterArray));
             }
         }
 
@@ -292,5 +301,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         #endregion
+
+        public ITypeIdentityManager IdentityManager { get { return this.identityManager; } }
     }
 }

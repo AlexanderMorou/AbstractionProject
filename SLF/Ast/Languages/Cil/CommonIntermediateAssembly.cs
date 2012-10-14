@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Cli;
+using System.Reflection;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -16,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
     /// created within the common intermediate language.
     /// </summary>
     public sealed class CommonIntermediateAssembly :
-        IntermediateAssembly<ICommonIntermediateLanguage, ICommonIntermediateProvider, CommonIntermediateAssembly>,
+        IntermediateAssembly<ICommonIntermediateLanguage, ICommonIntermediateProvider, CommonIntermediateAssembly, IIntermediateCliManager, Type, Assembly>,
         ICommonIntermediateAssembly
     {
         /// <summary>
@@ -106,5 +108,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         }
 
         #endregion
+
     }
 }

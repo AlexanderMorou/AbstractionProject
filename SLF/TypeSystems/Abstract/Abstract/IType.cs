@@ -223,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="ITypeIdentityManager"/> which was used
         /// to construct the current <see cref="IType"/>.
         /// </summary>
-        ITypeIdentityManager Manager { get; }
+        ITypeIdentityManager IdentityManager { get; }
 
         /// <summary>
         /// Creates a new <see cref="IModifiedType"/> from the current

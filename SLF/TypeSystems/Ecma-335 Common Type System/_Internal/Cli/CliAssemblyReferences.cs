@@ -89,7 +89,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (syncObject)
                 if (!this.vCheck[index])
                 {
-                    try { this.vData[index] = this.owner.IdentityManager.ObtainAssemblyReference(this.kData[index]); }
+                    try { this.vData[index] = (ICliAssembly)this.owner.IdentityManager.ObtainAssemblyReference(this.kData[index]); }
                     catch (FileNotFoundException) { }
                     this.vCheck[index] = true;
                 }
@@ -209,7 +209,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return new KeyValuePair<ICliMetadataAssemblyRefTableRow, ICliAssembly>(this.Keys[index], this.Values[index]);
             }
         }

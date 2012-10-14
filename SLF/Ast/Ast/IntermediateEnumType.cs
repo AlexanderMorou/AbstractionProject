@@ -118,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override TypeKind TypeImpl
         {
-            get { return TypeKind.Enumerator; }
+            get { return TypeKind.Enumeration; }
         }
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
@@ -143,13 +143,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            ICompiledType compiledType = other as ICompiledType;
-            if (compiledType != null &&
-                ((compiledType.Equals(CommonTypeRefs.Enum)) ||
-                 (compiledType.Equals(CommonTypeRefs.ValueType)) ||
-                 (compiledType.Equals(CommonTypeRefs.Object))))
-                return true;
-            return false;
+            return other.Equals(IdentityManager.ObtainTypeReference(RuntimeCoreType.RootEnum)) ||
+                   other.Equals(IdentityManager.ObtainTypeReference(RuntimeCoreType.RootStruct)) ||
+                   other.Equals(IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType));
         }
 
         /// <summary>
@@ -163,21 +159,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 switch (this.BaseType)
                 {
                     case EnumerationBaseType.SByte:
-                        return typeof(sbyte).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte);
                     case EnumerationBaseType.Byte:
-                        return typeof(byte).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.Byte);
                     case EnumerationBaseType.Int16:
-                        return typeof(short).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.Int16);
                     case EnumerationBaseType.UInt16:
-                        return typeof(ushort).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt16);
                     case EnumerationBaseType.UInt32:
-                        return typeof(uint).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt32);
                     case EnumerationBaseType.Int64:
-                        return typeof(long).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.Int64);
                     case EnumerationBaseType.UInt64:
-                        return typeof(ulong).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64);
                     case EnumerationBaseType.Int32:
-                        return typeof(int).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32);
                     /* *
                      * Use Enum in other cases where the base-type
                      * is not specified, since the type is language
@@ -185,7 +181,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                      * */
                     case EnumerationBaseType.Default:
                     default:
-                        return typeof(Enum).GetTypeReference();
+                        return IdentityManager.ObtainTypeReference(RuntimeCoreType.RootEnum);
                 }
             }
         }
@@ -211,7 +207,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
             if (this.uniqueIdentifier == null)
-                this.uniqueIdentifier = AstIdentifier.Type(this.Name);
+                this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name);
             return this.uniqueIdentifier;
         }
 
@@ -220,6 +216,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.uniqueIdentifier != null)
                 this.uniqueIdentifier = null;
             base.OnIdentifierChanged(oldIdentifier, cause);
+        }
+
+        protected override ITypeIdentityManager OnGetManager()
+        {
+            return this.Parent.IdentityManager;
         }
     }
 }

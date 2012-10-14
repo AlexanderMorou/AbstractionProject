@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             get
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 for (int i = 0, rangeStart = 0,
                         rangeEnd = (this.collections.Length > 0) ?
                             this.collections[0].Count : 0;

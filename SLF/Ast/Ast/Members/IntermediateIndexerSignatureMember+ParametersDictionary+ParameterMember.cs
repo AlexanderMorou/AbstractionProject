@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIndexerSignatureParent<TIndexer, TIndexerParent>
         where TIntermediateIndexerParent :
             TIndexerParent,
-            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
+            ITypeParent
         where TMethodMember :
             class,
             IIntermediatePropertySignatureMethodMember
@@ -28,12 +29,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 IntermediateParameterMemberBase<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>>,
                 IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
             {
-                public ParameterMember(TIntermediateIndexer parent)
-                    : base(parent)
+                public ParameterMember(TIntermediateIndexer parent, ITypeIdentityManager identityManager)
+                    : base(parent, identityManager)
                 {
                 }
-                public ParameterMember(string name, TIntermediateIndexer parent)
-                    : base(parent)
+                public ParameterMember(string name, TIntermediateIndexer parent, ITypeIdentityManager identityManager)
+                    : base(parent, identityManager)
                 {
                     this.AssignName(name);
                 }

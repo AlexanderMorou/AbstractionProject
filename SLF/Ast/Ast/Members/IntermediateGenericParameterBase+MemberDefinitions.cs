@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="parent">The <typeparamref name="TIntermediateGenericParameter"/>
             /// in which the <see cref="ConstructorMember"/> is contained.</param>
             public ConstructorMember(TIntermediateGenericParameter parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
             }
 
@@ -71,12 +71,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>
         {
             internal MethodMember(string name, TIntermediateGenericParameter parent)
-                : base(name, parent)
+                : base(name, parent, parent.IdentityManager)
             {
             }
 
             internal MethodMember(TIntermediateGenericParameter parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
             }
 

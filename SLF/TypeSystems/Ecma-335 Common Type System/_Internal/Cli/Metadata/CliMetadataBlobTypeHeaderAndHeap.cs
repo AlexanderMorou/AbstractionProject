@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             get
             {
                 if (index >= this.Size)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 if (this.positionToIndexTable.ContainsKey(index))
                     return this.data[this.positionToIndexTable[index]];
                 if (index < this.Size)
@@ -86,9 +86,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     uint dataIndex;
                     if (this.positionToIndexTable.TryGetValue(index, out dataIndex))
                         return this.data[dataIndex];
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 }
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             }
         }
 

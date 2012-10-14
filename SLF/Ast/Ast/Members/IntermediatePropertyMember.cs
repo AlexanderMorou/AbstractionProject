@@ -46,6 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             class,
             IIntermediatePropertyMethodMember
     {
+        private ITypeIdentityManager identityManager;
         /// <summary>
         /// Data member for <see cref="AccessLevel"/>.
         /// </summary>
@@ -81,7 +82,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="UniqueIdentifier"/>.
         /// </summary>
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
-        private IIntermediateModifiersAndAttributesMetadata metadata;
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection metadataBack;
 
         /// <summary>
         /// Creates a new <see cref="IntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>
@@ -93,10 +95,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </param>
         /// <param name="parent">The <typeparamref name="TIntermediatePropertyParent"/>
         /// which contains the <see cref="IntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>.</param>
-        public IntermediatePropertyMember(string name, TIntermediatePropertyParent parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/> which marshals the identities
+        /// of the types within the type system.</param>
+        public IntermediatePropertyMember(string name, TIntermediatePropertyParent parent, ITypeIdentityManager identityManager)
             : base(parent)
         {
             base.OnSetName(name);
+            this.identityManager = identityManager;
         }
 
         /// <summary>
@@ -105,9 +110,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediatePropertyParent"/>
         /// which contains the <see cref="IntermediatePropertyMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>.</param>
-        public IntermediatePropertyMember(TIntermediatePropertyParent parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/> which marshals the identities
+        /// of the types within the type system.</param>
+        public IntermediatePropertyMember(TIntermediatePropertyParent parent, ITypeIdentityManager identityManager)
             : base(parent)
         {
+            this.identityManager = identityManager;
         }
 
         #region IIntermediatePropertySignatureMember Members
@@ -515,20 +523,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
 
-        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+
+        IMetadataCollection IMetadataEntity.Metadata
         {
             get
             {
-                return this.Metadata;
+                if (this.metadataBack != null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadataBack = ((MetadataDefinitionCollection) (this.Metadata)).GetWrapper();
+                return this.metadataBack;
             }
         }
 
-        public IIntermediateModifiersAndAttributesMetadata Metadata
+        public IMetadataDefinitionCollection Metadata
         {
             get
             {
@@ -536,7 +550,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                        this.metadata = new MetadataDefinitionCollection(this, this.identityManager);
                 return this.metadata;
             }
         }
@@ -569,6 +583,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 base.Dispose(disposing);
             }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
         }
     }
 }

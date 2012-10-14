@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IIntermediateTopLevelMethodMember
     {
         public IntermediateTopLevelMethodMember(string name, IIntermediateNamespaceParent parent)
-            : base(name, parent)
+            : base(name, parent, parent.IdentityManager)
         {
         }
 

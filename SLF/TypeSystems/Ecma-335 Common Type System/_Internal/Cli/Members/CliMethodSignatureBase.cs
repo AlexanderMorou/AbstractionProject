@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        internal _ICliManager Manager
+        internal _ICliManager IdentityManager
         {
             get
             {
@@ -111,10 +111,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 if (lastIsParams == null)
                 {
-                    var paramArrayAttrType = this.Manager.ObtainTypeReference(this.Manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), Manager.GetRelativeAssembly(metadataEntry.MetadataRoot));
+                    var paramArrayAttrType = this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), IdentityManager.GetRelativeAssembly(metadataEntry.MetadataRoot));
                     var lParam = metadataEntry.Parameters.LastOrDefault();
                     if (lParam != null && lParam.CustomAttributes.Count > 0)
-                        lastIsParams = CliCommon.GetMetadatum(this.Manager, paramArrayAttrType, lParam.CustomAttributes) != null;
+                        lastIsParams = CliCommon.GetMetadatum(this.IdentityManager, paramArrayAttrType, lParam.CustomAttributes) != null;
                 }
                 return (bool) lastIsParams;
             }

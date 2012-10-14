@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
         public IMetadatumDefinition Add(MetadatumDefinitionParameterValueCollection values)
         {
-            MetadatumDefinition definition = new MetadatumDefinition(this.parent.Parent, values);
+            MetadatumDefinition definition = new MetadatumDefinition(this.parent.Parent, values, this.parent.IdentityManager);
             this.baseList.Add(definition);
             return definition;
         }

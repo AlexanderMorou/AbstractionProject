@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             protected override TDeclarationSpecific OnGetValue(int index)
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 if (this.values.Count <= index)
                 {
                     int oldCount = this.values.Count;

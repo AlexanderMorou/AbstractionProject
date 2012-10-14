@@ -46,13 +46,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// belongs to.</param>
+        /// <paramnparam name="identityManager">The <see cref="ITypeIdentityManager"/> which is responsible for marshalling
+        /// type identities in the current type model.</paramnparam>
         public IntermediateConstructorMemberBase(TIntermediateType parent)
-            : base(parent)
+            : base(parent, parent.IdentityManager)
         {
         }
 
         internal IntermediateConstructorMemberBase(TIntermediateType parent, bool typeInitializer)
-            : base(parent,typeInitializer)
+            : base(parent, parent.IdentityManager,typeInitializer)
         {
         }
 
@@ -1170,7 +1172,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                  * the count will be zero; thus, no index is valid.
                  * */
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.statementContainer[index];
             }
         }
@@ -1348,5 +1350,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             visitor.Visit(this);
         }
+
     }
 }

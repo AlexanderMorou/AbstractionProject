@@ -68,6 +68,15 @@ namespace AllenCopeland.Abstraction
             return new ArgumentException(GetExceptionMessage(message, replacements ?? emptyReplacements), GetArgumentName(argument));
         }
 
+        /// <summary>
+        /// Checks the <paramref name="array"/>, <paramref name="arrayIndex"/> and 
+        /// <paramref name="count"/> to make sure they are in bounds.
+        /// </summary>
+        /// <param name="array">The <see cref="Array"/> to check the <paramref name="arrayIndex"/> and <paramref name="Count"/> against.</param>
+        /// <param name="arrayIndex">The <see cref="Int32"/> value which denotes where within the target <paramref name="array"/>
+        /// to start the copy.</param>
+        /// <param name="count">The <see cref="Int32"/> value denoting the number of elements to be copied
+        /// into <paramref name="array"/>.</param>
         public static void CopyToCheck(Array array, int arrayIndex, int count)
         {
             if (array == null)

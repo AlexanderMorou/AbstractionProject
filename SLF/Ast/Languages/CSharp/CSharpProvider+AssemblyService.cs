@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 
             public ICSharpAssembly New(string name)
             {
-                return new CSharpAssembly(name);
+                return new CSharpAssembly(name, this.Provider);
             }
 
             #endregion
@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService; }
+                get { return LanguageGuids.Services.IntermediateAssemblyCreatorService; }
             }
 
             #endregion

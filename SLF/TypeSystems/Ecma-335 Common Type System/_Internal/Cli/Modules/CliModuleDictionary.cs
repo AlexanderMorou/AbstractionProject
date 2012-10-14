@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
                 if (modules == null)
                     modules = GetReferenceModules(this.owner);
                 if (index < 0 || index >= modules.Length + 1)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.owner.IdentityManager.LoadModule(this.modules[index - 1]);
             }
         }

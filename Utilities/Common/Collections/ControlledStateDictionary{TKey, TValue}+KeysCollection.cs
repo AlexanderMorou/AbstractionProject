@@ -137,7 +137,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             protected virtual TKey OnGetKey(int index)
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.locals.entries[index].Key;
             }
 
@@ -154,7 +154,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             protected internal virtual void OnSetKey(int index, TKey key)
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 lock (this.locals.syncObject)
                 {
                     var currentElement = this.locals.entries[index];

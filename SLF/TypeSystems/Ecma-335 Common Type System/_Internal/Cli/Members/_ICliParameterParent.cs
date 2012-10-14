@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Returns the <see cref="_ICliManager"/> responsible for
         /// identity resolution.
         /// </summary>
-        _ICliManager Manager { get; }
+        _ICliManager IdentityManager { get; }
         /// <summary>
         /// Returns the <see cref="ICliMetadataMethodSignature"/>
         /// associated to the <see cref="_ICliParameterParent"/>.

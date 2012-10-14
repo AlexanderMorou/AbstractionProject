@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Parsers;
 using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,14 +19,13 @@ using AllenCopeland.Abstraction.Slf.Ast;
 namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
     internal partial class CSharpProvider :
-        VersionedHighLevelLanguageProvider<ICSharpLanguage, ICSharpProvider, CSharpLanguageVersion, ICSharpCompilationUnit>,
+        VersionedHighLevelLanguageProvider<ICSharpLanguage, ICSharpProvider, CSharpLanguageVersion, ICSharpCompilationUnit, IIntermediateCliManager, Type, Assembly>,
         ICSharpProvider
     {
-        internal CSharpProvider(CSharpLanguageVersion version)
-            : base(version)
+        internal CSharpProvider(CSharpLanguageVersion version, IIntermediateCliManager identityManager)
+            : base(version, identityManager)
         {
-            this.RegisterService<IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly>>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, new AssemblyService(this));
-            //this.RegisterService<IIntermediateTypeCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, new ClassService(this));
+            this.RegisterService<IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly>>(LanguageGuids.Services.IntermediateAssemblyCreatorService, new AssemblyService(this));
         }
 
         protected override ILanguageParser<ICSharpCompilationUnit> OnGetParser()
@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             return CSharpLanguage.Singleton;
         }
 
-        #region ICSharpProvider Members
+        //#region ICSharpProvider Members
 
         public new ICSharpParser Parser
         {
@@ -70,16 +70,26 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             return (ICSharpAssembly)base.CreateAssembly(name);
         }
 
-        #endregion
+        //#endregion
 
-        #region IHighLevelLanguageProvider<ICSharpCompilationUnit> Members
+        //#region IHighLevelLanguageProvider<ICSharpCompilationUnit> Members
 
 
-        public new IHighLevelLanguage<ICSharpCompilationUnit> Language
+        IHighLevelLanguage<ICSharpCompilationUnit> IHighLevelLanguageProvider<ICSharpCompilationUnit>.Language
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Language; }
         }
 
-        #endregion
+        //#endregion
+
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCliManager"/> which marshalls
+        /// the identities of intermediate and non-intermediate (compiled)
+        /// assemblies and types.
+        /// </summary>
+        public new IIntermediateCliManager IdentityManager
+        {
+            get { return (IIntermediateCliManager)base.IdentityManager; }
+        }
     }
 }

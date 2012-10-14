@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get
                 {
                     if (index < 0 || index >= this.owner.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     lock (this.owner.syncObject)
                     {
                         this.owner.CheckItemAt(index);

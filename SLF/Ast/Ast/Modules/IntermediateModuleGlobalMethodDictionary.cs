@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Modules
         IIntermediateModuleGlobalMethodDictionary
     {
         public IntermediateModuleGlobalMethodDictionary(IntermediateFullMemberDictionary master, IIntermediateModule parent)
-            : base(master, parent)
+            : base(master, parent, parent.Parent.IdentityManager)
         {
         }
 

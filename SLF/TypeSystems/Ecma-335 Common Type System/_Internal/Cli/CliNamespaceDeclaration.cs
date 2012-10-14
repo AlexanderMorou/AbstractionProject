@@ -225,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region __ICliTypeParent Members
 
-        public _ICliManager Manager
+        public _ICliManager IdentityManager
         {
             get { return (_ICliManager)((_ICliAssembly)this.Assembly).IdentityManager;}
         }

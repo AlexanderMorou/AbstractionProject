@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get {
                     if (index < 0 || index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     this.CheckItemAt(index);
                     return new TypeModification(this.dataCopy[index], this.dataSource[index].Required);
                 }

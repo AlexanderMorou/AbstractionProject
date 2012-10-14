@@ -4,6 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Modules;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -18,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Modules
         IIntermediateModuleGlobalMethod
     {
         protected internal IntermediateModuleGlobalMethod(IIntermediateModule parent)
-            : base(parent)
+            : base(parent, parent.Parent.IdentityManager)
         {
         }
 
@@ -31,5 +32,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Modules
         {
             get { return this.Parent.Parent; }
         }
+
     }
 }

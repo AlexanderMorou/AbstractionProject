@@ -284,7 +284,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (this.syncObject)
             {
                 var current = this.CheckKindAt(datumIndex);
-                return this.resultTypes[datumIndex] = parent.Manager.ObtainTypeReference(current);
+                return this.resultTypes[datumIndex] = parent.IdentityManager.ObtainTypeReference(current);
             }
         }
 
@@ -315,8 +315,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private ICliMetadataTypeDefinitionTableRow DiscernKindAt(int datumIndex)
         {
             var current = this.typeDefinitions[datumIndex];
-            TypeKind typeKind = current.DetermineTypeKind(this.parent.Manager);
-            this.resultKeys[datumIndex] = CliCommon.GetUniqueIdentifier(current, parent.Manager);
+            TypeKind typeKind = current.DetermineTypeKind(this.parent.IdentityManager);
+            this.resultKeys[datumIndex] = CliCommon.GetUniqueIdentifier(current, parent.IdentityManager);
             this.resultKinds[datumIndex] = typeKind;
             return current;
         }

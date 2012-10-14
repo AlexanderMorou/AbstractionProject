@@ -70,12 +70,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 get
                 {
+
                     switch (this.owner.TypingMethod)
                     {
                         case LocalTypingKind.Implicit:
                             return this.Owner.InferredType;
                         case LocalTypingKind.Dynamic:
-                            return CommonTypeRefs.Object;
+                            return this.owner.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType);
                         case LocalTypingKind.Explicit:
                             return ((ITypedLocalMember)this.Owner).LocalType;
                         default:

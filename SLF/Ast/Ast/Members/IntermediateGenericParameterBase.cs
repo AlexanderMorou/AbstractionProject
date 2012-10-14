@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private ITypeCollection constraints;
         private ILockedTypeCollection _constraints;
-        private IMetadataDefinitionCollection customAttributes;
+        private IMetadataDefinitionCollection metadata;
         private IntermediateFullMemberDictionary _members;
         private ConstructorMemberDictionary constructors;
         private EventMemberDictionary events;
@@ -697,12 +697,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            return other.Equals(CommonTypeRefs.Object);
+            return other.Equals(this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType));
         }
 
         protected override IType BaseTypeImpl
         {
-            get { return CommonTypeRefs.Object; }
+            get { return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType); }
         }
 
         private IntermediateFullMemberDictionary _Members
@@ -720,12 +720,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Returns the <see cref="IMetadataDefinitionCollection"/> associated
         /// to the current <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.
         /// </summary>
-        public new IMetadataDefinitionCollection CustomAttributes
+        public new IMetadataDefinitionCollection Metadata
         {
             get {
-                if (this.customAttributes == null)
-                    this.customAttributes = new MetadataDefinitionCollection(this);
-                return this.customAttributes;
+                if (this.metadata == null)
+                    this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
+                return this.metadata;
             }
         }
 
@@ -735,10 +735,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             try
             {
-                if (this.customAttributes != null)
+                if (this.metadata != null)
                 {
-                    this.customAttributes.Dispose();
-                    this.customAttributes = null;
+                    this.metadata.Dispose();
+                    this.metadata = null;
                 }
                 if (this.constraints != null)
                 {
@@ -835,6 +835,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);
+        }
+
+        protected override ITypeIdentityManager OnGetManager()
+        {
+            return this.IdentityManager;
         }
     }
 }

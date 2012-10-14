@@ -122,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             set
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 var item = this[index];
                 if (item.Equals(value))
                     return;

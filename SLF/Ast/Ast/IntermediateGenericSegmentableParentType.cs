@@ -687,5 +687,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// has been initialized
         /// </summary>
         protected bool AreTypesInitialized { get { return this.types != null; } }
+
+        protected override ITypeIdentityManager OnGetManager()
+        {
+            return this.Parent.IdentityManager;
+        }
     }
 }

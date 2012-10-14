@@ -52,8 +52,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateMethodParent"/> which owns the 
         /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
-        public IntermediateMethodMemberBase(TIntermediateMethodParent parent)
-            : base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateMethodMemberBase(TIntermediateMethodParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
 
         }
@@ -66,8 +69,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateMethodParent"/> which owns the 
         /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
-        public IntermediateMethodMemberBase(string name, TIntermediateMethodParent parent)
-            : base(name, parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateMethodMemberBase(string name, TIntermediateMethodParent parent, ITypeIdentityManager identityManager)
+            : base(name, parent, identityManager)
         {
 
         }
@@ -1172,7 +1178,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                  * the count will be zero; thus, no index is valid.
                  * */
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.statementContainer[index];
             }
         }

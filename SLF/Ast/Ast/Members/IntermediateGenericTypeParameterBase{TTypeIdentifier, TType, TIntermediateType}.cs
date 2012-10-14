@@ -111,11 +111,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (this.uniqueIdentifier == null)
             {
                 if (this.Position > -1)
-                    this.uniqueIdentifier = AstIdentifier.GenericParameter(this.Position, this.Name, true);
+                    this.uniqueIdentifier = AstIdentifier.GetGenericParameterIdentifier(this.Position, this.Name, true);
                 else
-                    this.uniqueIdentifier = AstIdentifier.GenericParameter(this.Name, true);
+                    this.uniqueIdentifier = AstIdentifier.GetGenericParameterIdentifier(this.Name, true);
             }
             return this.uniqueIdentifier;
+        }
+
+        protected override ITypeIdentityManager OnGetManager()
+        {
+            return this.Parent.IdentityManager;
         }
     }
 }

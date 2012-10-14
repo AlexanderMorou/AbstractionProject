@@ -184,22 +184,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public IFilteredSignatureMemberDictionary<IGeneralSignatureMemberUniqueIdentifier, TEvent, TEventParameter, TEventParent> Find(IDelegateType searchCriteria)
         {
-            return this.Find(true, searchCriteria.Parameters.ParameterTypes);
+            throw new NotImplementedException();
         }
 
         public TEvent Find(string eventName, IDelegateType searchCriteria)
         {
-            return this.Find(searchCriteria).Filter(@event => @event.Name == eventName).Values.FirstOrDefault();
+            return this.Find(searchCriteria).Values.Where(@event => @event.Name == eventName).FirstOrDefault();
         }
 
         #endregion
     
         #region IEventSignatureMemberDictionary Members
-
-        IFilteredSignatureMemberDictionary IEventSignatureMemberDictionary.Find(IDelegateType searchCriteria)
-        {
-            return (IFilteredSignatureMemberDictionary)this.Find(searchCriteria);
-        }
 
         IEventSignatureMember IEventSignatureMemberDictionary.Find(string eventName, IDelegateType searchCriteria)
         {

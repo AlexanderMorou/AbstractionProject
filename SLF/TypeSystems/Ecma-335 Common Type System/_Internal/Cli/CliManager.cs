@@ -41,6 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> refBaseTypeKinds = new Dictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType>();
         private object cacheLock = new object();
         private object cacheClearLock = new object();
+        private MetadataService metadataService;
         //"System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
 
         private ICliRuntimeEnvironmentInfo runtimeEnvironment;
@@ -305,11 +306,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
         //#region ITypeIdentityManager Members
 
-        public bool IsMetadatumInheritable(IType metadatumType)
-        {
-            throw new NotImplementedException();
-        }
-
         public IType ObtainTypeReference(object typeIdentity)
         {
             if (typeIdentity is string)
@@ -319,8 +315,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else if (typeIdentity is PrimitiveType)
                 return ObtainTypeReference((PrimitiveType) typeIdentity);
             else if (typeIdentity is ICliMetadataTypeDefOrRefRow)
-            {
-            }
+                return this.ObtainTypeReference((ICliMetadataTypeDefOrRefRow)typeIdentity);
             throw new ArgumentOutOfRangeException("typeIdentity");
         }
 
@@ -342,7 +337,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         //#endregion
         //#region IAssemblyIdentityManager<Assembly,ICompiledAssembly> Members
 
-        public ICliAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
+        public IAssembly ObtainAssemblyReference(Assembly assemblyIdentity)
         {
             /* *
              * Return the assembly relative to the current runtime environment,
@@ -593,8 +588,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         if (assemblyRef == null)
                             throw new TypeLoadException("Assembly reference for type identity could not be resolved.");
                         var assembly = this.ObtainAssemblyReference(assemblyRef);
-                        var typeDef = assembly.FindType(typeIdentity.Namespace, typeIdentity.Name);
-                        return this.ObtainTypeReference(typeDef);
+                        if (assembly is ICliAssembly)
+                        {
+                            var cliAssembly = (ICliAssembly)assembly;
+                            var typeDef = cliAssembly.FindType(typeIdentity.Namespace, typeIdentity.Name);
+                            return this.ObtainTypeReference(typeDef);
+                        }
+                        break;
                     }
                 case CliMetadataResolutionScopeTag.TypeReference:
                     {
@@ -616,7 +616,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region IAssemblyIdentityManager<IAssemblyUniqueIdentifier,ICompiledAssembly> Members
 
-        public ICliAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
+        public IAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
         {
             if (assemblyIdentity == null)
                 throw new ArgumentNullException("assemblyIdentity");
@@ -691,16 +691,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
 
         /// <summary>
-        /// Obtains a <see cref="ICliAssembly"/> reference by
+        /// Obtains a <see cref="IAssembly"/> reference by
         /// the filename.
         /// </summary>
         /// <param name="filename">The <see cref="String"/> value
         /// which denotes the location of the assembly image.</param>
-        /// <returns>A <see cref="ICliAssembly"/>
+        /// <returns>A <see cref="IAssembly"/>
         /// which denotes the assembly in question.</returns>
         /// <exception cref="System.IO.FileNotFoundException">thrown when 
         /// <paramref name="filename"/> was not found.</exception>
-        public ICliAssembly ObtainAssemblyReference(string filename)
+        public IAssembly ObtainAssemblyReference(string filename)
         {
             filename = CliCommon.MinimizeFilename(filename);
             IAssemblyUniqueIdentifier uniqueIdentifier;
@@ -797,7 +797,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region IAssemblyIdentityManager<CliMetadataAssemblyTableRow,ICompiledAssembly> Members
 
-        public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyTableRow assemblyIdentity)
+        public IAssembly ObtainAssemblyReference(ICliMetadataAssemblyTableRow assemblyIdentity)
         {
             var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
             CliAssembly result;
@@ -813,7 +813,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region IAssemblyIdentityManager<CliMetadataAssemblyRefTableRow,ICompiledAssembly> Members
 
-        public ICliAssembly ObtainAssemblyReference(ICliMetadataAssemblyRefTableRow assemblyIdentity)
+        public IAssembly ObtainAssemblyReference(ICliMetadataAssemblyRefTableRow assemblyIdentity)
         {
             CliAssembly result;
             var identity = CliCommon.GetAssemblyUniqueIdentifier(assemblyIdentity);
@@ -1345,22 +1345,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return RuntimeCoreType.None;
         }
 
-        public bool IsMetadatumType(IType possibleMetadatumType)
+        public IType GetMetadatum(MetadatumKind kind)
         {
-            if (possibleMetadatumType == null)
-                throw new ArgumentNullException("possibleMetadatumType");
-            var metadataIdentifier = this.runtimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum);
-            IType rootMetadatum;
-            if (this.runtimeEnvironment.UseCoreLibrary)
-                rootMetadatum = this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum));
-            else
+            switch (kind)
             {
-                var assembly = possibleMetadatumType.Assembly;
-
-                rootMetadatum = this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum), assembly);
+                case MetadatumKind.ParameterArray:
+                    return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "ParamArrayAttribute", 0));
+                case MetadatumKind.CompilerGenerated:
+                    return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0));
+                case MetadatumKind.Obsolete:
+                    return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "ObsoleteAttribute", 0));
+                default:
+                    throw new ArgumentOutOfRangeException("kind");
             }
-            return rootMetadatum.IsAssignableFrom(possibleMetadatumType);
         }
-
+        public ITypeIdentityMetadataService MetadatumHandler
+        {
+            get
+            {
+                return this.metadataService ?? (this.metadataService = new MetadataService(this));
+            }
+        }
     }
 }

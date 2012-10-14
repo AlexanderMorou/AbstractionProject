@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (assembly != null && assembly.Provider != null)
             {
                 IIntermediateTypeCtorLanguageService<IIntermediateEnumType> enumService;
-                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateEnumCreatorService, out enumService))
+                if (assembly.Provider.TryGetService(LanguageGuids.Services.IntermediateEnumCreatorService, out enumService))
                     return enumService.GetNew(name, this.Parent);
             }
             return new IntermediateEnumType(name, this.Parent);

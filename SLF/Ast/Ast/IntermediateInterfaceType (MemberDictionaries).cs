@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
 
             public MethodMembers(IntermediateFullMemberDictionary master, TInstanceType parent)
-                : base(master, parent)
+                : base(master, parent, parent.IdentityManager)
             {
             }
 

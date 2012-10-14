@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             private new CliMethodSignatureBase<TSignature, TSignatureParent> Parent { get { return ((CliMethodSignatureBase<TSignature, TSignatureParent>) (object) base.Parent); } }
 
             public ParameterMemberDictionary(CliMethodSignatureBase<TSignature, TSignatureParent> signature)
-                : base(signature.Manager, (int) signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot)
+                : base(signature.IdentityManager, (int) signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot)
             {
             }
 
@@ -75,9 +75,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #region _ICliParameterParent Members
 
-        _ICliManager _ICliParameterParent.Manager
+        _ICliManager _ICliParameterParent.IdentityManager
         {
-            get { return this.Manager; }
+            get { return this.IdentityManager; }
         }
 
         public ICliMetadataMethodSignature Signature

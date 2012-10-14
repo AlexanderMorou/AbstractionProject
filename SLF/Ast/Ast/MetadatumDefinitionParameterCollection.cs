@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Slf.Abstract;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -17,7 +18,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         _IMetadatumDefinitionParameterCollection
     {
         private int namelessParamCount = 0;
+
+        private  ITypeIdentityManager manager;
+
         private HashSet<string> namedParameterNames = new HashSet<string>();
+        /// <summary>
+        /// Data member holding onto the boolean type relative to the active scope.
+        /// </summary>
+        private  IType booleanType;
+        private  IType stringType;
+        private  IType typeType;
+        private  IType byteType;
+        private  IType sbyteType;
+        private  IType uint16Type;
+        private  IType int16Type;
+        private  IType int32Type;
+        private  IType uint32Type;
+        private  IType int64Type;
+        private  IType uint64Type;
+        private  IType singleType;
+        private  IType doubleType;
+        private  IType decimalType;
         /// <summary>
         /// Returns the <see cref="IMetadatumDefinition"/> which contains the <see cref="MetadatumDefinitionParameterCollection"/>
         /// </summary>
@@ -29,11 +50,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <param name="parent">The <see cref="IMetadatumDefinition"/> which contains the <see cref="MetadatumDefinitionParameterCollection"/></param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="parent"/>
         /// is null.</exception>
-        internal MetadatumDefinitionParameterCollection(IMetadatumDefinition parent)
+        /// <param name="manager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        internal MetadatumDefinitionParameterCollection(IMetadatumDefinition parent, ITypeIdentityManager manager)
         {
             if (parent == null)
                 throw new ArgumentNullException("parent");
             this.Parent = parent;
+            this.manager = manager;
         }
 
         /* *
@@ -41,18 +66,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
          * *
          * ToDo: Add parameter array support.
          * */
-        private IMetadatumDefinitionParameter<T> AddInternal<T>(T value)
+        private IMetadatumDefinitionParameter<T> AddInternal<T>(T value, IType valueType)
         {
-            MetadatumDefinitionParameter<T> parameter = new MetadatumDefinitionParameter<T>(value, this);
+            MetadatumDefinitionParameter<T> parameter = new MetadatumDefinitionParameter<T>(value, this, valueType);
             base.baseList.Add(parameter);
             namelessParamCount++;
             return parameter;
         }
-        private IMetadatumDefinitionNamedParameter<T> AddInternal<T>(string name, T value)
+        private IMetadatumDefinitionNamedParameter<T> AddInternal<T>(string name, T value, IType valueType)
         {
             if (namedParameterNames.Contains(name))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.DuplicateKeyExists);
-            MetadatumDefinitionNamedParameter<T> parameter = new MetadatumDefinitionNamedParameter<T>(name, value, this);
+            MetadatumDefinitionNamedParameter<T> parameter = new MetadatumDefinitionNamedParameter<T>(name, value, this, valueType);
             base.baseList.Add(parameter);
             this.namedParameterNames.Add(name);
             return parameter;
@@ -72,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Boolean"/> parameter.</returns>
         public IMetadatumDefinitionParameter<bool> Add(bool value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.booleanType ?? (this.booleanType = this.manager.ObtainTypeReference(RuntimeCoreType.Boolean)));
         }
 
         /// <summary>
@@ -83,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="String"/> parameter.</returns>
         public IMetadatumDefinitionParameter<string> Add(string value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.stringType ?? (this.stringType = this.manager.ObtainTypeReference(RuntimeCoreType.String)));
         }
 
         /// <summary>
@@ -94,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Type"/> parameter.</returns>
         public IMetadatumDefinitionParameter<Type> Add(Type value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.typeType ?? (this.typeType = this.manager.ObtainTypeReference(RuntimeCoreType.Type)));
         }
 
         /// <summary>
@@ -105,7 +130,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Byte"/> parameter.</returns>
         public IMetadatumDefinitionParameter<byte> Add(byte value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.byteType ?? (this.byteType = this.manager.ObtainTypeReference(RuntimeCoreType.Byte)));
         }
 
         /// <summary>
@@ -116,7 +141,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="SByte"/> parameter.</returns>
         public IMetadatumDefinitionParameter<sbyte> Add(sbyte value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.sbyteType ?? (this.sbyteType = this.manager.ObtainTypeReference(RuntimeCoreType.SByte)));
         }
 
         /// <summary>
@@ -127,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="UInt16"/> parameter.</returns>
         public IMetadatumDefinitionParameter<ushort> Add(ushort value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.uint16Type ?? (this.uint16Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt16)));
         }
 
         /// <summary>
@@ -138,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Int16"/> parameter.</returns>
         public IMetadatumDefinitionParameter<short> Add(short value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.int16Type ?? (this.int16Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int16)));
         }
 
         /// <summary>
@@ -149,7 +174,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Int32"/> parameter.</returns>
         public IMetadatumDefinitionParameter<int> Add(int value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.int32Type ?? (this.int32Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int32)));
         }
 
         /// <summary>
@@ -160,7 +185,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="UInt32"/> parameter.</returns>
         public IMetadatumDefinitionParameter<uint> Add(uint value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.uint32Type ?? (this.uint32Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt32)));
         }
 
         /// <summary>
@@ -171,7 +196,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Int64"/> parameter.</returns>
         public IMetadatumDefinitionParameter<long> Add(long value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.int64Type ?? (this.int64Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int64)));
         }
 
         /// <summary>
@@ -182,7 +207,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="UInt64"/> parameter.</returns>
         public IMetadatumDefinitionParameter<ulong> Add(ulong value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.uint64Type ?? (this.uint64Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt64)));
         }
 
         /// <summary>
@@ -193,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Single"/> parameter.</returns>
         public IMetadatumDefinitionParameter<float> Add(float value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.singleType ?? (this.singleType = this.manager.ObtainTypeReference(RuntimeCoreType.Single)));
         }
 
         /// <summary>
@@ -204,7 +229,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Double"/> parameter.</returns>
         public IMetadatumDefinitionParameter<double> Add(double value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.doubleType ?? (this.doubleType = this.manager.ObtainTypeReference(RuntimeCoreType.Double)));
         }
 
         /// <summary>
@@ -215,7 +240,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Decimal"/> parameter.</returns>
         public IMetadatumDefinitionParameter<decimal> Add(decimal value)
         {
-            return AddInternal(value);
+            return AddInternal(value, this.decimalType ?? (this.decimalType = this.manager.ObtainTypeReference(RuntimeCoreType.Decimal)));
         }
 
         /// <summary>
@@ -232,7 +257,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<bool> Add(string name, bool value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.booleanType ?? (this.booleanType = this.manager.ObtainTypeReference(RuntimeCoreType.Boolean)));
         }
 
         /// <summary>
@@ -249,7 +274,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<string> Add(string name, string value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.stringType ?? (this.stringType = this.manager.ObtainTypeReference(RuntimeCoreType.String)));
         }
 
         /// <summary>
@@ -266,7 +291,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<Type> Add(string name, Type value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.typeType ?? (this.typeType = this.manager.ObtainTypeReference(RuntimeCoreType.Type)));
         }
 
         /// <summary>
@@ -283,7 +308,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<byte> Add(string name, byte value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.byteType ?? (this.byteType = this.manager.ObtainTypeReference(RuntimeCoreType.Byte)));
         }
 
         /// <summary>
@@ -301,7 +326,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<sbyte> Add(string name, sbyte value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.sbyteType ?? (this.sbyteType = this.manager.ObtainTypeReference(RuntimeCoreType.SByte)));
         }
 
         /// <summary>
@@ -318,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<short> Add(string name, short value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.int16Type ?? (this.int16Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int16)));
         }
 
         /// <summary>
@@ -336,7 +361,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<ushort> Add(string name, ushort value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.uint16Type ?? (this.uint16Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt16)));
         }
 
         /// <summary>
@@ -353,7 +378,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<int> Add(string name, int value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.int32Type ?? (this.int32Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int32)));
         }
 
         /// <summary>
@@ -371,7 +396,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<uint> Add(string name, uint value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.uint32Type ?? (this.uint32Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt32)));
         }
 
         /// <summary>
@@ -388,7 +413,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<long> Add(string name, long value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.int64Type ?? (this.int64Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int64)));
         }
 
         /// <summary>
@@ -406,7 +431,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<ulong> Add(string name, ulong value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.uint64Type ?? (this.uint64Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt64)));
         }
 
         /// <summary>
@@ -423,7 +448,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<float> Add(string name, float value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.singleType ?? (this.singleType = this.manager.ObtainTypeReference(RuntimeCoreType.Single)));
         }
 
         /// <summary>
@@ -440,7 +465,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<double> Add(string name, double value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.doubleType ?? (this.doubleType = this.manager.ObtainTypeReference(RuntimeCoreType.Double)));
         }
 
         /// <summary>
@@ -457,7 +482,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<decimal> Add(string name, decimal value)
         {
-            return this.AddInternal(name, value);
+            return AddInternal(name, value, this.decimalType ?? (this.decimalType = this.manager.ObtainTypeReference(RuntimeCoreType.Decimal)));
         }
 
         #endregion
@@ -466,12 +491,79 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         IMetadatumDefinitionParameter _IMetadatumDefinitionParameterCollection.AddInternal<T>(T value)
         {
-            return this.AddInternal(value);
+            switch (Type.GetTypeCode(typeof(T)))
+            {
+                case TypeCode.Boolean:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Boolean));
+                case TypeCode.Byte:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Byte));
+                case TypeCode.Char:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Char));
+                //case TypeCode.DateTime:
+                //    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Date));
+                case TypeCode.Decimal:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Decimal));
+                case TypeCode.Double:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Double));
+                case TypeCode.Int16:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Int16));
+                case TypeCode.Int32:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Int32));
+                case TypeCode.Int64:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Int64));
+                case TypeCode.SByte:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.SByte));
+                case TypeCode.Single:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Single));
+                case TypeCode.String:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.String));
+                case TypeCode.UInt16:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt16));
+                case TypeCode.UInt32:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt32));
+                case TypeCode.UInt64:
+                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt64));
+            }
+            throw new InvalidOperationException("Type code not supported.");
         }
 
         IMetadatumDefinitionParameter _IMetadatumDefinitionParameterCollection.AddInternal<T>(string name, T value)
         {
-            return this.AddInternal(name, value);
+
+            switch (Type.GetTypeCode(typeof(T)))
+            {
+                case TypeCode.Boolean:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Boolean));
+                case TypeCode.Byte:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Byte));
+                case TypeCode.Char:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Char));
+                //case TypeCode.DateTime:
+                //    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Date));
+                case TypeCode.Decimal:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Decimal));
+                case TypeCode.Double:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Double));
+                case TypeCode.Int16:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Int16));
+                case TypeCode.Int32:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Int32));
+                case TypeCode.Int64:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Int64));
+                case TypeCode.SByte:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.SByte));
+                case TypeCode.Single:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Single));
+                case TypeCode.String:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.String));
+                case TypeCode.UInt16:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt16));
+                case TypeCode.UInt32:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt32));
+                case TypeCode.UInt64:
+                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt64));
+            }
+            throw new InvalidOperationException("Type code not supported.");
         }
 
 
@@ -559,7 +651,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public void RemoveAt(int index)
         {
             if (index < 0 || index >= this.namelessParamCount)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             int _index = 0;
             foreach (var item in this)
                 if (!(item is IMetadatumDefinitionNamedParameter))
@@ -590,7 +682,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (!this.namedParameterNames.Contains(name))
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.name, ExceptionMessageId.DuplicateKeyExists);
             foreach (var item in this)
-                if (item is IMetadatumDefinitionNamedParameter && ((IMetadatumDefinitionNamedParameter)(item)).Name == name)
+                if (item is IMetadatumDefinitionNamedParameter && ((IMetadatumDefinitionNamedParameter) (item)).Name == name)
                 {
                     this.namedParameterNames.Remove(name);
                     base.baseList.Remove(item);
@@ -616,7 +708,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         internal void OnItemValueChanged<T>(MetadatumDefinitionParameter<T> item)
         {
             if (item is IMetadatumDefinitionNamedParameter)
-                this.OnNamedParameterChangedValue((IMetadatumDefinitionNamedParameter)item);
+                this.OnNamedParameterChangedValue((IMetadatumDefinitionNamedParameter) item);
             else
                 this.OnNamelessParametersChanged(EventArgs.Empty);
         }

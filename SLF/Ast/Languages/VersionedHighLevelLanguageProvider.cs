@@ -7,13 +7,15 @@ using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
-    public abstract class VersionedHighLevelLanguageProvider<TLanguage, TProvider, TVersion, TRootNode> :
-        LanguageProvider<TLanguage, TProvider>,
+    public abstract class VersionedHighLevelLanguageProvider<TLanguage, TProvider, TVersion, TRootNode, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
+        LanguageProvider<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity>,
         IVersionedHighLevelLanguageProvider<TVersion, TRootNode>
         where TLanguage :
+            IVersionedHighLevelLanguage<TVersion, TRootNode>,
             ILanguage<TLanguage, TProvider>,
             IHighLevelLanguage<TRootNode>
         where TProvider :
@@ -21,9 +23,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             IHighLevelLanguageProvider<TRootNode>
         where TRootNode :
             IConcreteNode
+        where TIdentityManager : 
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
     {
 
-        public VersionedHighLevelLanguageProvider(TVersion version)
+        public VersionedHighLevelLanguageProvider(TVersion version, ITypeIdentityManager identityManager)
+            : base(identityManager)
         {
             this.Version = version;
         }
@@ -67,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         IVersionedHighLevelLanguage<TVersion, TRootNode> IVersionedHighLevelLanguageProvider<TVersion,TRootNode>.Language
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Language; }
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Slf.Abstract;
+using System;
 using System.Collections.Generic;
 using System.Text;
  /*---------------------------------------------------------------------\

@@ -19,6 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         ControlledCollection<IMetadataDefinition>,
         IMetadataDefinitionCollection
     {
+        private ITypeIdentityManager manager;
         private Wrapper wrapper;
         /// <summary>
         /// Creates a new <see cref="MetadataDefinitionCollection"/> with
@@ -26,14 +27,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateMetadataEntity"/>
         /// which needs the attribute collection series.</param>
-        public MetadataDefinitionCollection(IIntermediateMetadataEntity parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public MetadataDefinitionCollection(IIntermediateMetadataEntity parent, ITypeIdentityManager identityManager)
         {
+            this.manager = identityManager;
             this.Parent = parent;
         }
 
-        public MetadataDefinitionCollection(MetadataDefinitionCollection wrapped, IIntermediateMetadataEntity parent)
+        public MetadataDefinitionCollection(MetadataDefinitionCollection wrapped, IIntermediateMetadataEntity parent, ITypeIdentityManager identityManager)
             : base(wrapped.baseList)
         {
+            this.manager = identityManager;
+            this.Parent = parent;
         }
 
         #region IMetadataDefinitionCollection Members
@@ -139,16 +146,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        public TAttribute GetAttributeInstance<TAttribute>() 
-            where TAttribute :
-                Attribute
-        {
-            IType k = typeof(TAttribute).GetTypeReference();
-            if (!this.Contains(k))
-                return default(TAttribute);
-            return ((TAttribute)(this[k].WrappedAttribute));
-        }
-
         public void Remove(IMetadatumDefinition customAttribute)
         {
             bool found = false;
@@ -208,6 +205,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.wrapper == null)
                 this.wrapper = new Wrapper(this.Parent);
             return wrapper;
+        }
+
+        public ITypeIdentityManager IdentityManager
+        {
+            get { return this.manager; }
         }
     }
 }

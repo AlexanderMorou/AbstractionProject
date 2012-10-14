@@ -21,17 +21,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// <summary>
     /// Provides an intermediate assembly's meta-data.
     /// </summary>
-    /// <typeparam name="TLanguage"></typeparam>
-    /// <typeparam name="TProvider"></typeparam>
-    /// <typeparam name="TAssembly"></typeparam>
-    public sealed class IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly> :
+    /// <typeparam name="TLanguage">The kind of <see cref="ILanguage"/>
+    /// which is targeted by the <see cref="IntermediateAssembly{TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.</typeparam>
+    /// <typeparam name="TProvider">The kind of <see cref="ILanguageProvider"/>
+    /// which provides the functional gateway to the instances of the 
+    /// <see cref="IntermediateAssembly{TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.</typeparam>
+    /// <typeparam name="TAssembly">The kind of <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
+    /// represented within the implementation.</typeparam>
+    /// <typeparam name="TIdentityManager">The <see cref="IIdentityManager{TTypeIdentity, TAssemblyIdentity}"/>
+    /// which maintains consistent type and assembly identity.</typeparam>
+    /// <typeparam name="TAssemblyIdentity">The identity used to obtain assembly references.</typeparam>
+    /// <typeparam name="TTypeIdentity">The identity used to denote types within the 
+    /// identity manager.</typeparam>
+    public sealed class IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
         IIntermediateAssemblyInformation
         where TLanguage :
             ILanguage
         where TProvider :
             ILanguageProvider
         where TAssembly :
-            IntermediateAssembly<TLanguage, TProvider, TAssembly>
+            IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>
+        where TIdentityManager :
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
     {
         private static readonly IIntermediateVersion defaultVersion = new IntermediateVersion(1, 0);
         private IIntermediateVersion fileVersion;
@@ -211,7 +222,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 if (this.fileVersion == null)
-                    return IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion;
+                    return IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>.defaultVersion;
                 return this.fileVersion;
             }
             set
@@ -221,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 var original = this.fileVersion;
                 try
                 {
-                    if (value == IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion)
+                    if (value == IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>.defaultVersion)
                     {
                         this.fileVersion = null;
                         return;
@@ -244,7 +255,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 if (this.assemblyVersion == null)
-                    return IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion;
+                    return IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>.defaultVersion;
                 return this.assemblyVersion;
             }
             set
@@ -254,7 +265,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 var original = this.assemblyVersion;
                 try
                 {
-                    if (value == IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>.defaultVersion)
+                    if (value == IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>.defaultVersion)
                     {
                         this.assemblyVersion = null;
                         return;
@@ -351,7 +362,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             if (value != null)
             {
-                IType attributeTypeInternal = attributeType.GetTypeReference();
+                IType attributeTypeInternal =  owner.IdentityManager.ObtainTypeReference(attributeType);
                 if (owner._CustomAttributes.Contains(attributeTypeInternal))
                 {
                     var attributeDecl = owner._CustomAttributes[attributeTypeInternal];

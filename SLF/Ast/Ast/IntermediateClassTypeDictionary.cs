@@ -82,7 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (assembly != null && assembly.Provider != null)
             {
                 IIntermediateTypeCtorLanguageService<IIntermediateClassType> classService;
-                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, out classService))
+                if (assembly.Provider.TryGetService(LanguageGuids.Services.ClassServices.ClassCreatorService, out classService))
                     return classService.GetNew(name, this.Parent);
             }
             return new IntermediateClassType(name, this.Parent);

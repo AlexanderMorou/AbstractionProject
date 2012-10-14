@@ -117,20 +117,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     var coreLibraryId = this.RuntimeEnvironment.CoreLibraryIdentifier;
                     var coreLibrary = this.ObtainAssemblyReference(coreLibraryId);
-                    var type = coreLibrary.FindType(typeIdentity);
+                    var type = coreLibrary.GetType(typeIdentity);
                     if (type != null)
                         return this.ObtainTypeReference(type);
                     foreach (var assembly in this.loadedAssemblies.Values)
                         if (assembly.UniqueIdentifier == coreLibraryId)
                             continue;
-                        else if ((type = assembly.FindType(typeIdentity)) != null)
+                        else if ((type = assembly.GetType(typeIdentity)) != null)
                             return this.ObtainTypeReference(type);
                 }
             }
             else
             {
                 var assembly = this.ObtainAssemblyReference(typeIdentity.Assembly);
-                var type = assembly.FindType(typeIdentity);
+                var type = assembly.GetType(typeIdentity);
                 if (type != null)
                     return this.ObtainTypeReference(type);
             }
@@ -148,7 +148,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     var coreLibraryId = this.RuntimeEnvironment.CoreLibraryIdentifier;
                     var coreLibrary = this.ObtainAssemblyReference(coreLibraryId);
-                    var type = coreLibrary.FindType(typeIdentity);
+                    var cliCoreLibrary = (ICliAssembly)coreLibrary;
+                    var type = cliCoreLibrary.GetType(typeIdentity);
                     if (type != null)
                         return this.ObtainTypeReference(type);
                 }
@@ -167,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else
             {
                 var assembly = this.ObtainAssemblyReference(typeIdentity.Assembly);
-                var type = assembly.FindType(typeIdentity);
+                var type = assembly.GetType(typeIdentity);
                 if (type != null)
                     return this.ObtainTypeReference(type);
             }

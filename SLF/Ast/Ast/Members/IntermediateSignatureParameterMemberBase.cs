@@ -63,11 +63,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Creates a new <see cref="IntermediateSignatureParameterMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/> with the
         /// <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">Tbe <typeparamref name="TIntermediateSignature"/>
+        /// <param name="parent">The <typeparamref name="TIntermediateSignature"/>
         /// which contains the <see cref="IntermediateSignatureParameterMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/></param>
-        public IntermediateSignatureParameterMemberBase(TIntermediateSignature parent) :
-            base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateSignatureParameterMemberBase(TIntermediateSignature parent, ITypeIdentityManager identityManager) :
+            base(parent, identityManager)
         {
+
         }
 
         #region ISignatureParameterMember Members

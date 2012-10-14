@@ -107,12 +107,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType MakePointer()
         {
-            return this.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
+            return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Pointer);
         }
 
         public IType MakeByReference()
         {
-            return this.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
+            return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Reference);
         }
 
         public IType MakeNullable()
@@ -269,7 +269,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        public ITypeIdentityManager Manager { get { return this.manager; } }
+        public ITypeIdentityManager IdentityManager { get { return this.manager; } }
 
         public override string ToString()
         {

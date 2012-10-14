@@ -274,15 +274,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="target">The <see cref="Type"/> to receive the type reference
         /// expression of.</param>
+        /// <param name="identityManager">The <see cref="ICliManager"/>
+        /// which is responsible for marshalling type and assembly identities
+        /// within the current type model.</param>
         /// <returns>A new <see cref="TypeReferenceExpression"/>.</returns>
         /// <remarks>Used to obtain a type as an expression for linking a type as the
         /// origin of a primary expression.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static ITypeReferenceExpression GetTypeExpression(this Type target)
+        public static ITypeReferenceExpression GetTypeExpression(this Type target, ICliManager identityManager)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return target.GetTypeReference().GetTypeExpression();
+            return identityManager.ObtainTypeReference(target).GetTypeExpression();
         }
 
         /// <summary>
@@ -291,14 +294,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="target">A <see cref="IExpressionFusionExpression"/> which represents 
         /// a symbolic form of a type.</param>
+        /// <param name="identityManager">The <see cref="ICliManager"/>
+        /// which is responsible for marshalling type and assembly identities
+        /// within the current type model.</param>
         /// <returns>A new <see cref="TypeReferenceExpression"/> which wraps the <paramref name="target"/>
         /// in a <see cref="SymbolType"/>.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static ITypeReferenceExpression GetTypeExpression(this IExpressionFusionExpression target)
+        public static ITypeReferenceExpression GetTypeExpression(this IExpressionFusionExpression target, ICliManager identityManager)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new SymbolType(target).GetTypeExpression();
+            return new SymbolType(target, identityManager).GetTypeExpression();
         }
 
         #endregion 
@@ -314,17 +320,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// the method group under the alias <paramref name="methodName"/>.</param>
         /// <param name="methodName">The alias or identifier of the method group
         /// from the <paramref name="target"/> <see cref="Type"/>.</param>
+        /// <param name="identityManager">The <see cref="ICliManager"/>
+        /// which is responsible for marshalling type and assembly identities
+        /// within the current type model.</param>
         /// <returns>A <see cref="IMethodReferenceStub"/>
         /// which denotes a stub reference to the method group
         /// by the alias <paramref name="methodName"/>.</returns>
-        public static IMethodReferenceStub GetMethodExpression(this Type target, string methodName)
+        public static IMethodReferenceStub GetMethodExpression(this Type target, ICliManager identityManager, string methodName)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
             if (string.IsNullOrEmpty(methodName))
                 throw new ArgumentNullException("methodName");
 
-            return target.GetTypeExpression().GetMethod(methodName);
+            return target.GetTypeExpression(identityManager).GetMethod(methodName);
         }
 
         /// <summary>
@@ -335,6 +344,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="target">The <see cref="Type"/> which contains
         /// the method group under the alias <paramref name="methodName"/>.</param>
+        /// <param name="identityManager">The <see cref="ICliManager"/>
+        /// which is responsible for marshalling type and assembly identities
+        /// within the current type model.</param>
         /// <param name="methodName">The alias or identifier of the method group
         /// from the <paramref name="target"/> <see cref="Type"/>.</param>
         /// <param name="parameters">The <see cref="IExpression"/> array of 
@@ -342,61 +354,61 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// under the <paramref name="methodName"/> alias.</param>
         /// <returns>A <see cref="IMethodInvokeExpression"/> which expresses
         /// the invocation.</returns>
-        public static IMethodInvokeExpression GetMethodInvokeExpression(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression(this Type target, ICliManager identityManager, string methodName, params IExpression[] parameters)
         {
-            return target.GetMethodExpression(methodName).Invoke(parameters);
+            return target.GetMethodExpression(identityManager, methodName).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetMethodInvokeExpression<T1>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1>(this Type target, ICliManager identityManager, string methodName, params IExpression[] parameters)
         {
-            return (new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1) }.ToCollection())).Invoke(parameters);
+            return (new UnboundMethodReferenceStub(target.GetTypeExpression(identityManager), methodName, new Type[] { typeof(T1) }.ToCollection(identityManager))).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2>(this Type target, ICliManager identityManager, string methodName, params IExpression[] parameters)
         {
-            return new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection()).Invoke(parameters);
+            return new UnboundMethodReferenceStub(target.GetTypeExpression(identityManager), methodName, new Type[] { typeof(T1), typeof(T2) }.ToCollection(identityManager)).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2, T3>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2, T3>(this Type target, ICliManager identityManager, string methodName, params IExpression[] parameters)
         {
-            return new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection()).Invoke(parameters);
+            return new UnboundMethodReferenceStub(target.GetTypeExpression(identityManager), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3) }.ToCollection(identityManager)).Invoke(parameters);
         }
 
-        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2, T3, T4>(this Type target, string methodName, params IExpression[] parameters)
+        public static IMethodInvokeExpression GetMethodInvokeExpression<T1, T2, T3, T4>(this Type target, ICliManager identityManager, string methodName, params IExpression[] parameters)
         {
-            return new UnboundMethodReferenceStub(target.GetTypeExpression(), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection()).Invoke(parameters);
+            return new UnboundMethodReferenceStub(target.GetTypeExpression(identityManager), methodName, new Type[] { typeof(T1), typeof(T2), typeof(T3), typeof(T4) }.ToCollection(identityManager)).Invoke(parameters);
         }
 
-        public static IPropertyReferenceExpression GetPropertyExpression(this Type target, string propertyName)
+        public static IPropertyReferenceExpression GetPropertyExpression(this Type target, ICliManager identityManager, string propertyName)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
             if (string.IsNullOrEmpty(propertyName))
                 throw new ArgumentNullException("propertyName");
-            return target.GetTypeExpression().GetProperty(propertyName);
+            return target.GetTypeExpression(identityManager).GetProperty(propertyName);
         }
 
-        public static IFieldReferenceExpression GetFieldExpression(this Type target, string fieldName)
+        public static IFieldReferenceExpression GetFieldExpression(this Type target, ICliManager identityManager, string fieldName)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
             if (string.IsNullOrEmpty(fieldName))
                 throw new ArgumentNullException("fieldName");
-            return target.GetTypeExpression().GetField(fieldName);
+            return target.GetTypeExpression(identityManager).GetField(fieldName);
         }
 
-        public static IIndexerReferenceExpression GetIndexerExpression(this Type target, params IExpression[] parameters)
+        public static IIndexerReferenceExpression GetIndexerExpression(this Type target, ICliManager identityManager, params IExpression[] parameters)
         {
-            return target.GetIndexerExpression(null, parameters);
+            return target.GetIndexerExpression(identityManager, null, parameters);
         }
 
-        public static IIndexerReferenceExpression GetIndexerExpression(this Type target, string indexerName, params IExpression[] parameters)
+        public static IIndexerReferenceExpression GetIndexerExpression(this Type target, ICliManager identityManager, string indexerName, params IExpression[] parameters)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
             if (indexerName == string.Empty)
                 throw new ArgumentOutOfRangeException("indexerName", "May be null, but not empty.");
-            return target.GetTypeExpression().GetIndexer(indexerName, parameters);
+            return target.GetTypeExpression(identityManager).GetIndexer(indexerName, parameters);
         }
         #endregion
 
@@ -420,15 +432,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// Obtains a <see cref="TypeOfExpression"/> for the <paramref name="target"/> provided.
         /// </summary>
         /// <param name="target">The <see cref="Type"/> which needs a typeof expression.</param>
+        /// <param name="identityManager">The <see cref="ICliManager "/> which marshals
+        /// identities of types within the type model.</param>
         /// <returns>A new <see cref="TypeOfExpression"/> instance which obtains the 
         /// <see cref="RuntimeTypeHandle"/> of the provided <paramref name="target"/> at 
         /// runtime.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeOfExpression TypeOf(this Type target)
+        public static TypeOfExpression TypeOf(this Type target, ICliManager identityManager)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return target.GetTypeReference().TypeOf();
+            return identityManager.ObtainTypeReference(target).TypeOf();
         }
 
         /// <summary>
@@ -451,15 +465,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="target">The <see cref="IExpressionFusionExpression"/> which needs a typeof
         /// expression.</param>
+        /// <param name="identityManager">The <see cref="ICliManager "/> which marshals
+        /// identities of types within the type model.</param>
         /// <returns>A new <see cref="TypeOfExpression"/> instance which obtains the 
         /// <see cref="RuntimeTypeHandle"/> of the provided <paramref name="target"/> at 
         /// runtime.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeOfExpression TypeOf(this IExpressionFusionExpression target)
+        public static TypeOfExpression TypeOf(this IExpressionFusionExpression target, ITypeIdentityManager identityManager)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return new SymbolType(target).TypeOf();
+            return new SymbolType(target, identityManager).TypeOf();
         }
         #endregion 
 
@@ -542,9 +558,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return new ExpressionFusionExpression(target.GetTypeExpression(), term.GetSymbolExpression());
         }
 
-        public static IExpressionFusionExpression Fuse(this Type target, string term)
+        public static IExpressionFusionExpression Fuse(this Type target, string term, ICliManager identityManager)
         {
-            return target.GetTypeReference().Fuse(term);
+            return identityManager.ObtainTypeReference(target).Fuse(term);
         }
 
         public static IExpressionFusionExpression Fuse(this IType target, IFusionTermExpression term)
@@ -552,9 +568,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return ((IFusionTargetExpression)target.GetTypeExpression()).Fuse(term);
         }
 
-        public static IExpressionFusionExpression Fuse(this Type target, IFusionTermExpression term)
+        public static IExpressionFusionExpression Fuse(this Type target, IFusionTermExpression term, ICliManager identityManager)
         {
-            return ((IFusionTargetExpression)target.GetTypeExpression()).Fuse(term);
+            return ((IFusionTargetExpression)target.GetTypeExpression(identityManager)).Fuse(term);
         }
 
         public static IExpressionToCommaFusionExpression Fuse(this IFusionCommaTargetExpression target, params IExpression[] terms)
@@ -601,9 +617,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         {
             return new ExpressionToCommaTypeReferenceFusionExpression(target, types);
         }
-        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, params Type[] types)
+        public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this IFusionTypeCollectionTargetExpression target, ICliManager identityManager, params Type[] types)
         {
-            return new ExpressionToCommaTypeReferenceFusionExpression(target, types.ToCollection());
+            return new ExpressionToCommaTypeReferenceFusionExpression(target, types.ToCollection(identityManager));
         }
 
         public static IExpressionToCommaTypeReferenceFusionExpression Fuse(this string target, params IType[] terms)

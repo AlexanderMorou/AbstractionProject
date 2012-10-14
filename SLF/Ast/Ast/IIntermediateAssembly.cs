@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns the <see cref="IAssemblyReferenceCollection"/> associated
         /// to the <see cref="IIntermediateAssembly"/>.
         /// </summary>
-        IAssemblyReferenceCollection References { get; }
+        new IAssemblyReferenceCollection References { get; }
         /// <summary>
         /// Returns the <see cref="IMalleableCompilationContext"/> associated to the 
         /// <see cref="IIntermediateAssembly"/> which denotes the

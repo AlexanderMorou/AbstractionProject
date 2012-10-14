@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (index < 0 || index > this.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     var item = ((MasterDictionaryBase<TIdentifier, TDeclaration>)(this.owner)).Values.ElementAt(index);
 
                     return new MasterDictionaryEntry<TIntermediateDeclaration>(item.Subordinate, ((TIntermediateDeclaration)(item.Entry)));

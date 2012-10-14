@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get
                 {
                     if (index < 0 || index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     this.owner.CheckItemAt(index);
                     return this.owner.declarationData[index];
                 }

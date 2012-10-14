@@ -45,19 +45,23 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 var type = typeof(TAssembly);
 
-                #if TYPESYSTEM_CLI //Common Language Infrastructure
+                //#if TYPESYSTEM_CLI //Common Language Infrastructure
 
-                var typeRef = type.GetTypeReference();
-                if (typeRef.Type != Abstract.TypeKind.Class)
-                    throw new ArgumentException("TAssembly");
-                var classRef = (ICompiledClassType)typeRef;
-                var ctor = classRef.Constructors.Find(true, CommonTypeRefs.String).Values.First() as ICompiledCtorMember;
+                //var typeRef = type.GetTypeReference();
+                //if (typeRef.Type != Abstract.TypeKind.Class)
+                //    throw new ArgumentException("TAssembly");
+                //var classRef = (ICompiledClassType)typeRef;
+                //var ctor = classRef.Constructors.Find(true, CommonTypeRefs.String).Values.First() as ICompiledCtorMember;
+                //if (ctor == null)
+                //    throw new ArgumentException("TAssembly");
+                //ctorHandle = ctor.MemberInfo.MethodHandle;
+
+                //#endif
+
+                var ctor = type.GetConstructor(BindingFlags.Public | BindingFlags.Instance, Type.DefaultBinder, new Type[] { typeof(string) }, null);
                 if (ctor == null)
                     throw new ArgumentException("TAssembly");
-                ctorHandle = ctor.MemberInfo.MethodHandle;
-
-                #endif
-
+                ctorHandle = ctor.MethodHandle;
             }
 
             #region ICreateAssemblyBridge<TAssembly> Members

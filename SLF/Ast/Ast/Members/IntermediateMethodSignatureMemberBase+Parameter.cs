@@ -38,8 +38,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// </summary>
             /// <param name="parent">The <typeparamref name="TIntermediateSignature"/>
             /// which owns the <see cref="ParameterMember"/>.</param>
-            public ParameterMember(TIntermediateSignature parent)
-                : base(parent)
+            /// <param name="identityManager">The <see cref="ITypeIdentityManager"/> which is responsible for 
+            /// marshalling type identities within the current type model.</param>
+            public ParameterMember(TIntermediateSignature parent, ITypeIdentityManager identityManager)
+                : base(parent, identityManager)
             {
             }
         }
@@ -74,8 +76,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 IIntermediateParameterMember<TAltParent, TIntermediateAltParent>,
                 TAltParameter
         {
-            internal ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent)
-                : base(original, parent)
+            internal ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent, ITypeIdentityManager identityManager)
+                : base(original, parent, identityManager)
             {
             }
         }
@@ -111,8 +113,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// </summary>
             /// <param name="parent">The <typeparamref name="TIntermediateSignature"/>
             /// which owns the <see cref="ParameterMember"/>.</param>
-            protected ParameterMember(TIntermediateSignature parent)
-                : base(parent)
+            /// <param name="identityManager">The <see cref="ITypeIdentityManager"/> which is responsible for 
+            /// marshalling type identities within the current type model.</param>
+            protected ParameterMember(TIntermediateSignature parent, ITypeIdentityManager identityManager)
+                : base(parent, identityManager)
             {
             }
 
@@ -176,8 +180,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// </param>
             /// <param name="parent">The <typeparamref name="TIntermediateSignature"/>
             /// which contains the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.</param>
-            public ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent)
-                : base(parent)
+            /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+            /// which is responsible for maintaining type identity within the current type
+            /// model.</param>
+            public ParameterMember(TIntermediateAltParameter original, TIntermediateSignature parent, ITypeIdentityManager identityManager)
+                : base(parent, identityManager)
             {
                 if (original == null)
                     throw new ArgumentNullException("original");
@@ -224,7 +231,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// defined on the <see cref="AlternateParameter"/>.</remarks>
             protected override MetadataDefinitionCollection InitializeCustomAttributes()
             {
-                return new MetadataDefinitionCollection((MetadataDefinitionCollection)this.AlternateParameter.CustomAttributes, this);
+                return new MetadataDefinitionCollection((MetadataDefinitionCollection)this.AlternateParameter.Metadata, this, this.identityManager);
             }
 
             /// <summary>

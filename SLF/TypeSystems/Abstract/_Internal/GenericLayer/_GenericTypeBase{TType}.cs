@@ -357,7 +357,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return other.Equals(this.Manager.ObtainTypeReference(RuntimeCoreType.RootType));
+            return other.Equals(this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType));
         }
 
         protected override IMetadataCollection InitializeCustomAttributes()
@@ -428,7 +428,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override ITypeIdentityManager OnGetManager()
         {
-            return this.Original.Manager;
+            return this.Original.IdentityManager;
         }
     }
 }

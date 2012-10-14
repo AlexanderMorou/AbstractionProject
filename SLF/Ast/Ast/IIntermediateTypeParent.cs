@@ -59,5 +59,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <see cref="IIntermediateTypeParent"/> is defined.
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeIdentityManager"/> which
+        /// helps resolve type identities.
+        /// </summary>
+        ITypeIdentityManager IdentityManager { get; }
     }
 }

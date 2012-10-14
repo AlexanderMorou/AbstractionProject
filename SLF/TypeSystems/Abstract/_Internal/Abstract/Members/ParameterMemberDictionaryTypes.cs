@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             get
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.owner.Values[index].ParameterType;
             }
         }

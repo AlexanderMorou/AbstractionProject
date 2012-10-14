@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="parent">The <typeparamref name="TIntermediateCtor"/> which
             /// contains the <see cref="Parameter"/>.</param>
             public Parameter(TIntermediateCtor parent)
-                : base(parent)
+                : base(parent, parent.Parent.IdentityManager)
             {
             }
 

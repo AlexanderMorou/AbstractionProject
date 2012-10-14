@@ -177,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// which contains the other members of the <typeparamref name="TIntermediateGenericParameter"/>.</param>
             /// <param name="parent">The parent which contains the <see cref="MethodMemberDictionary"/>.</param>
             public MethodMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateGenericParameter parent) 
-                : base(master, parent)
+                : base(master, parent, parent.IdentityManager)
             {
             }
 

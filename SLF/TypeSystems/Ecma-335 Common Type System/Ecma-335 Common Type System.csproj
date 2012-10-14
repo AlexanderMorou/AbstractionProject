@@ -129,6 +129,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
+    <Compile Include="_Internal\Cli\CliTypeIdentityMetadataService.cs" />
     <Compile Include="_Internal\Cli\CompiledGenericTypeParentTypeBase.cs" />
     <Compile Include="_Internal\Cli\DefaultCliIdentifiers.cs" />
     <Compile Include="_Internal\Cli\LockedEmptyMetadataCollection.cs" />

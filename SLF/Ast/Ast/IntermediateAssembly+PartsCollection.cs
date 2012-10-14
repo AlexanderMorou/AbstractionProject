@@ -15,13 +15,15 @@ using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    partial class IntermediateAssembly<TLanguage, TProvider, TAssembly>
+    partial class IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>
         where TLanguage :
             ILanguage
         where TProvider :
             ILanguageProvider
         where TAssembly :
-            IntermediateAssembly<TLanguage, TProvider, TAssembly>
+            IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>
+        where TIdentityManager :
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
     {
         /// <summary>
         /// Provides a part collection for an intermediate assembly.
@@ -38,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             /// <paramref name="root"/> provided.
             /// </summary>
             /// <param name="root">
-            /// The <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
+            /// The <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
             /// which owns the <see cref="PartsCollection"/>.
             /// </param>
             public PartsCollection(TAssembly root)
@@ -107,15 +109,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Obtains a new <typeparamref name="TAssembly"/> instance
-        /// with the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
+        /// with the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
         /// as the root.
         /// </summary>
         /// <returns>A new <typeparamref name="TAssembly"/>
         /// instance with the current
-        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> as the root.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> as the root.
         /// </returns>
         /// <remarks>Unless <see cref="GetNewPart"/> is called upon
-        /// a root <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>, it will fail.
+        /// a root <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>, it will fail.
         /// </remarks>
         /// <exception cref="System.InvalidOperationException">
         /// thrown when the current assembly is not the root

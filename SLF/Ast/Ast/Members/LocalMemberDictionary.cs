@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             Stack<ILocalMemberDictionary> memberScopes = GetFullScope();
             IGeneralMemberUniqueIdentifier[] ids = new IGeneralMemberUniqueIdentifier[namesAndTypes.Count];
             for (int i = 0; i < seriesElements.Length; i++)
-                ids[i] = AstIdentifier.Member(seriesElements[i].Name);
+                ids[i] = AstIdentifier.GetMemberIdentifier(seriesElements[i].Name);
             for (int i = 0; i < seriesElements.Length; i++)
             {
                 var iElementIdentifier = ids[i];

@@ -353,7 +353,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             get
             {
                 if (index < 0 || index >= this.fullLength)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 else if (index < this.offset || index >= this.offset + this.length)
                     return this.isNegativeSet;
                 SlotType indexShift = ((SlotType)(index - this.Offset));
@@ -364,7 +364,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         internal bool GetThisInternal(uint index)
         {
             if (index < this.Offset || index >= this.Offset + this.Length)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             SlotType indexShift = ((SlotType)(index - this.Offset));
             return ((this.values[indexShift / SlotBitCount] & (SlotType)(ShiftValue << ((int)(indexShift % SlotBitCount)))) != 0);
         }

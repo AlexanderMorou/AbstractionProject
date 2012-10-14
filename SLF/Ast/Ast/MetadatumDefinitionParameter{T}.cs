@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IMetadatumDefinitionParameter<T>
     {
         private T value;
+        private IType valueType;
         internal MetadatumDefinitionParameterCollection Owner { get; private set; }
         /// <summary>
         /// Creates a new <see cref="MetadatumDefinitionParameter{T}"/> with the
@@ -28,9 +30,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which the <see cref="MetadatumDefinitionParameter{T}"/> is typed as.</param>
         /// <param name="owner">The <see cref="MetadatumDefinitionParameterCollection"/>
         /// which contains the <see cref="MetadatumDefinitionParameter{T}"/>.</param>
-        internal MetadatumDefinitionParameter(T value, MetadatumDefinitionParameterCollection owner)
+        /// <param name="valueType">The <see cref="IType"/>
+        /// which represents the type of <paramref name="value"/>
+        /// within the current typing model.</param>
+        internal MetadatumDefinitionParameter(T value, MetadatumDefinitionParameterCollection owner, IType valueType)
         {
             this.value = value;
+            this.valueType = valueType;
             this.Owner = owner;
         }
 
@@ -88,6 +94,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public override string ToString()
         {
             return this.Value.ToString();
+        }
+
+        public IType ParameterType
+        {
+            get { return this.valueType; }
         }
     }
 }

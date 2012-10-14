@@ -36,13 +36,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             get
             {
                 if (index < 0 || index > this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.data[index];
             }
             set
             {
                 if (index < 0 || index > this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 this.data[index] = value;
             }
         }

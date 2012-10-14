@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific> OnGetThis(int index)
         {
             if (index < 0 && index >= this.Count)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             return new KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>(this.Keys[index], this.Values[index]);
         }
 

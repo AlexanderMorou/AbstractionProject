@@ -78,9 +78,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IFullTypeDictionary Types { get { return this.types ?? (this.types = new CliFullTypeDictionary(this.MetadataEntry.NestedClasses, this)); } }
 
 
-        public new _ICliManager Manager
+        public new _ICliManager IdentityManager
         {
-            get { return (_ICliManager)base.Manager; }
+            get { return (_ICliManager)base.IdentityManager; }
         }
 
         public new _ICliAssembly Assembly

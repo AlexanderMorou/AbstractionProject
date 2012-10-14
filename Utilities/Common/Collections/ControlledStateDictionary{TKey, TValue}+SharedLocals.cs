@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             internal bool _Remove(int index)
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 lock (this.syncObject)
                 {
                     var removed = this.entries[index];

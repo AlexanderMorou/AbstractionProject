@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Returns the <see cref="_ICliManager"/> associated to the
         /// current <see cref="_ICliMethodSignatureParent"/>.
         /// </summary>
-        _ICliManager Manager { get; }
+        _ICliManager IdentityManager { get; }
     }
     internal interface _ICliMethodParent :
         IMethodParent
@@ -22,6 +22,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// Returns the <see cref="_ICliManager"/> associated to the
         /// current <see cref="_ICliMethodParent"/>.
         /// </summary>
-        _ICliManager Manager { get; }
+        _ICliManager IdentityManager { get; }
     }
 }

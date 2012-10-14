@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq
             get 
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

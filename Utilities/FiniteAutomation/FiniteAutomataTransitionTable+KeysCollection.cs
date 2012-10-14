@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             {
                 get {
                     if (index < 0 || index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     int i = 0;
                     foreach (var key in this.owner.backup.Keys)
                         if (i++ == index)

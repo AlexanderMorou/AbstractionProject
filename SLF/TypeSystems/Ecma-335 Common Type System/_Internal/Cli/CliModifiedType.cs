@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override ITypeIdentityManager OnGetManager()
         {
-            return this.original.Manager;
+            return this.original.IdentityManager;
         }
 
         protected override string OnGetName()

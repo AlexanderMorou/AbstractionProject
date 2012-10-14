@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 {
                     get {
                         if (index < 0 || index >= this.Count)
-                            throw new ArgumentOutOfRangeException("index");
+                            throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                         return this.container.tParamNames[index];
                     }
                 }

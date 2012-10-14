@@ -32,5 +32,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
         new ICommonIntermediateAssembly CreateAssembly(string name);
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCliManager"/> which marshalls
+        /// the identities of intermediate and non-intermediate (compiled)
+        /// assemblies and types.
+        /// </summary>
+        new IIntermediateCliManager IdentityManager { get; }
     }
 }

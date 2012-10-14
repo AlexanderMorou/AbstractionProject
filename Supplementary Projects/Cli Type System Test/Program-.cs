@@ -1,23 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using AllenCopeland.Abstraction.Slf.Cli;
-using AllenCopeland.Abstraction.Globalization;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
-using System.Diagnostics;
-using System.IO;
-using AllenCopeland.Abstraction.Utilities;
+﻿using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
-using AllenCopeland.Abstraction.Slf.Cli.Modules;
-using System.Reflection;
-using AllenCopeland.Abstraction.Utilities.Collections;
-using System.Security;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq;
+using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
-using System.Data;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Reflection.Emit;
+using System.Security;
+using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 {
@@ -42,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         private static IVersion v40 = AstIdentifier.GetVersion(4, 0, 0, 0);
         private static IVersion v80 = AstIdentifier.GetVersion(8, 0, 0, 0);
         private static IVersion v100 = AstIdentifier.GetVersion(10, 0, 0, 0);
-        private static ICultureIdentifier cultureCommon = CultureIdentifiers.GetIdentifierById(CultureIdentifiers.NumericIdentifiers.None);
+        private static ICultureIdentifier cultureCommon = CultureIdentifiers.None;
         private static IAssemblyUniqueIdentifier[] identifiers = new IAssemblyUniqueIdentifier[] {
                 AstIdentifier.GetAssemblyIdentifier("_abs.slf.compilerservices", v10, cultureCommon, abstractionKey),
                 AstIdentifier.GetAssemblyIdentifier("_abs.slf.metadata", v10, cultureCommon, abstractionKey),
@@ -274,13 +279,24 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 
         private static void Test()
         {
+            string assemblyLocation = @"C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86";// @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Release";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
+            var files = ObtainFrameworkAssemblies(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation)).ToArray();
             Stopwatch sw = Stopwatch.StartNew();
-            var query = (from type in typeof(int).Assembly.GetTypes()
+            var dir = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\");
+            //var assemblyNames = (from id in identifiers
+            //                     select GetAssemblyNameFromId(id)).ToArray();
+            var assemblies = (from fileName in files
+                              let assembly = TryLoadAssembly(fileName)
+                              where assembly != null
+                              select assembly).ToArray();
+            var query = (from assembly in assemblies
+                         from type in typeof(int).Assembly.GetTypes()
                          from member in type.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
                          select member).ToArray();
             sw.Stop();
+            Directory.SetCurrentDirectory(dir);
             Console.WriteLine("From Reflection: {0}", sw.Elapsed);
-            string assemblyLocation = @"C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86";// @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Release";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
             //Console.WriteLine(assemblyLocation);
             var timedProcess = Process1(assemblyLocation);
             Console.WriteLine(timedProcess);
@@ -288,6 +304,41 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             Console.WriteLine(timedProcess);
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        private static Assembly TryLoadAssembly(string fileName)
+        {
+            try
+            {
+                return Assembly.LoadFrom(fileName);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        //private static Assembly TryLoadAssembly(AssemblyName name)
+        //{
+        //    try
+        //    {
+        //        return Assembly.Load(name);
+        //    }
+        //    catch
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        private static AssemblyName GetAssemblyNameFromId(IAssemblyUniqueIdentifier id)
+        {
+            AssemblyName result = new AssemblyName(id.Name);
+            if (id.Culture != CultureIdentifiers.None)
+                result.CultureInfo = CultureInfo.GetCultureInfo((int)id.Culture.Culture);
+            if (id.PublicKeyToken != null)
+                result.SetPublicKeyToken(id.PublicKeyToken);
+            result.Version = new Version(id.Version.Major, id.Version.Minor, id.Version.Build, id.Version.Revision);
+            return result;
         }
 
         private static Tuple<TimeSpan, TimeSpan> Process1(string assemblyLocation)
@@ -309,6 +360,65 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         {
             public TA(object o) { }
         }
+
+        private static void TestLinq(IIntermediateAssembly assembly)
+        {
+            //using System;
+            assembly.ScopeCoercions.Add(typeof(Console).Namespace);
+            //using System.Linq;
+            assembly.ScopeCoercions.Add(typeof(Queryable).Namespace);
+            assembly.ScopeCoercions.Add(typeof(CultureInfo).Namespace);
+            var @namespace = assembly.Namespaces.Add("LinqExample");
+            var topLevelMethod = @namespace.Methods.Add("LinqTest");
+            //var digits = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
+            var digits = topLevelMethod.Locals.Add(
+                    "digits",
+                    (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression((ICliManager)assembly.IdentityManager),
+                    LocalTypingKind.Implicit);
+            var digitSymbol = (Symbol)"digit";
+            /* *
+             * If you know you're dealing with properties and methods,
+             * use the appropriate Get* method on the expression builders
+             * otherwise...
+             * */
+
+            /* *
+             * var sortedDigits = from digit in digits
+             *                    orderby digit.Length descending,
+             *                            digit[0]
+             *                    select digit;
+             * */
+            var sortedDigits = topLevelMethod.Locals.Add("sortedDigits",
+                    LinqHelper
+                    .From("digit", /* in */ digits.GetReference())
+                        .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
+                        .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
+                    .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
+            topLevelMethod.DefineLocal(digits);
+            topLevelMethod.DefineLocal(sortedDigits);
+
+            /* *
+             * Construction of expressions is pretty simple; just fuse strings together, 
+             * differentiation takes place on whether the string is an expression or not.
+             * */
+
+            /* *
+             * Console.WriteLine(CultureInfo.CurrentCulture.TextInfo.ToTitleCase("sorted digits"));
+             * */
+            topLevelMethod.Call(
+                "Console".Fuse("WriteLine").Fuse(
+                    "CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse(
+                        "sorted digits".ToPrimitive())));
+            /* *
+             * foreach (digit in sortedDigits)
+             *     Console.WriteLine(digit);
+             * */
+            var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
+            iteratorLocal.AutoDeclare = false;
+            var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.GetDeclarationStatement(), sortedDigits.GetReference());
+            enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(iteratorLocal.GetReference()));
+        }
+
         private static Tuple<TimeSpan, TimeSpan> DoProcess(_ICliManager clim)
         {
             Stopwatch sw = Stopwatch.StartNew();
@@ -327,9 +437,9 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             TimeSpan t1 = TimeSpan.Zero, t2 = TimeSpan.Zero;
 
             //var id = AstIdentifier.GetAssemblyIdentifier("Test Member Kinds", AstIdentifier.GetVersion(1), CultureIdentifiers.None);
-            var id = clim.RuntimeEnvironment.CoreLibraryIdentifier;
+            //var id = clim.RuntimeEnvironment.CoreLibraryIdentifier;
             //var id = AstIdentifier.GetAssemblyIdentifier("Microsoft.Xna.Framework.Graphics", v40, CultureIdentifiers.None, xnaKey);
-            var assem = clim.ObtainAssemblyReference(id);//typeof(Program).Assembly);
+            //var assem = clim.ObtainAssemblyReference(id);//typeof(Program).Assembly);
             //var uniqueId = coreLibId.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2).GetNestedIdentifier("ValueCollection", 0).GetNestedIdentifier("Enumerator", 0);
             //var dictionaryValuesEnum = assem.GetType(uniqueId).MakeArray(new int[] { 3, -3000, 29, 589, int.MinValue }, new uint[] { 5, 3005, 8, 9, 9, 2 }).MakeArray(new int[] { 3, 3 }, new uint[] { 3 });
             //var dd = assem.GetType(uniqueId);
@@ -340,25 +450,36 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 
             sw.Stop();
             var t3 = sw.Elapsed;
-            //var fp = assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.First(p=>p.GetMethod != null && p.SetMethod != null);
-            //var m = fp.GetPropertyData(assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable.First(p => p.Properties.Contains(fp)));
-            assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable.Read();
-            assem.MetadataEntry.MetadataRoot.TableStream.MethodSemanticsTable.Read();
-            assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.Read();
-            assem.MetadataEntry.MetadataRoot.TableStream.MethodDefinitionTable.Read();
-            assem.MetadataEntry.MetadataRoot.TableStream.FieldTable.Read();
-            assem.MetadataEntry.MetadataRoot.TableStream.EventTable.Read();
             sw.Restart();
-            var typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-                                    let members = t.GetMemberData().ToArray()
-                                    select new { Type = t, Members = members }).ToArray();
+            var assemblyQuery = (from assemblyId in identifiers
+                                 let assembly = ObtainRef(clim, assemblyId)
+                                 let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+                                                      let members = t.GetMemberData()
+                                                      select new { Type = t, Members = members }
+                                 select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
             sw.Stop();
             var propertySets1 = sw.Elapsed;
             sw.Restart();
-            typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-                                let members = t.GetMemberData().ToArray()
-                                select new { Type = t, Members = members }).ToArray();
+            assemblyQuery = (from assemblyId in identifiers
+                             let assembly = (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)
+                             let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+                                                  let members = t.GetMemberData()
+                                                  select new { Type = t, Members = members }
+                             select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
             sw.Stop();
+            var propertySets2 = sw.Elapsed;
+            var dt = assemblyQuery.Length;
+            //var fp = assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.First(p=>p.GetMethod != null && p.SetMethod != null);
+            //var typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+            //                        let members = t.GetMemberData().ToArray()
+            //                        select new { Type = t, Members = members }).ToArray();
+            //sw.Stop();
+            //var propertySets1 = sw.Elapsed;
+            //sw.Restart();
+            //typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+            //                    let members = t.GetMemberData().ToArray()
+            //                    select new { Type = t, Members = members }).ToArray();
+            //sw.Stop();
             //var graphicsResource = typePropertySets.First(t=>t.Type.Name == "GraphicsResource");
             //var disposeMethod = graphicsResource.Members.First(m =>
             //    {
@@ -371,7 +492,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //        return false;
             //    });
             //var q = graphicsResource.Type.ImplementationMap;
-            var propertySets2 = sw.Elapsed;
+            //var propertySets2 = sw.Elapsed;
             //Console.WriteLine("Unloaded property retrieval took: {0}", propertySets1);
             //Console.WriteLine("Loaded property retrieval took: {0}", propertySets2);
             //Console.WriteLine(t3);
@@ -382,6 +503,24 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //var targetType = types[2];
             //var memberData = targetType.GetMemberData();
             return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
+        }
+
+        public static ICliAssembly ObtainRef(_ICliManager manager, IAssemblyUniqueIdentifier id){
+            var result = (ICliAssembly)manager.ObtainAssemblyReference(id);
+            var tableStream = result.MetadataRoot.TableStream;
+            if (tableStream.MethodSemanticsTable != null)
+                tableStream.MethodSemanticsTable.Read();
+            if (tableStream.MethodDefinitionTable != null) 
+                tableStream.MethodDefinitionTable.Read();
+            if (tableStream.PropertyTable != null)
+                tableStream.PropertyTable.Read();
+            if (tableStream.EventTable != null)
+                tableStream.EventTable.Read();
+            if (tableStream.EventMapTable!= null)
+                tableStream.EventMapTable.Read();
+            if (tableStream.PropertyMapTable != null)
+                tableStream.PropertyMapTable.Read();
+            return result;
         }
 
         private static void Junk()
@@ -417,15 +556,17 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             }
         }
 
-        //private static IEnumerable<string> ObtainFrameworkAssemblies(ICliRuntimeEnvironmentInfo environment)
-        //{
-        //    return (from runtimeDirectory in environment.ResolutionPaths
-        //            from file in runtimeDirectory.GetFiles()
-        //            let extension = Path.GetExtension(file.FullName).ToLower()
-        //            where extension == ".exe" || extension == ".dll"
-        //            where CliGateway.IsFullAssembly(file.FullName)
-        //            orderby file.Length descending
-        //            select file.FullName).Distinct();
-        //}
+        private static IEnumerable<string> ObtainFrameworkAssemblies(ICliRuntimeEnvironmentInfo environment)
+        {
+            return (from runtimeDirectory in environment.ResolutionPaths
+                    from file in runtimeDirectory.GetFiles()
+                    let extension = Path.GetExtension(file.FullName).ToLower()
+                    where extension == ".exe" || extension == ".dll"
+                    where CliGateway.IsFullAssembly(file.FullName)
+                    orderby file.Length descending
+                    select file.FullName).Distinct();
+        }
     }
 }
+
+

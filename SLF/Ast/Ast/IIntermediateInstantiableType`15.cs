@@ -101,6 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <see cref="IIntermediateInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         new IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> ImplementedInterfaces { get; }
+        new ITypeIdentityManager IdentityManager { get; }
     }
     public interface IIntermediateInstantiableType :
         IIntermediateTypeParent,

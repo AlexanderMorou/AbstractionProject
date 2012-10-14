@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
 
         internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
         {
@@ -360,9 +360,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 if (assemblyRef == null)
                                     return null;
                                 var assembly = manager.ObtainAssemblyReference(assemblyRef);
-                                var typeDef = assembly.FindType(typeRef.Namespace, typeRef.Name);
-                                if (typeDef != null && (selectionPredicate == null || selectionPredicate(manager, typeDef)))
-                                    return typeDef;
+                                if (assembly is _ICliAssembly)
+                                {
+                                    var cliAssembly = (ICliAssembly)assembly;
+                                    var typeDef = cliAssembly.FindType(typeRef.Namespace, typeRef.Name);
+                                    if (typeDef != null && (selectionPredicate == null || selectionPredicate(manager, typeDef)))
+                                        return typeDef;
+                                }
                             }
                             break;
                     }
@@ -847,7 +851,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var lParamType = metadata.Signature.Parameters[0].ParameterType;
             var rParamType = metadata.Signature.Parameters[1].ParameterType;
             
-            //return AstIdentifier.GetBinaryOperatorIdentifier(
             throw new NotImplementedException();
         }
 
@@ -874,7 +877,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public static RuntimeCoreType GetCoreType(this IType type) { return type.Manager.ObtainCoreType(type); }
+        public static RuntimeCoreType GetCoreType(this IType type) { return type.IdentityManager.ObtainCoreType(type); }
 
         internal static IEnumerable<ICliMetadataAssemblyRefTable> ObtainAssemblyRefTables(this CliAssembly owner)
         {

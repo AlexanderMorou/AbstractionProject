@@ -1177,7 +1177,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                  * the count will be zero; thus, no index is valid.
                  * */
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.statementContainer[index];
             }
         }
@@ -1302,6 +1302,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public abstract IIntermediateAssembly Assembly { get; }
 
+        public ITypeIdentityManager IdentityManaget { get { return this.Parent.IdentityManager; } }
+
         #endregion
 
         #region ITypeParent Members
@@ -1350,6 +1352,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         #endregion
+
+        public ITypeIdentityManager IdentityManager { get { return this.Parent.IdentityManager; } }
 
     }
 }

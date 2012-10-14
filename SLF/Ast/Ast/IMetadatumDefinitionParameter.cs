@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -24,5 +25,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// constructor argument(s).
         /// </summary>
         object Value { get; }
+        /// <summary>
+        /// Returns the <see cref="IType"/> which denotes the kind of
+        /// <see cref="Value"/>.
+        /// </summary>
+        IType ParameterType { get; }
     }
 }

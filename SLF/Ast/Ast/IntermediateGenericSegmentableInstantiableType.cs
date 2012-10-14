@@ -175,6 +175,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         private UnaryOperatorDictionary unaryOperatorCoercions;
 
+        /// <summary>
+        /// The <see cref="ConstructorMember"/> which represents the type-initializer or static
+        /// constructor.
+        /// </summary>
         private ConstructorMember typeInitializer;
         #endregion
 
@@ -973,7 +977,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             MethodDictionary result;
             if (this.IsRoot)
-                result = new MethodDictionary(this._Members, (TInstanceIntermediateType)this);
+                result = new MethodDictionary(this._Members, (TInstanceIntermediateType)this, this.IdentityManager);
             else
                 result = new MethodDictionary(this._Members, (TInstanceIntermediateType)this, (MethodDictionary)this.GetRoot().Methods);
             if (this.IsLocked)
@@ -1260,7 +1264,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             lock (this.SyncObject)
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Type(this.Name, this.TypeParametersInitialized ? this.TypeParameters.Count : 0);
+                    if (this.Parent is IType)
+                    {
+                        if (this.TypeParametersInitialized)
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, this.TypeParameters.Count);
+                        else
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, 0);
+                    }
+                    else if (this.Parent is INamespaceDeclaration)
+                    {
+                        if (this.TypeParametersInitialized)
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, this.TypeParameters.Count);
+                        else
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, 0);
+
+                    }
+                    else if (this.TypeParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
+                    else
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
             return this.uniqueIdentifier;
         }
 

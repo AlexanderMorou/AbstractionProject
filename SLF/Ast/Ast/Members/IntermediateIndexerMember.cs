@@ -40,8 +40,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TIndexerParent :
             IIndexerParent<TIndexer, TIndexerParent>
         where TIntermediateIndexerParent :
-            TIndexerParent,
-            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
+            IIntermediateTypeParent,
+            TIndexerParent
         where TMethodMember :
             class,
             IIntermediatePropertyMethodMember
@@ -83,15 +84,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
 
-        private IIntermediateModifiersAndAttributesMetadata metadata;
+        private IMetadataCollection metadataBack;
+        private IMetadataDefinitionCollection metadata;
+
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/>
         /// which contains the <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/></param>
-        protected IntermediateIndexerMember(TIntermediateIndexerParent parent)
-            : base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateIndexerMember(TIntermediateIndexerParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
         }
 
@@ -103,8 +109,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/> which contains
         /// the <see cref="IntermediateIndexerMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
-        protected IntermediateIndexerMember(string name, TIntermediateIndexerParent parent)
-            : base(name, parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateIndexerMember(string name, TIntermediateIndexerParent parent, ITypeIdentityManager identityManager)
+            : base(name, parent, identityManager)
         {
         }
 
@@ -591,9 +600,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
                         if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -605,24 +614,30 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
-        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+        public IMetadataDefinitionCollection Metadata
         {
             get
             {
-                return this.Metadata;
-            }
-        }
-
-        public IIntermediateModifiersAndAttributesMetadata Metadata
-        {
-            get
-            {
+                var qe = this.Parent.Classes;
                 if (this.metadata == null)
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                        this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
                 return this.metadata;
+            }
+        }
+
+        IMetadataCollection IMetadataEntity.Metadata
+        {
+            get
+            {
+                if (this.metadataBack != null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadataBack = ((MetadataDefinitionCollection) (this.Metadata)).GetWrapper();
+                return this.metadataBack;
             }
         }
 
@@ -654,6 +669,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 base.Dispose(disposing);
             }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
         }
     }
 }

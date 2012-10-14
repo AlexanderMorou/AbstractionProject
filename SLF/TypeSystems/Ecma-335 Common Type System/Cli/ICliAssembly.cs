@@ -27,12 +27,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
         /// <summary>
-        /// Returns the <see cref="ICliManager"/> the
-        /// which is responsible for managing the identities
-        /// resolved through the <see cref="ICliAssembly"/>.
-        /// </summary>
-        ICliManager IdentityManager { get; }
-        /// <summary>
         /// Returns the <see cref="ICliMetadataRoot"/> from which the <see cref="ICliAssembly"/>
         /// is derived.
         /// </summary>

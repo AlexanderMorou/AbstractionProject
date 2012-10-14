@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Returns the <see cref="_ICliManager"/> which helps 
         /// resolve type identities.
         /// </summary>
-        _ICliManager Manager { get; }
+        _ICliManager IdentityManager { get; }
         new _ICliAssembly Assembly { get; }
     }
 

@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 {
                     this.tParamNames = new IGenericParameterUniqueIdentifier[tParamNames.Length];
                     for (int i = 0; i < tParamNames.Length; i++)
-                        this.tParamNames[i] = AstIdentifier.GenericParameter(i, true);
+                        this.tParamNames[i] = AstIdentifier.GetGenericParameterIdentifier(i, true);
                     this.elements = new GenericParameterMember[tParamNames.Length];
                 }
             }
@@ -176,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             {
                 get {
                     if (index < 0 || index >= this.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     this.CheckItemAt(index);
                     return new KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>(this.tParamNames[index], this.elements[index]);
                 }

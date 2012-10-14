@@ -58,8 +58,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/> which
         /// contains the <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
-        protected IntermediateSignatureMemberBase(TIntermediateSignatureParent parent)
-            : base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateSignatureMemberBase(TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
         }
 
@@ -71,8 +74,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/> which
         /// contains the <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
-        protected IntermediateSignatureMemberBase(string name, TIntermediateSignatureParent parent)
-            : base(name, parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateSignatureMemberBase(string name, TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
+            : base(name, parent, identityManager)
         {
         }
 
