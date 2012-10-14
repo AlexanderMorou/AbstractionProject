@@ -290,7 +290,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         //#endregion
 
-        public ITypeIdentityManager Manager { get { return manager; } }
+        public ITypeIdentityManager IdentityManager { get { return manager; } }
 
         public override string ToString()
         {

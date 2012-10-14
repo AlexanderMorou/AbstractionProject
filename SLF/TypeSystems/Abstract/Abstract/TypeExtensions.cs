@@ -125,6 +125,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return new TypeCollection(array.Cast<IType>().ToArray());
         }
 
+        //public static ITypeCollection ToCollection(this IEnumerable<Type> set, ITypeIdentityManager manager)
+        //{
+
+        //}
+
         /// <summary>
         /// Creates a locked type collection from the <see cref="IEnumerable{T}"/> of
         /// <see cref="IType"/> variants.
@@ -470,6 +475,49 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 }
             }
             return target;
+        }
+        /// <summary>
+        /// Gets the namespace of the given key provided the <paramref name="path"/> 
+        /// to the namespace.
+        /// </summary>
+        /// <param name="target">The <see cref="INamespaceDictionary"/> which
+        /// contain the namespace hierarchy.</param>
+        /// <param name="path">The <see cref="String"/> representing the relative path to follow
+        /// to obtain the namespace declaration.</param>
+        /// <returns>A new <see cref="INamespaceDeclaration"/> relative to the <paramref name="path"/>
+        /// provided.</returns>
+        public static INamespaceDeclaration GetThis(this INamespaceDictionary target, string path)
+        {
+            if (path.Contains('.'))
+            {
+                INamespaceDeclaration insd = null;
+                var points = (from s in path.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
+                              select AstIdentifier.GetDeclarationIdentifier(s)).ToArray();
+                StringBuilder sb = new StringBuilder();
+                bool first = true;
+
+                foreach (var s in points)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        sb.Append('.');
+                    //The first is the dictionary calling this method.
+                    sb.Append(s);
+                    if (insd == null)
+                        insd = target.Values[target.Keys.GetIndexOf(AstIdentifier.GetDeclarationIdentifier(sb.ToString()))];
+                    else
+                        insd = insd.Namespaces[AstIdentifier.GetDeclarationIdentifier(sb.ToString())];
+                }
+                return insd;
+            }
+            else
+                return target.Values[target.Keys.GetIndexOf(AstIdentifier.GetDeclarationIdentifier(path))];
+        }
+
+        public static TypedNameSeries ToSeries(this IEnumerable<TypedName> target)
+        {
+            return new TypedNameSeries(target);
         }
     }
 }

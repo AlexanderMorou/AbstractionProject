@@ -47,6 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// </summary>
     public interface IIntermediatePropertySignatureMember :
         IIntermediateMember,
+        IIntermediateMetadataEntity,
         IPropertySignatureMember
     {
         /// <summary>

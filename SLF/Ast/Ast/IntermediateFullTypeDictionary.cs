@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         this.Parent.Delegates.Add(result);
                     }
                     break;
-                case TypeKind.Enumerator:
+                case TypeKind.Enumeration:
                     {
                         var result = new IntermediateEnumType(name, this.Parent);
                         rResult = result;
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (assembly != null)
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateClassType> classService;
-                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, out classService))
+                            if (assembly.Provider.TryGetService(LanguageGuids.Services.ClassServices.ClassCreatorService, out classService))
                                 insertionElement = classService.GetNew(name, this.Parent);
                         }
                         if (insertionElement == null)
@@ -137,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (assembly != null && assembly.Provider != null)
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> delegateService;
-                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService, out delegateService))
+                            if (assembly.Provider.TryGetService(LanguageGuids.Services.IntermediateDelegateCreatorService, out delegateService))
                                 insertionElement = delegateService.GetNew(name, this.Parent);
                         }
                         if (insertionElement == null)
@@ -154,7 +154,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (assembly != null && assembly.Provider != null)
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType> interfaceService;
-                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateInterfaceCreatorService, out interfaceService))
+                            if (assembly.Provider.TryGetService(LanguageGuids.Services.InterfaceServices.InterfaceCreatorService, out interfaceService))
                                 insertionElement = interfaceService.GetNew(name, this.Parent);
                         }
                         if (insertionElement == null)
@@ -171,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (assembly != null && assembly.Provider != null)
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateStructType> structService;
-                            if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateStructCreatorService, out structService))
+                            if (assembly.Provider.TryGetService(LanguageGuids.Services.StructServices.StructCreatorService, out structService))
                                 insertionElement = structService.GetNew(name, this.Parent);
                         }
                         if (insertionElement == null)

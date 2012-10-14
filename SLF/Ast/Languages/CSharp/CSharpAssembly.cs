@@ -5,6 +5,8 @@ using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -19,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
     /// defined within the C&#9839; language.
     /// </summary>
     public class CSharpAssembly :
-        IntermediateAssembly<ICSharpLanguage, ICSharpProvider, CSharpAssembly>,
+        IntermediateAssembly<ICSharpLanguage, ICSharpProvider, CSharpAssembly, IIntermediateCliManager, Type, Assembly>,
         ICSharpAssembly
     {
         private ICSharpProvider provider;
@@ -34,17 +36,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         {
         }
 
-        /// <summary>
-        /// Creates a new <see cref="CSharpAssembly"/> with the
-        /// <paramref name="name"/> of the assembly provided.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/> value
-        /// which aids in differentiating the <see cref="CSharpAssembly"/>
-        /// from other <see cref="IAssembly"/> instances.</param>
-        internal protected CSharpAssembly(string name)
-            : this(name, CSharpLanguage.Singleton.GetProvider())
-        {
-        }
 
         internal protected CSharpAssembly(string name, ICSharpProvider provider)
             : base(name)
@@ -63,7 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         }
 
 
-        #region IIntermediateAssembly<ICSharpLanguage,ICSharpCompilationUnit,ICSharpProvider> Members
+        //#region IIntermediateAssembly<ICSharpLanguage,ICSharpCompilationUnit,ICSharpProvider> Members
 
         public override ICSharpLanguage Language
         {
@@ -85,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             }
         }
 
-        #endregion
+        //#endregion
 
     }
 }

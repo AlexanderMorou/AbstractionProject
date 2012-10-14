@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -30,8 +31,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which the <see cref="MetadatumDefinitionNamedParameter{T}"/> is typed as.</param>
         /// <param name="owner">The <see cref="MetadatumDefinitionParameterCollection"/>
         /// which contains the <see cref="MetadatumDefinitionNamedParameter{T}"/>.</param>
-        internal MetadatumDefinitionNamedParameter(string name, T value, MetadatumDefinitionParameterCollection owner) :
-            base(value, owner)
+        /// <param name="valueType">The <see cref="IType"/>
+        /// which represents the type of <paramref name="value"/>
+        /// within the current typing model.</param>
+        internal MetadatumDefinitionNamedParameter(string name, T value, MetadatumDefinitionParameterCollection owner, IType valueType) :
+            base(value, owner, valueType)
         {
             this.name = name;
         }

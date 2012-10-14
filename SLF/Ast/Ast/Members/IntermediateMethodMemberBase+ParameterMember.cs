@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="parent">The <typeparamref name="TIntermediateMethod"/>
             /// which contains the <see cref="ParameterMember"/>.</param>
             public ParameterMember(TIntermediateMethod parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
             }
 
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 TAltParameter
         {
             internal ParameterMember(TIntermediateAltParameter original, TIntermediateMethod parent)
-                : base(original, parent)
+                : base(original, parent, parent.IdentityManager)
             {
             }
 

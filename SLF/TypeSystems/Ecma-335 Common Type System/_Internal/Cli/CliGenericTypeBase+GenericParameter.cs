@@ -142,32 +142,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IArrayType MakeArray(int rank)
             {
-                return this.owner.Manager.MakeArray(this, rank);
+                return this.owner.IdentityManager.MakeArray(this, rank);
             }
 
             public IArrayType MakeArray()
             {
-                return this.owner.Manager.MakeArray(this);
+                return this.owner.IdentityManager.MakeArray(this);
             }
 
             public IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null)
             {
-                return this.owner.Manager.MakeArray(this, lowerBounds, lengths);
+                return this.owner.IdentityManager.MakeArray(this, lowerBounds, lengths);
             }
 
             public IType MakePointer()
             {
-                return this.owner.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
+                return this.owner.IdentityManager.MakeClassificationType(this, TypeElementClassification.Pointer);
             }
 
             public IType MakeByReference()
             {
-                return this.owner.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
+                return this.owner.IdentityManager.MakeClassificationType(this, TypeElementClassification.Reference);
             }
 
             public IType MakeNullable()
             {
-                return this.owner.Manager.MakeClassificationType(this, TypeElementClassification.Nullable);
+                return this.owner.IdentityManager.MakeClassificationType(this, TypeElementClassification.Nullable);
             }
 
             public bool IsSubclassOf(IType other)
@@ -235,9 +235,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new NotImplementedException();
             }
 
-            public ITypeIdentityManager Manager
+            public ITypeIdentityManager IdentityManager
             {
-                get { return this.owner.Manager; }
+                get { return this.owner.IdentityManager; }
             }
 
             //#endregion

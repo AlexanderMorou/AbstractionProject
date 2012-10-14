@@ -102,23 +102,23 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     switch (parentBaseType)
                     {
                         case EnumerationBaseType.SByte:
-                            return typeof(sbyte).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte);
                         case EnumerationBaseType.Byte:
-                            return typeof(byte).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.Byte);
                         case EnumerationBaseType.Int16:
-                            return typeof(short).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int16);
                         case EnumerationBaseType.UInt16:
-                            return typeof(ushort).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt16);
                         case EnumerationBaseType.UInt32:
-                            return typeof(uint).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt32);
                         case EnumerationBaseType.Int64:
-                            return typeof(long).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int64);
                         case EnumerationBaseType.UInt64:
-                            return typeof(ulong).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64);
                         case EnumerationBaseType.Default:
                         case EnumerationBaseType.Int32:
                         default:
-                            return typeof(int).GetTypeReference();
+                            return this.Parent.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32);
                     }
                 }
                 set
@@ -153,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
                     return this.uniqueIdentifier; }
             }
         }

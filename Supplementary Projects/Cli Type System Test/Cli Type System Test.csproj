@@ -94,6 +94,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SLF\Ast\Abstract Syntax Tree.csproj">
+      <Project>{02607dc2-e98b-43ae-b906-fe151a70a68d}</Project>
+      <Name>Abstract Syntax Tree</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
       <Name>Abstraction Compiler Services</Name>

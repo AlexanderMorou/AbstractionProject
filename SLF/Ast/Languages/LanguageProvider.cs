@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -18,34 +19,45 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// new providers.</typeparam>
     /// <typeparam name="TProvider">The type of the provider that is supplied by
     /// the <typeparamref name="TLanguage"/>.</typeparam>
-    public abstract class LanguageProvider<TLanguage, TProvider> :
+    /// <typeparam name="TIdentityManager">
+    /// The type of <see cref="IIdentityManager{TTypeIdentity, TAssemblyIdentity}"/>
+    /// from which types and assemblies can be resolved.</typeparam>
+    /// <typeparam name="TTypeIdentity">The identity relative to the model
+    /// in which the <see cref="IType"/> instances are created from.</typeparam>
+    /// <typeparam name="TAssemblyIdentity">The  type used in the containing model
+    /// to represent <typeparamref name="TAssembly"/> instances.</typeparam>
+    public abstract class LanguageProvider<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
         ILanguageProvider<TLanguage, TProvider>,
         ILanguageProvider
         where TLanguage :
             ILanguage<TLanguage, TProvider>
         where TProvider :
             ILanguageProvider<TLanguage, TProvider>
+        where TIdentityManager :
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+
     {
         #region Data members
 
         private Dictionary<Guid, ILanguageService> supportedServices;
         private Dictionary<Guid, ILanguageService> defaultServices;
         private MultikeyedDictionary<Guid, Type, ILanguageService> cachedServices;
-
+        private ITypeIdentityManager identityManager;
         #endregion
-        protected LanguageProvider()
+        protected LanguageProvider(ITypeIdentityManager identityManager)
         {
             var defaultServices = new Dictionary<Guid, ILanguageService>();
             var cachedServices = new MultikeyedDictionary<Guid, Type, ILanguageService>();
-            cachedServices[LanguageGuids.ConstructorServices.IntermediateClassCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateClassType>)] = defaultServices[LanguageGuids.ConstructorServices.IntermediateClassCreatorService] = DefaultLanguageServices.GetBoundIntermediateClassCreatorService(this.Language, this);
-            cachedServices[LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateDelegateType>)] = defaultServices[LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService] = DefaultLanguageServices.GetBoundIntermediateDelegateCreatorService(this.Language, this);
-            cachedServices[LanguageGuids.ConstructorServices.IntermediateEnumCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateEnumType>)] = defaultServices[LanguageGuids.ConstructorServices.IntermediateEnumCreatorService] = DefaultLanguageServices.GetBoundIntermediateEnumCreatorService(this.Language, this);
-            cachedServices[LanguageGuids.ConstructorServices.IntermediateInterfaceCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType>)] = defaultServices[LanguageGuids.ConstructorServices.IntermediateInterfaceCreatorService] = DefaultLanguageServices.GetBoundIntermediateInterfaceCreatorService(this.Language, this);
-            cachedServices[LanguageGuids.ConstructorServices.IntermediateStructCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateStructType>)] = defaultServices[LanguageGuids.ConstructorServices.IntermediateStructCreatorService] = DefaultLanguageServices.GetBoundIntermediateStructCreatorService(this.Language, this);
-            cachedServices[LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, typeof(IIntermediateAssemblyCtorLanguageService)] = defaultServices[LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService] = DefaultLanguageServices.GetBoundIntermediateAssemblyCreatorService(this.Language, this);
+            cachedServices[LanguageGuids.Services.ClassServices.ClassCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateClassType>)] = defaultServices[LanguageGuids.Services.ClassServices.ClassCreatorService] = DefaultLanguageServices.GetBoundIntermediateClassCreatorService(this.Language, this);
+            cachedServices[LanguageGuids.Services.IntermediateDelegateCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateDelegateType>)] = defaultServices[LanguageGuids.Services.IntermediateDelegateCreatorService] = DefaultLanguageServices.GetBoundIntermediateDelegateCreatorService(this.Language, this);
+            cachedServices[LanguageGuids.Services.IntermediateEnumCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateEnumType>)] = defaultServices[LanguageGuids.Services.IntermediateEnumCreatorService] = DefaultLanguageServices.GetBoundIntermediateEnumCreatorService(this.Language, this);
+            cachedServices[LanguageGuids.Services.InterfaceServices.InterfaceCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType>)] = defaultServices[LanguageGuids.Services.InterfaceServices.InterfaceCreatorService] = DefaultLanguageServices.GetBoundIntermediateInterfaceCreatorService(this.Language, this);
+            cachedServices[LanguageGuids.Services.StructServices.StructCreatorService, typeof(IIntermediateTypeCtorLanguageService<IIntermediateStructType>)] = defaultServices[LanguageGuids.Services.StructServices.StructCreatorService] = DefaultLanguageServices.GetBoundIntermediateStructCreatorService(this.Language, this);
+            cachedServices[LanguageGuids.Services.IntermediateAssemblyCreatorService, typeof(IIntermediateAssemblyCtorLanguageService)] = defaultServices[LanguageGuids.Services.IntermediateAssemblyCreatorService] = DefaultLanguageServices.GetBoundIntermediateAssemblyCreatorService<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity>(this.Language, (TProvider)(object)this);
             this.defaultServices = defaultServices;
             this.cachedServices = cachedServices;
             supportedServices = new Dictionary<Guid, ILanguageService>();
+            this.identityManager = identityManager;
         }
 
         /// <summary>
@@ -58,19 +70,19 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         protected virtual IIntermediateAssembly OnCreateAssembly(string name)
         {
             IIntermediateAssemblyCtorLanguageService service;
-            if (this.TryGetServiceImpl(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, out service))
+            if (this.TryGetServiceImpl(LanguageGuids.Services.IntermediateAssemblyCreatorService, out service))
                 return service.New(name);
             throw new NotSupportedException(ThrowHelper.GetArgumentName(ArgumentWithException.name));
         }
 
         #region Abstract Methods
+
         /// <summary>
-        /// Obtains the language for the <see cref="LanguageProvider{TLanguage, TProvider}"/>.
+        /// Obtains the language for the <see cref="LanguageProvider{TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         /// <returns>The <typeparamref name="TLanguage"/> instance relative to the current
-        /// <see cref="LanguageProvider{TLanguage, TProvider}"/> instance.</returns>
+        /// <see cref="LanguageProvider{TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> instance.</returns>
         protected abstract TLanguage OnGetLanguage();
-
 
         #endregion
 
@@ -339,5 +351,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         {
             return TryGetServiceImpl<TService>(serviceGuid, out service);
         }
+
+        public ITypeIdentityManager IdentityManager { get { return this.identityManager; } }
     }
 }

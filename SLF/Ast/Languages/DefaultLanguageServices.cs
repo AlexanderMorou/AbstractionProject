@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -39,13 +40,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return new DefaultIntermediateStructCreatorService(provider, language);
         }
 
-        internal static ILanguageService GetBoundIntermediateAssemblyCreatorService<TLanguage, TProvider>(TLanguage language, TProvider provider)
+        internal static ILanguageService GetBoundIntermediateAssemblyCreatorService<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity>(TLanguage language, TProvider provider)
             where TLanguage :
                 ILanguage
             where TProvider :
                 ILanguageProvider
+            where TIdentityManager :
+                IIdentityManager<TTypeIdentity, TAssemblyIdentity>
         {
-            return new DefaultIntermediateAssemblyCreatorService<TLanguage, TProvider>(provider, language);
+            return new DefaultIntermediateAssemblyCreatorService<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity>(provider, language);
         }
         private class DefaultIntermediateClassCreatorService :
             IIntermediateTypeCtorLanguageService<IIntermediateClassType>
@@ -85,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateClassCreatorService; }
+                get { return LanguageGuids.Services.ClassServices.ClassCreatorService; }
             }
 
             #endregion
@@ -129,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService; }
+                get { return LanguageGuids.Services.IntermediateDelegateCreatorService; }
             }
 
             #endregion
@@ -173,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateEnumCreatorService; }
+                get { return LanguageGuids.Services.IntermediateEnumCreatorService; }
             }
 
             #endregion
@@ -217,7 +220,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateInterfaceCreatorService; }
+                get { return LanguageGuids.Services.InterfaceServices.InterfaceCreatorService; }
             }
 
             #endregion
@@ -261,24 +264,26 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateStructCreatorService; }
+                get { return LanguageGuids.Services.StructServices.StructCreatorService; }
             }
 
             #endregion
         }
 
-        private class DefaultIntermediateAssemblyCreatorService<TLanguage, TProvider> :
+        private class DefaultIntermediateAssemblyCreatorService<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
             IIntermediateAssemblyCtorLanguageService
             where TLanguage :
                 ILanguage
             where TProvider :
                 ILanguageProvider
+            where TIdentityManager :
+                IIdentityManager<TTypeIdentity, TAssemblyIdentity>
         {
             #region IIntermediateAssemblyCtorLanguageService Members
 
             public IIntermediateAssembly New(string name)
             {
-                return new IntermediateAssembly<TLanguage, TProvider>(name, this.Provider, this.Language);
+                return new IntermediateAssembly<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity>(name, this.Provider, this.Language);
             }
 
             #endregion
@@ -301,10 +306,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService; }
+                get { return LanguageGuids.Services.IntermediateAssemblyCreatorService; }
             }
 
             #endregion
+
             public DefaultIntermediateAssemblyCreatorService(TProvider provider, TLanguage language)
             {
                 this.Provider = provider;

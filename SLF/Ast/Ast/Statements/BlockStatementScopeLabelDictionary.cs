@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
                     if (i++ == index)
                         return new KeyValuePair<string, ILabelStatement>(label.Name, label);
                 }
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             }
         }
 

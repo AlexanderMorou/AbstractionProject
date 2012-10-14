@@ -169,7 +169,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return this.copy[index];
             }
             set

@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -35,20 +36,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private IType parameterType;
         private ParameterDirection direction;
-        private IMetadataDefinitionCollection customAttributes;
+        private IMetadataDefinitionCollection metadata;
 
-        private IMetadataCollection customAttributesBack;
+        private IMetadataCollection metadataBack;
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
-        private IIntermediateModifiersAndAttributesMetadata metadata;
+        internal ITypeIdentityManager identityManager;
+
+
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
         /// which contains the <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/></param>
-        public IntermediateParameterMemberBase(TIntermediateParent parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateParameterMemberBase(TIntermediateParent parent, ITypeIdentityManager identityManager)
             : base(parent)
         {
+            this.identityManager = identityManager;
         }
 
         #region IIntermediateParameterMember Members
@@ -72,36 +79,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (value == parameterType)
                     return;
-                if (value is IArrayType)
-                {
-                    var arrayValue = value as IArrayType;
-                    var lowerBoundsTargetType = typeof(LowerBoundTargetAttribute).GetTypeReference();
-                    if (!arrayValue.IsVectorArray)
-                    {
-                        if (this.CustomAttributes.Contains(lowerBoundsTargetType))
-                        {
-                            var customAttribute = this.CustomAttributes[lowerBoundsTargetType];
-                            customAttribute.Parameters.Clear();
-                            foreach (var element in arrayValue.LowerBounds)
-                                customAttribute.Parameters.Add(element);
-                        }
-                        else
-                        {
-                            var customAttribute = new MetadatumDefinitionParameterValueCollection(lowerBoundsTargetType);
-                            foreach (var element in arrayValue.LowerBounds)
-                                customAttribute.Add(element);
-                            this.CustomAttributes.Add(customAttribute);
-                        }
-                    }
-                    else if (this.CustomAttributes.Contains(lowerBoundsTargetType))
-                        this.CustomAttributes.Remove(this.CustomAttributes[lowerBoundsTargetType]);
-                }
-                else
-                {
-                    var lowerBoundsTargetType = typeof(LowerBoundTargetAttribute).GetTypeReference();
-                    if (this.CustomAttributes.Contains(lowerBoundsTargetType))
-                        this.CustomAttributes.Remove(this.CustomAttributes[lowerBoundsTargetType]);
-                }
                 var originalType = this.parameterType;
                 this.parameterType = value;
                 this.OnParameterTypeChanged(originalType, value);
@@ -136,13 +113,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IIntermediateMetadataEntity Members
 
-        public IMetadataDefinitionCollection CustomAttributes
+        public IMetadataDefinitionCollection Metadata
         {
             get
             {
-                if (this.customAttributes == null)
-                    this.customAttributes = this.InitializeCustomAttributes();
-                return this.customAttributes;
+                if (this.metadata == null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadata = this.InitializeCustomAttributes();
+                return this.metadata;
             }
         }
 
@@ -158,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateParameterMemberBase{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         protected virtual MetadataDefinitionCollection InitializeCustomAttributes()
         {
-            return new MetadataDefinitionCollection(this);
+            return new MetadataDefinitionCollection(this, this.identityManager);
         }
 
         protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
@@ -174,9 +154,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.customAttributesBack == null)
-                    this.customAttributesBack = ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
-                return this.customAttributesBack;
+                if (this.metadataBack == null)
+                    this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                return this.metadataBack;
             }
         }
 
@@ -192,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                    this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -230,29 +210,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-
         public override void Visit(IIntermediateMemberVisitor visitor)
         {
             visitor.Visit(this);
         }
 
-        IModifiersAndAttributesMetadata IParameterMember.Metadata
-        {
-            get
-            {
-                return this.Metadata;
-            }
-        }
-
-        public IIntermediateModifiersAndAttributesMetadata Metadata
-        {
-            get
-            {
-                if (this.metadata == null)
-                    this.metadata = new IntermediateModifiersAndAttributesMetadata();
-                return this.metadata;
-            }
-        }
     }
 
 }

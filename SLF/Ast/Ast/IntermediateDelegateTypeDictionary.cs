@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (assembly != null && assembly.Provider != null)
             {
                 IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> delegateService;
-                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateDelegateCreatorService, out delegateService))
+                if (assembly.Provider.TryGetService(LanguageGuids.Services.IntermediateDelegateCreatorService, out delegateService))
                     return delegateService.GetNew(name, this.Parent);
             }
             return new IntermediateDelegateType(name, this.Parent);

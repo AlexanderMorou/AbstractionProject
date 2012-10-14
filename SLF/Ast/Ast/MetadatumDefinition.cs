@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Properties;
 using AllenCopeland.Abstraction.Utilities.Events;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -31,7 +32,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private Attribute wrappedAttribute;
         private IIntermediateMetadataEntity declarationPoint;
         private MetadatumDefinitionParameterCollection parameters;
+        /// <summary>
+        /// Data member for <see cref="Type"/>
+        /// </summary>
         private IType metadatumType;
+        private ITypeIdentityManager manager;
 
         /// <summary>
         /// Creates a new <see cref="MetadatumDefinition"/>
@@ -48,19 +53,23 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which does not have properties, or is not an attribute.</exception>
         /// <exception cref="System.ArgumentNullException"><paramref name="declarationPoint"/> is null; -or-
         /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
-        public MetadatumDefinition(IIntermediateMetadataEntity declarationPoint, MetadatumDefinitionParameterValueCollection data)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public MetadatumDefinition(IIntermediateMetadataEntity declarationPoint, MetadatumDefinitionParameterValueCollection data, ITypeIdentityManager identityManager)
         {
             if (data.AttributeType == null)
                 throw new ArgumentNullException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_ArgumentNull_CustomAttribute_ctor_data, "data"), "data");
-            if (!typeof(Attribute).GetTypeReference().IsAssignableFrom(data.AttributeType))
+            if ((identityManager.MetadatumHandler.IsMetadatum(data.AttributeType) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
                 throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
             this.declarationPoint = declarationPoint;
             this.metadatumType = data.AttributeType;
             this.AddSeries(data);
-            if (!this.VerifyAttributeType())
-                throw new ArgumentException("data");
+            this.manager = identityManager;
+            //if (!this.VerifyAttributeType())
+            //    throw new ArgumentException("data");
         }
-
+#if false
         private bool VerifyAttributeType()
         {
             if (this.metadatumType is ICompiledType)
@@ -108,7 +117,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             else
                 return false;
         }
-
+#endif
         #region IMetadatumDefinition Members
 
         public IType Type
@@ -125,11 +134,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     throw new ArgumentNullException("value");
                 if (this.wrappedAttribute != null)
                     this.wrappedAttribute = null;
-                if (!typeof(Attribute).GetTypeReference().IsAssignableFrom(value))
+                if ((manager.MetadatumHandler.IsMetadatum(value) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
                     throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
                 this.metadatumType = value;
-                if (!this.VerifyAttributeType())
-                    throw new ArgumentException("value");
+                //if (!this.VerifyAttributeType())
+                //    throw new ArgumentException("value");
             }
         }
 
@@ -150,52 +159,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void CheckParameters()
         {
             if (this.parameters == null)
-            {
-                this.parameters = new MetadatumDefinitionParameterCollection(this);
-                this.parameters.NamedParameterChangedName += new EventHandler<AllenCopeland.Abstraction.Utilities.Events.EventArgsR1<IMetadatumDefinitionNamedParameter>>(parameters_NamedParameterChangedName);
-                this.parameters.NamedParameterChangedValue += new EventHandler<AllenCopeland.Abstraction.Utilities.Events.EventArgsR1<IMetadatumDefinitionNamedParameter>>(parameters_NamedParameterChangedValue);
-                this.parameters.NamelessParametersChanged += new EventHandler(parameters_NamelessParametersChanged);
-            }
-        }
-
-        void parameters_NamelessParametersChanged(object sender, EventArgs e)
-        {
-            if (this.wrappedAttribute != null)
-                this.wrappedAttribute = null;
-        }
-
-        void parameters_NamedParameterChangedValue(object sender, EventArgsR1<IMetadatumDefinitionNamedParameter> e)
-        {
-            //Needless if the wrapped attribute isn't instantiated.
-            if (this.wrappedAttribute == null)
-                return;
-            if (this.metadatumType is ICompiledType)
-            {
-                if (!(this.metadatumType is IPropertyParent))
-                    throw new InvalidOperationException();
-                IPropertyParent parent = ((IPropertyParent)(this.metadatumType));
-                if (parent.Properties.ContainsKey(e.Arg1.Name))
-                {
-                    ICompiledPropertyMember property = (ICompiledPropertyMember)parent.Properties[e.Arg1.Name];
-                    ICompiledMethodMember setMethod = (ICompiledMethodMember)property.SetMethod;
-                    if (setMethod == null)
-                        return;
-                    setMethod.MemberInfo.Invoke(wrappedAttribute, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance, System.Type.DefaultBinder, new object[] { e.Arg1.Value }, CultureInfo.CurrentCulture);
-                }
-            }
-        }
-
-        void parameters_NamedParameterChangedName(object sender, EventArgsR1<IMetadatumDefinitionNamedParameter> e)
-        {
-            if (this.wrappedAttribute != null)
-                this.wrappedAttribute = null;
+                this.parameters = new MetadatumDefinitionParameterCollection(this, manager);
         }
 
         #endregion
 
         #region IMetadatum Members
 
-
+#if false
         public Attribute WrappedAttribute
         {
             get {
@@ -242,7 +213,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return this.wrappedAttribute;
             }
         }
-
+#endif
         IMetadataEntity IMetadatum.DeclarationPoint
         {
             get { return this.DeclarationPoint; }
@@ -275,6 +246,23 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public override string ToString()
         {
             return string.Format("{0}({1})", this.Type.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard), string.Join(", ", this.Parameters));
+        }
+
+
+        IEnumerable<Tuple<IType, object>> IMetadatum.Parameters
+        {
+            get { 
+                foreach (var parameter in this.parameters)
+                    if (!(parameter is IMetadatumDefinitionNamedParameter))
+                    {
+                        yield return new Tuple<IType, object>(parameter.ParameterType, parameter.Value);
+                    }
+            }
+        }
+
+        IEnumerable<Tuple<IType, string, object>> IMetadatum.NamedParameters
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 }

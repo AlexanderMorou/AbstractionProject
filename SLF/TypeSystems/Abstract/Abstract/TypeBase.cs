@@ -125,7 +125,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// is a pointer or by-reference type.</exception>
         internal IArrayType OnMakeArray(int rank)
         {
-            return this.Manager.MakeArray(this, rank);
+            return this.IdentityManager.MakeArray(this, rank);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// had zero elements.</exception>
         internal IArrayType OnMakeArray(params int[] lowerBounds)
         {
-            return this.Manager.MakeArray(this, lowerBounds: lowerBounds);
+            return this.IdentityManager.MakeArray(this, lowerBounds: lowerBounds);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="IType"/> is already a by-reference type.</exception>
         internal IType OnMakeByReference()
         {
-            return this.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
+            return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Reference);
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <see cref="IType"/> is a by-reference type.</exception>
         internal IType OnMakePointer()
         {
-            return this.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
+            return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Pointer);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// as a nullable type.</returns>
         internal IType OnMakeNullable()
         {
-            return this.Manager.MakeClassificationType(this, TypeElementClassification.Nullable);
+            return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Nullable);
         }
 
         private object syncObject = new object();
@@ -260,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// or by-reference type.</exception>
         public IArrayType MakeArray(int rank)
         {
-            return this.Manager.MakeArray(this, rank);
+            return this.IdentityManager.MakeArray(this, rank);
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// had zero elements.</exception>
         public IArrayType MakeArray(int[] lowerBounds, uint[] lengths = null)
         {
-            return this.Manager.MakeArray(this, lowerBounds, lengths);
+            return this.IdentityManager.MakeArray(this, lowerBounds, lengths);
         }
 
         /// <summary>
@@ -633,14 +633,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public bool IsDefined(IType metadatumType, bool inherited)
         {
-            bool? canInherit = null;
+            bool canInherit = this.IdentityManager.MetadatumHandler.IsMetadatumInheritable(metadatumType);
             for (IType targetType = this; targetType != null; targetType = targetType.BaseType)
             {
                 if (targetType.IsDefined(metadatumType))
                     return true;
-                if (canInherit == null)
-                    canInherit = this.Manager.IsMetadatumInheritable(metadatumType);
-                else if (!canInherit.Value)
+                else if (!canInherit)
                     return false;
             }
             return false;
@@ -731,7 +729,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="ITypeIdentityManager"/> which was used
         /// to construct the current <see cref="IType"/>.
         /// </summary>
-        public ITypeIdentityManager Manager
+        public ITypeIdentityManager IdentityManager
         {
             get
             {
@@ -758,7 +756,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public IModifiedType MakeModified(TypeModification[] modifiers)
         {
-            return this.Manager.MakeModifiedType(this, modifiers);
+            return this.IdentityManager.MakeModifiedType(this, modifiers);
         }
 
         #endregion

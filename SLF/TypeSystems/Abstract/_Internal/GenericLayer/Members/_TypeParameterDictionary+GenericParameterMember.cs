@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             #endregion
 
             #region IType Members
-            public ITypeIdentityManager Manager { get { return this.original.Manager; } }
+            public ITypeIdentityManager IdentityManager { get { return this.original.IdentityManager; } }
 
             public TypeElementClassification ElementClassification
             {
@@ -237,7 +237,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public bool IsSubclassOf(IType other)
             {
-                return other.Equals(this.Manager.ObtainTypeReference(RuntimeCoreType.RootType));
+                return other.Equals(this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType));
             }
 
             public bool IsAssignableFrom(IType target)
@@ -262,7 +262,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
             public IType BaseType
             {
-                get { return this.Manager.ObtainTypeReference(RuntimeCoreType.RootType); }
+                get { return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType); }
             }
 
             public ILockedTypeCollection ImplementedInterfaces
@@ -537,7 +537,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// is a pointer or by-reference type.</exception>
             protected IArrayType OnMakeArray(int rank)
             {
-                return this.Manager.MakeArray(this, rank);
+                return this.IdentityManager.MakeArray(this, rank);
             }
 
             /// <summary>
@@ -556,7 +556,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// had zero elements.</exception>
             protected IArrayType OnMakeArray(int[] lowerBounds, uint[] lengths)
             {
-                return this.Manager.MakeArray(this, lowerBounds, lengths);
+                return this.IdentityManager.MakeArray(this, lowerBounds, lengths);
             }
 
             /// <summary>
@@ -568,7 +568,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// <see cref="IType"/> is already a by-reference type.</exception>
             protected IType OnMakeByReference()
             {
-                return this.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
+                return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Reference);
             }
 
             /// <summary>
@@ -580,7 +580,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             /// <see cref="IType"/> is a by-reference type.</exception>
             protected IType OnMakePointer()
             {
-                return this.Manager.MakeClassificationType(this, TypeElementClassification.Pointer);
+                return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Pointer);
             }
 
             /// <summary>
@@ -593,7 +593,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             protected IType OnMakeNullable()
             {
                 if (this.IsNullable)
-                    return this.Manager.MakeClassificationType(this, TypeElementClassification.Nullable);
+                    return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Nullable);
                 throw new InvalidOperationException("Cannot make into a nullable type, generic parameters are neither reference nor non-reference types unless explicitly stated as a struct.");
             }
 

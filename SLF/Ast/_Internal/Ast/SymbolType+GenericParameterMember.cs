@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     get { return TypeKind.Class; }
                 }
 
-                protected override bool CanCacheImplementsList
+                protected internal override bool CanCacheImplementsList
                 {
                     get { return true; }
                 }
@@ -75,31 +75,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 protected override IAssembly OnGetAssembly()
                 {
                     return null;
-                }
-
-                protected override IArrayType OnMakeArray(int rank)
-                {
-                    return new ArrayType(this, rank);
-                }
-
-                protected override IArrayType OnMakeArray(params int[] lowerBounds)
-                {
-                    return new ArrayType(this, lowerBounds);
-                }
-
-                protected override IType OnMakeByReference()
-                {
-                    return new ByRefType(this);
-                }
-
-                protected override IType OnMakePointer()
-                {
-                    return new PointerType(this);
-                }
-
-                protected override IType OnMakeNullable()
-                {
-                    return new NullableType(this);
                 }
 
                 public override bool IsGenericConstruct
@@ -367,15 +342,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return this.uniqueIdentifier;
                 }
 
-                protected override bool IsAttributeInheritable(IType attribute)
+                //protected override bool IsAttributeInheritable(IType attribute)
+                //{
+                //    if (attribute is ICompiledType)
+                //    {
+                //        var cType = attribute as ICompiledType;
+                //        return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+                //    }
+                //    else
+                //        return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+                //}
+
+                protected override ITypeIdentityManager OnGetManager()
                 {
-                    if (attribute is ICompiledType)
-                    {
-                        var cType = attribute as ICompiledType;
-                        return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
-                    }
-                    else
-                        return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+                    return this.Parent.IdentityManager;
                 }
             }
         }

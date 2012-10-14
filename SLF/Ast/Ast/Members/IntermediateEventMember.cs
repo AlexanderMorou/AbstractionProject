@@ -70,8 +70,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateEventParent"/> which
         /// contains the <see cref="IntermediateEventMember{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember}"/></param>
+        /// <paramnparam name="identityManager">The <see cref="ITypeIdentityManager"/> which is responsible for marshalling
+        /// type identities in the current type model.</paramnparam>
         public IntermediateEventMember(TIntermediateEventParent parent)
-            : base(parent)
+            : base(parent, parent.IdentityManager)
         {
         }
 
@@ -417,9 +419,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (this.uniqueIdentifier == null)
                     if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                     else
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

@@ -10,6 +10,9 @@ using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Diagnostics.SymbolStore;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -51,6 +54,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         {
         }
 
+        /// <summary>
+        /// The types which are automatically translated into their
+        /// C&#9839; short forms.
+        /// </summary>
         internal static readonly ReadOnlyCollection<Type> AutoFormTypes = new ReadOnlyCollection<Type>
             (
                 new List<Type>
@@ -161,9 +168,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
             return GetProvider(version);
         }
 
-        IIntermediateAssembly IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>.CreateAssembly(string name, CSharpLanguageVersion version)
+        IIntermediateAssembly IVersionedHighLevelLanguage<CSharpLanguageVersion, ICSharpCompilationUnit>.CreateAssembly(string name, ITypeIdentityManager identityManager, CSharpLanguageVersion version)
         {
-            return this.CreateAssembly(name, version);
+            if (!(identityManager is IIntermediateCliManager))
+                throw new ArgumentException("Argument must be a IIntermediateCliManager", "identityManager");
+            return this.CreateAssembly(name, (IIntermediateCliManager)identityManager, version);
         }
 
         #endregion
@@ -193,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <see cref="CSharpLanguage">C&#9839; language</see>.</returns>
         public ICSharpProvider GetProvider(CSharpLanguageVersion version)
         {
-            return new CSharpProvider(version);
+            return new CSharpProvider(version, new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform)));
         }
 
         /// <summary>
@@ -220,6 +229,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
+        /// <param name="identityManager">The <see cref="IIntermediateCliManager"/>
+        /// which is used to marshal type identities in the current type model.</param>
         /// <param name="version">The <see cref="CSharpLanguageVersion"/>
         /// to which the <see cref="ICSharpAssembly"/>
         /// is built against.</param>
@@ -232,7 +243,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <paramref name="name"/> is <see cref="String.Empty"/>
         /// or <paramref name="version"/> is not one of 
         /// <see cref="CSharpLanguageVersion"/>.</exception>
-        public ICSharpAssembly CreateAssembly(string name, CSharpLanguageVersion version)
+        public ICSharpAssembly CreateAssembly(string name, IIntermediateCliManager identityManager, CSharpLanguageVersion version)
         {
             return new CSharpAssembly(name, this.GetProvider(version));
         }
@@ -257,5 +268,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         }
 
         #endregion
+
+        public ICSharpProvider GetProvider(CSharpLanguageVersion version, IIntermediateCliManager identityManager)
+        {
+            return new CSharpProvider(version, identityManager);
+        }
     }
 }

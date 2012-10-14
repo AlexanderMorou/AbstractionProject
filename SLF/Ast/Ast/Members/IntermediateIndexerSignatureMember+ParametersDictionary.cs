@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIndexerSignatureParent<TIndexer, TIndexerParent>
         where TIntermediateIndexerParent :
             TIndexerParent,
-            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
+            ITypeParent
         where TMethodMember :
             class,
             IIntermediatePropertySignatureMethodMember
@@ -25,15 +26,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         protected partial class ParametersDictionary :
             IntermediateParameterMemberDictionary<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>>
         {
-            public ParametersDictionary(TIntermediateIndexer parent)
+            private ITypeIdentityManager identityManager;
+            public ParametersDictionary(TIntermediateIndexer parent, ITypeIdentityManager identityManager)
                 : base(parent)
             {
-
+                this.identityManager = identityManager;
             }
 
             protected override IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
             {
-                ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
+                ParameterMember result = new ParameterMember(Parent, this.identityManager) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);
                 return result;
             }

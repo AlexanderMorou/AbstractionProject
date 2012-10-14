@@ -45,7 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="direction">The <see cref="ParameterDirection"/> which determines how the informaiton about the parameter
         /// is managed (in, out, or by reference).</param>
         public IntermediateEventSignatureParameterMember(TIntermediateEvent parent, string name, IType parameterType, ParameterDirection direction)
-            : base(parent)
+            : base(parent, parent.Parent.IdentityManager)
         {
             this.Name = name;
             this.ParameterType = parameterType;

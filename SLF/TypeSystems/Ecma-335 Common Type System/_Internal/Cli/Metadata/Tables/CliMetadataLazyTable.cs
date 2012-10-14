@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
             get
             {
                 if (index <= 0 || index > this.Count + 1)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 if (index == this.Count + 1)
                     return default(T);
                 this.CheckItemAt((uint) index);

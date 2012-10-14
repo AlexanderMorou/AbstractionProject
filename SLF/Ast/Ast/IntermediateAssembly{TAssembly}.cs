@@ -17,6 +17,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -38,7 +39,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// of the <typeparamref name="TAssembly">assembly</typeparamref>.</typeparam>
     /// <typeparam name="TAssembly">The kind of assembly represented by the 
     /// intermediate abstract syntax tree.</typeparam>
-    public abstract partial class IntermediateAssembly<TLanguage, TProvider, TAssembly> :
+    /// <typeparam name="TIdentityManager">The <see cref="IIdentityManager{TTypeIdentity, TAssemblyIdentity}"/>
+    /// which maintains consistent type and assembly identity.</typeparam>
+    /// <typeparam name="TAssemblyIdentity">The identity used to obtain assembly references.</typeparam>
+    /// <typeparam name="TTypeIdentity">The identity used to denote types within the 
+    /// identity manager.</typeparam>
+    public abstract partial class IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
         AssemblyBase,
         IIntermediateAssembly<TLanguage, TProvider>
         where TLanguage :
@@ -46,7 +52,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TProvider :
             ILanguageProvider
         where TAssembly :
-            IntermediateAssembly<TLanguage, TProvider, TAssembly>
+            IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>
+        where TIdentityManager :
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
     {
         /// <summary>
         /// Data member for <see cref="Metadata"/>.
@@ -59,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Data member for <see cref="AssemblyInformation"/>.
         /// </summary>
-        private IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly> assemblyInformation;
+        private IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity> assemblyInformation;
         /// <summary>
         /// Data member for <see cref="PrivateImplementationDetails"/>
         /// </summary>
@@ -86,6 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Data member for <see cref="ScopeCoercions"/>.
         /// </summary>
         private IScopeCoercionCollection scopeCoercions;
+
         /* *
          * Placeholders for ensuring that only the root instance contains 
          * references to the event.
@@ -136,17 +145,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> with the 
+        /// Creates a new <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> with the 
         /// <paramref name="rootAssembly"/> provided.
         /// </summary>
         /// <param name="rootAssembly">The <typeparamref name="TAssembly"/> from which
-        /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> is a part of.</param>
+        /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> is a part of.</param>
         internal protected IntermediateAssembly(TAssembly rootAssembly)
         {
             this.rootAssembly = rootAssembly;
         }
         /// <summary>
-        /// Creates a new <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> with the
+        /// Creates a new <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> with the
         /// <paramref name="name"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the name of the
@@ -157,7 +166,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Returns whether the manifest module of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
+        /// Returns whether the manifest module of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
         /// can be cached.
         /// </summary>
         /// <remarks>Returns false, the manifest module can change in an intermediate
@@ -172,7 +181,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Returns the <see cref="IAssemblyInformation"/> associated to the
-        /// current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         /// <returns>An instance of <see cref="IIntermediateAssemblyInformation"/> from
         /// the new member <see cref="AssemblyInformation"/>.</returns>
@@ -223,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         void assemblyInformation_CultureChanged(object sender, EventArgsR1R2<ICultureIdentifier, ICultureIdentifier> e)
         {
             if (this.uniqueIdentifier == null)
-                this.OnIdentifierChanged(AstIdentifier.Assembly(this.Name, this.AssemblyInformation.AssemblyVersion, e.Arg1, this.PublicKey), DeclarationChangeCause.Signature);
+                this.OnIdentifierChanged(AstIdentifier.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, e.Arg1, this.PublicKey), DeclarationChangeCause.Signature);
             else
             {
                 var uniqueIdBackup = this.uniqueIdentifier;
@@ -235,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         void assemblyInformation_AssemblyVersionChanged(object sender, EventArgsR1R2<IVersion, IVersion> e)
         {
             if (this.uniqueIdentifier == null)
-                this.OnIdentifierChanged(AstIdentifier.Assembly(this.Name, e.Arg1, this.AssemblyInformation.Culture, this.PublicKey), DeclarationChangeCause.Signature);
+                this.OnIdentifierChanged(AstIdentifier.GetAssemblyIdentifier(this.Name, e.Arg1, this.AssemblyInformation.Culture, this.PublicKey), DeclarationChangeCause.Signature);
             else
             {
                 var uniqueIdBackup = this.uniqueIdentifier;
@@ -329,9 +338,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this._Members;
         }
 
-        protected virtual IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly> InitializeAssemblyInformation()
+        protected virtual IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity> InitializeAssemblyInformation()
         {
-            return new IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly>((TAssembly)this);
+            return new IntermediateAssemblyInformation<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>((TAssembly)this);
         }
 
         /// <summary>
@@ -459,7 +468,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
         /// <summary>
         /// Returns the <see cref="IIntermediateAssemblyInformation"/> about 
-        /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> instance.
+        /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> instance.
         /// </summary>
         public new IIntermediateAssemblyInformation AssemblyInformation
         {
@@ -478,7 +487,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Returns the <see cref="IIntermediateModule"/> which exposes
         /// the manifest data for the current 
-        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         public new IIntermediateModule ManifestModule
         {
@@ -544,7 +553,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        public IAssemblyReferenceCollection References
+        public new IAssemblyReferenceCollection References
         {
             get
             {
@@ -643,11 +652,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected sealed override IMetadataCollection InitializeCustomAttributes()
         {
-            return ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
+            return ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
         }
 
         /// <summary>
-        /// Disposes the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// Disposes the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         /// <param name="disposing">whether to dispose managed data or not.</param>
         protected override void Dispose(bool disposing)
@@ -753,7 +762,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Raises the <see cref="Renamed"/> event.
         /// </summary>
         /// <param name="e">The <see cref="DeclarationNameChangedEventArgs"/> which
-        /// indicate the old and new name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.</param>
+        /// indicate the old and new name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.</param>
         protected virtual void OnRenamed(DeclarationNameChangedEventArgs e)
         {
             if (this.IsRoot)
@@ -767,7 +776,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Occurs when the name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
+        /// Occurs when the name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
         /// has changed.
         /// </summary>
         public event EventHandler<DeclarationNameChangedEventArgs> Renamed
@@ -792,7 +801,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Occurs when the name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
+        /// Occurs when the name of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
         /// is in the process of being changed.
         /// </summary>
         public event EventHandler<DeclarationRenamingEventArgs> Renaming
@@ -823,7 +832,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns the custom attribute definition collection series associated
         /// to the current assembly.
         /// </summary>
-        public new IMetadataDefinitionCollection CustomAttributes
+        public new IMetadataDefinitionCollection Metadata
         {
             get
             {
@@ -834,7 +843,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     return this._CustomAttributes;
                 }
                 else
-                    return this.GetRoot().CustomAttributes;
+                    return this.GetRoot().Metadata;
             }
         }
 
@@ -848,7 +857,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                         else
-                            this.attributes = new MetadataDefinitionCollection(this);
+                            this.attributes = new MetadataDefinitionCollection(this, this.IdentityManager);
                     return this.attributes;
                 }
                 else
@@ -880,7 +889,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Returns the part collection associated to the
-        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         public IIntermediateSegmentableDeclarationPartCollection<IAssemblyUniqueIdentifier, IIntermediateAssembly> Parts
         {
@@ -914,7 +923,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Returns whether or not the current 
-        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/> is the root
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> is the root
         /// instance.
         /// </summary>
         public bool IsRoot
@@ -938,10 +947,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         #endregion
         /// <summary>
         /// Returns a <see cref="System.String"/> which 
-        /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         /// <returns>A <see cref="System.String"/>which 
-        /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.</returns>
+        /// represents the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.</returns>
         public override string ToString()
         {
             return this.UniqueIdentifier.ToString();
@@ -973,7 +982,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Returns the <see cref="IScopeCoercionCollection"/>
-        /// associated to the scope coercions of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// associated to the scope coercions of the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         public IScopeCoercionCollection ScopeCoercions
         {
@@ -1041,7 +1050,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Obtains the <see cref="IFullMemberDictionary"/> instance
         /// which initializes the <see cref="Members"/> of the
-        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         /// <returns>The <see cref="IFullMemberDictionary"/>
         /// instance which initializes the <see cref="Members"/>.</returns>
@@ -1150,7 +1159,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Occurs after the 
-        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>
+        /// <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>
         /// has changed in a way which invalidates the previous unique
         /// identifier.
         /// </summary>
@@ -1189,7 +1198,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.IsRoot)
                 {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.Assembly(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
+                        this.uniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
                     return this.uniqueIdentifier;
                 }
                 else
@@ -1220,7 +1229,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Returns whether the <see cref="Members"/> have been initialized
-        /// for the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// for the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         protected bool AreIntermediateMembersInitialized
         {
@@ -1232,7 +1241,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         /// <summary>
         /// Returns whether the <see cref="Types"/> have been initialized
-        /// for the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly}"/>.
+        /// for the <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/>.
         /// </summary>
         protected bool AreIntermediateTypesInitialized
         {
@@ -1285,6 +1294,29 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected override IStrongNamePublicKeyInfo OnGetPublicKeyInfo()
         {
             throw new NotImplementedException();
+        }
+
+        protected override IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences()
+        {
+            return new IntermediateAssemblyReferenceDictionary(this.References);
+        }
+
+        public override IType GetType(IGeneralTypeUniqueIdentifier identifier)
+        {
+            throw new NotImplementedException();
+        }
+
+        ITypeIdentityManager IIntermediateTypeParent.IdentityManager { get { return this.IdentityManager; } }
+
+        public TIdentityManager IdentityManager
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return (TIdentityManager)this.Provider.IdentityManager;
+                else
+                    return (TIdentityManager)this.GetRoot().Provider.IdentityManager;
+            }
         }
     }
 }

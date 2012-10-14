@@ -93,13 +93,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         TypeModifiedCache _IType.ModifiedTypeCache { get { this.CacheCheck(); return this.modifiedTypeCache; } }
 
 
-        internal CliManager Manager { get { return this.manager; } }
+        internal CliManager IdentityManager { get { return this.manager; } }
 
-        ITypeIdentityManager IType.Manager
+        ITypeIdentityManager IType.IdentityManager
         {
             get
             {
-                return this.elementType.Manager;
+                return this.elementType.IdentityManager;
             }
         }
 
@@ -224,7 +224,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType MakeByReference()
         {
-            return this.Manager.MakeClassificationType(this, TypeElementClassification.Reference);
+            return this.IdentityManager.MakeClassificationType(this, TypeElementClassification.Reference);
         }
 
         public IType MakeNullable()
@@ -238,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return false;
             //return false;
             return this.BaseType.Equals(other) ||
-                   other != null && other.Equals(this.Manager.ObtainTypeReference(RuntimeCoreType.RootType));
+                   other != null && other.Equals(this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType));
         }
 
         public bool IsAssignableFrom(IType target)
@@ -288,22 +288,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotSupportedException();
             //if (this.ArrayRank == 1)
             //    return new LockedTypeCollection(
-            //            this.Manager.ObtainTypeReference(typeof(ICloneable), tAssem),
-            //            this.Manager.ObtainTypeReference(typeof(IList), tAssem),
-            //            this.Manager.ObtainTypeReference(typeof(ICollection), tAssem),
-            //            this.Manager.ObtainTypeReference(typeof(IEnumerable), tAssem),
-            //            ((IGenericType) this.Manager.ObtainTypeReference((typeof(IList<>)), tAssem))
+            //            this.IdentityManager.ObtainTypeReference(typeof(ICloneable), tAssem),
+            //            this.IdentityManager.ObtainTypeReference(typeof(IList), tAssem),
+            //            this.IdentityManager.ObtainTypeReference(typeof(ICollection), tAssem),
+            //            this.IdentityManager.ObtainTypeReference(typeof(IEnumerable), tAssem),
+            //            ((IGenericType) this.IdentityManager.ObtainTypeReference((typeof(IList<>)), tAssem))
             //                .MakeGenericClosure(this.ElementType),
-            //            ((IGenericType) this.Manager.ObtainTypeReference((typeof(ICollection<>)), tAssem))
+            //            ((IGenericType) this.IdentityManager.ObtainTypeReference((typeof(ICollection<>)), tAssem))
             //                .MakeGenericClosure(this.ElementType),
-            //            ((IGenericType) this.Manager.ObtainTypeReference((typeof(IEnumerable<>)), tAssem))
+            //            ((IGenericType) this.IdentityManager.ObtainTypeReference((typeof(IEnumerable<>)), tAssem))
             //                .MakeGenericClosure(this.ElementType));
             //else
             //    return new LockedTypeCollection(
-            //            this.Manager.ObtainTypeReference(typeof(ICloneable), tAssem),
-            //            this.Manager.ObtainTypeReference(typeof(IList), tAssem),
-            //            this.Manager.ObtainTypeReference(typeof(ICollection), tAssem),
-            //            this.Manager.ObtainTypeReference(typeof(IEnumerable), tAssem));
+            //            this.IdentityManager.ObtainTypeReference(typeof(ICloneable), tAssem),
+            //            this.IdentityManager.ObtainTypeReference(typeof(IList), tAssem),
+            //            this.IdentityManager.ObtainTypeReference(typeof(ICollection), tAssem),
+            //            this.IdentityManager.ObtainTypeReference(typeof(IEnumerable), tAssem));
         }
 
         public IAssembly Assembly
@@ -444,8 +444,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         //#endregion
-
-
 
         public IReadOnlyCollection<uint> Lengths
         {

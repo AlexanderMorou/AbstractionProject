@@ -21,6 +21,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IDisposable
     {
         /// <summary>
+        /// Returns the <see cref="ITypeIdentityManager"/> which manages the 
+        /// identity of types within the current context.
+        /// </summary>
+        ITypeIdentityManager IdentityManager { get; }
+        /// <summary>
         /// Adds a blank <see cref="IMetadataDefinition"/> to the 
         /// <see cref="IMetadataDefinitionCollection"/> for expansion.
         /// </summary>
@@ -77,18 +82,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// in the current <see cref="IMetadataDefinitionCollection"/>.
         /// </summary>
         int FullCount { get; }
-        /// <summary>
-        /// Obtains an attribute instance for an attribute definition 
-        /// in the <see cref="IMetadataDefinitionCollection"/>;
-        /// if it is defined, the first instance's wrapper is returned.
-        /// </summary>
-        /// <typeparam name="TAttribute">The type of <see cref="Attribute"/>
-        /// to retrieve, this only applies to fully quantified attributes, not close matches.</typeparam>
-        /// <returns>An instance of <typeparamref name="TAttribute"/> if an instance of it is defined
-        /// on the <see cref="IMetadataDefinition"/>.</returns>
-        TAttribute GetAttributeInstance<TAttribute>()
-            where TAttribute :
-                Attribute;
         /// <summary>
         /// Removes the <paramref name="customAttribute"/> defined on the
         /// <see cref="Parent"/>.

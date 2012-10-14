@@ -43,6 +43,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache, additionalResolutionPaths));
         }
 
+        public static ITypeCollectionBase ToCollection(this Type[] entries, ICliManager identityManager)
+        {
+            return new TypeCollection((from t in entries
+                                       select identityManager.ObtainTypeReference(t)).ToArray());
+        }
+
         public static IEnumerable<ICliRuntimeEnvironmentInfo> GetRuntimeEnvironmentInfos()
         {
             foreach (var version in new CliFrameworkVersion[] { CliFrameworkVersion.v1_0_3705 ,CliFrameworkVersion.v1_1_4322, CliFrameworkVersion.v2_0_50727 , CliFrameworkVersion.v3_0 , CliFrameworkVersion.v3_5 , CliFrameworkVersion.v4_0_30319 , CliFrameworkVersion.v4_5 ,
@@ -129,5 +135,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             }
         }
 
+        public static IType GetTypeReference(this Type target, ICliManager identityManager)
+        {
+            return identityManager.ObtainTypeReference(target);
+        }
     }
 }

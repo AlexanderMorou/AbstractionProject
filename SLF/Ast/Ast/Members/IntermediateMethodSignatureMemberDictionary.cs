@@ -35,8 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>,
             TSignatureParent
     {
-        protected IntermediateMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
-            : base(master, parent)
+        protected IntermediateMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
+            : base(master, parent, identityManager)
         {
         }
         protected IntermediateMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent, IntermediateMethodSignatureMemberDictionary<TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> root)
@@ -66,13 +66,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
             TSignatureParent
     {
-        protected IntermediateGroupedMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent)
+        private ITypeIdentityManager identityManager;
+        protected IntermediateGroupedMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
             : base(master, parent)
         {
+            this.identityManager = identityManager;
         }
         protected IntermediateGroupedMethodSignatureMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateSignatureParent parent, IntermediateGroupedMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> root)
             : base(master, parent, root)
         {
+            this.identityManager = root.identityManager;
         }
         protected TIntermediateSignature GetNewMethod(string name)
         {
@@ -158,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public TIntermediateSignature Add(string name)
         {
             var method = this.GetNewMethod(name);
-            method.ReturnType = CommonTypeRefs.Void;
+            method.ReturnType = this.identityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
             this.AddDeclaration(method);
             return method;
         }
@@ -175,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters)
         {
             var method = this.GetNewMethodWithParameters(name, parameters);
-            method.ReturnType = CommonTypeRefs.Void;
+            method.ReturnType = this.identityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
             this.AddDeclaration(method);
             return method;
         }
@@ -199,7 +202,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethodWithParametersAndTypeParameters(name, parameters, typeParameters);
-            method.ReturnType = CommonTypeRefs.Void;
+            method.ReturnType = this.identityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
             this.AddDeclaration(method);
             return method;
         }
@@ -292,50 +295,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        #region IMethodSignatureMemberDictionary<TSignatureParameter,TSignature,TSignatureParent> Members
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search)
-        {
-            return this.Find(name, null, strict, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
-        {
-            return this.Find(name, null, true, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)
-        {
-            return this.Find(name, null, strict, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search)
-        {
-            return this.Find(name, null, true, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
-        {
-            return CliCommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
-        {
-            return this.Find(name, genericParameters, true, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
-        {
-            return CliCommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
-        {
-            return this.Find(name, genericParameters, true, search);
-        }
-
-        #endregion
-
         #region IIntermediateMethodSignatureMemberDictionary Members
 
         IIntermediateMethodSignatureMember IIntermediateMethodSignatureMemberDictionary.Add(string name)
@@ -385,46 +344,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return this.IndexOf((TSignature)(method));
         }
 
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, bool strict, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, bool strict, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, search)));
-        }
-
         #endregion
 
     }
@@ -448,14 +367,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent>,
             TSignatureParent
     {
-        protected IntermediateMethodSignatureMemberDictionary(TIntermediateSignatureParent parent)
+        private ITypeIdentityManager identityManager;
+        protected IntermediateMethodSignatureMemberDictionary(TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
             : base(parent)
         {
+            this.identityManager = identityManager;
         }
 
         protected IntermediateMethodSignatureMemberDictionary(TIntermediateSignatureParent parent, IntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> toWrap)
             : base(parent, toWrap)
         {
+            this.identityManager = toWrap.identityManager;
         }
 
         protected abstract TIntermediateSignature GetNewMethod(string name);
@@ -499,7 +421,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return DictionaryHelpers.AddIntermediateMethodByDelegate<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent>(name, signature, this.Add, this.Add);
         }
 
-
         IIntermediateMethodSignatureMember IIntermediateMethodSignatureMemberDictionary.Add(string name, IDelegateType signature)
         {
             return this.Add(name, signature);
@@ -515,7 +436,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public TIntermediateSignature Add(string name)
         {
             var method = this.GetNewMethod(name);
-            method.ReturnType = CommonTypeRefs.Void;
+            method.ReturnType = this.identityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
             this._Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -532,7 +453,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters)
         {
             var method = this.GetNewMethodWithParameters(name, parameters);
-            method.ReturnType = CommonTypeRefs.Void;
+            method.ReturnType = this.identityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
             this._Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -556,7 +477,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public TIntermediateSignature Add(string name, TypedNameSeries parameters, params GenericParameterData[] typeParameters)
         {
             var method = this.GetNewMethodWithParametersAndTypeParameters(name, parameters, typeParameters);
-            method.ReturnType = CommonTypeRefs.Void;
+            method.ReturnType = this.identityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
             this._Add(method.UniqueIdentifier, method);
             return method;
         }
@@ -576,7 +497,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
 
-        private IType GetTypeReference(TypedName source, Func<string, IType> altGetter = null)
+        private IType GetTypeReference(TypedName source, Func<string, IType> alternateSymbolResolution = null)
         {
             /* *
              * Attempts to do an early type-resolution on potential symbols
@@ -589,15 +510,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 case TypedNameSource.SymbolReference:
                     if (this.Parent is IGenericType)
                     {
-                        IGenericType t = ((IGenericType)(this.Parent));
-                        for (; t != null; t = (((t.DeclaringType != null) && (t.DeclaringType is IGenericType)) ? (IGenericType)t.DeclaringType : null))
-                            if (t.TypeParameters.ContainsName(source.SymbolReference))
-                                return ((IGenericTypeParameter)t.TypeParameters[source.SymbolReference]);
-                        IType q = null;
-                        if (altGetter != null)
-                            q = altGetter(source.SymbolReference);
-                        if (q != null)
-                            return (q);
+                        IGenericType genericParentType = ((IGenericType)(this.Parent));
+                        for (; genericParentType != null; genericParentType = (((genericParentType.DeclaringType != null) && (genericParentType.DeclaringType is IGenericType)) ? (IGenericType)genericParentType.DeclaringType : null))
+                            if (genericParentType.TypeParameters.ContainsName(source.SymbolReference))
+                                return ((IGenericTypeParameter)genericParentType.TypeParameters[source.SymbolReference]);
+                        IType alternateSymbolDefinition = null;
+                        if (alternateSymbolResolution != null)
+                            alternateSymbolDefinition = alternateSymbolResolution(source.SymbolReference);
+                        if (alternateSymbolDefinition != null)
+                            return (alternateSymbolDefinition);
                         else
                             return (source.SymbolReference.GetSymbolType());
                     }
@@ -649,51 +570,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         #endregion
-
-        #region IMethodSignatureMemberDictionary<TSignatureParameter,TSignature,TSignatureParent> Members
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, ITypeCollection search)
-        {
-            return this.Find(name, null, strict, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection search)
-        {
-            return this.Find(name, null, true, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, bool strict, params IType[] search)
-        {
-            return this.Find(name, null, strict, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, params IType[] search)
-        {
-            return this.Find(name, null, true, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
-        {
-            return CliCommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, ITypeCollection search)
-        {
-            return this.Find(name, genericParameters, true, search);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
-        {
-            return CliCommon.FindCache<TSignature, TSignatureParameter, TSignatureParent>(genericParameters, ((IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>)this).Values, name, search, strict);
-        }
-
-        public IFilteredSignatureMemberDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent> Find(string name, ITypeCollection genericParameters, params IType[] search)
-        {
-            return this.Find(name, genericParameters, true, search);
-        }
-
-        #endregion
-
+        
         #region IIntermediateMethodSignatureMemberDictionary Members
 
         IIntermediateMethodSignatureMember IIntermediateMethodSignatureMemberDictionary.Add(string name)
@@ -735,46 +612,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (!(method is TSignature))
                 return -1;
             return this.IndexOf((TSignature)(method));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, bool strict, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name,genericParameters, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, bool strict, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection genericParameters, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, genericParameters, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, bool strict, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, ITypeCollection search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, bool strict, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, strict, search)));
-        }
-
-        IFilteredSignatureMemberDictionary IMethodSignatureMemberDictionary.Find(string name, params IType[] search)
-        {
-            return ((IFilteredSignatureMemberDictionary)(this.Find(name, search)));
         }
 
         #endregion

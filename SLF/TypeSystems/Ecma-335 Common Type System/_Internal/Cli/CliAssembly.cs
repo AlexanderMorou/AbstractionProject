@@ -173,11 +173,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.identityManager.RuntimeEnvironment; }
         }
 
-        ICliManager ICliAssembly.IdentityManager
-        {
-            get { return this.identityManager; }
-        }
-
         public ICliMetadataRoot MetadataRoot
         {
             get { return this.metadataRoot; }
@@ -427,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region __ICliTypeParent Members
 
-        _ICliManager __ICliTypeParent.Manager
+        _ICliManager __ICliTypeParent.IdentityManager
         {
             get { return this.IdentityManager; }
         }

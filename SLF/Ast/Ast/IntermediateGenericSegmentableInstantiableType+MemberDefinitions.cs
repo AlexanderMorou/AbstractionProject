@@ -259,7 +259,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.BinaryOperator(this.Operator, this.ContainingSide, this.OtherSide);
+                        this.uniqueIdentifier = AstIdentifier.GetBinaryOperatorIdentifier(this.Operator, this.ContainingSide, this.OtherSide);
                     return this.uniqueIdentifier;
                 }
             }
@@ -313,11 +313,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IntermediateMethodMemberBase<TMethod, TIntermediateMethod, TType, TIntermediateType>
         {
             public MethodMember(TInstanceIntermediateType parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
             }
             public MethodMember(string name, TInstanceIntermediateType parent)
-                : base(name, parent)
+                : base(name, parent, parent.IdentityManager)
             {
             }
 
@@ -444,7 +444,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.TypeOperator(this.Requirement, this.Direction, this.CoercionType);
+                        this.uniqueIdentifier = AstIdentifier.GetTypeOperatorIdentifier(this.Requirement, this.Direction, this.CoercionType);
                     return this.uniqueIdentifier;
                 }
             }
@@ -555,7 +555,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
                 set
                 {
-                    if (value == CommonTypeRefs.Void)
+                    if (value == this.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType))
                         throw new InvalidOperationException("Cannot yield a void type.");
                     this.resultedType = value;
                 }
@@ -567,7 +567,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.UnaryOperator(this.Operator);
+                        this.uniqueIdentifier = AstIdentifier.GetUnaryOperatorIdentifier(this.Operator);
                     return this.uniqueIdentifier;
                 }
             }
@@ -587,12 +587,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType, TIntermediatePropertyMethod>
         {
             protected PropertyMember(string name, TInstanceIntermediateType parent)
-                : base(name, parent)
+                : base(name, parent, parent.IdentityManager)
             {
 
             }
             protected PropertyMember(TInstanceIntermediateType parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
 
             }
@@ -613,7 +613,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             /// <param name="parent">The <typeparamref name="TInstanceIntermediateType"/>
             /// which contains the <see cref="IndexerMember"/>.</param>
             protected IndexerMember(TInstanceIntermediateType parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
                 
             }
@@ -628,7 +628,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             /// <param name="parent">The <typeparamref name="TInstanceIntermediateType"/>
             /// which contains the <see cref="IndexerMember"/>.</param>
             protected IndexerMember(string name, TInstanceIntermediateType parent)
-                : base(name, parent)
+                : base(name, parent, parent.IdentityManager)
             {
                 
             }

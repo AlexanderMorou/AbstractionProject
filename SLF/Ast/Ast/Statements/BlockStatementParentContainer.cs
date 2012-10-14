@@ -1427,5 +1427,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             }
         }
 
+        public virtual ITypeIdentityManager IdentityManager { get { return this.Owner.IdentityManager; } }
     }
 }

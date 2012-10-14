@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (assembly != null && assembly.Provider != null)
             {
                 IIntermediateTypeCtorLanguageService<IIntermediateStructType> structService;
-                if (assembly.Provider.TryGetService(LanguageGuids.ConstructorServices.IntermediateStructCreatorService, out structService))
+                if (assembly.Provider.TryGetService(LanguageGuids.Services.StructServices.StructCreatorService, out structService))
                     return structService.GetNew(name, this.Parent);
             }
             return new IntermediateStructType(name, this.Parent);

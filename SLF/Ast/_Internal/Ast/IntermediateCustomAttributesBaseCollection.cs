@@ -91,12 +91,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             get {
                 int i = 0;
                 if (index < 0)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 foreach (var item in this)
                     if (i == index)
                         return item;
                 //index > Count
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             }
         }
 
@@ -113,105 +113,49 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         #endregion
 
         #region IEnumerable<IMetadatum> Members
+
+
         /* *
          * To note: this doesn't consider types that are neither
          * compiled nor a part of the intermediate system built.
          * */
         public IEnumerator<IMetadatum> GetEnumerator()
         {
-            HashList<ICompiledType> noMultipleEncounters = new HashList<ICompiledType>();
-            HashList<IIntermediateType> noMultipleEncountersInter = new HashList<IIntermediateType>();
-            ICompiledClassType attrUType = (ICompiledClassType)typeof(AttributeUsageAttribute).GetTypeReference();
-            for (IType current = this.parent; current != null; current = current.BaseType)
-                if (current is IIntermediateType)
-                {
-                    foreach (var item in ((IIntermediateType)(current)).CustomAttributes.Flatten())
-                        if (current == this.parent)
-                            yield return item;
-                        else if (CheckAttribute(noMultipleEncounters, noMultipleEncountersInter, attrUType, item))
-                            yield return item;
-                }
-                else if (current is ICompiledType)
-                {
-                    foreach (var item in current.Metadata)
-                        if (CheckAttribute(noMultipleEncounters, noMultipleEncountersInter, attrUType, item))
-                            yield return item;
-                    /* *
-                     * Custom Attributes of a compiled type are all inclusive, so it's not
-                     * necessary to delve further.
-                     * */
-                    break;
-                }
-            attrUType = null;
-            noMultipleEncounters.Clear();
-            noMultipleEncountersInter.Clear();
-            noMultipleEncounters = null;
-            noMultipleEncountersInter = null;
-            yield break;
+            throw new NotImplementedException();
+            //HashList<ICompiledType> noMultipleEncounters = new HashList<ICompiledType>();
+            //HashList<IIntermediateType> noMultipleEncountersInter = new HashList<IIntermediateType>();
+            //ICompiledClassType attrUType = (ICompiledClassType)typeof(AttributeUsageAttribute).GetTypeReference();
+            //for (IType current = this.parent; current != null; current = current.BaseType)
+            //    if (current is IIntermediateType)
+            //    {
+            //        foreach (var item in ((IIntermediateType)(current)).Metadata.Flatten())
+            //            if (current == this.parent)
+            //                yield return item;
+            //            else if (CheckAttribute(noMultipleEncounters, noMultipleEncountersInter, attrUType, item))
+            //                yield return item;
+            //    }
+            //    else if (current is ICompiledType)
+            //    {
+            //        foreach (var item in current.Metadata)
+            //            if (CheckAttribute(noMultipleEncounters, noMultipleEncountersInter, attrUType, item))
+            //                yield return item;
+            //        /* *
+            //         * Custom Attributes of a compiled type are all inclusive, so it's not
+            //         * necessary to delve further.
+            //         * */
+            //        break;
+            //    }
+            //attrUType = null;
+            //noMultipleEncounters.Clear();
+            //noMultipleEncountersInter.Clear();
+            //noMultipleEncounters = null;
+            //noMultipleEncountersInter = null;
+            //yield break;
         }
         /* *
          * Determines whether an attribute, based upon the current hierarchy structure of the 
          * parent, should be included in the series.
          * */
-        private bool CheckAttribute(HashList<ICliType> noMultipleEncounters, HashList<IIntermediateType> noMultipleEncountersInter, ICliType attrUType, IMetadatum item)
-        {
-            ICompiledType k = null;
-            if (item.Type is ICliType && (!(noMultipleEncounters.Contains(k = (ICompiledType) item.Type))))
-            {
-                /* *
-                 * If it's a compiled attribute, this is eaiser.
-                 * Use the method compiled classes uses to determine attribute usage
-                 * and use that to determine inclusion.
-                 * */
-                MetadatumUsage kUsage = k.UnderlyingSystemType.GetAttributeUsage();
-                if (!kUsage.Inherited)
-                    return false;
-                if (!kUsage.AllowMultiple)
-                    noMultipleEncounters.Add(k);
-            }
-            else
-            {
-                IIntermediateType l = null;
-                if (item.Type is IIntermediateType && (!(noMultipleEncountersInter.Contains(l = (IIntermediateType)item.Type))))
-                {
-                    IType attrType = l;
-                    bool attrTypeIsIntermediate = false;
-                    IIntermediateType attrTypeI = null;
-                    /* *
-                     * The scan is ugly, but necessary.
-                     * *
-                     * The intermediate form of attributes doesn't merge the series
-                     * for simplicity reasons.  Anyone wanting the merged version gets
-                     * this set, so this set can't utilize itself to do the scan.
-                     * *
-                     * Would result in a StackOverflow in cases where the attribute 
-                     * is applied to itself or one of its children.
-                     * */
-                    for (; attrType != null; attrType = attrType.BaseType)
-                        if (attrTypeIsIntermediate = (attrType is IIntermediateType))
-                            (attrTypeI = ((IIntermediateType)(attrType))).CustomAttributes.Contains(attrUType);
-                        else if (attrType is ICompiledType)
-                        {
-                            attrTypeI = null;
-                            /* *
-                             * Compiled types can't very well derive from an intermediate type,
-                             * since they're not compiled.
-                             * *
-                             * All compiled type attributes contain an AttributeUsageAttribute.  
-                             * Since it's assigned to the base type of all attributes: Attribute.
-                             * */
-                            break;
-                        }
-                    MetadataUsage lUsage = new MetadataUsage((attrTypeIsIntermediate ? (attrTypeI.CustomAttributes[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute) : (attrType.Metadata[typeof(AttributeUsageAttribute).GetTypeReference()].WrappedAttribute)) as AttributeUsageAttribute);
-                    if (!lUsage.Inherited)
-                        return false;
-                    if (!lUsage.AllowMultiple)
-                        noMultipleEncountersInter.Add(l);
-                }
-            }
-            return true;
-        }
-
         #endregion
 
         #region IEnumerable Members

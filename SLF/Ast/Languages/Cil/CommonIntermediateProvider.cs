@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -12,14 +13,19 @@ using AllenCopeland.Abstraction.Slf.Ast;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.Cil
 {
+    /// <summary>
+    /// Provides a base implementation for a common intermediate language provider.
+    /// </summary>
     public partial class CommonIntermediateProvider :
-        LanguageProvider<ICommonIntermediateLanguage, ICommonIntermediateProvider>,
+        LanguageProvider<ICommonIntermediateLanguage, ICommonIntermediateProvider, IIntermediateCliManager, Type, Assembly>,
         ICommonIntermediateProvider
     {
-        internal CommonIntermediateProvider()
+        internal CommonIntermediateProvider(IIntermediateCliManager identityManager)
+            : base(identityManager)
         {
-            this.RegisterService<IIntermediateAssemblyCtorLanguageService>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, new AssemblyService(this));
+            this.RegisterService<IIntermediateAssemblyCtorLanguageService>(LanguageGuids.Services.IntermediateAssemblyCreatorService, new AssemblyService(this));
         }
+
         #region ICommonIntermediateProvider Members
 
         public new ICommonIntermediateAssembly CreateAssembly(string name)
@@ -32,6 +38,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         protected override ICommonIntermediateLanguage OnGetLanguage()
         {
             return CommonIntermediateLanguage.Singleton;
+        }
+
+        public new IIntermediateCliManager IdentityManager
+        {
+            get
+            {
+                return (IIntermediateCliManager)base.IdentityManager;
+            }
         }
     }
 }

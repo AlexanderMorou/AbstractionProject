@@ -112,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         protected override ITypeIdentityManager OnGetManager()
         {
-            return this.original.Manager;
+            return this.original.IdentityManager;
         }
 
         protected override string OnGetName()

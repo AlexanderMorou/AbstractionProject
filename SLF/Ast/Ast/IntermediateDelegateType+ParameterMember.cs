@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateDelegateTypeParameterMember
         {
             internal ParameterMember(IntermediateDelegateType parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
 
             }

@@ -46,12 +46,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 lock (syncObject)
                 {
                     if (index >= base.Size)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     if (this.positionToIndexTable.ContainsKey(index))
                         return this.data[this.positionToIndexTable[index]];
                     if (ReadSubstring(index))
                         return this.data[this.positionToIndexTable[index]];
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 }
             }
         }

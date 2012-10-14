@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
     {
         public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent) :
-            base(parent)
+            base(parent, parent.IdentityManager)
         {
         }
 
@@ -101,8 +101,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">A <typeparamref name="TIntermediateEventParent"/> instance
         /// which owns the current <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>.</param>
-        public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent)
-            : base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
         }
 
@@ -194,9 +197,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (this.uniqueIdentifier == null)
                     if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                     else
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

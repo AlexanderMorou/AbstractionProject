@@ -58,13 +58,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         private static IDictionary<IType, TypeReferenceExpression> typeReferenceCache = new Dictionary<IType, TypeReferenceExpression>();
 
-        /// <summary>
-        /// Provides a conceptualized type that represents a dynamic static type.
-        /// </summary>
-        /// <remarks>Code elements which emit a type in a public scope yield
-        /// object with a special <see cref="DynamicAttribute"/> to note the
-        /// special way the compiler should treat such objects.</remarks>
-        public static readonly DynamicType DynamicType = DynamicType.SingleTon;
+        ///// <summary>
+        ///// Provides a conceptualized type that represents a dynamic static type.
+        ///// </summary>
+        ///// <remarks>Code elements which emit a type in a public scope yield
+        ///// object with a special <see cref="DynamicAttribute"/> to note the
+        ///// special way the compiler should treat such objects.</remarks>
+        //public static readonly DynamicType DynamicType = DynamicType.SingleTon;
 
         /// <summary>
         /// Obtains a <see cref="ITypeReferenceExpression"/>
@@ -155,24 +155,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 ILanguageProvider
         {
             return ((TAssembly)(CreateAssemblyBridgeCache<TAssembly>.Bridge.ctor<TLanguage, TProvider>(name, provider).Parts.Add()));
-        }
-
-        /// <summary>
-        /// Obtains a <see cref="IMethodPointerReferenceExpression"/>
-        /// with the <paramref name="signature"/> provided.
-        /// </summary>
-        /// <param name="target">The <see cref="IMethodReferenceStub"/>
-        /// on which the pointer is obtained.</param>
-        /// <param name="signature">The series if <see cref="System.Type"/>
-        /// elements relative to the type-signature of the 
-        /// <see cref="IMethodPointerReferenceExpression"/>
-        /// to obtain.</param>
-        /// <returns>A new <see cref="IMethodPointerReferenceExpression"/>
-        /// relative to the <paramref name="signature"/>
-        /// provided.</returns>
-        public static IMethodPointerReferenceExpression GetPointer(this IMethodReferenceStub target, params Type[] signature)
-        {
-            return target.GetPointer(signature.ToCollection());
         }
 
         internal static string GetNamespace(this IIntermediateType target)
@@ -584,9 +566,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return target.GetNewExpression(parameters.ToCollection());
         }
 
-        public static ICreateInstanceExpression GetNewExpression(this Type target, params IExpression[] parameters)
+        public static ICreateInstanceExpression GetNewExpression(this Type target, ICliManager identityManager, params IExpression[] parameters)
         {
-            return target.GetTypeReference().GetNewExpression(parameters);
+            return identityManager.ObtainTypeReference(target).GetNewExpression(parameters);
         }
 
         internal static IType AscertainType(this TypedName typedName, IIntermediateType containingType)
@@ -660,7 +642,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var topScopeGenericType = (IIntermediateGenericType)containingType;
                     if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
-                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GenericParameter(symbolReference, true)];
+                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, true)];
                 }
                 if (containingType.Parent is IIntermediateType)
                     containingType = (IIntermediateType)containingType.Parent;
@@ -677,7 +659,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
                             if (topScopeGenericMember.TypeParameters.ContainsName(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GenericParameter(symbolReference, false)];
+                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, false)];
                         }
                         if (containingMember.Parent == null)
                             break;
@@ -721,7 +703,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
                     if (topScopeGenericMember.TypeParameters.ContainsName(symbolReference))
-                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GenericParameter(symbolReference, false)];
+                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, false)];
                 }
                 if (containingMember.Parent == null)
                     break;
@@ -743,7 +725,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             var topScopeGenericType = (IIntermediateGenericType)topScopeType;
                             if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GenericParameter(symbolReference, true)];
+                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, true)];
                         }
                         if (topScopeType.Parent is IIntermediateType)
                             topScopeType = (IIntermediateType)topScopeType.Parent;
@@ -887,31 +869,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return Enumerable.Empty<IGeneralDeclarationUniqueIdentifier>();
         }
 
-        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, IExpression size = null)
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, ICliManager identityManager, IExpression size = null)
         {
             if (size == null)
-                return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference());
-            return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(), size);
+                return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(identityManager));
+            return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(identityManager), size);
         }
 
-        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, int size)
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, int size, ICliManager identityManager)
         {
-            return underlyingSystemType.MakeArrayExpression(size.ToPrimitive());
+            return underlyingSystemType.MakeArrayExpression(identityManager, size.ToPrimitive());
         }
 
-        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, params int[] sizes)
-        {
-            if (sizes == null)
-                throw new ArgumentNullException("sizes");
-            return underlyingSystemType.MakeArrayExpression((from s in sizes
-                                                             select s.ToPrimitive()).ToArray());
-        }
-
-        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, params IExpression[] sizes)
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, ICliManager identityManager, params int[] sizes)
         {
             if (sizes == null)
                 throw new ArgumentNullException("sizes");
-            return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(), sizes);
+            return underlyingSystemType.MakeArrayExpression(identityManager, (from s in sizes
+                                                                              select s.ToPrimitive()).ToArray());
+        }
+
+        public static ICreateArrayExpression MakeArrayExpression(this Type underlyingSystemType, ICliManager identityManager, params IExpression[] sizes)
+        {
+            if (sizes == null)
+                throw new ArgumentNullException("sizes");
+            return new MalleableCreateArrayExpression(underlyingSystemType.GetTypeReference(identityManager), sizes);
         }
 
         /// <summary>

@@ -22,6 +22,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns the <see cref="IMetadataDefinitionCollection"/> associated
         /// to the current <see cref="IIntermediateMetadataEntity"/>.
         /// </summary>
-        new IMetadataDefinitionCollection CustomAttributes { get; }
+        new IMetadataDefinitionCollection Metadata { get; }
     }
 }

@@ -114,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 return new KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>(this.Keys[index], this.Values[index]);
             }
         }

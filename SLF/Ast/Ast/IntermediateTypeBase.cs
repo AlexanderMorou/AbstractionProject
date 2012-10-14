@@ -342,7 +342,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// can be cached.
         /// </summary>
-        protected override bool CanCacheImplementsList
+        protected internal override bool CanCacheImplementsList
         {
             get { return false; }
         }
@@ -375,36 +375,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this.Assembly;
         }
 
-        protected override IArrayType OnMakeArray(int rank)
-        {
-            return new ArrayType(this, rank);
-        }
-
-        protected override IArrayType OnMakeArray(params int[] lowerBounds)
-        {
-            return new ArrayType(this, lowerBounds);
-        }
-
-        protected override IType OnMakeByReference()
-        {
-            return new ByRefType(this);
-        }
-
-        protected override IType OnMakePointer()
-        {
-            return new PointerType(this);
-        }
-
         protected sealed override IFullMemberDictionary OnGetMembers()
         {
             return this.OnGetIntermediateMembers();
-        }
-
-        protected override IType OnMakeNullable()
-        {
-            if (this is IReferenceType)
-                throw new InvalidOperationException("Cannot make a reference type a nullable type.");
-            return new NullableType(this);
         }
 
         protected override IMetadataCollection InitializeCustomAttributes()
@@ -415,7 +388,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IIntermediateMetadataEntity Members
 
-        public virtual new IMetadataDefinitionCollection CustomAttributes
+        public virtual new IMetadataDefinitionCollection Metadata
         {
             get
             {
@@ -427,7 +400,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void CheckCustomAttributes()
         {
             if (this.customAttributes == null)
-                this.customAttributes = new MetadataDefinitionCollection(this);
+                this.customAttributes = new MetadataDefinitionCollection(this, this.IdentityManager);
         }
 
         #endregion
@@ -537,15 +510,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 identifierChanged(this, new DeclarationIdentifierChangeEventArgs<TTypeIdentifier>(oldIdentifier, newIdentifier, cause));
         }
 
-        protected override bool IsAttributeInheritable(IType attribute)
-        {
-            if (attribute is ICompiledType)
-            {
-                var cType = attribute as ICompiledType;
-                return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
-            }
-            else
-                return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
-        }
+        //protected override bool IsAttributeInheritable(IType attribute)
+        //{
+        //    if (attribute is ICompiledType)
+        //    {
+        //        var cType = attribute as ICompiledType;
+        //        return CliAssist.GetAttributeUsage(cType.UnderlyingSystemType).AllowMultiple;
+        //    }
+        //    else
+        //        return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
+        //}
+
     }
 }

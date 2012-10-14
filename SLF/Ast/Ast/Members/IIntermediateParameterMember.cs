@@ -44,12 +44,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         IParameterMember
     {
         /// <summary>
-        /// Returns the <see cref="IIntermediateModifiersAndAttributesMetadata"/> which 
-        /// describes the custom attributes, and the required and optional 
-        /// modifiers specified on the member.
-        /// </summary>
-        new IIntermediateModifiersAndAttributesMetadata Metadata { get; }
-        /// <summary>
         /// Returns the parent of the <see cref="IIntermediateParameterMember"/>.
         /// </summary>
         new IIntermediateParameterParent Parent { get; }

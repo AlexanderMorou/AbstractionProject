@@ -15,9 +15,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
             {
                 this.Provider = provider;
             }
+
             #region ILanguageService<ICommonIntermediateLanguage,ICommonIntermediateProvider> Members
 
-            public ICommonIntermediateProvider Provider { get; private set; }
+            public ICommonIntermediateProvider Provider { get; private set;}
             public ICommonIntermediateLanguage Language { get { return CommonIntermediateLanguage.Singleton; } }
 
             #endregion
@@ -38,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
             {
                 get
                 {
-                    return LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService;
+                    return LanguageGuids.Services.IntermediateAssemblyCreatorService;
                 }
             }
 

@@ -32,22 +32,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private IntermediateFullMemberDictionary members;
         private ParameterDictionary parameters;
         private IType returnType;
-        private static ILockedTypeCollection implementedInterfaces;
 
         internal protected IntermediateDelegateType(string name, IIntermediateTypeParent parent)
             : base(name, parent)
         {
-            this.returnType = CommonTypeRefs.Void;
-        }
-
-        private static ILockedTypeCollection _ImplementedInterfaces
-        {
-            get
-            {
-                if (implementedInterfaces == null)
-                    implementedInterfaces = new LockedTypeCollection(new IType[] { typeof(ICloneable).GetTypeReference(), typeof(ISerializable).GetTypeReference() });
-                return implementedInterfaces;
-            }
+            this.returnType = this.Parent.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
         }
 
         public ParameterDictionary Parameters
@@ -118,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.parameters == null || 
                     this.parameters.Count == 0)
                     return false;
-                return this.Parameters.Values[this.Parameters.Count - 1].IsDefined(CommonTypeRefs.ParameterArrayAttribute);
+                return this.Parameters.Values[this.Parameters.Count - 1].IsDefined(this.Parent.IdentityManager.GetMetadatum(MetadatumKind.ParameterArray));
             }
             set
             {
@@ -127,11 +116,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 this.CheckParameters();
                 var lastParameter = this.Parameters.Values[this.Parameters.Count - 1];
                 if (value)
-                    lastParameter.CustomAttributes.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.ParameterArrayAttribute));
+                    lastParameter.Metadata.Add(new MetadatumDefinitionParameterValueCollection(IdentityManager.GetMetadatum(MetadatumKind.ParameterArray)));
                 else
                 {
-                    var customAttrDef = lastParameter.CustomAttributes[CommonTypeRefs.ParameterArrayAttribute];
-                    lastParameter.CustomAttributes.Remove(customAttrDef);
+                    var customAttrDef = lastParameter.Metadata[IdentityManager.GetMetadatum(MetadatumKind.ParameterArray)];
+                    lastParameter.Metadata.Remove(customAttrDef);
                 }
             }
         }
@@ -205,7 +194,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
-            return _ImplementedInterfaces;
+            return LockedTypeCollection.Empty;
         }
 
         public override bool IsGenericConstruct
@@ -218,20 +207,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            ICompiledType compiledType = other as ICompiledType;
-            if (compiledType != null &&
-                (
-                    compiledType.Equals(CommonTypeRefs.MulticastDelegate) |
-                    compiledType.Equals(CommonTypeRefs.Delegate) |
-                    compiledType.Equals(CommonTypeRefs.Object)
-                ))
-                return true;
-            return false;
+            return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType).Equals(other)
+#if TYPESYSTEM_CLI
+                || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Delegate", 0)).Equals(other)
+                || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0)).Equals(other);
+#else
+            ;
+#endif
         }
 
         protected override IType BaseTypeImpl
         {
-            get { return typeof(MulticastDelegate).GetTypeReference(); }
+            get { 
+#if TYPESYSTEM_CLI
+                return this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0));
+#else
+                throw new NotImplementedException();
+#endif
+            }
         }
 
         private IntermediateFullMemberDictionary _Members
@@ -340,15 +333,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
             if (this.TypeParametersInitialized)
-                if (this.AreParametersInitialized)
-                    return AstIdentifier.Delegate(this.Name, this.TypeParameters.Count, this.Parameters.ParameterTypes);
-                else
-                    return AstIdentifier.Delegate(this.Name, this.TypeParameters.Count);
+                return AstIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name, this.TypeParameters.Count);
             else
-                if (this.AreParametersInitialized)
-                    return AstIdentifier.Delegate(this.Name, 0, this.Parameters.ParameterTypes);
-                else
-                    return AstIdentifier.Delegate(this.Name, 0);
+                return AstIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name, 0);
         }
 
         /// <summary>
@@ -356,5 +343,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// initialized.
         /// </summary>
         protected bool AreParametersInitialized { get { return this.parameters != null; } }
+
+        protected override ITypeIdentityManager OnGetManager()
+        {
+            return this.Parent.IdentityManager;
+        }
     }
 }

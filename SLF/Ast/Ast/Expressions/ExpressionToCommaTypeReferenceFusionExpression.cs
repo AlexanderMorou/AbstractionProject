@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             this.Left = target;
             this.Right.AddRange(terms);
         }
-        public ExpressionToCommaTypeReferenceFusionExpression(IFusionTypeCollectionTargetExpression target, ITypeCollection terms)
+        public ExpressionToCommaTypeReferenceFusionExpression(IFusionTypeCollectionTargetExpression target, ITypeCollectionBase terms)
         {
             this.Left = target;
             this.Right.AddRange(terms);

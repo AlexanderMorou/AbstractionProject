@@ -374,7 +374,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (index < 0 ||
                 index >= this.Count)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             var newKey = value.Key;
             var newValue = value.Value;
             lock (this.SyncRoot)
@@ -405,7 +405,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         {
             if (index < 0 ||
                 index >= this.Count)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             lock (this.SyncRoot)
                 return this.locals.entries[index];
         }
@@ -541,7 +541,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             get
             {
                 if (index < 0 || index >= this.Count)
-                    throw new ArgumentOutOfRangeException("index");
+                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 lock (this.SyncRoot)
                     return this.locals.entries[index];
             }

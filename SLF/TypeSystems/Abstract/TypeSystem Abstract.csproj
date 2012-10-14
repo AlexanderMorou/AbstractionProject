@@ -128,6 +128,7 @@
     <Compile Include="Abstract\IStrongNameKeyInfo.cs" />
     <Compile Include="Abstract\IStrongNamePrivateKeyInfo.cs" />
     <Compile Include="Abstract\IStrongNamePublicKeyInfo.cs" />
+    <Compile Include="Abstract\ITypeIdentityMetadataService.cs" />
     <Compile Include="Abstract\IVersion.cs" />
     <Compile Include="Abstract\Members\ExtendedMethodMemberFlags.cs" />
     <Compile Include="Abstract\Members\IBinaryOperatorUniqueIdentifier.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Abstract\Members\ISignatureSearchResultSet.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
+    <Compile Include="Abstract\MetadatumKind.cs" />
     <Compile Include="Abstract\ModifiedType.cs">
       <SubType>Code</SubType>
     </Compile>

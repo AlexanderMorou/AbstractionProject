@@ -177,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.Declaration(this.Name);
+                    this.uniqueIdentifier = AstIdentifier.GetDeclarationIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -1016,5 +1016,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return ThrowHelper.GetArgumentExceptionWord(ExceptionWordId.@namespace);
         }
+
+        public ITypeIdentityManager IdentityManager { get { return this.Parent.IdentityManager; } }
     }
 }

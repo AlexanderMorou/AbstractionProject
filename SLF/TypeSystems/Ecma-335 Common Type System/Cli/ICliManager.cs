@@ -16,11 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// of entities from the Common Language Infrastructure.
     /// </summary>
     public interface ICliManager :
-        IIdentityManager<Type, Assembly, ICliAssembly>,
-        IIdentityManager<string, string, ICliAssembly>,
-        IIdentityManager<IGeneralTypeUniqueIdentifier, IAssemblyUniqueIdentifier, ICliAssembly>,
-        IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow, ICliAssembly>,
-        IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow, ICliAssembly>,
+        IIdentityManager<Type, Assembly>,
+        IIdentityManager<string, string>,
+        IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow>,
+        IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow>,
         ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>,
         ITypeIdentityManager<ICliMetadataTypeDefOrRefRow>
     {
@@ -29,11 +28,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// </summary>
         /// <param name="filename">The <see cref="String"/> value
         /// which denotes the location of the assembly image.</param>
-        /// <returns>A <see cref="ICliAssembly"/> which denotes the assembly in
+        /// <returns>A <see cref="IAssembly"/> which denotes the assembly in
         /// question.</returns>
         /// <exception cref="System.IO.FileNotFoundException">thrown when
         /// <paramref name="filename"/> was not found.</exception>
-        ICliAssembly ObtainAssemblyReference(string filename);
+        IAssembly ObtainAssemblyReference(string filename);
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
         /// which details the framework version and runtimeEnvironment

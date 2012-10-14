@@ -330,8 +330,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected sealed class MethodDictionary :
             IntermediateMethodMemberDictionary<TMethod, TIntermediateMethod, TType, TIntermediateType>
         {
-            public MethodDictionary(IntermediateFullMemberDictionary master, TInstanceIntermediateType parent)
-                : base(master, parent)
+            public MethodDictionary(IntermediateFullMemberDictionary master, TInstanceIntermediateType parent, ITypeIdentityManager identityManager)
+                : base(master, parent, identityManager)
             {
             }
             public MethodDictionary(IntermediateFullMemberDictionary master, TInstanceIntermediateType parent, MethodDictionary root)

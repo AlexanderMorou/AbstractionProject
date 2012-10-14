@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get
                 {
                     if (index < 0 || index >= this.owner.Count)
-                        throw new ArgumentOutOfRangeException("index");
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                     this.owner.CheckKindAt(index);
                     return this.owner.resultKeys[index];
                 }

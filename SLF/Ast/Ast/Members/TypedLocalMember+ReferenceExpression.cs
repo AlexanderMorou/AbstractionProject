@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 {
                     if (this.Owner != null &&
                         this.Owner.LocalType != null &&
-                       !this.Owner.LocalType.Equals(CommonTypeRefs.Void))
+                       !this.Owner.LocalType.Equals(Owner.Parent.IdentityManager.ObtainTypeReference(Owner.Parent.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(RuntimeCoreType.VoidType))))
                         return this.Owner.LocalType;
                     return null;
                 }

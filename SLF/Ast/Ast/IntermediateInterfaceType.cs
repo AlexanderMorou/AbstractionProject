@@ -12,12 +12,12 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using System.ComponentModel;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -262,7 +262,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public IIntermediateMethodSignatureMemberDictionary<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType> Methods
         {
-            get {
+            get
+            {
                 this.CheckMethods();
                 return this.methods;
             }
@@ -337,7 +338,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IIntermediateEventSignatureParent<IInterfaceEventMember,IIntermediateInterfaceEventMember,IEventSignatureParameterMember<IInterfaceEventMember,IInterfaceType>,IIntermediateEventSignatureParameterMember<IInterfaceEventMember,IIntermediateInterfaceEventMember,IInterfaceType,IIntermediateInterfaceType>,IInterfaceType,IIntermediateInterfaceType> Members
 
-        IIntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IIntermediateEventSignatureParameterMember<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType>, IInterfaceType, IIntermediateInterfaceType> IIntermediateEventSignatureParent<IInterfaceEventMember,IIntermediateInterfaceEventMember,IEventSignatureParameterMember<IInterfaceEventMember,IInterfaceType>,IIntermediateEventSignatureParameterMember<IInterfaceEventMember,IIntermediateInterfaceEventMember,IInterfaceType,IIntermediateInterfaceType>,IInterfaceType,IIntermediateInterfaceType>.Events
+        IIntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IIntermediateEventSignatureParameterMember<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType>, IInterfaceType, IIntermediateInterfaceType> IIntermediateEventSignatureParent<IInterfaceEventMember, IIntermediateInterfaceEventMember, IEventSignatureParameterMember<IInterfaceEventMember, IInterfaceType>, IIntermediateEventSignatureParameterMember<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType>, IInterfaceType, IIntermediateInterfaceType>.Events
         {
             get { return this.Events; }
         }
@@ -559,13 +560,29 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            if (this.uniqueIdentifier == null)
-            {
-                if (this.TypeParametersInitialized)
-                    this.uniqueIdentifier = AstIdentifier.Type(this.Name, this.TypeParameters.Count);
-                else
-                    this.uniqueIdentifier = AstIdentifier.Type(this.Name, 0);
-            }
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier == null)
+                {
+                    if (this.Parent is IType)
+                    {
+                        if (this.TypeParametersInitialized)
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, this.TypeParameters.Count);
+                        else
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, 0);
+                    }
+                    else if (this.Parent is INamespaceDeclaration)
+                    {
+                        if (this.TypeParametersInitialized)
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, this.TypeParameters.Count);
+                        else
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, 0);
+
+                    }
+                    else if (this.TypeParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
+                    else
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
+                }
             return this.uniqueIdentifier;
         }
 

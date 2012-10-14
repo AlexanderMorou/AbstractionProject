@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Properties;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -42,7 +43,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIndexerSignatureParent<TIndexer, TIndexerParent>
         where TIntermediateIndexerParent :
             TIndexerParent,
-            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIntermediateIndexerSignatureParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
+            ITypeParent
         where TMethodMember :
             class,
             IIntermediatePropertySignatureMethodMember
@@ -75,7 +77,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="UniqueIdentifier"/>.
         /// </summary>
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
-        private IIntermediateModifiersAndAttributesMetadata metadata;
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection metadataBack;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
@@ -85,13 +88,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/> which contains the
         /// <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
-        public IntermediateIndexerSignatureMember(string name, TIntermediateIndexerParent parent)
-            : base(name, parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        public IntermediateIndexerSignatureMember(string name, TIntermediateIndexerParent parent, ITypeIdentityManager identityManager)
+            : base(name, parent, identityManager)
         {
         }
 
-        protected IntermediateIndexerSignatureMember(TIntermediateIndexerParent parent)
-            : base(parent)
+        protected IntermediateIndexerSignatureMember(TIntermediateIndexerParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
         }
 
@@ -263,9 +269,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
                         if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -286,7 +292,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected override IntermediateParameterMemberDictionary<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>> InitializeParameters()
         {
-            return new ParametersDictionary((TIntermediateIndexer)(object)this);
+            return new ParametersDictionary((TIntermediateIndexer)(object)this, this.IdentityManager);
         }
 
         public override void Visit(IIntermediateMemberVisitor visitor)
@@ -304,23 +310,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+        IMetadataCollection IMetadataEntity.Metadata
         {
             get
             {
-                return this.Metadata;
+                if (this.metadataBack != null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadataBack = ((MetadataDefinitionCollection) (this.Metadata)).GetWrapper();
+                return this.metadataBack;
             }
         }
 
-        public IIntermediateModifiersAndAttributesMetadata Metadata
+        public IMetadataDefinitionCollection Metadata
         {
             get
             {
                 if (this.metadata == null)
                     if (this.IsDisposed)
-                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                        this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
                 return this.metadata;
             }
         }
@@ -353,6 +364,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 base.Dispose(disposing);
             }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            //Metadata inheritance rules don't apply to methods.
+            return this.Metadata.Contains(metadatumType);
         }
     }
 }

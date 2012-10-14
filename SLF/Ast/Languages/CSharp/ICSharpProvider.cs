@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Parsers;
 using AllenCopeland.Abstraction.Slf.Translation;
+using AllenCopeland.Abstraction.Slf.Ast;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -51,5 +52,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
         new ICSharpAssembly CreateAssembly(string name);
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCliManager"/> which marshalls
+        /// the identities of intermediate and non-intermediate (compiled)
+        /// assemblies and types.
+        /// </summary>
+        new IIntermediateCliManager IdentityManager { get; }
     }
 }

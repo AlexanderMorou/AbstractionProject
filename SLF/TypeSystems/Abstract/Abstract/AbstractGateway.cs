@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
@@ -117,6 +118,30 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public static IStrongNamePublicKeyInfo GetStrongNamePublicKey(byte[] data)
         {
             return (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(data, false);
+        }
+
+        public static string GetFullName(this INamespaceDeclaration declaration)
+        {
+            Stack<INamespaceDeclaration> hierarchy = new Stack<INamespaceDeclaration>();
+            INamespaceDeclaration current = declaration;
+            while (current != null)
+            {
+                if (hierarchy.Contains(current))
+                    throw new InvalidOperationException("Circular namespace hierarchy.");
+                hierarchy.Push(current);
+                current = current.Parent as INamespaceDeclaration;
+            }
+            StringBuilder result = new StringBuilder();
+            bool first = true;
+            while (hierarchy.Count > 0)
+            {
+                if (first)
+                    first = false;
+                else
+                    result.Append(".");
+                result.Append(hierarchy.Pop().Name);
+            }
+            return result.ToString();
         }
     }
 }

@@ -46,22 +46,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
             TParent
     {
+        private ITypeIdentityManager identityManager;
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which owns the 
         /// <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
-        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent)
-            : base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
-
+            this.identityManager = identityManager;            
         }
 
-        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent)
-            : base(name, parent)
+        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent, ITypeIdentityManager identityManager)
+            : base(name, parent, identityManager)
         {
-
+            this.identityManager = identityManager;
         }
 
         public override void Visit(IIntermediateMemberVisitor visitor)
@@ -122,7 +126,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="ReturnType"/>.
         /// </summary>
         private IType returnType;
-        private IIntermediateModifiersAndAttributesMetadata returnTypeMetadata;
+        private IMetadataDefinitionCollection returnTypeMetadata;
+        private IMetadataCollection _returnTypeMetadata;
         /// <summary>
         /// Data member for <see cref="TypeParameters"/>.
         /// </summary>
@@ -136,8 +141,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which
         /// owns the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
-        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent)
-            : base(parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent, ITypeIdentityManager identityManager)
+            : base(parent, identityManager)
         {
         }
 
@@ -149,8 +157,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which
         /// owns the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
-        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent)
-            : base(name, parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent, ITypeIdentityManager identityManager)
+            : base(name, parent, identityManager)
         {
         }
 
@@ -456,13 +467,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     else
                         if (this.AreTypeParametersInitialized)
                             if (this.AreParametersInitialized)
-                                this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
+                                this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
                             else
-                                this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.typeParameters.Count);
+                                this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count);
                         else if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = AstIdentifier.GenericSignature(this.Name);
+                            this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name);
                 }
                 return this.uniqueIdentifier;
             }
@@ -629,7 +640,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     
         #region IIntermediateMethodSignatureMember Members
 
-        public IIntermediateModifiersAndAttributesMetadata ReturnTypeMetadata
+        public IMetadataDefinitionCollection ReturnTypeMetadata
         {
             get
             {
@@ -637,7 +648,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this.returnTypeMetadata = new IntermediateModifiersAndAttributesMetadata();
+                        this.returnTypeMetadata = new MetadataDefinitionCollection(this, this.IdentityManager);
                 return this.returnTypeMetadata;
             }
         }
@@ -647,9 +658,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         #region IMethodSignatureMember Members
 
 
-        IModifiersAndAttributesMetadata IMethodSignatureMember.ReturnTypeMetadata
+        IMetadataCollection IMethodSignatureMember.ReturnTypeMetadata
         {
-            get { return this.ReturnTypeMetadata; }
+            get {
+                if (this._returnTypeMetadata == null)
+                    this._returnTypeMetadata = ((MetadataDefinitionCollection)this.ReturnTypeMetadata).GetWrapper();
+                return this._returnTypeMetadata;
+            }
         }
 
         #endregion
@@ -662,12 +677,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this._customAttributes = ((MetadataDefinitionCollection)(this.CustomAttributes)).GetWrapper();
+                        this._customAttributes = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
                 return this._customAttributes;
             }
         }
 
-        public IMetadataDefinitionCollection CustomAttributes
+        public IMetadataDefinitionCollection Metadata
         {
             get
             {
@@ -675,7 +690,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this.customAttributes = new MetadataDefinitionCollection(this);
+                        this.customAttributes = new MetadataDefinitionCollection(this, this.IdentityManager);
                 return this.customAttributes;
             }
         }

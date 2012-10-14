@@ -50,10 +50,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which the <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// belongs to.</param>
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
         /// <param name="typeInitializer">Whether the <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> 
         /// is a type initializer</param>
-        internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, bool typeInitializer = false)
-            : base(parent)
+        internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, ITypeIdentityManager identityManager, bool typeInitializer = false)
+            : base(parent, identityManager)
         {
             naming = true;
             this.typeInitializer = typeInitializer;
@@ -81,9 +84,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get {
                 if (this.uniqueIdentifier == null)
                     if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                     else
-                        this.uniqueIdentifier = AstIdentifier.Signature(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

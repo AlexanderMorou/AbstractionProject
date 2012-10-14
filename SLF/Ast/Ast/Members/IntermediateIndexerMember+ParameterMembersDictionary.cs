@@ -22,8 +22,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TIndexerParent :
             IIndexerParent<TIndexer, TIndexerParent>
         where TIntermediateIndexerParent :
-            TIndexerParent,
-            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>,
+            IIntermediateTypeParent,
+            TIndexerParent
         where TMethodMember :
             class,
             IIntermediatePropertyMethodMember

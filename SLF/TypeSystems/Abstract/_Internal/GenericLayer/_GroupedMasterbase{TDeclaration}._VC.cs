@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     }
                     currentIndexBase += subordinate.Count;
                 }
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             }
 
             public override void CopyTo(MasterDictionaryEntry<TDeclaration>[] array, int arrayIndex)

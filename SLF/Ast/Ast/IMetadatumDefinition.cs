@@ -34,6 +34,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which determines the constructor arguments and properties set on the
         /// <see cref="IMetadatumDefinition"/>.
         /// </summary>
-        IMetadataDefinitionParameterCollection Parameters { get; }
+        new IMetadataDefinitionParameterCollection Parameters { get; }
     }
 }

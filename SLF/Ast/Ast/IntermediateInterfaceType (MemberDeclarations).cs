@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateInterfaceMethodMember
         {
             public MethodMember(IIntermediateInterfaceType parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
             }
             protected override IInterfaceMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
@@ -100,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GenericSignature(this.Name);
+                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name);
                     }
                 }
 
@@ -134,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
 
                     public _ValueParameter(PropertySetMethod parent)
-                        : base(parent)
+                        : base(parent, parent.Parent.IdentityManager)
                     {
                     }
 
@@ -191,7 +191,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var result = base.InitializeParameters();
                     result.Unlock();
-                    result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
+                    result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                     result.Lock();
                     return result;
                 }
@@ -200,7 +200,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GenericSignature(this.Name, this.Owner.PropertyType);
+                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Owner.PropertyType);
                     }
                 }
 
@@ -242,12 +242,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
 
             internal IndexerMember(string name, TInstanceType parent)
-                : base(name, parent)
+                : base(name, parent, parent.IdentityManager)
             {
             }
 
             internal IndexerMember(TInstanceType parent)
-                : base(parent)
+                : base(parent, parent.IdentityManager)
             {
                 
             }
@@ -297,7 +297,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GenericSignature(this.Name);
+                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name);
                     }
                 }
 
@@ -331,7 +331,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
 
                     public _ValueParameter(IndexerSetMethod parent)
-                        : base(parent)
+                        : base(parent, parent.IdentityManager)
                     {
                     }
 
@@ -388,7 +388,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var result = base.InitializeParameters();
                     result.Unlock();
-                    result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
+                    result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                     result.Lock();
                     return result;
                 }
@@ -397,7 +397,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GenericSignature(this.Name, this.Owner.PropertyType);
+                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Owner.PropertyType);
                     }
                 }
 

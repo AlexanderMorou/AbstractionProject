@@ -86,11 +86,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source, IEnumerable<IType> typeParameters);
         IMethodPointerReferenceExpression GetReference(IMemberParentReferenceExpression source, params IType[] typeParameters);
         /// <summary>
-        /// Returns the <see cref="IIntermediateModifiersAndAttributesMetadata"/> which defines 
+        /// Returns the <see cref="IMetadataDefinitionCollection"/> which defines 
         /// meta-data about the return-type's custom attributes, and the return-type's
         /// required and optional parameters.
         /// </summary>
-        new IIntermediateModifiersAndAttributesMetadata ReturnTypeMetadata { get; }
+        new IMetadataDefinitionCollection ReturnTypeMetadata { get; }
 
     }
 }

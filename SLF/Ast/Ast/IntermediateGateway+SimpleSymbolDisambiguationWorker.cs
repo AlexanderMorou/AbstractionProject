@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     case TypeElementClassification.Array:
                         var arrayType = source as IArrayType;
                         if (arrayType != null)
-                            return Disambiguate(source.ElementType).MakeArray(arrayType.LowerBounds);
+                            return Disambiguate(source.ElementType).MakeArray(arrayType.LowerBounds.ToArray());
                         else
                             break;
                     case TypeElementClassification.Nullable:

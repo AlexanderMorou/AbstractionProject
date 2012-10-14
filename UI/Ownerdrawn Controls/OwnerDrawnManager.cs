@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
     public enum OwnerDrawnStyleSource
     {
         /// <summary>
-        /// The Manager determines the source of the style.
+        /// The manager determines the source of the style.
         /// </summary>
         ManagerSource,
         /// <summary>
@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             }
         }
         /// <summary>
-        /// The Manager style used by OwnerDrawnMenuHandler instances who's Source
+        /// The manager style used by OwnerDrawnMenuHandler instances who's Source
         /// is set to OwnerDrawnMenuStyleSource.ManagerSource
         /// </summary>
         public static OwnerDrawnStyle<TDrawnItem> Style
@@ -110,7 +110,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 //Determine which style we're using, then return the appropriate 
                 //one.
                 //This doesn'TItem handle 'OwnerDrawnMenuStyleSource.ManagerSource',
-                //since this is the Manager class.
+                //since this is the manager class.
                 switch (source)
                 {
                     case OwnerDrawnStyleSource.GradatedSource:

@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Returns/sets the <typeparamref name="T"/> value.
         /// </summary>
-        T Value { get; set; }
+        public T Value { get; private set; }
         internal MetadatumDefinitionParameterValue(T value)
             : this()
         {

@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             {
                 if (index <= this.count && index > 0)
                     return this.data[index - 1];
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             }
         }
 

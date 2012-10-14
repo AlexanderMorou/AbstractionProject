@@ -5,12 +5,12 @@ using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Events;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
@@ -27,14 +27,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
             TParent
     {
-
         /// <summary>
         /// Initializes the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}.Parameters"/> property.
         /// </summary>
         /// <returns>An instance of <see cref="ParameterDictionary"/>.</returns>
         protected override IntermediateParameterMemberDictionary<TSignature, TIntermediateSignature, IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>> InitializeParameters()
         {
-            return new ParameterDictionary(((TIntermediateSignature)(object)(this)));
+            return new ParameterDictionary(((TIntermediateSignature)(object)(this)), this.identityManager);
         }
         /// <summary>
         /// Provides a dictionary for the parameters of the 
@@ -43,15 +42,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         protected class ParameterDictionary :
             IntermediateParameterMemberDictionary<TSignature, TIntermediateSignature, IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>>
         {
+            private ITypeIdentityManager identityManager;
             /// <summary>
             /// Creates a new <see cref="ParameterDictionary"/> with the 
             /// <paramref name="parent"/> provided.
             /// </summary>
             /// <param name="parent">The <typeparamref name="TIntermediateSignature"/> which owns
             /// the <see cref="ParameterDictionary"/>.</param>
-            public ParameterDictionary(TIntermediateSignature parent)
+            /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+            /// which is responsible for maintaining type identity within the current type
+            /// model.</param>
+            public ParameterDictionary(TIntermediateSignature parent, ITypeIdentityManager identityManager)
                 : base(parent)
             {
+                this.identityManager = identityManager;
             }
             /// <summary>
             /// Obtains a <see cref="ParameterMember"/> 
@@ -64,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <returns>A new <see cref="ParameterMember"/> instance.</returns>
             protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
             {
-                ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
+                ParameterMember result = new ParameterMember(Parent, this.identityManager) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);
                 return result;
             }
@@ -84,23 +88,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 IIntermediateParameterMember<TAltParent, TIntermediateAltParent>,
                 TAltParameter
         {
-
-            protected ParameterDictionary(IIntermediateParameterMemberDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> sourceData, TIntermediateSignature parent)
+            private ITypeIdentityManager identityManager;
+            protected ParameterDictionary(IIntermediateParameterMemberDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> sourceData, TIntermediateSignature parent, ITypeIdentityManager identityManager)
                 : base(sourceData, parent)
             {
+                this.identityManager = identityManager;
             }
 
             protected override ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> GetNewWrapperParameter(TIntermediateAltParameter original)
             {
-                return new ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>(original, this.Parent);
+                return new ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>(original, this.Parent, this.identityManager);
             }
 
             protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewOriginalParameter(string name, IType parameterType, ParameterDirection direction)
             {
-                ParameterMember result = new ParameterMember(Parent);
+                ParameterMember result = new ParameterMember(Parent, this.identityManager);
                 result.Direction = direction;
                 result.ParameterType = parameterType;
-                result.Name = name;
+                result.AssignName(name);
                 return result;
             }
         }
@@ -170,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 int index = 0;
                 foreach (var original in sourceData.Values)
                 {
-                    var wrapper = GetNewWrapperParameter(original);;
+                    var wrapper = GetNewWrapperParameter(original); ;
                     sourceParameters[index++] = new KeyValuePair<IGeneralMemberUniqueIdentifier, TSignatureParameter>(wrapper.UniqueIdentifier, wrapper);
                 }
                 base._AddRange(sourceParameters);

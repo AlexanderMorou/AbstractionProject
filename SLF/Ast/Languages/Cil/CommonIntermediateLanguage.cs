@@ -5,6 +5,8 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Diagnostics.SymbolStore;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -93,7 +95,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// <see cref="CommonIntermediateLanguage">Common Intermediate Language</see>.</returns>
         public ICommonIntermediateProvider GetProvider()
         {
-            return new CommonIntermediateProvider();
+            return new CommonIntermediateProvider(AstExtensions.CreateIdentityManager(CliGateway.CurrentPlatform));
         }
 
         /// <summary>
@@ -118,5 +120,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         }
 
         #endregion
+
+
+        public ICommonIntermediateProvider GetProvider(IIntermediateCliManager identityManager)
+        {
+            return new CommonIntermediateProvider(identityManager);
+        }
     }
 }

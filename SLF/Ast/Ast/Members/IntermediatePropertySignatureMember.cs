@@ -76,7 +76,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for <see cref="UniqueIdentifier"/>.
         /// </summary>
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
-        private IIntermediateModifiersAndAttributesMetadata metadata;
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection metadataBack;
 
         /// <summary>
         /// Creates a new <see cref="IntermediatePropertySignatureMember{TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent, TMethodMember}"/>
@@ -251,20 +252,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.uniqueIdentifier = AstIdentifier.Member(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
 
-        IModifiersAndAttributesMetadata IPropertySignatureMember.Metadata
+        IMetadataCollection IMetadataEntity.Metadata
         {
             get
             {
-                return this.Metadata;
+                if (this.metadataBack != null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                    else
+                        this.metadataBack = ((MetadataDefinitionCollection) (this.Metadata)).GetWrapper();
+                return this.metadataBack;
             }
         }
 
-        public IIntermediateModifiersAndAttributesMetadata Metadata
+        public IMetadataDefinitionCollection Metadata
         {
             get
             {
@@ -272,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.metadata = new IntermediateModifiersAndAttributesMetadata();
+                        this.metadata = new MetadataDefinitionCollection(this, this.Parent.IdentityManager);
                 return this.metadata;
             }
         }
@@ -305,6 +311,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 base.Dispose(disposing);
             }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
         }
     }
 }

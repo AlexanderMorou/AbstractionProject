@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -211,7 +212,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 var result = base.InitializeParameters();
                 result.Unlock();
-                result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
+                result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                 lock (this.Owner.Parameters.SyncRoot)
                     this.Owner.Parameters.ItemAdded += new EventHandler<EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>>(OwnerParameters_ItemAdded);
                 result.Lock();
@@ -317,7 +318,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     var items = this.Owner.Parameters.Values.ToArray();
                     lock (result.SyncRoot)
                         foreach (var element in items)
-                            result._Add(AstIdentifier.Member(element.Name), new _WrappedParameter(element, this));
+                            result._Add(AstIdentifier.GetMemberIdentifier(element.Name), new _WrappedParameter(element, this));
                     this.owner.Parameters.ItemAdded += new EventHandler<Utilities.Events.EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>>(OwnerParameters_ItemAdded);
                     this.owner.Parameters.ItemRemoved += new EventHandler<EventArgsR1<IIntermediateIndexerParameterMember<IStructIndexerMember, IIntermediateStructIndexerMember, IStructType, IIntermediateStructType>>>(OwnerParameters_ItemRemoved);
                 }
@@ -604,23 +605,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (returnType != null)
             {
                 bool isAsync = this.IsAsynchronous;
-                if (returnType == CommonTypeRefs.Void && this.Name != null && this.Name.Length >= 5)
+                ILanguageAsynchronousQueryService asyncService = null;
+                if (this.Assembly.Provider.TryGetService<ILanguageAsynchronousQueryService>(LanguageGuids.Services.AsyncQueryService, out asyncService))
+                {
+                    if (asyncService.IsReturnAsynchronous(value) || asyncService.IsAsynchronousPattern(this))
+                        this.IsAsynchronousCandidate = true;
+                    else
+                        this.IsAsynchronousCandidate = false;
+                }
+                else if (returnType == this.Assembly.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType) && this.Name != null && this.Name.Length >= 5)
                 {
                     if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                         this.IsAsynchronousCandidate = true;
                 }
-                else if (returnType == CommonTypeRefs.Task)
-                {
+                else if (returnType == this.Assembly.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0)))
                     this.IsAsynchronousCandidate = true;
-                }
-                else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == CommonTypeRefs.TaskOfT)
-                {
+                else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == this.Assembly.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1)))
                     this.IsAsynchronousCandidate = true;
-                }
                 else
-                {
                     this.IsAsynchronousCandidate = false;
-                }
+
             }
         }
 
@@ -759,7 +763,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             protected override IntermediateParameterMemberDictionary<IStructMethodMember, IIntermediateStructMethodMember, IMethodParameterMember<IStructMethodMember, IStructType>, IIntermediateMethodParameterMember<IStructMethodMember, IIntermediateStructMethodMember, IStructType, IIntermediateStructType>> InitializeParameters()
             {
                 var result = base.InitializeParameters();
-                result._Add(AstIdentifier.Member("value"), this.valueParameter = new _ValueParameter(this));
+                result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                 return result;
             }
 

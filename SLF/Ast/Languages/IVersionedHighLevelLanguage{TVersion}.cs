@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -44,6 +45,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// which is used to marshal type identities in the current type model.</param>
         /// <param name="version">The <typeparamref name="TVersion"/>
         /// of the language to which the <see cref="IIntermediateAssembly"/>
         /// is built against.</param>
@@ -54,6 +57,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>
         /// or <paramref name="version"/> is out of the values allowed.</exception>
-        IIntermediateAssembly CreateAssembly(string name, TVersion version);
+        IIntermediateAssembly CreateAssembly(string name, ITypeIdentityManager identityManager, TVersion version);
     }
 }

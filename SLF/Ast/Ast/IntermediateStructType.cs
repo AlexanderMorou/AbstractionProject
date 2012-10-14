@@ -138,15 +138,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            if (other.Equals(CommonTypeRefs.ValueType) ||
-                other.Equals(CommonTypeRefs.Object))
+            if (other.Equals(IdentityManager.ObtainTypeReference(RuntimeCoreType.RootStruct)) ||
+                other.Equals(IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType)))
                 return true;
             return false;
         }
 
         protected override IType BaseTypeImpl
         {
-            get { return CommonTypeRefs.ValueType; }
+            get { return IdentityManager.ObtainTypeReference(RuntimeCoreType.RootStruct); }
         }
 
         protected override IndexerMember GetNewIndexer(TypedName nameAndReturn)

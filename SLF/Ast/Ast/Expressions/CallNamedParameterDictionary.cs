@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         public void RemoveAt(int index)
         {
             if (index < 0 || index >= this.Count)
-                throw new ArgumentOutOfRangeException("index");
+                throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             base._Remove(index);
         }
 

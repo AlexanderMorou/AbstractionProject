@@ -30,8 +30,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
             TMethodParent
     {
-        protected IntermediateMethodMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMethodParent parent)
-            : base(master, parent)
+        protected IntermediateMethodMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMethodParent parent, ITypeIdentityManager identityManager)
+            : base(master, parent, identityManager)
         {
         }
         protected IntermediateMethodMemberDictionary(IntermediateFullMemberDictionary master, TIntermediateMethodParent parent, IntermediateMethodMemberDictionary<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> root)

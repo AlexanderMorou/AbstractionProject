@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -71,7 +72,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         bool TryGetService<TService>(Guid serviceGuid, out TService service)
             where TService :
                 ILanguageService;
-
+        /// <summary>
+        /// Returns the <see cref="ITypeIdentityManager"/> which maintains
+        /// the identity of types within the current type model.
+        /// </summary>
+        ITypeIdentityManager IdentityManager { get; }
     }
 
     public interface ILanguageProvider<TLanguage, TProvider> :

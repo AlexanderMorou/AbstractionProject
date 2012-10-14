@@ -32,69 +32,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <see cref="IIntermediateInterfaceType"/>.
         /// </summary>
         new ITypeCollection ImplementedInterfaces { get; }
-        ///// <summary>
-        ///// Returns the classes associated
-        ///// to the <see cref="IIntermediateTypeParent"/>.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateClassTypeDictionary Classes { get; }
-        ///// <summary>
-        ///// Returns the delegates associated
-        ///// to the <see cref="IIntermediateTypeParent"/>.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateDelegateTypeDictionary Delegates { get; }
-        ///// <summary>
-        ///// Returns the enumerations associated
-        ///// to the <see cref="IIntermediateTypeParent"/>.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateEnumTypeDictionary Enums { get; }
-        ///// <summary>
-        ///// Returns the interfaces associated
-        ///// to the <see cref="IIntermediateTypeParent"/>.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateInterfaceTypeDictionary Interfaces { get; }
-        ///// <summary>
-        ///// Returns the data structures associated
-        ///// to the <see cref="IIntermediateTypeParent"/>.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateStructTypeDictionary Structs { get; }
-        ///// <summary>
-        ///// Returns the full set of types associated to
-        ///// the <see cref="IIntermediateTypeParent"/>.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateFullTypeDictionary Types { get; }
-        ///// <summary>
-        ///// Returns the <see cref="IIntermediateAssembly"/> in which the
-        ///// <see cref="IIntermediateTypeParent"/> is defined.
-        ///// </summary>
-        ///// <remarks>
-        ///// Not all languages support interfaces
-        ///// with nested types.
-        ///// </remarks>
-        //new IIntermediateAssembly Assembly { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeIdentityManager"/> which is responsible for marshalling
+        /// type identities in the current type model.
+        /// </summary>
+        new ITypeIdentityManager IdentityManager { get; }
     }
     /* *
      *    /// <summary>
