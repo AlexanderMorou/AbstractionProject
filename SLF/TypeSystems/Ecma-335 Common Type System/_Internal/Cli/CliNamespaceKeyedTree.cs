@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ControlledKeyedTree<uint, uint, CliNamespaceKeyedTreeNode>,
         _ICliTypeParent
     {
-        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types { get; private set; }
+        public IControlledCollection<ICliMetadataTypeDefinitionTableRow> _Types { get; private set; }
 
         protected CliNamespaceKeyedTree() { }
 

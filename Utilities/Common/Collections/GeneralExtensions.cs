@@ -400,7 +400,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                    select t;
         }
 
-        public static IReadOnlyCollection<TLower> GetCovariant<TLower, THigher>(this IReadOnlyCollection<THigher> source)
+        public static IControlledCollection<TLower> GetCovariant<TLower, THigher>(this IControlledCollection<THigher> source)
             where THigher :
                 TLower
         {

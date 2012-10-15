@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         //#region ICliMetadataGenericInstanceTypeSignature Members
 
-        public IReadOnlyCollection<ICliMetadataTypeSignature> GenericParameters { get; private set; }
+        public IControlledCollection<ICliMetadataTypeSignature> GenericParameters { get; private set; }
 
         //#endregion
 

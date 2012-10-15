@@ -29,9 +29,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public uint Rank { get; private set; }
 
-        public IReadOnlyCollection<uint> Sizes { get; private set; }
+        public IControlledCollection<uint> Sizes { get; private set; }
 
-        public IReadOnlyCollection<int> LowerBounds { get; private set; }
+        public IControlledCollection<int> LowerBounds { get; private set; }
 
         //#endregion
 

@@ -10,11 +10,11 @@ using System.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal partial class CliAbstractAssemblyReferences :
-        IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly>,
-        IReadOnlyDictionary
+        IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly>,
+        IControlledDictionary
     {
         private CliAssembly assembly;
-        private IReadOnlyCollection<IAssemblyUniqueIdentifier> identifiers;
+        private IControlledCollection<IAssemblyUniqueIdentifier> identifiers;
         private ICliMetadataAssemblyRefTableRow[] referenceSources;
         private IAssembly[] references;
         private object syncObject = new object();

@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -519,23 +520,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (returnType != null)
             {
                 bool isAsync = this.IsAsynchronous;
-                if (returnType == IdentityManager.ObtainTypeReference(IdentityManager.RuntimeEnvironment.GetCoreIdentifier(RuntimeCoreType.VoidType)) && this.Name.Length >= 5)
+                ILanguageAsynchronousQueryService asyncService = null;
+                if (this.Assembly.Provider.TryGetService<ILanguageAsynchronousQueryService>(LanguageGuids.Services.AsyncQueryService, out asyncService))
+                {
+                    if (asyncService.IsReturnAsynchronous(value) || asyncService.IsAsynchronousPattern(this))
+                        this.IsAsynchronousCandidate = true;
+                    else
+                        this.IsAsynchronousCandidate = false;
+                }
+                else if (returnType == this.Assembly.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType) && this.Name != null && this.Name.Length >= 5)
                 {
                     if (this.Name.Substring(this.Name.Length - 5).ToLower() == "async")
                         this.IsAsynchronousCandidate = true;
                 }
-                else if (returnType == IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Task")))//CommonTypeRefs.Task)
-                {
-                    this.IsAsynchronousCandidate = true;
-                }
-                else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Task", 1)))
-                {
-                    this.IsAsynchronousCandidate = true;
-                }
+                //else if (returnType == this.Assembly.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0)))
+                //    this.IsAsynchronousCandidate = true;
+                //else if (returnType.ElementClassification == TypeElementClassification.GenericTypeDefinition && returnType.ElementType != null && returnType.ElementType == this.Assembly.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1)))
+                //    this.IsAsynchronousCandidate = true;
                 else
-                {
                     this.IsAsynchronousCandidate = false;
-                }
             }
         }
 

@@ -102,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return (_ICliAssembly) base.Assembly; }
         }
 
-        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types
+        public IControlledCollection<ICliMetadataTypeDefinitionTableRow> _Types
         {
             get { return this.MetadataEntry.NestedClasses; }
         }

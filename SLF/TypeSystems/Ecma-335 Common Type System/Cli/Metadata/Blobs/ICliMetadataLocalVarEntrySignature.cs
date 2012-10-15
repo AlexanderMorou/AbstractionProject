@@ -16,12 +16,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         ICliMetadataLocalVarEntrySignature
     {
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> of 
+        /// Returns the <see cref="IControlledCollection{T}"/> of 
         /// <see cref="ICliMetadataCustomModifierSignature"/> elements
         /// which represent the modifiers on the type of the local variable represented by
         /// the <see cref="ICliMetadataLocalVarFullEntrySignature"/>
         /// </summary>
-        IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
+        IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
         /// <summary>
         /// Returns the <see cref="ICliMetadataTypeSignature"/>
         /// associated to the local variable.

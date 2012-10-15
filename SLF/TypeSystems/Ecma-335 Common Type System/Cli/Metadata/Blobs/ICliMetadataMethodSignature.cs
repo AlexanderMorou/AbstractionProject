@@ -12,11 +12,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     {
         ICliMetadataReturnTypeSignature ReturnType { get; }
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> of 
+        /// Returns the <see cref="IControlledCollection{T}"/> of 
         /// <see cref="ICliMetadataParamSignature"/> elements
         /// associated to the signature defined.
         /// </summary>
-        IReadOnlyCollection<ICliMetadataParamSignature> Parameters { get; }
+        IControlledCollection<ICliMetadataParamSignature> Parameters { get; }
 
         CliMetadataMethodSigConventions CallingConvention { get; }
         /// <summary>

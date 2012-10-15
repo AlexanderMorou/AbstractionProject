@@ -14,15 +14,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IEnumerable<IType>
     {
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> 
+        /// Returns the <see cref="IControlledCollection{T}"/> 
         /// which denotes the types of the parameters to search for.
         /// </summary>
-        IReadOnlyCollection<IType> Types { get; }
+        IControlledCollection<IType> Types { get; }
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> 
+        /// Returns the <see cref="IControlledCollection{T}"/> 
         /// which denotes the names of the parameters to search for.
         /// </summary>
-        IReadOnlyCollection<string> Names { get; }
+        IControlledCollection<string> Names { get; }
         /// <summary>
         /// Returns the <see cref="Int32"/> value which determines the
         /// offset on which <see cref="Names"/> start.

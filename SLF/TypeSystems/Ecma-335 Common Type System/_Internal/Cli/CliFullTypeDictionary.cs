@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private KeysCollection keys;
         private ValuesCollection values;
 
-        public CliFullTypeDictionary(IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> typeDefinitions, __ICliTypeParent parent)
+        public CliFullTypeDictionary(IControlledCollection<ICliMetadataTypeDefinitionTableRow> typeDefinitions, __ICliTypeParent parent)
         {
             if (typeDefinitions is IArrayReadOnlyCollection<ICliMetadataTypeDefinitionTableRow>)
             {

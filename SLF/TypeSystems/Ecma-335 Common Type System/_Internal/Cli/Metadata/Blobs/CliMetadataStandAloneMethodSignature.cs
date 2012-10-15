@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
     internal class CliMetadataStandAloneMethodSignature :
         ICliMetadataStandAloneVarArgMethodSignature
     {
-        private IReadOnlyCollection<ICliMetadataParamSignature> _parameters;
+        private IControlledCollection<ICliMetadataParamSignature> _parameters;
         private ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature> parameters;
         internal CliMetadataStandAloneMethodSignature(CliMetadataMethodSigConventions convention, CliMetadataMethodSigFlags flags, ICliMetadataReturnTypeSignature returnType, ICliMetadataVarArgParamSignature[] parameters)
         {
@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ICliMetadataReturnTypeSignature ReturnType { get; private set; }
 
-        public IReadOnlyCollection<ICliMetadataVarArgParamSignature> Parameters { get { return this.parameters; } }
+        public IControlledCollection<ICliMetadataVarArgParamSignature> Parameters { get { return this.parameters; } }
 
         public CliMetadataMethodSigConventions CallingConvention { get; private set; }
 
@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         //#region ICliMetadataMethodSignature Members
 
 
-        IReadOnlyCollection<ICliMetadataParamSignature> ICliMetadataMethodSignature.Parameters
+        IControlledCollection<ICliMetadataParamSignature> ICliMetadataMethodSignature.Parameters
         {
             get
             {

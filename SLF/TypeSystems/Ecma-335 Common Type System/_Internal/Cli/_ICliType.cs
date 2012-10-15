@@ -12,6 +12,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     public interface _ICliType :
         ICliType
     {
-        IModifiedType MakeModified(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers);
+        IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers);
     }
 }

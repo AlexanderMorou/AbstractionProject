@@ -279,13 +279,44 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var typeHandle = (uint)baseElementType.MetadataToken;
             var typeIndex = typeHandle & 0x00FFFFFF;
             CliMetadataTableKinds typeTable = (CliMetadataTableKinds) ((ulong)1 << (int)((typeHandle & 0xFF000000U) >> 24));
+            var assembly = (ICliAssembly)this.ObtainAssemblyReference(baseElementType.Assembly);
+            var tableStream = assembly.MetadataRoot.TableStream;
             if (typeTable == CliMetadataTableKinds.GenericParameter)
             {
-
+                var entry = tableStream.GenericParameterTable[(int)typeIndex];
+                switch (entry.OwnerSource)
+                {
+                    case CliMetadataTypeOrMethodDef.TypeDefinition:
+                        var parentEntry = tableStream.TypeDefinitionTable[(int)entry.OwnerIndex];
+                        var owner = this.ObtainTypeReference(parentEntry);
+                        if (owner is IGenericType)
+                            return (IGenericParameter)((IGenericType)owner).TypeParameters.Values[entry.Number];
+                        break;
+                    case CliMetadataTypeOrMethodDef.MethodDefinition:
+                        var methodEntry = tableStream.MethodDefinitionTable[(int)entry.OwnerIndex];
+                        bool found = false;
+                        foreach (var type in tableStream.TypeDefinitionTable)
+                        {
+                            int index = type.Methods.IndexOf(methodEntry);
+                            if (index > -1)
+                            {
+                                var typeRef = this.ObtainTypeReference(type);
+                                if (typeRef is IMethodParent)
+                                {
+                                    var mTypeRef = (IMethodParent)typeRef;
+                                    var method = (IMethodSignatureMember)mTypeRef.Methods[index];
+                                    return (IGenericParameter)method.TypeParameters.Values[methodEntry.TypeParameters.IndexOf(entry)];
+                                }
+                                break;
+                            }
+                        }
+                        break;
+                }
             }
             else if (typeTable == CliMetadataTableKinds.TypeDefinition)
             {
-
+                var def = tableStream.TypeDefinitionTable[(int)typeIndex];
+                return this.ObtainTypeReference(def);
             }
             throw new NotSupportedException();
         }
@@ -309,13 +340,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IType ObtainTypeReference(object typeIdentity)
         {
             if (typeIdentity is string)
-                return ObtainTypeReference((string) typeIdentity);
+                return ObtainTypeReference((string)typeIdentity);
             else if (typeIdentity is Type)
-                return ObtainTypeReference((Type) typeIdentity);
+                return ObtainTypeReference((Type)typeIdentity);
             else if (typeIdentity is PrimitiveType)
-                return ObtainTypeReference((PrimitiveType) typeIdentity);
+                return ObtainTypeReference((PrimitiveType)typeIdentity);
             else if (typeIdentity is ICliMetadataTypeDefOrRefRow)
                 return this.ObtainTypeReference((ICliMetadataTypeDefOrRefRow)typeIdentity);
+            else if (typeIdentity is IGeneralTypeUniqueIdentifier)
+                return this.ObtainTypeReference((IGeneralTypeUniqueIdentifier)typeIdentity);
+            else if (typeIdentity is RuntimeCoreType)
+                return this.ObtainTypeReference((RuntimeCoreType)(typeIdentity));
+            else if (typeIdentity is CliRuntimeCoreType)
+                return this.ObtainTypeReference((CliRuntimeCoreType)(typeIdentity));
             throw new ArgumentOutOfRangeException("typeIdentity");
         }
 
@@ -616,13 +653,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region IAssemblyIdentityManager<IAssemblyUniqueIdentifier,ICompiledAssembly> Members
 
-        public IAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
+        public virtual IAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity)
+        {
+            return ObtainAssemblyReference(assemblyIdentity, null);
+        }
+
+        private IAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity, IAssembly relativeSource)
         {
             if (assemblyIdentity == null)
                 throw new ArgumentNullException("assemblyIdentity");
             CliAssembly result;
             string[] extensions = new string[] { "exe", "dll" };
             bool gacAssembly = false;
+            ICliRuntimeEnvironmentInfo runtimeEnvironment = this.runtimeEnvironment;
+            if (relativeSource != null)
+            {
+                if (relativeSource is ICliAssembly)
+                {
+                    var cliAssem = (ICliAssembly)relativeSource;
+                    if (cliAssem.RuntimeEnvironment.Version != runtimeEnvironment.Version ||
+                        cliAssem.RuntimeEnvironment.Platform != runtimeEnvironment.Platform)
+                    {
+                        runtimeEnvironment = cliAssem.RuntimeEnvironment;
+                    }
+                }
+            }
             if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
             {
                 var baseName = assemblyIdentity.Name;
@@ -837,7 +892,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                 }
                 else
-                    return this.ObtainAssemblyReference(identity.Item2);
+                    return this.ObtainAssemblyReference(identity.Item2, this.GetRelativeAssembly(assemblyIdentity.MetadataRoot));
                 return this.loadedAssemblies[identity.Item2];
             }
             return result;
@@ -1024,7 +1079,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #region _ICliType Members
 
-            public IModifiedType MakeModified(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers)
+            public IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
             {
                 throw new NotSupportedException();
             }
@@ -1171,7 +1226,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #region _ICliType Members
 
-            public IModifiedType MakeModified(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers)
+            public IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
             {
                 throw new NotSupportedException();
             }

@@ -15,10 +15,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         ICliMetadataMemberRefSignature
     {
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> of 
+        /// Returns the <see cref="IControlledCollection{T}"/> of 
         /// <see cref="ICliMetadataVarArgParamSignature"/> elements
         /// associated to the signature defined.
         /// </summary>
-        IReadOnlyCollection<ICliMetadataVarArgParamSignature> Parameters { get; }
+        IControlledCollection<ICliMetadataVarArgParamSignature> Parameters { get; }
     }
 }

@@ -701,5 +701,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return AstIdentifier.GetTypeIdentifier("System", "Attribute", 0);
             }
         }
+
+        public IEnumerable<string> AdditionalPaths
+        {
+            get { return this.additionalResolutionPaths.GetEnumerable(); }
+        }
     }
 }

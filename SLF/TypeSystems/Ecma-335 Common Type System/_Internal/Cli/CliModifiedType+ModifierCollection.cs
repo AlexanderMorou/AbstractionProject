@@ -14,13 +14,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal partial class CliModifiedType
     {
         private class ModifierCollection :
-            IReadOnlyCollection<TypeModification>,
+            IControlledCollection<TypeModification>,
             ITypeModifierSetEntry
         {
-            private IReadOnlyCollection<ICliMetadataCustomModifierSignature> dataSource;
+            private IControlledCollection<ICliMetadataCustomModifierSignature> dataSource;
             private IType[] dataCopy;
             private _ICliManager manager;
-            public ModifierCollection(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifierCollection)
+            public ModifierCollection(IControlledCollection<ICliMetadataCustomModifierSignature> modifierCollection)
             {
                 this.dataSource = modifierCollection;
                 this.dataCopy = new IType[modifierCollection.Count];

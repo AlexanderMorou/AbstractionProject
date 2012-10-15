@@ -10,6 +10,8 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
@@ -30,8 +32,23 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
     {
         static void Main()
         {
-            Test();
-            Console.ReadKey(true);
+            var timedIntermediateTest = MiscHelperMethods.TimeActionFunc(IntermediateTest);
+            var first = timedIntermediateTest();
+            var second = timedIntermediateTest();
+            Console.WriteLine(
+@"PreJit : {0}
+PostJit:{1}", first, second);
+            //Test();
+            //Console.ReadKey(true);
+        }
+
+        private static void IntermediateTest()
+        {
+            var provider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version2);
+
+            var csAssembly = provider.CreateAssembly("TestAssembly");
+            var csAssemblyRef2 = provider.IdentityManager.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier("TestAssembly", new IntermediateVersion(1, 0) { AutoIncrementBuild = true, AutoIncrementRevision = true }, CultureIdentifiers.None));
+            TestLinq(csAssembly);
         }
         private static byte[] ecmaKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
 #if DEBUG
@@ -282,8 +299,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             string assemblyLocation = @"C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86";// @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Release";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
             var files = ObtainFrameworkAssemblies(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation)).ToArray();
             Stopwatch sw = Stopwatch.StartNew();
-            var dir = Directory.GetCurrentDirectory();
-            Directory.SetCurrentDirectory(@"C:\Windows\Microsoft.NET\Framework\v4.0.30319\");
             //var assemblyNames = (from id in identifiers
             //                     select GetAssemblyNameFromId(id)).ToArray();
             var assemblies = (from fileName in files
@@ -295,7 +310,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                          from member in type.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
                          select member).ToArray();
             sw.Stop();
-            Directory.SetCurrentDirectory(dir);
             Console.WriteLine("From Reflection: {0}", sw.Elapsed);
             //Console.WriteLine(assemblyLocation);
             var timedProcess = Process1(assemblyLocation);
@@ -415,8 +429,16 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
              * */
             var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
             iteratorLocal.AutoDeclare = false;
-            var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.GetDeclarationStatement(), sortedDigits.GetReference());
+            var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.Name, sortedDigits.GetReference());
             enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(iteratorLocal.GetReference()));
+            //var deq = assembly.Classes.Add("Test");
+            //var deqM1 = deq.Methods.Add("test");
+            //var deqT1 = deq.TypeParameters.Add("TTestParam");
+            //var deqM1P1 = deqM1.Parameters.Add("p1", deqT1);
+            //var deqInst = deq.MakeGenericClosure(assembly.IdentityManager.ObtainTypeReference(CliRuntimeCoreType.CompilerGeneratedMetadatum));
+            //var deqInstM1 = deqInst.Methods.Values[0];
+            //var deqInstM1P1 = deqInstM1.Parameters.Values[0];
+            //Console.WriteLine(deqInstM1P1.ParameterType.UniqueIdentifier);
         }
 
         private static Tuple<TimeSpan, TimeSpan> DoProcess(_ICliManager clim)

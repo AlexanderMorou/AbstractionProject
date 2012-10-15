@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="Fields"/>.
         /// </summary>
         private IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> fields;
-        private IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> references;
+        private IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> references;
         private IFullMemberDictionary members;
         private IStrongNamePublicKeyInfo publicKeyInfo;
         private object syncObject = new object();
@@ -949,7 +949,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        public IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> References
+        public IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> References
         {
             get
             {
@@ -960,7 +960,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        protected abstract IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences();
+        protected abstract IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences();
 
         /// <summary>
         /// Returns the <see cref="IType"/> for the <paramref name="identifier"/>

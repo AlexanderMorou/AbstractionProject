@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         CliMetadataMethodSignature,
         ICliMetadataMethodRefSignature
     {
-        private IReadOnlyCollection<ICliMetadataParamSignature> _parameters;
+        private IControlledCollection<ICliMetadataParamSignature> _parameters;
         private ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature> parameters;
         public CliMetadataMethodRefSignature(CliMetadataMethodSigConventions convention, CliMetadataMethodSigFlags flags, ICliMetadataReturnTypeSignature returnType, ICliMetadataVarArgParamSignature[] parameters)
             : base(convention, flags, returnType)
@@ -22,18 +22,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 this.parameters = new ArrayReadOnlyCollection<ICliMetadataVarArgParamSignature>(parameters);
         }
 
-        protected override IReadOnlyCollection<ICliMetadataParamSignature> OnGetParameters()
+        protected override IControlledCollection<ICliMetadataParamSignature> OnGetParameters()
         {
             return this._Parameters;
         }
 
         //#region ICliMetadataMethodDefSignature Members
 
-        public new IReadOnlyCollection<ICliMetadataVarArgParamSignature> Parameters { get { return this.parameters; } }
+        public new IControlledCollection<ICliMetadataVarArgParamSignature> Parameters { get { return this.parameters; } }
 
         //#endregion
 
-        private IReadOnlyCollection<ICliMetadataParamSignature> _Parameters
+        private IControlledCollection<ICliMetadataParamSignature> _Parameters
         {
             get
             {

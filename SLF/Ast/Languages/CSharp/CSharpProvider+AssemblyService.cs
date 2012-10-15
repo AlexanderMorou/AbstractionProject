@@ -9,7 +9,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 {
     partial class CSharpProvider
     {
-        private class AssemblyService :
+        internal class AssemblyService :
             IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly>
         {
             internal AssemblyService(CSharpProvider provider)
@@ -21,7 +21,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
 
             public ICSharpAssembly New(string name)
             {
-                return new CSharpAssembly(name, this.Provider);
+                var result = new CSharpAssembly(name, this.Provider);
+                this.Provider.IdentityManager.AssemblyCreated(result);
+                return result;
             }
 
             #endregion

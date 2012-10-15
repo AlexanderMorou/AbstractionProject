@@ -45,8 +45,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private ILockedTypeCollection implInterfaces;
         private IMetadataCollection metadata;
 
-        private IReadOnlyCollection<int> lowerBounds;
-        private IReadOnlyCollection<uint> lengths;
+        private IControlledCollection<int> lowerBounds;
+        private IControlledCollection<uint> lengths;
         private IMetadataCollection customAttributes;
 
         private CliManager manager;
@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// associated field, parameter, property, and return type
         /// marked with the <see cref="LowerBoundTargetAttribute"/>.
         /// </remarks>
-        public IReadOnlyCollection<int> LowerBounds
+        public IControlledCollection<int> LowerBounds
         {
             get
             {
@@ -445,7 +445,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        public IReadOnlyCollection<uint> Lengths
+        public IControlledCollection<uint> Lengths
         {
             get { return this.lengths; }
         }

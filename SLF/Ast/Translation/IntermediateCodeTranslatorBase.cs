@@ -34,11 +34,11 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         private IIntermediateCodeTranslatorOptions options;
 
         protected abstract IIntermediateCodeTranslatorOptions InitializeOptions();
-        private IReadOnlyCollection<IIntermediateDeclaration> buildTrailReadOnly;
+        private IControlledCollection<IIntermediateDeclaration> buildTrailReadOnly;
         private List<IIntermediateDeclaration> buildTrail = new List<IIntermediateDeclaration>();
         #region IIntermediateCodeTranslator Members
 
-        public IReadOnlyCollection<IIntermediateDeclaration> BuildTrail
+        public IControlledCollection<IIntermediateDeclaration> BuildTrail
         {
             get
             {
@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             }
         }
 
-        private IReadOnlyCollection<IIntermediateDeclaration> InitializeReadOnlyBuildTrail()
+        private IControlledCollection<IIntermediateDeclaration> InitializeReadOnlyBuildTrail()
         {
             return new ReadOnlyCollection<IIntermediateDeclaration>(buildTrail);
         }

@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         //#region ICliMetadataCustomModifierTypeSignature Members
 
-        public IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
+        public IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
         //#endregion
 

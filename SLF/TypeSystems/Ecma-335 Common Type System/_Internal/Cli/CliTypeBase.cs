@@ -63,7 +63,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override bool IsGenericConstruct
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return this.MetadataEntry.TypeParameters.Count > 0;
+            }
         }
 
         protected override bool IsSubclassOfImpl(IType other)
@@ -135,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region _ICliType Members
 
-        public IModifiedType MakeModified(IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers)
+        public IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
         {
             throw new NotImplementedException();
         }

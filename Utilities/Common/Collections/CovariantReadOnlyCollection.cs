@@ -13,13 +13,13 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     internal class CovariantReadOnlyCollection<TLower, THigher> :
-        IReadOnlyCollection<TLower>
+        IControlledCollection<TLower>
         where THigher :
             TLower
     {
-        private IReadOnlyCollection<THigher> covariantSource;
+        private IControlledCollection<THigher> covariantSource;
 
-        public CovariantReadOnlyCollection(IReadOnlyCollection<THigher> covariantSource)
+        public CovariantReadOnlyCollection(IControlledCollection<THigher> covariantSource)
         {
             if (covariantSource == null)
                 throw new ArgumentNullException("covariantSource");

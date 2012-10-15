@@ -22,9 +22,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
      * type.
      * */
     internal class IntermediateCustomAttributesBaseCollection :
-        IReadOnlyCollection<IMetadatum>,
+        IControlledCollection<IMetadatum>,
         IMetadataCollection,
-        IReadOnlyCollection
+        IControlledCollection
     {
         /* *
          * No fancy trickery here, just brute force.

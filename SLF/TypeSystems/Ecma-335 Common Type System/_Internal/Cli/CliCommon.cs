@@ -640,7 +640,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        internal static IMetadatum GetMetadatum(_ICliManager manager, IType metadataType, IReadOnlyCollection<ICliMetadataCustomAttributeTableRow> metadata)
+        internal static IMetadatum GetMetadatum(_ICliManager manager, IType metadataType, IControlledCollection<ICliMetadataCustomAttributeTableRow> metadata)
         {
             throw new NotImplementedException();
         }
@@ -650,12 +650,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        internal static bool IsDefined(this IReadOnlyCollection<ICliMetadataCustomAttributeTableRow> customAttributes, IType targetType, _ICliManager manager)
+        internal static bool IsDefined(this IControlledCollection<ICliMetadataCustomAttributeTableRow> customAttributes, IType targetType, _ICliManager manager)
         {
             throw new NotImplementedException();
         }
 
-        internal static IModifiedType MakeModified(ICliMetadataTypeSignature original, IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
+        internal static IModifiedType MakeModified(ICliMetadataTypeSignature original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
         {
             return ((_ICliType) manager.ObtainTypeReference(original)).MakeModified(modifiers);
         }

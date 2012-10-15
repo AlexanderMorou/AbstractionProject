@@ -13,10 +13,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     interface _ICliMemberParent :
         IMemberParent
     {
-        IReadOnlyCollection<ICliMetadataPropertyTableRow> _Properties { get; }
-        IReadOnlyCollection<ICliMetadataEventTableRow> _Events { get; }
-        IReadOnlyCollection<ICliMetadataMethodDefinitionTableRow> _Methods { get; }
-        IReadOnlyCollection<ICliMetadataFieldTableRow> _Fields { get; }
+        IControlledCollection<ICliMetadataPropertyTableRow> _Properties { get; }
+        IControlledCollection<ICliMetadataEventTableRow> _Events { get; }
+        IControlledCollection<ICliMetadataMethodDefinitionTableRow> _Methods { get; }
+        IControlledCollection<ICliMetadataFieldTableRow> _Fields { get; }
         ISubordinateDictionary BinaryOperators { get; }
         ISubordinateDictionary Constructors { get; }
         ISubordinateDictionary Events { get; }

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     public interface ICliMetadataParamSignature :
         ICliMetadataSignature
     {
-        IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
+        IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
         ICliMetadataTypeSignature ParameterType { get; }
     }
 }

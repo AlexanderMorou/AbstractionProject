@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 {
     public interface ICliMetadataTableSubset<T> :
-        IReadOnlyCollection<T>
+        IControlledCollection<T>
         where T :
             class,
             ICliMetadataTableRow
