@@ -13,8 +13,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal partial class CliAssemblyReferences :
-        IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly>,
-        IReadOnlyDictionary
+        IControlledDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly>,
+        IControlledDictionary
     {
         private KeysCollection keys;
         private ValuesCollection values;

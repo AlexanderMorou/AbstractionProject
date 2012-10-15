@@ -12,7 +12,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     public class ReadOnlyCollectionGroup<TCollection, TItem> : 
-        IReadOnlyCollection<TItem>
+        IControlledCollection<TItem>
         where TCollection :
             IControlledCollection
     {

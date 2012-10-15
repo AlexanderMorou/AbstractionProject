@@ -60,6 +60,37 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is IntermediateVersion)
+                return this.Equals((IntermediateVersion)obj);
+            else if (obj is IVersion)
+                return this.Equals((IVersion)obj);
+            return false;
+        }
+
+        public bool Equals(IVersion other)
+        {
+            return other != null &&
+                other.Major == this.Major &&
+                other.Minor == this.Minor &&
+                (!this.AutoIncrementBuild && this.Build == other.Build) &&
+                (!this.AutoIncrementRevision && this.Revision == other.Revision);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Major ^ this.Minor << 3 ^ (this.AutoIncrementRevision ? 0 : this.Revision) ^ (this.AutoIncrementBuild ? 0 : ~this.Build);
+        }
+
+        public bool Equals(IntermediateVersion other) 
+        {
+            return other != null &&
+                other.Major == this.Major &&
+                other.Minor == this.Minor &&
+                (this.AutoIncrementBuild && other.AutoIncrementBuild || this.Build == other.Build) &&
+                (this.AutoIncrementRevision && other.AutoIncrementRevision || this.Revision == other.Revision);
+        }
 
         public int Revision
         {

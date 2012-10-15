@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public ICliMetadataReturnTypeSignature ReturnType { get; private set; }
 
-        public IReadOnlyCollection<ICliMetadataParamSignature> Parameters
+        public IControlledCollection<ICliMetadataParamSignature> Parameters
         {
             get
             {
@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
         }
 
-        protected abstract IReadOnlyCollection<ICliMetadataParamSignature> OnGetParameters();
+        protected abstract IControlledCollection<ICliMetadataParamSignature> OnGetParameters();
 
         //#endregion
 

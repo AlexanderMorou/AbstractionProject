@@ -5,7 +5,6 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
-
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     internal class ModifiedType :
@@ -13,8 +12,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IModifiedType
     {
         private IType original;
-        private IReadOnlyCollection<TypeModification> modifiers;
-        private IReadOnlyCollection<IType> optionalModifiers;
+        private IControlledCollection<TypeModification> modifiers;
+        private IControlledCollection<IType> optionalModifiers;
 
         public ModifiedType(IType original, TypeModification[] modifiers)
         {
@@ -123,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IModifiedType Members
 
-        public IReadOnlyCollection<TypeModification> Modifiers
+        public IControlledCollection<TypeModification> Modifiers
         {
             get { return this.modifiers; }
         }

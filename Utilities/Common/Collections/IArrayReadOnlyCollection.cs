@@ -6,7 +6,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     internal interface IArrayReadOnlyCollection<T> :
-        IReadOnlyCollection<T>
+        IControlledCollection<T>
     {
         /// <summary>
         /// Returns the <typeparamref name="T"/> array of the 

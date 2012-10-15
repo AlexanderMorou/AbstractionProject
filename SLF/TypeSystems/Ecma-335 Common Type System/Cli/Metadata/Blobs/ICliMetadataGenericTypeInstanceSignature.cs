@@ -9,6 +9,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     public interface ICliMetadataGenericInstanceTypeSignature :
         ICliMetadataValueOrClassTypeSignature
     {
-        IReadOnlyCollection<ICliMetadataTypeSignature> GenericParameters { get; }
+        IControlledCollection<ICliMetadataTypeSignature> GenericParameters { get; }
     }
 }

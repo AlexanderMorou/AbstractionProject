@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     {
         private TSignatureParent parent;
 
-        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, IReadOnlyCollection<ICliMetadataMethodDefinitionTableRow> methods)
+        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, IControlledCollection<ICliMetadataMethodDefinitionTableRow> methods)
             : base(methods)
         {
             this.parent = parent;

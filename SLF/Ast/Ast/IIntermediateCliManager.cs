@@ -24,5 +24,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <returns>true, if the assembly relative to <paramref name="assemblyIdentity"/>
         /// is in an intermediate state; false, otherwise.</returns>
         bool IsIntermediateAssembly(IAssemblyUniqueIdentifier assemblyIdentity);
+        /// <summary>
+        /// Notifies the <see cref="IIntermediateCliManager"/> that a new
+        /// <paramref name="assembly"/> has been created.
+        /// </summary>
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which was created.</param>
+        /// <remarks>The intent is to ensure that the manager has up to date
+        /// knowledge of the intermediate assemblies in play.</remarks>
+        void AssemblyCreated(IIntermediateAssembly assembly);
     }
 }

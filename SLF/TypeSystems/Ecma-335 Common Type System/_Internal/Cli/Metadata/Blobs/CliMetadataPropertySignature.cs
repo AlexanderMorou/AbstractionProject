@@ -28,9 +28,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         public bool Instance { get; private set; }
 
-        public IReadOnlyCollection<ICliMetadataParamSignature> Parameters { get; private set; }
+        public IControlledCollection<ICliMetadataParamSignature> Parameters { get; private set; }
 
-        public IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
+        public IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
         public ICliMetadataTypeSignature PropertyType { get; private set; }
 

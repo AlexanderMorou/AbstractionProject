@@ -8,12 +8,12 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
@@ -81,12 +81,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
         {
-            get {
+            get
+            {
                 if (this.uniqueIdentifier == null)
-                    if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
+                    if (typeInitializer)
+                        this.uniqueIdentifier = AstIdentifier.GetCtorSignatureIdentifier();
+                    else if (this.AreParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.GetCtorSignatureIdentifier(this.Parameters.ParameterTypes.ToArray());
                     else
-                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
+                        this.uniqueIdentifier = AstIdentifier.GetCtorSignatureIdentifier(new IType[0]);
                 return this.uniqueIdentifier;
             }
         }

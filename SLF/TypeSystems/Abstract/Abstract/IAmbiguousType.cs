@@ -16,9 +16,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IType
     {
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> which contains the types
+        /// Returns the <see cref="IControlledCollection{T}"/> which contains the types
         /// that caused the ambiguity in the current scope.
         /// </summary>
-        IReadOnlyCollection<IType> Source { get; }
+        IControlledCollection<IType> Source { get; }
     }
 }

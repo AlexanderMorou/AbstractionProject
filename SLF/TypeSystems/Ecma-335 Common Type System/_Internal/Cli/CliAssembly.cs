@@ -17,6 +17,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -31,10 +32,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private _AssemblyInformation assemblyInformation;
         private IStrongNamePublicKeyInfo strongNameInfo;
         private IAssemblyUniqueIdentifier uniqueIdentifier;
-        private IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _types;
+        private IControlledCollection<ICliMetadataTypeDefinitionTableRow> _types;
         private CliNamespaceKeyedTree namespaceInformation;
-        private new CliModuleDictionary Modules { get { return (CliModuleDictionary) base.Modules; } }
+        private new CliModuleDictionary Modules { get { return (CliModuleDictionary)base.Modules; } }
         private CliAssemblyReferences cliReferences;
+        private ICliRuntimeEnvironmentInfo runtimeEnvironment;
+        private CliFrameworkPlatform? platform;
 
         public CliAssembly(CliManager identityManager, ICliMetadataAssemblyTableRow metadata, IAssemblyUniqueIdentifier uniqueIdentifier, IStrongNamePublicKeyInfo strongNameInfo)
         {
@@ -158,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public IReadOnlyDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> CliReferences
+        public IControlledDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> CliReferences
         {
             get
             {
@@ -168,9 +171,45 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        public CliFrameworkPlatform Platform
+        {
+            get
+            {
+                if (this.platform == null)
+                {
+                    var header = this.MetadataRoot.Header;
+                    var peImage = this.MetadataRoot.SourceImage;
+                    var imageKind = peImage.ExtendedHeader.ImageKind;
+                    if (imageKind == PEImageKind.x86Image &&
+                                ((((header = metadataRoot.Header).Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
+                                  ((header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)))
+                        this.platform = CliFrameworkPlatform.AnyPlatform;
+                    else if (imageKind == PEImageKind.x64Image)
+                        this.platform = CliFrameworkPlatform.x64Platform;
+                    else if (imageKind == PEImageKind.x86Image &&
+                        ((header.Flags & CliRuntimeFlags.Requires32BitProcess) == CliRuntimeFlags.Requires32BitProcess))
+                        this.platform = CliFrameworkPlatform.x86Platform;
+                    else
+                        this.platform = CliFrameworkPlatform.AnyPlatform;
+                }
+                return this.platform.Value;
+            }
+        }
+
         public ICliRuntimeEnvironmentInfo RuntimeEnvironment
         {
-            get { return this.identityManager.RuntimeEnvironment; }
+            get {
+                if (this.runtimeEnvironment == null)
+                {
+                    var imRE = this.identityManager.RuntimeEnvironment;
+                    if (imRE.Version != this.FrameworkVersion ||
+                        imRE.Platform != this.Platform)
+                        this.runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(this.Platform, this.FrameworkVersion, imRE.ResolveCurrent, imRE.UseCoreLibrary, imRE.UseGlobalAccessCache, imRE.AdditionalPaths.ToArray());
+                    else
+                        this.runtimeEnvironment = imRE;
+                }
+                return this.runtimeEnvironment;
+            }
         }
 
         public ICliMetadataRoot MetadataRoot
@@ -342,7 +381,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                      * realm of its sibling namespaces, is unlikely.
                      * */
                     if (!partIndex.TryGetValue(part, out partId))
-                        partIndex.Add(part, partId = (uint) part.GetHashCode());
+                        partIndex.Add(part, partId = (uint)part.GetHashCode());
                     int startIndex = currentLength;
                     currentLength += part.Length;
                     bool fullName = currentLength == currentString.Length;
@@ -402,7 +441,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 var genericUniqueId = uniqueIdentifier as IGenericTypeUniqueIdentifier;
                 if (genericUniqueId.TypeParameters > 0)
-                    return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters));
+                    return this.FindType(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier)(uniqueIdentifier)).TypeParameters));
             }
             if (uniqueIdentifier.Namespace == null)
                 return this.FindType(null, uniqueIdentifier.Name);
@@ -432,7 +471,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this; }
         }
 
-        public IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types
+        public IControlledCollection<ICliMetadataTypeDefinitionTableRow> _Types
         {
             get
             {
@@ -443,7 +482,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
 
-        protected override IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences()
+        protected override IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences()
         {
             return new CliAbstractAssemblyReferences(this);
         }

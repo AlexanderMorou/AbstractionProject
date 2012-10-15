@@ -104,5 +104,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// the strong-name key pair information for the <see cref="IIntermediateAssembly"/>.
         /// </summary>
         IStrongNamePrivateKeyInfo PrivateKeyInfo { get; set; }
+        /// <summary>
+        /// Occurs after the <see cref="IIntermediateAssembly"/> has changed in a way
+        /// which invalidates the previous unique identifier.
+        /// </summary>
+        new event EventHandler<DeclarationIdentifierChangeEventArgs<IAssemblyUniqueIdentifier>> IdentifierChanged;
+
     }
 }

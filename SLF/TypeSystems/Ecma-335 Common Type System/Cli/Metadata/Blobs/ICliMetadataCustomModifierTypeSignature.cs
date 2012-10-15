@@ -9,9 +9,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     public interface ICliMetadataCustomModifierTypeSignature
     {
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> of the custom modifiers
+        /// Returns the <see cref="IControlledCollection{T}"/> of the custom modifiers
         /// related to the <see cref="ICliMetadataCustomModifierTypeSignature"/>.
         /// </summary>
-        IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
+        IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
     }
 }

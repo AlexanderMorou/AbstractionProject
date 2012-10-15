@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Parsers;
 using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -58,5 +59,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// assemblies and types.
         /// </summary>
         new IIntermediateCliManager IdentityManager { get; }
+        /// <summary>
+        /// Returns the series of types, relative to the active provider context,
+        /// which are auto-form types.
+        /// </summary>
+        new IEnumerable<IType> AutoFormTypes { get; }
+
     }
 }

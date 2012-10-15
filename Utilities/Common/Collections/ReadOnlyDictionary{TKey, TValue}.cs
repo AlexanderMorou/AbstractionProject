@@ -22,8 +22,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// </typeparam>
     public class ReadOnlyDictionary<TKey, TValue> :
         ControlledDictionary<TKey, TValue>,
-        IReadOnlyDictionary<TKey, TValue>,
-        IReadOnlyDictionary
+        IControlledDictionary<TKey, TValue>,
+        IControlledDictionary
     {
         /// <summary>
         /// Creates a new instance of <see cref="ReadOnlyDictionary{TKey, TValue}"/>.

@@ -29,10 +29,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         public ICliMetadataTypeSignature Type { get; private set; }
 
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> which denotes
+        /// Returns the <see cref="IControlledCollection{T}"/> which denotes
         /// the custom modifiers applied to the <see cref="Type"/>.
         /// </summary>
-        public IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
+        public IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
         public bool IsPinned { get; private set; }
 

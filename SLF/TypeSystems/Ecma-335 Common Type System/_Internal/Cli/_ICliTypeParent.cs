@@ -29,9 +29,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     internal interface _ICliTypeParent
     {
         /// <summary>
-        /// Returns a <see cref="IReadOnlyCollection"/> of <see cref="ICliMetadataTypeDefinitionTableRow"/> instances
+        /// Returns a <see cref="IControlledCollection"/> of <see cref="ICliMetadataTypeDefinitionTableRow"/> instances
         /// which denote the types defined within the local scope of the <see cref="_ICliTypeParent"/>.
         /// </summary>
-        IReadOnlyCollection<ICliMetadataTypeDefinitionTableRow> _Types { get; }
+        IControlledCollection<ICliMetadataTypeDefinitionTableRow> _Types { get; }
     }
 }

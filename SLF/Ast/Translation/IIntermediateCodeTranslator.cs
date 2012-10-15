@@ -22,9 +22,9 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         /// </summary>
         IIntermediateCodeTranslatorOptions Options { get; }
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/>
+        /// Returns the <see cref="IControlledCollection{T}"/>
         /// of intermediate declarations presently being built.
         /// </summary>
-        IReadOnlyCollection<IIntermediateDeclaration> BuildTrail { get; }
+        IControlledCollection<IIntermediateDeclaration> BuildTrail { get; }
     }
 }

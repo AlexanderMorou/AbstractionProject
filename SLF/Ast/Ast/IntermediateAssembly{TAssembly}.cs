@@ -1296,7 +1296,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             throw new NotImplementedException();
         }
 
-        protected override IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences()
+        protected override IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> InitializeReferences()
         {
             return new IntermediateAssemblyReferenceDictionary(this.References);
         }

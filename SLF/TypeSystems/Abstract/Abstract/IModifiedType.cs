@@ -13,11 +13,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IType
     {
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> which designates the
+        /// Returns the <see cref="IControlledCollection{T}"/> which designates the
         /// <see cref="TypeModification"/> instances which modify the current 
         /// <see cref="IModifiedType"/> that must be managed by tools and compilers.
         /// </summary>
-        IReadOnlyCollection<TypeModification> Modifiers { get; }
+        IControlledCollection<TypeModification> Modifiers { get; }
         /// <summary>
         /// Returns the <see cref="IEnumerable{T}"/> which designates the
         /// types which modify the current <see cref="IModifiedType"/> that must be managed

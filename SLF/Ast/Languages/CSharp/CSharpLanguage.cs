@@ -202,7 +202,23 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <see cref="CSharpLanguage">C&#9839; language</see>.</returns>
         public ICSharpProvider GetProvider(CSharpLanguageVersion version)
         {
-            return new CSharpProvider(version, new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform)));
+            CliFrameworkVersion frameworkVersion = CliGateway.CurrentVersion;
+            switch (version)
+            {
+                case CSharpLanguageVersion.Version2:
+                    frameworkVersion = CliFrameworkVersion.v2_0_50727;
+                    break;
+                case CSharpLanguageVersion.Version3:
+                    frameworkVersion = CliFrameworkVersion.v3_5;
+                    break;
+                case CSharpLanguageVersion.Version4:
+                case CSharpLanguageVersion.Version5:
+                    frameworkVersion = CliFrameworkVersion.v4_0_30319;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("version");
+            }
+            return new CSharpProvider(version, new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, frameworkVersion)));
         }
 
         /// <summary>
@@ -219,6 +235,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
         public ICSharpAssembly CreateAssembly(string name)
         {
+            var provider = this.GetProvider();
+            IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly> creatorService;
+            if (provider.TryGetService<IIntermediateAssemblyCtorLanguageService<ICSharpProvider, ICSharpLanguage, ICSharpCompilationUnit, ICSharpAssembly>>(LanguageGuids.Services.IntermediateAssemblyCreatorService, out creatorService))
+                return creatorService.New(name);
             return new CSharpAssembly(name, this.GetProvider());
         }
 

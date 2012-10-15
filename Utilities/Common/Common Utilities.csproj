@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllenCopeland.Abstraction.Utilities</RootNamespace>
     <AssemblyName>_abs.util.common</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
@@ -36,6 +36,7 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
     <DocumentationFile>..\..\Build\x64\Debug\_abs.util.common.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\Build\x64\Release\</OutputPath>
@@ -49,6 +50,7 @@
     <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
     <DocumentationFile>..\..\Build\x64\Release\_abs.util.common.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -64,6 +66,7 @@
     </DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\Build\x86\Release\</OutputPath>
@@ -77,6 +80,7 @@
     <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
     <DocumentationFile>..\..\Build\x86\Release\_abs.util.common.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -232,10 +236,6 @@
     <Compile Include="Collections\IKeyedTreeNode.cs" />
     <Compile Include="Collections\IMasterDictionary.cs" />
     <Compile Include="Collections\IMasterDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\IReadOnlyCollection.cs" />
-    <Compile Include="Collections\IReadOnlyColletion{T}.cs" />
-    <Compile Include="Collections\IReadOnlyDictionary.cs" />
-    <Compile Include="Collections\IReadOnlyDictionary{TKey, TValue}.cs" />
     <Compile Include="Collections\ISubordinateDictionary.cs" />
     <Compile Include="Collections\ISubordinateDictionary{4}.cs" />
     <Compile Include="Collections\ISubordinateDictionary{TKey, TValue}.cs" />

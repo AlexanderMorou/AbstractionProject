@@ -91,5 +91,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         {
             get { return (IIntermediateCliManager)base.IdentityManager; }
         }
+
+        public IEnumerable<IType> AutoFormTypes
+        {
+            get {
+                int[] autoformTypes = new int[] { (int)RuntimeCoreType.Byte, (int)RuntimeCoreType.SByte, (int)RuntimeCoreType.UInt16, (int)RuntimeCoreType.Int16, (int)RuntimeCoreType.UInt32, (int)RuntimeCoreType.Int32, (int)RuntimeCoreType.UInt64, (int)RuntimeCoreType.Int64, (int)RuntimeCoreType.VoidType, (int)RuntimeCoreType.Boolean, (int)RuntimeCoreType.Char, (int)RuntimeCoreType.Decimal, (int)RuntimeCoreType.Single, (int)RuntimeCoreType.Double, (int)RuntimeCoreType.RootEnum, (int)RuntimeCoreType.String };
+                foreach (var autoformType in autoformTypes)
+                    yield return this.IdentityManager.ObtainTypeReference((RuntimeCoreType)autoformType);
+            }
+        }
     }
 }

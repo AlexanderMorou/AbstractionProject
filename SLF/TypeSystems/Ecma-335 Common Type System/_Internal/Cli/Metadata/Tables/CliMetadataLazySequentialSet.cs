@@ -9,8 +9,8 @@ using System.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
 {
     class CliMetadataLazySequentialSet<T> :
-        IReadOnlyCollection<T>,
-        IReadOnlyCollection
+        IControlledCollection<T>,
+        IControlledCollection
         where T :
             ICliMetadataIndexedRow
     {

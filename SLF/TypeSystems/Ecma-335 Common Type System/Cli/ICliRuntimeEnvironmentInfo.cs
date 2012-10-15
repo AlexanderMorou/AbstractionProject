@@ -13,6 +13,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public interface ICliRuntimeEnvironmentInfo :
         IStandardRuntimeEnvironmentInfo
     {
+        /// <summary>
+        /// Returns the <see cref="IEnumerable{T}"/> of <see cref="String"/> values
+        /// which represent the additional paths used when creating the <see cref="ICliRuntimeEnvironmentInfo"/>.
+        /// </summary>
+        IEnumerable<string> AdditionalPaths { get; }
 
         /// <summary>
         /// Returns whether the <see cref="ICliRuntimeEnvironmentInfo"/> 

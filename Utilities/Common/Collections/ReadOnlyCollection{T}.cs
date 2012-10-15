@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// read only collection.</typeparam>
     public class ReadOnlyCollection<T> :
         ControlledCollection<T>,
-        IReadOnlyCollection<T>
+        IControlledCollection<T>
     {
         public ReadOnlyCollection()
             : base(new List<T>())

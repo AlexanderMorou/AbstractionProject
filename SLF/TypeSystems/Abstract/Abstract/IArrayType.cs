@@ -35,12 +35,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// representing the lower bound values for the 
         /// <see cref="IArrayType"/>.
         /// </summary>
-        IReadOnlyCollection<int> LowerBounds { get; }
+        IControlledCollection<int> LowerBounds { get; }
         /// <summary>
         /// Returns the <see cref="System.Int32"/> series representing
         /// the lengths of the dimensions of the array.
         /// </summary>
-        IReadOnlyCollection<uint> Lengths { get; }
+        IControlledCollection<uint> Lengths { get; }
         /// <summary>
         /// Returns whether every dimension has a zero-based index.
         /// </summary>

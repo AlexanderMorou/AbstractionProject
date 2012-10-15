@@ -20,14 +20,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 this.Parameters = new ArrayReadOnlyCollection<ICliMetadataParamSignature>(parameters);
         }
 
-        protected override IReadOnlyCollection<ICliMetadataParamSignature> OnGetParameters()
+        protected override IControlledCollection<ICliMetadataParamSignature> OnGetParameters()
         {
             return this.Parameters;
         }
 
         //#region ICliMetadataMethodDefSignature Members
 
-        public new IReadOnlyCollection<ICliMetadataParamSignature> Parameters { get; private set; }
+        public new IControlledCollection<ICliMetadataParamSignature> Parameters { get; private set; }
 
         //#endregion
     }

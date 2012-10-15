@@ -33,6 +33,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType));
         }
 
+        public IType ObtainTypeReference(CliRuntimeCoreType coreType)
+        {
+            return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType));
+        }
+
         //#region ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow> Members
 
         public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity)
@@ -119,12 +124,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var coreLibrary = this.ObtainAssemblyReference(coreLibraryId);
                     var type = coreLibrary.GetType(typeIdentity);
                     if (type != null)
-                        return this.ObtainTypeReference(type);
+                        return type;
                     foreach (var assembly in this.loadedAssemblies.Values)
                         if (assembly.UniqueIdentifier == coreLibraryId)
                             continue;
                         else if ((type = assembly.GetType(typeIdentity)) != null)
-                            return this.ObtainTypeReference(type);
+                            return type;
                 }
             }
             else
@@ -132,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 var assembly = this.ObtainAssemblyReference(typeIdentity.Assembly);
                 var type = assembly.GetType(typeIdentity);
                 if (type != null)
-                    return this.ObtainTypeReference(type);
+                    return type;
             }
             throw new TypeLoadException(string.Format("Could not load {0}.", typeIdentity.ToString()));
         }

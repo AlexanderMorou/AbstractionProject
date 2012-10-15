@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Provides a series of metadatum entries on a <see cref="IMetadataEntity"/>.
     /// </summary>
     public interface IMetadataCollection :
-        IReadOnlyCollection<IMetadatum>,
+        IControlledCollection<IMetadatum>,
         IDisposable
     {
         /// <summary>

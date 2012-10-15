@@ -59,9 +59,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         IStrongNamePublicKeyInfo PublicKeyInfo { get; }
         /// <summary>
-        /// Returns the <see cref="IReadOnlyDictionary{TKey, TValue}">IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly></see> which 
+        /// Returns the <see cref="IControlledDictionary{TKey, TValue}">IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly></see> which 
         /// </summary>
-        IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly> References { get; }
+        IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> References { get; }
 
         /// <summary>
         /// Returns the <see cref="IType"/> relative to the <paramref name="typeIdentifier"/>

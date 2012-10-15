@@ -10,7 +10,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     public partial class IntermediateAssemblyReferenceDictionary :
-        IReadOnlyDictionary<IAssemblyUniqueIdentifier, IAssembly>
+        IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly>
     {
         private IAssemblyReferenceCollection references;
         private KeysCollection keys;

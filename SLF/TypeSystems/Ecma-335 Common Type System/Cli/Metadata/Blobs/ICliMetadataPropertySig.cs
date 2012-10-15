@@ -19,12 +19,12 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         bool Instance { get; }
 
         /// <summary>
-        /// Returns the <see cref="IReadOnlyCollection{T}"/> of
+        /// Returns the <see cref="IControlledCollection{T}"/> of
         /// the property's parameters.
         /// </summary>
-        IReadOnlyCollection<ICliMetadataParamSignature> Parameters { get; }
+        IControlledCollection<ICliMetadataParamSignature> Parameters { get; }
 
-        IReadOnlyCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
+        IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; }
 
         /// <summary>
         /// Returns the <see cref="ICliMetadataTypeSignature"/> which determines the 

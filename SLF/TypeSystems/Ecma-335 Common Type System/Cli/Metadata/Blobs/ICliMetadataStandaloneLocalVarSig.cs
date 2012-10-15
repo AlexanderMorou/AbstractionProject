@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
     public interface ICliMetadataLocalVarSignature :
-        IReadOnlyCollection<ICliMetadataLocalVarEntrySignature>,
+        IControlledCollection<ICliMetadataLocalVarEntrySignature>,
         ICliMetadataStandAloneSignature
     {
 

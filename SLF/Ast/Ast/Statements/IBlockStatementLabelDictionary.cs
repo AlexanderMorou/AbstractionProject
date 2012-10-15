@@ -12,7 +12,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 {
     public interface IBlockStatementLabelDictionary :
-        IReadOnlyDictionary<string, ILabelStatement>
+        IControlledDictionary<string, ILabelStatement>
     {
 
     }

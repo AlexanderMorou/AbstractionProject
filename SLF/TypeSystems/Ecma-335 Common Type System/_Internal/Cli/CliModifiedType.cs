@@ -25,18 +25,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Data member describing the modifiers associated to the
         /// modified type.
         /// </summary>
-        private IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers;
+        private IControlledCollection<ICliMetadataCustomModifierSignature> modifiers;
 
         private ModifierCollection modifierCollection;
 
-        public CliModifiedType(_ICliType original, IReadOnlyCollection<ICliMetadataCustomModifierSignature> modifiers)
+        public CliModifiedType(_ICliType original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
         {
             this.original = original;
             this.modifiers = modifiers;
         }
         #region IModifiedType Members
 
-        public IReadOnlyCollection<TypeModification> Modifiers
+        public IControlledCollection<TypeModification> Modifiers
         {
             get
             {

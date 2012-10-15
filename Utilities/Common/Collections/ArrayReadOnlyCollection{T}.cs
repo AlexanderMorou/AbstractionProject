@@ -8,7 +8,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     internal class ArrayReadOnlyCollection<T> :
         IArrayReadOnlyCollection<T>,
-        IReadOnlyCollection
+        IControlledCollection
     {
         private T[] items;
 

@@ -8,15 +8,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public enum CliRuntimeCoreType
     {
         /// <summary>
-        /// The definition of the root of all asynchronous tasks.
+        /// The definition of all asynchronous tasks.
         /// </summary>
         AsynchronousTask,
         /// <summary>
-        /// The definition of the root of all generic asynchronous tasks.
+        /// The definition of all generic asynchronous tasks.
         /// </summary>
         AsynchronousTaskOfT,
         /// <summary>
-        /// The definition of the root of the compiler generated metadatum.
+        /// The definition of the compiler generated metadatum.
         /// </summary>
         CompilerGeneratedMetadatum,
         /// <summary>

@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         ICliMetadataSignature
     {
         uint Rank { get; }
-        IReadOnlyCollection<uint> Sizes { get; }
-        IReadOnlyCollection<int> LowerBounds { get; }
+        IControlledCollection<uint> Sizes { get; }
+        IControlledCollection<int> LowerBounds { get; }
     }
 }
