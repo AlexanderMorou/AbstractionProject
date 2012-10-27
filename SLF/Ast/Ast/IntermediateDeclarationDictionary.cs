@@ -29,12 +29,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IIntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>,
         IIntermediateDeclarationDictionary
         where TIdentifier :
-            IDeclarationUniqueIdentifier
+            IDeclarationUniqueIdentifier,
+            IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :
-            TDeclaration,
-            IIntermediateDeclaration
+            IIntermediateDeclaration<TIdentifier>,
+            TDeclaration
     {
         private bool disposing;
         private object disposeSynch = new object();
@@ -247,7 +248,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             base._AddRange(elements);
             foreach (var element in elements)
+            {
+                var interDecl = (TIntermediateDeclaration)element.Value;
+                interDecl.IdentifierChanged += declaration_IdentifierChanged; 
                 this.OnItemAdded(new EventArgsR1<TIntermediateDeclaration>(((TIntermediateDeclaration)(element.Value))));
+            }
+        }
+
+        void declaration_IdentifierChanged(object sender, DeclarationIdentifierChangeEventArgs<TIdentifier> e)
+        {
+            throw new NotImplementedException();
         }
 
         protected internal override bool _Remove(int index)

@@ -28,7 +28,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IType OnGetDeclaringType()
         {
-            return this.assembly.IdentityManager.ObtainTypeReference(this.DeclaringType);
+            if (this.MetadataEntry.DeclaringType == null)
+                return null;
+            else
+                return this.assembly.IdentityManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
         }
 
         protected internal override bool CanCacheImplementsList
@@ -37,11 +40,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IFullMemberDictionary OnGetMembers()
         {
             throw new NotImplementedException();
         }

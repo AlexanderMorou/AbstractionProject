@@ -20,10 +20,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// <typeparam name="TDeclaration">The type of <see cref="IIntermediateSegmentableDeclaration{TIdentifier, TDeclaration}"/>
     /// which needs segmentable functionality.</typeparam>
     public interface IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration> :
-        IIntermediateSegmentableDeclaration,
-        IDeclaration<TIdentifier>
+        IIntermediateDeclaration<TIdentifier>,
+        IIntermediateSegmentableDeclaration
         where TIdentifier :
-            IDeclarationUniqueIdentifier
+            IDeclarationUniqueIdentifier,
+            IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
     {

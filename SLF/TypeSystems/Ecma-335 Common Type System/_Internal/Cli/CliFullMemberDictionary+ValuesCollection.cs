@@ -75,8 +75,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             default:
                                 continue;
                         }
-                        if (item.Entry == this.owner.members[memberIndex])
-                            return true;
+                    if (item.Entry == this.owner.members[memberIndex])
+                        return true;
                 }
                 return false;
             }
@@ -91,7 +91,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public MasterDictionaryEntry<IMember> this[int index]
             {
-                get {
+                get
+                {
                     if (this.owner.members[index] == null)
                         this.owner.CheckItemAt(index);
                     switch (this.owner.memberTypes[index])
@@ -176,6 +177,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IEnumerator<MasterDictionaryEntry<IMember>> GetEnumerator()
             {
+                ISubordinateDictionary bops = null,
+                                       ctors = null,
+                                       evts = null,
+                                       fields = null,
+                                       methods = null,
+                                       props = null,
+                                       typeCs = null,
+                                       unops = null;
                 for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
                 {
                     if (this.owner.members[memberIndex] == null)
@@ -183,28 +192,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     switch (this.owner.memberTypes[memberIndex])
                     {
                         case CliMemberType.BinaryOperator:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.BinaryOperators, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(bops ?? (bops = this.owner.parent.BinaryOperators), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.Constructor:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.Constructors, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(ctors ?? (ctors = this.owner.parent.Constructors), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.Event:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.Events, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(evts ?? (evts = this.owner.parent.Events), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.Field:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.Fields, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(fields ?? (fields = this.owner.parent.Fields), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.Method:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.Methods, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(methods ?? (methods = this.owner.parent.Methods), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.Property:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.Properties, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(props ?? (props = this.owner.parent.Properties), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.TypeCoercionOperator:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.TypeCoercions, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(typeCs ?? (typeCs = this.owner.parent.TypeCoercions), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.UnaryOperator:
-                            yield return new MasterDictionaryEntry<IMember>(this.owner.parent.UnaryOperators, this.owner.members[memberIndex]);
+                            yield return new MasterDictionaryEntry<IMember>(unops ?? (unops = this.owner.parent.UnaryOperators), this.owner.members[memberIndex]);
                             break;
                     }
                 }

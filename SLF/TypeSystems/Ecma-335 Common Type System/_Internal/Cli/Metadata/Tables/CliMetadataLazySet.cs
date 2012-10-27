@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
 {
-    public class CliMetadataLazySet<T> :
+    internal class CliMetadataLazySet<T> :
         IControlledCollection<T>,
         IControlledCollection
         where T :

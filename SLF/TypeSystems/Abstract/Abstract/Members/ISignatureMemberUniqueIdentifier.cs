@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// represented by the <see cref="ISignatureMemberUniqueIdentifier"/>.
     /// </typeparam>
     public interface ISignatureMemberUniqueIdentifier :
-        IMemberUniqueIdentifier
+        IGeneralMemberUniqueIdentifier
     {
         /// <summary>
         /// Returns the types of the parameters represented

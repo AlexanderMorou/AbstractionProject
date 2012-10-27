@@ -35,7 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration>,
         IIntermediateSegmentableDeclarationPartCollection
         where TIdentifier :
-            IDeclarationUniqueIdentifier
+            IDeclarationUniqueIdentifier,
+            IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             class,
             IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>

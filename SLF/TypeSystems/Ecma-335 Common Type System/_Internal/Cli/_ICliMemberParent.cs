@@ -21,6 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ISubordinateDictionary Constructors { get; }
         ISubordinateDictionary Events { get; }
         ISubordinateDictionary Fields { get; }
+        ISubordinateDictionary Indexers { get; }
         ISubordinateDictionary Methods { get; }
         ISubordinateDictionary Properties { get; }
         ISubordinateDictionary TypeCoercions { get; }
@@ -28,5 +29,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ICliMetadataRoot MetadataRoot { get; }
         ICliMetadataTypeDefinitionTableRow MetadataEntry { get; }
         IMember CreateItem(CliMemberType member, ICliMetadataTableRow metadataEntry);
+        _ICliManager IdentityManager { get; }
     }
 }

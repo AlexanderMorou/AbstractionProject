@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf._Internal.CompilerServices.Properties;
+using System.Globalization;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.CompilerServices
 {
@@ -73,13 +74,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.CompilerServices
             switch (message)
             {
                 case ExceptionMessageId.DelegateTypeParameterMismatch:
-                    return string.Format(Resources.AE_DelegateTypeParameterMismatch, replacements);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.AE_DelegateTypeParameterMismatch, replacements);
                 case ExceptionMessageId.TypeMustBeGenericParameter:
-                    return string.Format(Resources.AE_TypeMustBeGenericParameter, replacements);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.AE_TypeMustBeGenericParameter, replacements);
                 case ExceptionMessageId.UnknownArgument:
-                    return string.Format(Resources.AE_UnknownArgument, replacements);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.AE_UnknownArgument, replacements);
                 case ExceptionMessageId.UnknownArgumentMessage:
-                    return string.Format(Resources.AE_UnknownArgumentMessage, replacements);
+                    return string.Format(CultureInfo.InvariantCulture, Resources.AE_UnknownArgumentMessage, replacements);
                 default:
                     throw ObtainArgumentException(ArgumentWithException.message, ExceptionMessageId.UnknownArgumentMessage);
             }

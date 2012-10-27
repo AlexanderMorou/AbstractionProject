@@ -9,7 +9,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    public interface _ICliType :
+    internal interface _ICliType :
         ICliType
     {
         IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers);

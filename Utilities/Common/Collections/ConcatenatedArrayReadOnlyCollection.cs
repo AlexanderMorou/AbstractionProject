@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
@@ -92,6 +93,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
                 this.sets[currentSet].CopyTo(array, offset);
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2201:DoNotRaiseReservedExceptionTypes")]
         public T this[int index]
         {
             get

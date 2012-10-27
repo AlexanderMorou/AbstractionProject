@@ -65,7 +65,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public ITypeInclusionRenameScopeCoercion Add(IType includedType, string alternateName)
         {
             var result = new TypeInclusionRenameScopeCoercion() { IncludedType = includedType, NewName = alternateName };
-            this.baseList.Add(result);
+            lock (this.baseList)
+                this.baseList.Add(result);
             return result;
         }
 
@@ -82,7 +83,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public INamespaceInclusionScopeCoercion Add(string namespaceName)
         {
             var result = new NamespaceInclusionScopeCoercion() { Namespace = namespaceName };
-            this.baseList.Add(result);
+            lock (this.baseList)
+                this.baseList.Add(result);
             return result;
         }
 
@@ -101,7 +103,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public INamespaceInclusionRenameScopeCoercion Add(string namespaceName, string alternateName)
         {
             var result = new NamespaceInclusionRenameScopeCoercion() { Namespace = namespaceName, NewName = alternateName };
-            this.baseList.Add(result);
+            lock (this.baseList)
+                this.baseList.Add(result);
             return result;
         }
 
@@ -117,7 +120,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public INamedInclusionScopeCoercion AddName(string name)
         {
             var result = new NamedInclusionScopeCoercion() { IncludedName = name };
-            this.baseList.Add(result);
+            lock (this.baseList)
+                this.baseList.Add(result);
             return result;
         }
 
@@ -144,7 +148,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public IStaticInclusionScopeCoercion AddStaticName(string name)
         {
             var result = new StaticInclusionScopeCoercion() { IncludedType = name.GetSymbolType() };
-            this.baseList.Add(result);
+            lock (this.baseList)
+                this.baseList.Add(result);
             return result;
         }
 
@@ -172,7 +177,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     throw new ArgumentNullException("names");
                 var currentElement = new NamedInclusionScopeCoercion() { IncludedName = names[i] };
                 result[i] = currentElement;
-                this.baseList.Add(currentElement);
+                lock (this.baseList)
+                    this.baseList.Add(currentElement);
             }
 
             return result;
@@ -196,7 +202,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     foundItem = null;
             if (foundItem == null)
                 return false;
-            this.baseList.Remove(foundItem);
+            lock (this.baseList)
+                this.baseList.Remove(foundItem);
             return true;
         }
 
@@ -218,7 +225,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     foundItem = null;
             if (foundItem == null)
                 return false;
-            this.baseList.Remove(foundItem);
+            lock (this.baseList)
+                this.baseList.Remove(foundItem);
             return true;
         }
 
@@ -240,7 +248,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     foundItem = null;
             if (foundItem == null)
                 return false;
-            this.baseList.Remove(foundItem);
+            lock (this.baseList)
+                this.baseList.Remove(foundItem);
             return true;
         }
 
@@ -282,7 +291,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public void Clear()
         {
-            this.baseList.Clear();
+            lock (this.baseList)
+                this.baseList.Clear();
         }
         #endregion
 
