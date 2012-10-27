@@ -117,6 +117,7 @@
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
     <Compile Include="Compilers\PrimitiveTypeSizes.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Languages\Cil\CommonIntermediateProvider+AssemblyService.cs" />
     <Compile Include="Languages\CSharp\CSharpCompilerMessages %28Message Creator%29.cs" />
     <Compile Include="Languages\CSharp\CSharpCompilerReferenceError.cs" />

@@ -25,7 +25,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     public interface IIntermediateSegmentableDeclarationPartCollection<TIdentifier, TDeclaration> :
         IControlledCollection<TDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier
+            IDeclarationUniqueIdentifier,
+            IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             IIntermediateSegmentableDeclaration<TIdentifier, TDeclaration>
     {

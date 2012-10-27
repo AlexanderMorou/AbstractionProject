@@ -29,22 +29,22 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// <summary>
         /// Builds an optimized constructor delegate using a dynamic method
         /// bound to the <typeparamref name="TDelegate"/> provided for the
-        /// <paramref name="ctor"/>.
+        /// <paramref name="constructor"/>.
         /// </summary>
-        /// <typeparam name="TDelegate">The type of delegate used to bind to <paramref name="ctor"/>.</typeparam>
-        /// <param name="ctor">The constructor to build a dynamic method for that matches
+        /// <typeparam name="TDelegate">The type of delegate used to bind to <paramref name="constructor"/>.</typeparam>
+        /// <param name="constructor">The constructor to build a dynamic method for that matches
         /// the signature of <typeparamref name="TDelegate"/>.</param>
         /// <returns>A <typeparamref name="TDelegate"/> instance
         /// provided there's no issues between the call between <typeparamref name="TDelegate"/>
-        /// and the <paramref name="ctor"/>.</returns>
+        /// and the <paramref name="constructor"/>.</returns>
         /// <exception cref="System.ArgumentException"><typeparamref name="TDelegate"/>
-        /// is not a type of a delegate, or <paramref name="ctor"/> does not match the parameter
+        /// is not a type of a delegate, or <paramref name="constructor"/> does not match the parameter
         /// list of the delegate provided in <typeparamref name="TDelegate"/>.</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="ctor"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="constructor"/> is null.</exception>
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.PreserveSig)]
-        public static TDelegate BuildOptimizedConstructorDelegateEx<TDelegate>(this ConstructorInfo ctor)
+        public static TDelegate BuildOptimizedConstructorDelegate<TDelegate>(this ConstructorInfo constructor)
         {
-            if (ctor == null)
+            if (constructor == null)
                 throw new ArgumentNullException("ctor");
             var delegateType = typeof(TDelegate);
             if (!delegateType.IsSubclassOf(typeof(Delegate)))
@@ -54,11 +54,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             var delegateTypes = delegateInvoke.GetParameters().GetParameterTypes();
 
             //Obtain the method call parameters.
-            var ctorParameters = ctor.GetParameters();
+            var ctorParameters = constructor.GetParameters();
             if (delegateTypes.Length != ctorParameters.Length)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.ctor, ExceptionMessageId.DelegateTypeParameterMismatch);
 
-            var optimizedCtor = new DynamicMethod(string.Format(".ctor@{0}({1})", ctor.DeclaringType.Name, GetStringFormSignature(delegateTypes)), delegateInvoke.ReturnType, delegateTypes, ctor.DeclaringType, true);
+            var optimizedCtor = new DynamicMethod(string.Format(".ctor@{0}({1})", constructor.DeclaringType.Name, GetStringFormSignature(delegateTypes)), delegateInvoke.ReturnType, delegateTypes, constructor.DeclaringType, true);
             int argIndex = 0;
             var ctorTypes = ctorParameters.GetParameterTypes();
             //Instantiate the generator.
@@ -126,9 +126,9 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             }
 
 
-            interLangGenerator.Emit(OpCodes.Newobj, ctor);
-            if (ctor.DeclaringType.IsValueType)
-                interLangGenerator.Emit(OpCodes.Box, ctor.DeclaringType);
+            interLangGenerator.Emit(OpCodes.Newobj, constructor);
+            if (constructor.DeclaringType.IsValueType)
+                interLangGenerator.Emit(OpCodes.Box, constructor.DeclaringType);
 
             interLangGenerator.Emit(OpCodes.Ret);
             return (TDelegate)(object)optimizedCtor.CreateDelegate(typeof(TDelegate));

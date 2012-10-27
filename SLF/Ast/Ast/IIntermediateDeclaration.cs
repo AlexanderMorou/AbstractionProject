@@ -13,8 +13,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     public interface IIntermediateDeclaration<TIdentifier> :
-        IDeclaration<TIdentifier>,
-        IIntermediateDeclaration
+        IIntermediateDeclaration,
+        IDeclaration<TIdentifier>
         where TIdentifier :
             IDeclarationUniqueIdentifier,
             IGeneralDeclarationUniqueIdentifier

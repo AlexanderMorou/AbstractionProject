@@ -60,5 +60,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// <returns>A <see cref="IType"/> relative to the 
         /// <paramref name="signature"/> provided.</returns>
         IType ObtainTypeReference(ICliMetadataTypeSignature signature, IType activeType, IMethodSignatureMember activeMethod);
+
     }
 }

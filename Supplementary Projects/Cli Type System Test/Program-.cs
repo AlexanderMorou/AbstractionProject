@@ -1,6 +1,7 @@
 ﻿using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq;
@@ -25,6 +26,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Security;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
 {
@@ -32,13 +34,13 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
     {
         static void Main()
         {
-            var timedIntermediateTest = MiscHelperMethods.TimeActionFunc(IntermediateTest);
-            var first = timedIntermediateTest();
-            var second = timedIntermediateTest();
-            Console.WriteLine(
-@"PreJit : {0}
-PostJit:{1}", first, second);
-            //Test();
+//            var timedIntermediateTest = MiscHelperMethods.TimeActionFunc(IntermediateTest);
+//            var first = timedIntermediateTest();
+//            var second = timedIntermediateTest();
+//            Console.WriteLine(
+//@"PreJit : {0}
+//PostJit:{1}", first, second);
+            Test();
             //Console.ReadKey(true);
         }
 
@@ -48,7 +50,17 @@ PostJit:{1}", first, second);
 
             var csAssembly = provider.CreateAssembly("TestAssembly");
             var csAssemblyRef2 = provider.IdentityManager.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier("TestAssembly", new IntermediateVersion(1, 0) { AutoIncrementBuild = true, AutoIncrementRevision = true }, CultureIdentifiers.None));
-            TestLinq(csAssembly);
+            var coreLib = (ICliAssembly)provider.IdentityManager.ObtainAssemblyReference(provider.IdentityManager.RuntimeEnvironment.CoreLibraryIdentifier);
+            var coreLibTableStream = coreLib.MetadataRoot.TableStream;
+            coreLibTableStream.TypeDefinitionTable.Read();
+            /*
+            Parallel.For(0, 10000, i =>
+                TestLinq(csAssembly, baseIndex: i + 1));
+            //*/
+            ///*
+            for (int i = 0; i < 10000; i++)
+                TestLinq(csAssembly.Parts.Add(), baseIndex: i + 1);
+            //*/
         }
         private static byte[] ecmaKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
 #if DEBUG
@@ -297,20 +309,20 @@ PostJit:{1}", first, second);
         private static void Test()
         {
             string assemblyLocation = @"C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86";// @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Release";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            var files = ObtainFrameworkAssemblies(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation)).ToArray();
-            Stopwatch sw = Stopwatch.StartNew();
-            //var assemblyNames = (from id in identifiers
-            //                     select GetAssemblyNameFromId(id)).ToArray();
-            var assemblies = (from fileName in files
-                              let assembly = TryLoadAssembly(fileName)
-                              where assembly != null
-                              select assembly).ToArray();
-            var query = (from assembly in assemblies
-                         from type in typeof(int).Assembly.GetTypes()
-                         from member in type.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
-                         select member).ToArray();
-            sw.Stop();
-            Console.WriteLine("From Reflection: {0}", sw.Elapsed);
+            //var files = ObtainFrameworkAssemblies(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation)).ToArray();
+            //Stopwatch sw = Stopwatch.StartNew();
+            ////var assemblyNames = (from id in identifiers
+            ////                     select GetAssemblyNameFromId(id)).ToArray();
+            //var assemblies = (from fileName in files
+            //                  let assembly = TryLoadAssembly(fileName)
+            //                  where assembly != null
+            //                  select assembly).ToArray();
+            //var query = (from assembly in assemblies
+            //             from type in typeof(int).Assembly.GetTypes()
+            //             from member in type.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
+            //             select member).ToArray();
+            //sw.Stop();
+            //Console.WriteLine("From Reflection: {0}", sw.Elapsed);
             //Console.WriteLine(assemblyLocation);
             var timedProcess = Process1(assemblyLocation);
             Console.WriteLine(timedProcess);
@@ -375,15 +387,26 @@ PostJit:{1}", first, second);
             public TA(object o) { }
         }
 
-        private static void TestLinq(IIntermediateAssembly assembly)
+        private static void TestLinq(IIntermediateAssembly assembly, string baseName = "LinqTest", int baseIndex = 0)
         {
             //using System;
             assembly.ScopeCoercions.Add(typeof(Console).Namespace);
             //using System.Linq;
             assembly.ScopeCoercions.Add(typeof(Queryable).Namespace);
             assembly.ScopeCoercions.Add(typeof(CultureInfo).Namespace);
-            var @namespace = assembly.Namespaces.Add("LinqExample");
-            var topLevelMethod = @namespace.Methods.Add("LinqTest");
+            IIntermediateNamespaceDeclaration @namespace = null;
+            IIntermediateTopLevelMethodMember topLevelMethod = null;
+            lock (assembly)
+            {
+                if (assembly.Namespaces.ContainsName("LinqExample"))
+                    @namespace = assembly.Namespaces["LinqExample"];
+                else
+                    @namespace = assembly.Namespaces.Add("LinqExample");
+            }
+            if (baseIndex == 0)
+                topLevelMethod = @namespace.Methods.Add(baseName);
+            else
+                topLevelMethod = @namespace.Methods.Add(string.Format("{0}{1:x4}", baseName, baseIndex));
             //var digits = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
             var digits = topLevelMethod.Locals.Add(
                     "digits",
@@ -427,10 +450,11 @@ PostJit:{1}", first, second);
              * foreach (digit in sortedDigits)
              *     Console.WriteLine(digit);
              * */
-            var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
-            iteratorLocal.AutoDeclare = false;
-            var enumerationBlock = topLevelMethod.Enumerate(iteratorLocal.Name, sortedDigits.GetReference());
-            enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(iteratorLocal.GetReference()));
+            //var iteratorLocal = topLevelMethod.Locals.Add("digit", null, LocalTypingKind.Implicit);
+            //iteratorLocal.AutoDeclare = false;
+            var enumerationBlock = topLevelMethod.Enumerate("digit", sortedDigits.GetReference());
+            enumerationBlock.Call("Console".Fuse("WriteLine").Fuse(enumerationBlock.Local.GetReference()));
+            enumerationBlock.Local.Name = "test";
             //var deq = assembly.Classes.Add("Test");
             //var deqM1 = deq.Methods.Add("test");
             //var deqT1 = deq.TypeParameters.Add("TTestParam");
@@ -470,27 +494,35 @@ PostJit:{1}", first, second);
             //var testTypedName = dictionaryValuesEnum.GetTypedName("TestTypedName");
             ////Console.WriteLine(m);
 
+            //sw.Stop();
+            //var t3 = sw.Elapsed;
+            //sw.Restart();
+            //var assemblyQuery = (from assemblyId in identifiers
+            //                     let assembly = ObtainRef(clim, assemblyId)
+            //                     let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+            //                                          let members = t.GetMemberData()
+            //                                          select new { Type = t, Members = members }
+            //                     select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
+            //sw.Stop();
+            //var propertySets1 = sw.Elapsed;
+            //sw.Restart();
+            //assemblyQuery = (from assemblyId in identifiers
+            //                 let assembly = (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)
+            //                 let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
+            //                                      let members = t.GetMemberData()
+            //                                      select new { Type = t, Members = members }
+            //                 select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
+            //sw.Stop();
+            //var propertySets2 = sw.Elapsed;
+            //var dt = assemblyQuery.Length;
+            var mea = clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier);
+            //var men = mea.Namespaces["System.Collections.Generic"];
+            var mei = (IInterfaceType)mea.GetType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "IDictionary", 2));
+            //var mei = men.Interfaces[meid];
+            foreach (var identifier in mei.Members.Keys)
+            {
+            }
             sw.Stop();
-            var t3 = sw.Elapsed;
-            sw.Restart();
-            var assemblyQuery = (from assemblyId in identifiers
-                                 let assembly = ObtainRef(clim, assemblyId)
-                                 let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-                                                      let members = t.GetMemberData()
-                                                      select new { Type = t, Members = members }
-                                 select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
-            sw.Stop();
-            var propertySets1 = sw.Elapsed;
-            sw.Restart();
-            assemblyQuery = (from assemblyId in identifiers
-                             let assembly = (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)
-                             let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-                                                  let members = t.GetMemberData()
-                                                  select new { Type = t, Members = members }
-                             select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
-            sw.Stop();
-            var propertySets2 = sw.Elapsed;
-            var dt = assemblyQuery.Length;
             //var fp = assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.First(p=>p.GetMethod != null && p.SetMethod != null);
             //var typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
             //                        let members = t.GetMemberData().ToArray()
@@ -524,7 +556,8 @@ PostJit:{1}", first, second);
             //var types = assem.MetadataRoot.TableStream.TypeDefinitionTable.ToArray();
             //var targetType = types[2];
             //var memberData = targetType.GetMemberData();
-            return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
+            //return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
+            return new Tuple<TimeSpan, TimeSpan>(sw.Elapsed, default(TimeSpan));
         }
 
         public static ICliAssembly ObtainRef(_ICliManager manager, IAssemblyUniqueIdentifier id){

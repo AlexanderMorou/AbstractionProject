@@ -678,65 +678,68 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                 }
             }
-            if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
+            lock (this.loadedAssemblies)
             {
-                var baseName = assemblyIdentity.Name;
-                Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
-                /* *
-                 * Resolution method:
-                 * Runtime folder, GAC Cache
-                 * */
-                if (runtimeEnvironment.UseGlobalAccessCache)
-                    foreach (var path in runtimeEnvironment.GetGacLocationsFor(assemblyIdentity))
-                    {
-                        string extension = "exe";
-                    checkAgain:
-                        var check = CliCommon.CheckFilename(path.FullName, baseName, extension);
-                        if (check != null && check.Item1.Equals(assemblyIdentity))
+                if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
+                {
+                    var baseName = assemblyIdentity.Name;
+                    Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
+                    /* *
+                     * Resolution method:
+                     * Runtime folder, GAC Cache
+                     * */
+                    if (runtimeEnvironment.UseGlobalAccessCache)
+                        foreach (var path in runtimeEnvironment.GetGacLocationsFor(assemblyIdentity))
                         {
-                            validResult = check;
-                            gacAssembly = true;
-                            break;
+                            string extension = "exe";
+                        checkAgain:
+                            var check = CliCommon.CheckFilename(path.FullName, baseName, extension);
+                            if (check != null && check.Item1.Equals(assemblyIdentity))
+                            {
+                                validResult = check;
+                                gacAssembly = true;
+                                break;
+                            }
+                            if (validResult == null && extension == "exe")
+                            {
+                                extension = "dll";
+                                goto checkAgain;
+                            }
                         }
-                        if (validResult == null && extension == "exe")
+                    if (validResult == null)
+                    {
+                        foreach (var path in runtimeEnvironment.ResolutionPaths)
                         {
-                            extension = "dll";
-                            goto checkAgain;
+                            string extension = "exe";
+                        checkAgain:
+                            var check = CliCommon.CheckFilename(path.FullName, baseName, extension);
+                            if (check != null && check.Item1.Equals(assemblyIdentity))
+                            {
+                                validResult = check;
+                                break;
+                            }
+                            if (validResult == null && extension == "exe")
+                            {
+                                extension = "dll";
+                                goto checkAgain;
+                            }
                         }
                     }
-                if (validResult == null)
-                {
-                    foreach (var path in runtimeEnvironment.ResolutionPaths)
+                    if (validResult != null)
                     {
-                        string extension = "exe";
-                    checkAgain:
-                        var check = CliCommon.CheckFilename(path.FullName, baseName, extension);
-                        if (check != null && check.Item1.Equals(assemblyIdentity))
-                        {
-                            validResult = check;
-                            break;
-                        }
-                        if (validResult == null && extension == "exe")
-                        {
-                            extension = "dll";
-                            goto checkAgain;
-                        }
+                        this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
+                        if (gacAssembly)
+                            result.IsFromGlobalAssemblyCache = true;
+                        //result.InitializeCommon();
+                        this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
+                        return result;
                     }
-                }
-                if (validResult != null)
-                {
-                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
-                    if (gacAssembly)
-                        result.IsFromGlobalAssemblyCache = true;
-                    //result.InitializeCommon();
-                    this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
-                    return result;
+                    else
+                        throw new FileNotFoundException(string.Format("Assembly {0} not found.", assemblyIdentity));
                 }
                 else
-                    throw new FileNotFoundException(string.Format("Assembly {0} not found.", assemblyIdentity));
+                    return result;
             }
-            else
-                return result;
         }
 
         //#endregion
@@ -1085,6 +1088,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             #endregion
+
+            protected override IFullMemberDictionary OnGetMembers()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override D MakeGenericClosure(ITypeCollectionBase typeParameters)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private class M_T<T> :

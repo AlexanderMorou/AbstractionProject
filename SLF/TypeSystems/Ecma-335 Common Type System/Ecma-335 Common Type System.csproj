@@ -123,6 +123,7 @@
     <Compile Include="_Internal\Cli\CliFullTypeDictionary.cs" />
     <Compile Include="_Internal\Cli\CliGenericInstantiableType.cs" />
     <Compile Include="_Internal\Cli\CliGenericParentType.cs" />
+    <Compile Include="_Internal\Cli\CliInterfaceType.cs" />
     <Compile Include="_Internal\Cli\CliInterfaceTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>

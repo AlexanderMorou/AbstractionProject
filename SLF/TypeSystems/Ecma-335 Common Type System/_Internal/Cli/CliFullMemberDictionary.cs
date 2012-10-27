@@ -10,6 +10,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
+    /// <summary>
+    /// Provides a full member dictionary for a CLI member parent.
+    /// </summary>
     internal partial class CliFullMemberDictionary :
         IFullDeclarationDictionary<IGeneralMemberUniqueIdentifier, IMember>,
         IFullMemberDictionary
@@ -35,14 +38,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                yield return this.parent.BinaryOperators;
-                yield return this.parent.Constructors;
-                yield return this.parent.Events;
-                yield return this.parent.Fields;
-                yield return this.parent.Methods;
-                yield return this.parent.Properties;
-                yield return this.parent.TypeCoercions;
-                yield return this.parent.UnaryOperators;
+                ISubordinateDictionary current = null;
+                if ((current = (this.parent.BinaryOperators)) != null)
+                    yield return current;
+                if ((current = (this.parent.Constructors)) != null)
+                    yield return current;
+                if ((current = (this.parent.Events)) != null)
+                    yield return current;
+                if ((current = (this.parent.Fields)) != null)
+                    yield return current;
+                if ((current = (this.parent.Indexers)) != null)
+                    yield return current;
+                if ((current = (this.parent.Methods)) != null)
+                    yield return current;
+                if ((current = (this.parent.Properties)) != null)
+                    yield return current;
+                if ((current = (this.parent.TypeCoercions)) != null)
+                    yield return current;
+                if ((current = (this.parent.UnaryOperators)) != null)
+                    yield return current;
             }
         }
 
@@ -103,7 +117,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public bool TryGetValue(IGeneralMemberUniqueIdentifier key, out MasterDictionaryEntry<IMember> value)
         {
-            throw new NotImplementedException();
+            int index = this.Keys.IndexOf(key);
+            if (index == -1)
+            {
+                value = default(MasterDictionaryEntry<IMember>);
+                return false;
+            }
+            value = this.Values[index];
+            return true;
         }
 
         public int Count
@@ -113,42 +134,91 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public bool Contains(KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>> item)
         {
-            throw new NotImplementedException();
+            int index = this.Keys.IndexOf(item.Key);
+            if (index == -1)
+                return false;
+            return this.Values[index].Equals(item.Value);
         }
 
         public void CopyTo(KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>[] array, int arrayIndex = 0)
         {
-            throw new NotImplementedException();
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
+            for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
+                array[arrayIndex + memberIndex] = new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>(this.Keys[memberIndex], this.Values[memberIndex]);
         }
 
         public KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>> this[int index]
         {
-            get { throw new NotImplementedException(); }
+            get { return new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>(this.Keys[index], this.Values[index]); }
         }
 
         public KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>[] ToArray()
         {
-            throw new NotImplementedException();
+            KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>[] result = new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>[this.Count];
+            this.CopyTo(result);
+            return result;
         }
 
         public int IndexOf(KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>> element)
         {
-            throw new NotImplementedException();
+            int keyIndex = this.Keys.IndexOf(element.Key);
+            if (keyIndex > -1)
+            {
+                var valIndex = this.Values.IndexOf(element.Value);
+                if (valIndex == keyIndex)
+                    return valIndex;
+            }
+            return -1;
         }
 
         public IEnumerator<KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
+                yield return new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>(this.Keys[memberIndex], this.Values[memberIndex]);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
 
         private void CheckIdentifierAt(int memberIndex)
         {
-
+            if (memberIndex < 0 || memberIndex >= this.Count)
+                throw new ArgumentOutOfRangeException("memberIndex");
+            switch (this.memberTypes[memberIndex])
+            {
+                case CliMemberType.BinaryOperator:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetBinaryOperatorIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
+                    break;
+                case CliMemberType.Constructor:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetCtorIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
+                    break;
+                case CliMemberType.Event:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetEventIdentifier((ICliMetadataEventTableRow)this.memberSources[memberIndex], this.parent.IdentityManager);
+                    break;
+                case CliMemberType.Field:
+                    this.memberIdentifiers[memberIndex] = (IGeneralMemberUniqueIdentifier)CliMemberExtensions.GetFieldIdentifier((ICliMetadataFieldTableRow)this.memberSources[memberIndex]);
+                    break;
+                case CliMemberType.Indexer:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetIndexerIdentifier((ICliMetadataPropertyTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
+                    break;
+                case CliMemberType.Method:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetMethodIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager, () => (IMethodMember)this.Values[memberIndex].Entry);
+                    break;
+                case CliMemberType.Property:
+                    this.memberIdentifiers[memberIndex] = (IGeneralMemberUniqueIdentifier)CliMemberExtensions.GetPropertyIdentifier((ICliMetadataPropertyTableRow)this.memberSources[memberIndex]);
+                    break;
+                case CliMemberType.TypeCoercionOperator:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetTypeCoercionOperatorIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
+                    break;
+                case CliMemberType.UnaryOperator:
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetUnaryOperatorIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
+                    break;
+                default:
+                    throw new InvalidOperationException("Member of invalid kind.");
+                    break;
+            }
         }
 
         private void CheckItemAt(int memberIndex)

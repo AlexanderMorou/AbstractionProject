@@ -16,11 +16,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 {
     partial class IntermediateDeclarationDictionary<TIdentifier, TDeclaration, TIntermediateDeclaration>
         where TIdentifier :
-            IDeclarationUniqueIdentifier
+            IDeclarationUniqueIdentifier,
+            IGeneralDeclarationUniqueIdentifier
         where TDeclaration :
             IDeclaration
         where TIntermediateDeclaration :
-            IIntermediateDeclaration,
+            IIntermediateDeclaration<TIdentifier>,
             TDeclaration
     {
         /// <summary>

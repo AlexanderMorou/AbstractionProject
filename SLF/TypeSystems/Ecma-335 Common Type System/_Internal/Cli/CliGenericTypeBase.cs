@@ -16,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where TType :
             IGenericType<TIdentifier, TType>
     {
-
+        private ILockedTypeCollection genericParameters;
+        private TypeParameterDictionary typeParameters;
         protected CliGenericTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadataEntry)
             : base(assembly, metadataEntry)
         {
@@ -24,14 +25,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IGenericType<TIdentifier,TType> Members
 
-        public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract TType MakeGenericClosure(ITypeCollectionBase typeParameters);
 
         public TType MakeGenericClosure(params IType[] typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters.ToCollection());
         }
 
         #endregion
@@ -49,7 +47,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGenericParameterDictionary<IGenericTypeParameter<TIdentifier, TType>, TType> TypeParameters
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.typeParameters == null)
+                    this.typeParameters = new TypeParameterDictionary(this);
+                return this.typeParameters;
+            }
         }
 
         #endregion
@@ -63,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters
         {
-            get { throw new NotImplementedException(); }
+            get { return (IGenericParameterDictionary)this.TypeParameters; }
         }
 
         IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
@@ -78,12 +80,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public bool ContainsGenericParameters
         {
-            get { throw new NotImplementedException(); }
+            get { return this.IsGenericConstruct; }
         }
 
         public ILockedTypeCollection GenericParameters
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.genericParameters == null)
+                    this.genericParameters = new LockedTypeCollection(this.TypeParameters.Values);
+                return this.genericParameters;
+            }
         }
 
         #endregion

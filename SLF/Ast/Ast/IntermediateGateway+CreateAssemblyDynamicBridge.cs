@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 get
                 {
                     if (ctorDelegate == null)
-                        ctorDelegate = ((ConstructorInfo)MethodInfo.GetMethodFromHandle(ctorHandle, typeof(TAssembly).TypeHandle)).BuildOptimizedConstructorDelegateEx<Func<string, TAssembly>>();
+                        ctorDelegate = ((ConstructorInfo)MethodInfo.GetMethodFromHandle(ctorHandle, typeof(TAssembly).TypeHandle)).BuildOptimizedConstructorDelegate<Func<string, TAssembly>>();
                     return ctorDelegate;
                 }
             }

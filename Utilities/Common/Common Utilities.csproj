@@ -150,6 +150,7 @@
     <Compile Include="Collections\ReadonlyMultikeyedDictionary`7.cs" />
     <Compile Include="Collections\ReadonlyMultikeyedDictionary`8.cs" />
     <Compile Include="Collections\SubKeyNotFoundException.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IO\BitVectorStream.cs" />
     <Compile Include="IO\EndianAwareBinaryWriter .cs" />
     <Compile Include="IO\EndianAwareBinaryReader.cs" />

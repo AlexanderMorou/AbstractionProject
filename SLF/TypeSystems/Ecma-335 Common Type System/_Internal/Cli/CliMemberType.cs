@@ -11,6 +11,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         Constructor,
         Event,
         Field,
+        Indexer,
         Method,
         Property,
         TypeCoercionOperator,
