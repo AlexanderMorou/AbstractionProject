@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
         /// which details the framework version
-        /// and runtimeEnvironment <see cref="ICliAssembly"/> targets.
+        /// and platform <see cref="ICliAssembly"/> targets.
         /// </summary>
         ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }
         /// <summary>

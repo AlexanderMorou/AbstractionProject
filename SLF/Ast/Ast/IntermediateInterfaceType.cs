@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// instance which replaces the type-parameters
         /// contained within the <see cref="IntermediateInterfaceType{TInstanceType}"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
-        protected override IInterfaceType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
+        protected override IInterfaceType OnMakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return new _InterfaceTypeBase(this, typeParameters);
         }

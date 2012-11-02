@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 {
     public interface IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
         IControlledDictionary<IInterfaceType, IIntermediateInterfaceMemberMapping<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>>,
-        ITypeCollectionBase
+        IControlledTypeCollection
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :

@@ -112,8 +112,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 result.Constructors.Add(ctorSig.Parameters.ToSeries());
             foreach (var eventGroup in genericParameterData.Events)
                 result.Events.Add(eventGroup);
-            ITypeCollectionBase typeParameters = null;
-            ITypeCollectionBase methodTypeParameters = null;
+            IControlledTypeCollection typeParameters = null;
+            IControlledTypeCollection methodTypeParameters = null;
             foreach (var constraint in genericParameterData.Constraints)
                 if (constraint.ContainsSymbols())
                     result.Constraints.Add(constraint.SimpleSymbolDisambiguation(result));

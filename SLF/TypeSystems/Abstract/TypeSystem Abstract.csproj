@@ -242,7 +242,7 @@
     <Compile Include="Abstract\IStructTypeDictionary.cs" />
     <Compile Include="Abstract\IType.cs" />
     <Compile Include="Abstract\ITypeCollection.cs" />
-    <Compile Include="Abstract\ITypeCollectionBase.cs" />
+    <Compile Include="Abstract\IControlledTypeCollection.cs" />
     <Compile Include="Abstract\ITypeParent.cs" />
     <Compile Include="Abstract\IType{TType}.cs" />
     <Compile Include="Abstract\LockedTypeCollection.cs" />

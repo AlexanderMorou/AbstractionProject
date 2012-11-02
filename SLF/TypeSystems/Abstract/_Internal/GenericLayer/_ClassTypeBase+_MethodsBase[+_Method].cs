@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                 }
 
-                internal _Method(IClassMethodMember original, ITypeCollectionBase genericParameters)
+                internal _Method(IClassMethodMember original, IControlledTypeCollection genericParameters)
                     : base(original, genericParameters)
                 {
                 }
@@ -106,7 +106,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #endregion
 
-                protected override IClassMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+                protected override IClassMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
                 {
                     return new _Method(this, genericReplacements);
                 }

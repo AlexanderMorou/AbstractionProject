@@ -79,11 +79,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
-            #region ITypeCollectionBase Members
+            #region IControlledTypeCollection Members
 
-            public int IndexOf(IType item)
+            public int IndexOf(IType type)
             {
-                return this.Parent.IndexOf(item);
+                return this.Parent.IndexOf(type);
             }
 
             #endregion
@@ -102,17 +102,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public void CopyTo(IType[] array, int arrayIndex = 0)
             {
-                ((ITypeCollectionBase)this.Parent).CopyTo(array, arrayIndex);
+                ((IControlledTypeCollection)this.Parent).CopyTo(array, arrayIndex);
             }
 
             public IType this[int index]
             {
-                get { return ((ITypeCollectionBase)this.Parent)[index]; }
+                get { return ((IControlledTypeCollection)this.Parent)[index]; }
             }
 
             public IType[] ToArray()
             {
-                return ((ITypeCollectionBase)this.Parent).ToArray();
+                return ((IControlledTypeCollection)this.Parent).ToArray();
             }
 
             #endregion
@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public IEnumerator<IType> GetEnumerator()
             {
-                return ((ITypeCollectionBase)this.Parent).GetEnumerator();
+                return ((IControlledTypeCollection)this.Parent).GetEnumerator();
             }
 
             #endregion
@@ -135,9 +135,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
-            #region IEquatable<ITypeCollectionBase> Members
+            #region IEquatable<IControlledTypeCollection> Members
 
-            public bool Equals(ITypeCollectionBase other)
+            public bool Equals(IControlledTypeCollection other)
             {
                 if (other == null)
                     return false;
@@ -150,8 +150,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public override bool Equals(object obj)
             {
-                if (obj is ITypeCollectionBase)
-                    return this.Equals((ITypeCollectionBase)(obj));
+                if (obj is IControlledTypeCollection)
+                    return this.Equals((IControlledTypeCollection)(obj));
                 return false;
             }
 
@@ -192,11 +192,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
-            #region ITypeCollectionBase Members
+            #region IControlledTypeCollection Members
 
-            public int IndexOf(IType item)
+            public int IndexOf(IType type)
             {
-                return this.parent.IndexOf(item);
+                return this.parent.IndexOf(type);
             }
 
             #endregion
@@ -215,17 +215,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public void CopyTo(IType[] array, int arrayIndex = 0)
             {
-                ((ITypeCollectionBase)this.parent).CopyTo(array, arrayIndex);
+                ((IControlledTypeCollection)this.parent).CopyTo(array, arrayIndex);
             }
 
             public IType this[int index]
             {
-                get { return ((ITypeCollectionBase)this.parent)[index]; }
+                get { return ((IControlledTypeCollection)this.parent)[index]; }
             }
 
             public IType[] ToArray()
             {
-                return ((ITypeCollectionBase)this.parent).ToArray();
+                return ((IControlledTypeCollection)this.parent).ToArray();
             }
 
             #endregion
@@ -234,7 +234,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public IEnumerator<IType> GetEnumerator()
             {
-                return ((ITypeCollectionBase)this.parent).GetEnumerator();
+                return ((IControlledTypeCollection)this.parent).GetEnumerator();
             }
 
             #endregion
@@ -248,9 +248,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #endregion
 
-            #region IEquatable<ITypeCollectionBase> Members
+            #region IEquatable<IControlledTypeCollection> Members
 
-            public bool Equals(ITypeCollectionBase other)
+            public bool Equals(IControlledTypeCollection other)
             {
                 if (other == null)
                     return false;
@@ -263,8 +263,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public override bool Equals(object obj)
             {
-                if (obj is ITypeCollectionBase)
-                    return this.Equals((ITypeCollectionBase)(obj));
+                if (obj is IControlledTypeCollection)
+                    return this.Equals((IControlledTypeCollection)(obj));
                 return false;
             }
 

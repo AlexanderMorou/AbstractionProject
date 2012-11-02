@@ -85,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return base.InitializeParameters();
             }
 
-            protected override IGenericParameterMethodMember<TGenericParameter> OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+            protected override IGenericParameterMethodMember<TGenericParameter> OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
             {
                 return new _Internal.GenericLayer.Members._GenericParameterMethodMemberBase<TGenericParameter>(this, genericReplacements);
             }

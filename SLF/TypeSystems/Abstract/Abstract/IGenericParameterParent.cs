@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// closed generic form of the current <see cref="IGenericParamParent{TGenericParameter, TParent}"/>
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
-        /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/> 
+        /// <param name="typeParameters">The <see cref="IControlledTypeCollection"/> 
         /// used to fill in the type-parameters.</param>
         /// <returns>A new closed <typeparamref name="TParent"/> instance with
         /// the <paramref name="typeParameters"/> provided.</returns>
@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// The current <see cref="IGenericParamParent{TGenericParameter, TParent}"/>'s 
         /// <seealso cref="IGenericParamParent.IsGenericConstruct"/>
         /// is false.</exception>
-        new TParent MakeGenericClosure(ITypeCollectionBase typeParameters);
+        new TParent MakeGenericClosure(IControlledTypeCollection typeParameters);
 
         /// <summary>
         /// Returns a <typeparamref name="TParent"/> instance that is the 
@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <exception cref="System.InvalidOperationException">
         /// The current <see cref="IGenericParamParent"/>'s 
         /// <seealso cref="IsGenericDefinition"/> is false.</exception>
-        IGenericParamParent MakeGenericClosure(ITypeCollectionBase typeParameters);
+        IGenericParamParent MakeGenericClosure(IControlledTypeCollection typeParameters);
 
         /// <summary>
         /// Returns a <see cref="IGenericParamParent"/> instance that is the 
@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         bool ContainsGenericParameters { get; }
 
         /// <summary>
-        /// Returns a <see cref="ITypeCollection"/> which relates 
+        /// Returns a <see cref="ILockedTypeCollection"/> which relates 
         /// to the current generic parent's type-parameters.
         /// </summary>
         /// <remarks>Differs from <see cref="TypeParameters"/>

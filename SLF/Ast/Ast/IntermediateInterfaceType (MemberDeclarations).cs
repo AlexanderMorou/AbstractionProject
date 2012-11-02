@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 : base(parent, parent.IdentityManager)
             {
             }
-            protected override IInterfaceMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+            protected override IInterfaceMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
             {
                 return new _InterfaceTypeBase._MethodsBase._Method(this, genericReplacements);
             }

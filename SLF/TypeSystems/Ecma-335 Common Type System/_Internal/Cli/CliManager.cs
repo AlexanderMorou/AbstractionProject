@@ -180,7 +180,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     bool positiveMatch = true;
                     if (t.DeclaringMethod == null && t.DeclaringType != null)
                     {
-                        IGenericType lookupPoint = (IGenericType) this.ObtainTypeReference(t.DeclaringType);
+                        IGenericType lookupPoint = (IGenericType)this.ObtainTypeReference(t.DeclaringType);
                         if (!(t.GenericParameterPosition < 0 || t.GenericParameterPosition >= lookupPoint.GenericParameters.Count))
                         {
                             result = lookupPoint.GenericParameters[t.GenericParameterPosition];
@@ -235,7 +235,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
                 #region GenericParameter production
                 IGenericType gType;
-                if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType) (result))).IsGenericDefinition)
+                if (typeParameters != null && result.IsGenericConstruct && result is IGenericType && (gType = ((IGenericType)(result))).IsGenericDefinition)
                 {
                     result = gType.MakeGenericClosure(typeParameters);
                     CacheAdd(closedGenericType, result);
@@ -278,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             var typeHandle = (uint)baseElementType.MetadataToken;
             var typeIndex = typeHandle & 0x00FFFFFF;
-            CliMetadataTableKinds typeTable = (CliMetadataTableKinds) ((ulong)1 << (int)((typeHandle & 0xFF000000U) >> 24));
+            CliMetadataTableKinds typeTable = (CliMetadataTableKinds)((ulong)1 << (int)((typeHandle & 0xFF000000U) >> 24));
             var assembly = (ICliAssembly)this.ObtainAssemblyReference(baseElementType.Assembly);
             var tableStream = assembly.MetadataRoot.TableStream;
             if (typeTable == CliMetadataTableKinds.GenericParameter)
@@ -507,27 +507,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow typeIdentity)
         {
+            return this.ObtainTypeReference(typeIdentity, null, null);
+        }
+
+        private IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        {
             switch (typeIdentity.TypeDefOrRefEncoding)
             {
                 case CliMetadataTypeDefOrRefTag.TypeDefinition:
                     if (typeIdentity is ICliMetadataTypeDefinitionTableRow)
-                        return this.ObtainTypeReference((ICliMetadataTypeDefinitionTableRow) typeIdentity);
+                        return this.ObtainTypeReference((ICliMetadataTypeDefinitionTableRow)typeIdentity);
                     throw new ArgumentException(string.Format("Type identity not of required type '{0}'.", typeof(ICliMetadataTypeDefinitionTableRow)), "typeIdentity");
                 case CliMetadataTypeDefOrRefTag.TypeReference:
                     if (typeIdentity is ICliMetadataTypeRefTableRow)
-                        return this.ObtainTypeReference((ICliMetadataTypeRefTableRow) typeIdentity);
+                        return this.ObtainTypeReference((ICliMetadataTypeRefTableRow)typeIdentity);
                     throw new ArgumentException(string.Format("Type identity not of required type '{0}'.", typeof(ICliMetadataTypeRefTableRow)), "typeIdentity");
                     throw new NotSupportedException();
                 case CliMetadataTypeDefOrRefTag.TypeSpecification:
                     if (typeIdentity is ICliMetadataTypeSpecificationTableRow)
-                        return this.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow) typeIdentity);
+                        return this.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow)typeIdentity, activeType, activeMethod);
                     throw new ArgumentException(string.Format("Type identity not of required type '{0}'.", typeof(ICliMetadataTypeSpecificationTableRow)), "typeIdentity");
                     throw new NotSupportedException();
                 default:
                     throw new ArgumentOutOfRangeException("typeIdentity");
             }
         }
-
         public IType ObtainTypeReference(ICliMetadataTypeRefTableRow typeIdentity)
         {
             switch (typeIdentity.ResolutionScope)
@@ -593,7 +597,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(typeIdentity.MetadataRoot.SourceImage, typeIdentity.MetadataRoot));
                             if (identifier == null)
                             {
-                                var loadedModule = this.LoadModule((ICliMetadataModuleReferenceTableRow) typeIdentity.Source);
+                                var loadedModule = this.LoadModule((ICliMetadataModuleReferenceTableRow)typeIdentity.Source);
                                 if (loadedModule == null)
                                     throw new TypeLoadException(string.Format("Module {0} containing type {1} could not be loaded.", typeIdentity.Source.Name, typeIdentity.Name));
 
@@ -635,7 +639,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                 case CliMetadataResolutionScopeTag.TypeReference:
                     {
-                        var declaringTypeRef = this.ObtainTypeReference((ICliMetadataTypeRefTableRow) typeIdentity.Source);
+                        var declaringTypeRef = this.ObtainTypeReference((ICliMetadataTypeRefTableRow)typeIdentity.Source);
                         if (declaringTypeRef is ICliTypeParent)
                         {
                             var dtp = declaringTypeRef as ICliTypeParent;
@@ -910,25 +914,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             switch (typeIdentity.TypeSignatureKind)
             {
                 case CliMetadataTypeSignatureKind.ArrayType:
-                    return ObtainTypeReference((ICliMetadataArrayTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataArrayTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.ElementType:
-                    return ObtainTypeReference((ICliMetadataElementTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataElementTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.ElementTypeAndModifiers:
-                    return ObtainTypeReference((ICliMetadataElementTypeAndModifiersSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataElementTypeAndModifiersSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.GenericParameter:
-                    return ObtainTypeReference((ICliMetadataGenericParameterTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataGenericParameterTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.FunctionPointerType:
-                    return ObtainTypeReference((ICliMetadataFunctionPointerTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataFunctionPointerTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.NativeType:
-                    return ObtainTypeReference((ICliMetadataNativeTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataNativeTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.ReturnType:
-                    return ObtainTypeReference((ICliMetadataReturnTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataReturnTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.ValueOrClassType:
-                    return ObtainTypeReference((ICliMetadataValueOrClassTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataValueOrClassTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.GenericInstType:
-                    return ObtainTypeReference((ICliMetadataGenericInstanceTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataGenericInstanceTypeSignature)typeIdentity, activeType, activeMethod);
                 case CliMetadataTypeSignatureKind.VectorArrayType:
-                    return ObtainTypeReference((ICliMetadataVectorArrayTypeSignature) typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataVectorArrayTypeSignature)typeIdentity, activeType, activeMethod);
                 default:
                     throw new NotSupportedException();
             }
@@ -967,7 +971,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataElementTypeAndModifiersSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            return ((_ICliType) this.ObtainTypeReference((ICliMetadataElementTypeSignature) (typeIdentity))).MakeModified(typeIdentity.CustomModifiers);
+            return ((_ICliType)this.ObtainTypeReference((ICliMetadataElementTypeSignature)(typeIdentity))).MakeModified(typeIdentity.CustomModifiers);
         }
 
         private IType ObtainTypeReference(ICliMetadataGenericParameterTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -992,18 +996,65 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataNativeTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            throw new NotImplementedException();
+            switch (typeIdentity.TypeKind)
+            {
+                case CliMetadataNativeTypes.Void:
+                    return this.ObtainTypeReference(RuntimeCoreType.VoidType);
+                case CliMetadataNativeTypes.Boolean:
+                    return this.ObtainTypeReference(RuntimeCoreType.Boolean);
+                case CliMetadataNativeTypes.Char:
+                    return this.ObtainTypeReference(RuntimeCoreType.Char);
+                case CliMetadataNativeTypes.SByte:
+                    return this.ObtainTypeReference(RuntimeCoreType.SByte);
+                case CliMetadataNativeTypes.Byte:
+                    return this.ObtainTypeReference(RuntimeCoreType.Byte);
+                case CliMetadataNativeTypes.Int16:
+                    return this.ObtainTypeReference(RuntimeCoreType.Int16);
+                case CliMetadataNativeTypes.UInt16:
+                    return this.ObtainTypeReference(RuntimeCoreType.UInt16);
+                case CliMetadataNativeTypes.Int32:
+                    return this.ObtainTypeReference(RuntimeCoreType.Int32);
+                case CliMetadataNativeTypes.UInt32:
+                    return this.ObtainTypeReference(RuntimeCoreType.UInt32);
+                case CliMetadataNativeTypes.Int64:
+                    return this.ObtainTypeReference(RuntimeCoreType.Int64);
+                case CliMetadataNativeTypes.UInt64:
+                    return this.ObtainTypeReference(RuntimeCoreType.UInt64);
+                case CliMetadataNativeTypes.Single:
+                    return this.ObtainTypeReference(RuntimeCoreType.Single);
+                case CliMetadataNativeTypes.Double:
+                    return this.ObtainTypeReference(RuntimeCoreType.Double);
+                case CliMetadataNativeTypes.String:
+                    return this.ObtainTypeReference(RuntimeCoreType.String);
+                case CliMetadataNativeTypes.TypedByReference:
+                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"));
+                case CliMetadataNativeTypes.NativeInteger:
+                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"));
+                case CliMetadataNativeTypes.NativeUnsignedInteger:
+                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"));
+                case CliMetadataNativeTypes.Object:
+                    return this.ObtainTypeReference(RuntimeCoreType.RootType);
+                case CliMetadataNativeTypes.Type:
+                    return this.ObtainTypeReference(RuntimeCoreType.Type);
+                default:
+                    throw new NotSupportedException();
+            }
         }
 
         private IType ObtainTypeReference(ICliMetadataReturnTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            throw new NotImplementedException();
+            if (typeIdentity.CustomModifiers.Count == 0)
+                return this.ObtainTypeReference(typeIdentity.ReturnType, activeType, activeMethod);
+            else
+                return this.ObtainTypeReference(typeIdentity.ReturnType, activeType, activeMethod).MakeModified((from m in typeIdentity.CustomModifiers
+                                                                                                                 select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
         }
 
         private IType ObtainTypeReference(ICliMetadataValueOrClassTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            throw new NotImplementedException();
+            return this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod);
         }
+
 
         private IType ObtainTypeReference(ICliMetadataGenericInstanceTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
@@ -1094,7 +1145,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new NotImplementedException();
             }
 
-            public override D MakeGenericClosure(ITypeCollectionBase typeParameters)
+            protected override D OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
             {
                 throw new NotImplementedException();
             }
@@ -1311,22 +1362,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        public IClassType MakeGenericClosure(IClassType source, ITypeCollectionBase closureArguments)
+        public IClassType MakeGenericClosure(IClassType source, IControlledTypeCollection closureArguments)
         {
             throw new NotImplementedException();
         }
 
-        public IDelegateType MakeGenericClosure(IDelegateType source, ITypeCollectionBase closureArguments)
+        public IDelegateType MakeGenericClosure(IDelegateType source, IControlledTypeCollection closureArguments)
         {
             throw new NotImplementedException();
         }
 
-        public IInterfaceType MakeGenericClosure(IInterfaceType source, ITypeCollectionBase closureArguments)
+        public IInterfaceType MakeGenericClosure(IInterfaceType source, IControlledTypeCollection closureArguments)
         {
             throw new NotImplementedException();
         }
 
-        public IStructType MakeGenericClosure(IStructType source, ITypeCollectionBase closureArguments)
+        public IStructType MakeGenericClosure(IStructType source, IControlledTypeCollection closureArguments)
         {
             throw new NotImplementedException();
         }
@@ -1349,7 +1400,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (!(type is ICliType))
                 return RuntimeCoreType.None;
-            var cliType = (ICliType) type;
+            var cliType = (ICliType)type;
             var metadata = cliType.MetadataEntry;
             if (this.RuntimeEnvironment.UseCoreLibrary)
             {

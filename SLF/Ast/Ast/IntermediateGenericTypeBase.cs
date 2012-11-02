@@ -141,7 +141,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IGenericParamParent Members
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -182,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// The current <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>'s 
         /// <seealso cref="IsGenericDefinition"/>
         /// is false.</exception>
-        public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
+        public TType MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             LockedTypeCollection lockedTypeParameters = typeParameters.ToLockedCollection();
             IGenericType genericResult;
@@ -257,7 +257,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -289,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// instance which replaces the type-parameters
         /// contained within the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.</returns>
         /// <remarks>Performs no type-parameter check.</remarks>
-        protected abstract TType OnMakeGenericClosure(ITypeCollectionBase typeParameters);
+        protected abstract TType OnMakeGenericClosure(IControlledTypeCollection typeParameters);
 
         /// <summary>
         /// Disposes the <see cref="IntermediateGenericTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.

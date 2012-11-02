@@ -18,6 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// </summary>
     public enum TypeConversionRequirement
     {
+        Unknown,
         /// <summary>
         /// The conversion from/to the containing type of the <see cref="ITypeCoercionMember"/>
         /// must be specified through a cast.

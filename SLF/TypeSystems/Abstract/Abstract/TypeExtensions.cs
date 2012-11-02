@@ -365,7 +365,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        internal static bool ContainsGenericParameters(this ITypeCollectionBase collection)
+        internal static bool ContainsGenericParameters(this IControlledTypeCollection collection)
         {
             return collection.Any(current => current.ContainsGenericParameters());
         }
@@ -415,7 +415,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// flag, or when <paramref name="methodReplacements"/> is null and 
         /// <paramref name="parameterSource"/> contains the <see cref="TypeParameterSources.Method"/> 
         /// flag.</exception>
-        public static IType Disambiguify(this IType target, ITypeCollectionBase typeReplacements, ITypeCollectionBase methodReplacements, TypeParameterSources parameterSource)
+        public static IType Disambiguify(this IType target, IControlledTypeCollection typeReplacements, IControlledTypeCollection methodReplacements, TypeParameterSources parameterSource)
         {
             if (((parameterSource & TypeParameterSources.Type) == TypeParameterSources.Type) &&
                 typeReplacements == null)

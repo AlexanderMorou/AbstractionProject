@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// </typeparam>
     public interface IReadOnlyDictionary<TKey, TValue> :
         IControlledDictionary<TKey, TValue>,
-        IReadOnlyCollection<KeyValuePair<TKey, TValue>>
+        IControlledCollection<KeyValuePair<TKey, TValue>>
     {
 
     }

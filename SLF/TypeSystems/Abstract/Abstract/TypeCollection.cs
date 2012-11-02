@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public class TypeCollection :
         List<IType>,
         ITypeCollection,
-        IEquatable<ITypeCollectionBase>
+        IEquatable<IControlledTypeCollection>
     {
         /// <summary>
         /// Returns a blank <see cref="ITypeCollection"/> which is locked.
@@ -69,9 +69,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         #endregion
 
 
-        #region IEquatable<ITypeCollectionBase> Members
+        #region IEquatable<IControlledTypeCollection> Members
 
-        public bool Equals(ITypeCollectionBase other)
+        public bool Equals(IControlledTypeCollection other)
         {
             if (other == null)
                 return false;
@@ -86,8 +86,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public override bool Equals(object obj)
         {
-            if (obj is ITypeCollectionBase)
-                return this.Equals((ITypeCollectionBase)(obj));
+            if (obj is IControlledTypeCollection)
+                return this.Equals((IControlledTypeCollection)(obj));
             return false;
         }
 

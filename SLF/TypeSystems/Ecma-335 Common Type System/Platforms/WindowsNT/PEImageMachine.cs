@@ -59,12 +59,12 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         /// </summary>
         AlphaAXP = 0x184,
         /// <summary>
-        /// Targets the PowerPC runtimeEnvironment by International Business
+        /// Targets the PowerPC platform by International Business
         /// Machines (IBM).
         /// </summary>
         PowerPC = 0x1F0,
         /// <summary>
-        /// Targets the Intel Itanium runtimeEnvironment using selectable
+        /// Targets the Intel Itanium platform using selectable
         /// endianness word byte addressing format.
         /// </summary>
         Itanium = 0x200,

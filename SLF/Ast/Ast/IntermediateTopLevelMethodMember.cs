@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        protected override ITopLevelMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override ITopLevelMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
         {
             return new _TopLevelMethod(this, genericReplacements);
         }

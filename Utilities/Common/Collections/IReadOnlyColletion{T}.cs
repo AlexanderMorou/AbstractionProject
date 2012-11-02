@@ -15,8 +15,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// a generic read-only collection.
     /// </summary>
     /// <typeparam name="T">The type of element used 
-    /// in the <see cref="IReadOnlyCollection"/></typeparam>
-    public interface IReadOnlyCollection<T> :
+    /// in the <see cref="IControlledCollection"/></typeparam>
+    public interface IControlledCollection<T> :
         IControlledCollection<T>
     {
 

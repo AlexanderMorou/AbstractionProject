@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Data member for maintaining a single-ton view of the generic
         /// closures of the generic series.
         /// </summary>
-        private IDictionary<ITypeCollectionBase, TSignature> genericCache;
+        private IDictionary<IControlledTypeCollection, TSignature> genericCache;
         /// <summary>
         /// Data member for <see cref="ReturnType"/>.
         /// </summary>
@@ -274,7 +274,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// replaced with the elements within 
         /// <paramref name="genericReplacements"/>.
         /// </returns>
-        public TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements)
+        public TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements)
         {
             if (!this.IsGenericConstruct)
                 throw new InvalidOperationException("not a generic method");
@@ -310,7 +310,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return this.MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
-        private bool ContainsGenericMethod(ITypeCollectionBase typeParameters, ref TSignature r)
+        private bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TSignature r)
         {
             if (this.genericCache == null)
                 return false;
@@ -332,7 +332,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/>
         /// is not a generic closure of the current generic method.</exception>
-        protected abstract TSignature OnMakeGenericMethod(ITypeCollectionBase genericReplacements);
+        protected abstract TSignature OnMakeGenericMethod(IControlledTypeCollection genericReplacements);
 
         /// <summary>
         /// Returns the original generic form of the current
@@ -605,7 +605,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         #region IGenericParamParent<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember> Members
 
 
-        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember>.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember>.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -620,7 +620,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         #region IGenericParamParent Members
 
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }

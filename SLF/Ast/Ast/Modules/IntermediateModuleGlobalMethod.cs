@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Modules
         {
         }
 
-        protected override IModuleGlobalMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override IModuleGlobalMethod OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
         {
             return new _GlobalMethodMember(this, genericReplacements);
         }

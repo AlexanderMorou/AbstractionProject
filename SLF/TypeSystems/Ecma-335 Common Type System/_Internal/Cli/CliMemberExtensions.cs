@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using System.Diagnostics;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -191,14 +192,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static ISignatureMemberUniqueIdentifier GetCtorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
-            return AstIdentifier.GetCtorSignatureIdentifier(from p in methodDef.Signature.Parameters
-                                                            select manager.ObtainTypeReference(p.ParameterType, owner, null));
+            return AstIdentifier.GetCtorSignatureIdentifier((from p in methodDef.Signature.Parameters
+                                                             select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
         }
 
         internal static ISignatureMemberUniqueIdentifier GetEventIdentifier(ICliMetadataEventTableRow eventDef, _ICliManager manager)
         {
-            return AstIdentifier.GetSignatureIdentifier(eventDef.Name, from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType)).Parameters.Values
-                                                                       select p.ParameterType);
+            return AstIdentifier.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType)).Parameters.Values
+                                                                        select p.ParameterType).SinglePass());
         }
 
         internal static IMemberUniqueIdentifier GetFieldIdentifier(ICliMetadataFieldTableRow fieldDef)
@@ -224,18 +225,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     knockOffLast = true;
             }
             if (targetMethod != null)
-            {
-                return AstIdentifier.GetSignatureIdentifier(indexerDef.Name, from p in (knockOffLast ? targetMethod.Signature.Parameters.Take(targetMethod.Signature.Parameters.Count - 1) : targetMethod.Signature.Parameters)
-                                                                             select manager.ObtainTypeReference(p.ParameterType, owner, null));
-            }
+                return AstIdentifier.GetSignatureIdentifier(indexerDef.Name, (from p in (knockOffLast ? targetMethod.Signature.Parameters.Take(targetMethod.Signature.Parameters.Count - 1) : targetMethod.Signature.Parameters)
+                                                                              select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
             else
                 return AstIdentifier.GetSignatureIdentifier(indexerDef.Name);
         }
 
         internal static IGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodMember> memberGetter)
         {
-            return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, from p in methodDef.Signature.Parameters
-                                                                                                               select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter()));
+            return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
+                                                                                                                select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
         }
 
         internal static IMemberUniqueIdentifier GetPropertyIdentifier(ICliMetadataPropertyTableRow propertyDef)
@@ -245,7 +244,59 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static IGeneralMemberUniqueIdentifier GetTypeCoercionOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
-            throw new NotImplementedException();
+            var coercionParameter = methodDef.Signature.Parameters.FirstOrDefault();
+            if (coercionParameter == null)
+                return null;
+            var coercionType = manager.ObtainTypeReference(coercionParameter.ParameterType, owner, null);
+            var returnType = manager.ObtainTypeReference(methodDef.Signature.ReturnType, owner, null);
+            if (coercionType == null || returnType == null)
+                return null;
+            var genericOwner = owner as IGenericType;
+            TypeConversionRequirement requirement = (methodDef.Name == CliCommon.TypeCoercionNames.Implicit) ? TypeConversionRequirement.Implicit : (methodDef.Name == CliCommon.TypeCoercionNames.Explicit) ? TypeConversionRequirement.Explicit : TypeConversionRequirement.Unknown;
+            if (genericOwner == null)
+                goto nonGenericResolution;
+            else
+            {
+                if (owner.IsGenericConstruct)
+                {
+                    if (TypesAreEquivalent(owner, coercionType))
+                        return AstIdentifier.GetTypeOperatorFromIdentifier(requirement, returnType);
+                    else if (TypesAreEquivalent(owner, returnType))
+                        return AstIdentifier.GetTypeOperatorToIdentifier(requirement, coercionType);
+                    else
+                        goto nonGenericResolution;
+                }
+                else
+                    goto nonGenericResolution;
+            }
+        nonGenericResolution:
+            if (owner == coercionType)
+                return AstIdentifier.GetTypeOperatorFromIdentifier(requirement, returnType);
+            else if (owner == returnType)
+                return AstIdentifier.GetTypeOperatorToIdentifier(requirement, coercionType);
+            else
+                return null;
+        }
+
+        private static bool TypesAreEquivalent(IType source, IType alternate)
+        {
+            if (source == alternate)
+                return true;
+            else if (source is IGenericType &&
+                alternate is IGenericType)
+            {
+                var genericSource = (IGenericType)source;
+                var genericAlternate = (IGenericType)alternate;
+                if (genericSource.IsGenericConstruct && genericAlternate.IsGenericConstruct)
+                {
+                    if (genericAlternate.IsGenericDefinition ||
+                        genericAlternate.ElementClassification != TypeElementClassification.GenericTypeDefinition)
+                        return false;
+                    if (genericAlternate.ElementType == genericSource)
+                        return genericAlternate.GenericParameters.SequenceEqual(genericSource.GenericParameters);
+                }
+            }
+            return false;
         }
 
         internal static IGeneralMemberUniqueIdentifier GetUnaryOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)

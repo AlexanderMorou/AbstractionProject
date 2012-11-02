@@ -67,7 +67,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return this.Parent; }
         }
 
-        public ITypeCollectionBase ParameterTypes
+        public IControlledTypeCollection ParameterTypes
         {
             get { return new CliSignatureTypeCollection(this.manager, this.signature); }
         }

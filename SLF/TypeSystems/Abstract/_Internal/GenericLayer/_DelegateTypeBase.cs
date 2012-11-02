@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     {
         private _Parameters parameters;
         private _FullMembersBase members;
-        internal _DelegateTypeBase(IDelegateType original, ITypeCollectionBase genericParameters)
+        internal _DelegateTypeBase(IDelegateType original, IControlledTypeCollection genericParameters)
             : base(original, genericParameters)
         {
 

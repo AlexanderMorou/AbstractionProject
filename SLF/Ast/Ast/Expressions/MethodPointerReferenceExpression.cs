@@ -114,13 +114,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 
             #endregion
 
-            #region ITypeCollectionBase Members
+            #region IControlledTypeCollection Members
 
-            public int IndexOf(IType item)
+            public int IndexOf(IType type)
             {
                 int index = 0;
                 foreach (var element in this.source.Parameters.Values)
-                    if (element.ParameterType == item)
+                    if (element.ParameterType == type)
                         return index;
                     else
                         index++;
@@ -183,9 +183,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 
             #endregion
 
-            #region IEquatable<ITypeCollectionBase> Members
+            #region IEquatable<IControlledTypeCollection> Members
 
-            public bool Equals(ITypeCollectionBase other)
+            public bool Equals(IControlledTypeCollection other)
             {
                 if (other == null)
                     return false;
@@ -198,8 +198,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 
             public override bool Equals(object obj)
             {
-                if (obj is ITypeCollectionBase)
-                    return this.Equals((ITypeCollectionBase)(obj));
+                if (obj is IControlledTypeCollection)
+                    return this.Equals((IControlledTypeCollection)(obj));
                 return false;
             }
 

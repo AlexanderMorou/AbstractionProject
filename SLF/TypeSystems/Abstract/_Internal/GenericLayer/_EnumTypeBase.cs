@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private _FullMembersBase members;
         protected IEnumType Original { get; private set; }
 
-        internal _EnumTypeBase(IEnumType original, ITypeCollectionBase genericParameters)
+        internal _EnumTypeBase(IEnumType original, IControlledTypeCollection genericParameters)
         {
             if (!(genericParameters is LockedTypeCollection))
                 genericParameters = genericParameters.ToLockedCollection();
@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { return this.genericParameters; }
         }
 
-        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -162,7 +162,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        public _DummyEnumType MakeGenericClosure(ITypeCollectionBase typeParameters)
+        public _DummyEnumType MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
@@ -366,7 +366,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         #region IGenericParamParent Members
 
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }

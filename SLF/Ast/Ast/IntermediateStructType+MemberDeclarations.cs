@@ -644,7 +644,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        protected override IStructMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override IStructMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
         {
             return new _StructTypeBase._MethodsBase._Method(this, genericReplacements);
         }

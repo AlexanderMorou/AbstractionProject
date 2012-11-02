@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Properties;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -16,6 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         where TType :
             IGenericType<TIdentifier, TType>
     {
+        private GenericTypeCache genericCache = null;
         private ILockedTypeCollection genericParameters;
         private TypeParameterDictionary typeParameters;
         protected CliGenericTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadataEntry)
@@ -25,7 +27,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IGenericType<TIdentifier,TType> Members
 
-        public abstract TType MakeGenericClosure(ITypeCollectionBase typeParameters);
+        public TType MakeGenericClosure(IControlledTypeCollection typeParameters)
+        {
+            LockedTypeCollection lockedTypeParameters = typeParameters.ToLockedCollection();
+            IGenericType genericResult;
+            lock (this.SyncObject)
+                if (this.genericCache != null && genericCache.TryObtainGenericClosure(lockedTypeParameters, out genericResult))
+                    return (TType)genericResult;
+            return this.OnMakeGenericClosure(lockedTypeParameters);
+        }
+
+        protected abstract TType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters);
 
         public TType MakeGenericClosure(params IType[] typeParameters)
         {
@@ -68,7 +80,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return (IGenericParameterDictionary)this.TypeParameters; }
         }
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -101,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region IGenericType Members
 
-        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }

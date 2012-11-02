@@ -39,6 +39,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal const string VersionString_4_0_30319 = "v4.0.30319";
         internal const string VersionString_4_5 = "v4.5";
 
+        internal const string ConstructorName = ".ctor";
+        internal const string ConstructorStaticName = ".cctor";
+
+
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
@@ -186,9 +190,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     peStream.Dispose();
                 }
                 return null;
-            }
-            finally
-            {
             }
         }
 

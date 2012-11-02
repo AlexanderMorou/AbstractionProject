@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public class LockedTypeCollection :
         ILockedTypeCollection,
         ITypeCollection,
-        IEquatable<ITypeCollectionBase>
+        IEquatable<IControlledTypeCollection>
     {
         /// <summary>
         /// An empty series of types that is locked.
@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <param name="source">The source <see cref="ITypeCollection"/> which contains the 
         /// <see cref="IType"/> instances to lock.</param>
-        public LockedTypeCollection(ITypeCollectionBase source)
+        public LockedTypeCollection(IControlledTypeCollection source)
             : this((IEnumerable<IType>)source)
         {
         }
@@ -107,9 +107,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         #region IList<IType> Members
 
-        public int IndexOf(IType item)
+        public int IndexOf(IType type)
         {
-            return this.copy.IndexOf(item);
+            return this.copy.IndexOf(type);
         }
 
         #endregion
@@ -234,9 +234,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
 
-        #region IEquatable<ITypeCollectionBase> Members
+        #region IEquatable<IControlledTypeCollection> Members
 
-        public bool Equals(ITypeCollectionBase other)
+        public bool Equals(IControlledTypeCollection other)
         {
             if (other == null)
                 return false;
@@ -251,8 +251,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public override bool Equals(object obj)
         {
-            if (obj is ITypeCollectionBase)
-                return this.Equals((ITypeCollectionBase)(obj));
+            if (obj is IControlledTypeCollection)
+                return this.Equals((IControlledTypeCollection)(obj));
             return false;
         }
 

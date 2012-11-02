@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal class CliSignatureTypeCollection :
-        ITypeCollectionBase
+        IControlledTypeCollection
     {
         private ICliMetadataMethodSignature signature;
         private IType[] signatureTypes;
@@ -25,16 +25,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             this.signatureTypes = new IType[signature.Parameters.Count];
         }
 
-        #region ITypeCollectionBase Members
+        #region IControlledTypeCollection Members
 
-        public int IndexOf(IType item)
+        public int IndexOf(IType type)
         {
             int firstNull = -1;
             for (int typeIndex = 0; typeIndex < this.signatureTypes.Length; typeIndex++)
             {
                 if (this.signatureTypes[typeIndex] != null)
                 {
-                    if (this.signatureTypes[typeIndex].Equals(item))
+                    if (this.signatureTypes[typeIndex].Equals(type))
                         return typeIndex;
                 }
                 else if (firstNull == -1)
@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return -1;
             for (int typeIndex = firstNull; typeIndex < this.Count; typeIndex++)
             {
-                if (!CheckItemAt(typeIndex) && this.signatureTypes[typeIndex].Equals(item))
+                if (!CheckItemAt(typeIndex) && this.signatureTypes[typeIndex].Equals(type))
                     return typeIndex;
             }
             return -1;
@@ -155,9 +155,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        #region IEquatable<ITypeCollectionBase> Members
+        #region IEquatable<IControlledTypeCollection> Members
 
-        public bool Equals(ITypeCollectionBase other)
+        public bool Equals(IControlledTypeCollection other)
         {
             if (this.Count != other.Count)
                 return false;

@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// Data member for the generic parameters cache.
         /// </summary>
-        private Dictionary<ITypeCollectionBase, IMethodSignatureMember> genericCache = null;
+        private Dictionary<IControlledTypeCollection, IMethodSignatureMember> genericCache = null;
 
         internal _MethodSignatureMemberBase(TSignatureParent parent, TSignature original)
             : base(parent, original)
@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         }
 
-        internal _MethodSignatureMemberBase(TSignature original, ITypeCollectionBase genericReplacements)
+        internal _MethodSignatureMemberBase(TSignature original, IControlledTypeCollection genericReplacements)
             : base(original, genericReplacements)
         {
         }
@@ -47,21 +47,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #region _IGenericMethodSignatureRegistrar Members
 
-        public void RegisterGenericMethodSignature(IMethodSignatureMember targetSignature, ITypeCollectionBase typeParameters)
+        public void RegisterGenericMethodSignature(IMethodSignatureMember targetSignature, IControlledTypeCollection typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new Dictionary<ITypeCollectionBase, IMethodSignatureMember>();
+                this.genericCache = new Dictionary<IControlledTypeCollection, IMethodSignatureMember>();
             IMethodSignatureMember required = null;
             if (this.ContainsGenericMethodSignature(typeParameters, ref required))
                 return;
             genericCache.Add(typeParameters, targetSignature);
         }
 
-        public void UnregisterGenericMethodSignature(ITypeCollectionBase typeParameters)
+        public void UnregisterGenericMethodSignature(IControlledTypeCollection typeParameters)
         {
             if (this.genericCache == null)
                 return;
-            ITypeCollectionBase match = null;
+            IControlledTypeCollection match = null;
             foreach (var itc in this.genericCache.Keys)
                 if (itc.SequenceEqual(typeParameters))
                 {
@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #endregion
 
-        private bool ContainsGenericMethodSignature(ITypeCollectionBase typeParameters, ref IMethodSignatureMember r)
+        private bool ContainsGenericMethodSignature(IControlledTypeCollection typeParameters, ref IMethodSignatureMember r)
         {
             if (this.genericCache == null)
                 return false;
@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             r = this.genericCache[fd];
             return true;
         }
-        public override sealed TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements)
+        public override sealed TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements)
         {
             if (!this.IsGenericDefinition)
                 throw new InvalidOperationException();
@@ -114,7 +114,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return this.OnMakeGenericMethod(genericReplacements);
         }
 
-        protected abstract TSignature OnMakeGenericMethod(ITypeCollectionBase genericReplacements);
+        protected abstract TSignature OnMakeGenericMethod(IControlledTypeCollection genericReplacements);
 
         public override void Dispose()
         {

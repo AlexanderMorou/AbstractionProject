@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
-    partial class CliMetadataTableStreamAndHeader 
+    partial class CliMetadataTableStreamAndHeader
     {
         //#region ICliMetadataStreamHeader Members
 

@@ -9,6 +9,5 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         ICliMetadataSignature,
         ICliMetadataTypeSpecSignature
     {
-        CliMetadataTypeSignatureKind TypeSignatureKind { get; }
     }
 }

@@ -9,7 +9,7 @@ using System.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 {
     internal class ParameterMemberDictionaryTypes<TParent, TParameter> :
-        ITypeCollectionBase
+        IControlledTypeCollection
         where TParent :
             IParameterParent<TParent, TParameter>
         where TParameter :
@@ -24,13 +24,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
             this.owner = owner;
         }
 
-        #region ITypeCollectionBase Members
+        #region IControlledTypeCollection Members
 
-        public int IndexOf(IType item)
+        public int IndexOf(IType type)
         {
             using (var enumerator = this.owner.Values.GetEnumerator())
                 for (int i = 0; enumerator.MoveNext(); i++)
-                    if (enumerator.Current.ParameterType == item)
+                    if (enumerator.Current.ParameterType == type)
                         return i;
             return -1;
         }
@@ -102,9 +102,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         #endregion
 
-        #region IEquatable<ITypeCollectionBase> Members
+        #region IEquatable<IControlledTypeCollection> Members
 
-        public bool Equals(ITypeCollectionBase other)
+        public bool Equals(IControlledTypeCollection other)
         {
             if (other == null)
                 return false;
@@ -119,8 +119,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         public override bool Equals(object obj)
         {
-            if (obj is ITypeCollectionBase)
-                return this.Equals((ITypeCollectionBase)(obj));
+            if (obj is IControlledTypeCollection)
+                return this.Equals((IControlledTypeCollection)(obj));
             return false;
         }
 

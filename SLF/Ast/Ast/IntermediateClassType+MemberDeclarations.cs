@@ -845,7 +845,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-        protected override IClassMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override IClassMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
         {
             return new _ClassTypeBase._MethodsBase._Method(this, genericReplacements);
         }

@@ -17,7 +17,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         CliGenericParentType<IGeneralGenericTypeUniqueIdentifier, TType>,
         IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>,
         __ICliTypeParent,
-        _ICliMethodParent
+        _ICliMethodParent,
+        _ICliMemberParent
         where TIndexer :
             class,
             IIndexerMember<TIndexer, TType>
@@ -43,6 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IGenericType<IGeneralGenericTypeUniqueIdentifier, TType>,
             IInstantiableType<TCtor, TEvent, TField, TIndexer, TMethod, TProperty, IGeneralGenericTypeUniqueIdentifier, TType>
     {
+        private IFullMemberDictionary _members;
         /// <summary>
         /// Data member for <see cref="BinaryOperatorCoercions"/>.
         /// </summary>
@@ -98,7 +100,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IConstructorMemberDictionary<TCtor, TType> Constructors
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.constructors == null)
+                    this.constructors = this.InitializeConstructors();
+                return this.constructors;
+            }
         }
 
         public TCtor TypeInitializer
@@ -112,12 +119,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IConstructorMemberDictionary ICreatableParent.Constructors
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return (IConstructorMemberDictionary)this.Constructors;
+            }
         }
 
         IConstructorMember ICreatableParent.TypeInitializer
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return this.TypeInitializer;
+            }
         }
 
         #endregion
@@ -126,17 +137,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IBinaryOperatorCoercionMemberDictionary<TType> BinaryOperatorCoercions
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.binaryOperatorCoercions == null)
+                    this.binaryOperatorCoercions = this.InitializeBinaryOperatorCoercions();
+                return this.binaryOperatorCoercions;
+            }
         }
 
         public ITypeCoercionMemberDictionary<TType> TypeCoercions
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.typeCoercions == null)
+                    this.typeCoercions = this.InitializeTypeCoercions();
+                return this.typeCoercions;
+            }
         }
 
         public IUnaryOperatorCoercionMemberDictionary<TType> UnaryOperatorCoercions
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.unaryOperatorCoercions == null)
+                    this.unaryOperatorCoercions = this.InitializeUnaryOperatorCoercions();
+                return this.unaryOperatorCoercions;
+            }
         }
 
         #endregion
@@ -145,17 +170,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IBinaryOperatorCoercionMemberDictionary ICoercibleType.BinaryOperatorCoercions
         {
-            get { throw new NotImplementedException(); }
+            get { return (IBinaryOperatorCoercionMemberDictionary)this.BinaryOperatorCoercions; }
         }
 
         ITypeCoercionMemberDictionary ICoercibleType.TypeCoercions
         {
-            get { throw new NotImplementedException(); }
+            get { return (ITypeCoercionMemberDictionary)this.TypeCoercions; }
         }
 
         IUnaryOperatorCoercionMemberDictionary ICoercibleType.UnaryOperatorCoercions
         {
-            get { throw new NotImplementedException(); }
+            get { return (IUnaryOperatorCoercionMemberDictionary)this.UnaryOperatorCoercions; }
         }
 
         #endregion
@@ -164,7 +189,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IFieldMemberDictionary<TField, TType> Fields
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.fields == null)
+                    this.fields = this.InitializeFields();
+                return this.fields;
+            }
         }
 
         #endregion
@@ -173,7 +203,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IFieldMemberDictionary IFieldParent.Fields
         {
-            get { throw new NotImplementedException(); }
+            get { return (IFieldMemberDictionary)this.Fields; }
         }
 
         #endregion
@@ -182,7 +212,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IEventMemberDictionary<TEvent, TType> Events
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.events == null)
+                    this.events = this.InitializeEvents();
+                return this.events;
+            }
         }
 
         #endregion
@@ -191,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IEventSignatureMemberDictionary<TEvent, IEventParameterMember<TEvent, TType>, TType> IEventSignatureParent<TEvent, IEventParameterMember<TEvent, TType>, TType>.Events
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Events; }
         }
 
         #endregion
@@ -200,7 +234,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IEventSignatureMemberDictionary IEventSignatureParent.Events
         {
-            get { throw new NotImplementedException(); }
+            get { return (IEventSignatureMemberDictionary)this.Events; }
         }
 
         #endregion
@@ -209,7 +243,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IMethodMemberDictionary<TMethod, TType> Methods
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.methods == null)
+                    this.methods = this.InitializeMethods();
+                return this.methods;
+            }
         }
 
         #endregion
@@ -218,7 +256,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IMethodMemberDictionary IMethodParent.Methods
         {
-            get { throw new NotImplementedException(); }
+            get { return (IMethodMemberDictionary)this.Methods; }
         }
 
         #endregion
@@ -227,7 +265,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IIndexerMemberDictionary<TIndexer, TType> Indexers
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.indexers == null)
+                    this.indexers = this.InitializeIndexers();
+                return this.indexers;
+            }
         }
 
         #endregion
@@ -236,7 +279,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IIndexerMemberDictionary IIndexerParent.Indexers
         {
-            get { throw new NotImplementedException(); }
+            get { return (IIndexerMemberDictionary)this.Indexers; }
         }
 
         #endregion
@@ -245,7 +288,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IPropertyMemberDictionary<TProperty, TType> Properties
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.properties == null)
+                    this.properties = this.InitializeProperties();
+                return this.properties;
+            }
         }
 
         #endregion
@@ -254,10 +302,141 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IPropertyMemberDictionary IPropertyParent.Properties
         {
-            get { throw new NotImplementedException(); }
+            get { return (IPropertyMemberDictionary)this.Properties; }
         }
 
         #endregion
 
+        protected override sealed IFullMemberDictionary OnGetMembers()
+        {
+            if (this._members == null)
+                this._members = this.Initialize_Members();
+            return this._members;
+        }
+
+        private IConstructorMemberDictionary<TCtor, TType> InitializeConstructors()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
+        {
+            throw new NotImplementedException();
+        }
+
+        private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IFieldMemberDictionary<TField, TType> InitializeFields()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IEventMemberDictionary<TEvent, TType> InitializeEvents()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IMethodMemberDictionary<TMethod, TType> InitializeMethods()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IPropertyMemberDictionary<TProperty, TType> InitializeProperties()
+        {
+            throw new NotImplementedException();
+        }
+
+        private IFullMemberDictionary Initialize_Members()
+        {
+            return new CliFullMemberDictionary(this);
+        }
+
+        IControlledCollection<ICliMetadataPropertyTableRow> _ICliMemberParent._Properties
+        {
+            get { return this.MetadataEntry.Properties; }
+        }
+
+        IControlledCollection<ICliMetadataEventTableRow> _ICliMemberParent._Events
+        {
+            get { return this.MetadataEntry.Events; }
+        }
+
+        IControlledCollection<ICliMetadataMethodDefinitionTableRow> _ICliMemberParent._Methods
+        {
+            get { return this.MetadataEntry.Methods; }
+        }
+
+        IControlledCollection<ICliMetadataFieldTableRow> _ICliMemberParent._Fields
+        {
+            get { return this.MetadataEntry.Fields; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.BinaryOperators
+        {
+            get { return (ISubordinateDictionary)this.BinaryOperatorCoercions; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.Constructors
+        {
+            get { return (ISubordinateDictionary)this.Constructors; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.Events
+        {
+            get { return (ISubordinateDictionary)this.Events; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.Fields
+        {
+            get { return (ISubordinateDictionary)this.Fields; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.Indexers
+        {
+            get { return (ISubordinateDictionary)this.Indexers; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.Methods
+        {
+            get { return (ISubordinateDictionary)this.Methods; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.Properties
+        {
+            get { return (ISubordinateDictionary)this.Properties; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.TypeCoercions
+        {
+            get { return (ISubordinateDictionary)this.TypeCoercions; }
+        }
+
+        ISubordinateDictionary _ICliMemberParent.UnaryOperators
+        {
+            get { return (ISubordinateDictionary)this.UnaryOperatorCoercions; }
+        }
+
+        public ICliMetadataRoot MetadataRoot
+        {
+            get { return this.MetadataEntry.MetadataRoot; }
+        }
+
+        public IMember CreateItem(CliMemberType member, ICliMetadataTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

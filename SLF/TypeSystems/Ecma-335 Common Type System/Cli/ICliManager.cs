@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IAssembly ObtainAssemblyReference(string filename);
         /// <summary>
         /// Returns the <see cref="ICliRuntimeEnvironmentInfo"/> the
-        /// which details the framework version and runtimeEnvironment
+        /// which details the framework version and platform
         /// <see cref="ICliManager"/> is targeting.
         /// </summary>
         new ICliRuntimeEnvironmentInfo RuntimeEnvironment { get; }

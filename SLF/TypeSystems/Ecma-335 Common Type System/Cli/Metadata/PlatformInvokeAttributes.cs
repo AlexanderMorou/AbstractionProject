@@ -6,7 +6,7 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
     /// <summary>
-    /// Provides information about the target of a runtimeEnvironment
+    /// Provides information about the target of a platform
     /// invoke call and the character set of the target.
     /// </summary>
     public enum PlatformInvokeCharacterSet
@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
     }
 
     /// <summary>
-    /// Provides information about the target of a runtimeEnvironment
+    /// Provides information about the target of a platform
     /// invoke call and the calling convention to use to make
     /// the call.
     /// </summary>

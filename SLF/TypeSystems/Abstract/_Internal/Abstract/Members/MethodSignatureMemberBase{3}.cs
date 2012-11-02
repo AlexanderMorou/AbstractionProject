@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         #region IGenericParamParent Members
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -223,14 +223,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
 
 
-        public abstract TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
+        public abstract TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements);
 
         public TSignature MakeGenericClosure(params IType[] typeParameters)
         {
             return this.MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
-        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }

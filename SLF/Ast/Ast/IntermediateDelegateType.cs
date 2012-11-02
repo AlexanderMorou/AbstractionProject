@@ -170,7 +170,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
 
-        protected override IDelegateType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
+        protected override IDelegateType OnMakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return new _DelegateTypeBase(this, typeParameters);
         }

@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <exception cref="System.InvalidOperationException">
         /// The current <see cref="IGenericType"/>'s 
         /// <seealso cref="IGenericParamParent.IsGenericDefinition"/> is false.</exception>
-        new IGenericType MakeGenericClosure(ITypeCollectionBase typeParameters);
+        new IGenericType MakeGenericClosure(IControlledTypeCollection typeParameters);
 
         /// <summary>
         /// Returns a <see cref="IGenericType"/> instance that is the 

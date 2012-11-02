@@ -7,11 +7,16 @@ using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     /// <summary>
-    /// The kind of runtimeEnvironment targeted by a <see cref="ICliManager"/>.
+    /// The kind of platform targeted by a <see cref="ICliManager"/>.
     /// </summary>
     public enum CliFrameworkPlatform :
         ushort
     {
+        /// <summary>
+        /// The exptected <see cref="CliFrameworkPlatform"/> for a given
+        /// <see cref="CliManager"/> is any platform, be it
+        /// x86, x64 or otherwise.
+        /// </summary>
         AnyPlatform = 0x00B,
         /// <summary>
         /// The expected <see cref="CliFrameworkPlatform"/> for a given

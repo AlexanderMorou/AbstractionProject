@@ -19,12 +19,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         _MethodMemberBase<ITopLevelMethodMember, INamespaceParent>,
         ITopLevelMethodMember
     {
-        public _TopLevelMethod(ITopLevelMethodMember original, ITypeCollectionBase genericReplacements)
+        public _TopLevelMethod(ITopLevelMethodMember original, IControlledTypeCollection genericReplacements)
             : base(original, genericReplacements)
         {
 
         }
-        protected override ITopLevelMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override ITopLevelMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
