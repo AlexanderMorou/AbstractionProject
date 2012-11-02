@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         IExpression,
         ITypeReferenceExpression
     {
-        public _SymbolType(ISymbolType original, ITypeCollectionBase genericParameters)
+        public _SymbolType(ISymbolType original, IControlledTypeCollection genericParameters)
             : base(original, genericParameters)
         {
         }

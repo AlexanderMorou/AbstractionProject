@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// the method.</param>
         /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
         /// of the <paramref name="member"/>.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, IControlledTypeCollection genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, genericParameters, referenceType)
         {
             this.Member = member;
@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
         /// of the <paramref name="member"/>.</param>
-        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(IMemberParentReferenceExpression source, TSignature member, IControlledTypeCollection genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(source, genericParameters)
         {
             this.Member = member;
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// the method.</param>
         /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
         /// of the <paramref name="member"/>.</param>
-        public MethodReferenceStub(TSignature member, ITypeCollectionBase genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(TSignature member, IControlledTypeCollection genericParameters, MethodReferenceType referenceType, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(genericParameters, referenceType)
         {
             this.Member = member;
@@ -122,7 +122,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="signatureTypesObtainer">The <see cref="Func{TResult}"/> which obtains the signature
         /// of the <paramref name="member"/>.</param>
-        public MethodReferenceStub(TSignature member, ITypeCollectionBase genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
+        public MethodReferenceStub(TSignature member, IControlledTypeCollection genericParameters, Func<MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes> signatureTypesObtainer)
             : base(genericParameters)
         {
             this.Member = member;
@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name, IControlledTypeCollection genericParameters, MethodReferenceType referenceType)
             : base(source, genericParameters, referenceType)
         {
             this.name = name;
@@ -232,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name, ITypeCollectionBase genericParameters)
+        public UnboundMethodReferenceStub(IMemberParentReferenceExpression source, string name, IControlledTypeCollection genericParameters)
             : base(source, genericParameters)
         {
             this.name = name;
@@ -264,7 +264,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public UnboundMethodReferenceStub(string name, ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public UnboundMethodReferenceStub(string name, IControlledTypeCollection genericParameters, MethodReferenceType referenceType)
             : base(genericParameters, referenceType)
         {
             this.name = name;
@@ -279,7 +279,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// relative to the name of the method.</param>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public UnboundMethodReferenceStub(string name, ITypeCollectionBase genericParameters)
+        public UnboundMethodReferenceStub(string name, IControlledTypeCollection genericParameters)
             : base(genericParameters)
         {
             this.name = name;
@@ -378,7 +378,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStubBase(IMemberParentReferenceExpression source, ITypeCollectionBase genericParameters = null, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference)
+        public MethodReferenceStubBase(IMemberParentReferenceExpression source, IControlledTypeCollection genericParameters = null, MethodReferenceType referenceType = MethodReferenceType.VirtualMethodReference)
         {
             if (genericParameters != null)
                 this.genericParameters = genericParameters is ILockedTypeCollection ? ((ILockedTypeCollection)(genericParameters)) : genericParameters.ToLockedCollection();
@@ -407,7 +407,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// of generic parameter replacements for the signature.</param>
         /// <param name="referenceType">The means to refer to
         /// the method.</param>
-        public MethodReferenceStubBase(ITypeCollectionBase genericParameters, MethodReferenceType referenceType)
+        public MethodReferenceStubBase(IControlledTypeCollection genericParameters, MethodReferenceType referenceType)
             : this(null, genericParameters, referenceType)
         {
         }
@@ -419,7 +419,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="genericParameters">The <see cref="ITypeCollection"/>
         /// of generic parameter replacements for the signature.</param>
-        public MethodReferenceStubBase(ITypeCollectionBase genericParameters)
+        public MethodReferenceStubBase(IControlledTypeCollection genericParameters)
             : this(null, genericParameters)
         {
         }

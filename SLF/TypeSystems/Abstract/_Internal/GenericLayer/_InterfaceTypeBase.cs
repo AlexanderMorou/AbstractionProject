@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         private IEventSignatureMemberDictionary<IInterfaceEventMember, IInterfaceType> events;
         private IMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType> methods;
         private IIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IInterfaceType> indexers;
-        internal _InterfaceTypeBase(IInterfaceType original, ITypeCollectionBase genericParameters)
+        internal _InterfaceTypeBase(IInterfaceType original, IControlledTypeCollection genericParameters)
             : base(original, genericParameters)
         {
         }

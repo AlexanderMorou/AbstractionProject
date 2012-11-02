@@ -80,13 +80,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         var refAssem = this.manager.GetRelativeAssembly(typeIdentity.MetadataRoot);
                         if (CliCommon.IsBaseObject(this.manager, typeIdentity))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IClassType>(TypeKind.Class, typeIdentity, this.manager, refAssem);
+                            result = new CliClassType(refAssem, typeIdentity);
                         else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
                          (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
                             result = new CliInterfaceType(refAssem, typeIdentity);
                         //result = new M_T<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>(TypeKind.Interface, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsBaseObject(this.manager, typeIdentity.Extends))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IClassType>(TypeKind.Class, typeIdentity, this.manager, refAssem);
+                            result = new CliClassType(refAssem, typeIdentity);
                         else if (CliCommon.IsEnum(this.manager, typeIdentity))
                             result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumeration, typeIdentity, this.manager);
                         else if (CliCommon.IsValueType(this.manager, typeIdentity))
@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         else if (CliCommon.IsDelegate(this.manager, typeIdentity))
                             result = new M_T<IGeneralGenericTypeUniqueIdentifier, IDelegateType>(TypeKind.Delegate, typeIdentity, this.manager, refAssem);
                         else
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IClassType>(TypeKind.Class, typeIdentity, this.manager, refAssem);
+                            result = new CliClassType(refAssem, typeIdentity);
                         this.metadataTypeCache.Add(typeIdentity, result);
                     }
                 }

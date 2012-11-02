@@ -106,6 +106,7 @@
     <Compile Include="_Internal\Cli\ByRefType.cs" />
     <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences.cs" />
+    <Compile Include="_Internal\Cli\CliClassType.cs" />
     <Compile Include="_Internal\Cli\CliClassTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -395,13 +396,6 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyTableRow+LazyCustomAttributes.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyTableRow+LazyMethods.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigTableRow+LazyCustomAttributes.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyCustomAttributes.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyEvents.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyFields.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyImplementationMap.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyImplementedInterfaces.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyMethods.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyNestedClasses.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataManifestResourceTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataManifestResourceTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMemberReferenceTable.cs" />
@@ -429,8 +423,6 @@
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTable.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyProperties.cs" />
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow+LazyTypeParameters.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeRefTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeRefTableRow+LazyCustomAttributes.cs" />

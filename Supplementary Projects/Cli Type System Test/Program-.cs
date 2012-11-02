@@ -13,6 +13,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions;
 using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
@@ -34,14 +35,19 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
     {
         static void Main()
         {
-//            var timedIntermediateTest = MiscHelperMethods.TimeActionFunc(IntermediateTest);
-//            var first = timedIntermediateTest();
-//            var second = timedIntermediateTest();
-//            Console.WriteLine(
-//@"PreJit : {0}
-//PostJit:{1}", first, second);
+            //IntermediateTestMain();
             Test();
             //Console.ReadKey(true);
+        }
+
+        private static void IntermediateTestMain()
+        {
+            var timedIntermediateTest = MiscHelperMethods.TimeActionFunc(IntermediateTest);
+            var first = timedIntermediateTest();
+            var second = timedIntermediateTest();
+            Console.WriteLine(
+@"PreJit : {0}
+PostJit: {1}", first, second);
         }
 
         private static void IntermediateTest()
@@ -52,14 +58,15 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             var csAssemblyRef2 = provider.IdentityManager.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier("TestAssembly", new IntermediateVersion(1, 0) { AutoIncrementBuild = true, AutoIncrementRevision = true }, CultureIdentifiers.None));
             var coreLib = (ICliAssembly)provider.IdentityManager.ObtainAssemblyReference(provider.IdentityManager.RuntimeEnvironment.CoreLibraryIdentifier);
             var coreLibTableStream = coreLib.MetadataRoot.TableStream;
-            coreLibTableStream.TypeDefinitionTable.Read();
             /*
             Parallel.For(0, 10000, i =>
                 TestLinq(csAssembly, baseIndex: i + 1));
             //*/
             ///*
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 50000; i++)
                 TestLinq(csAssembly.Parts.Add(), baseIndex: i + 1);
+            var thirdPart = csAssembly.Parts[3];
+            thirdPart.Dispose();
             //*/
         }
         private static byte[] ecmaKey = new byte[] { 0xb7, 0x7a, 0x5c, 0x56, 0x19, 0x34, 0xe0, 0x89 };
@@ -371,7 +378,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
         {
             _ICliManager clim = (_ICliManager)CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation);
             var timedProcess = DoProcess(clim);
-            Console.ReadKey(true);
+            //Console.ReadKey(true);
             clim.Dispose();
             return timedProcess;
         }
@@ -408,10 +415,10 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             else
                 topLevelMethod = @namespace.Methods.Add(string.Format("{0}{1:x4}", baseName, baseIndex));
             //var digits = new String[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }; 
-            var digits = topLevelMethod.Locals.Add(
-                    "digits",
-                    (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression((ICliManager)assembly.IdentityManager),
-                    LocalTypingKind.Implicit);
+            //var digits = topLevelMethod.Locals.Add(
+            //        "digits",
+            //        ,
+            //        LocalTypingKind.Implicit);
             var digitSymbol = (Symbol)"digit";
             /* *
              * If you know you're dealing with properties and methods,
@@ -427,11 +434,33 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
              * */
             var sortedDigits = topLevelMethod.Locals.Add("sortedDigits",
                     LinqHelper
-                    .From("digit", /* in */ digits.GetReference())
+                    .From("digit", /* in */ (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression((ICliManager)assembly.IdentityManager))
                         .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
                         .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
                     .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
-            topLevelMethod.DefineLocal(digits);
+            /*
+             * from c in sigSource.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
+             * where c.GetParameters().Length > 0
+             * select c;
+             */
+
+            /* *
+                    (from runtimeDirectory in environment.ResolutionPaths
+                     from file in runtimeDirectory.GetFiles()
+                     let extension = Path.GetExtension(file.FullName).ToLower()
+                     where extension == ".exe" || extension == ".dll"
+                     where CliGateway.IsFullAssembly(file.FullName)
+                     orderby file.Length descending
+                     select file.FullName).Distinct()
+             * */
+            var runtimeResolutionPaths = LinqHelper.From("runtimeDirectory", /* in */ "environment".Fuse("ResolutionPaths"))
+                                                   .From("file", /* in */ "runtimeDirectory".Fuse("GetFiles").Fuse(new IExpression[0]))
+                                                   .Let("extension", /* = */ "Path".Fuse("GetExtension").Fuse("file".Fuse("FullName")).Fuse("ToLower").Fuse(new IExpression[0]))
+                                                   .Where(new SymbolExpression("extension").EqualTo(".exe".ToPrimitive()).LogicalOr(new SymbolExpression("extension").EqualTo(".dll".ToPrimitive())))
+                                                   .Where("CliGateway".Fuse("IsFullAssembly").Fuse("file".Fuse("FullName")))
+                                                   .OrderBy("file".Fuse("Length"), LinqOrderByDirection.Descending)
+                                                   .Select("file".Fuse("FullName")).Build();
+            //topLevelMethod.DefineLocal(digits);
             topLevelMethod.DefineLocal(sortedDigits);
 
             /* *
@@ -446,6 +475,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
                 "Console".Fuse("WriteLine").Fuse(
                     "CultureInfo".Fuse("CurrentCulture").Fuse("TextInfo").Fuse("ToTitleCase").Fuse(
                         "sorted digits".ToPrimitive())));
+            //Console.WriteLine(runtimeResolutionPaths.From.RangeVariable);
             /* *
              * foreach (digit in sortedDigits)
              *     Console.WriteLine(digit);
@@ -515,12 +545,18 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
             //sw.Stop();
             //var propertySets2 = sw.Elapsed;
             //var dt = assemblyQuery.Length;
+            var mea2 = clim.ObtainAssemblyReference(identifiers[5]);
             var mea = clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier);
             //var men = mea.Namespaces["System.Collections.Generic"];
-            var mei = (IInterfaceType)mea.GetType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "IDictionary", 2));
+            var mei = (IClassType)mea.GetType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2));
+            var med = mea2.UniqueIdentifier.GetTypeIdentifier("AllenCopeland.Abstraction.Utilities.Collections", "ControlledDictionary", 2);
+            var typeN = (ICliType)mea2.GetType(med);
+            var deda = typeN.MetadataEntry.TypeParameters.Count;
+            //var mei2 = mea2.ToString();
             //var mei = men.Interfaces[meid];
-            foreach (var identifier in mei.Members.Keys)
+            foreach (var identifier in typeN.Members.Keys)
             {
+                Console.WriteLine(identifier);
             }
             sw.Stop();
             //var fp = assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.First(p=>p.GetMethod != null && p.SetMethod != null);

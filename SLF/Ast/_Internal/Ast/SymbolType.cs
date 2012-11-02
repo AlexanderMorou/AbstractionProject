@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region IGenericType<IGeneralGenericTypeUniqueIdentifier, ISymbolType> Members
 
-        public ISymbolType MakeGenericClosure(ITypeCollectionBase typeParameters)
+        public ISymbolType MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             if (typeParameters == null)
                 throw new ArgumentNullException("typeParameters");
@@ -125,7 +125,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #endregion
 
-        protected ISymbolType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
+        protected ISymbolType OnMakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return new _SymbolType(this, typeParameters);
         }
@@ -178,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             get { return new LockedTypeCollection(this.TypeParameters.Values.Cast<IType>().ToArray()); }
         }
 
-        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -451,7 +451,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         #region IGenericParamParent Members
 
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }

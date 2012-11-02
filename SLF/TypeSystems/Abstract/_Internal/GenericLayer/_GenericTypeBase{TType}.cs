@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// </summary>
         /// <param name="original">The <typeparamref name="TType"/>
         /// from which the <see cref="_GenericTypeBase{TIdentifier, TType}"/> operates.</param>
-        public _GenericTypeBase(TType original, ITypeCollectionBase genericParameters)
+        public _GenericTypeBase(TType original, IControlledTypeCollection genericParameters)
             : base()
         {
             if (!(genericParameters is LockedTypeCollection))
@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IGenericType<TTypeIdentifier, TType> Members
 
-        public TType MakeGenericClosure(ITypeCollectionBase typeParameters)
+        public TType MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             throw new InvalidOperationException(Resources.MakeGenericTypeError_IsGenericTypeDefFalse);
         }
@@ -130,7 +130,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #region IGenericParamParent Members
 
-        IGenericParamParent IGenericParamParent.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericParamParent IGenericParamParent.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }
@@ -164,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { return this.genericParameters; }
         }
 
-        IGenericType IGenericType.MakeGenericClosure(ITypeCollectionBase typeParameters)
+        IGenericType IGenericType.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return this.MakeGenericClosure(typeParameters);
         }

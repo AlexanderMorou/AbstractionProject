@@ -14,7 +14,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// Defines properties and methods for working with 
     /// a read-only collection.
     /// </summary>
-    public interface IReadOnlyCollection :
+    public interface IControlledCollection :
         IControlledCollection
     {
     }

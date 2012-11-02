@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         _GenericInstantiableTypeBase<IStructCtorMember, IStructEventMember, IStructFieldMember, IStructIndexerMember, IStructMethodMember, IStructPropertyMember, IStructType>,
         IStructType
     {
-        internal _StructTypeBase(IStructType original, ITypeCollectionBase genericParameters)
+        internal _StructTypeBase(IStructType original, IControlledTypeCollection genericParameters)
             : base(original,genericParameters)
         {
         }

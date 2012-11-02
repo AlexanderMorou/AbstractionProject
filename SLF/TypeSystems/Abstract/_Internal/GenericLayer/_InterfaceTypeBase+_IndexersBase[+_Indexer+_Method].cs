@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                         }
                     }
 
-                    protected override sealed IInterfaceMethodMember OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+                    protected override sealed IInterfaceMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
                     {
                         throw new InvalidOperationException();
                     }

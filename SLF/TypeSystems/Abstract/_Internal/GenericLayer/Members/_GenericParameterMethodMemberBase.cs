@@ -18,12 +18,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         where TGenericParameter :
             IGenericParameter<TGenericParameter>
     {
-        public _GenericParameterMethodMemberBase(IGenericParameterMethodMember<TGenericParameter> original, ITypeCollectionBase genericReplacements)
+        public _GenericParameterMethodMemberBase(IGenericParameterMethodMember<TGenericParameter> original, IControlledTypeCollection genericReplacements)
             : base(original, genericReplacements)
         {
         }
 
-        protected override IGenericParameterMethodMember<TGenericParameter> OnMakeGenericMethod(ITypeCollectionBase genericReplacements)
+        protected override IGenericParameterMethodMember<TGenericParameter> OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
         {
             throw new InvalidOperationException("Must be generic definition");
         }

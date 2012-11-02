@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// replaced with the elements within
         /// <paramref name="genericReplacements"/>.
         /// </returns>
-        new TSignature MakeGenericClosure(ITypeCollectionBase genericReplacements);
+        new TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements);
         /// <summary>
         /// Returns the original generic form of the current
         /// <see cref="IMethodSignatureMember{TSignatureParameter, TSignature, TSignatureParent}"/> 

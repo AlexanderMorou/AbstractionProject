@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// closed generic form of the current <see cref="IGenericType{TType}"/>
         /// using the <paramref name="typeParameters"/> provided.
         /// </summary>
-        /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/> 
+        /// <param name="typeParameters">The <see cref="IControlledTypeCollection"/> 
         /// used to fill in the type-parameters.</param>
         /// <returns>A new closed <typeparamref name="TType"/> instance with
         /// the <paramref name="typeParameters"/> provided.</returns>
@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// The current <see cref="IGenericType{TType}"/>'s 
         /// <seealso cref="IGenericParamParent.IsGenericConstruct"/>
         /// is false.</exception>
-        new TType MakeGenericClosure(ITypeCollectionBase typeParameters);
+        new TType MakeGenericClosure(IControlledTypeCollection typeParameters);
         /// <summary>
         /// Returns a <typeparamref name="TType"/> instance that is the 
         /// closed generic form of the current <see cref="IGenericType{TType}"/> 

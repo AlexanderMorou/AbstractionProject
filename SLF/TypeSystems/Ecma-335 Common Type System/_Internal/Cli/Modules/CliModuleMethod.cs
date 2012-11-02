@@ -35,11 +35,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         /// <see cref="CliModuleMethod"/> with the <paramref name="genericReplacements"/>
         /// provided.
         /// </summary>
-        /// <param name="genericReplacements">The <see cref="ITypeCollectionBase"/> which
+        /// <param name="genericReplacements">The <see cref="IControlledTypeCollection"/> which
         /// contains the </param>
         /// <returns>A <see cref="IModuleGlobalMethod"/> as a generic closure of the current 
         /// <see cref="CliModuleMethod"/> with the <paramref name="genericReplacements"/></returns>
-        public override IModuleGlobalMethod MakeGenericClosure(ITypeCollectionBase genericReplacements)
+        public override IModuleGlobalMethod MakeGenericClosure(IControlledTypeCollection genericReplacements)
         {
             throw new NotImplementedException();
         }

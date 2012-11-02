@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Cli
+namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Provides a general case generic type cache for

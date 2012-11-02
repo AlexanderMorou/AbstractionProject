@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             this.original = original;
         }
 
-        public _MethodSignatureMemberBase(TSignature original, ITypeCollectionBase genericReplacements)
+        public _MethodSignatureMemberBase(TSignature original, IControlledTypeCollection genericReplacements)
             : base(original.Parent)
         {
             /* *

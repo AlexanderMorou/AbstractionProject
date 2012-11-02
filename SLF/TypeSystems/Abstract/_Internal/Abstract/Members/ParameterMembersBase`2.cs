@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         #region IParameterMemberDictionary Members
 
 
-        public ITypeCollectionBase ParameterTypes
+        public IControlledTypeCollection ParameterTypes
         {
             get {
                 if (this.parameterTypes == null)

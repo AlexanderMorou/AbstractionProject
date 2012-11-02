@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq
         public LinqRangeVariable(ILinqClause parent, string name)
         {
             this.Parent = parent;
-            this.Name = name;
+            this.AssignName(name);
         }
 
         #region ILinqRangeVariable Members

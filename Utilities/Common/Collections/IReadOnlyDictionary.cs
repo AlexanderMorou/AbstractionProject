@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// </summary>
     public interface IReadOnlyDictionary :
         IControlledDictionary,
-        IReadOnlyCollection
+        IControlledCollection
     {
 
     }

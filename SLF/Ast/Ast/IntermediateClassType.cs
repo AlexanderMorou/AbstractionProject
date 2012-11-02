@@ -235,11 +235,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Creates a new <see cref="IClassType"/> instance as a generic instance of the current
         /// <see cref="IntermediateClassType"/>.
         /// </summary>
-        /// <param name="typeParameters">The <see cref="ITypeCollectionBase"/> which contains the type-parameters
+        /// <param name="typeParameters">The <see cref="IControlledTypeCollection"/> which contains the type-parameters
         /// to construct the generic type.</param>
         /// <returns>A new <see cref="IClassType"/> instance as a generic instance of the <see cref="IntermediateClassType"/>.
         /// </returns>
-        protected override IClassType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
+        protected override IClassType OnMakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return new _ClassTypeBase(this, typeParameters);
         }

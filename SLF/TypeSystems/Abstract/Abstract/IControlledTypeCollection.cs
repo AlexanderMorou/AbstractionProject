@@ -17,19 +17,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a series
     /// of types.
     /// </summary>
-    public interface ITypeCollectionBase :
+    public interface IControlledTypeCollection :
         IControlledCollection<IType>,
-        IEquatable<ITypeCollectionBase>
+        IEquatable<IControlledTypeCollection>
     {
         /// <summary>
-        /// Determines the index of a specific <paramref name="item"/>
-        /// in the <see cref="ITypeCollection"/>.
+        /// Determines the index of a specific <paramref name="type"/>
+        /// in the <see cref="IControlledTypeCollection"/>.
         /// </summary>
-        /// <param name="item">The <see cref="IType"/> to locate in the 
-        /// <see cref="ITypeCollection"/>.</param>
-        /// <returns>The index of <paramref name="item"/> if 
-        /// found in the <see cref="ITypeCollection"/>; 
+        /// <param name="type">The <see cref="IType"/> to locate in the 
+        /// <see cref="IControlledTypeCollection"/>.</param>
+        /// <returns>The index of <paramref name="type"/> if 
+        /// found in the <see cref="IControlledTypeCollection"/>; 
         /// otherwise, -1.</returns>
-        new int IndexOf(IType item);
+        new int IndexOf(IType type);
     }
 }

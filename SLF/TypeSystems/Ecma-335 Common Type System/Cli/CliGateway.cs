@@ -43,7 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache, additionalResolutionPaths));
         }
 
-        public static ITypeCollectionBase ToCollection(this Type[] entries, ICliManager identityManager)
+        public static IControlledTypeCollection ToCollection(this Type[] entries, ICliManager identityManager)
         {
             return new TypeCollection((from t in entries
                                        select identityManager.ObtainTypeReference(t)).ToArray());

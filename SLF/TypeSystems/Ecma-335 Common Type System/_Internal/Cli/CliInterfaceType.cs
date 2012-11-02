@@ -203,9 +203,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        public override IInterfaceType MakeGenericClosure(ITypeCollectionBase typeParameters)
+
+        protected override IInterfaceType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
         {
-            return new _InterfaceTypeBase(this, typeParameters);
+            return new _InterfaceTypeBase(this, lockedTypeParameters);
         }
     }
 }

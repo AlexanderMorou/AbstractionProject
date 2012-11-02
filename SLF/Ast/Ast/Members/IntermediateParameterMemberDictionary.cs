@@ -168,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get { return base.Parent; }
         }
 
-        public ITypeCollectionBase ParameterTypes
+        public IControlledTypeCollection ParameterTypes
         {
             get
             {

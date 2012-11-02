@@ -192,7 +192,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetBinaryOperatorIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
                     break;
                 case CliMemberType.Constructor:
-                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetCtorIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
+                    var ctor = (ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex];
+                    if (ctor.Name == CliCommon.ConstructorStaticName &&
+                        ctor.Parameters.Count == 0)
+                        this.memberIdentifiers[memberIndex] = AstIdentifier.GetCtorSignatureIdentifier();
+                    else
+                        this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetCtorIdentifier(ctor, (IType)this.parent, this.parent.IdentityManager);
                     break;
                 case CliMemberType.Event:
                     this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetEventIdentifier((ICliMetadataEventTableRow)this.memberSources[memberIndex], this.parent.IdentityManager);

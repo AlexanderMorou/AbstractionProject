@@ -13,11 +13,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     /// <summary>
     /// Defines properties and methods for working with a 
-    /// <see cref="ITypeCollectionBase"/> which cannot be 
+    /// <see cref="IControlledTypeCollection"/> which cannot be 
     /// modified.
     /// </summary>
     public interface ILockedTypeCollection :
-        ITypeCollectionBase,
+        IControlledTypeCollection,
         IDisposable
     {
         /// <summary>

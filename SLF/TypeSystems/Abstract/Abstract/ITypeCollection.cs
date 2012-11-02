@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Defines properties and methods for working with a type-reference list.
     /// </summary>
     public interface ITypeCollection :
-        ITypeCollectionBase
+        IControlledTypeCollection
     {
         /// <summary>
         /// Inserts and returns the <see cref="IType"/> instances translated from <paramref name="types"/>.

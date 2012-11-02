@@ -85,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         where TGenericParameter :
                 IGenericParameter<TGenericParameter, TGenericConstruct>
     {
-        TGenericConstruct MakeGenericClosure(TGenericConstruct source, ITypeCollectionBase closureArguments);
+        TGenericConstruct MakeGenericClosure(TGenericConstruct source, IControlledTypeCollection closureArguments);
     }
 
     public interface ITypeIdentityManager :

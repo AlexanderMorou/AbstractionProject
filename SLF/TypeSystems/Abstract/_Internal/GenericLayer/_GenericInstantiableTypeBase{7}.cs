@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         /// Data member for <see cref="Properties"/>
         /// </summary>
         private IPropertyMemberDictionary<TProperty, TType> properties;
-        protected _GenericInstantiableTypeBase(TType original, ITypeCollectionBase genericParameters)
+        protected _GenericInstantiableTypeBase(TType original, IControlledTypeCollection genericParameters)
             : base(original, genericParameters)
         {
         }

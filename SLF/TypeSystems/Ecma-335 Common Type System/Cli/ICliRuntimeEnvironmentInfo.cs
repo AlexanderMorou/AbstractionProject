@@ -8,7 +8,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     /// <summary>
-    /// Defines properties and methods for working with 
+    /// Defines properties and methods for working with information about a
+    /// specific common language infrastructure runtime environment.
     /// </summary>
     public interface ICliRuntimeEnvironmentInfo :
         IStandardRuntimeEnvironmentInfo
@@ -62,7 +63,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly relativeAssembly = null);
 
         /// <summary>
-        /// Returns the framework runtimeEnvironment identity resolution
+        /// Returns the framework platform identity resolution
         /// occurs on.
         /// </summary>
         CliFrameworkPlatform Platform { get; }
@@ -70,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Returns the <see cref="IAssemblyUniqueIdentifier"/> of
         /// the core library of the runtime environment
-        /// represented by the <see cref="IStandardRuntimeEnvironmentInfo"/>.
+        /// represented by the <see cref="ICliRuntimeEnvironmentInfo"/>.
         /// </summary>
         IAssemblyUniqueIdentifier CoreLibraryIdentifier { get; }
 

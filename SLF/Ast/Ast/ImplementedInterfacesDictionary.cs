@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     public abstract partial class ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> :
         ControlledDictionary<IInterfaceType, IIntermediateInterfaceMemberMapping<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>>,
         IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType>,
-        ITypeCollectionBase
+        IControlledTypeCollection
         where TEvent :
             IEventMember<TEvent, TType>
         where TIntermediateEvent :
@@ -93,11 +93,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return this.copy;
             }
         }
-        #region ITypeCollectionBase Members
+        #region IControlledTypeCollection Members
 
-        public int IndexOf(IType item)
+        public int IndexOf(IType type)
         {
-            return this.GetEnumerableInternal().GetIndexOf(item);
+            return this.GetEnumerableInternal().GetIndexOf(type);
         }
 
         #endregion
@@ -179,9 +179,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this.locked;
         }
 
-        #region IEquatable<ITypeCollectionBase> Members
+        #region IEquatable<IControlledTypeCollection> Members
 
-        public bool Equals(ITypeCollectionBase other)
+        public bool Equals(IControlledTypeCollection other)
         {
             if (other == null)
                 return false;
@@ -194,8 +194,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public override bool Equals(object obj)
         {
-            if (obj is ITypeCollectionBase)
-                return this.Equals((ITypeCollectionBase)(obj));
+            if (obj is IControlledTypeCollection)
+                return this.Equals((IControlledTypeCollection)(obj));
             return false;
         }
 
@@ -205,7 +205,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
     }
     public partial class ImplementedInterfacesCollection :
-        ITypeCollectionBase
+        IControlledTypeCollection
     {
         private ITypeCollection copy;
         private LockedVariant locked;
@@ -231,11 +231,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        #region ITypeCollectionBase Members
+        #region IControlledTypeCollection Members
 
-        public int IndexOf(IType item)
+        public int IndexOf(IType type)
         {
-            return this.GetEnumerableInternal().GetIndexOf(item);
+            return this.GetEnumerableInternal().GetIndexOf(type);
         }
 
         #endregion
@@ -317,9 +317,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this.locked;
         }
 
-        #region IEquatable<ITypeCollectionBase> Members
+        #region IEquatable<IControlledTypeCollection> Members
 
-        public bool Equals(ITypeCollectionBase other)
+        public bool Equals(IControlledTypeCollection other)
         {
             if (other == null)
                 return false;
@@ -332,8 +332,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public override bool Equals(object obj)
         {
-            if (obj is ITypeCollectionBase)
-                return this.Equals((ITypeCollectionBase)(obj));
+            if (obj is IControlledTypeCollection)
+                return this.Equals((IControlledTypeCollection)(obj));
             return false;
         }
 

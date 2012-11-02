@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             }
         }
 
-        public ITypeCollectionBase ParameterTypes
+        public IControlledTypeCollection ParameterTypes
         {
             get
             {

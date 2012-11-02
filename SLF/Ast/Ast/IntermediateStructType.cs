@@ -107,7 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return result;
         }
 
-        protected override IStructType OnMakeGenericClosure(ITypeCollectionBase typeParameters)
+        protected override IStructType OnMakeGenericClosure(IControlledTypeCollection typeParameters)
         {
             return new _StructTypeBase(this, typeParameters);
         }

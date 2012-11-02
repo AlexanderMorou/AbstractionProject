@@ -43,12 +43,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
 
 
-            #region ITypeCollectionBase Members
+            #region IControlledTypeCollection Members
 
-            public int IndexOf(IType item)
+            public int IndexOf(IType type)
             {
-                if (item is IGenericParameter)
-                    return ((IGenericParameter)(item)).Position;
+                if (type is IGenericParameter)
+                    return ((IGenericParameter)(type)).Position;
                 return -1;
             }
 
@@ -133,9 +133,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             #endregion
 
-            #region IEquatable<ITypeCollectionBase> Members
+            #region IEquatable<IControlledTypeCollection> Members
 
-            public bool Equals(ITypeCollectionBase other)
+            public bool Equals(IControlledTypeCollection other)
             {
                 if (other == null)
                     return false;
@@ -148,8 +148,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             public override bool Equals(object obj)
             {
-                if (obj is ITypeCollectionBase)
-                    return this.Equals((ITypeCollectionBase)(obj));
+                if (obj is IControlledTypeCollection)
+                    return this.Equals((IControlledTypeCollection)(obj));
                 return false;
             }
 

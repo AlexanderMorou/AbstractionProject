@@ -40,11 +40,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow> Members
 
+        public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        {
+            if (typeIdentity is ICliMetadataTypeSignature)
+                return this.ObtainTypeReference((ICliMetadataTypeSignature)typeIdentity, activeType, activeMethod);
+            throw new NotSupportedException();
+        }
+
         public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity)
         {
-            var relativeAssembly = GetRelativeAssembly(typeIdentity.MetadataRoot);
-
-            throw new NotImplementedException();
+            return this.ObtainTypeReference(typeIdentity, null, null);
         }
 
         //#endregion

@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
     /// </summary>
     internal interface _IGenericMethodSignatureRegistrar
     {
-        void RegisterGenericMethodSignature(IMethodSignatureMember targetSignature, ITypeCollectionBase typeParameters);
-        void UnregisterGenericMethodSignature(ITypeCollectionBase typeParameters);
+        void RegisterGenericMethodSignature(IMethodSignatureMember targetSignature, IControlledTypeCollection typeParameters);
+        void UnregisterGenericMethodSignature(IControlledTypeCollection typeParameters);
     }
 }

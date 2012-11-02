@@ -25,14 +25,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// Data member for the generic parameters cache.
         /// </summary>
-        private Dictionary<ITypeCollectionBase, IMethodMember> genericCache = null;
+        private Dictionary<IControlledTypeCollection, IMethodMember> genericCache = null;
 
         internal _MethodMemberBase(TMethodParent parent, TMethod original)
             : base(parent, original)
         {
 
         }
-        internal _MethodMemberBase(TMethod original, ITypeCollectionBase genericParameters)
+        internal _MethodMemberBase(TMethod original, IControlledTypeCollection genericParameters)
             : base(original, genericParameters)
         {
 
@@ -54,21 +54,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #region _IGenericMethodRegistrar Members
 
-        public void RegisterGenericMethod(IMethodMember targetSignature, ITypeCollectionBase typeParameters)
+        public void RegisterGenericMethod(IMethodMember targetSignature, IControlledTypeCollection typeParameters)
         {
             if (this.genericCache == null)
-                this.genericCache = new Dictionary<ITypeCollectionBase, IMethodMember>();
+                this.genericCache = new Dictionary<IControlledTypeCollection, IMethodMember>();
             IMethodMember required = null;
             if (this.ContainsGenericMethod(typeParameters, ref required))
                 return;
             genericCache.Add(typeParameters, targetSignature);
         }
 
-        public void UnregisterGenericMethod(ITypeCollectionBase typeParameters)
+        public void UnregisterGenericMethod(IControlledTypeCollection typeParameters)
         {
             if (this.genericCache == null)
                 return;
-            ITypeCollectionBase match = null;
+            IControlledTypeCollection match = null;
             foreach (var itc in this.genericCache.Keys)
                 if (itc.SequenceEqual(typeParameters))
                 {
@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #endregion
 
-        private bool ContainsGenericMethod(ITypeCollectionBase typeParameters, ref IMethodMember r)
+        private bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref IMethodMember r)
         {
             if (this.genericCache == null)
                 return false;
@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return true;
         }
 
-        public override sealed TMethod MakeGenericClosure(ITypeCollectionBase genericReplacements)
+        public override sealed TMethod MakeGenericClosure(IControlledTypeCollection genericReplacements)
         {
             if (!this.IsGenericDefinition)
                 throw new InvalidOperationException();
@@ -123,6 +123,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return this.OnMakeGenericMethod(genericReplacements);
         }
 
-        protected abstract TMethod OnMakeGenericMethod(ITypeCollectionBase genericReplacements);
+        protected abstract TMethod OnMakeGenericMethod(IControlledTypeCollection genericReplacements);
     }
 }
