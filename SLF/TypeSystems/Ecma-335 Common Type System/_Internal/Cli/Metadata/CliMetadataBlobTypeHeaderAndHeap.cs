@@ -22,10 +22,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private uint tailLength = 0;
         private Dictionary<uint, uint> positionToIndexTable = new Dictionary<uint, uint>();
         private EndianAwareBinaryReader reader;
+        private object syncObject;
 
-        internal CliMetadataBlobTypeHeaderAndHeap(CliMetadataStreamHeader forwardHeader)
+        internal CliMetadataBlobTypeHeaderAndHeap(CliMetadataStreamHeader forwardHeader, object syncObject)
             : base(forwardHeader)
         {
+            this.syncObject = syncObject;
         }
 
         public uint AddData(T value, byte encodedPadding)
@@ -125,13 +127,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         internal virtual void Read(EndianAwareBinaryReader reader)
         {
-            var newStream = new Substream(reader.BaseStream, reader.BaseStream.Position, base.Size);
-            this.reader = new EndianAwareBinaryReader(newStream, Endianness.LittleEndian, false);
+            lock (syncObject)
+            {
+                var newStream = new Substream(reader.BaseStream, reader.BaseStream.Position, base.Size);
+                this.reader = new EndianAwareBinaryReader(newStream, Endianness.LittleEndian, false);
 
-            byte firstNull = this.reader.ReadByte();
-            this.AddData(this.GetData(new byte[] { }), 1);
-            if (firstNull != 0)
-                throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
+                byte firstNull = this.reader.ReadByte();
+                this.AddData(this.GetData(new byte[] { }), 1);
+                if (firstNull != 0)
+                    throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
+            }
             //while (this.ReadEntry())
             //    ;
         }

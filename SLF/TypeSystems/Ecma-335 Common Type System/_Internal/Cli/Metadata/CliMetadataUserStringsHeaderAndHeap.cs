@@ -12,8 +12,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         ICliMetadataUserStringsHeaderAndHeap
     {
 
-        public CliMetadataUserStringsHeaderAndHeap(CliMetadataStreamHeader header)
-            : base(header)
+        private object syncObject;
+
+        public CliMetadataUserStringsHeaderAndHeap(CliMetadataStreamHeader header, object syncObject)
+            : base(header, syncObject)
         {
         }
 

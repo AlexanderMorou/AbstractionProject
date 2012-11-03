@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
@@ -20,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
     {
         private int substringCount;
         private string[] data;
-        private object syncObject = new object();
+        private object syncObject;
         private Dictionary<uint, uint> positionToIndexTable = new Dictionary<uint, uint>();
         private EndianAwareBinaryReader reader;
 
@@ -34,16 +35,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             return result;
         }
 
-        public CliMetadataStringsHeaderAndHeap(CliMetadataStreamHeader originalHeader)
+        public CliMetadataStringsHeaderAndHeap(CliMetadataStreamHeader originalHeader, object syncObject)
             : base(originalHeader)
         {
+            this.syncObject = syncObject;
         }
 
         public string this[uint index]
         {
             get
             {
-                lock (syncObject)
+                lock (this.syncObject)
                 {
                     if (index >= base.Size)
                         throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
@@ -58,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         private unsafe bool ReadSubstring(uint index)
         {
-            lock (syncObject)
+            lock (this.syncObject)
             {
                 reader.BaseStream.Position = index;
                 /* *

@@ -171,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             this.reservedFlags = reader.ReadUInt16();
             int streamCount = 0;
             streamCount = reader.ReadUInt16();
-
+            this.sourceImage = sourceImage;
             for (int i = 0; i < streamCount; i++)
             {
 
@@ -182,7 +182,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     case "#Strings":
                         if (this.strings != null)
                             goto sectionExists;
-                        this.strings = new CliMetadataStringsHeaderAndHeap(currentHeader);
+                        this.strings = new CliMetadataStringsHeaderAndHeap(currentHeader, sourceImage.SyncObject);
                         ScanAndReadSection(sourceImage, strings, this.strings.Read);
                         break;
                     case "#Blob":
@@ -194,13 +194,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     case "#US":
                         if (this.userStrings != null)
                             goto sectionExists;
-                        this.userStrings = new CliMetadataUserStringsHeaderAndHeap(currentHeader);
+                        this.userStrings = new CliMetadataUserStringsHeaderAndHeap(currentHeader, sourceImage.SyncObject);
                         ScanAndReadSection(sourceImage, userStrings, this.userStrings.Read);
                         break;
                     case "#GUID":
                         if (this.guids != null)
                             goto sectionExists;
-                        this.guids = new CliMetadataGuidHeaderAndHeap(currentHeader);
+                        this.guids = new CliMetadataGuidHeaderAndHeap(currentHeader, sourceImage.SyncObject);
                         ScanAndReadSection(sourceImage, guids, this.guids.Read);
                         break;
                     case "#-": //https://github.com/jbevain/cecil/blob/master/Mono.Cecil.PE/ImageReader.cs#L378
@@ -217,7 +217,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             }
             if (this.tableStream == null)
                 throw new BadImageFormatException("#~ stream not present in image.");
-            this.sourceImage = sourceImage;
         }
 
         private void ScanAndReadSection(PEImage sourceImage, ICliMetadataStreamHeader currentHeader, Action<EndianAwareBinaryReader> readFunc)

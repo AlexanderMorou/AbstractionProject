@@ -28,6 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataMethodSignature ParseMethodSignature(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool canHaveRefContext = true)
         {
+
             const CliMetadataMethodSigFlags legalFlags = CliMetadataMethodSigFlags.HasThis | CliMetadataMethodSigFlags.ExplicitThis;
             const CliMetadataMethodSigConventions legalConventions =
                   CliMetadataMethodSigConventions.Default |
@@ -652,28 +653,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         internal static ICliMetadataSignature ParseMemberRefSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
             const CliMetadataMethodSigFlags legalFlags = CliMetadataMethodSigFlags.HasThis | CliMetadataMethodSigFlags.ExplicitThis;
-            const CliMetadataMethodSigConventions legalConventions =
-                  CliMetadataMethodSigConventions.Default |
+            const CliMetadataMethodSigConventions legalConventions  =
+                  CliMetadataMethodSigConventions.Default           |
                   CliMetadataMethodSigConventions.VariableArguments |
-                  CliMetadataMethodSigConventions.Generic |
-                  CliMetadataMethodSigConventions.StdCall |
-                  CliMetadataMethodSigConventions.Cdecl;
+                  CliMetadataMethodSigConventions.Generic           |
+                  CliMetadataMethodSigConventions.StdCall           |
+                  CliMetadataMethodSigConventions.Cdecl             ;
             byte firstChar = (byte) (reader.PeekByte() & 0xFF);
             if (firstChar != 0 &&
-                ((firstChar & ((byte) legalFlags)) == 0) &&
-                ((firstChar & ((byte) legalConventions)) == 0) &&
+                ((firstChar & ((byte)legalFlags)) == 0) &&
+                ((firstChar & ((byte)legalConventions)) == 0) &&
                 firstChar != (byte)SignatureKinds.FieldSig)
                 throw new BadImageFormatException("Expected Default, VarArg, or Generic calling convention, or a field sig prolog.");
             switch (firstChar)
             {
-                case (byte) CliMetadataMethodSigFlags.HasThis:
-                case (byte) CliMetadataMethodSigFlags.ExplicitThis:
-                case (byte) (CliMetadataMethodSigFlags.HasThis | CliMetadataMethodSigFlags.ExplicitThis):
-                case (byte) CliMetadataMethodSigConventions.Default:
-                case (byte) CliMetadataMethodSigConventions.VariableArguments:
-                case (byte) CliMetadataMethodSigConventions.Generic:
+                case (byte)CliMetadataMethodSigFlags.HasThis:
+                case (byte)CliMetadataMethodSigFlags.ExplicitThis:
+                case (byte)(CliMetadataMethodSigFlags.HasThis | CliMetadataMethodSigFlags.ExplicitThis):
+                case (byte)CliMetadataMethodSigConventions.Default:
+                case (byte)CliMetadataMethodSigConventions.VariableArguments:
+                case (byte)CliMetadataMethodSigConventions.Generic:
                     return ParseMethodSignature(reader, metadataRoot);
-                case (byte) SignatureKinds.FieldSig:
+                case (byte)SignatureKinds.FieldSig:
                     return ParseFieldSig(reader, metadataRoot);
             }
             throw new BadImageFormatException("Expected Default, VarArg, or Generic calling convention, or a field sig prolog.");

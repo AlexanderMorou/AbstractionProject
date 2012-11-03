@@ -17,10 +17,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private int count;
         private Guid[] data;
         private int[] hashCodes;
+        private object syncObject;
 
-        public CliMetadataGuidHeaderAndHeap(CliMetadataStreamHeader originalHeader)
+        public CliMetadataGuidHeaderAndHeap(CliMetadataStreamHeader originalHeader, object syncObject)
             : base(originalHeader)
         {
+            this.syncObject = syncObject;
         }
         public uint Add(Guid value)
         {
@@ -86,14 +88,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         internal void Read(EndianAwareBinaryReader reader)
         {
-            if ((base.Size & 0xF) != 0)
-                throw new BadImageFormatException("GUIDs are 16 bytes long, heap size not properly aligned.");
-            int sizeShift = (int)base.Size >> 4;
-            for (int i = 0; i < sizeShift; i++)
+            lock (syncObject)
             {
-                byte[] current = new byte[16];
-                reader.Read(current, 0, current.Length);
-                this.Add(new Guid(current));
+                if ((base.Size & 0xF) != 0)
+                    throw new BadImageFormatException("GUIDs are 16 bytes long, heap size not properly aligned.");
+                int sizeShift = (int)base.Size >> 4;
+                for (int i = 0; i < sizeShift; i++)
+                {
+                    byte[] current = new byte[16];
+                    reader.Read(current, 0, current.Length);
+                    this.Add(new Guid(current));
+                }
             }
         }
 
