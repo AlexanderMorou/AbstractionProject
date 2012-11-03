@@ -22,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         private EndianAwareBinaryReader reader;
         string filename;
         private bool keepImageOpen;
+        private object syncObject = new object();
         /// <summary>
         /// The old MS-DOS stub program that prints
         /// 'This program cannot be run in DOS mode.'
@@ -144,5 +145,6 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             }
         }
 
+        public object SyncObject { get { return this.syncObject; } }
     }
 }

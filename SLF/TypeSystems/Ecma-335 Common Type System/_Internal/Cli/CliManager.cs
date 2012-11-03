@@ -1058,7 +1058,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataGenericInstanceTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            throw new NotImplementedException();
+            var type = this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod);
+            if (type is IGenericType)
+            {
+                return ((IGenericType)type).MakeGenericClosure((from t in typeIdentity.GenericParameters
+                                                                select this.ObtainTypeReference(t, activeType, activeMethod)).ToArray());
+            }
+            throw new InvalidOperationException();
         }
 
         private IType ObtainTypeReference(ICliMetadataVectorArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -1120,7 +1126,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public ICliMetadataTypeDefinitionTableRow MetadataEntry { get; private set; }
 
             #endregion
-
 
             #region ICliDeclaration Members
 

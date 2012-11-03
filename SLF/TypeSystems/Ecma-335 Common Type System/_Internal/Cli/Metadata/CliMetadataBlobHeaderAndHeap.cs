@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private MemoryStream blobStream;
         private EndianAwareBinaryReader reader;
         private CliMetadataRoot metadataRoot;
-
+        
         private Dictionary<uint, SmallBlobEntry> smallEntries = new Dictionary<uint, SmallBlobEntry>();
         private Dictionary<uint, MediumBlobEntry> mediumEntries = new Dictionary<uint, MediumBlobEntry>();
         private Dictionary<uint, LargeBlobEntry> largEntries = new Dictionary<uint, LargeBlobEntry>();
@@ -63,25 +63,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             SmallBlobEntry smallResult;
             MediumBlobEntry mediumResult;
             LargeBlobEntry largeResult;
-            if (smallEntries.TryGetValue(heapIndex, out smallResult))
+            lock (this.reader)
             {
-                if (smallResult.Signature == null)
-                    LoadSignatureGeneral(signatureKind, heapIndex, smallResult);
-                return (T) smallResult.Signature;
-            }
-            else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
-            {
-                if (mediumResult.Signature == null)
-                    LoadSignatureGeneral(signatureKind, heapIndex, mediumResult);
-                return (T) mediumResult.Signature;
-            }
-            else if (!largEntries.TryGetValue(heapIndex, out largeResult))
-                throw new IndexOutOfRangeException("heapIndex");
-            else
-            {
-                if (largeResult.Signature == null)
-                    LoadSignatureGeneral(signatureKind, heapIndex, largeResult);
-                return (T) largeResult.Signature;
+                if (smallEntries.TryGetValue(heapIndex, out smallResult))
+                {
+                    if (smallResult.Signature == null)
+                        LoadSignatureGeneral(signatureKind, heapIndex, smallResult);
+                    return (T)smallResult.Signature;
+                }
+                else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
+                {
+                    if (mediumResult.Signature == null)
+                        LoadSignatureGeneral(signatureKind, heapIndex, mediumResult);
+                    return (T)mediumResult.Signature;
+                }
+                else if (!largEntries.TryGetValue(heapIndex, out largeResult))
+                    throw new IndexOutOfRangeException("heapIndex");
+                else
+                {
+                    if (largeResult.Signature == null)
+                        LoadSignatureGeneral(signatureKind, heapIndex, largeResult);
+                    return (T)largeResult.Signature;
+                }
             }
             throw new ArgumentOutOfRangeException("heapIndex");
         }
@@ -113,49 +116,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         #endregion
         private void LoadSignatureGeneral(SignatureKinds signatureKind, uint heapIndex, _ICliMetadataBlobEntry entry)
         {
-            uint offset = heapIndex + entry.LengthByteCount;
-
-            this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
-            switch (signatureKind)
+            lock (this.metadataRoot.SourceImage.SyncObject)
             {
-                case SignatureKinds.MethodDefSig:
-                    entry.Signature = SignatureParser.ParseMethodDefSig(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.MethodRefSig:
-                    entry.Signature = SignatureParser.ParseMethodRefSig(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.FieldSig:
-                    entry.Signature = SignatureParser.ParseFieldSig(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.PropertySig:
-                    entry.Signature = SignatureParser.ParsePropertySig(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.StandaloneSignature:
-                    entry.Signature = SignatureParser.ParseStandaloneSig(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.CustomModifier:
-                    entry.Signature = SignatureParser.ParseCustomModifier(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.Param:
-                    entry.Signature = SignatureParser.ParseParam(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.Type:
-                    entry.Signature = SignatureParser.ParseType(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.ArrayShape:
-                    entry.Signature = SignatureParser.ParseArrayShape(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.TypeSpec:
-                    entry.Signature = SignatureParser.ParseTypeSpec(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.MethodSpec:
-                    entry.Signature = SignatureParser.ParseMethodSpec(this.reader, metadataRoot);
-                    break;
-                case SignatureKinds.MemberRefSig:
-                    entry.Signature = SignatureParser.ParseMemberRefSig(this.reader, metadataRoot);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("signatureKind");
+                uint offset = heapIndex + entry.LengthByteCount;
+
+                this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
+                switch (signatureKind)
+                {
+                    case SignatureKinds.MethodDefSig:
+                        entry.Signature = SignatureParser.ParseMethodDefSig(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.MethodRefSig:
+                        entry.Signature = SignatureParser.ParseMethodRefSig(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.FieldSig:
+                        entry.Signature = SignatureParser.ParseFieldSig(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.PropertySig:
+                        entry.Signature = SignatureParser.ParsePropertySig(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.StandaloneSignature:
+                        entry.Signature = SignatureParser.ParseStandaloneSig(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.CustomModifier:
+                        entry.Signature = SignatureParser.ParseCustomModifier(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.Param:
+                        entry.Signature = SignatureParser.ParseParam(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.Type:
+                        entry.Signature = SignatureParser.ParseType(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.ArrayShape:
+                        entry.Signature = SignatureParser.ParseArrayShape(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.TypeSpec:
+                        entry.Signature = SignatureParser.ParseTypeSpec(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.MethodSpec:
+                        entry.Signature = SignatureParser.ParseMethodSpec(this.reader, metadataRoot);
+                        break;
+                    case SignatureKinds.MemberRefSig:
+                        entry.Signature = SignatureParser.ParseMemberRefSig(this.reader, metadataRoot);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException("signatureKind");
+                }
             }
         }
 
@@ -220,32 +226,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         internal void Read(EndianAwareBinaryReader reader)
         {
-            byte[] blobSectionData = new byte[this.Size];
-            reader.Read(blobSectionData, 0, blobSectionData.Length);
-            MemoryStream blobStream = new MemoryStream(blobSectionData);
-            this.reader = new EndianAwareBinaryReader(blobStream, Endianness.LittleEndian, false);
-            this.blobStream = blobStream;
-            //this.reader = new EndianAwareBinaryReader(reader.BaseStream, Endianness.LittleEndian, false);
-            byte firstNull = (byte) (this.reader.PeekByte() & 0xFF);
-            if (firstNull != 0)
-                throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
-            this.smallEntries.Add(0, new SmallBlobEntry(1) { BlobData = new byte[this.reader.ReadByte()] });
-            byte currentItemLengthWidth;
-            long currentPosition = 1;
-            while (currentPosition < this.Size)
+            lock (this.metadataRoot.SourceImage.SyncObject)
             {
-                int currentLength = CliMetadataRoot.ReadCompressedUnsignedInt(this.reader, out currentItemLengthWidth);
-                if (currentItemLengthWidth == 1)
-                    this.smallEntries.Add((uint) currentPosition, new SmallBlobEntry((sbyte) currentLength));
-                else if (currentItemLengthWidth == 2)
-                    this.mediumEntries.Add((uint) currentPosition, new MediumBlobEntry((short) currentLength));
-                else
-                    this.largEntries.Add((uint) currentPosition, new LargeBlobEntry(currentLength));
-                if (currentPosition + currentItemLengthWidth + currentLength > this.Size)
-                    break;
-                currentPosition += currentItemLengthWidth + currentLength;
-                this.reader.BaseStream.Seek(currentLength, SeekOrigin.Current);
+                byte[] blobSectionData = new byte[this.Size];
+                reader.Read(blobSectionData, 0, blobSectionData.Length);
+                MemoryStream blobStream = new MemoryStream(blobSectionData);
+                this.reader = new EndianAwareBinaryReader(blobStream, Endianness.LittleEndian, false);
+                this.blobStream = blobStream;
+                //this.reader = new EndianAwareBinaryReader(reader.BaseStream, Endianness.LittleEndian, false);
+                byte firstNull = (byte)(this.reader.PeekByte() & 0xFF);
+                if (firstNull != 0)
+                    throw new BadImageFormatException(string.Format("The first item of a {0} heap must be null.", this.Name));
+                this.smallEntries.Add(0, new SmallBlobEntry(1) { BlobData = new byte[this.reader.ReadByte()] });
+                byte currentItemLengthWidth;
+                long currentPosition = 1;
+                while (currentPosition < this.Size)
+                {
+                    int currentLength = CliMetadataRoot.ReadCompressedUnsignedInt(this.reader, out currentItemLengthWidth);
+                    if (currentItemLengthWidth == 1)
+                        this.smallEntries.Add((uint)currentPosition, new SmallBlobEntry((sbyte)currentLength));
+                    else if (currentItemLengthWidth == 2)
+                        this.mediumEntries.Add((uint)currentPosition, new MediumBlobEntry((short)currentLength));
+                    else
+                        this.largEntries.Add((uint)currentPosition, new LargeBlobEntry(currentLength));
+                    if (currentPosition + currentItemLengthWidth + currentLength > this.Size)
+                        break;
+                    currentPosition += currentItemLengthWidth + currentLength;
+                    this.reader.BaseStream.Seek(currentLength, SeekOrigin.Current);
 
+                }
             }
         }
 

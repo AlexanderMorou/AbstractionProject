@@ -15,6 +15,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal static class CliMemberExtensions
     {
+        public static IEnumerable<ICliMetadataTableRow> GetMemberData2(this ICliMetadataTypeDefinitionTableRow target)
+        {
+            var fields = target.Fields;
+            var methods = target.Methods;
+            var properties = target.Properties;
+            var events = target.Events;
+            IEnumerable<ICliMetadataTableRow> result = fields;
+            if (result == null)
+                result = methods;
+            else if (methods != null)
+                result = result.Concat(methods);
+            if (result == null)
+                result = properties;
+            else if (properties != null)
+                result = result.Concat(properties);
+            if (result == null)
+                result = events;
+            else if (events != null)
+                result = result.Concat(events);
+            return result ?? new ICliMetadataTableRow[0];
+            //return target.Methods.Concat<ICliMetadataTableRow>(target.Properties.Concat<ICliMetadataTableRow>(target.Events.Concat<ICliMetadataTableRow>(target.Fields)));
+        }
+
         public static IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> GetMemberData(this ICliMetadataTypeDefinitionTableRow target)
         {
             IEnumerable<Tuple<CliMemberType, uint, ICliMetadataTableRow>> propertyData = null;
@@ -62,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 uint endIndex = (uint)(startIndex + events.Count - 1);
                 var subSemantics = (from s in target.MetadataRoot.EventSemantics
                                     where ((startIndex <= s.AssociationIndex) && (s.AssociationIndex <= endIndex))
-                                    select s);
+                                    select s).ToArray();
                 fullSemantics.AddRange(subSemantics.Select(s => s.MethodIndex));
                 eventData = (from @event in target.Events
                              join semantics in subSemantics on @event.Index equals semantics.AssociationIndex into methods
@@ -78,24 +101,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * */
             var remainingMethods = (from m in
                                         (target.Methods.Except(from m in target.Methods
-                                                               join semantics in fullSemantics on m.Index equals semantics
+                                                               join semantics in fullSemantics.ToArray() on m.Index equals semantics
                                                                select m))
                                     select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(DiscernMemberType(m), m.Index + fieldCount, m));
             /* *
              * Yield a full set of members, remembering their kind, and ordering them 
              * by a close approximate of their original order.
              * */
+            IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> result;
             if (target.Fields == null)
-                return from m in propertyData.Concat(eventData).Concat(remainingMethods)
-                       orderby m.Item2
-                       select new Tuple<CliMemberType, ICliMetadataTableRow>(m.Item1, m.Item3);
+                result = from m in propertyData.Concat(eventData).Concat(remainingMethods).ToArray()
+                         orderby m.Item2
+                         select new Tuple<CliMemberType, ICliMetadataTableRow>(m.Item1, m.Item3);
             else
-                return from m in
-                           propertyData.Concat(eventData).Concat(remainingMethods).Concat(
-                               from f in target.Fields
-                               select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(CliMemberType.Field, f.Index, f))
-                       orderby m.Item2
-                       select new Tuple<CliMemberType, ICliMetadataTableRow>(m.Item1, m.Item3);
+                result = from m in
+                             propertyData.Concat(eventData).Concat(remainingMethods).Concat(
+                                 from f in target.Fields
+                                 select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(CliMemberType.Field, f.Index, f)).ToArray()
+                         orderby m.Item2
+                         select new Tuple<CliMemberType, ICliMetadataTableRow>(m.Item1, m.Item3);
+            return result.AsParallel();
         }
 
         private static uint Min(this IEnumerable<ICliMetadataMethodSemanticsTableRow> target)

@@ -316,19 +316,11 @@ PostJit: {1}", first, second);
         private static void Test()
         {
             string assemblyLocation = @"C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86";// @"C:\Users\Allen Copeland\Documents\Visual Studio 2010\Projects\Test Member Kinds\bin\Release";//Path.GetDirectoryName(typeof(Program).Assembly.Location);
-            //var files = ObtainFrameworkAssemblies(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation)).ToArray();
-            //Stopwatch sw = Stopwatch.StartNew();
-            ////var assemblyNames = (from id in identifiers
-            ////                     select GetAssemblyNameFromId(id)).ToArray();
-            //var assemblies = (from fileName in files
-            //                  let assembly = TryLoadAssembly(fileName)
-            //                  where assembly != null
-            //                  select assembly).ToArray();
-            //var query = (from assembly in assemblies
-            //             from type in typeof(int).Assembly.GetTypes()
-            //             from member in type.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
-            //             select member).ToArray();
-            //sw.Stop();
+            var files = ObtainFrameworkAssemblies(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true, assemblyLocation)).ToArray();
+            var timeFunc = MiscHelperMethods.TimeActionFunc<string[]>(ReflectionVersion);
+            var rv1 = timeFunc(files);
+            var rv2 = timeFunc(files);
+            Console.WriteLine("From reflection (first): {0}\nSecond pass: {1}", rv1, rv2);
             //Console.WriteLine("From Reflection: {0}", sw.Elapsed);
             //Console.WriteLine(assemblyLocation);
             var timedProcess = Process1(assemblyLocation);
@@ -337,6 +329,20 @@ PostJit: {1}", first, second);
             Console.WriteLine(timedProcess);
             GC.Collect();
             GC.WaitForPendingFinalizers();
+        }
+
+        private static void ReflectionVersion(string[] files)
+        {
+            //var assemblyNames = (from id in identifiers
+            //                     select GetAssemblyNameFromId(id)).ToArray();
+            var assemblies = (from fileName in files.AsParallel()
+                              let assembly = TryLoadAssembly(fileName)
+                              where assembly != null
+                              select assembly).ToArray();
+            var query = (from assembly in assemblies.AsParallel()
+                         from type in typeof(int).Assembly.GetTypes().AsParallel()
+                         from member in type.GetMembers(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
+                         select member).ToArray();
         }
 
         private static Assembly TryLoadAssembly(string fileName)
@@ -524,41 +530,59 @@ PostJit: {1}", first, second);
             //var testTypedName = dictionaryValuesEnum.GetTypedName("TestTypedName");
             ////Console.WriteLine(m);
 
-            //sw.Stop();
-            //var t3 = sw.Elapsed;
-            //sw.Restart();
-            //var assemblyQuery = (from assemblyId in identifiers
-            //                     let assembly = ObtainRef(clim, assemblyId)
-            //                     let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-            //                                          let members = t.GetMemberData()
-            //                                          select new { Type = t, Members = members }
-            //                     select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
-            //sw.Stop();
-            //var propertySets1 = sw.Elapsed;
-            //sw.Restart();
-            //assemblyQuery = (from assemblyId in identifiers
-            //                 let assembly = (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)
-            //                 let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
-            //                                      let members = t.GetMemberData()
-            //                                      select new { Type = t, Members = members }
-            //                 select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).ToArray();
-            //sw.Stop();
-            //var propertySets2 = sw.Elapsed;
-            //var dt = assemblyQuery.Length;
-            var mea2 = clim.ObtainAssemblyReference(identifiers[5]);
-            var mea = clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier);
-            //var men = mea.Namespaces["System.Collections.Generic"];
-            var mei = (IClassType)mea.GetType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2));
-            var med = mea2.UniqueIdentifier.GetTypeIdentifier("AllenCopeland.Abstraction.Utilities.Collections", "ControlledDictionary", 2);
-            var typeN = (ICliType)mea2.GetType(med);
-            var deda = typeN.MetadataEntry.TypeParameters.Count;
-            //var mei2 = mea2.ToString();
-            //var mei = men.Interfaces[meid];
-            foreach (var identifier in typeN.Members.Keys)
-            {
-                Console.WriteLine(identifier);
-            }
             sw.Stop();
+            var t3 = sw.Elapsed;
+            sw.Restart();
+            //var dQuery = (from assemblyId in identifiers.AsParallel()
+            //              select (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)).ToArray().AsParallel();
+            var eQuery = (from assembly in
+                              (from assemblyId in identifiers
+                               select (ICliAssembly)ObtainRef(clim, assemblyId)).AsParallel()
+                          from type in assembly.MetadataRoot.TableStream.TypeDefinitionTable.AsParallel()
+                          from m in type.GetMemberData()
+                          select m).ToArray();
+            //var assemblyQuery = (from assemblyId in identifiers.AsParallel()
+            //                     let assembly = (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)
+            //                     let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable.AsParallel()
+            //                                          let members = t.GetMemberData().ToArray()
+            //                                          select new { Type = t, Members = members }
+            //                     select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).AsParallel().ToArray();
+            sw.Stop();
+            var propertySets1 = sw.Elapsed;
+            sw.Restart();
+            //dQuery = (from assemblyId in identifiers.AsParallel()
+            //          select (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)).ToArray().AsParallel();
+            eQuery = (from assembly in
+                          (from assemblyId in identifiers
+                           select (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)).AsParallel()
+                      from type in assembly.MetadataRoot.TableStream.TypeDefinitionTable.AsParallel()
+                      from m in type.GetMemberData()
+                      select m).ToArray();
+            
+            //assemblyQuery = (from assemblyId in identifiers.AsParallel()
+            //                 let assembly = (ICliAssembly)clim.ObtainAssemblyReference(assemblyId)
+            //                 let typeMemberSets = from t in assembly.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable.AsParallel()
+            //                                      let members = t.GetMemberData().ToArray()
+            //                                      select new { Type = t, Members = members }
+            //                 select new { Assembly = assembly, TypesAndMembers = typeMemberSets.ToArray() }).AsParallel().ToArray();
+            sw.Stop();
+            var propertySets2 = sw.Elapsed;
+            //var de = Tuple.Create(assemblyQuery.ToArray());
+            var dt = eQuery.Length;
+            //var mea2 = ObtainRef(clim, identifiers[5]);// clim.ObtainAssemblyReference(identifiers[5]);
+            //var mea = ObtainRef(clim, clim.RuntimeEnvironment.CoreLibraryIdentifier);// clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier);
+            ////var men = mea.Namespaces["System.Collections.Generic"];
+            //var mei = (IClassType)mea.GetType(clim.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2));
+            //var med = mea2.UniqueIdentifier.GetTypeIdentifier("AllenCopeland.Abstraction.Utilities.Collections", "ControlledDictionary", 2);
+            //var typeN = (ICliType)mea2.GetType(med);
+            //var deda = typeN.MetadataEntry.TypeParameters.Count;
+            ////var mei2 = mea2.ToString();
+            ////var mei = men.Interfaces[meid];
+            //foreach (var identifier in typeN.Members.Keys)
+            //{
+            //    //Console.WriteLine(identifier);
+            //}
+            //sw.Stop();
             //var fp = assem.MetadataEntry.MetadataRoot.TableStream.PropertyTable.First(p=>p.GetMethod != null && p.SetMethod != null);
             //var typePropertySets = (from t in assem.MetadataEntry.MetadataRoot.TableStream.TypeDefinitionTable
             //                        let members = t.GetMemberData().ToArray()
@@ -592,22 +616,27 @@ PostJit: {1}", first, second);
             //var types = assem.MetadataRoot.TableStream.TypeDefinitionTable.ToArray();
             //var targetType = types[2];
             //var memberData = targetType.GetMemberData();
-            //return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
-            return new Tuple<TimeSpan, TimeSpan>(sw.Elapsed, default(TimeSpan));
+            return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
+            //return new Tuple<TimeSpan, TimeSpan>(sw.Elapsed, default(TimeSpan));
         }
 
-        public static ICliAssembly ObtainRef(_ICliManager manager, IAssemblyUniqueIdentifier id){
+        public static ICliAssembly ObtainRef(_ICliManager manager, IAssemblyUniqueIdentifier id)
+        {
             var result = (ICliAssembly)manager.ObtainAssemblyReference(id);
             var tableStream = result.MetadataRoot.TableStream;
+            //foreach (var t in tableStream.Values.ToArray().AsParallel())
+            //    t.Read();
+            if (tableStream.TypeDefinitionTable != null)
+                tableStream.TypeDefinitionTable.Read();
             if (tableStream.MethodSemanticsTable != null)
                 tableStream.MethodSemanticsTable.Read();
-            if (tableStream.MethodDefinitionTable != null) 
+            if (tableStream.MethodDefinitionTable != null)
                 tableStream.MethodDefinitionTable.Read();
             if (tableStream.PropertyTable != null)
                 tableStream.PropertyTable.Read();
             if (tableStream.EventTable != null)
                 tableStream.EventTable.Read();
-            if (tableStream.EventMapTable!= null)
+            if (tableStream.EventMapTable != null)
                 tableStream.EventMapTable.Read();
             if (tableStream.PropertyMapTable != null)
                 tableStream.PropertyMapTable.Read();
