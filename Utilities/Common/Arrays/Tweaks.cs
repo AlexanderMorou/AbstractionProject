@@ -748,5 +748,11 @@ namespace AllenCopeland.Abstraction.Utilities.Arrays
             foreach (var t in array)
                 yield return t;
         }
+
+        public static T[] Flatten<T>(this IEnumerable<IEnumerable<T>> series)
+        {
+            return (from set in series.AsParallel()
+                    select set.ToArray()).ToArray().ConcatinateSeries();
+        }
     }
 }

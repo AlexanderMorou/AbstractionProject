@@ -40,5 +40,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         {
             return string.Format("{0} section - {1} bytes at {2} - {3} tables", this.Name, this.Size, this.Offset, this.Count);
         }
+
+        #region ICliMetadataTableStreamAndHeader Members
+
+
+        public CliMetadataTableKinds TablesPresent
+        {
+            get { return this.tablesPresent; }
+        }
+
+        public CliMetadataTableKinds SortedTables
+        {
+            get { return this.sortedTables; }
+        }
+
+        #endregion
     }
 }

@@ -23,6 +23,12 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         string filename;
         private bool keepImageOpen;
         private object syncObject = new object();
+        private int streamIndex = 0;
+        private Tuple<object, FileStream, EndianAwareBinaryReader> sync1;
+        private Tuple<object, FileStream, EndianAwareBinaryReader> sync2;
+        private Tuple<object, FileStream, EndianAwareBinaryReader> sync3;
+        private Tuple<object, FileStream, EndianAwareBinaryReader> sync4;
+        private Tuple<object, FileStream, EndianAwareBinaryReader> sync5;
         /// <summary>
         /// The old MS-DOS stub program that prints
         /// 'This program cannot be run in DOS mode.'
@@ -59,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
              * */
             if (!msDosStubProgram.SequenceEqual(dosStub))
                 throw new BadImageFormatException();
-            
+
             reader.BaseStream.Seek(dosHeader.PEHeaderPointer, SeekOrigin.Begin);
             coffHeader.Read(reader);
             extendedHeader.Read(reader);
@@ -85,10 +91,12 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             /* *
              * Rewrite PE Loader and metadata reader.
              * */
-            imageStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
-            EndianAwareBinaryReader imageReader = new EndianAwareBinaryReader(imageStream, Endianness.LittleEndian, false);
             var result = new PEImage();
             result.filename = filename;
+            var streamSyncObject = result.SecureReader();
+            imageStream = streamSyncObject.Item2;
+            EndianAwareBinaryReader imageReader = streamSyncObject.Item3;
+            result.syncObject = streamSyncObject.Item1;
             result.Read(imageReader, keepImageOpen);
             return result;
         }
@@ -132,19 +140,55 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 
         private void DisposeReader()
         {
-            if (this.reader != null)
+            foreach (var triple in new[] { this.sync1, this.sync2, this.sync3, this.sync4, this.sync5 })
             {
-                if (!keepImageOpen)
-                {
-                    this.reader.BaseStream.Close();
-                    this.reader.BaseStream.Dispose();
-                    this.reader.Close();
-                    this.reader.Dispose();
-                }
-                this.reader = null;
+                if (triple == null)
+                    continue;
+                triple.Item2.Close();
+                triple.Item2.Dispose();
+                triple.Item3.Close();
+                triple.Item3.Dispose();
             }
         }
 
         public object SyncObject { get { return this.syncObject; } }
+
+
+        internal Tuple<object, FileStream, EndianAwareBinaryReader> SecureReader()
+        {
+            Tuple<object, FileStream, EndianAwareBinaryReader> result;
+
+            lock (this.syncObject)
+            {
+                switch (streamIndex)
+                {
+                    case 0:
+                        result = sync1 ?? (sync1 = CreateReader(streamIndex));
+                        break;
+                    case 1:
+                        result = sync2 ?? (sync2 = CreateReader(streamIndex));
+                        break;
+                    case 2:
+                        result = sync3 ?? (sync3 = CreateReader(streamIndex));
+                        break;
+                    case 3:
+                        result = sync4 ?? (sync4 = CreateReader(streamIndex));
+                        break;
+                    case 4:
+                    default:
+                        result = sync5 ?? (sync5 = CreateReader(streamIndex));
+                        break;
+                }
+                streamIndex = (streamIndex + 1) % 5;
+            }
+            return result;
+        }
+
+        private Tuple<object, FileStream, EndianAwareBinaryReader> CreateReader(int index)
+        {
+            object syncObject = new { Name = string.Format("Stream {0} for {1}", index + 1, this.filename) };
+            FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read);
+            return new Tuple<object, FileStream, EndianAwareBinaryReader>(syncObject, stream, new EndianAwareBinaryReader(stream, Endianness.LittleEndian, false));
+        }
     }
 }

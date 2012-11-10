@@ -404,6 +404,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override void Dispose(bool disposing)
         {
+            this.metadataRoot.Dispose();
             this.metadataRoot = null;
             this.namespaceInformation = null;
         }

@@ -32,8 +32,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         _ICliManager
     {
         private TypeCache typeCache;
+        private object assemblyIdSyncLock = new object();
+        private object loadedAssemblyLock = new object();
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
+        private Dictionary<IAssemblyUniqueIdentifier, object> assemblyIdSyncs = new Dictionary<IAssemblyUniqueIdentifier, object>();
         private Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>>();
         private MultikeyedDictionary<CliAssembly, string, CliModule> moduleAssemblyIdentities = new MultikeyedDictionary<CliAssembly, string, CliModule>();
         private Dictionary<Type, IType> systemTypeCache = new Dictionary<Type, IType>();
@@ -362,11 +365,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public void Dispose()
         {
-            lock (this.loadedAssemblies)
+            lock (this.assemblyIdSyncLock)
             {
+
                 foreach (var assembly in this.loadedAssemblies.Values)
-                    assembly.Dispose();
-                this.loadedAssemblies.Clear();
+                    lock (this.assemblyIdSyncs[assembly.UniqueIdentifier])
+                        assembly.Dispose();
+                lock (loadedAssemblyLock)
+                    this.loadedAssemblies.Clear();
+                this.assemblyIdSyncs.Clear();
                 this.fileIdentifiers.Clear();
             }
         }
@@ -448,7 +455,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (valid.Item2.TableStream.ModuleTable == null ||
                     valid.Item2.TableStream.ModuleTable.Count == 0)
                     throw new BadImageFormatException("No module module table present in the metadata.");
-                this.loadedModules.Add(valid.Item3, valid);
+                lock (this.loadedModules)
+                    this.loadedModules.Add(valid.Item3, valid);
                 return valid.Item2.TableStream.ModuleTable[1];
 
             }
@@ -459,7 +467,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal CliAssembly GetRelativeAssembly(ICliMetadataRoot root)
         {
             if (root != null)
-                foreach (var assembly in this.loadedAssemblies.Values)
+            {
+                CliAssembly[] loadedAssemblies;
+                lock (loadedAssemblyLock)
+                    loadedAssemblies = this.loadedAssemblies.Values.ToArray();
+                foreach (var assembly in loadedAssemblies)
                     if (assembly.MetadataRoot == root)
                         return assembly;
                     else
@@ -471,6 +483,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             if (cliModule.Metadata.MetadataRoot == root)
                                 return assembly;
                         }
+            }
             return null;
         }
 
@@ -671,20 +684,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             bool gacAssembly = false;
             ICliRuntimeEnvironmentInfo runtimeEnvironment = this.runtimeEnvironment;
             if (relativeSource != null)
-            {
                 if (relativeSource is ICliAssembly)
                 {
                     var cliAssem = (ICliAssembly)relativeSource;
                     if (cliAssem.RuntimeEnvironment.Version != runtimeEnvironment.Version ||
                         cliAssem.RuntimeEnvironment.Platform != runtimeEnvironment.Platform)
-                    {
                         runtimeEnvironment = cliAssem.RuntimeEnvironment;
-                    }
                 }
-            }
-            lock (this.loadedAssemblies)
+            object syncLock;
+            lock (assemblyIdSyncLock)
             {
-                if (!this.loadedAssemblies.TryGetValue(assemblyIdentity, out result))
+                if (!assemblyIdSyncs.TryGetValue(assemblyIdentity, out syncLock))
+                    assemblyIdSyncs.Add(assemblyIdentity, syncLock = new { LockFor = assemblyIdentity.ToString() });
+            }
+
+            lock (syncLock)
+            {
+                bool contains;
+                lock (loadedAssemblyLock)
+                    contains = this.loadedAssemblies.TryGetValue(assemblyIdentity, out result);
+                if (!contains)
                 {
                     var baseName = assemblyIdentity.Name;
                     Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
@@ -731,11 +750,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                     if (validResult != null)
                     {
-                        this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
+                        lock (loadedAssemblyLock)
+                        {
+                            this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
+                            //result.InitializeCommon();
+                            this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
+                        }
                         if (gacAssembly)
                             result.IsFromGlobalAssemblyCache = true;
-                        //result.InitializeCommon();
-                        this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
                         return result;
                     }
                     else

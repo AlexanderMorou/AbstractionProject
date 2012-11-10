@@ -243,12 +243,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     table.Dispose();
                 this.tableStream._Clear();
             }
-            if (this.originalStream != null)
-            {
-                this.originalStream.Close();
-                this.originalStream.Dispose();
-                this.originalStream = null;
-            }
+            if (this.sourceImage != null)
+                this.sourceImage.Dispose();
             if (this.blob != null)
             {
                 this.blob.Dispose();
