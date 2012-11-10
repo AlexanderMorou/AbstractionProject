@@ -63,17 +63,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 uint startIndex = properties[0].Index;
                 uint endIndex = (uint)(startIndex + properties.Count - 1);
-                var subSemantics = (from s in target.MetadataRoot.PropertySemantics
-                                    where ((startIndex <= s.AssociationIndex) && (s.AssociationIndex <= endIndex))
-                                    select s).ToArray();
-                fullSemantics.AddRange(subSemantics.Select(s => s.MethodIndex));
+                //var subSemantics = (from s in target.MetadataRoot.PropertySemantics
+                //                    where ((startIndex <= s.AssociationIndex) && (s.AssociationIndex <= endIndex))
+                //                    select s).ToArray();
+                List<ICliMetadataMethodSemanticsTableRow> subSemantics = new List<ICliMetadataMethodSemanticsTableRow>();
+
+                foreach (var propertySemantic in target.MetadataRoot.PropertySemantics)
+                    if (startIndex <= propertySemantic.AssociationIndex && propertySemantic.AssociationIndex <= endIndex)
+                    {
+                        subSemantics.Add(propertySemantic);
+                        fullSemantics.Add(propertySemantic.MethodIndex);
+                    }
                 propertyData = (from property in target.Properties
                                 join semantics in subSemantics on property.Index equals semantics.AssociationIndex into methods
                                 let minSemantics = methods.MinSemantics()
-                                let isIndexer = minSemantics.Semantics == MethodSemanticsAttributes.Getter ?
-                                    minSemantics.Method.Signature.Parameters.Count > 0 :
-                                    minSemantics.Method.Signature.Parameters.Count > 1
-                                select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(isIndexer ? CliMemberType.Indexer : CliMemberType.Property, minSemantics.MethodIndex + fieldCount, property));
+                                let elementType = (minSemantics.Semantics == MethodSemanticsAttributes.Getter ?
+                                                       minSemantics.Method.Parameters.Count > 0 :
+                                                       minSemantics.Method.Parameters.Count > 1) ? CliMemberType.Indexer : CliMemberType.Property
+                                select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(elementType, minSemantics.MethodIndex + fieldCount, property));
             }
             IEnumerable<Tuple<CliMemberType, uint, ICliMetadataTableRow>> @eventData = null;
             var events = target.Events;
@@ -83,10 +90,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 uint startIndex = events[0].Index;
                 uint endIndex = (uint)(startIndex + events.Count - 1);
-                var subSemantics = (from s in target.MetadataRoot.EventSemantics
-                                    where ((startIndex <= s.AssociationIndex) && (s.AssociationIndex <= endIndex))
-                                    select s).ToArray();
-                fullSemantics.AddRange(subSemantics.Select(s => s.MethodIndex));
+                List<ICliMetadataMethodSemanticsTableRow> subSemantics = new List<ICliMetadataMethodSemanticsTableRow>();
+                foreach (var eventSemantic in target.MetadataRoot.EventSemantics)
+                    if (startIndex <= eventSemantic.AssociationIndex && eventSemantic.AssociationIndex <= endIndex)
+                    {
+                        subSemantics.Add(eventSemantic);
+                        fullSemantics.Add(eventSemantic.MethodIndex);
+                    }
                 eventData = (from @event in target.Events
                              join semantics in subSemantics on @event.Index equals semantics.AssociationIndex into methods
                              select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(CliMemberType.Event, methods.Min() + fieldCount, @event));
@@ -99,10 +109,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
              * binary operator (op_Addition, et al), unary operator (op_Decrement, et al),
              * or expression type coercion operator (op_Implicit, op_Explicit)
              * */
+
             var remainingMethods = (from m in
-                                        (target.Methods.Except(from m in target.Methods
-                                                               join semantics in fullSemantics.ToArray() on m.Index equals semantics
-                                                               select m))
+                                        from method in target.Methods
+                                        where !fullSemantics.Contains(method.Index)
+                                        select method
+                                        //(target.Methods.Except(from m in target.Methods
+                                        //                       join semantics in fullSemantics on m.Index equals semantics
+                                        //                       select m))
                                     select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(DiscernMemberType(m), m.Index + fieldCount, m));
             /* *
              * Yield a full set of members, remembering their kind, and ordering them 
@@ -120,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                  select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(CliMemberType.Field, f.Index, f)).ToArray()
                          orderby m.Item2
                          select new Tuple<CliMemberType, ICliMetadataTableRow>(m.Item1, m.Item3);
-            return result.AsParallel();
+            return result;
         }
 
         private static uint Min(this IEnumerable<ICliMetadataMethodSemanticsTableRow> target)
