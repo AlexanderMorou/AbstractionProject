@@ -114,9 +114,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                         from method in target.Methods
                                         where !fullSemantics.Contains(method.Index)
                                         select method
-                                        //(target.Methods.Except(from m in target.Methods
-                                        //                       join semantics in fullSemantics on m.Index equals semantics
-                                        //                       select m))
+                                    //(target.Methods.Except(from m in target.Methods
+                                    //                       join semantics in fullSemantics on m.Index equals semantics
+                                    //                       select m))
                                     select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(DiscernMemberType(m), m.Index + fieldCount, m));
             /* *
              * Yield a full set of members, remembering their kind, and ordering them 
@@ -226,7 +226,52 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static IBinaryOperatorUniqueIdentifier GetBinaryOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
-            throw new NotImplementedException();
+            var left = manager.ObtainTypeReference(methodDef.Signature.Parameters[0].ParameterType, owner, null);
+            var right = manager.ObtainTypeReference(methodDef.Signature.Parameters[1].ParameterType, owner, null);
+            BinaryOpCoercionContainingSide containingSide =
+                (left == owner && right == owner) ? BinaryOpCoercionContainingSide.Both :
+                    left == owner ? BinaryOpCoercionContainingSide.LeftSide :
+                    right == owner ? BinaryOpCoercionContainingSide.RightSide : BinaryOpCoercionContainingSide.Invalid;
+            IType otherSide = containingSide == BinaryOpCoercionContainingSide.LeftSide ?
+                right : containingSide == BinaryOpCoercionContainingSide.RightSide ?
+                left : owner;
+            switch (methodDef.Name)
+            {
+                case CliCommon.BinaryOperatorNames.Addition:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Add, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.BitwiseAnd:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.BitwiseAnd, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.BitwiseOr:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.BitwiseOr, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.Division:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Divide, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.Equality:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.IsEqualTo, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.ExclusiveOr:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.ExclusiveOr, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.GreaterThan:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.GreaterThan, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.GreaterThanOrEqual:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.GreaterThanOrEqualTo, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.Inequality:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.IsNotEqualTo, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.LeftShift:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LeftShift, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.LessThan:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LessThan, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.LessThanOrEqual:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LessThanOrEqualTo, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.Modulus:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Modulus, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.Multiply:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Multiply, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.RightShift:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.RightShift, containingSide, otherSide);
+                case CliCommon.BinaryOperatorNames.Subtraction:
+                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Subtract, containingSide, otherSide);
+                default:
+                    throw new InvalidOperationException();
+            }
         }
 
         internal static ISignatureMemberUniqueIdentifier GetCtorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
@@ -270,7 +315,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return AstIdentifier.GetSignatureIdentifier(indexerDef.Name);
         }
 
-        internal static IGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodMember> memberGetter)
+        internal static IGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodSignatureMember> memberGetter)
         {
             return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
                                                                                                                 select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
@@ -338,9 +383,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return false;
         }
 
-        internal static IGeneralMemberUniqueIdentifier GetUnaryOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
+        internal static IUnaryOperatorUniqueIdentifier GetUnaryOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
-            throw new NotImplementedException();
+            switch (methodDef.Name)
+            {
+                case CliCommon.UnaryOperatorNames.Decrement:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Decrement);
+                case CliCommon.UnaryOperatorNames.False:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.EvaluatesToFalse);
+                case CliCommon.UnaryOperatorNames.Increment:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Increment);
+                case CliCommon.UnaryOperatorNames.LogicalNot:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.LogicalInvert);
+                case CliCommon.UnaryOperatorNames.Negation:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Negation);
+                case CliCommon.UnaryOperatorNames.OnesComplement:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Complement);
+                case CliCommon.UnaryOperatorNames.Plus:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Plus);
+                case CliCommon.UnaryOperatorNames.True:
+                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.EvaluatesToTrue);
+                default:
+                    throw new InvalidOperationException();
+            }
         }
     }
 }

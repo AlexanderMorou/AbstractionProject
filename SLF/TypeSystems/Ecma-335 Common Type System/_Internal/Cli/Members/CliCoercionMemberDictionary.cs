@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli;
-
+using AllenCopeland.Abstraction.Utilities.Arrays;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     /// <summary>
@@ -27,8 +27,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     /// that contains <typeparamref name="TCoercion"/> 
     /// members in the current implementation.</typeparam>
     internal abstract class CliCoercionMemberDictionary<TCoercionIdentifier, TCoercion, TCoercionParent> :
-        CliMetadataDrivenDictionary<TCoercionIdentifier, ICliMetadataMethodDefinitionTableRow, TCoercion>,
-        IGroupedMemberDictionary<TCoercionParent, TCoercionIdentifier, TCoercion>
+        CliMetadataDrivenDictionary<TCoercionIdentifier, int, TCoercion>,
+        IGroupedMemberDictionary<TCoercionParent, TCoercionIdentifier, TCoercion>,
+        IGroupedMemberDictionary
         where TCoercionIdentifier :
             class,
             IGeneralMemberUniqueIdentifier,
@@ -40,10 +41,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             ICoercibleType<TCoercionIdentifier, TCoercion, TCoercionParent>
 
     {
-        public CliCoercionMemberDictionary(ICliMetadataMethodDefinitionTableRow[] filteredSet, TCoercionParent parent)
-            : base(filteredSet)
+        private CliFullMemberDictionary master;
+        private TCoercionIdentifier[] filteredIdentifiers;
+        public CliCoercionMemberDictionary(TCoercionParent parent, CliFullMemberDictionary master, CliMemberType memberKind)
+            : base()
         {
+            this.master = master;
             this.Parent = parent;
+            var subset = master.ObtainSubset<TCoercionIdentifier, TCoercion>(memberKind).SplitSet();
+            this.Initialize(subset.Item1);
+            this.filteredIdentifiers = subset.Item2;
         }
 
         #region ISubordinateDictionary<TCoercionIdentifier,IGeneralMemberUniqueIdentifier,TCoercion,IMember> Members
@@ -60,5 +67,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public TCoercionParent Parent { get; private set; }
 
         #endregion
+
+        protected override sealed TCoercion CreateElementFrom(int index, int metadata)
+        {
+            return (TCoercion)this.master.Values[metadata].Entry;
+        }
+
+        protected override sealed TCoercionIdentifier GetIdentifierFrom(int index, int metadata)
+        {
+            return this.filteredIdentifiers[index];
+        }
+
+        IMemberParent IMemberDictionary.Parent
+        {
+            get { return this.Parent; }
+        }
+
+        int IMemberDictionary.IndexOf(IMember member)
+        {
+            if (member is TCoercion)
+                return this.IndexOf((TCoercion)member);
+            return -1;
+        }
+
+        IMasterDictionary ISubordinateDictionary.Master
+        {
+            get { return (IMasterDictionary)this.Parent.Members; }
+        }
     }
 }

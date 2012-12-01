@@ -198,7 +198,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.MetadataEntry.MetadataRoot; }
         }
 
-        public IMember CreateItem(CliMemberType member, ICliMetadataTableRow metadataEntry)
+        public IMember CreateItem(CliMemberType memberKind, ICliMetadataTableRow metadataEntry, IMemberUniqueIdentifier uniqueIdentifier, int index)
         {
             throw new NotImplementedException();
         }

@@ -43,5 +43,35 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return new _ClassTypeBase(this, lockedTypeParameters);
         }
+
+        protected override IClassCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IClassEventMember GetEvent(ICliMetadataEventTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IClassFieldMember GetField(ICliMetadataFieldTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IClassIndexerMember GetIndexer(ICliMetadataPropertyTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IClassMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IClassPropertyMember GetProperty(ICliMetadataPropertyTableRow metadataEntry)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

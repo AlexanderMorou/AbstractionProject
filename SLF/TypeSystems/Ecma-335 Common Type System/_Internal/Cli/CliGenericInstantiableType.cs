@@ -321,7 +321,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
         {
-            throw new NotImplementedException();
+            return new CliBinaryOperatorMemberDictionary<TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
@@ -434,7 +434,56 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.MetadataEntry.MetadataRoot; }
         }
 
-        public IMember CreateItem(CliMemberType member, ICliMetadataTableRow metadataEntry)
+        public IMember CreateItem(CliMemberType memberKind, ICliMetadataTableRow metadataEntry, IMemberUniqueIdentifier uniqueIdentifier, int index)
+        {
+            switch (memberKind)
+            {
+                case CliMemberType.BinaryOperator:
+                    return this.GetBinaryOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry, (IBinaryOperatorUniqueIdentifier)uniqueIdentifier);
+                case CliMemberType.Constructor:
+                    return this.GetConstructor((ICliMetadataMethodDefinitionTableRow)(metadataEntry));
+                case CliMemberType.Event:
+                    return this.GetEvent((ICliMetadataEventTableRow)metadataEntry);
+                case CliMemberType.Field:
+                    return this.GetField((ICliMetadataFieldTableRow)metadataEntry);
+                case CliMemberType.Indexer:
+                    return this.GetIndexer((ICliMetadataPropertyTableRow)metadataEntry);
+                case CliMemberType.Method:
+                    return this.GetMethod((ICliMetadataMethodDefinitionTableRow)metadataEntry);
+                case CliMemberType.Property:
+                    return (TProperty)this.GetProperty((ICliMetadataPropertyTableRow)metadataEntry);
+                case CliMemberType.TypeCoercionOperator:
+                    return (ITypeCoercionMember<TType>)this.GetTypeOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry);
+                case CliMemberType.UnaryOperator:
+                    return (IUnaryOperatorCoercionMember<TType>)this.GetUnaryOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry);
+                default:
+                    throw new InvalidOperationException();
+            }
+        }
+
+        protected abstract TCtor GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry);
+
+        protected abstract TEvent GetEvent(ICliMetadataEventTableRow metadataEntry);
+
+        protected abstract TField GetField(ICliMetadataFieldTableRow metadataEntry);
+
+        protected abstract TIndexer GetIndexer(ICliMetadataPropertyTableRow metadataEntry);
+
+        protected abstract TMethod GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry);
+
+        protected abstract TProperty GetProperty(ICliMetadataPropertyTableRow metadataEntry);
+
+        protected virtual IBinaryOperatorCoercionMember<TType> GetBinaryOperator(ICliMetadataMethodDefinitionTableRow metadataEntry, IBinaryOperatorUniqueIdentifier uniqueIdentifier)
+        {
+            return new BinaryOperatorMember(uniqueIdentifier, metadataEntry, (TType)(object)this);
+        }
+
+        protected virtual ITypeCoercionMember<TType> GetTypeOperator(ICliMetadataMethodDefinitionTableRow cliMetadataMethodDefinitionTableRow)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual IUnaryOperatorCoercionMember<TType> GetUnaryOperator(ICliMetadataMethodDefinitionTableRow cliMetadataMethodDefinitionTableRow)
         {
             throw new NotImplementedException();
         }

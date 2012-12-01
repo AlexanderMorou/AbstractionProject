@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract partial class CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> :
+        CliMemberBase<IGeneralGenericSignatureMemberUniqueIdentifier, TSignatureParent, ICliMetadataMethodDefinitionTableRow>,
         IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
         where TSignatureParameter :
             class,
@@ -20,25 +21,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TSignatureParent :
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
-        private TSignatureParent parent;
-        private ICliMetadataMethodDefinitionTableRow metadataEntry;
         private _ICliAssembly assembly;
         private bool? lastIsParams;
         private CliParameterMemberDictionary<TSignature, TSignatureParameter> parameters;
 
         protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliAssembly assembly, TSignatureParent parent)
+            : base(parent, metadataEntry)
         {
-            this.metadataEntry = metadataEntry;
             this.assembly = assembly;
-            this.parent = parent;
-        }
-
-        protected ICliMetadataMethodDefinitionTableRow MetadataEntry
-        {
-            get
-            {
-                return this.metadataEntry;
-            }
         }
 
         internal _ICliManager IdentityManager
@@ -111,8 +101,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 if (lastIsParams == null)
                 {
-                    var paramArrayAttrType = this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), IdentityManager.GetRelativeAssembly(metadataEntry.MetadataRoot));
-                    var lParam = metadataEntry.Parameters.LastOrDefault();
+                    var paramArrayAttrType = this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), IdentityManager.GetRelativeAssembly(MetadataEntry.MetadataRoot));
+                    var lParam = this.MetadataEntry.Parameters.LastOrDefault();
                     if (lParam != null && lParam.CustomAttributes.Count > 0)
                         lastIsParams = CliCommon.GetMetadatum(this.IdentityManager, paramArrayAttrType, lParam.CustomAttributes) != null;
                 }
@@ -122,63 +112,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-        #region IMember<IGeneralGenericSignatureMemberUniqueIdentifier,TSignatureParent> Members
-
-        public TSignatureParent Parent
-        {
-            get { return this.parent; }
-        }
-
-        #endregion
-
-        #region IDeclaration<IGeneralGenericSignatureMemberUniqueIdentifier> Members
-
-        public IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
-
-        #region IDeclaration Members
-
-        public string Name
-        {
-            get { return this.metadataEntry.Name; }
-        }
-
-        IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
-        {
-            get { return this.UniqueIdentifier; }
-        }
-
-        public event EventHandler Disposed;
-
-        #endregion
-
-        #region IDisposable Members
-
-        public void Dispose()
-        {
-            this.metadataEntry = null;
-        }
-
-        #endregion
-
-        #region IMember Members
-
-        IMemberParent IMember.Parent
-        {
-            get { return this.Parent; }
-        }
-
-        #endregion
-
         #region IMethodSignatureMember Members
 
         public IType ReturnType
         {
-            get { throw new NotImplementedException(); }
+            get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType.ReturnType); }
         }
 
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
@@ -245,7 +183,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public bool IsGenericConstruct
         {
-            get { return this.metadataEntry.TypeParameters.Count > 0; }
+            get { return this.MetadataEntry.TypeParameters.Count > 0; }
         }
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters
@@ -270,5 +208,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
+
+        protected override string OnGetName()
+        {
+            return this.MetadataEntry.Name;
+        }
+
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
+        {
+            get { return (IGeneralGenericSignatureMemberUniqueIdentifier)CliMemberExtensions.GetMethodIdentifier(this.MetadataEntry, this.Parent as IType, this.IdentityManager, () => this); }
+        }
     }
 }

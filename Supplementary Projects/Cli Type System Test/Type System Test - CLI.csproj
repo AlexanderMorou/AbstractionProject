@@ -8,7 +8,7 @@
     <ProjectGuid>{54398E20-2E0F-4E98-8670-69C89B346CB0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest</RootNamespace>
+    <RootNamespace>AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli</RootNamespace>
     <AssemblyName>_abs.supplementary.cts.test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>

@@ -44,7 +44,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// series of <see cref="IFullMemberDictionary"/>.
     /// </summary>
     public interface IGroupedMemberDictionary :
-        IMemberDictionary
+        IMemberDictionary,
+        ISubordinateDictionary
     {
     }
 }

@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ISubordinateDictionary UnaryOperators { get; }
         ICliMetadataRoot MetadataRoot { get; }
         ICliMetadataTypeDefinitionTableRow MetadataEntry { get; }
-        IMember CreateItem(CliMemberType member, ICliMetadataTableRow metadataEntry);
+        IMember CreateItem(CliMemberType memberKind, ICliMetadataTableRow metadataEntry, IMemberUniqueIdentifier uniqueIdentifier, int index);
         _ICliManager IdentityManager { get; }
     }
 }
