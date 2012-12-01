@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Utilities.Collections;
 /*----------------------------------------\
 | Copyright © 2012 Allen Copeland Jr.     |
 |-----------------------------------------|
@@ -368,10 +369,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             TSignatureParent
     {
         private ITypeIdentityManager identityManager;
-        protected IntermediateMethodSignatureMemberDictionary(TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
+        private IIntermediateFullMemberDictionary master;
+        protected IntermediateMethodSignatureMemberDictionary(TIntermediateSignatureParent parent, ITypeIdentityManager identityManager, IIntermediateFullMemberDictionary master)
             : base(parent)
         {
             this.identityManager = identityManager;
+            this.master = master;
         }
 
         protected IntermediateMethodSignatureMemberDictionary(TIntermediateSignatureParent parent, IntermediateMethodSignatureMemberDictionary<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TSignatureParent, TIntermediateSignatureParent> toWrap)
@@ -615,5 +618,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         #endregion
+
+
+        public IMasterDictionary Master
+        {
+            get { return (IMasterDictionary)this.master; }
+        }
     }
 }

@@ -79,6 +79,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// Provides a member mapping from the signature variety to the
     /// implementation variety.
     /// </summary>
+    /// <typeparam name="TIdentifier">The type of the identifier used by both
+    /// the members of <typeparamref name="TA"/> and <typeparamref name="TB"/></typeparam>
     /// <typeparam name="TA">The type for the implementation of the 
     /// <typeparamref name="TB"/> member.</typeparam>
     /// <typeparam name="TB">The type for the signature variant of the

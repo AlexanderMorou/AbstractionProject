@@ -122,6 +122,7 @@
     <Compile Include="_Internal\Cli\CliFullTypeDictionary+KeysCollection.cs" />
     <Compile Include="_Internal\Cli\CliFullTypeDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliFullTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliGenericInstantiableType+CoercionMembers.cs" />
     <Compile Include="_Internal\Cli\CliGenericInstantiableType.cs" />
     <Compile Include="_Internal\Cli\CliGenericParentType.cs" />
     <Compile Include="_Internal\Cli\CliInterfaceType.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="_Internal\Cli\CliMemberExtensions.cs" />
     <Compile Include="_Internal\Cli\CliMemberType.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
+    <Compile Include="_Internal\Cli\CliStructType.cs" />
     <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -146,6 +148,7 @@
     <Compile Include="_Internal\Cli\LockedFullMembersBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliBinaryOperatorMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase+ParameterMemberDictionary.cs" />

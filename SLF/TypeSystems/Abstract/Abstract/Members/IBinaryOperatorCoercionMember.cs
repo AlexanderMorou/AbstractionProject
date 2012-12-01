@@ -117,7 +117,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// The containing type matches both sides.
         /// </summary>
-        Both
+        Both,
+        /// <summary>
+        /// The binary operation is invalid.
+        /// </summary>
+        Invalid,
     }
 
     /// <summary>

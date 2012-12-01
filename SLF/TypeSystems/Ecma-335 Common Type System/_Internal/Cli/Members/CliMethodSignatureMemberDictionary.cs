@@ -22,8 +22,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         private TSignatureParent parent;
-
-        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, IControlledCollection<ICliMetadataMethodDefinitionTableRow> methods)
+        private IFullMemberDictionary master;
+        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, IControlledCollection<ICliMetadataMethodDefinitionTableRow> methods, IFullMemberDictionary master)
             : base(methods)
         {
             this.parent = parent;
@@ -76,5 +76,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         //#endregion
+
+        IMasterDictionary ISubordinateDictionary.Master
+        {
+            get { return (IMasterDictionary)this.master; }
+        }
     }
 }

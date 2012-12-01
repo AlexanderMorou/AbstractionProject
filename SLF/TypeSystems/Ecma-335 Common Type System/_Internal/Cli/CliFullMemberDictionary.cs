@@ -229,7 +229,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckItemAt(int memberIndex)
         {
             if (this.members[memberIndex] == null)
-                this.members[memberIndex] = this.parent.CreateItem(this.memberTypes[memberIndex], this.memberSources[memberIndex]);
+                this.members[memberIndex] = this.parent.CreateItem(this.memberTypes[memberIndex], this.memberSources[memberIndex], this.memberIdentifiers[memberIndex], memberIndex);
         }
+
+        internal IEnumerable<Tuple<int, TIdentifier>> ObtainSubset<TIdentifier, TMember>(CliMemberType kind)
+            where TIdentifier :
+                IMemberUniqueIdentifier
+            where TMember :
+                IDeclaration<TIdentifier>,
+                IMember
+        {
+            for (int datumIndex = 0; datumIndex < this.Count; datumIndex++)
+            {
+                this.CheckIdentifierAt(datumIndex);
+                IMemberUniqueIdentifier currentId = null;
+                if (this.memberTypes[datumIndex] == kind &&
+                    (currentId = this.memberIdentifiers[datumIndex]) is TIdentifier)
+                    yield return new Tuple<int, TIdentifier>(datumIndex, (TIdentifier)currentId);
+            }
+        }
+
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest.Properties {
+namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest.Properties
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

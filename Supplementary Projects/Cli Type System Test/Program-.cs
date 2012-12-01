@@ -30,7 +30,7 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.CliTest
+namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 {
     internal class Program
     {
@@ -64,9 +64,10 @@ PostJit: {1}", first, second);
                 TestLinq(csAssembly, baseIndex: i + 1));
             //*/
             ///*
-            for (int i = 0; i < 50000; i++)
+            for (int i = 0; i < 40; i++)
                 TestLinq(csAssembly.Parts.Add(), baseIndex: i + 1);
             var thirdPart = csAssembly.Parts[3];
+            var thirdMethod = thirdPart.Namespaces["LinqExample"].Methods[3];
             thirdPart.Dispose();
             //*/
         }
@@ -441,7 +442,7 @@ PostJit: {1}", first, second);
              * */
             var sortedDigits = topLevelMethod.Locals.Add("sortedDigits",
                     LinqHelper
-                    .From("digit", /* in */ (new[] { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" }).ToExpression((ICliManager)assembly.IdentityManager))
+                    .From("digit", /* in */ (new [,] { {"one", "two", "three" }, { "four", "five", "six" }, { "seven", "eight", "nine" } }).ToExpression((ICliManager)assembly.IdentityManager))
                         .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
                         .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
                     .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
@@ -506,6 +507,9 @@ PostJit: {1}", first, second);
         {
             var timedObtainTypeMembers = MiscHelperMethods.CreateFunctionOfTime<_ICliManager, Tuple<CliMemberType, ICliMetadataTableRow>[]>(Program.ObtainTypeMembers);
             var result1 = timedObtainTypeMembers(clim);
+            var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
+            var mdeee = md.BinaryOperatorCoercions.First();
+            Console.WriteLine(mdeee.Value.UniqueIdentifier);
             var propertySets1 = result1.Item1;
             var result2 = timedObtainTypeMembers(clim);
             var propertySets2 = result2.Item1;
@@ -529,7 +533,7 @@ PostJit: {1}", first, second);
             var tableStream = result.MetadataRoot.TableStream;
             foreach (var t in tableStream.Values)//(new ICliMetadataTable[] { (ICliMetadataTable)tableStream.TypeDefinitionTable, (ICliMetadataTable)tableStream.MethodSemanticsTable, (ICliMetadataTable)tableStream.PropertyTable, (ICliMetadataTable)tableStream.MethodDefinitionTable, (ICliMetadataTable)tableStream.EventTable, (ICliMetadataTable)tableStream.EventMapTable, (ICliMetadataTable)tableStream.PropertyMapTable }).AsParallel())
                 //if (t != null)
-                    t.Read();
+                t.Read();
             //if (tableStream.TypeDefinitionTable != null)
             //    tableStream.TypeDefinitionTable.Read();
             //if (tableStream.MethodSemanticsTable != null)
