@@ -336,7 +336,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IFieldMemberDictionary<TField, TType> InitializeFields()
         {
-            throw new NotImplementedException();
+            return new CliFieldMemberDictionary<TField, TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IEventMemberDictionary<TEvent, TType> InitializeEvents()

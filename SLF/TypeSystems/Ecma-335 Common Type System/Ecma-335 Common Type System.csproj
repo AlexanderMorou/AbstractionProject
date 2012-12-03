@@ -133,6 +133,7 @@
     <Compile Include="_Internal\Cli\CliMemberExtensions.cs" />
     <Compile Include="_Internal\Cli\CliMemberType.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
+    <Compile Include="_Internal\Cli\CliStructType+MemberDefinitions.cs" />
     <Compile Include="_Internal\Cli\CliStructType.cs" />
     <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
       <SubType>Code</SubType>
@@ -148,6 +149,7 @@
     <Compile Include="_Internal\Cli\LockedFullMembersBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliBinaryOperatorMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliFieldMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType.cs" />
@@ -157,6 +159,7 @@
     <Compile Include="_Internal\Cli\Members\CliSignatureTypeCollection.cs" />
     <Compile Include="_Internal\Cli\Members\CliTypeCoercionMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliUnaryOperatorMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\ICliMetadataMember.cs" />
     <Compile Include="_Internal\Cli\Members\_ICliMethodSignatureParent.cs" />
     <Compile Include="_Internal\Cli\Members\_ICliParameterParent.cs" />
     <Compile Include="_Internal\Cli\MetadataUsage.cs" />

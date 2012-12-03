@@ -88,6 +88,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return default(TMetadata);
         }
 
+        protected int GetMetadataIndex(TMetadata metadata)
+        {
+            if (this.state == METADATA_SOURCE_ARRAY)
+            {
+                if (this.metadataSource != null)
+                {
+                    for (int metadatumIndex = 0; metadatumIndex < this.Count; metadatumIndex++)
+                    {
+                        if (this.metadataSource[metadatumIndex].Equals(metadata))
+                            return metadatumIndex;
+                    }
+                    return -1;
+                }
+            }
+            else if (this.state == METADATA_SOURCE_COLLECTION)
+                return this.metadataCollection.IndexOf(metadata);
+            //Unknown object state.
+            throw new InvalidOperationException();
+        }
+
         protected abstract TDeclaration CreateElementFrom(int index, TMetadata metadata);
 
         private void CheckItemAt(int index)
@@ -343,7 +363,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region IDeclarationDictionary<TDeclarationIdentifier,TDeclaration> Members
 
-        public int IndexOf(TDeclaration decl)
+        public virtual  int IndexOf(TDeclaration decl)
         {
             return this.Values.IndexOf(decl);
         }

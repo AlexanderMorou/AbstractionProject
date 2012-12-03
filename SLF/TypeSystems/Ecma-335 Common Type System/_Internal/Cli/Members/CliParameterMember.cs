@@ -11,7 +11,8 @@ using System.Reflection;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal class CliParameterMember<TParent, TCliParent> :
-        IParameterMember<TParent>
+        IParameterMember<TParent>,
+        ICliMetadataMember
         where TParent :
             IParameterParent
         where TCliParent :
@@ -137,5 +138,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
+
+        public ICliMetadataTableRow MetadataEntry
+        {
+            get { return this.metadata; }
+        }
     }
 }

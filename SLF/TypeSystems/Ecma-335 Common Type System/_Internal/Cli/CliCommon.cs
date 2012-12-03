@@ -912,5 +912,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return nestingHierarchy;
         }
 
+        public static InstanceMemberFlags GetFieldInstanceFlags(FieldAttributes fieldAttrs)
+        {
+            return ((fieldAttrs & FieldAttributes.Static) == FieldAttributes.Static) ? InstanceMemberFlags.Static : InstanceMemberFlags.None;
+        }
+
+        public static AccessLevelModifiers GetFieldAccessModifiers(FieldAttributes fieldAttrs)
+        {
+            switch (fieldAttrs & FieldAttributes.FieldAccessMask)
+            {
+                case FieldAttributes.Assembly:
+                    return AccessLevelModifiers.Internal;
+                case FieldAttributes.FamANDAssem:
+                    return AccessLevelModifiers.ProtectedAndInternal;
+                case FieldAttributes.FamORAssem:
+                    return AccessLevelModifiers.ProtectedOrInternal;
+                case FieldAttributes.Family:
+                    return AccessLevelModifiers.Protected;
+                case FieldAttributes.Private:
+                    return AccessLevelModifiers.Private;
+                case FieldAttributes.Public:
+                    return AccessLevelModifiers.Public;
+                case FieldAttributes.PrivateScope:
+                default:
+                    return AccessLevelModifiers.PrivateScope;
+            }
+        }
     }
 }

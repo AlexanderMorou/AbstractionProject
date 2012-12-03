@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class CliStructType :
+    internal partial class CliStructType :
         CliGenericInstantiableTypeBase<IStructCtorMember, IStructEventMember, IStructFieldMember,
              IStructIndexerMember, IStructMethodMember, IStructPropertyMember, IStructType>,
         IStructType
@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IStructFieldMember GetField(ICliMetadataFieldTableRow metadataEntry)
         {
-            throw new NotImplementedException();
+            return new FieldMember(this, metadataEntry);
         }
 
         protected override IStructIndexerMember GetIndexer(ICliMetadataPropertyTableRow metadataEntry)

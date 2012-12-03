@@ -509,8 +509,13 @@ PostJit: {1}", first, second);
             var timedObtainTypeMembers = MiscHelperMethods.CreateFunctionOfTime<_ICliManager, Tuple<CliMemberType, ICliMetadataTableRow>[]>(Program.ObtainTypeMembers);
             var result1 = timedObtainTypeMembers(clim);
             var timedCheckMembers = MiscHelperMethods.CreateActionOfTime<_ICliManager>(CheckMember);
+            var timedCheckReflectionMembers = MiscHelperMethods.CreateActionOfTime(CheckMemberReflection);
             var checkMembersTime = timedCheckMembers(clim);
-            Console.WriteLine("Check members took {0}.", checkMembersTime);
+            var checkMembersReflectionTime = timedCheckReflectionMembers();
+            var checkMembersTime2 = timedCheckMembers(clim);
+            var checkMembersReflectionTime2 = timedCheckReflectionMembers();
+            Console.WriteLine("Check members took {0} - reflection {1}.", checkMembersTime, checkMembersReflectionTime);
+            Console.WriteLine("Second members check took {0} - reflection {1}.", checkMembersTime2, checkMembersReflectionTime2);
             var propertySets1 = result1.Item1;
             var result2 = timedObtainTypeMembers(clim);
             var propertySets2 = result2.Item1;
@@ -520,9 +525,17 @@ PostJit: {1}", first, second);
         private static void CheckMember(_ICliManager clim)
         {
             var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
-            var mdeee = md.UnaryOperatorCoercions.Values.First();
-            Console.WriteLine(mdeee.ResultedType == md);
-            Console.WriteLine(mdeee.UniqueIdentifier);
+            foreach (var field in md.Fields.Values)
+                field.ToString();
+            //Console.WriteLine(mdeee.FieldType == md);
+            //Console.WriteLine(mdeee.UniqueIdentifier);
+        }
+
+        private static void CheckMemberReflection()
+        {
+            var md = typeof(TimeSpan);
+            foreach (var field in md.GetFields())
+                field.ToString();
         }
 
         private static Tuple<CliMemberType, ICliMetadataTableRow>[] ObtainTypeMembers(_ICliManager clim)

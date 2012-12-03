@@ -11,7 +11,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CliFullMemberDictionary
     {
         private class KeysCollection :
-            IControlledCollection<IGeneralMemberUniqueIdentifier>
+            IControlledCollection<IGeneralMemberUniqueIdentifier>,
+            IControlledCollection
         {
             private CliFullMemberDictionary owner;
 
@@ -118,6 +119,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 return this.GetEnumerator();
             }
+
+            bool IControlledCollection.Contains(object element)
+            {
+                if (element is IGeneralMemberUniqueIdentifier)
+                    return this.Contains((IGeneralMemberUniqueIdentifier)element);
+                return false;
+            }
+
+            void IControlledCollection.CopyTo(Array array, int arrayIndex = 0)
+            {
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
+                for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
+                    this.owner.CheckItemAt(memberIndex);
+                this.owner.members.CopyTo(array, arrayIndex);
+            }
+
+            object IControlledCollection.this[int index]
+            {
+                get { return this[index]; }
+            }
+
+            int IControlledCollection.IndexOf(object element)
+            {
+                if (element is IGeneralMemberUniqueIdentifier)
+                    return this.IndexOf((IGeneralMemberUniqueIdentifier)element);
+                return -1;
+            }
+
         }
     }
 }

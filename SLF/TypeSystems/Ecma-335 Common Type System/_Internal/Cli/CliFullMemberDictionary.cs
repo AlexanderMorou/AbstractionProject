@@ -15,7 +15,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     /// </summary>
     internal partial class CliFullMemberDictionary :
         IFullDeclarationDictionary<IGeneralMemberUniqueIdentifier, IMember>,
-        IFullMemberDictionary
+        IFullMemberDictionary,
+        IFullDeclarationDictionary
     {
         private CliMemberType[] memberTypes;
         private IMember[] members;
@@ -32,6 +33,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.memberSources = typesAndSources.Item2;
             this.members = new IMember[this.memberTypes.Length];
             this.memberIdentifiers = new IGeneralMemberUniqueIdentifier[this.memberTypes.Length];
+        }
+
+        internal int GetMetadataIndex(ICliMetadataTableRow metadataEntry)
+        {
+            if (memberSources == null)
+                return -1;
+            return this.memberSources.GetIndexOf(metadataEntry);
         }
 
         public IEnumerable<ISubordinateDictionary> Subordinates
@@ -222,7 +230,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     break;
                 default:
                     throw new InvalidOperationException("Member of invalid kind.");
-                    break;
             }
         }
 
@@ -251,5 +258,61 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+
+        IEnumerable IMasterDictionary.Subordinates
+        {
+            get { return this.Subordinates; }
+        }
+
+        object IControlledCollection.this[int index]
+        {
+            get { return new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>(this.Keys[index], this.Values[index]); }
+        }
+
+        void IControlledCollection.CopyTo(Array array, int arrayIndex)
+        {
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
+            for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
+                array.SetValue(new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>(this.Keys[memberIndex], this.Values[memberIndex]), arrayIndex + memberIndex);
+        }
+
+        int IControlledCollection.IndexOf(object element)
+        {
+            if (element is KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>)
+                return this.IndexOf((KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>)element);
+            return -1;
+        }
+
+        bool IControlledCollection.Contains(object element)
+        {
+            if (element is KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>)
+                return this.Contains((KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>)element);
+            return false;
+        }
+
+        IControlledCollection IControlledDictionary.Keys { get { return (IControlledCollection)this.Keys; } }
+
+        IControlledCollection IControlledDictionary.Values { get { return (IControlledCollection)this.Values; } }
+
+        object IControlledDictionary.this[object index]
+        {
+            get
+            {
+                if (index is IGeneralMemberUniqueIdentifier)
+                    return this[(IGeneralMemberUniqueIdentifier)index];
+                throw new ArgumentOutOfRangeException("index");
+            }
+        }
+        IDictionaryEnumerator IControlledDictionary.GetEnumerator() 
+        {
+            return new SimpleDictionaryEnumerator<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IMember>>(this.GetEnumerator());
+        }
+
+        bool IControlledDictionary.ContainsKey(object key)
+        {
+            if (key is IGeneralMemberUniqueIdentifier)
+                return this.ContainsKey((IGeneralMemberUniqueIdentifier)key);
+            return false;
+        }
     }
 }

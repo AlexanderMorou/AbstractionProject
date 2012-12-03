@@ -10,7 +10,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract class CliMemberBase<TIdentifier, TParent, TMetadata> :
-        MemberBase<TIdentifier, TParent>
+        MemberBase<TIdentifier, TParent>,
+        ICliMetadataMember
         where TIdentifier :
             IMemberUniqueIdentifier
         where TParent :
@@ -32,5 +33,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// </summary>
         protected TMetadata MetadataEntry { get { return this.metadataEntry; } }
 
+        ICliMetadataTableRow ICliMetadataMember.MetadataEntry
+        {
+            get { return this.MetadataEntry; }
+        }
     }
 }
