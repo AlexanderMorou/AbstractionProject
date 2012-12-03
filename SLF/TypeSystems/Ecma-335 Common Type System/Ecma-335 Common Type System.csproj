@@ -155,6 +155,8 @@
     <Compile Include="_Internal\Cli\Members\CliParameterMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliSignatureTypeCollection.cs" />
+    <Compile Include="_Internal\Cli\Members\CliTypeCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliUnaryOperatorMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\_ICliMethodSignatureParent.cs" />
     <Compile Include="_Internal\Cli\Members\_ICliParameterParent.cs" />
     <Compile Include="_Internal\Cli\MetadataUsage.cs" />

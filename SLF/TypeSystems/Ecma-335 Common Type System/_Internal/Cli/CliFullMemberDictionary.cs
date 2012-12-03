@@ -241,11 +241,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             for (int datumIndex = 0; datumIndex < this.Count; datumIndex++)
             {
-                this.CheckIdentifierAt(datumIndex);
-                IMemberUniqueIdentifier currentId = null;
-                if (this.memberTypes[datumIndex] == kind &&
-                    (currentId = this.memberIdentifiers[datumIndex]) is TIdentifier)
-                    yield return new Tuple<int, TIdentifier>(datumIndex, (TIdentifier)currentId);
+                if (this.memberTypes[datumIndex] == kind)
+                {
+                    this.CheckIdentifierAt(datumIndex);
+                    IMemberUniqueIdentifier currentId = this.memberIdentifiers[datumIndex];
+                    if (currentId is TIdentifier)
+                        yield return new Tuple<int, TIdentifier>(datumIndex, (TIdentifier)currentId);
+                }
             }
         }
 

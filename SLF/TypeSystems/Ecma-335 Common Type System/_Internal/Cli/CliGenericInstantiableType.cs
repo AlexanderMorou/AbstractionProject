@@ -326,12 +326,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private ITypeCoercionMemberDictionary<TType> InitializeTypeCoercions()
         {
-            throw new NotImplementedException();
+            return new CliTypeCoercionMemberDictionary<TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IUnaryOperatorCoercionMemberDictionary<TType> InitializeUnaryOperatorCoercions()
         {
-            throw new NotImplementedException();
+            return new CliUnaryOperatorMemberDictionary<TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IFieldMemberDictionary<TField, TType> InitializeFields()
@@ -453,9 +453,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 case CliMemberType.Property:
                     return (TProperty)this.GetProperty((ICliMetadataPropertyTableRow)metadataEntry);
                 case CliMemberType.TypeCoercionOperator:
-                    return (ITypeCoercionMember<TType>)this.GetTypeOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry);
+                    return (ITypeCoercionMember<TType>)this.GetTypeOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry, (ITypeCoercionUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.UnaryOperator:
-                    return (IUnaryOperatorCoercionMember<TType>)this.GetUnaryOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry);
+                    return (IUnaryOperatorCoercionMember<TType>)this.GetUnaryOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry, (IUnaryOperatorUniqueIdentifier)uniqueIdentifier);
                 default:
                     throw new InvalidOperationException();
             }
@@ -478,14 +478,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return new BinaryOperatorMember(uniqueIdentifier, metadataEntry, (TType)(object)this);
         }
 
-        protected virtual ITypeCoercionMember<TType> GetTypeOperator(ICliMetadataMethodDefinitionTableRow cliMetadataMethodDefinitionTableRow)
+        protected virtual ITypeCoercionMember<TType> GetTypeOperator(ICliMetadataMethodDefinitionTableRow metadataEntry, ITypeCoercionUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new TypeCoercionMember(uniqueIdentifier, metadataEntry, (TType)(object)this);
         }
 
-        protected virtual IUnaryOperatorCoercionMember<TType> GetUnaryOperator(ICliMetadataMethodDefinitionTableRow cliMetadataMethodDefinitionTableRow)
+        protected virtual IUnaryOperatorCoercionMember<TType> GetUnaryOperator(ICliMetadataMethodDefinitionTableRow metadataEntry, IUnaryOperatorUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new UnaryOperatorMember(uniqueIdentifier, metadataEntry, (TType)(object)(this));
         }
     }
 }

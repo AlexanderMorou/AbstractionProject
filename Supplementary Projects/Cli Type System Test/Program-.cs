@@ -397,6 +397,7 @@ PostJit: {1}", first, second);
         //             orderby f
         //             select f).ToArray();
         //}
+
         public class TA : Attribute
         {
             public TA(object o) { }
@@ -446,20 +447,20 @@ PostJit: {1}", first, second);
                         .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
                         .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
                     .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
-            /*
+            /* *
              * from c in sigSource.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
              * where c.GetParameters().Length > 0
              * select c;
-             */
+             * */
 
             /* *
-                    (from runtimeDirectory in environment.ResolutionPaths
-                     from file in runtimeDirectory.GetFiles()
-                     let extension = Path.GetExtension(file.FullName).ToLower()
-                     where extension == ".exe" || extension == ".dll"
-                     where CliGateway.IsFullAssembly(file.FullName)
-                     orderby file.Length descending
-                     select file.FullName).Distinct()
+             *      (from runtimeDirectory in environment.ResolutionPaths
+             *       from file in runtimeDirectory.GetFiles()
+             *       let extension = Path.GetExtension(file.FullName).ToLower()
+             *       where extension == ".exe" || extension == ".dll"
+             *       where CliGateway.IsFullAssembly(file.FullName)
+             *       orderby file.Length descending
+             *       select file.FullName).Distinct()
              * */
             var runtimeResolutionPaths = LinqHelper.From("runtimeDirectory", /* in */ "environment".Fuse("ResolutionPaths"))
                                                    .From("file", /* in */ "runtimeDirectory".Fuse("GetFiles").Fuse(new IExpression[0]))
@@ -507,13 +508,21 @@ PostJit: {1}", first, second);
         {
             var timedObtainTypeMembers = MiscHelperMethods.CreateFunctionOfTime<_ICliManager, Tuple<CliMemberType, ICliMetadataTableRow>[]>(Program.ObtainTypeMembers);
             var result1 = timedObtainTypeMembers(clim);
-            var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
-            var mdeee = md.BinaryOperatorCoercions.First();
-            Console.WriteLine(mdeee.Value.UniqueIdentifier);
+            var timedCheckMembers = MiscHelperMethods.CreateActionOfTime<_ICliManager>(CheckMember);
+            var checkMembersTime = timedCheckMembers(clim);
+            Console.WriteLine("Check members took {0}.", checkMembersTime);
             var propertySets1 = result1.Item1;
             var result2 = timedObtainTypeMembers(clim);
             var propertySets2 = result2.Item1;
             return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
+        }
+
+        private static void CheckMember(_ICliManager clim)
+        {
+            var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
+            var mdeee = md.UnaryOperatorCoercions.Values.First();
+            Console.WriteLine(mdeee.ResultedType == md);
+            Console.WriteLine(mdeee.UniqueIdentifier);
         }
 
         private static Tuple<CliMemberType, ICliMetadataTableRow>[] ObtainTypeMembers(_ICliManager clim)
@@ -568,8 +577,6 @@ PostJit: {1}", first, second);
             //var de = sb.ToString();
             //sw.Restart();
             Console.WriteLine("starting filter");
-
-
         }
 
         private static _ICliAssembly AttemptGetAssembly(_ICliManager clim, string f)
