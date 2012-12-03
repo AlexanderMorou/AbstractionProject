@@ -5,12 +5,13 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CliMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent> :
-        CliMetadataDrivenDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, ICliMetadataMethodDefinitionTableRow, TSignature>,
+    internal abstract class CliMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent> :
+        CliMetadataDrivenDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, int, TSignature>,
         IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>,
         IMethodSignatureMemberDictionary
         where TSignatureParameter :
@@ -22,18 +23,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
     {
         private TSignatureParent parent;
-        private IFullMemberDictionary master;
-        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, IControlledCollection<ICliMetadataMethodDefinitionTableRow> methods, IFullMemberDictionary master)
-            : base(methods)
+        private CliFullMemberDictionary master;
+        IGeneralGenericSignatureMemberUniqueIdentifier[] uniqueIdentifiers;
+        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, CliFullMemberDictionary master)
+            : base()
         {
             this.parent = parent;
+            this.master = master;
+            var segmentedData = master.ObtainSubset<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature>(CliMemberType.Method).SplitSet();
+            this.Initialize(segmentedData.Item1);
+            this.uniqueIdentifiers = segmentedData.Item2;
         }
-
-        protected override TSignature CreateElementFrom(int index, ICliMetadataMethodDefinitionTableRow metadata)
-        {
-            throw new NotImplementedException();
-        }
-
 
         //#region IMemberDictionary<TSignatureParent,IGeneralGenericSignatureMemberUniqueIdentifier,TSignature> Members
 
@@ -44,9 +44,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         //#endregion
 
-        protected override IGeneralGenericSignatureMemberUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataMethodDefinitionTableRow metadata)
+        protected override TSignature CreateElementFrom(int index, int metadata)
         {
-            throw new NotImplementedException();
+            return (TSignature)this.master.Values[metadata].Entry;
+        }
+
+        protected override IGeneralGenericSignatureMemberUniqueIdentifier GetIdentifierFrom(int index, int metadata)
+        {
+            return this.uniqueIdentifiers[metadata];
         }
 
         //#region IMethodSignatureMemberDictionary Members

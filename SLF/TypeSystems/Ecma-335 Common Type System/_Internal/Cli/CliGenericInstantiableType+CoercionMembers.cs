@@ -40,12 +40,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             CliMemberBase<IBinaryOperatorUniqueIdentifier, TType, ICliMetadataMethodDefinitionTableRow>,
             IBinaryOperatorCoercionMember<TType>
         {
-            private IBinaryOperatorUniqueIdentifier identifier;
+            private IBinaryOperatorUniqueIdentifier uniqueIdentifier;
 
-            internal BinaryOperatorMember(IBinaryOperatorUniqueIdentifier identifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
+            internal BinaryOperatorMember(IBinaryOperatorUniqueIdentifier uniqueIdentifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
                 : base(parent, metadataEntry)
             {
-                this.identifier = identifier;
+                this.uniqueIdentifier = uniqueIdentifier;
             }
 
             protected override string OnGetName()
@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public override IBinaryOperatorUniqueIdentifier UniqueIdentifier
             {
-                get { return this.identifier; }
+                get { return this.uniqueIdentifier; }
             }
 
             ICoercibleType ICoercionMember.Parent
@@ -168,6 +168,135 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public IType ReturnType
             {
                 get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null); }
+            }
+        }
+
+        private class TypeCoercionMember :
+            CliMemberBase<ITypeCoercionUniqueIdentifier, TType, ICliMetadataMethodDefinitionTableRow>,
+            ITypeCoercionMember<TType>
+        {
+            private ITypeCoercionUniqueIdentifier uniqueIdentifier;
+
+            internal TypeCoercionMember(ITypeCoercionUniqueIdentifier uniqueIdentifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
+                : base(parent, metadataEntry)
+            {
+                this.uniqueIdentifier = uniqueIdentifier;
+            }
+
+            protected override string OnGetName()
+            {
+                switch (this.UniqueIdentifier.Requirement)
+                {
+                    case TypeConversionRequirement.Explicit:
+                        return CliCommon.TypeCoercionNames.Explicit;
+                    case TypeConversionRequirement.Implicit:
+                        return CliCommon.TypeCoercionNames.Implicit;
+                    default:
+                    case TypeConversionRequirement.Unknown:
+                        throw new InvalidOperationException();
+                }
+            }
+
+            public override ITypeCoercionUniqueIdentifier UniqueIdentifier
+            {
+                get { return this.uniqueIdentifier; }
+            }
+
+            ICoercibleType ICoercionMember.Parent
+            {
+                get { return this.Parent; }
+            }
+
+            public AccessLevelModifiers AccessLevel
+            {
+                get { return AccessLevelModifiers.Public; }
+            }
+
+            public TypeConversionRequirement Requirement
+            {
+                get { return this.UniqueIdentifier.Requirement; }
+            }
+
+            public TypeConversionDirection Direction
+            {
+                get { return this.UniqueIdentifier.Direction; }
+            }
+
+            public IType CoercionType
+            {
+                get { return this.UniqueIdentifier.CoercionType; }
+            }
+        }
+
+        private class UnaryOperatorMember :
+            CliMemberBase<IUnaryOperatorUniqueIdentifier, TType, ICliMetadataMethodDefinitionTableRow>,
+            IUnaryOperatorCoercionMember<TType>
+        {
+            private IUnaryOperatorUniqueIdentifier uniqueIdentifier;
+
+            internal UnaryOperatorMember(IUnaryOperatorUniqueIdentifier uniqueIdentifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
+                : base(parent, metadataEntry)
+            {
+                this.uniqueIdentifier = uniqueIdentifier;
+            }
+
+            protected override string OnGetName()
+            {
+                switch (this.Operator)
+                {
+                    case CoercibleUnaryOperators.Plus:
+                        return CliCommon.UnaryOperatorNames.Plus;
+                    case CoercibleUnaryOperators.Negation:
+                        return CliCommon.UnaryOperatorNames.Negation;
+                    case CoercibleUnaryOperators.EvaluatesToFalse:
+                        return CliCommon.UnaryOperatorNames.False;
+                    case CoercibleUnaryOperators.EvaluatesToTrue:
+                        return CliCommon.UnaryOperatorNames.True;
+                    case CoercibleUnaryOperators.LogicalInvert:
+                        return CliCommon.UnaryOperatorNames.LogicalNot;
+                    case CoercibleUnaryOperators.Complement:
+                        return CliCommon.UnaryOperatorNames.OnesComplement;
+                    case CoercibleUnaryOperators.Increment:
+                        return CliCommon.UnaryOperatorNames.Increment;
+                    case CoercibleUnaryOperators.Decrement:
+                        return CliCommon.UnaryOperatorNames.Decrement;
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
+
+            public override IUnaryOperatorUniqueIdentifier UniqueIdentifier
+            {
+                get { return this.uniqueIdentifier; }
+            }
+
+
+            ICoercibleType ICoercionMember.Parent
+            {
+                get { return this.Parent; }
+            }
+
+            public AccessLevelModifiers AccessLevel
+            {
+                get { return AccessLevelModifiers.Public; }
+            }
+
+            public CoercibleUnaryOperators Operator
+            {
+                get { return this.uniqueIdentifier.Operator; }
+            }
+
+            private _ICliManager _IdentityManager
+            {
+                get
+                {
+                    return (_ICliManager)this.Parent.IdentityManager;
+                }
+            }
+
+            public IType ResultedType
+            {
+                get { return this._IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null); }
             }
         }
     }
