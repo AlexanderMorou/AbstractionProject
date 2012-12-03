@@ -11,7 +11,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CliFullMemberDictionary
     {
         private class ValuesCollection :
-            IControlledCollection<MasterDictionaryEntry<IMember>>
+            IControlledCollection<MasterDictionaryEntry<IMember>>,
+            IControlledCollection
         {
             private CliFullMemberDictionary owner;
 
@@ -83,9 +84,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public void CopyTo(MasterDictionaryEntry<IMember>[] array, int arrayIndex = 0)
             {
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
                 for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
-                    if (this.owner.members[memberIndex] == null)
-                        this.owner.CheckItemAt(memberIndex);
+                    this.owner.CheckItemAt(memberIndex);
                 this.owner.members.CopyTo(array, arrayIndex);
             }
 
@@ -222,6 +223,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IEnumerator IEnumerable.GetEnumerator()
             {
                 return this.GetEnumerator();
+            }
+
+
+            bool IControlledCollection.Contains(object element)
+            {
+                if (element is MasterDictionaryEntry<IMember>)
+                    return this.Contains((MasterDictionaryEntry<IMember>)element);
+                return false;
+            }
+
+            void IControlledCollection.CopyTo(Array array, int arrayIndex = 0)
+            {
+                ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
+                for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
+                    this.owner.CheckItemAt(memberIndex);
+                this.owner.members.CopyTo(array, arrayIndex);
+            }
+
+            object IControlledCollection.this[int index]
+            {
+                get { return this[index]; }
+            }
+
+            int IControlledCollection.IndexOf(object element)
+            {
+                if (element is MasterDictionaryEntry<IMember>)
+                    return this.IndexOf((MasterDictionaryEntry<IMember>)element);
+                return -1;
             }
         }
     }
