@@ -27,10 +27,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private _ICliManager manager;
         private TParent parent;
         private ICliMetadataMethodSignature signature;
-        public CliParameterMemberDictionary(_ICliManager manager, int methodIndex, ICliMetadataRoot metadataRoot)
+        public CliParameterMemberDictionary(_ICliManager manager, uint methodIndex, ICliMetadataRoot metadataRoot)
         {
             this.manager = manager;
-            var method = metadataRoot.TableStream.MethodDefinitionTable[methodIndex];
+            var method = metadataRoot.TableStream.MethodDefinitionTable[(int)methodIndex];
             this.signature = method.Signature;
             this.Initialize(method.Parameters);
         }

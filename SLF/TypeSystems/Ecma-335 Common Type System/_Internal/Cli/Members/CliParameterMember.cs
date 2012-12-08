@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal class CliParameterMember<TParent, TCliParent> :
+    internal abstract class CliParameterMember<TParent, TCliParent> :
         IParameterMember<TParent>,
         ICliMetadataMember
         where TParent :
@@ -30,7 +30,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             this.parent = parent;
             this.metadata = metadata;
+            this.index = index;
         }
+
+        public TCliParent Parent { get { return this.parent; } }
 
         #region IParameterMember Members
 
@@ -48,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                     if (sigParameter.CustomModifiers.Count > 0)
                         this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType).MakeModified(sigParameter.CustomModifiers.Resolve(this.parent.IdentityManager).ToArray());
                     else
-                        this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType);
+                        this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType, this.ActiveType,this.ActiveMethod);
                 }
                 return this.parameterType;
             }
@@ -123,9 +126,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #region IMember<IGeneralMemberUniqueIdentifier,TParent> Members
 
-        public TParent Parent
+        TParent IMember<IGeneralMemberUniqueIdentifier,TParent>.Parent
         {
-            get { return (TParent)(object)this.parent; }
+            get { return (TParent)(object)this.Parent; }
         }
 
         #endregion
@@ -143,5 +146,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return this.metadata; }
         }
+
+        protected abstract IMethodSignatureMember ActiveMethod { get; }
+
+        protected abstract IType ActiveType { get; }
     }
 }

@@ -69,5 +69,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
         }
+
+        //private class EventMember :
+        //    CliMemberBase<IGeneralSignatureMemberUniqueIdentifier, IStructType, ICliMetadataEventTableRow>,
+        //    IStructEventMember
+        //{
+        //    private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
+        //    internal EventMember(IStructType parent, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier, ICliMetadataEventTableRow metadataEntry)
+        //        : base(parent, metadataEntry)
+        //    {
+        //        this.uniqueIdentifier = uniqueIdentifier;
+        //    }
+
+        //    protected override string OnGetName()
+        //    {
+        //        return this.MetadataEntry.Name;
+        //    }
+
+        //    public override IGeneralSignatureMemberUniqueIdentifier UniqueIdentifier
+        //    {
+        //        get { return this.uniqueIdentifier; }
+        //    }
+        //}
     }
 }

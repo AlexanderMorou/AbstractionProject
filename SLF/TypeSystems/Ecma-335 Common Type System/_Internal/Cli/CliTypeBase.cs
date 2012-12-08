@@ -107,8 +107,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             //if (this.metadata.DeclaringType!=null)
             //    if (this.metadata.NamespaceIndex > 0)
             //        return this.metadata.Name
-
-            return this.metadataEntry.Name;
+            return this.UniqueIdentifier.Name;
         }
 
         #region ICliType Members

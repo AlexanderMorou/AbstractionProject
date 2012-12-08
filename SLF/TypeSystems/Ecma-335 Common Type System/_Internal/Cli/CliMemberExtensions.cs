@@ -10,6 +10,7 @@ using System.Diagnostics;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -406,6 +407,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 default:
                     throw new InvalidOperationException();
             }
+        }
+
+
+        internal static uint GetEventDelegateMethod(ICliMetadataEventTableRow metadataEntry, _ICliManager manager)
+        {
+            var signatureType = manager.ObtainTypeReference(metadataEntry.SignatureType);
+            if (!(signatureType is IDelegateType))
+                throw new BadImageFormatException("Event must reference a delegate type to properly function.");
+            var delegateType = (ICliDelegateType)signatureType;
+            return delegateType.InvokeMethodIndex;
+        }
+
+        internal static bool IsLastParams<TParent, TParameter>(this IParameterParent<TParent, TParameter> parent, ICliAssembly assembly, _ICliManager manager)
+            where TParent :
+                IParameterParent<TParent, TParameter>
+            where TParameter :
+                class,
+                IParameterMember<TParent>
+        {
+            var @params = parent.Parameters;
+            var lastParam = @params.Count == 0 ? (TParameter)null : @params[@params.Keys[@params.Count - 1]];
+            return lastParam.IsDefined(manager.ObtainTypeReference(manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, assembly)));
         }
     }
 }

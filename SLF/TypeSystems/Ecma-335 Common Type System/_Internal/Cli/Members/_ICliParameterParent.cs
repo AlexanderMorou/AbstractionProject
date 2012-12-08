@@ -25,5 +25,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// associated to the <see cref="_ICliParameterParent"/>.
         /// </summary>
         ICliMetadataMethodSignature Signature { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliAssembly"/> which owns the
+        /// parameter parent.
+        /// </summary>
+        ICliAssembly Assembly { get; }
     }
 }

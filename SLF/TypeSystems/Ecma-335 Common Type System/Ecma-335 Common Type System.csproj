@@ -94,6 +94,7 @@
     <Compile Include="Cli\CliRuntimeCoreType.cs" />
     <Compile Include="Cli\CliRuntimeTarget.cs" />
     <Compile Include="Cli\ICliDeclaration.cs" />
+    <Compile Include="Cli\ICliDelegateType.cs" />
     <Compile Include="Cli\ICliGenericTypeParameter.cs" />
     <Compile Include="Cli\ICliRuntimeTarget.cs" />
     <Compile Include="Cli\ICliType.cs" />
@@ -110,6 +111,9 @@
     <Compile Include="_Internal\Cli\CliClassTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="_Internal\Cli\CliDelegateType+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliDelegateType+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\CliDelegateType.cs" />
     <Compile Include="_Internal\Cli\CliDelegateTypeDictionary.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -149,6 +153,8 @@
     <Compile Include="_Internal\Cli\LockedFullMembersBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliBinaryOperatorMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventSignatureMember+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventSignatureMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliFieldMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />

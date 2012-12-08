@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            throw new NotImplementedException();
+            return this.Original.UniqueIdentifier;
         }
     }
 }
