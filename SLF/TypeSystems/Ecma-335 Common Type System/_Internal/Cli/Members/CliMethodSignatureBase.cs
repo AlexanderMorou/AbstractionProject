@@ -7,12 +7,14 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract partial class CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> :
         CliMemberBase<IGeneralGenericSignatureMemberUniqueIdentifier, TSignatureParent, ICliMetadataMethodDefinitionTableRow>,
-        IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+        IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>,
+        _ICliParameterParent
         where TSignatureParameter :
             class,
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
@@ -218,5 +220,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return (IGeneralGenericSignatureMemberUniqueIdentifier)CliMemberExtensions.GetMethodIdentifier(this.MetadataEntry, this.Parent as IType, this.IdentityManager, () => this); }
         }
+
+
+        #region _ICliParameterParent Members
+
+        _ICliManager _ICliParameterParent.IdentityManager
+        {
+            get { return this.IdentityManager; }
+        }
+
+        public ICliMetadataMethodSignature Signature
+        {
+            get { return this.MetadataEntry.Signature; }
+        }
+
+        #endregion
+
+
+        public ICliAssembly Assembly
+        {
+            get { return this.Assembly; }
+        }
+
+        #region ICliDeclaration Members
+
+        ICliMetadataTableRow ICliDeclaration.MetadataEntry
+        {
+            get { return this.MetadataEntry; }
+        }
+
+        #endregion
+
     }
 }

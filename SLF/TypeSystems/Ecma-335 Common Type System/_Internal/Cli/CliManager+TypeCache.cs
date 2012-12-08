@@ -93,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             result = new CliStructType(refAssem, typeIdentity);
                             //result = new M_T<IGeneralGenericTypeUniqueIdentifier, IStructType>(TypeKind.Struct, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsDelegate(this.manager, typeIdentity))
-                            result = new M_T<IGeneralGenericTypeUniqueIdentifier, IDelegateType>(TypeKind.Delegate, typeIdentity, this.manager, refAssem);
+                            result = new CliDelegateType(refAssem, typeIdentity);
                         else
                             result = new CliClassType(refAssem, typeIdentity);
                         this.metadataTypeCache.Add(typeIdentity, result);

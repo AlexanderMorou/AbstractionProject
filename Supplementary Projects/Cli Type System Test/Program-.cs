@@ -524,9 +524,15 @@ PostJit: {1}", first, second);
 
         private static void CheckMember(_ICliManager clim)
         {
-            var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
-            foreach (var field in md.Fields.Values)
-                field.ToString();
+            var dedc = (IDelegateType)typeof(Action<,,>).GetTypeReference(clim);
+            var dedcGI = dedc.MakeGenericClosure(typeof(int).GetTypeReference(clim), typeof(long).GetTypeReference(clim), typeof(double).GetTypeReference(clim));
+            var giParam3 = dedcGI.Parameters[2].Value;
+            var meda = dedcGI.UniqueIdentifier.ToString();
+            var giParam3T = giParam3.ParameterType;
+            Console.WriteLine(giParam3T);
+            //var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
+            //foreach (var field in md.Fields.Values)
+            //    field.ToString();
             //Console.WriteLine(mdeee.FieldType == md);
             //Console.WriteLine(mdeee.UniqueIdentifier);
         }

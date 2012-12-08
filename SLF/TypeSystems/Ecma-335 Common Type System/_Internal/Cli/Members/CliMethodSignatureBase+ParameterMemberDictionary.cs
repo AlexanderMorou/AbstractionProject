@@ -11,8 +11,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract class CliMethodSignatureBase<TSignature, TSignatureParent> :
-        CliMethodSignatureBase<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>,
-        _ICliParameterParent
+        CliMethodSignatureBase<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>
         where TSignature :
             IMethodSignatureMember<TSignature, TSignatureParent>
         where TSignatureParent :
@@ -28,23 +27,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return new ParameterMemberDictionary(this);
         }
+
+        protected abstract IMethodSignatureParameterMember<TSignature, TSignatureParent> CreateParameter(int index, ICliMetadataParameterTableRow metadataEntry);
+
         private class ParameterMemberDictionary :
             CliParameterMemberDictionary<TSignature, IMethodSignatureParameterMember<TSignature, TSignatureParent>>
         {
             private new CliMethodSignatureBase<TSignature, TSignatureParent> Parent { get { return ((CliMethodSignatureBase<TSignature, TSignatureParent>) (object) base.Parent); } }
 
             public ParameterMemberDictionary(CliMethodSignatureBase<TSignature, TSignatureParent> signature)
-                : base(signature.IdentityManager, (int) signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot)
+                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot)
             {
             }
 
             protected override IMethodSignatureParameterMember<TSignature, TSignatureParent> CreateElementFrom(int index, ICliMetadataParameterTableRow metadata)
             {
-                return new ParameterMember(metadata, this.Parent, index);
+                return this.Parent.CreateParameter(index, metadata);
             }
         }
 
-        private class ParameterMember :
+        private abstract class ParameterMember :
             CliParameterMember<TSignature, CliMethodSignatureBase<TSignature, TSignatureParent>>,
             IMethodSignatureParameterMember<TSignature, TSignatureParent>
         {
@@ -70,31 +72,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
 
             #endregion
+
+            protected override IMethodSignatureMember ActiveMethod
+            {
+                get { return this.Parent; }
+            }
+
         }
 
-
-        #region _ICliParameterParent Members
-
-        _ICliManager _ICliParameterParent.IdentityManager
-        {
-            get { return this.IdentityManager; }
-        }
-
-        public ICliMetadataMethodSignature Signature
-        {
-            get { return this.MetadataEntry.Signature; }
-        }
-
-        #endregion
-
-        #region ICliDeclaration Members
-
-        ICliMetadataTableRow ICliDeclaration.MetadataEntry
-        {
-            get { return this.MetadataEntry; }
-        }
-
-        #endregion
 
     }
 }
