@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="direction">The direction in which the <see cref="ParameterMember"/>
             /// is coerced.</param>
             /// <returns>A new <see cref="ParameterMember"/> instance, if successful.</returns>
-            protected override IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 return new ParameterMember(this.Parent, name, parameterType, direction);
             }

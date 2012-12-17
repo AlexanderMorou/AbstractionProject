@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         public TIntermediateParameter Add(string name, IType parameterType)
         {
-            return this.Add(name, parameterType, ParameterDirection.In);
+            return this.Add(name, parameterType, ParameterCoercionDirection.In);
         }
 
         /// <summary>
@@ -101,14 +101,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// is coerced.</param>
         /// <returns>A new <typeparamref name="TIntermediateParameter"/>
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
-        public TIntermediateParameter Add(string name, IType parameterType, ParameterDirection direction)
+        public TIntermediateParameter Add(string name, IType parameterType, ParameterCoercionDirection direction)
         {
             if (this.Locked)
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
             return AddInternal(name, parameterType, direction);
         }
 
-        private TIntermediateParameter AddInternal(string name, IType parameterType, ParameterDirection direction)
+        private TIntermediateParameter AddInternal(string name, IType parameterType, ParameterCoercionDirection direction)
         {
             TIntermediateParameter item = this.GetNewParameter(name, parameterType, direction);
 
@@ -159,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="direction">The direction in which the <typeparamref name="TIntermediateParameter"/>
         /// is coerced.</param>
         /// <returns>A new <typeparamref name="TIntermediateParameter"/> instance.</returns>
-        protected abstract TIntermediateParameter GetNewParameter(string name, IType parameterType, ParameterDirection direction);
+        protected abstract TIntermediateParameter GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction);
 
         #region IParameterMemberDictionary Members
 
@@ -205,7 +205,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return Add(name, parameterType);
         }
 
-        IIntermediateParameterMember IIntermediateParameterMemberDictionary.Add(string name, IType parameterType, ParameterDirection direction)
+        IIntermediateParameterMember IIntermediateParameterMemberDictionary.Add(string name, IType parameterType, ParameterCoercionDirection direction)
         {
             return Add(name, parameterType, direction);
         }

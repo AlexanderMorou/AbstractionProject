@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <param name="type">The <see cref="IType"/> of the type name pair.</param>
         /// <param name="direction">The direction for the type name pair, 
         /// if used for a parameter.</param>
-        public void Add(string name, IType type, ParameterDirection direction)
+        public void Add(string name, IType type, ParameterCoercionDirection direction)
         {
             if (this.frozen)
                 throw new InvalidOperationException("Immutable.");
@@ -163,7 +163,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// the symbol type to be resolved later.</param>
         /// <param name="direction">The direction for the type name pair, 
         /// if used for a parameter.</param>
-        public void Add(string name, string symbolType, ParameterDirection direction)
+        public void Add(string name, string symbolType, ParameterCoercionDirection direction)
         {
             if (this.frozen)
                 throw new InvalidOperationException("Immutable.");

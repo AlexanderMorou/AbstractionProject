@@ -136,6 +136,8 @@
     <Compile Include="_Internal\Cli\CliManager+TypeCache.cs" />
     <Compile Include="_Internal\Cli\CliMemberExtensions.cs" />
     <Compile Include="_Internal\Cli\CliMemberType.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataCollection.cs" />
+    <Compile Include="_Internal\Cli\CliMetadatum.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
     <Compile Include="_Internal\Cli\CliStructType+MemberDefinitions.cs" />
     <Compile Include="_Internal\Cli\CliStructType.cs" />

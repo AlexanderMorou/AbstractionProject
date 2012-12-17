@@ -66,7 +66,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="direction">The direction in which the <see cref="ParameterMember"/>
             /// is coerced.</param>
             /// <returns>A new <see cref="ParameterMember"/> instance.</returns>
-            protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 ParameterMember result = new ParameterMember(Parent, this.identityManager) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);
@@ -100,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return new ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>(original, this.Parent, this.identityManager);
             }
 
-            protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewOriginalParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent> GetNewOriginalParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 ParameterMember result = new ParameterMember(Parent, this.identityManager);
                 result.Direction = direction;
@@ -240,12 +240,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="direction">The direction in which the <see cref="ParameterMember"/>
             /// is coerced.</param>
             /// <returns>A new <typeparamref name="TIntermediateSignatureParameter"/> instance.</returns>
-            protected override sealed TIntermediateSignatureParameter GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override sealed TIntermediateSignatureParameter GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 return this.GetNewOriginalParameter(name, parameterType, direction);
             }
 
-            protected abstract TIntermediateSignatureParameter GetNewOriginalParameter(string name, IType parameterType, ParameterDirection direction);
+            protected abstract TIntermediateSignatureParameter GetNewOriginalParameter(string name, IType parameterType, ParameterCoercionDirection direction);
         }
 
     }

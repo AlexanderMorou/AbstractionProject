@@ -49,10 +49,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// </summary>
             /// <param name="name">The <see cref="String"/> value representing the unique name of the parameter.</param>
             /// <param name="parameterType">The <see cref="IType"/> representing the kind of values acceptable for the type.</param>
-            /// <param name="direction">The <see cref="ParameterDirection"/> which determines whether the argument must be passed
+            /// <param name="direction">The <see cref="ParameterCoercionDirection"/> which determines whether the argument must be passed
             /// by reference, by value or must be initialized before the indexer exits.</param>
             /// <returns></returns>
-            protected override IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);

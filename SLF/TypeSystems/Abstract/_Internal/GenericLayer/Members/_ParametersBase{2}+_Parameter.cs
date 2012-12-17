@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 }
             }
 
-            public ParameterDirection Direction
+            public ParameterCoercionDirection Direction
             {
                 get { return this.Original.Direction; }
             }

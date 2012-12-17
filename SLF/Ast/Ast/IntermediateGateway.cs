@@ -1087,7 +1087,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 default:
                     throw new ArgumentException("nameAndType");
             }
-            if (nameAndType.Direction != ParameterDirection.In)
+            if (nameAndType.Direction != ParameterCoercionDirection.In)
                 if (resultType.ElementClassification != TypeElementClassification.Reference)
                     resultType = resultType.MakeByReference();
             return resultType;

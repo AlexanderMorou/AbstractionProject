@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// is coerced.</param>
         /// <returns>A new <typeparamref name="TIntermediateParameter"/>
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
-        TIntermediateParameter Add(string name, IType parameterType, ParameterDirection direction);
+        TIntermediateParameter Add(string name, IType parameterType, ParameterCoercionDirection direction);
 
         /// <summary>
         /// Adds a new <typeparamref name="TIntermediateParameter"/> instance
@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// is coerced.</param>
         /// <returns>A new <see cref="IIntermediateParameterMember"/>
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary"/>.</returns>
-        IIntermediateParameterMember Add(string name, IType parameterType, ParameterDirection direction);
+        IIntermediateParameterMember Add(string name, IType parameterType, ParameterCoercionDirection direction);
         /// <summary>
         /// Adds a series of <see cref="IIntermediateParameterMember"/>
         /// instances from the <paramref name="parameterInfo"/> provided.

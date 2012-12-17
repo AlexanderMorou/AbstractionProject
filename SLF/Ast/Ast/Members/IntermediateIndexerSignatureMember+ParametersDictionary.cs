@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 this.identityManager = identityManager;
             }
 
-            protected override IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 ParameterMember result = new ParameterMember(Parent, this.identityManager) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);
