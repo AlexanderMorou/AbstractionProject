@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// <summary>
     /// Determines the direction a parameter is coerced.
     /// </summary>
-    public enum ParameterDirection
+    public enum ParameterCoercionDirection
     {
         /// <summary>
         /// The parameter is not coerced in any manner, 

@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="Direction"/>.
         /// </summary>
         [ComVisible(false)]
-        ParameterDirection direction;
+        ParameterCoercionDirection direction;
 
         /// <summary>
         /// Creates a new <see cref="TypedName"/> with
@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
         /// or <paramref name="reference"/> is null.</exception>
         public TypedName(string name, IType reference)
-            : this(name, reference, ParameterDirection.In)
+            : this(name, reference, ParameterCoercionDirection.In)
         {
         }
 
@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/>
         /// or <paramref name="reference"/> is null.</exception>
         public TypedName(string name, string reference)
-            : this(name, reference, ParameterDirection.In)
+            : this(name, reference, ParameterCoercionDirection.In)
         {
         }
 
@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// which relates to the name of the <see cref="TypedName"/>.</param>
         /// <param name="reference">The symbol relative to the type
         /// the <see cref="TypedName"/> refers to.</param>
-        /// <param name="direction">The <see cref="ParameterDirection"/>
+        /// <param name="direction">The <see cref="ParameterCoercionDirection"/>
         /// which indicates how the type should be directed.</param>
         /// <remarks><para>The usage of the typed name may require the 
         /// symbol to be resolved immediately. One such example is creating a 
@@ -120,13 +120,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <paramref name="reference"/> is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when 
         /// <paramref name="direction"/> is invalid.</exception>
-        public TypedName(string name, string reference, ParameterDirection direction)
+        public TypedName(string name, string reference, ParameterCoercionDirection direction)
         {
             switch (direction)
             {
-                case ParameterDirection.In:
-                case ParameterDirection.Out:
-                case ParameterDirection.Reference:
+                case ParameterCoercionDirection.In:
+                case ParameterCoercionDirection.Out:
+                case ParameterCoercionDirection.Reference:
                     this.direction = direction;
                     break;
                 default:
@@ -147,19 +147,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// which relates to the name of the <see cref="TypedName"/>.</param>
         /// <param name="reference">The <see cref="IType"/>
         /// which relates to the type of the <see cref="TypedName"/>.</param>
-        /// <param name="direction">The <see cref="ParameterDirection"/>
+        /// <param name="direction">The <see cref="ParameterCoercionDirection"/>
         /// which indicates how the type should be directed.</param>
         /// <remarks><para>The <paramref name="direction"/> may be disposed
         /// of in cases where it does not apply.</para></remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> or <paramref name="reference"/> is null.</exception>
         /// <exception cref="System.ArgumentOutOfRangeException">thrown when <paramref name="direction"/> is invalid.</exception>
-        public TypedName(string name, IType reference, ParameterDirection direction)
+        public TypedName(string name, IType reference, ParameterCoercionDirection direction)
         {
             switch (direction)
             {
-                case ParameterDirection.In:
-                case ParameterDirection.Out:
-                case ParameterDirection.Reference:
+                case ParameterCoercionDirection.In:
+                case ParameterCoercionDirection.Out:
+                case ParameterCoercionDirection.Reference:
                     this.direction = direction;
                     break;
                 default:
@@ -234,10 +234,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the <see cref="ParameterDirection"/>
+        /// Returns the <see cref="ParameterCoercionDirection"/>
         /// indicating how the type should directed.
         /// </summary>
-        public ParameterDirection Direction
+        public ParameterCoercionDirection Direction
         {
             get
             {

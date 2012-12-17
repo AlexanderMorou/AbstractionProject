@@ -521,15 +521,20 @@ PostJit: {1}", first, second);
             var propertySets2 = result2.Item1;
             return new Tuple<TimeSpan, TimeSpan>(propertySets1, propertySets2);
         }
+        private delegate void PD(params int[] data);
 
         private static void CheckMember(_ICliManager clim)
         {
-            var dedc = (IDelegateType)typeof(Action<,,>).GetTypeReference(clim);
-            var dedcGI = dedc.MakeGenericClosure(typeof(int).GetTypeReference(clim), typeof(long).GetTypeReference(clim), typeof(double).GetTypeReference(clim));
-            var giParam3 = dedcGI.Parameters[2].Value;
-            var meda = dedcGI.UniqueIdentifier.ToString();
-            var giParam3T = giParam3.ParameterType;
-            Console.WriteLine(giParam3T);
+            //var dedc = (IDelegateType)typeof(PD).GetTypeReference(clim);
+            var deae = typeof(Action<int, double, decimal>).GetTypeReference(clim);
+            Console.WriteLine(deae);
+            var pdType = (IDelegateType)typeof(PD).GetTypeReference(clim);
+            Console.WriteLine(pdType.LastIsParams);
+            //var dedcGI = dedc.MakeGenericClosure(typeof(int).GetTypeReference(clim), typeof(long).GetTypeReference(clim), typeof(double).GetTypeReference(clim));
+            //var giParam3 = dedcGI.Parameters[2].Value;
+            //var meda = dedcGI.UniqueIdentifier.ToString();
+            //var giParam3T = giParam3.ParameterType;
+            //Console.WriteLine(giParam3T);
             //var md = (IStructType)typeof(TimeSpan).GetTypeReference(clim);
             //foreach (var field in md.Fields.Values)
             //    field.ToString();

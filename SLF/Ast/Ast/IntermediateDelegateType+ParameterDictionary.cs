@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
             }
 
-            protected override IIntermediateDelegateTypeParameterMember GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateDelegateTypeParameterMember GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);

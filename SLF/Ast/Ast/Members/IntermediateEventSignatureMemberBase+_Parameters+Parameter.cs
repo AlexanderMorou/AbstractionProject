@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 IntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, IEventSignatureParameterMember<TEvent, TEventParent>, IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
                 IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
             {
-                public Parameter(TIntermediateEvent parent, string name, IType parameterType, ParameterDirection direction)
+                public Parameter(TIntermediateEvent parent, string name, IType parameterType, ParameterCoercionDirection direction)
                     : base(parent, name, parameterType, direction)
                 {
                 }

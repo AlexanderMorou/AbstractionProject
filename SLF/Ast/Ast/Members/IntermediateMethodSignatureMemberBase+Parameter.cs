@@ -239,7 +239,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// </summary>
             /// <remarks>Links directly to the <see cref="IIntermediateParameterMember.Direction"/> from
             /// the <see cref="AlternateParameter"/>.</remarks>
-            public override ParameterDirection Direction
+            public override ParameterCoercionDirection Direction
             {
                 get
                 {

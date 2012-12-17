@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// Returns/sets the means to which a parameter passed to a method call
         /// is coerced.
         /// </summary>
-        ParameterDirection Direction { get; set; }
+        ParameterCoercionDirection Direction { get; set; }
         /// <summary>
         /// Returns/sets the <see cref="IExpression"/> 
         /// to be directed.

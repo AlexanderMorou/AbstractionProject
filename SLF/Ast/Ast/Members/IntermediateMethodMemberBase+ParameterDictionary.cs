@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
             }
 
-            protected override IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 ParameterMember result = new ParameterMember(Parent) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);

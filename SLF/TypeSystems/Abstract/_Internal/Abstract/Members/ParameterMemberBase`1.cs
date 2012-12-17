@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
 
         protected abstract IType ParameterTypeImpl { get; }
 
-        public abstract ParameterDirection Direction { get; }
+        public abstract ParameterCoercionDirection Direction { get; }
 
         public IMetadataCollection Metadata
         {

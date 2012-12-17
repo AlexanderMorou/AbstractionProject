@@ -20,16 +20,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             _ICliParameterParent
     {
         private TCliParent parent;
-        private ICliMetadataParameterTableRow metadata;
+        private ICliMetadataParameterTableRow metadataEntry;
         private object syncObject = new object();
         private int index;
-
+        private IMetadataCollection metadata;
         private IType parameterType;
 
         public CliParameterMember(ICliMetadataParameterTableRow metadata, TCliParent parent, int index)
         {
             this.parent = parent;
-            this.metadata = metadata;
+            this.metadataEntry = metadata;
             this.index = index;
         }
 
@@ -57,14 +57,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        public ParameterDirection Direction
+        public ParameterCoercionDirection Direction
         {
             get {
-                if ((this.metadata.Flags & ParameterAttributes.Out) == ParameterAttributes.Out)
-                    return ParameterDirection.Out;
+                if ((this.metadataEntry.Flags & ParameterAttributes.Out) == ParameterAttributes.Out)
+                    return ParameterCoercionDirection.Out;
                 else if (this.ParameterType.ElementClassification == TypeElementClassification.Reference)
-                    return ParameterDirection.Reference;
-                return ParameterDirection.In;
+                    return ParameterCoercionDirection.Reference;
+                return ParameterCoercionDirection.In;
             }
         }
 
@@ -83,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public string Name
         {
-            get { return this.metadata.Name; }
+            get { return this.metadataEntry.Name; }
         }
 
         IGeneralDeclarationUniqueIdentifier IDeclaration.UniqueIdentifier
@@ -114,12 +114,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IMetadataCollection Metadata
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.metadata == null)
+                    this.metadata = new CliMetadataCollection(this.metadataEntry.CustomAttributes, this, this.Parent.IdentityManager);
+                return this.metadata;
+            }
         }
 
         public bool IsDefined(IType metadatumType)
         {
-            throw new NotImplementedException();
+            return this.Metadata.Contains(metadatumType);
         }
 
         #endregion
@@ -144,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public ICliMetadataTableRow MetadataEntry
         {
-            get { return this.metadata; }
+            get { return this.metadataEntry; }
         }
 
         protected abstract IMethodSignatureMember ActiveMethod { get; }

@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Returns the means to which the parameter types are directed.
         /// </summary>
-        IControlledCollection<ParameterDirection> ParameterDirections { get; }
+        IControlledCollection<ParameterCoercionDirection> ParameterDirections { get; }
         /// <summary>
         /// Returns the <see cref="ILambdaExpression"/>
         /// used to create the current 

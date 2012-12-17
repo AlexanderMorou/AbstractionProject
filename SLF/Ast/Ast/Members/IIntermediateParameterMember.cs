@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Returns/sets the direction the parameter is coerced.
         /// </summary>
-        new ParameterDirection Direction { get; set; }
+        new ParameterCoercionDirection Direction { get; set; }
         /// <summary>
         /// Obtains a <see cref="IParameterReferenceExpression"/> for the
         /// current <see cref="IIntermediateParameterMember"/>.

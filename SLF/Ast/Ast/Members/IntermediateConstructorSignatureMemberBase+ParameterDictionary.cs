@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 }
             }
 
-            protected override IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 Parameter result = new Parameter(Parent) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);

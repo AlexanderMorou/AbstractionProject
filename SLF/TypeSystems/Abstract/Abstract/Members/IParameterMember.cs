@@ -42,6 +42,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// Returns the direction the parameter is coerced.
         /// </summary>
-        ParameterDirection Direction { get; }
+        ParameterCoercionDirection Direction { get; }
     }
 }

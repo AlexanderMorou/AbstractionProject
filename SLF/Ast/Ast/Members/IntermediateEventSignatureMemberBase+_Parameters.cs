@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
             }
 
-            protected override IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> GetNewParameter(string name, IType parameterType, ParameterDirection direction)
+            protected override IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
                 return new Parameter(this.Parent, name, parameterType, direction);
             }

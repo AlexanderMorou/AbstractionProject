@@ -43,9 +43,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 /// <param name="name">The <see cref="String"/>
                 /// name of the parameter.</param>
                 /// <param name="parameterType">The <see cref="IType"/> of the parameter.</param>
-                /// <param name="direction">The <see cref="ParameterDirection"/> which determines how the informaiton about the parameter
+                /// <param name="direction">The <see cref="ParameterCoercionDirection"/> which determines how the informaiton about the parameter
                 /// is managed (in, out, or by reference).</param>
-                public ParameterMember(IntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember> parent, string name, IType parameterType, ParameterDirection direction)
+                public ParameterMember(IntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember> parent, string name, IType parameterType, ParameterCoercionDirection direction)
                     : base(((TIntermediateEvent)((object)(parent))), name, parameterType, direction)
                 {
                 }

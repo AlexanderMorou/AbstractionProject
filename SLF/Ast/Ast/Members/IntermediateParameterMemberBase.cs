@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateParameterMember<TParent, TIntermediateParent>
     {
         private IType parameterType;
-        private ParameterDirection direction;
+        private ParameterCoercionDirection direction;
         private IMetadataDefinitionCollection metadata;
 
         private IMetadataCollection metadataBack;
@@ -88,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Returns/sets the direction the parameter is coerced.
         /// </summary>
-        public virtual ParameterDirection Direction
+        public virtual ParameterCoercionDirection Direction
         {
             get
             {
