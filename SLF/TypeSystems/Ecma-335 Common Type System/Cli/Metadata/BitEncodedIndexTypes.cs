@@ -224,6 +224,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
     }
     public enum CliMetadataResolutionScopeTag
     {
+        None,
         Module,
         ModuleReference,
         AssemblyReference,

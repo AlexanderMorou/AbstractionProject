@@ -13,21 +13,6 @@ using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
-    public enum IntermediateEventMethodType
-    {
-        /// <summary>
-        /// The event is an add handler method.
-        /// </summary>
-        Add,
-        /// <summary>
-        /// The event is a remove handler method.
-        /// </summary>
-        Remove,
-        /// <summary>
-        /// The event is a fire handler method.
-        /// </summary>
-        Fire,
-    }
     /// <summary>
     /// Provides a base for an event member in its nearly complete generic form.
     /// </summary>
@@ -86,11 +71,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// Obtains the <typeparamref name="TMethodMember"/> for a given
         /// <paramref name="type"/> of event method.
         /// </summary>
-        /// <param name="type">The <see cref="IntermediateEventMethodType"/> which designates
+        /// <param name="type">The <see cref="EventMethodType"/> which designates
         /// which of the types of event method members the method needs to be.</param>
         /// <returns>A new <typeparamref name="TMethodMember"/> structured for
         /// the <paramref name="type"/> provided.</returns>
-        protected abstract TMethodMember GetMethodMember(IntermediateEventMethodType type);
+        protected abstract TMethodMember GetMethodMember(EventMethodType type);
 
         #region IIntermediateEventMember<TEvent,TIntermediateEvent,TEventParent,TIntermediateEventParent> Members
         /// <summary>
@@ -115,7 +100,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.addMethod == null)
-                    this.addMethod = this.GetMethodMember(IntermediateEventMethodType.Add);
+                    this.addMethod = this.GetMethodMember(EventMethodType.Add);
                 return this.addMethod;
             }
         }
@@ -125,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             get
             {
                 if (this.removeMethod == null)
-                    this.removeMethod = this.GetMethodMember(IntermediateEventMethodType.Remove);
+                    this.removeMethod = this.GetMethodMember(EventMethodType.Remove);
                 return this.removeMethod;
             }
         }
@@ -149,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 if (this.emitRaiseMethod)
                 {
                     if (this.raiseMethod == null)
-                        this.raiseMethod = this.GetMethodMember(IntermediateEventMethodType.Fire);
+                        this.raiseMethod = this.GetMethodMember(EventMethodType.Fire);
                     return this.raiseMethod;
                 }
                 else

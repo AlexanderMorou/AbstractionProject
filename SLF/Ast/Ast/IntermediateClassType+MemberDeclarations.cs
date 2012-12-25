@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
         }
 
-        protected override EventMethodMember GetMethodMember(IntermediateEventMethodType type)
+        protected override EventMethodMember GetMethodMember(EventMethodType type)
         {
             return new EventMethodMember(this, type);
         }
@@ -52,8 +52,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateEventMethodMember
         {
             private IntermediateClassEventMember<TInstanceIntermediateType> parent;
-            private IntermediateEventMethodType methodType;
-            public EventMethodMember(IntermediateClassEventMember<TInstanceIntermediateType> parent, IntermediateEventMethodType methodType)
+            private EventMethodType methodType;
+            public EventMethodMember(IntermediateClassEventMember<TInstanceIntermediateType> parent, EventMethodType methodType)
                 : base((TInstanceIntermediateType)parent.Parent)
             {
                 this.parent = parent;
@@ -79,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 throw new NotImplementedException();
             }
 
-            public IntermediateEventMethodType MethodType
+            public EventMethodType MethodType
             {
                 get { return this.methodType; }
             }

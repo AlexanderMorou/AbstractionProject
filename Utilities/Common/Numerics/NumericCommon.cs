@@ -525,5 +525,6 @@ namespace AllenCopeland.Abstraction.Numerics
         {
             return value >> shift;
         }
+
     }
 }

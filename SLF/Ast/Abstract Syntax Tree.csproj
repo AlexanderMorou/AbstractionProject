@@ -116,6 +116,14 @@
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary+ParameterMember.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
+    <Compile Include="Compilers\CompilerSupport.cs" />
+    <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
+    <Compile Include="Compilers\ICompilationContext.cs" />
+    <Compile Include="Compilers\IMalleableCompilationContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compilers\IntermediateCompilerBase.cs" />
+    <Compile Include="Compilers\MalleableCompilationContext.cs" />
     <Compile Include="Compilers\PrimitiveTypeSizes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Languages\Cil\CommonIntermediateProvider+AssemblyService.cs" />
@@ -194,45 +202,11 @@
     <Compile Include="Compilers\AnonymousTypeMember.cs" />
     <Compile Include="Compilers\AnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\AssemblyOutputType.cs" />
-    <Compile Include="Compilers\CompilerErrorCollection.cs" />
-    <Compile Include="Compilers\CompilerModelError{T1-T4}.cs" />
-    <Compile Include="Compilers\CompilerModelWarning{T1-T4}.cs" />
-    <Compile Include="Compilers\CompilerReferenceError.cs" />
-    <Compile Include="Compilers\CompilerReferenceWarning.cs" />
-    <Compile Include="Compilers\CompilerSourceError.cs" />
-    <Compile Include="Compilers\CompilerSourceModelError{T1-T4}.cs" />
-    <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
-    <Compile Include="Compilers\CompilerSupport.cs" />
-    <Compile Include="Compilers\CompilerSourceWarning.cs" />
     <Compile Include="Languages\CSharp\CSharpCompilerMessages.cs" />
     <Compile Include="Languages\CSharp\CSharpCompilerMessages+Formatter.cs">
       <DependentUpon>CSharpCompilerMessages.cs</DependentUpon>
     </Compile>
     <Compile Include="Compilers\DebugSupport.cs" />
-    <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
-    <Compile Include="Compilers\ICompilationContext.cs" />
-    <Compile Include="Compilers\ICompilerError.cs" />
-    <Compile Include="Compilers\ICompilerMessage.cs" />
-    <Compile Include="Compilers\ICompilerMessageCollection.cs" />
-    <Compile Include="Compilers\ICompilerModelError{T1-T4}.cs" />
-    <Compile Include="Compilers\ICompilerModelMessage.cs" />
-    <Compile Include="Compilers\ICompilerModelWarning{T1-T4}.cs" />
-    <Compile Include="Compilers\ICompilerPatternAid.cs" />
-    <Compile Include="Compilers\ICompilerReferenceError.cs" />
-    <Compile Include="Compilers\ICompilerReferenceMessage.cs" />
-    <Compile Include="Compilers\ICompilerReferenceWarning.cs" />
-    <Compile Include="Compilers\ICompilerResults.cs" />
-    <Compile Include="Compilers\ICompilerSourceError.cs" />
-    <Compile Include="Compilers\ICompilerSourceMessage.cs" />
-    <Compile Include="Compilers\ICompilerSourceModelError{T1-T4}.cs" />
-    <Compile Include="Compilers\ICompilerSourceModelMessage.cs" />
-    <Compile Include="Compilers\ICompilerSourceModelWarning{T1-T4}.cs" />
-    <Compile Include="Compilers\ICompilerSourceWarning.cs" />
-    <Compile Include="Compilers\ICompilerWarning.cs" />
-    <Compile Include="Compilers\IMalleableCompilationContext.cs" />
-    <Compile Include="Compilers\IntermediateCompilerBase.cs" />
-    <Compile Include="Compilers\MalleableCompilationContext.cs" />
-    <Compile Include="Compilers\WarningLevel.cs" />
     <Compile Include="Cst\IConcreteNode.cs" />
     <Compile Include="Cst\ICSharpCompilationUnit.cs" />
     <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
@@ -290,9 +264,6 @@
     <Compile Include="Languages\ILanguageProvider.cs" />
     <Compile Include="Languages\ILanguageVendor.cs" />
     <Compile Include="Languages\IMicrosoftLanguageVendor.cs" />
-    <Compile Include="Languages\ISourceRelatedError.cs" />
-    <Compile Include="Languages\ISourceRelatedMessage.cs" />
-    <Compile Include="Languages\ISourceRelatedWarning.cs" />
     <Compile Include="Languages\IVersionedHighLevelLanguage{TVersion}.cs" />
     <Compile Include="Languages\IVersionedHighLevelLanguageProvider{TVersion, TRootNode}.cs" />
     <Compile Include="Languages\IVersionedLanguage{TVersion}.cs" />
@@ -300,8 +271,6 @@
     <Compile Include="Languages\LanguageVendorBase.cs" />
     <Compile Include="Languages\LanguageVendors.cs" />
     <Compile Include="Languages\MicrosoftLanguageVendor.cs" />
-    <Compile Include="Languages\SourceRelatedError.cs" />
-    <Compile Include="Languages\SourceRelatedMessage.cs" />
     <Compile Include="Linkers\AssemblyReference.cs" />
     <Compile Include="Linkers\AssemblyReferenceAliasCollection.cs" />
     <Compile Include="Linkers\AssemblyReferenceCollection.cs" />

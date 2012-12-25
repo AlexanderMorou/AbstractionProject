@@ -1,3 +1,4 @@
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -28,6 +29,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Returns which method the <see cref="IIntermediateEventMethodMember"/> is.
         /// </summary>
-        IntermediateEventMethodType MethodType { get; }
+        EventMethodType MethodType { get; }
     }
 }

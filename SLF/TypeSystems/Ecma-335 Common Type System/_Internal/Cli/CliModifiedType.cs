@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -16,10 +17,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
 
         /// <summary>
-        /// Returns the <see cref="_ICliType"/> from which the current
+        /// Returns the <see cref="ICliType"/> from which the current
         /// <see cref="CliModifiedType"/> originated.
         /// </summary>
-        private _ICliType original;
+        private ICliType original;
 
         /// <summary>
         /// Data member describing the modifiers associated to the
@@ -29,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private ModifierCollection modifierCollection;
 
-        public CliModifiedType(_ICliType original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
+        public CliModifiedType(ICliType original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
         {
             this.original = original;
             this.modifiers = modifiers;

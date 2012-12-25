@@ -341,7 +341,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IEventMemberDictionary<TEvent, TType> InitializeEvents()
         {
-            throw new NotImplementedException();
+            return new CliEventMemberDictionary<TEvent, TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IMethodMemberDictionary<TMethod, TType> InitializeMethods()
@@ -443,13 +443,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 case CliMemberType.Constructor:
                     return this.GetConstructor((ICliMetadataMethodDefinitionTableRow)(metadataEntry));
                 case CliMemberType.Event:
-                    return this.GetEvent((ICliMetadataEventTableRow)metadataEntry);
+                    return this.GetEvent((ICliMetadataEventTableRow)metadataEntry, (IGeneralSignatureMemberUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Field:
                     return this.GetField((ICliMetadataFieldTableRow)metadataEntry);
                 case CliMemberType.Indexer:
                     return this.GetIndexer((ICliMetadataPropertyTableRow)metadataEntry);
                 case CliMemberType.Method:
-                    return this.GetMethod((ICliMetadataMethodDefinitionTableRow)metadataEntry);
+                    return this.GetMethod((ICliMetadataMethodDefinitionTableRow)metadataEntry, (IGeneralGenericSignatureMemberUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Property:
                     return (TProperty)this.GetProperty((ICliMetadataPropertyTableRow)metadataEntry);
                 case CliMemberType.TypeCoercionOperator:
@@ -463,13 +463,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected abstract TCtor GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry);
 
-        protected abstract TEvent GetEvent(ICliMetadataEventTableRow metadataEntry);
+        protected abstract TEvent GetEvent(ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier);
 
         protected abstract TField GetField(ICliMetadataFieldTableRow metadataEntry);
 
         protected abstract TIndexer GetIndexer(ICliMetadataPropertyTableRow metadataEntry);
 
-        protected abstract TMethod GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry);
+        protected abstract TMethod GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier);
 
         protected abstract TProperty GetProperty(ICliMetadataPropertyTableRow metadataEntry);
 

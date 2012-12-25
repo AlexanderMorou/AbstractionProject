@@ -34,5 +34,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// implementation can ignore this flag.
         /// </summary>
         EnableJITCompileTracking    = 0x8000,
+        ValidMask                   = PublicKey | Retargetable | DisableJITOptimizer | EnableJITCompileTracking
     }
 }

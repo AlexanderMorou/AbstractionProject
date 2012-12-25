@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.ComponentModel;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 {
@@ -30,7 +31,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         public IControlledCollection<ICliMetadataCustomModifierSignature> CustomModifiers { get; private set; }
 
         //#endregion
-
         public override string ToString()
         {
             return string.Format("{0}{1}{2}", string.Join<ICliMetadataCustomModifierSignature>(" ", CustomModifiers), CustomModifiers.Count == 0 ? string.Empty : " ", ReturnType);

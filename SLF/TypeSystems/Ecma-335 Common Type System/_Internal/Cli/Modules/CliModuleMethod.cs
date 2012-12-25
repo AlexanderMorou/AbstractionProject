@@ -79,5 +79,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         {
             throw new NotImplementedException();
         }
+
+        protected override IType ActiveType
+        {
+            get { return null; }
+        }
     }
 }

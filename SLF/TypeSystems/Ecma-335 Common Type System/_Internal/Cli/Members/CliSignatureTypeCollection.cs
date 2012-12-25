@@ -102,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private void InitializeItemAt(int typeIndex)
         {
             var param = this.signature.Parameters[typeIndex];
-            this.signatureTypes[typeIndex] = new CliModifiedType((_ICliType)manager.ObtainTypeReference(param.ParameterType), param.CustomModifiers);
+            this.signatureTypes[typeIndex] = new CliModifiedType((ICliType)manager.ObtainTypeReference(param.ParameterType), param.CustomModifiers);
         }
 
         public void CopyTo(IType[] array, int arrayIndex = 0)

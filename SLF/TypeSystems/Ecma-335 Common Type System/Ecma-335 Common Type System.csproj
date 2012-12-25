@@ -103,6 +103,10 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTableSubset.cs" />
+    <Compile Include="Languages\Cil\CliReferenceWarning.cs" />
+    <Compile Include="Languages\Cil\CliWarningLevel.cs" />
+    <Compile Include="Languages\Cil\CliWarningsAndErrors.cs" />
+    <Compile Include="Languages\Cil\ICliReferenceWarning.cs" />
     <Compile Include="_Internal\Cli\ArrayType.cs" />
     <Compile Include="_Internal\Cli\ByRefType.cs" />
     <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences+ValuesCollection.cs" />
@@ -146,7 +150,6 @@
     </Compile>
     <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
     <Compile Include="_Internal\Cli\CliTypeIdentityMetadataService.cs" />
-    <Compile Include="_Internal\Cli\CompiledGenericTypeParentTypeBase.cs" />
     <Compile Include="_Internal\Cli\DefaultCliIdentifiers.cs" />
     <Compile Include="_Internal\Cli\LockedEmptyMetadataCollection.cs" />
     <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItemIdentifier, TMItem}.cs" />
@@ -155,10 +158,13 @@
     <Compile Include="_Internal\Cli\LockedFullMembersBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliBinaryOperatorMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliEventSignatureMember+ParameterDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliEventSignatureMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliFieldMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodMemberBase+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodMemberBase.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType.cs" />
     <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase+ParameterMemberDictionary.cs" />
@@ -333,12 +339,13 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneMethodSig.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSignature.cs" />
-    <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSpec.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSpecSignature.cs.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataValueOrClassTypeSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataVectorArrayTypeSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataReturnTypeSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataPointerTypeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\SignatureParser.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataValidator.cs" />
     <Compile Include="_Internal\Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -505,7 +512,6 @@
     <Compile Include="_Internal\Cli\_ICliAssembly.cs" />
     <Compile Include="_Internal\Cli\_ICliManager.cs" />
     <Compile Include="_Internal\Cli\_ICliMemberParent.cs" />
-    <Compile Include="_Internal\Cli\_ICliType.cs" />
     <Compile Include="_Internal\Cli\_ICliTypeParent.cs" />
     <Compile Include="_Internal\Cli\_LockedGroupMembersMasterPass.cs" />
     <Compile Include="_Internal\Cli\_LockedRelativeHelper.cs" />
