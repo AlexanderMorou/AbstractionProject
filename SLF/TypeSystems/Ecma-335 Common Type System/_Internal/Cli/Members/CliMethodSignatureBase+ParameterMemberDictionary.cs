@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected abstract IMethodSignatureParameterMember<TSignature, TSignatureParent> CreateParameter(int index, ICliMetadataParameterTableRow metadataEntry);
 
-        private class ParameterMemberDictionary :
+        internal class ParameterMemberDictionary :
             CliParameterMemberDictionary<TSignature, IMethodSignatureParameterMember<TSignature, TSignatureParent>>
         {
             private new CliMethodSignatureBase<TSignature, TSignatureParent> Parent { get { return ((CliMethodSignatureBase<TSignature, TSignatureParent>) (object) base.Parent); } }
@@ -46,7 +46,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        private abstract class ParameterMember :
+        internal abstract class ParameterMember :
             CliParameterMember<TSignature, CliMethodSignatureBase<TSignature, TSignatureParent>>,
             IMethodSignatureParameterMember<TSignature, TSignatureParent>
         {

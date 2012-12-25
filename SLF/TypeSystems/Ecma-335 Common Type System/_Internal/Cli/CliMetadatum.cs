@@ -15,6 +15,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private ICliMetadataCustomAttributeTableRow metadataEntry;
         private IMetadataEntity declarationPoint;
         private _ICliManager identityManager;
+        private IType sourceType;
+
         public CliMetadatum(ICliMetadataCustomAttributeTableRow metadataEntry, _ICliManager identityManager)
         {
             this.metadataEntry = metadataEntry;
@@ -24,40 +26,47 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.metadataEntry == null)
-                    throw new InvalidOperationException();
-                var metadataEntryCtor = metadataEntry.Ctor;
-                if (metadataEntryCtor == null)
-                    throw new InvalidOperationException();
-                ICliMetadataTypeDefinitionTableRow typeDef = null;
-                switch (metadataEntryCtor.CustomAttributeTypeEncoding)
-                {
-                    case CliMetadataCustomAttributeTypeTag.MethodDefinition:
-                        ICliMetadataMethodDefinitionTableRow methodDefinition = (ICliMetadataMethodDefinitionTableRow)metadataEntryCtor;
-                        break;
-                    case CliMetadataCustomAttributeTypeTag.MemberReference:
-                        ICliMetadataMemberReferenceTableRow reference = (ICliMetadataMemberReferenceTableRow)metadataEntryCtor;
-                        switch (reference.ClassSource)
-                        {
-                            case CliMetadataMemberRefParentTag.TypeDefinition:
-                                typeDef = (ICliMetadataTypeDefinitionTableRow)reference.Class;
-                                break;
-                            case CliMetadataMemberRefParentTag.TypeReference:
-                                typeDef = identityManager.ResolveScope((ICliMetadataTypeRefTableRow)reference.Class);
-                                break;
-                            case CliMetadataMemberRefParentTag.TypeSpecification:
-                            case CliMetadataMemberRefParentTag.ModuleReference:
-                            case CliMetadataMemberRefParentTag.MethodDefinition:
-                            default:
-                                throw new BadImageFormatException();
-                        }
-                        break;
-                }
-
-                if (typeDef == null)
-                    throw new BadImageFormatException();
-                return identityManager.ObtainTypeReference(typeDef);
+                if (this.sourceType == null)
+                    this.sourceType = OnGetType();
+                return this.sourceType;
             }
+        }
+
+        private IType OnGetType()
+        {
+            if (this.metadataEntry == null)
+                throw new InvalidOperationException();
+            var metadataEntryCtor = metadataEntry.Ctor;
+            if (metadataEntryCtor == null)
+                throw new InvalidOperationException();
+            ICliMetadataTypeDefinitionTableRow typeDef = null;
+            switch (metadataEntryCtor.CustomAttributeTypeEncoding)
+            {
+                case CliMetadataCustomAttributeTypeTag.MethodDefinition:
+                    ICliMetadataMethodDefinitionTableRow methodDefinition = (ICliMetadataMethodDefinitionTableRow)metadataEntryCtor;
+                    break;
+                case CliMetadataCustomAttributeTypeTag.MemberReference:
+                    ICliMetadataMemberReferenceTableRow reference = (ICliMetadataMemberReferenceTableRow)metadataEntryCtor;
+                    switch (reference.ClassSource)
+                    {
+                        case CliMetadataMemberRefParentTag.TypeDefinition:
+                            typeDef = (ICliMetadataTypeDefinitionTableRow)reference.Class;
+                            break;
+                        case CliMetadataMemberRefParentTag.TypeReference:
+                            typeDef = identityManager.ResolveScope((ICliMetadataTypeRefTableRow)reference.Class);
+                            break;
+                        case CliMetadataMemberRefParentTag.TypeSpecification:
+                        case CliMetadataMemberRefParentTag.ModuleReference:
+                        case CliMetadataMemberRefParentTag.MethodDefinition:
+                        default:
+                            throw new BadImageFormatException();
+                    }
+                    break;
+            }
+
+            if (typeDef == null)
+                throw new BadImageFormatException();
+            return identityManager.ObtainTypeReference(typeDef);
         }
 
         public IMetadataEntity DeclarationPoint

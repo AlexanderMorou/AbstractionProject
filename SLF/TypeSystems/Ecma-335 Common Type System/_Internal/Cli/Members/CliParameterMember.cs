@@ -26,10 +26,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private IMetadataCollection metadata;
         private IType parameterType;
 
-        public CliParameterMember(ICliMetadataParameterTableRow metadata, TCliParent parent, int index)
+        public CliParameterMember(ICliMetadataParameterTableRow metadataEntry, TCliParent parent, int index)
         {
             this.parent = parent;
-            this.metadataEntry = metadata;
+            this.metadataEntry = metadataEntry;
             this.index = index;
         }
 

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -12,16 +11,9 @@ using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    /// <summary>
-    /// Defines properties and methods associated to a message
-    /// from a compiler.
-    /// </summary>
-    public interface ICompilerMessage
+    public interface ICompilerSourceWarning :
+        ICompilerSourceMessage,
+        ICompilerWarning
     {
-        /// <summary>
-        /// Returns the <see cref="Int32"/> value which is language specific
-        /// that denotes the unique identifier of the message.
-        /// </summary>
-        int MessageIdentifier { get; }
     }
 }

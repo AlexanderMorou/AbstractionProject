@@ -101,6 +101,5 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             /// </summary>
             public const string GreaterThanOrEqual = "op_GreaterThanOrEqual";
         }
-
     }
 }

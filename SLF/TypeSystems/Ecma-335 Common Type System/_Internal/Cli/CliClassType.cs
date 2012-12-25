@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        protected override IClassEventMember GetEvent(ICliMetadataEventTableRow metadataEntry)
+        protected override IClassEventMember GetEvent(ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
             throw new NotImplementedException();
         }
@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        protected override IClassMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry)
+        protected override IClassMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
             throw new NotImplementedException();
         }

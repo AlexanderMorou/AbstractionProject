@@ -13,7 +13,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal abstract class CliTypeBase<TIdentifier> :
         TypeBase<TIdentifier>,
-        _ICliType
+        ICliType
         where TIdentifier :
             ITypeUniqueIdentifier
     {
@@ -129,15 +129,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ICliMetadataTableRow ICliDeclaration.MetadataEntry
         {
             get { return this.MetadataEntry; }
-        }
-
-        #endregion
-
-        #region _ICliType Members
-
-        public IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

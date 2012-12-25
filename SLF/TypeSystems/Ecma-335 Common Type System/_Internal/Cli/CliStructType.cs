@@ -22,14 +22,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         }
 
+        internal ICliAssembly Assembly { get { return (ICliAssembly)base.Assembly; } }
+
         protected override IStructCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry)
         {
             throw new NotImplementedException();
         }
 
-        protected override IStructEventMember GetEvent(ICliMetadataEventTableRow metadataEntry)
+        protected override IStructEventMember GetEvent(ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new EventMember(this, uniqueIdentifier, metadataEntry);
         }
 
         protected override IStructFieldMember GetField(ICliMetadataFieldTableRow metadataEntry)
@@ -42,9 +44,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        protected override IStructMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry)
+        protected override IStructMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new MethodMember(metadataEntry, (_ICliAssembly)this.Assembly, this, uniqueIdentifier);
         }
 
         protected override IStructPropertyMember GetProperty(ICliMetadataPropertyTableRow metadataEntry)

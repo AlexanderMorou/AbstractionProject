@@ -9,7 +9,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal abstract class CliGenericParentType<TIdentifier, TType> :
-        CliGenericTypeBase<TIdentifier, TType>, 
+        CliGenericTypeBase<TIdentifier, TType>,
         __ICliTypeParent
         where TIdentifier :
             IGenericTypeUniqueIdentifier
@@ -41,6 +41,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// </summary>
         private CliFullTypeDictionary types;
 
+        /// <summary>
+        /// Creates a new <see cref="CliGenericParentType{TIdentifier, TType}"/> with the
+        /// <paramref name="owner"/> and <paramref name="metadataEntry"/> provided.
+        /// </summary>
+        /// <param name="owner">The <see cref="CliAssembly"/> which contains the 
+        /// <see cref="CliGenericParentType{TIdentifier, TType}"/>.</param>
+        /// <param name="metadataEntry">The <see cref="ICliMetadataTypeDefinitionTableRow"/> from
+        /// which the information within the <see cref="CliGenericParentType{TIdentifier, TType}"/>
+        /// is derived.</param>
         internal CliGenericParentType(CliAssembly owner, ICliMetadataTypeDefinitionTableRow metadataEntry)
             : base(owner, metadataEntry)
         {
@@ -51,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                return this.classes ?? (this.classes = new CliClassTypeDictionary(this, (CliFullTypeDictionary) this.Types));
+                return this.classes ?? (this.classes = new CliClassTypeDictionary(this, (CliFullTypeDictionary)this.Types));
             }
         }
 
@@ -59,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                return this.delegates ?? (this.delegates = new CliDelegateTypeDictionary(this, (CliFullTypeDictionary) this.Types));
+                return this.delegates ?? (this.delegates = new CliDelegateTypeDictionary(this, (CliFullTypeDictionary)this.Types));
             }
         }
 
@@ -67,41 +76,72 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                return this.enums ?? (this.enums = new CliEnumTypeDictionary(this, (CliFullTypeDictionary) this.Types));
+                return this.enums ?? (this.enums = new CliEnumTypeDictionary(this, (CliFullTypeDictionary)this.Types));
             }
         }
 
-        public IInterfaceTypeDictionary Interfaces { get { return this.interfaces ?? (this.interfaces = new CliInterfaceTypeDictionary(this, (CliFullTypeDictionary) this.Types)); } }
+        public IInterfaceTypeDictionary Interfaces
+        {
+            get
+            {
+                return this.interfaces ?? (this.interfaces = new CliInterfaceTypeDictionary(this, (CliFullTypeDictionary)this.Types));
+            }
+        }
 
-        public IStructTypeDictionary Structs { get { return this.structs ?? (this.structs = new CliStructTypeDictionary(this, (CliFullTypeDictionary) this.Types)); } }
+        public IStructTypeDictionary Structs
+        {
+            get
+            {
+                return this.structs ?? (this.structs = new CliStructTypeDictionary(this, (CliFullTypeDictionary)this.Types));
+            }
+        }
 
-        public IFullTypeDictionary Types { get { return this.types ?? (this.types = new CliFullTypeDictionary(this.MetadataEntry.NestedClasses, this)); } }
+        public IFullTypeDictionary Types
+        {
+            get
+            {
+                return this.types ?? (this.types = new CliFullTypeDictionary(this.MetadataEntry.NestedClasses, this));
+            }
+        }
 
 
         public new _ICliManager IdentityManager
         {
-            get { return (_ICliManager)base.IdentityManager; }
+            get
+            {
+                return (_ICliManager)base.IdentityManager;
+            }
         }
 
         public new _ICliAssembly Assembly
         {
-            get { return (_ICliAssembly)base.Assembly; }
+            get
+            {
+                return (_ICliAssembly)base.Assembly;
+            }
         }
 
         public IControlledCollection<ICliMetadataTypeDefinitionTableRow> _Types
         {
-            get { return this.MetadataEntry.NestedClasses; }
+            get
+            {
+                return this.MetadataEntry.NestedClasses;
+            }
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
         {
-            throw new NotImplementedException();
+            foreach (var type in this._Types)
+                if (type.Namespace == @namespace &&
+                    type.Name == name)
+                    return type;
+            return null;
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
         {
             var myID = this.UniqueIdentifier;
-            var depth = ((IGeneralTypeUniqueIdentifier) this.UniqueIdentifier).GetDepth();
+            var depth = ((IGeneralTypeUniqueIdentifier)this.UniqueIdentifier).GetDepth();
             /* *
              * If the hierarchy of the unique identifier is properly formed, then
              * the current type's identifier should be contained within it.
@@ -130,7 +170,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return null;
             }
             return typeDefinition;
-
         }
     }
 }

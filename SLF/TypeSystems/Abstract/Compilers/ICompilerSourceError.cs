@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -12,9 +11,12 @@ using AllenCopeland.Abstraction.Slf.Languages;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public interface ICompilerSourceWarning :
-        ICompilerSourceMessage,
-        ICompilerWarning
+    /// <summary>
+    /// Defines properties and methods for a compiler error.
+    /// </summary>
+    public interface ICompilerSourceError :
+        ICompilerError,
+        ICompilerSourceMessage
     {
     }
 }

@@ -29,6 +29,9 @@ using System.Reflection.Emit;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs;
+using AllenCopeland.Abstraction.Slf.Languages.Cil;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 {
@@ -509,13 +512,14 @@ PostJit: {1}", first, second);
             var timedObtainTypeMembers = MiscHelperMethods.CreateFunctionOfTime<_ICliManager, Tuple<CliMemberType, ICliMetadataTableRow>[]>(Program.ObtainTypeMembers);
             var result1 = timedObtainTypeMembers(clim);
             var timedCheckMembers = MiscHelperMethods.CreateActionOfTime<_ICliManager>(CheckMember);
-            var timedCheckReflectionMembers = MiscHelperMethods.CreateActionOfTime(CheckMemberReflection);
-            var checkMembersTime = timedCheckMembers(clim);
-            var checkMembersReflectionTime = timedCheckReflectionMembers();
-            var checkMembersTime2 = timedCheckMembers(clim);
-            var checkMembersReflectionTime2 = timedCheckReflectionMembers();
-            Console.WriteLine("Check members took {0} - reflection {1}.", checkMembersTime, checkMembersReflectionTime);
-            Console.WriteLine("Second members check took {0} - reflection {1}.", checkMembersTime2, checkMembersReflectionTime2);
+
+            //var timedCheckReflectionMembers = MiscHelperMethods.CreateActionOfTime(CheckMemberReflection);
+            //var checkMembersTime = timedCheckMembers(clim);
+            //var checkMembersReflectionTime = timedCheckReflectionMembers();
+            //var checkMembersTime2 = timedCheckMembers(clim);
+            //var checkMembersReflectionTime2 = timedCheckReflectionMembers();
+            //Console.WriteLine("Check members took {0} - reflection {1}.", checkMembersTime, checkMembersReflectionTime);
+            //Console.WriteLine("Second members check took {0} - reflection {1}.", checkMembersTime2, checkMembersReflectionTime2);
             var propertySets1 = result1.Item1;
             var result2 = timedObtainTypeMembers(clim);
             var propertySets2 = result2.Item1;
@@ -523,13 +527,23 @@ PostJit: {1}", first, second);
         }
         private delegate void PD(params int[] data);
 
+        private struct testS
+        {
+            private event PD Test;
+        }
+
         private static void CheckMember(_ICliManager clim)
         {
             //var dedc = (IDelegateType)typeof(PD).GetTypeReference(clim);
-            var deae = typeof(Action<int, double, decimal>).GetTypeReference(clim);
-            Console.WriteLine(deae);
-            var pdType = (IDelegateType)typeof(PD).GetTypeReference(clim);
-            Console.WriteLine(pdType.LastIsParams);
+            //var deae = typeof(Action<int, double, decimal>).GetTypeReference(clim);
+            //Console.WriteLine(deae);
+            //var pdType = (IDelegateType)typeof(PD).GetTypeReference(clim);
+            //Console.WriteLine(pdType.LastIsParams);
+
+            var med = (IStructType)typeof(testS).GetTypeReference(clim);
+            var m = (ICliType)typeof(CliMetadataReturnTypeSignature).GetTypeReference(clim);
+            var deam = m.MetadataEntry;
+            Console.WriteLine(med.Events[0].Value.OnAddMethod.ReturnType);
             //var dedcGI = dedc.MakeGenericClosure(typeof(int).GetTypeReference(clim), typeof(long).GetTypeReference(clim), typeof(double).GetTypeReference(clim));
             //var giParam3 = dedcGI.Parameters[2].Value;
             //var meda = dedcGI.UniqueIdentifier.ToString();
@@ -551,10 +565,14 @@ PostJit: {1}", first, second);
 
         private static Tuple<CliMemberType, ICliMetadataTableRow>[] ObtainTypeMembers(_ICliManager clim)
         {
-            var eQuery = (from aId in identifiers.AsParallel()
-                          let assembly = (ICliAssembly)clim.ObtainAssemblyReference(aId)
+            var assemblyQuery =
+                from aId in identifiers.AsParallel()
+                select (ICliAssembly)clim.ObtainAssemblyReference(aId);
+            var eQuery = (from assembly in assemblyQuery
                           from typeDef in assembly.MetadataRoot.TableStream.TypeDefinitionTable
                           select typeDef.GetMemberData().ToArray()).ToArray().ConcatinateSeries();
+            foreach (var assembly in assemblyQuery)
+                CliMetadataValidator.ValidateMetadata(assembly, assembly.MetadataRoot);
             //var nQuery = (from t in eQuery
             //              select t.GetMemberData().ToArray()).ToArray().ConcatinateSeries();
             return eQuery;

@@ -931,6 +931,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region ITypeIdentityManager<ICliMetadataTypeSignature> Members
 
+        public IType ObtainTypeReference(ICliMetadataParamSignature signature, IType activeType, IMethodSignatureMember activeMethod)
+        {
+            return this.ObtainTypeReference(signature, signature.ParameterType, activeType, activeMethod);
+        }
         public IType ObtainTypeReference(ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
             switch (typeIdentity.TypeSignatureKind)
@@ -993,7 +997,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataElementTypeAndModifiersSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            return ((_ICliType)this.ObtainTypeReference((ICliMetadataElementTypeSignature)(typeIdentity))).MakeModified(typeIdentity.CustomModifiers);
+            return this.ObtainTypeReference(typeIdentity, typeIdentity.ElementType, activeType, activeMethod);
         }
 
         private IType ObtainTypeReference(ICliMetadataGenericParameterTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -1065,11 +1069,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataReturnTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            if (typeIdentity.CustomModifiers.Count == 0)
-                return this.ObtainTypeReference(typeIdentity.ReturnType, activeType, activeMethod);
+            return ObtainTypeReference(typeIdentity, typeIdentity.ReturnType, activeType, activeMethod);
+        }
+
+        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customAttrHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        {
+            if (customAttrHolder.CustomModifiers.Count == 0)
+                return this.ObtainTypeReference(typeIdentity, activeType, activeMethod);
             else
-                return this.ObtainTypeReference(typeIdentity.ReturnType, activeType, activeMethod).MakeModified((from m in typeIdentity.CustomModifiers
-                                                                                                                 select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
+                return this.ObtainTypeReference(typeIdentity, activeType, activeMethod).MakeModified((from m in customAttrHolder.CustomModifiers
+                                                                                                      select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
         }
 
         private IType ObtainTypeReference(ICliMetadataValueOrClassTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -1106,7 +1115,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         //#endregion
         private class M_T<T, D> :
             CliGenericTypeBase<T, D>,
-            _ICliType
+            ICliType
             where T :
         IGenericTypeUniqueIdentifier
             where D :
@@ -1158,15 +1167,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #endregion
 
-            #region _ICliType Members
-
-            public IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
-            {
-                throw new NotSupportedException();
-            }
-
-            #endregion
-
             protected override IFullMemberDictionary OnGetMembers()
             {
                 throw new NotImplementedException();
@@ -1180,7 +1180,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private class M_T<T> :
             TypeBase<T>,
-            _ICliType
+            ICliType
         where T :
             ITypeUniqueIdentifier
         {
@@ -1315,17 +1315,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             #endregion
 
-            #region _ICliType Members
-
-            public IModifiedType MakeModified(IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
-            {
-                throw new NotSupportedException();
-            }
-
-            #endregion
         }
-
-
 
         public ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
         {
@@ -1512,5 +1502,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.metadataService ?? (this.metadataService = new MetadataService(this));
             }
         }
+
     }
 }

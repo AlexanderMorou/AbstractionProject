@@ -656,12 +656,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        internal static IModifiedType MakeModified(ICliMetadataTypeSignature original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
-        {
-            return ((_ICliType) manager.ObtainTypeReference(original)).MakeModified(modifiers);
-        }
-
-
         public static TypeKind DetermineTypeKind(this ICliMetadataTypeDefinitionTableRow typeIdentity, _ICliManager manager)
         {
             if (IsSpecialModule(typeIdentity))
@@ -934,6 +928,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 case FieldAttributes.Public:
                     return AccessLevelModifiers.Public;
                 case FieldAttributes.PrivateScope:
+                default:
+                    return AccessLevelModifiers.PrivateScope;
+            }
+        }
+
+        internal static AccessLevelModifiers GetMethodAccessLevel(MethodAttributes flags)
+        {
+            switch (flags & MethodAttributes.MemberAccessMask)
+            {
+                case MethodAttributes.Assembly:
+                    return AccessLevelModifiers.Internal;
+                case MethodAttributes.FamANDAssem:
+                    return AccessLevelModifiers.ProtectedAndInternal;
+                case MethodAttributes.FamORAssem:
+                    return AccessLevelModifiers.ProtectedOrInternal;
+                case MethodAttributes.Family:
+                    return AccessLevelModifiers.Protected;
+                case MethodAttributes.Private:
+                    return AccessLevelModifiers.Private;
+                case MethodAttributes.Public:
+                    return AccessLevelModifiers.Public;
+                case MethodAttributes.PrivateScope:
                 default:
                     return AccessLevelModifiers.PrivateScope;
             }

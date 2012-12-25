@@ -316,7 +316,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return AstIdentifier.GetSignatureIdentifier(indexerDef.Name);
         }
 
-        internal static IGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodSignatureMember> memberGetter)
+        internal static IGeneralGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodSignatureMember> memberGetter)
         {
             return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
                                                                                                                 select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());

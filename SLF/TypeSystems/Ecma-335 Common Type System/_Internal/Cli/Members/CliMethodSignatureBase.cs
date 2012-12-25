@@ -26,18 +26,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private _ICliAssembly assembly;
         private bool? lastIsParams;
         private CliParameterMemberDictionary<TSignature, TSignatureParameter> parameters;
-
+        private CliMetadataCollection metadata;
+        private CliMetadataCollection returnTypeMetadata;
         protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliAssembly assembly, TSignatureParent parent)
             : base(parent, metadataEntry)
         {
             this.assembly = assembly;
         }
 
-        internal _ICliManager IdentityManager
+        internal CliManager IdentityManager
         {
             get
             {
-                return (_ICliManager) this.assembly.IdentityManager;
+                return (CliManager) this.assembly.IdentityManager;
             }
         }
 
@@ -73,8 +74,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
-
-
 
         #region IParameterParent<TSignature,TSignatureParameter> Members
 
@@ -118,17 +117,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IType ReturnType
         {
-            get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType.ReturnType); }
+            get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.MetadataEntry.Signature.ReturnType.ReturnType, this.ActiveType, this); }
         }
 
         IMethodSignatureMember IMethodSignatureMember.GetGenericDefinition()
         {
-            throw new NotImplementedException();
+            throw new InvalidOperationException();
         }
 
         public ILockedTypeCollection GenericParameters
         {
-            get { throw new NotImplementedException(); }
+            get { return this.TypeParameters.Values.ToLockedCollection(); }
         }
 
         #endregion
@@ -138,7 +137,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public IMetadataCollection Metadata
         {
             get {
-                throw new NotImplementedException();
+                if (this.metadata == null)
+                    this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
+                return this.metadata;
             }
         }
 
@@ -146,7 +147,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                throw new NotImplementedException();
+
+                throw new NotSupportedException();
+                //if (this.returnTypeMetadata == null)
+                //    this.returnTypeMetadata = new CliMetadataCollection(this.MetadataEntry.Signature.ReturnType);
             }
         }
 
@@ -239,7 +243,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public ICliAssembly Assembly
         {
-            get { return this.Assembly; }
+            get { return this.assembly; }
         }
 
         #region ICliDeclaration Members
@@ -250,6 +254,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
-
+        protected abstract IType ActiveType { get; }
     }
 }
