@@ -18,6 +18,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             CompilerErrorCollection cec = new CompilerErrorCollection();
             ValidateAssemblyTable(hostAssembly, metadataRoot, cec);
             ValidateModuleTable(hostAssembly, metadataRoot, cec);
+            ValidateTypeReferenceTable(hostAssembly, metadataRoot, cec);
             return cec;
         }
 
@@ -97,17 +98,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             }
         }
 
+
+
         private static void ValidateTypeReferenceTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection cec)
         {
             var typeRefTable = metadataRoot.TableStream.TypeRefTable;
             if (typeRefTable != null)
             {
                 typeRefTable.Read();
-                foreach (var typeRef in typeRefTable)
+                Parallel.ForEach(typeRefTable.ToArray(), typeRef =>
                 {
-                    switch (typeRef.ResolutionScopeEncoding)
+                    var @namespace = typeRef.Namespace;
+                    string fullName = null;
+                    if (@namespace == null)
+                        fullName = typeRef.Name;
+                    else
+                        fullName = string.Format("{0}.{1}", @namespace, typeRef.Name);
+                    switch (typeRef.ResolutionScope)
                     {
-                        case CliMetadataResolutionScopeTag.None:
+                        case CliMetadataResolutionScopeTag.Module:
+                            if (typeRef.Source == null)
                             {
                                 var exportedTypeTable = metadataRoot.TableStream.ExportedTypeTable;
                                 if (exportedTypeTable == null)
@@ -115,30 +125,39 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                                 var exportedType =
                                     (from eType in exportedTypeTable
                                      where eType.NamespaceIndex == typeRef.NamespaceIndex &&
-                                           eType.NameIndex == typeRef.NameIndex
+                                         eType.NameIndex == typeRef.NameIndex
                                      select eType).FirstOrDefault();
                                 if (exportedType == null)
-                                {
-                                    var @namespace = typeRef.Namespace;
-                                    if (@namespace == null)
-                                        cec.ModelError(CliWarningsAndErrors.CliMetadata011a, hostAssembly, metadataRoot, new string[] { typeRef.Name });
-                                    else
-                                        cec.ModelError(CliWarningsAndErrors.CliMetadata011a, hostAssembly, metadataRoot, new string[] { string.Format("{0}.{1}", @namespace, typeRef.Name) });
-                                }
+                                    cec.ModelError(CliWarningsAndErrors.CliMetadata011a, hostAssembly, metadataRoot, new string[] { fullName });
                             }
-                            break;
-                        case CliMetadataResolutionScopeTag.Module:
+                            else
+                                cec.ModelWarning(CliWarningsAndErrors.CliMetadata011d, hostAssembly, typeRef, new string[] { fullName });
                             break;
                         case CliMetadataResolutionScopeTag.ModuleReference:
+                            var moduleRef = (ICliMetadataModuleReferenceTableRow)typeRef.Source;
+                            if (!hostAssembly.Modules.ContainsKey(AstIdentifier.GetDeclarationIdentifier(moduleRef.Name)))
+                                cec.ModelError(CliWarningsAndErrors.CliMetadata011c, hostAssembly, typeRef, new string[] { fullName });
                             break;
                         case CliMetadataResolutionScopeTag.AssemblyReference:
+                            var assemblyReference = (ICliMetadataAssemblyRefTableRow)typeRef.Source;
+                            var assemblyUniqueId = CliCommon.GetAssemblyUniqueIdentifier(assemblyReference).Item2;
+                            if (assemblyUniqueId == hostAssembly.UniqueIdentifier)
+                                cec.ModelError(CliWarningsAndErrors.CliMetadata011e, hostAssembly, typeRef, new string[] { fullName });
+                            else if (!hostAssembly.References.ContainsKey(assemblyUniqueId))
+                                cec.ModelError(CliWarningsAndErrors.CliMetadata011f, hostAssembly, typeRef, new string[] { fullName, assemblyUniqueId.ToString() });
                             break;
                         case CliMetadataResolutionScopeTag.TypeReference:
+                            
                             break;
                         default:
                             break;
                     }
-                }
+                    if (typeRef.NameIndex == 0)
+                        cec.ModelError(CliWarningsAndErrors.CliMetadata012, hostAssembly, typeRef);
+                    if (typeRef.NamespaceIndex > 0 && typeRef.Namespace == string.Empty)
+                        cec.ModelError(CliWarningsAndErrors.CliMetadata014, hostAssembly, typeRef);
+
+                });
             }
         }
     }

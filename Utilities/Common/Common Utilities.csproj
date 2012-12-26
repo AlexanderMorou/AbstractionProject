@@ -277,7 +277,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
+    <None Include="Allen Copeland.pfx" />
     <None Include="Resources\BitCounts" />
   </ItemGroup>
   <ItemGroup>

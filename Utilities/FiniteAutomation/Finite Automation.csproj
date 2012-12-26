@@ -123,14 +123,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
       <Private>False</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

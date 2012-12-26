@@ -31,6 +31,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         public static readonly ICompilerReferenceError CliMetadata011c = new CompilerReferenceError("When resolution scope is a moduleref token, the target type ({0}) is defined in another module within the same assembly.", 0x10011C);
         public static readonly ICliReferenceWarning CliMetadata011d = new CliReferenceWarning("When resolution scope is a module token, the type referenced ({0}) should be defined within the current module; though, this should not occur in a CLI (\"Compressed Metadata\") module.", CliWarningLevel.CliWarning, 0x10011D);
         public static readonly ICompilerReferenceError CliMetadata011e = new CompilerReferenceError("When resolution scope is an assemblyref, the type referenced ({0}) should be defined within another assembly other than the current module's assembly.", 0x10011E);
+        public static readonly ICompilerReferenceError CliMetadata011f = new CompilerReferenceError("When resolution scope is an assemblyref, the type referenced ({0}) should be defined within another assembly ({1}) which cannot be found.", 0x10011F);
+        public static readonly ICompilerReferenceError CliMetadata012 = new CompilerReferenceError("Name shall index a non-empty string within the StringHeap.", 0x100012);
+        public static readonly ICompilerReferenceError CliMetadata014 = new CompilerReferenceError("Namespace shall index a non-empty string if not null.", 0x100014);
+        public static readonly ICliReferenceWarning CliMetadata015 = new CliReferenceWarning("Name shall be in proper CLS Identifier form.", CliWarningLevel.ClsWarning, 0x100014);
+
         public static readonly ICompilerReferenceError CliMetadata201 = new CompilerReferenceError("The assembly table shall contain zero or one row only.", 0x100201);
         public static readonly ICompilerReferenceError CliMetadata202 = new CompilerReferenceError("HashAlgId shall be one of the specified values.", 0x100202);
         public static readonly ICompilerReferenceError CliMetadata204 = new CompilerReferenceError("Flags shall have only those values set that are specified.", 0x100204);
