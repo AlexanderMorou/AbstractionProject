@@ -136,14 +136,14 @@
     <Compile Include="Slf\_Internal\Metadata\ThrowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>AllenCopeland.Abstraction.Slf._Internal.Metadata.Properties</CustomToolNamespace>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
