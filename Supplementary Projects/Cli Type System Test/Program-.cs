@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Compilers;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 {
@@ -446,7 +447,7 @@ PostJit: {1}", first, second);
              * */
             var sortedDigits = topLevelMethod.Locals.Add("sortedDigits",
                     LinqHelper
-                    .From("digit", /* in */ (new [,] { {"one", "two", "three" }, { "four", "five", "six" }, { "seven", "eight", "nine" } }).ToExpression((ICliManager)assembly.IdentityManager))
+                    .From("digit", /* in */ (new[,] { { "one", "two", "three" }, { "four", "five", "six" }, { "seven", "eight", "nine" } }).ToExpression((ICliManager)assembly.IdentityManager))
                         .OrderBy(digitSymbol.GetProperty("Length"), LinqOrderByDirection.Descending)
                         .ThenBy(digitSymbol.GetIndexer(0.ToPrimitive()))
                     .Select(digitSymbol).Build(), LocalTypingKind.Implicit);
@@ -572,7 +573,13 @@ PostJit: {1}", first, second);
                           from typeDef in assembly.MetadataRoot.TableStream.TypeDefinitionTable
                           select typeDef.GetMemberData().ToArray()).ToArray().ConcatinateSeries();
             foreach (var assembly in assemblyQuery)
-                CliMetadataValidator.ValidateMetadata(assembly, assembly.MetadataRoot);
+            {
+                var errors = CliMetadataValidator.ValidateMetadata(assembly, assembly.MetadataRoot);
+                if (errors.Count > 0)
+                    Console.WriteLine("{0} contains {1} errors:", assembly.UniqueIdentifier, errors.Count);
+                foreach (var error in errors.Where(e => e is ICompilerError).Cast<ICompilerError>())
+                    Console.WriteLine(error);
+            }
             //var nQuery = (from t in eQuery
             //              select t.GetMemberData().ToArray()).ToArray().ConcatinateSeries();
             return eQuery;

@@ -22,7 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         private MemoryStream blobStream;
         private EndianAwareBinaryReader reader;
         private CliMetadataRoot metadataRoot;
-        
+        private object syncObject;
         private Dictionary<uint, SmallBlobEntry> smallEntries = new Dictionary<uint, SmallBlobEntry>();
         private Dictionary<uint, MediumBlobEntry> mediumEntries = new Dictionary<uint, MediumBlobEntry>();
         private Dictionary<uint, LargeBlobEntry> largEntries = new Dictionary<uint, LargeBlobEntry>();
@@ -33,37 +33,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             this.metadataRoot = metadataRoot;
         }
 
-        private bool ItemsEqual(byte[] item1, byte[] item2)
-        {
-            if (item1 == null && item2 != null ||
-                item2 == null && item1 != null)
-                return false;
-            if (item1 == null && item2 == null)
-                return true;
-            if (item1.Length != item2.Length)
-                return false;
-            for (int i = 0; i < item1.Length; i++)
-                if (item1[i] != item2[i])
-                    return false;
-            return true;
-        }
-
-        private byte[] GetData(byte[] data)
-        {
-            return data;
-        }
-
         public T GetSignature<T>(SignatureKinds signatureKind, uint heapIndex)
             where T :
                 ICliMetadataSignature
         {
             if (heapIndex >= this.Size)
                 throw new ArgumentOutOfRangeException("heapIndex");
-
             SmallBlobEntry smallResult;
             MediumBlobEntry mediumResult;
             LargeBlobEntry largeResult;
-            lock (this.reader)
+            lock (this.syncObject)
             {
                 if (smallEntries.TryGetValue(heapIndex, out smallResult))
                 {
@@ -99,16 +78,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             SmallBlobEntry smallResult;
             MediumBlobEntry mediumResult;
             LargeBlobEntry largeResult;
-            if (smallEntries.TryGetValue(heapIndex, out smallResult))
-                return smallResult.Length;
-            else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
-            {
-                return mediumResult.Length;
-            }
-            else if (largEntries.TryGetValue(heapIndex, out largeResult))
-            {
-                return largeResult.Length;
-            }
+            lock (syncObject)
+                if (smallEntries.TryGetValue(heapIndex, out smallResult))
+                    return smallResult.Length;
+                else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
+                    return mediumResult.Length;
+                else if (largEntries.TryGetValue(heapIndex, out largeResult))
+                    return largeResult.Length;
             throw new IndexOutOfRangeException("heapIndex");
 
         }
@@ -116,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         #endregion
         private void LoadSignatureGeneral(SignatureKinds signatureKind, uint heapIndex, _ICliMetadataBlobEntry entry)
         {
-            lock (this.metadataRoot.SourceImage.SyncObject)
+            lock (this.syncObject)
             {
                 uint offset = heapIndex + entry.LengthByteCount;
 
@@ -170,12 +146,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             SmallBlobEntry smallResult;
             MediumBlobEntry mediumResult;
             LargeBlobEntry largeResult;
-            if (smallEntries.TryGetValue(heapIndex, out smallResult))
-                return smallResult;
-            else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
-                return mediumResult;
-            else if (largEntries.TryGetValue(heapIndex, out largeResult))
-                return largeResult;
+            lock (syncObject)
+                if (smallEntries.TryGetValue(heapIndex, out smallResult))
+                    return smallResult;
+                else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
+                    return mediumResult;
+                else if (largEntries.TryGetValue(heapIndex, out largeResult))
+                    return largeResult;
             throw new ArgumentOutOfRangeException("heapIndex");
         }
 
@@ -188,24 +165,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 SmallBlobEntry smallResult;
                 MediumBlobEntry mediumResult;
                 LargeBlobEntry largeResult;
-                if (smallEntries.TryGetValue(index, out smallResult))
-                {
-                    if (smallResult.BlobData == null)
-                        LoadBlobDataGeneral(index, smallResult);
-                    return smallResult.BlobData;
-                }
-                else if (mediumEntries.TryGetValue(index, out mediumResult))
-                {
-                    if (mediumResult.BlobData == null)
-                        LoadBlobDataGeneral(index, mediumResult);
-                    return mediumResult.BlobData;
-                }
-                else if (largEntries.TryGetValue(index, out largeResult))
-                {
-                    if (largeResult.BlobData == null)
-                        LoadBlobDataGeneral(index, largeResult);
-                    return largeResult.BlobData;
-                }
+                lock (syncObject)
+                    if (smallEntries.TryGetValue(index, out smallResult))
+                    {
+                        if (smallResult.BlobData == null)
+                            LoadBlobDataGeneral(index, smallResult);
+                        return smallResult.BlobData;
+                    }
+                    else if (mediumEntries.TryGetValue(index, out mediumResult))
+                    {
+                        if (mediumResult.BlobData == null)
+                            LoadBlobDataGeneral(index, mediumResult);
+                        return mediumResult.BlobData;
+                    }
+                    else if (largEntries.TryGetValue(index, out largeResult))
+                    {
+                        if (largeResult.BlobData == null)
+                            LoadBlobDataGeneral(index, largeResult);
+                        return largeResult.BlobData;
+                    }
                 throw new IndexOutOfRangeException("heapIndex");
             }
         }
@@ -226,7 +204,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         internal void Read(EndianAwareBinaryReader reader)
         {
-            lock (this.metadataRoot.SourceImage.SyncObject)
+            this.syncObject = this.metadataRoot.SourceImage.SyncObject;
+            lock (this.syncObject)
             {
                 byte[] blobSectionData = new byte[this.Size];
                 reader.Read(blobSectionData, 0, blobSectionData.Length);

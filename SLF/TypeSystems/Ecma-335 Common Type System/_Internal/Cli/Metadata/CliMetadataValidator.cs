@@ -15,14 +15,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
     {
         public static ICompilerErrorCollection ValidateMetadata(IAssembly hostAssembly, ICliMetadataRoot metadataRoot)
         {
-            CompilerErrorCollection cec = new CompilerErrorCollection();
-            ValidateAssemblyTable(hostAssembly, metadataRoot, cec);
-            ValidateModuleTable(hostAssembly, metadataRoot, cec);
-            ValidateTypeReferenceTable(hostAssembly, metadataRoot, cec);
-            return cec;
+            CompilerErrorCollection resultErrorCollection = new CompilerErrorCollection();
+            ValidateAssemblyTable(hostAssembly, metadataRoot, resultErrorCollection);
+            ValidateModuleTable(hostAssembly, metadataRoot, resultErrorCollection);
+            ValidateTypeReferenceTable(hostAssembly, metadataRoot, resultErrorCollection);
+            return resultErrorCollection;
         }
 
-        private static void ValidateAssemblyTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection cec)
+        private static void ValidateAssemblyTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection)
         {
             if (metadataRoot == null)
                 throw new ArgumentNullException("metadataRoot");
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             {
                 if (assemblyTable.Count > 1)
                     //Error: Table 0x20, metadata validation rule 1.
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata201, hostAssembly, assemblyTable);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2001, hostAssembly, assemblyTable);
                 var firstAssembly = assemblyTable[1];
                 switch (firstAssembly.HashAlgorithmId)
                 {
@@ -45,14 +45,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     case AssemblyHashAlgorithm.SHA512:
                         break;
                     default:
-                        cec.ModelError(CliWarningsAndErrors.CliMetadata202, hostAssembly, firstAssembly);
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2002, hostAssembly, firstAssembly);
                         break;
                 }
                 var remainingFlags = (firstAssembly.Flags & ~CliMetadataAssemblyFlags.ValidMask);
                 if ((int)remainingFlags != 0)
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata204, hostAssembly, firstAssembly);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2004, hostAssembly, firstAssembly);
                 if (firstAssembly.NameIndex == 0)
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata206, hostAssembly, firstAssembly);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2006, hostAssembly, firstAssembly);
                 if (firstAssembly.CultureIndex != 0)
                 {
                     /* *
@@ -69,21 +69,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                         /* *
                          * The specified culture was invalid.
                          * */
-                        cec.ModelError(CliWarningsAndErrors.CliMetadata209, hostAssembly, firstAssembly, new string[] { firstAssembly.Culture });
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2009, hostAssembly, firstAssembly, new string[] { firstAssembly.Culture });
                     }
                 }
             }
         }
 
-        private static void ValidateModuleTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection cec)
+        private static void ValidateModuleTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection)
         {
             var moduleTable = metadataRoot.TableStream.ModuleTable;
             if (moduleTable == null || moduleTable.Count > 1)
             {
                 if (moduleTable.Count > 1)
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata001, hostAssembly, moduleTable);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0001, hostAssembly, moduleTable);
                 else
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata001, hostAssembly);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0001, hostAssembly);
             }
             if (moduleTable != null && moduleTable.Count > 0)
             {
@@ -92,15 +92,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                  * Table 0x00, second metadata rule.
                  * */
                 if (firstModule.NameIndex == 0)
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata002, hostAssembly, firstModule);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0002, hostAssembly, firstModule);
                 if (firstModule.ModuleVersionIndex == 0)
-                    cec.ModelError(CliWarningsAndErrors.CliMetadata003, hostAssembly, firstModule);
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0003, hostAssembly, firstModule);
             }
         }
 
 
 
-        private static void ValidateTypeReferenceTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection cec)
+        private static void ValidateTypeReferenceTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection)
         {
             var typeRefTable = metadataRoot.TableStream.TypeRefTable;
             if (typeRefTable != null)
@@ -121,30 +121,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             {
                                 var exportedTypeTable = metadataRoot.TableStream.ExportedTypeTable;
                                 if (exportedTypeTable == null)
-                                    cec.ModelError(CliWarningsAndErrors.CliMetadata011a, hostAssembly, typeRef);
+                                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101a, hostAssembly, typeRef);
                                 var exportedType =
                                     (from eType in exportedTypeTable
                                      where eType.NamespaceIndex == typeRef.NamespaceIndex &&
                                          eType.NameIndex == typeRef.NameIndex
                                      select eType).FirstOrDefault();
                                 if (exportedType == null)
-                                    cec.ModelError(CliWarningsAndErrors.CliMetadata011a, hostAssembly, metadataRoot, new string[] { fullName });
+                                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101a, hostAssembly, metadataRoot, new string[] { fullName });
                             }
                             else
-                                cec.ModelWarning(CliWarningsAndErrors.CliMetadata011d, hostAssembly, typeRef, new string[] { fullName });
+                                resultErrorCollection.ModelWarning(CliWarningsAndErrors.CliMetadata0101d, hostAssembly, typeRef, new string[] { fullName });
                             break;
                         case CliMetadataResolutionScopeTag.ModuleReference:
                             var moduleRef = (ICliMetadataModuleReferenceTableRow)typeRef.Source;
                             if (!hostAssembly.Modules.ContainsKey(AstIdentifier.GetDeclarationIdentifier(moduleRef.Name)))
-                                cec.ModelError(CliWarningsAndErrors.CliMetadata011c, hostAssembly, typeRef, new string[] { fullName });
+                                resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101c, hostAssembly, typeRef, new string[] { fullName });
                             break;
                         case CliMetadataResolutionScopeTag.AssemblyReference:
                             var assemblyReference = (ICliMetadataAssemblyRefTableRow)typeRef.Source;
                             var assemblyUniqueId = CliCommon.GetAssemblyUniqueIdentifier(assemblyReference).Item2;
                             if (assemblyUniqueId == hostAssembly.UniqueIdentifier)
-                                cec.ModelError(CliWarningsAndErrors.CliMetadata011e, hostAssembly, typeRef, new string[] { fullName });
+                                resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101e, hostAssembly, typeRef, new string[] { fullName });
                             else if (!hostAssembly.References.ContainsKey(assemblyUniqueId))
-                                cec.ModelError(CliWarningsAndErrors.CliMetadata011f, hostAssembly, typeRef, new string[] { fullName, assemblyUniqueId.ToString() });
+                            {
+                                hostAssembly.References.ContainsKey(assemblyUniqueId);
+                                resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101f, hostAssembly, typeRef, new string[] { fullName, assemblyUniqueId.ToString() });
+                            }
                             break;
                         case CliMetadataResolutionScopeTag.TypeReference:
                             
@@ -153,11 +156,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             break;
                     }
                     if (typeRef.NameIndex == 0)
-                        cec.ModelError(CliWarningsAndErrors.CliMetadata012, hostAssembly, typeRef);
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0102, hostAssembly, typeRef);
                     if (typeRef.NamespaceIndex > 0 && typeRef.Namespace == string.Empty)
-                        cec.ModelError(CliWarningsAndErrors.CliMetadata014, hostAssembly, typeRef);
-
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0104, hostAssembly, typeRef);
                 });
+
+            }
+        }
+
+        private static void ValidateTypeDefinitionTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection) 
+        {
+            var typeDefTable = metadataRoot.TableStream.TypeDefinitionTable;
+            foreach (var typeDefinition in typeDefTable)
+            {
             }
         }
     }

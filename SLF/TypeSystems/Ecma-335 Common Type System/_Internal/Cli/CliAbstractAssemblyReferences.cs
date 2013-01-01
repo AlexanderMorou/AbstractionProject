@@ -36,6 +36,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             this.referenceSources = referenceSources.ToArray();
             this.identifiers = new ArrayReadOnlyCollection<IAssemblyUniqueIdentifier>(distinctIdentifiers.ToArray());
+            int mscorLib = -1;
+            for (int i = 0; i < identifiers.Count; i++)
+                if (identifiers[i].Name == "mscorlib")
+                {
+                    mscorLib = i;
+                    break;
+                }
+
             this.assembly = assembly;
             this.references = new IAssembly[this.identifiers.Count];
         }
@@ -48,7 +56,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IControlledCollection<IAssembly> Values
         {
-            get {
+            get
+            {
                 lock (this.syncObject)
                 {
                     if (this.values == null)
@@ -150,12 +159,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IControlledCollection IControlledDictionary.Keys
         {
-            get { return (IControlledCollection) this.Keys; }
+            get { return (IControlledCollection)this.Keys; }
         }
 
         IControlledCollection IControlledDictionary.Values
         {
-            get { return (IControlledCollection) this.Values; }
+            get { return (IControlledCollection)this.Values; }
         }
 
         object IControlledDictionary.this[object key]
@@ -163,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (key is IAssemblyUniqueIdentifier)
-                    return this[(IAssemblyUniqueIdentifier) key];
+                    return this[(IAssemblyUniqueIdentifier)key];
                 throw new KeyNotFoundException();
             }
         }
@@ -171,7 +180,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         bool IControlledDictionary.ContainsKey(object key)
         {
             if (key is IAssemblyUniqueIdentifier)
-                return this.ContainsKey((IAssemblyUniqueIdentifier) key);
+                return this.ContainsKey((IAssemblyUniqueIdentifier)key);
             return false;
         }
 
@@ -183,7 +192,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         bool IControlledCollection.Contains(object item)
         {
             if (item is KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>)
-                return this.Contains((KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>) item);
+                return this.Contains((KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>)item);
             return false;
         }
 
@@ -205,7 +214,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         int IControlledCollection.IndexOf(object element)
         {
             if (element is KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>)
-                return this.IndexOf((KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>) element);
+                return this.IndexOf((KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>)element);
             return -1;
         }
 
