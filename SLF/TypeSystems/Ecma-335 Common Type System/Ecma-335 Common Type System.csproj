@@ -150,7 +150,6 @@
     </Compile>
     <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
     <Compile Include="_Internal\Cli\CliTypeIdentityMetadataService.cs" />
-    <Compile Include="_Internal\Cli\DefaultCliIdentifiers.cs" />
     <Compile Include="_Internal\Cli\LockedEmptyMetadataCollection.cs" />
     <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItemIdentifier, TMItem}.cs" />
     <Compile Include="_Internal\Cli\LockedFullDeclarations{TMItem}+KeysCollection.cs" />

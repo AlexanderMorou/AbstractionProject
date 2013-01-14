@@ -82,6 +82,17 @@ namespace AllenCopeland.Abstraction.Utilities
             };
         }
 
+        public static Func<T1, T2, Tuple<TimeSpan, TResult>> CreateFunctionOfTime<T1, T2, TResult>(Func<T1, T2, TResult> target)
+        {
+            return (T1 arg1, T2 arg2) =>
+            {
+                Stopwatch timer = Stopwatch.StartNew();
+                var fResult = target(arg1, arg2);
+                timer.Stop();
+                return new Tuple<TimeSpan, TResult>(timer.Elapsed, fResult);
+            };
+        }
+
         public static Func<TimeSpan> CreateActionOfTime(Action target)
         {
             return () =>

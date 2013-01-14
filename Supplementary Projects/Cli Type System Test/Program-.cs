@@ -40,9 +40,10 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         static void Main()
         {
-            //IntermediateTestMain();
-            Test();
+            IntermediateTestMain();
+            //Test();
             //Console.ReadKey(true);
+            Console.ReadKey(true);
         }
 
         private static void IntermediateTestMain()
@@ -63,15 +64,19 @@ PostJit: {1}", first, second);
             var csAssemblyRef2 = provider.IdentityManager.ObtainAssemblyReference(AstIdentifier.GetAssemblyIdentifier("TestAssembly", new IntermediateVersion(1, 0) { AutoIncrementBuild = true, AutoIncrementRevision = true }, CultureIdentifiers.None));
             var coreLib = (ICliAssembly)provider.IdentityManager.ObtainAssemblyReference(provider.IdentityManager.RuntimeEnvironment.CoreLibraryIdentifier);
             var coreLibTableStream = coreLib.MetadataRoot.TableStream;
+
             /*
             Parallel.For(0, 10000, i =>
                 TestLinq(csAssembly, baseIndex: i + 1));
             //*/
             ///*
-            for (int i = 0; i < 40; i++)
+            for (int i = 0; i < 40000; i++)
                 TestLinq(csAssembly.Parts.Add(), baseIndex: i + 1);
+
             var thirdPart = csAssembly.Parts[3];
             var thirdMethod = thirdPart.Namespaces["LinqExample"].Methods[3];
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
             thirdPart.Dispose();
             //*/
         }
@@ -90,6 +95,8 @@ PostJit: {1}", first, second);
         private static IVersion v80 = AstIdentifier.GetVersion(8, 0, 0, 0);
         private static IVersion v100 = AstIdentifier.GetVersion(10, 0, 0, 0);
         private static ICultureIdentifier cultureCommon = CultureIdentifiers.None;
+
+        #region Identifiers
         private static IAssemblyUniqueIdentifier[] identifiers = new IAssemblyUniqueIdentifier[] {
                 AstIdentifier.GetAssemblyIdentifier("_abs.slf.compilerservices", v10, cultureCommon, abstractionKey),
                 AstIdentifier.GetAssemblyIdentifier("_abs.slf.metadata", v10, cultureCommon, abstractionKey),
@@ -318,6 +325,7 @@ PostJit: {1}", first, second);
                 AstIdentifier.GetAssemblyIdentifier("WsatConfig", v40, cultureCommon, microsoftAltKey),
                 AstIdentifier.GetAssemblyIdentifier("XamlBuildTask", v40, cultureCommon, microsoftKey),
                 AstIdentifier.GetAssemblyIdentifier("XsdBuildTask", v40, cultureCommon, microsoftKey) };
+        #endregion
 
         private static void Test()
         {
@@ -510,7 +518,7 @@ PostJit: {1}", first, second);
 
         private static Tuple<TimeSpan, TimeSpan> DoProcess(_ICliManager clim)
         {
-            var timedObtainTypeMembers = MiscHelperMethods.CreateFunctionOfTime<_ICliManager, Tuple<CliMemberType, ICliMetadataTableRow>[]>(Program.ObtainTypeMembers);
+            var timedObtainTypeMembers = MiscHelperMethods.CreateFunctionOfTime<_ICliManager, Tuple<CliMemberType[], ICliMetadataTableRow[]>>(Program.ObtainTypeMembers);
             var result1 = timedObtainTypeMembers(clim);
             var timedCheckMembers = MiscHelperMethods.CreateActionOfTime<_ICliManager>(CheckMember);
 
@@ -564,22 +572,30 @@ PostJit: {1}", first, second);
                 field.ToString();
         }
 
-        private static Tuple<CliMemberType, ICliMetadataTableRow>[] ObtainTypeMembers(_ICliManager clim)
+        private static Tuple<CliMemberType[], ICliMetadataTableRow[]> ObtainTypeMembers(_ICliManager clim)
         {
             var assemblyQuery =
                 from aId in identifiers.AsParallel()
                 select (ICliAssembly)clim.ObtainAssemblyReference(aId);
             var eQuery = (from assembly in assemblyQuery
                           from typeDef in assembly.MetadataRoot.TableStream.TypeDefinitionTable
-                          select typeDef.GetMemberData().ToArray()).ToArray().ConcatinateSeries();
-            foreach (var assembly in assemblyQuery)
-            {
-                var errors = CliMetadataValidator.ValidateMetadata(assembly, assembly.MetadataRoot);
-                if (errors.Count > 0)
-                    Console.WriteLine("{0} contains {1} errors:", assembly.UniqueIdentifier, errors.Count);
-                foreach (var error in errors.Where(e => e is ICompilerError).Cast<ICompilerError>())
-                    Console.WriteLine(error);
-            }
+                          select typeDef.GetMemberData().ToArray()).ToArray().ConcatinateSeries().SplitSet();
+            var commonLanguageRuntime = (ICliAssembly)clim.ObtainAssemblyReference(clim.RuntimeEnvironment.CoreLibraryIdentifier);
+            var timedValidation = MiscHelperMethods.CreateFunctionOfTime<IAssembly, ICliMetadataRoot, ICompilerErrorCollection>(CliMetadataValidator.ValidateMetadata);
+
+            var timedWarnErrs = timedValidation(commonLanguageRuntime, commonLanguageRuntime.MetadataRoot);
+            if (timedWarnErrs.Item2.Where(p => p is ICompilerError).Count() > 0)
+                Console.WriteLine(timedWarnErrs.Item2.Count);
+            Console.WriteLine("Validation took {0}.", timedWarnErrs.Item1);
+            //foreach (var assembly in assemblyQuery)
+            //{
+            //    var errorsAndWarnings = CliMetadataValidator.ValidateMetadata(assembly, assembly.MetadataRoot);
+            //    var errors = errorsAndWarnings.Where(errWarn => errWarn is ICompilerError).Cast<ICompilerError>().ToArray();
+            //    if (errors.Length > 0)
+            //        Console.WriteLine("{0} contains {1} errors:", assembly.UniqueIdentifier, errors.Length);
+            //    foreach (var error in errors)
+            //        Console.WriteLine(error);
+            //}
             //var nQuery = (from t in eQuery
             //              select t.GetMemberData().ToArray()).ToArray().ConcatinateSeries();
             return eQuery;

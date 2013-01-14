@@ -232,7 +232,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                         break;
                     currentPosition += currentItemLengthWidth + currentLength;
                     this.reader.BaseStream.Seek(currentLength, SeekOrigin.Current);
-
                 }
             }
         }

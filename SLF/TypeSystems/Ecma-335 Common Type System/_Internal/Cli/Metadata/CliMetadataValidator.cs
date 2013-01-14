@@ -9,6 +9,8 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Globalization;
+using System.Reflection;
+using System.Security;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
     internal static class CliMetadataValidator
@@ -16,9 +18,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         public static ICompilerErrorCollection ValidateMetadata(IAssembly hostAssembly, ICliMetadataRoot metadataRoot)
         {
             CompilerErrorCollection resultErrorCollection = new CompilerErrorCollection();
+            Parallel.ForEach(metadataRoot.TableStream.Values, table => table.Read());
             ValidateAssemblyTable(hostAssembly, metadataRoot, resultErrorCollection);
             ValidateModuleTable(hostAssembly, metadataRoot, resultErrorCollection);
             ValidateTypeReferenceTable(hostAssembly, metadataRoot, resultErrorCollection);
+            ValidateTypeDefinitionTable(hostAssembly, metadataRoot, resultErrorCollection);
             return resultErrorCollection;
         }
 
@@ -150,7 +154,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             }
                             break;
                         case CliMetadataResolutionScopeTag.TypeReference:
-                            
+
                             break;
                         default:
                             break;
@@ -164,12 +168,172 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             }
         }
 
-        private static void ValidateTypeDefinitionTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection) 
+        private static void ValidateTypeDefinitionTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection)
         {
             var typeDefTable = metadataRoot.TableStream.TypeDefinitionTable;
             foreach (var typeDefinition in typeDefTable)
             {
+                var typeAttributes = typeDefinition.TypeAttributes;
+                if (((int)(typeAttributes ^ (typeAttributes & (TypeAttributes)0xD77DBF))) != 0)
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202a, hostAssembly, typeDefinition);
+                if (((typeAttributes & TypeAttributes.SequentialLayout) == TypeAttributes.SequentialLayout) &&
+                    ((typeAttributes & TypeAttributes.ExplicitLayout) == TypeAttributes.SequentialLayout))
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202b, hostAssembly, typeDefinition);
+                if (((typeAttributes & TypeAttributes.AutoClass) == TypeAttributes.AutoClass) &&
+                    ((typeAttributes & TypeAttributes.UnicodeClass) == TypeAttributes.UnicodeClass))
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202c, hostAssembly, typeDefinition);
+                if ((typeAttributes & TypeAttributes.HasSecurity) == TypeAttributes.HasSecurity)
+                {
+                    if (!(CheckForDeclSecurityRow(metadataRoot, typeDefinition) || CheckForSecuritySuppressionAttribute(metadataRoot, typeDefTable, typeDefinition)))
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202d, hostAssembly, typeDefinition);
+                    if ((typeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface)
+                        resultErrorCollection.ModelWarning(CliWarningsAndErrors.CliMetadata0202g, hostAssembly, typeDefinition);
+                }
+                else if (CheckForDeclSecurityRow(metadataRoot, typeDefinition))
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202e, hostAssembly, typeDefinition);
+                else if (CheckForSecuritySuppressionAttribute(metadataRoot, typeDefTable, typeDefinition))
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202f, hostAssembly, typeDefinition);
+                if (string.IsNullOrEmpty(typeDefinition.Name))
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0203, hostAssembly, typeDefinition);
+                string name = typeDefinition.Name,
+                    @namespace = typeDefinition.Namespace;
+
+                if (typeDefinition.Extends == null && (typeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface)
+                {
+                    if (typeDefinition.Index > 1 &&
+                        !(name == "Object" &&
+                          @namespace == "System"))
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0208, hostAssembly, typeDefinition);
+                }
+                else if (typeDefinition.Extends != null &&
+                    name == "Object" &&
+                    @namespace == "System")
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0209, hostAssembly, typeDefinition);
+                else if (name == "ValueType" &&
+                    @namespace == "System" &&
+                    typeDefinition.DeclaringType == null)
+                {
+                    if (!ExtendsTarget(typeDefinition, "System", "Object"))
+                        resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0210, hostAssembly, typeDefinition);
+                }
+                /* *
+                 * ToDo: Add code here to check the name identifier against CLS rules.
+                 * Warning CliMetadata0204
+                 * */
+                if (typeDefinition.NamespaceIndex != 0 && typeDefinition.Namespace == string.Empty)
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0206, hostAssembly, typeDefinition);
+                /* *
+                 * ToDo: Add code here to check the namespace identifier against CLS rules.
+                 * Warning CliMetadata0207
+                 * */
+
             }
+        }
+
+        private static bool ExtendsTarget(ICliMetadataTypeDefinitionTableRow typeDefinition, string nameSpace, string name)
+        {
+
+            var extends = typeDefinition.Extends;
+            if (typeDefinition.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition)
+            {
+                var extendsDef = (ICliMetadataTypeDefinitionTableRow)extends;
+                if (!(extendsDef.Name == name &&
+                    extendsDef.Namespace == nameSpace &&
+                    extendsDef.DeclaringType == null))
+                    return false;
+            }
+            else if (typeDefinition.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeReference)
+            {
+                var extendsRef = (ICliMetadataTypeRefTableRow)extends;
+                if (!(extendsRef.Name == name &&
+                    extendsRef.Namespace == nameSpace &&
+                    extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.AssemblyReference ||
+                    extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.ModuleReference ||
+                    extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.Module))
+                    return false;
+            }
+            else
+                return false;
+            return true;
+        }
+
+        private static bool CheckForDeclSecurityRow(ICliMetadataRoot metadataRoot, ICliMetadataTypeDefinitionTableRow typeDefinition)
+        {
+            bool hasSecurityRow = false;
+            var declSecurityTable = metadataRoot.TableStream.DeclSecurityTable;
+            if (declSecurityTable == null)
+                return hasSecurityRow;
+            foreach (var declSecurity in declSecurityTable)
+                if (declSecurity.ParentSource == CliMetadataHasDeclSecurityTag.TypeDefinition && declSecurity.ParentIndex == typeDefinition.Index)
+                    hasSecurityRow = true;
+            return hasSecurityRow;
+        }
+
+        private static bool CheckForSecuritySuppressionAttribute(ICliMetadataRoot metadataRoot, ICliMetadataTypeDefinitionTable typeDefTable, ICliMetadataTypeDefinitionTableRow typeDefinition)
+        {
+            bool hasSuppressionAttribute = false;
+            foreach (var customAttr in typeDefinition.CustomAttributes)
+                switch (customAttr.CtorSource)
+                {
+                    case CliMetadataCustomAttributeTypeTag.MethodDefinition:
+                        {
+                            var methodDef = (ICliMetadataMethodDefinitionTableRow)customAttr.Ctor;
+                            for (int i = 1; i <= metadataRoot.TableStream.TypeDefinitionTable.Count; i++)
+                            {
+                                var current = typeDefTable[i];
+                                if (current.MethodStartIndex <= methodDef.Index)
+                                {
+                                    if (i == metadataRoot.TableStream.TypeDefinitionTable.Count)
+                                    {
+                                        if (current.Name == "SuppressUnmanagedCodeSecurityAttribute" &&
+                                            current.Namespace == "System.Security")
+                                        {
+                                            hasSuppressionAttribute = true;
+                                            goto breakLoop;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var next = typeDefTable[i + 1];
+                                        if (next.MethodStartIndex <= methodDef.Index)
+                                            continue;
+                                        if (current.Name == "SuppressUnmanagedCodeSecurityAttribute" &&
+                                            current.Namespace == "System.Security")
+                                        {
+                                            hasSuppressionAttribute = true;
+                                            goto breakLoop;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        break;
+                    case CliMetadataCustomAttributeTypeTag.MemberReference:
+                        var methodRef = (ICliMetadataMemberReferenceTableRow)customAttr.Ctor;
+                        if (methodRef.ClassSource == CliMetadataMemberRefParentTag.TypeReference)
+                        {
+                            var typeRef = (ICliMetadataTypeRefTableRow)methodRef.Class;
+                            if (typeRef.Name == "SuppressUnmanagedCodeSecurityAttribute" &&
+                                typeRef.Namespace == "System.Security")
+                            {
+                                hasSuppressionAttribute = true;
+                                goto breakLoop;
+                            }
+                        }
+                        else if (methodRef.ClassSource == CliMetadataMemberRefParentTag.TypeDefinition)
+                        {
+                            var typeDef = (ICliMetadataTypeDefinitionTableRow)methodRef.Class;
+                            if (typeDef.Name == "SuppressUnmanagedCodeSecurityAttribute" &&
+                                typeDef.Namespace == "System.Security")
+                            {
+                                hasSuppressionAttribute = true;
+                                goto breakLoop;
+                            }
+                        }
+                        break;
+                }
+        breakLoop:
+            return hasSuppressionAttribute;
         }
     }
 }
