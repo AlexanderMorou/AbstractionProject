@@ -36,7 +36,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             if (assemblyTable != null)
             {
                 if (assemblyTable.Count > 1)
-                    //Error: Table 0x20, metadata validation rule 1.
+                    /* *
+                     * The assembly table shall contain zero or one row only.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2001, hostAssembly, assemblyTable);
                 var firstAssembly = assemblyTable[1];
                 switch (firstAssembly.HashAlgorithmId)
@@ -49,13 +51,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     case AssemblyHashAlgorithm.SHA512:
                         break;
                     default:
+                        /* *
+                         * HashAlgId shall be one of the specified values.
+                         * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2002, hostAssembly, firstAssembly);
                         break;
                 }
                 var remainingFlags = (firstAssembly.Flags & ~CliMetadataAssemblyFlags.ValidMask);
                 if ((int)remainingFlags != 0)
+                    /* *
+                     * Flags shall have only those values set that are specified.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2004, hostAssembly, firstAssembly);
                 if (firstAssembly.NameIndex == 0)
+                    /* *
+                     * Name shall index a non-empty string in the String Heap.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2006, hostAssembly, firstAssembly);
                 if (firstAssembly.CultureIndex != 0)
                 {
@@ -85,19 +96,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             if (moduleTable == null || moduleTable.Count > 1)
             {
                 if (moduleTable.Count > 1)
+                    // The module table shall contain one and only one row.  More than one was found.
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0001, hostAssembly, moduleTable);
                 else
+                    // The module table shall contain one and only one row.  None were found.
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0001, hostAssembly);
             }
             if (moduleTable != null && moduleTable.Count > 0)
             {
                 var firstModule = moduleTable[1];
-                /* *
-                 * Table 0x00, second metadata rule.
-                 * */
                 if (firstModule.NameIndex == 0)
+                    /* *
+                     * Name shall index a non-empty string. This string should match exactly
+                     * any corresponding ModuleRef.Name string that resolves to this module.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0002, hostAssembly, firstModule);
                 if (firstModule.ModuleVersionIndex == 0)
+                    // Mvid shall index a non-null Guid in the Guid heap.
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0003, hostAssembly, firstModule);
             }
         }
@@ -109,7 +124,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             var typeRefTable = metadataRoot.TableStream.TypeRefTable;
             if (typeRefTable != null)
             {
-                typeRefTable.Read();
                 Parallel.ForEach(typeRefTable.ToArray(), typeRef =>
                 {
                     var @namespace = typeRef.Namespace;
@@ -125,31 +139,58 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             {
                                 var exportedTypeTable = metadataRoot.TableStream.ExportedTypeTable;
                                 if (exportedTypeTable == null)
-                                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101a, hostAssembly, typeRef);
+                                    /* *
+                                     * When resolution scope is null, there shall be an
+                                     * ExportedType table row for this type (fullName).
+                                     * */
+                                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101a, hostAssembly, typeRef, new string[] { fullName });
                                 var exportedType =
                                     (from eType in exportedTypeTable
                                      where eType.NamespaceIndex == typeRef.NamespaceIndex &&
                                          eType.NameIndex == typeRef.NameIndex
                                      select eType).FirstOrDefault();
                                 if (exportedType == null)
+                                    /* *
+                                     * When resolution scope is null, there shall be an
+                                     * ExportedType table row for this type (fullName).
+                                     * */
                                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101a, hostAssembly, metadataRoot, new string[] { fullName });
                             }
                             else
+                                /* *
+                                 * When resolution scope is a module token, the type referenced (fullName) 
+                                 * should be defined within the current module; though, this should not
+                                 * occur in a CLI ("Compressed Metadata") module.
+                                 * */
                                 resultErrorCollection.ModelWarning(CliWarningsAndErrors.CliMetadata0101d, hostAssembly, typeRef, new string[] { fullName });
                             break;
                         case CliMetadataResolutionScopeTag.ModuleReference:
                             var moduleRef = (ICliMetadataModuleReferenceTableRow)typeRef.Source;
                             if (!hostAssembly.Modules.ContainsKey(AstIdentifier.GetDeclarationIdentifier(moduleRef.Name)))
+                                /* *
+                                 * When resolution scope is a moduleref token, the target type (fullName)
+                                 * is defined in another module within the same assembly.
+                                 * */
                                 resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101c, hostAssembly, typeRef, new string[] { fullName });
                             break;
                         case CliMetadataResolutionScopeTag.AssemblyReference:
                             var assemblyReference = (ICliMetadataAssemblyRefTableRow)typeRef.Source;
                             var assemblyUniqueId = CliCommon.GetAssemblyUniqueIdentifier(assemblyReference).Item2;
                             if (assemblyUniqueId == hostAssembly.UniqueIdentifier)
+                                /* *
+                                 * When resolution scope is an assemblyref, the type referenced (fullName)
+                                 * should be defined within another assembly other than the current
+                                 * module's assembly.
+                                 * */
                                 resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101e, hostAssembly, typeRef, new string[] { fullName });
                             else if (!hostAssembly.References.ContainsKey(assemblyUniqueId))
                             {
                                 hostAssembly.References.ContainsKey(assemblyUniqueId);
+                                /* *
+                                 * When resolution scope is an assemblyref, the type referenced (fullName)
+                                 * should be defined within another assembly (assemblyUniqueId) which
+                                 * cannot be found.
+                                 * */
                                 resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0101f, hostAssembly, typeRef, new string[] { fullName, assemblyUniqueId.ToString() });
                             }
                             break;
@@ -160,8 +201,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             break;
                     }
                     if (typeRef.NameIndex == 0)
+                        /* *
+                         * Name shall index a non-empty string within the StringHeap.
+                         * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0102, hostAssembly, typeRef);
                     if (typeRef.NamespaceIndex > 0 && typeRef.Namespace == string.Empty)
+                        /* *
+                         * Namespace shall index a non-empty string if not null.
+                         * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0104, hostAssembly, typeRef);
                 });
 
@@ -175,25 +222,55 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             {
                 var typeAttributes = typeDefinition.TypeAttributes;
                 if (((int)(typeAttributes ^ (typeAttributes & (TypeAttributes)0xD77DBF))) != 0)
+                    /* *
+                     * Flags must contain only those values specified by System.Reflection.TypeAttributes
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202a, hostAssembly, typeDefinition);
                 if (((typeAttributes & TypeAttributes.SequentialLayout) == TypeAttributes.SequentialLayout) &&
                     ((typeAttributes & TypeAttributes.ExplicitLayout) == TypeAttributes.SequentialLayout))
+                    /* *
+                     * Sequential Layout and Explicit Layout cannot be set together.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202b, hostAssembly, typeDefinition);
                 if (((typeAttributes & TypeAttributes.AutoClass) == TypeAttributes.AutoClass) &&
                     ((typeAttributes & TypeAttributes.UnicodeClass) == TypeAttributes.UnicodeClass))
+                    /* *
+                     * UnicodeClass and AutoClass flags cannot be set together.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202c, hostAssembly, typeDefinition);
                 if ((typeAttributes & TypeAttributes.HasSecurity) == TypeAttributes.HasSecurity)
                 {
                     if (!(CheckForDeclSecurityRow(metadataRoot, typeDefinition) || CheckForSecuritySuppressionAttribute(metadataRoot, typeDefTable, typeDefinition)))
+                        /* *
+                         * If HasSecurity is set, then the type must contain at least one
+                         * DeclSecurity row, or a custom attribute called 
+                         * SuppressUnmanagedCodeSecurityAttribute.
+                         * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202d, hostAssembly, typeDefinition);
                     if ((typeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface)
+                        /* *
+                         * Interfaces are allowed to have the HasSecurity flag set; however,
+                         * the security system ignores any permission requests attached to
+                         * that interface.
+                         * */
                         resultErrorCollection.ModelWarning(CliWarningsAndErrors.CliMetadata0202g, hostAssembly, typeDefinition);
                 }
                 else if (CheckForDeclSecurityRow(metadataRoot, typeDefinition))
+                    /* *
+                     * If this type owns one (or more) DeclSecurity rows, then the HasSecurity
+                     * flag must be set.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202e, hostAssembly, typeDefinition);
                 else if (CheckForSecuritySuppressionAttribute(metadataRoot, typeDefTable, typeDefinition))
+                    /* *
+                     * If this type has a custom attribute called SuppressUnmanagedCodeSecurityAttribute,
+                     * then the HasSecurity flag must be set.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0202f, hostAssembly, typeDefinition);
                 if (string.IsNullOrEmpty(typeDefinition.Name))
+                    /* *
+                     * Name shall index a non-empty string in the String Heap.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0203, hostAssembly, typeDefinition);
                 string name = typeDefinition.Name,
                     @namespace = typeDefinition.Namespace;
@@ -203,17 +280,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     if (typeDefinition.Index > 1 &&
                         !(name == "Object" &&
                           @namespace == "System"))
+                        /* *
+                         * Every class (with exception to System.Object and the special class
+                         * <Module>) shall extend one, and only one, other Class - so Extends
+                         * is for a Class shall be non-null.
+                         * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0208, hostAssembly, typeDefinition);
                 }
                 else if (typeDefinition.Extends != null &&
                     name == "Object" &&
                     @namespace == "System")
+                    /* *
+                     * System.Object must have an extends value of null.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0209, hostAssembly, typeDefinition);
                 else if (name == "ValueType" &&
                     @namespace == "System" &&
                     typeDefinition.DeclaringType == null)
                 {
                     if (!ExtendsTarget(typeDefinition, "System", "Object"))
+                        /* *
+                         * System.ValueType must have an extends value of System.Object
+                         * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0210, hostAssembly, typeDefinition);
                 }
                 /* *
@@ -221,6 +309,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                  * Warning CliMetadata0204
                  * */
                 if (typeDefinition.NamespaceIndex != 0 && typeDefinition.Namespace == string.Empty)
+                    /* *
+                     * If non-null, Namespace shall index a non-empty string in the
+                     * String Heap.
+                     * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0206, hostAssembly, typeDefinition);
                 /* *
                  * ToDo: Add code here to check the namespace identifier against CLS rules.

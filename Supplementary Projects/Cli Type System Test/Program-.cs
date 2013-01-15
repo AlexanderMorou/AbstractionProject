@@ -33,17 +33,149 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Compilers;
+using System.Text.RegularExpressions;
 
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 {
     internal class Program
     {
+
+        private static Regex docCommentWrapper = new Regex(@"(?<CurrentSpace>(?:[ \t])+)");
+        private enum WarnError
+        {
+            Error,
+            Warning
+        }
         static void Main()
         {
-            IntermediateTestMain();
+            var waEs = typeof(CliWarningsAndErrors);
+            var fields = (from field in waEs.GetFields(BindingFlags.Static | BindingFlags.Public)
+                          let value = field.GetValue(null)
+                          orderby field.Name
+                          select new { ErrorType = field.FieldType == typeof(ICompilerReferenceError) ? WarnError.Error : WarnError.Warning, Field = field, Value = value }).ToArray();
+            StringBuilder builder = new StringBuilder();
+            CliMetadataTableKinds? currentTable = null;
+            foreach (var field in fields)
+            {
+                var wrappedBuilder = new StringBuilder();
+                CliMetadataTableKinds tableIndex = (CliMetadataTableKinds)(1UL << int.Parse(field.Field.Name.Substring(11, 2), NumberStyles.HexNumber));
+                if (currentTable != null && currentTable.Value != tableIndex)
+                    builder.AppendLine();
+                currentTable = tableIndex;
+                switch (field.ErrorType)
+                {
+                    case WarnError.Error:
+                        var error = field.Value as ICompilerReferenceError;
+                        if (error == null)
+                            continue;
+                        {
+                            builder.AppendLine("        /// <summary>");
+                            wrappedBuilder.AppendFormat("Provides a reference error for a ECMA-335 metadata model error which occurs within the <see cref=\"CliMetadataTableKinds.{0}\"/> table: {1}", tableIndex, error.MessageBase);
+                            var set = BreakdownWrap(wrappedBuilder.ToString()).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var wrappedLine in set)
+                            {
+                                builder.AppendFormat("        /// {0}", wrappedLine);
+                                builder.AppendLine();
+                            }
+                            builder.AppendLine("        /// </summary>");
+                            builder.Append("        public static readonly ICompilerReferenceError ");
+                            builder.Append(field.Field.Name);
+                            builder.AppendFormat(" = new CompilerReferenceError({0}, 0x{1:x})", EscapeString(error.MessageBase, 0), error.MessageIdentifier);
+                        }
+                        break;
+                    case WarnError.Warning:
+                        var warning = field.Value as ICliReferenceWarning;
+                        if (warning == null)
+                            continue;
+                        {
+                            builder.AppendLine("        /// <summary>");
+                            wrappedBuilder.AppendFormat("Provides a reference warning for a ECMA-335 metadata model warning which occurs within the <see cref=\"CliMetadataTableKinds.{0}\"/> table: {1}", tableIndex, warning.MessageBase);
+                            var set = BreakdownWrap(wrappedBuilder.ToString()).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                            foreach (var wrappedLine in set)
+                            {
+                                builder.AppendFormat("        /// {0}", wrappedLine);
+                                builder.AppendLine();
+                            }
+                            builder.AppendLine("        /// </summary>");
+                            builder.Append("        public static readonly ICliReferenceWarning ");
+                            builder.Append(field.Field.Name);
+                            builder.AppendFormat(" = new CliReferenceWarning({0}, CliWarningLevel.{1}, 0x{2:x})", EscapeString(warning.MessageBase, 0), warning.WarningLevel, warning.MessageIdentifier);
+                        }
+                        break;
+                }
+                builder.AppendLine(";");
+            }
+            //IntermediateTestMain();
             //Test();
             //Console.ReadKey(true);
             Console.ReadKey(true);
+        }
+        public static string EscapeString(string value, int indentLevel)
+        {
+            StringBuilder sb = new StringBuilder((int)((float)(value.Length + 8) * 1.1));
+            sb.Append(@"""");
+            for (int i = 0; i < value.Length; i++)
+            {
+                char c = value[i];
+                //bool b = (i == (value.Length - 1));
+                switch (c)
+                {
+                    case '"':
+                        sb.Append(@"\""");
+                        break;
+                    case '\\':
+                        sb.Append(@"\\");
+                        break;
+                    case '\r':
+                        sb.Append(@"\r");
+                        break;
+                    case '\n':
+                        sb.Append(@"\n");
+                        break;
+                    case '\0':
+                        sb.Append(@"\0");
+                        break;
+                    case '\u2028':
+                        sb.Append(@"\u2028");
+                        break;
+                    case '\u2029':
+                        sb.Append(@"\u2029");
+                        break;
+                    default:
+                        sb.Append(c);
+                        break;
+                }
+            }
+            sb.Append(@"""");
+            return sb.ToString();
+        }
+
+        private static string BreakdownWrap(string target)
+        {
+            StringBuilder result = new StringBuilder();
+            int lastStartIndex = 0;
+            int lastWrapIndex = 0;
+            if (target.Contains("\r\n"))
+                return target;
+            else
+            {
+                foreach (var match in docCommentWrapper.MatchSet(target))
+                {
+                    result.Append(target.Substring(lastStartIndex, match.Index - lastStartIndex));
+                    var diff = match.Index - lastWrapIndex;
+                    if (diff > 65)
+                    {
+                        result.AppendLine();
+                        lastWrapIndex = match.Index + match.Length;
+                    }
+                    else
+                        result.Append(match.Groups["CurrentSpace"].Value);
+                    lastStartIndex = match.Index + match.Length;
+                }
+            }
+
+            result.Append(target.Substring(lastStartIndex));
+            return result.ToString();
         }
 
         private static void IntermediateTestMain()
