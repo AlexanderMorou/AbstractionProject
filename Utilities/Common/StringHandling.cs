@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -274,5 +275,22 @@ namespace AllenCopeland.Abstraction
             return result;
         }
 
+        private static IEnumerable<Match> AsEnumerable(this Match target)
+        {
+            while (target != null && target.Success)
+            {
+                yield return target;
+                target = target.NextMatch();
+            }
+        }
+
+        public static IEnumerable<Match> MatchSet(this Regex target, string text)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (text == null)
+                throw new ArgumentNullException("text");
+            return target.Match(text).AsEnumerable();
+        }
     }
 }
