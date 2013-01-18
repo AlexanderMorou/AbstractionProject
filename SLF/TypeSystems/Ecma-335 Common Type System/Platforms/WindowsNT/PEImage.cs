@@ -140,15 +140,26 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 
         private void DisposeReader()
         {
-            foreach (var triple in new[] { this.sync1, this.sync2, this.sync3, this.sync4, this.sync5 })
-            {
-                if (triple == null)
-                    continue;
-                triple.Item2.Close();
-                triple.Item2.Dispose();
-                triple.Item3.Close();
-                triple.Item3.Dispose();
-            }
+            this.sync1.Item2.Close();
+            this.sync1.Item2.Dispose();
+            this.sync1.Item3.Close();
+            this.sync1.Item3.Dispose();
+            this.sync2.Item2.Close();
+            this.sync2.Item2.Dispose();
+            this.sync2.Item3.Close();
+            this.sync2.Item3.Dispose();
+            this.sync3.Item2.Close();
+            this.sync3.Item2.Dispose();
+            this.sync3.Item3.Close();
+            this.sync3.Item3.Dispose();
+            this.sync4.Item2.Close();
+            this.sync4.Item2.Dispose();
+            this.sync4.Item3.Close();
+            this.sync4.Item3.Dispose();
+            this.sync5.Item2.Close();
+            this.sync5.Item2.Dispose();
+            this.sync5.Item3.Close();
+            this.sync5.Item3.Dispose();
         }
 
         public object SyncObject { get { return this.syncObject; } }

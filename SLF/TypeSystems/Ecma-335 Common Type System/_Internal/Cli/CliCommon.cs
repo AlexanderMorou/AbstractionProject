@@ -535,7 +535,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                    typeIdentity.Name == "Object" &&
                  ((typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed) &&
                  ((typeIdentity.TypeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface) &&
-                   typeIdentity.ExtendsIndex == 0;
+                  (typeIdentity.ExtendsIndex == 0 &&
+                   typeIdentity.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition) &&
+                   typeIdentity.DeclaringType == null;
             if (result)
                 manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
             return result;

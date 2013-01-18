@@ -15,14 +15,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
     internal static class CliMetadataValidator
     {
-        public static ICompilerErrorCollection ValidateMetadata(IAssembly hostAssembly, ICliMetadataRoot metadataRoot)
+        internal static ICompilerErrorCollection ValidateMetadata(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, _ICliManager identityManager)
         {
             CompilerErrorCollection resultErrorCollection = new CompilerErrorCollection();
             Parallel.ForEach(metadataRoot.TableStream.Values, table => table.Read());
             ValidateAssemblyTable(hostAssembly, metadataRoot, resultErrorCollection);
             ValidateModuleTable(hostAssembly, metadataRoot, resultErrorCollection);
             ValidateTypeReferenceTable(hostAssembly, metadataRoot, resultErrorCollection);
-            ValidateTypeDefinitionTable(hostAssembly, metadataRoot, resultErrorCollection);
+            ValidateTypeDefinitionTable(hostAssembly, metadataRoot, resultErrorCollection, identityManager);
             return resultErrorCollection;
         }
 
@@ -215,10 +215,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             }
         }
 
-        private static void ValidateTypeDefinitionTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection)
+        private static void ValidateTypeDefinitionTable(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, CompilerErrorCollection resultErrorCollection, _ICliManager identityManager)
         {
             var typeDefTable = metadataRoot.TableStream.TypeDefinitionTable;
-            foreach (var typeDefinition in typeDefTable)
+            if (typeDefTable == null)
+                return;
+            int maxTypeDef = typeDefTable.Count;
+            int maxTypeRef = metadataRoot.TableStream.TypeRefTable == null ? 0 : metadataRoot.TableStream.TypeRefTable.Count;
+            int maxTypeSpec = metadataRoot.TableStream.TypeSpecificationTable == null ? 0 : metadataRoot.TableStream.TypeSpecificationTable.Count;
+            Parallel.ForEach(typeDefTable.ToArray(), typeDefinition =>
             {
                 var typeAttributes = typeDefinition.TypeAttributes;
                 if (((int)(typeAttributes ^ (typeAttributes & (TypeAttributes)0xD77DBF))) != 0)
@@ -274,12 +279,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0203, hostAssembly, typeDefinition);
                 string name = typeDefinition.Name,
                     @namespace = typeDefinition.Namespace;
-
-                if (typeDefinition.Extends == null && (typeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface)
+                int maxIndex = 0;
+                switch (typeDefinition.ExtendsSource)
                 {
-                    if (typeDefinition.Index > 1 &&
-                        !(name == "Object" &&
-                          @namespace == "System"))
+                    case CliMetadataTypeDefOrRefTag.TypeDefinition:
+                        maxIndex = maxTypeDef;
+                        break;
+                    case CliMetadataTypeDefOrRefTag.TypeReference:
+                        maxIndex = maxTypeRef;
+                        break;
+                    case CliMetadataTypeDefOrRefTag.TypeSpecification:
+                        maxIndex = maxTypeSpec;
+                        break;
+                }
+                /* *
+                 * If the index is beyond the allowed ranges, don't even check the
+                 * 'Extends' part as it'll yield an exception.
+                 * *
+                 * The exception being if there's no actual reference in the first place, 
+                 * when the source is a type def and the index is zero.
+                 * */
+                if (!(typeDefinition.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition && typeDefinition.ExtendsIndex == 0) &&
+                    (1 > typeDefinition.ExtendsIndex || typeDefinition.ExtendsIndex > maxIndex))
+                    resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0211a, hostAssembly, typeDefinition);
+                else if (typeDefinition.Extends == null && (typeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface)
+                {
+                    if (!(CliCommon.IsSpecialModule(typeDefinition) ||
+                          CliCommon.IsBaseObject(identityManager, typeDefinition)))
                         /* *
                          * Every class (with exception to System.Object and the special class
                          * <Module>) shall extend one, and only one, other Class - so Extends
@@ -298,7 +324,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                     @namespace == "System" &&
                     typeDefinition.DeclaringType == null)
                 {
-                    if (!ExtendsTarget(typeDefinition, "System", "Object"))
+                    if (!CliCommon.IsBaseObject(identityManager, typeDefinition.Extends))
                         /* *
                          * System.ValueType must have an extends value of System.Object
                          * */
@@ -319,7 +345,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                  * Warning CliMetadata0207
                  * */
 
-            }
+            });
         }
 
         private static bool ExtendsTarget(ICliMetadataTypeDefinitionTableRow typeDefinition, string nameSpace, string name)

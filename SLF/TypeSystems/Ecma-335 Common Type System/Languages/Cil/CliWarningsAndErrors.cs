@@ -175,7 +175,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// class <Module>) shall extend one, and only one, other Class - so Extends
         /// is for a Class shall be non-null.
         /// </summary>
-        public static readonly ICompilerReferenceError CliMetadata0208 = new CompilerReferenceError("Every class (with exception to System.Object and the special class <Module>) shall extend one, and only one, other Class - so Extends is for a Class shall be non-null.", 0x1000208);
+        public static readonly ICompilerReferenceError CliMetadata0208 = new CompilerReferenceError("Every class (with exception to System.Object and the special class &lt;Module&gt;) shall extend one, and only one, other Class - so Extends is for a Class shall be non-null.", 0x1000208);
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeDefinition"/>
@@ -195,7 +195,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// for any Class, extends shall be a valid row in the TypeDef, TypeRef,
         /// or TypeSpec table, where valid means 1 <= row <= rowCount.
         /// </summary>
-        public static readonly ICompilerReferenceError CliMetadata0211a = new CompilerReferenceError("With exception of System.Object and the special class <Module>, for any Class, extends shall be a valid row in the TypeDef, TypeRef, or TypeSpec table, where valid means 1 <= row <= rowCount.", 0x1000211a);
+        public static readonly ICompilerReferenceError CliMetadata0211a = new CompilerReferenceError("With exception of System.Object and the special class &lt;Module&gt;, for any Class, extends shall be a valid row in the TypeDef, TypeRef, or TypeSpec table, where valid means 1 &lt;= row &lt;= rowCount.", 0x1000211a);
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeDefinition"/>
@@ -240,7 +240,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// table: If FieldList is non-null, it shall index a valid row in the
         /// Field table, where valid means 1 <= row <= rowCount + 1
         /// </summary>
-        public static readonly ICompilerReferenceError CliMetadata0217 = new CompilerReferenceError("If FieldList is non-null, it shall index a valid row in the Field table, where valid means 1 <= row <= rowCount + 1", 0x1000217);
+        public static readonly ICompilerReferenceError CliMetadata0217 = new CompilerReferenceError("If FieldList is non-null, it shall index a valid row in the Field table, where valid means 1 &lt;= row &lt;= rowCount + 1", 0x1000217);
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeDefinition"/>
@@ -254,7 +254,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// table: If MethodList is non-null, it shall index a valid row in the
         /// MethodDef table, where valid means 1 <= row <= rowCount + 1
         /// </summary>
-        public static readonly ICompilerReferenceError CliMetadata0221 = new CompilerReferenceError("If MethodList is non-null, it shall index a valid row in the MethodDef table, where valid means 1 <= row <= rowCount + 1", 0x1000221);
+        public static readonly ICompilerReferenceError CliMetadata0221 = new CompilerReferenceError("If MethodList is non-null, it shall index a valid row in the MethodDef table, where valid means 1 &lt;= row &lt;= rowCount + 1", 0x1000221);
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeDefinition"/>
