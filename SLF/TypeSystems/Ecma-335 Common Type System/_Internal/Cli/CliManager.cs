@@ -795,76 +795,82 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var peAndMetadata = CliCommon.LoadAssemblyMetadata(filename);
                     var peImage = peAndMetadata.Item1;
                     var metadataRoot = peAndMetadata.Item2;
-                    using (peImage)
+                    var imageKind = peImage.ExtendedHeader.ImageKind;
+                    bool supportedOnPlatform = false;
+                    if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.x64Platform)
                     {
-                        var imageKind = peImage.ExtendedHeader.ImageKind;
-                        bool supportedOnPlatform = false;
-                        if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.x64Platform)
+                        /* *
+                         * x64 is backwards compatible with x86, therefore
+                         * if it doesn't require a 32 bit mode, it should be valid, 
+                         * since it targets the Any runtimeEnvironment, but the PE Header
+                         * is PE32.
+                         * */
+                        CliHeader header;
+                        if (imageKind == PEImageKind.x86Image &&
+                            ((((header = metadataRoot.Header).Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
+                              ((header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)))
+                            supportedOnPlatform = true;
+                        /* *
+                         * In this case regardless of whether they have IL only 
+                         * */
+                        else if (imageKind == PEImageKind.x64Image)
+                            supportedOnPlatform = true;
+                    }
+                    else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.x86Platform)
+                    {
+                        /* *
+                         * ... however, the reverse is not true.
+                         * */
+                        if (imageKind == PEImageKind.x64Image)
+                            supportedOnPlatform = false;
+                        else if (imageKind == PEImageKind.x86Image)
+                            supportedOnPlatform = true;
+                    }
+                    else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.AnyPlatform)
+                    {
+                        CliHeader header = metadataRoot.Header;
+                        if (imageKind == PEImageKind.x64Image &&
+                            ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly))
+                            supportedOnPlatform = true;
+                        else if (imageKind == PEImageKind.x86Image &&
+                            ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
+                            (header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)
+                            supportedOnPlatform = true;
+                    }
+                    if (supportedOnPlatform)
+                    {
+                        if (metadataRoot.TableStream.ContainsKey(CliMetadataTableKinds.Assembly))
                         {
-                            /* *
-                             * x64 is backwards compatible with x86, therefore
-                             * if it doesn't require a 32 bit mode, it should be valid, 
-                             * since it targets the Any runtimeEnvironment, but the PE Header
-                             * is PE32.
-                             * */
-                            CliHeader header;
-                            if (imageKind == PEImageKind.x86Image &&
-                                ((((header = metadataRoot.Header).Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
-                                  ((header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)))
-                                supportedOnPlatform = true;
-                            /* *
-                             * In this case regardless of whether they have IL only 
-                             * */
-                            else if (imageKind == PEImageKind.x64Image)
-                                supportedOnPlatform = true;
-                        }
-                        else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.x86Platform)
-                        {
-                            /* *
-                             * ... however, the reverse is not true.
-                             * */
-                            if (imageKind == PEImageKind.x64Image)
-                                supportedOnPlatform = false;
-                            else if (imageKind == PEImageKind.x86Image)
-                                supportedOnPlatform = true;
-                        }
-                        else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.AnyPlatform)
-                        {
-                            CliHeader header = metadataRoot.Header;
-                            if (imageKind == PEImageKind.x64Image &&
-                                ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly))
-                                supportedOnPlatform = true;
-                            else if (imageKind == PEImageKind.x86Image &&
-                                ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
-                                (header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)
-                                supportedOnPlatform = true;
-                        }
-                        if (supportedOnPlatform)
-                        {
-                            if (metadataRoot.TableStream.ContainsKey(CliMetadataTableKinds.Assembly))
+                            var pubKeyId = CliCommon.GetAssemblyUniqueIdentifier(metadataRoot.TableStream.AssemblyTable[1]);
+                            var firstAssemblyRow = pubKeyId.Item3;
+                            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = pubKeyId.Item2;
+                            if (assemblyUniqueIdentifier == null)
+                                this.ThrowNoMetadataFound();
+                            IStrongNamePublicKeyInfo publicKeyInfo = pubKeyId.Item1;
+                            CliAssembly result;
+                            object syncLock;
+                            lock (assemblyIdSyncLock)
                             {
-                                var pubKeyId = CliCommon.GetAssemblyUniqueIdentifier(metadataRoot.TableStream.AssemblyTable[1]);
-                                var firstAssemblyRow = pubKeyId.Item3;
-                                IAssemblyUniqueIdentifier assemblyUniqueIdentifier = pubKeyId.Item2;
-                                if (assemblyUniqueIdentifier == null)
-                                    this.ThrowNoMetadataFound();
-                                IStrongNamePublicKeyInfo publicKeyInfo = pubKeyId.Item1;
-                                CliAssembly result;
+                                if (!assemblyIdSyncs.TryGetValue(assemblyUniqueIdentifier, out syncLock))
+                                    assemblyIdSyncs.Add(assemblyUniqueIdentifier, syncLock = new { LockFor = assemblyUniqueIdentifier.ToString() });
+                            }
+                            lock (syncLock)
+                            {
                                 if (this.loadedAssemblies.ContainsKey(assemblyUniqueIdentifier))
                                 {
                                     peImage.Dispose();
                                     metadataRoot.Dispose();
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
                                 }
-                                loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
-                                //result.InitializeCommon();
-                                this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
-                                return result;
                             }
+                            loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
+                            //result.InitializeCommon();
+                            this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
+                            return result;
                         }
-                        else
-                            throw new BadImageFormatException(string.Format("Expecting {0} image, but got {1}.", this.runtimeEnvironment.Platform, imageKind));
                     }
+                    else
+                        throw new BadImageFormatException(string.Format("Expecting {0} image, but got {1}.", this.runtimeEnvironment.Platform, imageKind));
                 }
                 else
                     throw new FileNotFoundException("AssemblyIdentity not found.", filename);
