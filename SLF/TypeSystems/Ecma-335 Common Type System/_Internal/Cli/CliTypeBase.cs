@@ -34,6 +34,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.assembly.IdentityManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
         }
 
+        internal CliManager IdentityManager { get { return (CliManager)base.IdentityManager; } }
+
         protected internal override bool CanCacheImplementsList
         {
             get { return true; }
@@ -79,7 +81,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IType BaseTypeImpl
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                switch (this.metadataEntry.ExtendsSource)
+                {
+                    case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeDefinition:
+                    case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeReference:
+                        return this.IdentityManager.ObtainTypeReference(this.metadataEntry.Extends);
+                    case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeSpecification:
+                        return this.IdentityManager.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow)this.metadataEntry.Extends, this, null);
+                }
+                throw new InvalidOperationException();
+            }
         }
 
         protected override TIdentifier OnGetUniqueIdentifier()

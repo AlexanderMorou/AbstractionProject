@@ -43,7 +43,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-
         #region IMetadatumDefinitionParameterValue Members
 
         object IMetadatumDefinitionParameterValue.Value

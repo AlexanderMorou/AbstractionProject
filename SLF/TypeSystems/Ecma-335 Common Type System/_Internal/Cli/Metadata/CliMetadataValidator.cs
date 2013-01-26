@@ -18,11 +18,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         internal static ICompilerErrorCollection ValidateMetadata(IAssembly hostAssembly, ICliMetadataRoot metadataRoot, _ICliManager identityManager)
         {
             CompilerErrorCollection resultErrorCollection = new CompilerErrorCollection();
-            Parallel.ForEach(metadataRoot.TableStream.Values, table => table.Read());
-            ValidateAssemblyTable(hostAssembly, metadataRoot, resultErrorCollection);
+            /* *
+             * Read in the tables so each table isn't read in a disjointed manner.
+             * *
+             * Until the validation reaches full scope, this will actually slow
+             * things down; determination of speed increase will be when full
+             * metadata coverage is reached.
+             * */
+            //Parallel.ForEach(metadataRoot.TableStream.Values, table => table.Read());
             ValidateModuleTable(hostAssembly, metadataRoot, resultErrorCollection);
             ValidateTypeReferenceTable(hostAssembly, metadataRoot, resultErrorCollection);
             ValidateTypeDefinitionTable(hostAssembly, metadataRoot, resultErrorCollection, identityManager);
+            ValidateAssemblyTable(hostAssembly, metadataRoot, resultErrorCollection);
             return resultErrorCollection;
         }
 
@@ -200,7 +207,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                         default:
                             break;
                     }
-                    if (typeRef.NameIndex == 0)
+                    if (typeRef.NameIndex == 0 ||
+                        typeRef.Name == string.Empty)
                         /* *
                          * Name shall index a non-empty string within the StringHeap.
                          * */
@@ -315,7 +323,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 }
                 else if (typeDefinition.Extends != null &&
                     name == "Object" &&
-                    @namespace == "System")
+                    @namespace == "System" &&
+                    typeDefinition.DeclaringType == null)
                     /* *
                      * System.Object must have an extends value of null.
                      * */
@@ -329,6 +338,30 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                          * System.ValueType must have an extends value of System.Object
                          * */
                         resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0210, hostAssembly, typeDefinition);
+                }
+                else if (typeDefinition.Extends != null) 
+                {
+                    var extendsDef = identityManager.ResolveScope(typeDefinition.Extends);
+                    if (extendsDef != null)
+                    {
+                        var events = extendsDef.Events;
+                        if (CliCommon.IsValueType(identityManager, extendsDef) || ((extendsDef.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface))
+                            resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0211b, hostAssembly, typeDefinition, extendsDef);
+                        if ((extendsDef.TypeAttributes & TypeAttributes.Sealed) == TypeAttributes.Sealed)
+                            resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0211c, hostAssembly, typeDefinition, extendsDef);
+                        List<ICliMetadataTypeDefinitionTableRow> extendsTable = new List<ICliMetadataTypeDefinitionTableRow>();
+                        ICliMetadataTypeDefinitionTableRow current = typeDefinition;
+                        while (current != null)
+                        {
+                            if (extendsTable.Contains(current))
+                            {
+                                resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0212, hostAssembly, typeDefinition);
+                                break;
+                            }
+                            extendsTable.Add(current);
+                            current = identityManager.ResolveScope(current.Extends);
+                        }
+                    }
                 }
                 /* *
                  * ToDo: Add code here to check the name identifier against CLS rules.
@@ -377,10 +410,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         private static bool CheckForDeclSecurityRow(ICliMetadataRoot metadataRoot, ICliMetadataTypeDefinitionTableRow typeDefinition)
         {
-            bool hasSecurityRow = false;
             var declSecurityTable = metadataRoot.TableStream.DeclSecurityTable;
             if (declSecurityTable == null)
-                return hasSecurityRow;
+                return false;
+            bool hasSecurityRow = false;
+
             foreach (var declSecurity in declSecurityTable)
                 if (declSecurity.ParentSource == CliMetadataHasDeclSecurityTag.TypeDefinition && declSecurity.ParentIndex == typeDefinition.Index)
                     hasSecurityRow = true;

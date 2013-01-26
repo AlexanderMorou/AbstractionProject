@@ -12,12 +12,25 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
+    /// <summary>
+    /// Provides a basic implementation of a series of metadatum instances defined on
+    /// an entity with metadata.
+    /// </summary>
     public class MetadataDefinition :
         ControlledCollection<IMetadatumDefinition>,
         IMetadataDefinition
     {
-
+        /// <summary>
+        /// Data member for <see cref="Parent"/>.
+        /// </summary>
         private IMetadataDefinitionCollection parent;
+        /// <summary>
+        /// Creates a new <see cref="MetadataDefinition"/> with the
+        /// <paramref name="IMetadataDefinitionCollection"/> which contains the sets
+        /// of metadata.
+        /// </summary>
+        /// <param name="parent">The <see cref="IMetadataDefinitionCollection"/>
+        /// which contains the <see cref="MetadataDefinition"/>.</param>
         public MetadataDefinition(IMetadataDefinitionCollection parent)
         {
             this.parent = parent;
@@ -25,9 +38,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IMetadataDefinition Members
 
+        /// <summary>
+        /// Returns the <see cref="IMetadataDefinitionCollection"/>
+        /// which contains the <see cref="MetadataDefinition"/>.
+        /// </summary>
         public IMetadataDefinitionCollection Parent
         {
-            get { return this.parent; ; }
+            get { return this.parent; }
         }
 
         /// <summary>
@@ -39,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <paramref name="values"/> provided.</returns>
         /// <exception cref="System.ArgumentException">thrown when the <paramref name="values"/> points to a compiled attribute type
         /// which has no public constructor that matches the values given, or a property referenced in the named value series did not exist.</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.MetadatumType"/> is null.</exception>
         public IMetadatumDefinition Add(MetadatumDefinitionParameterValueCollection values)
         {
             MetadatumDefinition definition = new MetadatumDefinition(this.parent.Parent, values, this.parent.IdentityManager);
@@ -98,6 +115,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         #endregion
+
+        /// <summary>
+        /// Provides a <see cref="String"/> instance which represents
+        /// the <see cref="MetadataDefinition"/>.
+        /// </summary>
+        /// <returns>A <see cref="String"/> which represents the
+        /// <see cref="MetadataDefinition"/>.</returns>
         public override string ToString()
         {
 

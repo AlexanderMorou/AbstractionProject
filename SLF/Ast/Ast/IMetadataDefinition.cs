@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <paramref name="values"/> provided.</returns>
         /// <exception cref="System.ArgumentException">thrown when the <paramref name="values"/> points to a compiled attribute type
         /// which has no public constructor that matches the values given, or a property referenced in the named value series did not exist.</exception>
-        /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
+        /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.MetadatumType"/> is null.</exception>
         IMetadatumDefinition Add(MetadatumDefinitionParameterValueCollection values);
         /// <summary>
         /// Returns whether the <see cref="IMetadataDefinition"/> contains the

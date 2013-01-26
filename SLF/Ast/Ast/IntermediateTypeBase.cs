@@ -11,6 +11,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -382,7 +383,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IMetadataCollection InitializeCustomAttributes()
         {
-            return new IntermediateCustomAttributesBaseCollection(this);
+            return new IntermediateTypeMetadataCollection(this);
         }
 
 
@@ -520,6 +521,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         //    else
         //        return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
         //}
+
+        /// <summary>
+        /// Occurs when the base type of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
+        /// has changed.
+        /// </summary>
+        public event EventHandler<EventArgs<IType, IType>> BaseTypeChanged;
 
     }
 }

@@ -2,6 +2,7 @@
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
 using System.Collections.Generic;
@@ -70,5 +71,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return base.ObtainAssemblyReference(assemblyIdentity);
         }
 
+        public override ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
+        {
+            var assembly = this.GetRelativeAssembly(scope.MetadataRoot);
+            if (assembly is IIntermediateAssembly)
+                throw new NotImplementedException();
+            else
+                return base.ResolveScope(scope);
+        }
     }
 }

@@ -11,7 +11,6 @@ using AllenCopeland.Abstraction.Slf.Abstract;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-
 namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 {
     /// <summary>

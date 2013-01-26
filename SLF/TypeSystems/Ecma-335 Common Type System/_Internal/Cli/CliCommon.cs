@@ -431,18 +431,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (typeIdentity == null)
                 return false;
             BaseKindCacheType cachedResult;
-            if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.RefBaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.ObjectBase)
+                if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.ObjectBase)
+                        return true;
+                    else
+                        return false;
+                }
+                var resolved = ResolveScope(typeIdentity, manager, IsBaseObject);
+                if (resolved != null)
+                {
+                    manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
                     return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, manager, IsBaseObject);
-            if (resolved != null)
-            {
-                manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
-                return true;
+                }
             }
             return false;
         }
@@ -450,18 +453,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static bool IsBaseValueType(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
-            if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.RefBaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.ValueTypeBase)
+                if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.ValueTypeBase)
+                        return true;
+                    else
+                        return false;
+                }
+                var resolved = ResolveScope(typeIdentity, manager, IsBaseValueType);
+                if (resolved != null)
+                {
+                    manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ValueTypeBase);
                     return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, manager, IsBaseValueType);
-            if (resolved != null)
-            {
-                manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ValueTypeBase);
-                return true;
+                }
             }
             return false;
         }
@@ -469,18 +475,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static bool IsBaseEnumType(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
-            if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.RefBaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.EnumBase)
+                if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.EnumBase)
+                        return true;
+                    else
+                        return false;
+                }
+                var resolved = ResolveScope(typeIdentity, manager, IsBaseEnumType);
+                if (resolved != null)
+                {
+                    manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.EnumBase);
                     return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, manager, IsBaseEnumType);
-            if (resolved != null)
-            {
-                manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.EnumBase);
-                return true;
+                }
             }
             return false;
         }
@@ -488,18 +497,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static bool IsBaseDelegateType(_ICliManager manager, ICliMetadataTypeDefOrRefRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
-            if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.RefBaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.DelegateBase)
+                if (manager.RefBaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.DelegateBase)
+                        return true;
+                    else
+                        return false;
+                }
+                var resolved = ResolveScope(typeIdentity, manager, IsBaseDelegateType);
+                if (resolved != null)
+                {
+                    manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
                     return true;
-                else
-                    return false;
-            }
-            var resolved = ResolveScope(typeIdentity, manager, IsBaseDelegateType);
-            if (resolved != null)
-            {
-                manager.RefBaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
-                return true;
+                }
             }
             return false;
         }
@@ -507,40 +519,46 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static bool IsBaseEnumType(_ICliManager manager, ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
-            if (manager.BaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.BaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.EnumBase)
-                    return true;
-                return false;
+                if (manager.BaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.EnumBase)
+                        return true;
+                    return false;
+                }
+                bool result = typeIdentity.Namespace == "System" &&
+                    typeIdentity.Name == "Enum" &&
+                    ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) &&
+                    IsBaseValueType(manager, typeIdentity.Extends);
+                if (result)
+                    manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.EnumBase);
+                return result;
             }
-            bool result = typeIdentity.Namespace == "System" &&
-                typeIdentity.Name == "Enum" &&
-                ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) &&
-                IsBaseValueType(manager, typeIdentity.Extends);
-            if (result)
-                manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.EnumBase);
-            return result;
         }
 
         private static bool IsBaseObject(_ICliManager manager, ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
-            if (manager.BaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.BaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.ObjectBase)
-                    return true;
-                return false;
+                if (manager.BaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.ObjectBase)
+                        return true;
+                    return false;
+                }
+                bool result = typeIdentity.Namespace == "System" &&
+                       typeIdentity.Name == "Object" &&
+                     ((typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed) &&
+                     ((typeIdentity.TypeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface) &&
+                      (typeIdentity.ExtendsIndex == 0 &&
+                       typeIdentity.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition) &&
+                       typeIdentity.DeclaringType == null;
+                if (result)
+                    manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
+                return result;
             }
-            bool result = typeIdentity.Namespace == "System" &&
-                   typeIdentity.Name == "Object" &&
-                 ((typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed) &&
-                 ((typeIdentity.TypeAttributes & TypeAttributes.Interface) != TypeAttributes.Interface) &&
-                  (typeIdentity.ExtendsIndex == 0 &&
-                   typeIdentity.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition) &&
-                   typeIdentity.DeclaringType == null;
-            if (result)
-                manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.ObjectBase);
-            return result;
         }
 
         internal static bool IsValueType(_ICliManager manager, ICliMetadataTypeDefinitionTableRow typeIdentity)
@@ -588,18 +606,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static bool IsBaseDelegateType(_ICliManager manager, ICliMetadataTypeDefinitionTableRow typeIdentity)
         {
             BaseKindCacheType cachedResult;
-            if (manager.BaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+            lock (manager.BaseTypeKinds)
             {
-                if (cachedResult == BaseKindCacheType.DelegateBase)
-                    return true;
-                return false;
+                if (manager.BaseTypeKinds.TryGetValue(typeIdentity, out cachedResult))
+                {
+                    if (cachedResult == BaseKindCacheType.DelegateBase)
+                        return true;
+                    return false;
+                }
+                string typeName;
+                bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeIdentity.Namespace == "System" && ((typeName = typeIdentity.Name) == "Delegate" || typeName == "MulticastDelegate") &&
+                       IsBaseObject(manager, typeIdentity.Extends);
+                if (result)
+                    manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
+                return result;
             }
-            string typeName;
-            bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeIdentity.Namespace == "System" && ((typeName = typeIdentity.Name) == "Delegate" || typeName == "MulticastDelegate") &&
-                   IsBaseObject(manager, typeIdentity.Extends);
-            if (result)
-                manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
-            return result;
         }
 
         internal static bool IsSubclassOf(_ICliManager manager, ICliMetadataTypeDefinitionTableRow typeIdentity, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> baseDecision)

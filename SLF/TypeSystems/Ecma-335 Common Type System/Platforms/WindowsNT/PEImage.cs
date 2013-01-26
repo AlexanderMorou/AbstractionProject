@@ -12,6 +12,9 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 {
+    /// <summary>
+    /// Provides a basic implementation of a Portable Executable image.
+    /// </summary>
     public class PEImage :
         IDisposable
     {
@@ -76,8 +79,20 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             this.keepImageOpen = keepImageOpen;
         }
 
+        /// <summary>
+        /// Returns the <see cref="DOSHeader"/> which contains information about the 
+        /// antiquated Disk Operating System stub program that identifies the program
+        /// cannot operate outside of Windows.
+        /// </summary>
         public DOSHeader DOSHeader { get { return this.dosHeader; } }
+        /// <summary>
+        /// Returns the Common Object File Format header.
+        /// </summary>
         public CoffHeader CoffHeader { get { return this.coffHeader; } }
+        /// <summary>
+        /// Returns the <see cref="PEImageExtendedHeader"/> which denotes the extended 
+        /// information relative to WinNT based applications.
+        /// </summary>
         public PEImageExtendedHeader ExtendedHeader { get { return this.extendedHeader; } }
 
         public static PEImage LoadImage(string filename)

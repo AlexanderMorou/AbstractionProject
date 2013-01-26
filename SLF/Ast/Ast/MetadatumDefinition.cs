@@ -20,7 +20,7 @@ using System.Reflection;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     /// <summary>
-    /// Provides an implementation of a custom attribute definition for
+    /// Provides an implementation of a metadatum definition for
     /// <see cref="IMetadataEntity"/> instances.
     /// </summary>
     public sealed partial class MetadatumDefinition :
@@ -33,9 +33,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private IIntermediateMetadataEntity declarationPoint;
         private MetadatumDefinitionParameterCollection parameters;
         /// <summary>
-        /// Data member for <see cref="Type"/>
+        /// Data member for <see cref="Type"/>.
         /// </summary>
-        private IType metadatumType;
+        private IType type;
+        /// <summary>
+        /// The <see cref="ITypeIdentityManager"/> from which parameter
+        /// types are derived.
+        /// </summary>
         private ITypeIdentityManager manager;
 
         /// <summary>
@@ -49,23 +53,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which contains the information about the <see cref="MetadatumDefinition"/>.</param>
         /// <exception cref="System.ArgumentException">thrown when the <paramref name="data"/> points to a compiled attribute type
         /// which has no public constructor that matches the values given, or a property referenced in the named value series did not exist.-or-
-        /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> contains a type
+        /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.MetadatumType"/> contains a type
         /// which does not have properties, or is not an attribute.</exception>
         /// <exception cref="System.ArgumentNullException"><paramref name="declarationPoint"/> is null; -or-
-        /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.AttributeType"/> is null.</exception>
+        /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.MetadatumType"/> is null.</exception>
         /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
         public MetadatumDefinition(IIntermediateMetadataEntity declarationPoint, MetadatumDefinitionParameterValueCollection data, ITypeIdentityManager identityManager)
         {
-            if (data.AttributeType == null)
+            if (data == null)
+                throw new ArgumentNullException("data");
+            if (data.MetadatumType == null)
                 throw new ArgumentNullException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_ArgumentNull_CustomAttribute_ctor_data, "data"), "data");
-            if ((identityManager.MetadatumHandler.IsMetadatum(data.AttributeType) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
+            if ((identityManager.MetadatumHandler.IsMetadatum(data.MetadatumType) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
                 throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
             this.declarationPoint = declarationPoint;
-            this.metadatumType = data.AttributeType;
-            this.AddSeries(data);
             this.manager = identityManager;
+            this.type = data.MetadatumType;
+            this.AddSeries(data);
             //if (!this.VerifyAttributeType())
             //    throw new ArgumentException("data");
         }
@@ -124,11 +130,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return this.metadatumType;
+                return this.type;
             }
             set
             {
-                if (value == this.metadatumType)
+                if (value == this.type)
                     return;
                 if (value == null)
                     throw new ArgumentNullException("value");
@@ -136,17 +142,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     this.wrappedAttribute = null;
                 if ((manager.MetadatumHandler.IsMetadatum(value) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
                     throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
-                this.metadatumType = value;
+                this.type = value;
                 //if (!this.VerifyAttributeType())
                 //    throw new ArgumentException("value");
             }
         }
 
+        /// <summary>
+        /// Provides the <see cref="IIntermediateMetadataEntity"/> at which the
+        /// <see cref="MetadatumDefinition"/> is contained.
+        /// </summary>
         public IIntermediateMetadataEntity DeclarationPoint
         {
             get { return this.declarationPoint; }
         }
 
+        /// <summary>
+        /// Provides the parameter collection which denotes information about
+        /// the definition of the metadatum.
+        /// </summary>
         public IMetadataDefinitionParameterCollection Parameters
         {
             get
@@ -228,7 +242,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.parameters != null)
                 this.Parameters.Dispose();
             this.declarationPoint = null;
-            this.metadatumType = null;
+            this.type = null;
             this.wrappedAttribute = null;
         }
 
@@ -248,7 +262,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return string.Format("{0}({1})", this.Type.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard), string.Join(", ", this.Parameters));
         }
 
-
         IEnumerable<Tuple<IType, object>> IMetadatum.Parameters
         {
             get { 
@@ -262,7 +275,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         IEnumerable<Tuple<IType, string, object>> IMetadatum.NamedParameters
         {
-            get { throw new NotImplementedException(); }
+            get {
+                foreach (var parameter in this.parameters)
+                    if (parameter is IMetadatumDefinitionNamedParameter)
+                    {
+                        var nParameter = (IMetadatumDefinitionNamedParameter)parameter;
+                        yield return new Tuple<IType, string, object>(nParameter.ParameterType, nParameter.Name, nParameter.Value);
+                    }
+            }
         }
     }
 }
