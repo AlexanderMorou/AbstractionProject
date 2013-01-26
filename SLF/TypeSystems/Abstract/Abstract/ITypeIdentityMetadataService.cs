@@ -65,8 +65,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public TypeIsMetadata IsMetadatum { get; private set; }
         public bool Repeatable { get; private set; }
         public bool Inheritable { get; private set; }
-
-        
     }
     public enum TypeIsMetadata
     {

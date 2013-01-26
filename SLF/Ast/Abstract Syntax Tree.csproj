@@ -163,6 +163,7 @@
     </Compile>
     <Compile Include="_Internal\Ast\AstExtensions.cs" />
     <Compile Include="_Internal\Ast\IntermediateCliManager.cs" />
+    <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection+Enumerator.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
@@ -180,7 +181,7 @@
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedFromBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedJoinBodyBuilder.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
-    <Compile Include="_Internal\Ast\IntermediateCustomAttributesBaseCollection.cs" />
+    <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection.cs" />
     <Compile Include="_Internal\Ast\SymbolType.cs" />
     <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs">
       <DependentUpon>SymbolType.cs</DependentUpon>
@@ -296,7 +297,7 @@
     <Compile Include="Ast\CustomAttributeDefinition+ParameterValueCollection.cs">
       <DependentUpon>MetadatumDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ast\CustomAttributeDefinitionCollection.cs" />
+    <Compile Include="Ast\MetadataDefinition.cs" />
     <Compile Include="Ast\MetadataDefinitionCollection.cs" />
     <Compile Include="Ast\CustomAttributeDefinitionCollectionSeries+Wrapper.cs">
       <DependentUpon>MetadataDefinitionCollection.cs</DependentUpon>

@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -38,6 +39,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IIntermediateScopedDeclaration,
         IType
     {
+        /// <summary>
+        /// Occurs when the base type of the <see cref="IIntermediateType"/>
+        /// has changed.
+        /// </summary>
+        event EventHandler<EventArgs<IType, IType>> BaseTypeChanged;
         /// <summary>
         /// Returns the <see cref="IIntermediateType"/> in which the current 
         /// <see cref="IIntermediateType"/> is declared.

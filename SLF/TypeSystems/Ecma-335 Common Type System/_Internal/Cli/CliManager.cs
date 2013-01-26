@@ -858,6 +858,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             {
                                 if (this.loadedAssemblies.ContainsKey(assemblyUniqueIdentifier))
                                 {
+                                    this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
                                     peImage.Dispose();
                                     metadataRoot.Dispose();
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
@@ -1323,7 +1324,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         }
 
-        public ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
+        public virtual ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
         {
             return ResolveScope(scope, null, true);
         }

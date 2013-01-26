@@ -8,24 +8,25 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Utilities.Collections;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 {
     /* *
-     * Provides a base collection for custom attributes in relationship to an intermediate class
+     * Provides a base collection for a set of metadata in relationship to an intermediate 
      * type.
      * */
-    internal class IntermediateCustomAttributesBaseCollection :
+    internal partial class IntermediateTypeMetadataCollection :
         IControlledCollection<IMetadatum>,
         IMetadataCollection,
         IControlledCollection
     {
+
         /* *
          * No fancy trickery here, just brute force.
          * The parent is malleable and can change at any moment, its hierarchy is 
@@ -35,13 +36,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
          * and its attributes.
          * */
         private IIntermediateType parent;
+
         /// <summary>
-        /// Creates a new <see cref="IntermediateCustomAttributesBaseCollection"/>
+        /// Creates a new <see cref="IntermediateTypeMetadataCollection"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateType"/> which needs
         /// a merged series of custom attributes.</param>
-        public IntermediateCustomAttributesBaseCollection(IIntermediateType parent)
+        public IntermediateTypeMetadataCollection(IIntermediateType parent)
         {
             this.parent = parent;
         }
@@ -49,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         #region IMetadataCollection Members
         public bool Contains(IType metadatumType)
         {
-            return ((IEnumerable<IMetadatum>) (this)).Any(i => i.Type.IsAssignableFrom(metadatumType));
+            return ((IEnumerable<IMetadatum>)(this)).Any(i => i.Type.IsAssignableFrom(metadatumType));
         }
 
         public IMetadataEntity Parent
@@ -88,7 +90,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public IMetadatum this[int index]
         {
-            get {
+            get
+            {
                 int i = 0;
                 if (index < 0)
                     throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
@@ -114,14 +117,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region IEnumerable<IMetadatum> Members
 
-
         /* *
          * To note: this doesn't consider types that are neither
-         * compiled nor a part of the intermediate system built.
+         * compiled nor a part of the intermediate type system.
          * */
         public IEnumerator<IMetadatum> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return new Enumerator(this.parent).GetEnumerator();
             //HashList<ICompiledType> noMultipleEncounters = new HashList<ICompiledType>();
             //HashList<IIntermediateType> noMultipleEncountersInter = new HashList<IIntermediateType>();
             //ICompiledClassType attrUType = (ICompiledClassType)typeof(AttributeUsageAttribute).GetTypeReference();
@@ -185,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         void IControlledCollection.CopyTo(Array array, int arrayIndex)
         {
-            if (array == null) 
+            if (array == null)
                 throw new ArgumentNullException("array");
 
             IMetadatum[] insts = this.ToArray();
@@ -193,12 +195,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 throw new ArgumentOutOfRangeException("arrayIndex");
             for (int i = 0; i < insts.Length; i++)
                 array.SetValue(insts[i], i + arrayIndex);
-            
+
         }
 
         object IControlledCollection.this[int index]
         {
-            get {
+            get
+            {
                 return this[index];
             }
         }
@@ -214,16 +217,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region IMetadataCollection Members
 
-
+        /// <summary>
+        /// Returns the <see cref="IMetadatum"/> of the
+        /// <paramref name="metadatumType"/> provided.
+        /// </summary>
+        /// <param name="metadatumType">The <see cref="IType"/>
+        /// of the metadatum to return the <see cref="IMetadatum"/>
+        /// of.</param>
+        /// <returns>The <see cref="IMetadatum"/> of the
+        /// <paramref name="metadatumType"/> provided.</returns>
         public IMetadatum this[IType metadatumType]
         {
-            get {
+            get
+            {
                 IMetadatum closeMatch = null;
                 foreach (var item in this)
                     if (item.Type.Equals(metadatumType))
                         return item;
                     else if (metadatumType.IsAssignableFrom(item.Type))
-                        closeMatch=item;
+                        closeMatch = item;
                 return closeMatch;
             }
         }

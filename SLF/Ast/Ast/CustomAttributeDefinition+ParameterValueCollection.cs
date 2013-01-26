@@ -13,13 +13,19 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
     public class MetadatumDefinitionParameterValueCollection :
-            IEnumerable<IMetadatumDefinitionParameterValue>
+        IEnumerable<IMetadatumDefinitionParameterValue>
     {
         private List<_IMetadatumDefinitionParameterValue> values;
         private List<_IMetadatumDefinitionParameterValue> namedValues;
+        /// <summary>
+        /// Creates a new <see cref="MetadatumDefinitionParameterValueCollection"/>
+        /// instance.
+        /// </summary>
+        /// <param name="metadatumType">The <see cref="IType"/> which represents
+        /// the metadatum the parameters relate to.</param>
         public MetadatumDefinitionParameterValueCollection(IType metadatumType)
         {
-            this.AttributeType = metadatumType;
+            this.MetadatumType = metadatumType;
         }
 
         internal IMetadatumDefinitionParameter[] AddInternal(_IMetadatumDefinitionParameterCollection target)
@@ -37,9 +43,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Returns/sets the <see cref="AttributeType"/> associated to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Returns/sets the <see cref="MetadatumType"/> associated to the 
+        /// <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
-        public IType AttributeType { get; set; }
+        public IType MetadatumType { get; set; }
 
         private MetadatumDefinitionParameterValue<T> AddInternal<T>(T value)
         {
@@ -49,6 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             this.values.Add(parameter);
             return parameter;
         }
+
         private MetadatumDefinitionNamedParameterValue<T> AddInternal<T>(string name, T value)
         {
             if (this.namedValues == null)
@@ -59,7 +67,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Boolean"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Boolean"/> <paramref name="value"/> parameter to 
+        /// the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Boolean"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -70,7 +79,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="String"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="String"/> <paramref name="value"/> parameter to
+        /// the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="String"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -81,7 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Type"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Type"/> <paramref name="value"/> parameter to
+        /// the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Type"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -92,7 +103,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Byte"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Byte"/> <paramref name="value"/> parameter to
+        /// the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Byte"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -103,7 +115,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="SByte"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="SByte"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="SByte"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -114,7 +127,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="UInt16"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="UInt16"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="UInt16"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -125,7 +139,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Int16"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Int16"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Int16"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -136,7 +151,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Int32"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Int32"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Int32"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -147,7 +163,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="UInt32"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="UInt32"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="UInt32"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -158,7 +175,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Int64"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Int64"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Int64"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -169,7 +187,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="UInt64"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="UInt64"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="UInt64"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -180,7 +199,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Single"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Single"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Single"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -191,7 +211,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Double"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Double"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Double"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed
@@ -202,7 +223,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Adds a <see cref="Decimal"/> <paramref name="value"/> parameter to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
+        /// Adds a <see cref="Decimal"/> <paramref name="value"/> parameter
+        /// to the <see cref="MetadatumDefinitionParameterValueCollection"/>.
         /// </summary>
         /// <param name="value">The <see cref="Decimal"/> value to add.</param>
         /// <returns>A <see cref="MetadatumDefinitionParameterValue{T}"/> typed

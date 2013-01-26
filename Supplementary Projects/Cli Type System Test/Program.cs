@@ -1,12 +1,16 @@
 ﻿using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
+using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Utilities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,8 +21,20 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         public static void Main()
         {
-            TimeTest();
-            TimeTest();
+            var csProvider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version4);
+            var csAssembly = csProvider.CreateAssembly("TestAssembly");
+            var testClass = csAssembly.Classes.Add("TestClassAttribute");
+
+            testClass.BaseType = (IClassType)csProvider.IdentityManager.ObtainTypeReference(csProvider.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum));
+
+            testClass.Metadata.Add(new MetadatumDefinitionParameterValueCollection(typeof(AttributeUsageAttribute).GetTypeReference((ICliManager)csAssembly.IdentityManager)) { AttributeTargets.Class });
+            IType d = testClass;
+            foreach (var metadata in d.Metadata) 
+                Console.WriteLine(metadata);
+            //var date1 = new DateTime(2012, 07, 16);
+            //Console.WriteLine((DateTime.Now - date1));
+            //TimeTest();
+            //TimeTest();
         }
         public class ExampleAttribute :
             Attribute
@@ -39,6 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
         private static void GetAndValidateMSCorLib(_ICliManager identityManager)
         {
             ICliAssembly assembly = (ICliAssembly)identityManager.ObtainAssemblyReference(typeof(int).Assembly);
+            //Console.WriteLine(assembly.MetadataRoot.TableStream.TypeDefinitionTable.Count);
             var warnErrors = CliMetadataValidator.ValidateMetadata(assembly, assembly.MetadataRoot, identityManager);
             if (warnErrors.HasErrors)
                 Console.WriteLine(warnErrors.Count);

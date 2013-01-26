@@ -175,7 +175,6 @@
     <Compile Include="_Internal\Cli\Members\ICliMetadataMember.cs" />
     <Compile Include="_Internal\Cli\Members\_ICliMethodSignatureParent.cs" />
     <Compile Include="_Internal\Cli\Members\_ICliParameterParent.cs" />
-    <Compile Include="_Internal\Cli\MetadataUsage.cs" />
     <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
       <SubType>Code</SubType>
     </Compile>
