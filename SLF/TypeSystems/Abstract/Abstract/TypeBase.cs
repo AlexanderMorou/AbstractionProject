@@ -49,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Data member for <see cref="ImplementedInterfaces"/>.
         /// </summary>
         private ILockedTypeCollection implementedInterfaces;
-
+        private ILockedTypeCollection directImplementedInterfaces;
 
         /// <summary>
         /// Returns the <see cref="IType"/> from which the current
@@ -75,6 +75,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <returns>A <see cref="ITypeCollection"/> instance.</returns>
         protected abstract ILockedTypeCollection OnGetImplementedInterfaces();
+
+        /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> which represents
+        /// the interfaces implemented by the current <see cref="TypeBase{TIdentifier}"/>.
+        /// </summary>
+        /// <returns>A <see cref="ITypeCollection"/> instance relative to the interfaces
+        /// implemented directly by this <see cref="TypeBase{TIdentifier}"/>.</returns>
+        protected abstract ILockedTypeCollection OnGetDirectImplementedInterfaces();
 
         /// <summary>
         /// Returns the <see cref="IFullMemberDictionary"/> for the current
@@ -362,7 +370,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 if (temp.Equals(other))
                     return true;
 
-            return IsSubclassOfImpl(other) && other != this;
+            return IsSubclassOfImpl(other);
         }
 
         /// <summary>
@@ -466,6 +474,27 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 else
                     return this.OnGetImplementedInterfaces();
             }
+        }
+
+        /// <summary>
+        /// Returns a collection of <see cref="IType"/> instances that are directly implemented by the current
+        /// <see cref="IType"/>.
+        /// </summary>
+        /// <returns>A <see cref="ILockedTypeCollection"/> which represents the <see cref="IType"/> instances which directly implemented by the current
+        /// <see cref="TypeBase{TIdentifier}"/></returns>
+        public ILockedTypeCollection GetDirectImplementedInterfaces()
+        {
+            if (this.CanCacheImplementsList)
+            {
+                lock (this.syncObject)
+                {
+                    if (this.directImplementedInterfaces == null)
+                        this.directImplementedInterfaces = this.OnGetDirectImplementedInterfaces();
+                    return this.directImplementedInterfaces;
+                }
+            }
+            else
+                return this.OnGetDirectImplementedInterfaces();
         }
 
         /// <summary>

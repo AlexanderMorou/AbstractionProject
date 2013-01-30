@@ -205,6 +205,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { throw new NotImplementedException(); }
             }
 
+            public ILockedTypeCollection GetDirectImplementedInterfaces() { return this.ImplementedInterfaces; }
+
             public IAssembly Assembly
             {
                 get { return this.owner.Assembly; }

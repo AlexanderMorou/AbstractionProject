@@ -186,6 +186,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return LockedTypeCollection.Empty; }
         }
 
+        public ILockedTypeCollection GetDirectImplementedInterfaces() { return this.ImplementedInterfaces; }
+
         public IAssembly Assembly
         {
             get { return elementType.Assembly; }

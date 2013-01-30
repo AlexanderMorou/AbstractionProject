@@ -109,5 +109,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return this.manager;
         }
+
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return LockedTypeCollection.Empty;
+        }
     }
 }

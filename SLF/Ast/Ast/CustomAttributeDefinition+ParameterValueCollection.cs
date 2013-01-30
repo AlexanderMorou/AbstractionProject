@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -415,6 +416,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return this.AddInternal(name, value);
         }
+
+        //public IMetadatumDefinitionParameterValue Add(IEnumFieldMember value)
+        //{
+        //    switch (value.Parent.ValueType)
+        //    {
+        //        case EnumerationBaseType.SByte:
+                    
+        //            break;
+        //        case EnumerationBaseType.Byte:
+        //            break;
+        //        case EnumerationBaseType.Int16:
+        //            break;
+        //        case EnumerationBaseType.UInt16:
+        //            break;
+        //        case EnumerationBaseType.Int32:
+        //            break;
+        //        case EnumerationBaseType.UInt32:
+        //            break;
+        //        case EnumerationBaseType.Int64:
+        //            break;
+        //        case EnumerationBaseType.UInt64:
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
         #region IEnumerable<IMetadatumDefinitionParameterValue> Members
 

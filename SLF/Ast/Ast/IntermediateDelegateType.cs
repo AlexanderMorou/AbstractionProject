@@ -197,6 +197,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return LockedTypeCollection.Empty;
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return LockedTypeCollection.Empty;
+        }
+
         public override bool IsGenericConstruct
         {
             get {

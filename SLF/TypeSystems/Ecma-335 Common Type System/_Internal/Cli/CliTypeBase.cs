@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -19,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         private CliAssembly assembly;
         private ICliMetadataTypeDefinitionTableRow metadataEntry;
-
+        private ILockedTypeCollection implInterfaces;
         internal CliTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadataEntry)
         {
             this.assembly = assembly;
@@ -43,7 +44,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
-            throw new NotImplementedException();
+            return implInterfaces ?? (implInterfaces = this.InitializeImplementedInterfaces());
+        }
+
+        private ILockedTypeCollection InitializeImplementedInterfaces()
+        {
+            if (this.metadataEntry.ImplementedInterfaces == null)
+                return new LockedTypeCollection();
+            return new LockedTypeCollection(from interfaceImplRow in this.metadataEntry.ImplementedInterfaces
+                                            select this.IdentityManager.ObtainTypeReference(interfaceImplRow.Interface, this, null));
+        }
+
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            if (this.metadataEntry.ImplementedInterfaces == null)
+                return new LockedTypeCollection();
+            var implInterfaces = from interfaceImplRow in this.metadataEntry.ImplementedInterfaces
+                                 select this.IdentityManager.ObtainTypeReference(interfaceImplRow.Interface, this, null);
+            var subInterfaces = (from interfaceImpl in implInterfaces
+                                 from subInterfaceImpl in interfaceImpl.ImplementedInterfaces
+                                 select subInterfaceImpl).Distinct();
+            var baseInterfaces = (this.BaseType == null ? (IEnumerable<IType>)new IType[0] : this.BaseType.ImplementedInterfaces);
+            return new LockedTypeCollection(implInterfaces.Except(subInterfaces).Except(baseInterfaces));
         }
 
         protected override INamespaceDeclaration OnGetNamespace()
@@ -71,7 +93,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override bool IsSubclassOfImpl(IType other)
         {
-            throw new NotImplementedException();
+            return false;
         }
 
         protected override string OnGetNamespaceName()
@@ -83,6 +105,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
+                var nullRef = (this.metadataEntry.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition) && this.metadataEntry.ExtendsIndex == 0 ? true : false;
+                if (nullRef)
+                    return null;
                 switch (this.metadataEntry.ExtendsSource)
                 {
                     case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeDefinition:

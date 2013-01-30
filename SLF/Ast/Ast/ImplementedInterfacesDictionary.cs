@@ -56,6 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private TIntermediateType parent;
         private ITypeCollection copy;
         private LockedVariant locked;
+        private ILockedTypeCollection lockedDirect;
         /// <summary>
         /// Creates a new <see cref="ImplementedInterfacesDictionary{TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provided.

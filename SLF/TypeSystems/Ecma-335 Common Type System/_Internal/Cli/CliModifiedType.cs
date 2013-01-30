@@ -94,6 +94,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return LockedTypeCollection.Empty;
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return LockedTypeCollection.Empty;
+        }
+
         protected override IFullMemberDictionary OnGetMembers()
         {
             return EmptyFullMemberDictionary.Empty;

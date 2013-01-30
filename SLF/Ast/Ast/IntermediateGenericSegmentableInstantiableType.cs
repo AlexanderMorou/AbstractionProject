@@ -1049,6 +1049,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this.ImplementedInterfaces.GetLocked();
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return this.ImplementedInterfaces.GetLocked();
+        }
+
         #region IIntermediateInstantiableType Members
         private IBoundSpecialReferenceExpression thisReference;
 

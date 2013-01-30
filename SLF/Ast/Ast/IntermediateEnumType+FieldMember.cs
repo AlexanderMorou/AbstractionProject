@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get
                 {
-                    EnumerationBaseType parentBaseType = this.Parent.BaseType;
+                    EnumerationBaseType parentBaseType = this.Parent.ValueType;
                     switch (parentBaseType)
                     {
                         case EnumerationBaseType.SByte:

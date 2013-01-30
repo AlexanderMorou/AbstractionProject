@@ -13,58 +13,6 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    /// <summary>
-    /// The base-type for an enumeration type.
-    /// </summary>
-    public enum EnumerationBaseType
-    {
-        /// <summary>
-        /// The base-type for the enumeration is the default.
-        /// </summary>
-        /// <remarks>
-        /// Actual data-type is resolved at compile time
-        /// based upon the langauge.
-        /// </remarks>
-        Default,
-        /// <summary>
-        /// The base-type for the enumeration is a signed byte.
-        /// </summary>
-        SByte = TypeCode.SByte,
-        /// <summary>
-        /// The base-type for the enumeration is a byte.
-        /// </summary>
-        Byte = TypeCode.Byte,
-        /// <summary>
-        /// The base-type for the enumeration is a 
-        /// signed 16-bit integer.
-        /// </summary>
-        Int16 = TypeCode.Int16,
-        /// <summary>
-        /// The base-type for the enumeration is an unsigned
-        /// 16-bit integer.
-        /// </summary>
-        UInt16 = TypeCode.UInt16,
-        /// <summary>
-        /// The base-type for the enumeration is a signed
-        /// 32-bit integer.
-        /// </summary>
-        Int32 = TypeCode.Int32,
-        /// <summary>
-        /// The base-type for the enumeration is an unsigned
-        /// 32-bit integer.
-        /// </summary>
-        UInt32 = TypeCode.UInt32,
-        /// <summary>
-        /// The base-type for the enumeration is a signed
-        /// 64-bit integer.
-        /// </summary>
-        Int64 = TypeCode.Int64,
-        /// <summary>
-        /// The base-type for the enumeration is an unsigned 
-        /// 64-bit integer.
-        /// </summary>
-        UInt64 = TypeCode.UInt64,
-    }
 
     /// <summary>
     /// Defines properties and methods for working with an intermediate
@@ -86,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns/sets the <see cref="EnumerationBaseType"/> for the 
         /// <see cref="IIntermediateEnumType"/>.
         /// </summary>
-        new EnumerationBaseType BaseType { get; set; }
+        new EnumerationBaseType ValueType { get; set; }
         /// <summary>
         /// Returns the <see cref="IIntermediateAssembly"/> in which
         /// the <see cref="IIntermediateEnumType"/> is declared

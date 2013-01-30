@@ -282,6 +282,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        public ILockedTypeCollection GetDirectImplementedInterfaces() { return this.ImplementedInterfaces; }
+
         private ILockedTypeCollection InitializeImplementedInterfaces()
         {
             var tAssem = this.Assembly;

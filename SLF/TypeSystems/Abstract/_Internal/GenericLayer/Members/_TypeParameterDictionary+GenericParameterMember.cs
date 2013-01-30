@@ -270,6 +270,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { throw new NotImplementedException(); }
             }
 
+            public ILockedTypeCollection GetDirectImplementedInterfaces()
+            {
+                throw new NotImplementedException();
+            }
+
             public IAssembly Assembly
             {
                 get { return this.original.Assembly; }

@@ -523,7 +523,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.ObtainTypeReference(typeIdentity, null, null);
         }
 
-        private IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        public IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
             switch (typeIdentity.TypeDefOrRefEncoding)
             {
@@ -540,7 +540,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (typeIdentity is ICliMetadataTypeSpecificationTableRow)
                         return this.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow)typeIdentity, activeType, activeMethod);
                     throw new ArgumentException(string.Format("Type identity not of required type '{0}'.", typeof(ICliMetadataTypeSpecificationTableRow)), "typeIdentity");
-                    throw new NotSupportedException();
                 default:
                     throw new ArgumentOutOfRangeException("typeIdentity");
             }
@@ -942,6 +941,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             return this.ObtainTypeReference(signature, signature.ParameterType, activeType, activeMethod);
         }
+
         public IType ObtainTypeReference(ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
             switch (typeIdentity.TypeSignatureKind)
@@ -1218,6 +1218,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
 
             protected override ILockedTypeCollection OnGetImplementedInterfaces()
+            {
+                throw new NotImplementedException();
+            }
+
+            protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
             {
                 throw new NotImplementedException();
             }

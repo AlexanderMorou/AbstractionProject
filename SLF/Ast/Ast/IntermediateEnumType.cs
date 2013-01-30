@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns/sets the <see cref="EnumerationBaseType"/> for the 
         /// <see cref="IIntermediateEnumType"/>.
         /// </summary>
-        public new EnumerationBaseType BaseType { get; set; }
+        public new EnumerationBaseType ValueType { get; set; }
 
         IIntermediateEnumFieldMemberDictionary IIntermediateEnumType.Fields
         {
@@ -126,6 +126,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return LockedTypeCollection.Empty;
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return LockedTypeCollection.Empty;
+        }
+
         /// <summary>
         /// Returns whether the current type is a generic
         /// type with generic parameters.
@@ -156,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                switch (this.BaseType)
+                switch (this.ValueType)
                 {
                     case EnumerationBaseType.SByte:
                         return IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte);
