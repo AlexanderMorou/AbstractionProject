@@ -680,6 +680,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return ((IGenericParameter)(this)).Constraints;
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return this.ImplementedInterfaces;
+        }
+
         protected override IIntermediateFullMemberDictionary OnGetIntermediateMembers()
         {
             this.CheckConstructors();

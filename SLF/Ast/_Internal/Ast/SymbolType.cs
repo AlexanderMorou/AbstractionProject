@@ -220,6 +220,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return LockedTypeCollection.Empty;
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return LockedTypeCollection.Empty;
+        }
+
         protected override IFullMemberDictionary OnGetMembers()
         {
             return LockedFullMembersBase.Empty;

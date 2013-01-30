@@ -248,6 +248,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return this.Original.ImplementedInterfaces.OnAll(q => q.Disambiguify(this.GenericParameters, null, TypeParameterSources.Type)).ToLockedCollection();
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+            return this.Original.GetDirectImplementedInterfaces().OnAll(q => q.Disambiguify(this.GenericParameters, null, TypeParameterSources.Type)).ToLockedCollection();
+        }
+
+        protected override TTypeIdentifier OnGetUniqueIdentifier()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override INamespaceDeclaration OnGetNamespace()
         {
             if (this.IsDisposed)
@@ -430,5 +442,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             return this.Original.IdentityManager;
         }
+
+        protected override TypeKind TypeImpl
+        {
+            get { throw new NotImplementedException(); }
+        }
+
     }
 }

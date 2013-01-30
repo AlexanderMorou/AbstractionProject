@@ -253,6 +253,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return LockedTypeCollection.Empty;
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return LockedTypeCollection.Empty;
+        }
+
         protected override IFullMemberDictionary OnGetMembers()
         {
             this.CheckFields();
@@ -391,6 +396,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         protected override ITypeIdentityManager OnGetManager()
         {
             return this.Original.IdentityManager;
+        }
+
+        public EnumerationBaseType ValueType
+        {
+            get { return original.ValueType; }
         }
     }
 }

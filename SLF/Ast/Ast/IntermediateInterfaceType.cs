@@ -179,6 +179,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this._implementedInterfaces.GetLocked();
         }
 
+        protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
+        {
+            return this.OnGetImplementedInterfaces();
+        }
+
         /// <summary>
         /// The <see cref="ITypeCollection"/> which represents the interfaces implemented by the
         /// <see cref="IntermediateInterfaceType"/>.

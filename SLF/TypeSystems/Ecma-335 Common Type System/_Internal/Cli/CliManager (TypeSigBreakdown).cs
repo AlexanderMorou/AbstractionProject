@@ -42,8 +42,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            if (typeIdentity is ICliMetadataTypeSignature)
-                return this.ObtainTypeReference((ICliMetadataTypeSignature)typeIdentity, activeType, activeMethod);
+            if (typeIdentity.Signature is ICliMetadataTypeSignature)
+                return this.ObtainTypeReference((ICliMetadataTypeSignature)typeIdentity.Signature, activeType, activeMethod);
             throw new NotSupportedException();
         }
 

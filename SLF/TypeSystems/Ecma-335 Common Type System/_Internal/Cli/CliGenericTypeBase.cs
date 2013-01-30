@@ -32,9 +32,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             LockedTypeCollection lockedTypeParameters = typeParameters.ToLockedCollection();
             IGenericType genericResult;
             lock (this.SyncObject)
+            {
                 if (this.genericCache != null && genericCache.TryObtainGenericClosure(lockedTypeParameters, out genericResult))
                     return (TType)genericResult;
-            return this.OnMakeGenericClosure(lockedTypeParameters);
+                else
+                {
+                    if (this.genericCache == null)
+                        this.genericCache = new GenericTypeCache();
+                    var result = this.OnMakeGenericClosure(lockedTypeParameters);
+                    this.genericCache.RegisterGenericType(result, lockedTypeParameters);
+                    return result;
+                }
+            }
         }
 
         protected abstract TType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters);
@@ -59,7 +68,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGenericParameterDictionary<IGenericTypeParameter<TIdentifier, TType>, TType> TypeParameters
         {
-            get {
+            get
+            {
                 if (this.typeParameters == null)
                     this.typeParameters = new TypeParameterDictionary(this);
                 return this.typeParameters;
@@ -97,7 +107,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ILockedTypeCollection GenericParameters
         {
-            get {
+            get
+            {
                 if (this.genericParameters == null)
                     this.genericParameters = new LockedTypeCollection(this.TypeParameters.Values);
                 return this.genericParameters;

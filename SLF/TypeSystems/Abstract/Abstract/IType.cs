@@ -168,6 +168,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ILockedTypeCollection ImplementedInterfaces { get; }
 
         /// <summary>
+        /// Returns a collection of <see cref="IType"/> instances that are directly implemented by the current
+        /// <see cref="IType"/>.
+        /// </summary>
+        /// <returns>A <see cref="ILockedTypeCollection"/> which represents the <see cref="IType"/> instances which directly implemented by the current
+        /// <see cref="IType"/></returns>
+        ILockedTypeCollection GetDirectImplementedInterfaces();
+
+        /// <summary>
         /// Returns the <see cref="IAssembly"/> in which the <see cref="IType"/> is declared
         /// </summary>
         IAssembly Assembly { get; }

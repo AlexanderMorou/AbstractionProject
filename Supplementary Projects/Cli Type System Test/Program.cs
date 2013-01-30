@@ -1,4 +1,5 @@
-﻿using AllenCopeland.Abstraction.Slf._Internal.Cli;
+﻿using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
@@ -21,20 +22,22 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         public static void Main()
         {
-            var csProvider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version4);
+            var csProvider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version2);
             var csAssembly = csProvider.CreateAssembly("TestAssembly");
             var testClass = csAssembly.Classes.Add("TestClassAttribute");
 
             testClass.BaseType = (IClassType)csProvider.IdentityManager.ObtainTypeReference(csProvider.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum));
 
-            testClass.Metadata.Add(new MetadatumDefinitionParameterValueCollection(typeof(AttributeUsageAttribute).GetTypeReference((ICliManager)csAssembly.IdentityManager)) { AttributeTargets.Class });
+            //testClass.Metadata.Add(new MetadatumDefinitionParameterValueCollection(typeof(AttributeUsageAttribute).GetTypeReference((ICliManager)csAssembly.IdentityManager)));
+            var dc = typeof(Dictionary<string, Dictionary<int, long>>).GetTypeReference(csProvider.IdentityManager);
+            foreach (var implInter in dc.ImplementedInterfaces)
+                Console.WriteLine(implInter);
+            Console.WriteLine();
+            foreach (var implInter in dc.GetDirectImplementedInterfaces())
+                Console.WriteLine(implInter);
             IType d = testClass;
-            foreach (var metadata in d.Metadata) 
+            foreach (var metadata in d.Metadata)
                 Console.WriteLine(metadata);
-            //var date1 = new DateTime(2012, 07, 16);
-            //Console.WriteLine((DateTime.Now - date1));
-            //TimeTest();
-            //TimeTest();
         }
         public class ExampleAttribute :
             Attribute

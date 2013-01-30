@@ -50,6 +50,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediatePropertyParent<TProperty, TIntermediateProperty, TType, TIntermediateType>,
             TType
     {
+        internal class LockedDirectVariant
+        {
+        }
+
         internal class LockedVariant :
             ILockedTypeCollection
         {

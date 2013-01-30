@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -56,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IStructType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
         {
-            throw new NotImplementedException();
+            return new _StructTypeBase(this, lockedTypeParameters);
         }
 
         protected override TypeKind TypeImpl
