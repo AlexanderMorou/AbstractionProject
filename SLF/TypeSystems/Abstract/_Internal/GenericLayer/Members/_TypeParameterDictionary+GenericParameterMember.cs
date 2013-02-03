@@ -121,12 +121,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { return false; }
             }
 
-            public IType DeclaringType
+            ITypeParent IType.Parent
             {
                 get
                 {
-                    if (this.Parent is IType)
-                        return (IType)this.Parent;
+                    if (this.Parent is ITypeParent)
+                        return (ITypeParent)this.Parent;
                     return null;
                 }
             }
@@ -270,7 +270,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 get { throw new NotImplementedException(); }
             }
 
-            public ILockedTypeCollection GetDirectImplementedInterfaces()
+            public ILockedTypeCollection GetDirectlyImplementedInterfaces()
             {
                 throw new NotImplementedException();
             }

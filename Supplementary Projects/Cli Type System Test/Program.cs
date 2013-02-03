@@ -4,6 +4,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
@@ -22,22 +23,43 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         public static void Main()
         {
-            var csProvider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version2);
+            var csProvider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version4);
             var csAssembly = csProvider.CreateAssembly("TestAssembly");
-            var testClass = csAssembly.Classes.Add("TestClassAttribute");
-
+            var testNamespace = csAssembly.Namespaces.Add("AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestIntermediate001");
+            var testClass = testNamespace.Classes.Add("TestClassAttribute");
             testClass.BaseType = (IClassType)csProvider.IdentityManager.ObtainTypeReference(csProvider.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum));
 
-            //testClass.Metadata.Add(new MetadatumDefinitionParameterValueCollection(typeof(AttributeUsageAttribute).GetTypeReference((ICliManager)csAssembly.IdentityManager)));
-            var dc = typeof(Dictionary<string, Dictionary<int, long>>).GetTypeReference(csProvider.IdentityManager);
+            testClass.Metadata.Add(new MetadatumDefinitionParameterValueCollection(typeof(AttributeUsageAttribute).GetTypeReference((ICliManager)csAssembly.IdentityManager)));
+            var dc = typeof(IIntermediateMember<,,>).GetTypeReference(csProvider.IdentityManager);
             foreach (var implInter in dc.ImplementedInterfaces)
                 Console.WriteLine(implInter);
             Console.WriteLine();
-            foreach (var implInter in dc.GetDirectImplementedInterfaces())
+            foreach (var implInter in dc.GetDirectlyImplementedInterfaces())
                 Console.WriteLine(implInter);
-            IType d = testClass;
-            foreach (var metadata in d.Metadata)
-                Console.WriteLine(metadata);
+            Console.WriteLine();
+            /* *
+             * ToDo: Ensure typing model properly maintains a nesting hierarchy.
+             * */
+            var testClassMethod = testClass.Methods.Add("Test", new TypedNameSeries() { { "test", csProvider.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32) } });
+            testClassMethod.TypeParameters.Add("T1");
+            var testClassMethodClass = testClassMethod.Classes.Add("TestMethodClass");
+            testClassMethodClass.TypeParameters.Add("T2");
+            var testMethod = testClassMethodClass.Methods.Add("TestMethod2", new TypedNameSeries() { { "test2", csProvider.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64) } });
+            testMethod.TypeParameters.Add("T3");
+            var testMethodClass = testMethod.Classes.Add("TestMethod2Class");
+            testMethodClass.TypeParameters.Add("T4");
+            /* *
+             * ^- Current system is broke.
+             * */
+            var testMethodClassGen = testMethodClass.MakeGenericClosure(csProvider.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64));
+            var d = testMethodClass.Parent;
+            /* *
+             * Should not work, but does in current model.
+             * */
+            Console.WriteLine(testMethodClassGen.FullName);
+            //IType d = testClass;
+            //foreach (var metadata in d.Metadata)
+            //    Console.WriteLine(metadata);
         }
         public class ExampleAttribute :
             Attribute

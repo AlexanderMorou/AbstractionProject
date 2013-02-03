@@ -52,13 +52,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         private ILockedTypeCollection directImplementedInterfaces;
 
         /// <summary>
-        /// Returns the <see cref="IType"/> from which the current
+        /// Returns the <see cref="ITypeParent"/> from which the current
         /// <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
-        /// <returns>An <see cref="IType"/> instance denoting
+        /// <returns>An <see cref="ITypeParent"/> instance denoting
         /// the current <see cref="TypeBase{TIdentifier}"/>'s point 
         /// of declaration.</returns>
-        protected abstract IType OnGetDeclaringType();
+        protected abstract ITypeParent OnGetParent();
         /// <summary>
         /// Returns the <see cref="TypeKind"/> the <see cref="TypeBase{TIdentifier}"/>
         /// is.
@@ -229,9 +229,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the <see cref="IType"/> in which the current <see cref="TypeBase{TIdentifier}"/> is declared.
         /// </summary>
-        public IType DeclaringType
+        public ITypeParent Parent
         {
-            get { return this.OnGetDeclaringType(); }
+            get { return this.OnGetParent(); }
         }
 
         /// <summary>
@@ -482,7 +482,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <returns>A <see cref="ILockedTypeCollection"/> which represents the <see cref="IType"/> instances which directly implemented by the current
         /// <see cref="TypeBase{TIdentifier}"/></returns>
-        public ILockedTypeCollection GetDirectImplementedInterfaces()
+        public ILockedTypeCollection GetDirectlyImplementedInterfaces()
         {
             if (this.CanCacheImplementsList)
             {

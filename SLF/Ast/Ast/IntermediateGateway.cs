@@ -58,14 +58,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         private static IDictionary<IType, TypeReferenceExpression> typeReferenceCache = new Dictionary<IType, TypeReferenceExpression>();
 
-        ///// <summary>
-        ///// Provides a conceptualized type that represents a dynamic static type.
-        ///// </summary>
-        ///// <remarks>Code elements which emit a type in a public scope yield
-        ///// object with a special <see cref="DynamicAttribute"/> to note the
-        ///// special way the compiler should treat such objects.</remarks>
-        //public static readonly DynamicType DynamicType = DynamicType.SingleTon;
-
         /// <summary>
         /// Obtains a <see cref="ITypeReferenceExpression"/>
         /// relative to the curent <see cref="IType"/>.
@@ -157,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return ((TAssembly)(CreateAssemblyBridgeCache<TAssembly>.Bridge.ctor<TLanguage, TProvider>(name, provider).Parts.Add()));
         }
 
-        internal static string GetNamespace(this IIntermediateType target)
+        internal static IIntermediateNamespaceDeclaration GetNamespace(this IIntermediateType target)
         {
             IIntermediateTypeParent typeParent = target.Parent;
             while (typeParent != null)
@@ -165,13 +157,29 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (typeParent is IIntermediateAssembly)
                     return null;
                 if (typeParent is IIntermediateNamespaceDeclaration)
-                    return ((IIntermediateNamespaceDeclaration)(typeParent)).FullName;
-                if (typeParent is IIntermediateType)
+                    return ((IIntermediateNamespaceDeclaration)(typeParent));
+                if (typeParent is IIntermediateMethodMember)
+                {
+                    IIntermediateMethodMember method = (IIntermediateMethodMember)typeParent;
+                    if (method.Parent is IIntermediateTypeParent)
+                        typeParent = ((IIntermediateTypeParent)method.Parent);
+                    else
+                        return null;
+                }
+                else if (typeParent is IIntermediateType)
                     typeParent = ((IIntermediateType)(typeParent)).Parent;
                 else
                     return null;
             }
             return null;
+        }
+
+        internal static string GetNamespaceName(this IIntermediateType target)
+        {
+            var targetNamespace = target.GetNamespace();
+            if (targetNamespace == null)
+                return null;
+            return targetNamespace.FullName;
         }
         //*
         #region Symbol Types
@@ -1092,5 +1100,227 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     resultType = resultType.MakeByReference();
             return resultType;
         }
+
+        internal static void SetAttributeUsage(IIntermediateClassType targetAttribute, AttributeTargets targets, IIntermediateCliManager identityManager)
+        {
+            if (targetAttribute == null)
+                throw new ArgumentNullException();
+            var rootMetadatum = identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum), targetAttribute.Assembly);
+            if (!targetAttribute.IsSubclassOf(rootMetadatum))
+                throw new ArgumentException(string.Format("targetAttribute must be derived from {0}", rootMetadatum.FullName), "targetAttribute");
+
+        }
+
+        public static IEnumType AttributeTargetsEnum(IIntermediateAssembly assembly, IIntermediateCliManager identityManager)
+        {
+            var attributeTargets = typeof(AttributeTargets);
+            var targetsInternal = identityManager.RuntimeEnvironment.UseCoreLibrary ?
+                    identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier(attributeTargets.Namespace, attributeTargets.Name)) :
+                    identityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier(attributeTargets.Namespace, attributeTargets.Name), assembly);
+            return targetsInternal as IEnumType;
+        }
+
+        internal static string BuildMemberName(this IIntermediateMember member, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        {
+            if (member.Parent is IIntermediateType)
+                return string.Format("{0}::{1}", ((IIntermediateType)(member.Parent)).BuildIntermediateTypeName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode), member.ToString());
+            else if (member.Parent is IIntermediateNamespaceDeclaration)
+                return string.Format("{0}.{1}", ((IIntermediateNamespaceDeclaration)(member.Parent)).FullName, member.ToString());
+            else if (member.Parent is IIntermediateMember)
+                return string.Format("{0}::{1}", ((IIntermediateMember)(member.Parent)).BuildMemberName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode), member.ToString());
+            else
+                return member.ToString();
+        }
+
+        internal static string BuildVariedTypeName(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        {
+            if (target is IIntermediateType)
+                return BuildIntermediateTypeName((IIntermediateType)target, shortFormGeneric, numericTypeParams, typeParameterDisplayMode);
+            return target.BuildTypeName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode);
+        }
+
+        /// <summary>
+        /// Debug method used to display the name of a type in a near CLR-identical manner.
+        /// </summary>
+        /// <param name="target">The <see cref="IType"/> to build the type name for.</param>
+        /// <param name="shortFormGeneric">Whether the names of the type-parameters
+        /// within the type are shortened for use within the brackets
+        /// of a generic-type instance vs. their full type-name.</param>
+        /// <param name="numericTypeParams">Whether type-parameters are shown as numbers.</param>
+        /// <param name="typeParameterDisplayMode">Whether to use angle brackets or square brackets
+        /// based upon the call-site's intent.  <see cref="TypeParameterDisplayMode.SystemStandard"/> shows 
+        /// square brackets ('[' and ']'), and <see cref="TypeParameterDisplayMode.DebuggerStandard"/>
+        /// shows angle brackets ('&lt;' and '&gt;').</param>
+        /// <returns></returns>
+        internal static string BuildIntermediateTypeName(this IIntermediateType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        {
+            switch (target.ElementClassification)
+            {
+                case TypeElementClassification.None:
+                    if (target is IGenericParameter)
+                        if (numericTypeParams)
+                        {
+                            var genericParameter = (IGenericParameter)target;
+                            if (genericParameter.Parent is IType)
+                                return string.Format("!{0}", genericParameter.Position);
+                            else
+                                return string.Format("!!{0}", genericParameter.Position);
+                        }
+                        else
+                            return ((IGenericParameter)(target)).Name;
+                    string targetName = target.Name;
+                    var genericTarget = target as IGenericType;
+                    if (typeParameterDisplayMode == TypeParameterDisplayMode.SystemStandard && genericTarget != null && genericTarget.IsGenericConstruct)
+                    {
+                        int count = 0;
+                        if (genericTarget.ElementClassification == TypeElementClassification.None)
+                        {
+                            if ((count = genericTarget.TypeParameters.Count) > 0)
+                                targetName += '`' + count.ToString();
+                        }
+                        else if (genericTarget.ElementClassification == TypeElementClassification.GenericTypeDefinition)
+                        {
+                            var genericElementType = genericTarget.ElementType as IGenericType;
+                            if (genericElementType != null)
+                            {
+                                if ((count = genericElementType.TypeParameters.Count) > 0)
+                                    targetName += '`' + count.ToString();
+                            }
+                            else
+                                targetName += "`?";
+                        }
+                    }
+                    var targetParent = target.Parent;
+                    var targetParentIsNamespace = targetParent is IIntermediateNamespaceDeclaration;
+                    if (targetParentIsNamespace)
+                        return string.Format("{0}.{1}", target.NamespaceName, targetName);
+                    else if (targetParent != null && targetParent is IIntermediateMember)
+                        return string.Format("{0}->{1}", ((IIntermediateMember)target.Parent).BuildMemberName(), targetName);
+                    else if (targetParent is IIntermediateType)
+                        return string.Format("{0}+{1}", ((IType)target.Parent).BuildVariedTypeName(shortFormGeneric, numericTypeParams), targetName);
+                    else
+                        return targetName;
+                case TypeElementClassification.Array:
+                    if (target is IArrayType)
+                    {
+                        var arrayVariant = target as IArrayType;
+                        if (arrayVariant.Flags == ArrayFlags.Vector)
+                            return string.Format("{0}[]", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams));
+                        else if ((arrayVariant.Flags & ArrayFlags.DimensionLengths) == ArrayFlags.DimensionLengths || (arrayVariant.Flags & ArrayFlags.DimensionLowerBounds) == ArrayFlags.DimensionLowerBounds)
+                        {
+                            var lengths = arrayVariant.Lengths;
+                            var lowerBounds = arrayVariant.LowerBounds;
+                            int lengthCount = 0,
+                                lowerBoundCount = 0;
+                            if (lengths != null)
+                                lengthCount = lengths.Count;
+                            if (lowerBounds != null)
+                                lowerBoundCount = lowerBounds.Count;
+                            StringBuilder sb = new StringBuilder();
+                            bool first = true;
+                            for (int i = 0; i < arrayVariant.ArrayRank; i++)
+                            {
+                                if (first)
+                                    first = false;
+                                else
+                                    sb.Append(",");
+                                bool addedDots = false;
+                                if (addedDots = (i < lowerBoundCount))
+                                    sb.AppendFormat("{0}...", lowerBounds[i]);
+                                if (i < lengthCount)
+                                    if (addedDots)
+                                        sb.Append(lowerBounds[i] + lengths[i] - 1);
+                                    else
+                                        sb.AppendFormat("0...{0}", lengths[i] - 1);
+                            }
+                            return string.Format("{0}[{1}]", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams), sb.ToString());
+                        }
+                        else
+                            return string.Format("{0}[{1}]", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams), ','.Repeat(arrayVariant.ArrayRank - 1));
+                    }
+                    else
+                        return string.Format("{0}[?,...]", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams));
+                case TypeElementClassification.Nullable:
+                    return string.Format("{0}?", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams));
+                case TypeElementClassification.Pointer:
+                    return string.Format("{0}*", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams));
+                case TypeElementClassification.Reference:
+                    return string.Format("{0}&", target.ElementType.BuildVariedTypeName(shortFormGeneric, numericTypeParams));
+                case TypeElementClassification.GenericTypeDefinition:
+                    if (target is IGenericType)
+                    {
+                        /* *
+                         * Construct the name in full by joining the 
+                         * names of the parameters with a comma, obtain 
+                         * the string-variant of each via a lambda operating on each.
+                         * */
+                        bool debuggerStandard = typeParameterDisplayMode == TypeParameterDisplayMode.DebuggerStandard;
+                        return string.Format("{0}{2}{1}{3}", target.ElementType.BuildVariedTypeName(typeParameterDisplayMode: typeParameterDisplayMode), string.Join(",",
+                                ((IGenericType)(target)).GenericParameters.OnAll(genericReplacement =>
+                                {
+                                    if (shortFormGeneric)
+                                        if (genericReplacement.IsGenericTypeParameter)
+                                            /* *
+                                             * In certain situations, the position of the
+                                             * parameter is more important, especially when
+                                             * building the unique identifier of a parameter
+                                             * of a method.  This way two methods with similarly
+                                             * positioned generic-parameters can intentionally
+                                             * collide.
+                                             * *
+                                             * This is important because its the order of the parameters
+                                             * that determines the actual final signature of the method,
+                                             * if two generic methods are identical in their ordering,
+                                             * inference of which to call can be an ambiguity.
+                                             * */
+                                            if (numericTypeParams)
+                                            {
+                                                var genericParameterReplacement = (IGenericParameter)genericReplacement;
+                                                if (genericParameterReplacement.Parent is IType)
+                                                    return string.Format("!{0}", genericParameterReplacement.Position);
+                                                else
+                                                    return string.Format("!!{0}", genericParameterReplacement.Position);
+                                            }
+                                            else
+                                                return genericReplacement.Name;
+                                        else
+                                            return genericReplacement.BuildVariedTypeName(true, shortFormGeneric);
+                                    else if (genericReplacement.IsGenericTypeParameter)
+                                        if (numericTypeParams)
+                                        {
+                                            var genericParameterReplacement = (IGenericParameter)genericReplacement;
+                                            if (genericParameterReplacement.Parent is IType)
+                                                return string.Format("[!{0}]", genericParameterReplacement.Position);
+                                            else
+                                                return string.Format("[!!{0}]", genericParameterReplacement.Position);
+                                        }
+                                        else
+                                            return string.Format("[{0}]", genericReplacement.Name);
+                                    else if (genericReplacement.Assembly == null)
+                                        return string.Format("{0}", genericReplacement.FullName);
+                                    else
+                                    {
+                                        try
+                                        {
+                                            IAssembly replacementAssembly = genericReplacement.Assembly;
+                                            return string.Format("[{0}, {1}]", genericReplacement.FullName, replacementAssembly.ToString());
+                                        }
+                                        //For Symbol types.
+                                        catch (NotSupportedException)
+                                        {
+                                            return string.Format("{0}", genericReplacement.FullName);
+                                        }
+                                    }
+                                }).ToArray()), debuggerStandard ? '<' : '[', debuggerStandard ? '>' : ']');
+                    }
+                    else
+                    {
+                        bool debuggerStandard = typeParameterDisplayMode == TypeParameterDisplayMode.DebuggerStandard;
+                        return string.Format("{0}{1}[?],...{2}", target.ElementType.BuildVariedTypeName(true, numericTypeParams), debuggerStandard ? '<' : '[', debuggerStandard ? '>' : ']');
+                    }
+            }
+            return null;
+        }
+
     }
 }

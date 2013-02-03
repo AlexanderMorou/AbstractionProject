@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             this.modifiers = new ArrayReadOnlyCollection<TypeModification>(modifiers);
         }
 
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
             return null;
         }

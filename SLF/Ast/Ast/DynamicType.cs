@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return object.ReferenceEquals(this, other);
         }
 
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
             return null;
         }

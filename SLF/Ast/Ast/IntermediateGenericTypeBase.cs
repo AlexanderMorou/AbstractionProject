@@ -189,7 +189,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             lock (this.SyncObject)
                 if (this.genericCache != null && genericCache.TryObtainGenericClosure(lockedTypeParameters, out genericResult))
                     return (TType)genericResult;
-            return this.OnMakeGenericClosure(lockedTypeParameters);
+                else
+                {
+                    if (this.genericCache == null)
+                        this.genericCache = new GenericTypeCache();
+                    var result = this.OnMakeGenericClosure(lockedTypeParameters);
+                    this.genericCache.RegisterGenericType(result, lockedTypeParameters);
+                    return result;
+                }
         }
 
         /// <summary>

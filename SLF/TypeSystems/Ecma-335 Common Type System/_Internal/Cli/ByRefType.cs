@@ -94,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { throw new NotSupportedException(); }
         }
 
-        public IType DeclaringType
+        public ITypeParent Parent
         {
             get { return null; }
         }
@@ -186,7 +186,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             get { return LockedTypeCollection.Empty; }
         }
 
-        public ILockedTypeCollection GetDirectImplementedInterfaces() { return this.ImplementedInterfaces; }
+        public ILockedTypeCollection GetDirectlyImplementedInterfaces() { return this.ImplementedInterfaces; }
 
         public IAssembly Assembly
         {

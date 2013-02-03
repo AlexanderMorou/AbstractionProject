@@ -27,12 +27,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.metadataEntry = metadataEntry;
         }
 
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
             if (this.MetadataEntry.DeclaringType == null)
                 return null;
             else
-                return this.assembly.IdentityManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
+                return (ITypeParent)this.assembly.IdentityManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
         }
 
         internal CliManager IdentityManager { get { return (CliManager)base.IdentityManager; } }
@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override string OnGetName()
         {
-            //if (this.metadata.DeclaringType!=null)
+            //if (this.metadata.Parent!=null)
             //    if (this.metadata.NamespaceIndex > 0)
             //        return this.metadata.Name
             return this.UniqueIdentifier.Name;

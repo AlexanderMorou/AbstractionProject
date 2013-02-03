@@ -49,16 +49,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
             protected internal override void _Add(IGenericParameterUniqueIdentifier key, IMethodSignatureGenericTypeParameterMember value)
             {
-                Parent.OnTypeParameterAdded((IIntermediateMethodSignatureGenericTypeParameterMember)value);
                 base._Add(key, value);
+                Parent.OnTypeParameterAdded((IIntermediateMethodSignatureGenericTypeParameterMember)value);
             }
 
             protected internal override bool _Remove(int index)
             {
                 if (index < 0 || index >= this.Count)
                     return false;
-                Parent.OnTypeParameterRemoved(base[index].Value);
-                return base._Remove(index);
+                var result = base._Remove(index);
+                if (result)
+                    Parent.OnTypeParameterRemoved(base[index].Value);
+                return result;
             }
 
 
