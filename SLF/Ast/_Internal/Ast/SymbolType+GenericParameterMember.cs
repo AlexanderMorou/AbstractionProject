@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>
             {
                 private IGenericParameterUniqueIdentifier uniqueIdentifier;
-                private SymbolType Parent { get; set; }
+                private new SymbolType Parent { get; set; }
                 internal GenericParameterMember(SymbolType parent, int position)
                 {
                     this.Parent = parent;
@@ -37,9 +37,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     return ReferenceEquals(other, this);
                 }
 
-                protected override IType OnGetDeclaringType()
+                protected override ITypeParent OnGetParent()
                 {
-                    return this.Parent;
+                    return (ITypeParent)this.Parent;
                 }
 
                 protected override TypeKind TypeImpl

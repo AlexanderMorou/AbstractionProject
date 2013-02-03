@@ -184,7 +184,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return false; }
         }
 
-        public IType DeclaringType
+        public ITypeParent Parent
         {
             get { return null; }
         }
@@ -282,7 +282,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public ILockedTypeCollection GetDirectImplementedInterfaces() { return this.ImplementedInterfaces; }
+        public ILockedTypeCollection GetDirectlyImplementedInterfaces() { return this.ImplementedInterfaces; }
 
         private ILockedTypeCollection InitializeImplementedInterfaces()
         {

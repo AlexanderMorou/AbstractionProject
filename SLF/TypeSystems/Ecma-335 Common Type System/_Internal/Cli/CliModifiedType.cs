@@ -74,7 +74,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         #endregion
 
 
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
             return null;
         }

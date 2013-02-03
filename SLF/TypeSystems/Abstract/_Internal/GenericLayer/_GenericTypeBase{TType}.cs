@@ -184,26 +184,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return false;
         }
 
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
             //if (this.original is ICliType)
             //{
             //    if (this.declaringType == null)
-            //        this.declaringType = this.OnGetDeclaringTypeImpl();
+            //        this.declaringType = this.OnGetParentImpl();
             //    return this.declaringType;
             //}
             //else
                 /* *
                  * Can't predict the volatility of non-compiled types.
                  * */
-                return this.OnGetDeclaringTypeImpl();
+                return this.OnGetParentImpl();
         }
 
-        private IType OnGetDeclaringTypeImpl()
+        private ITypeParent OnGetParentImpl()
         {
-            IType declType = this.Original.DeclaringType;
+            ITypeParent declType = this.Original.Parent;
             if (declType == null)
                 return null;
             else
@@ -215,10 +215,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     {
                         if (!genericParent.IsGenericDefinition)
                             genericParent = (IGenericType)genericParent.ElementType;
-                        return genericParent.MakeGenericClosure(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
+                        return (ITypeParent)genericParent.MakeGenericClosure(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
                     }
                     else
-                        return genericParent;
+                        return (ITypeParent)genericParent;
                 }
                 else
                     return declType;
@@ -252,7 +252,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-            return this.Original.GetDirectImplementedInterfaces().OnAll(q => q.Disambiguify(this.GenericParameters, null, TypeParameterSources.Type)).ToLockedCollection();
+            return this.Original.GetDirectlyImplementedInterfaces().OnAll(q => q.Disambiguify(this.GenericParameters, null, TypeParameterSources.Type)).ToLockedCollection();
         }
 
         protected override TTypeIdentifier OnGetUniqueIdentifier()

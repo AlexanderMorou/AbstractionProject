@@ -1137,11 +1137,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.MetadataEntry = metadata;
                 this.creatingManager = creatingManager;
             }
-            protected override IType OnGetDeclaringType()
+            protected override ITypeParent OnGetParent()
             {
                 if (this.MetadataEntry.DeclaringType == null)
                     return null;
-                return this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
+                return (ITypeParent)this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
             }
 
             private TypeKind TypeKind { get; set; }
@@ -1198,11 +1198,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 this.MetadataEntry = metadata;
                 this.creatingManager = creatingManager;
             }
-            protected override IType OnGetDeclaringType()
+            protected override ITypeParent OnGetParent()
             {
                 if (this.MetadataEntry.DeclaringType == null)
                     return null;
-                return this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
+                return (ITypeParent)this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
             }
 
             private TypeKind TypeKind { get; set; }

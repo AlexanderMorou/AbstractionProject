@@ -4,6 +4,7 @@ using System.Linq;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Text;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -145,6 +146,28 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return ((array as LockedTypeCollection) ?? (new LockedTypeCollection(array.Cast<IType>())));
         }
 
+        private static string BuildVariedName(this ITypeParent target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        {
+            if (target is IMember)
+                return ((IMember)(target)).BuildMemberName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode);
+            else if (target is IType)
+                return ((IType)(target)).BuildTypeName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode);
+            else if (target is INamespaceDeclaration)
+                return ((INamespaceDeclaration)target).FullName;
+            throw new ArgumentException("Unrecognized entity in type nesting chain.");
+        }
+
+        private static string BuildMemberName(this IMember member, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        {
+            if (member.Parent is IType)
+                return string.Format("{0}::{1}", ((IType)(member.Parent)).BuildTypeName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode), member.ToString());
+            else if (member.Parent is INamespaceDeclaration)
+                return string.Format("{0}.{1}", ((INamespaceDeclaration)(member.Parent)).FullName, member.ToString());
+            else if (member.Parent is IMember)
+                return string.Format("{0}->{1}", ((IMember)(member.Parent)).BuildMemberName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode), member.ToString());
+            throw new ArgumentException("Unrecognized entity in member nesting chain.");
+        }
+
         /// <summary>
         /// Debug method used to display the name of a type in a near CLR-identical manner.
         /// </summary>
@@ -196,8 +219,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                 targetName += "`?";
                         }
                     }
-                    if (target.DeclaringType != null)
-                        return string.Format("{0}+{1}", target.DeclaringType.BuildTypeName(shortFormGeneric, numericTypeParams), targetName);
+                    if (target.Parent != null && !(target.Parent is INamespaceDeclaration))
+                        return string.Format("{0}+{1}", target.Parent.BuildVariedName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode), targetName);
                     else if (!string.IsNullOrEmpty(target.NamespaceName))
                         return string.Format("{0}.{1}", target.NamespaceName, targetName);
                     else
@@ -286,7 +309,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                             else
                                                 return genericReplacement.Name;
                                         else
-                                            return genericReplacement.BuildTypeName(true, shortFormGeneric);
+                                            return genericReplacement.BuildTypeName(shortFormGeneric, true);
                                     else if (genericReplacement.IsGenericTypeParameter)
                                         if (numericTypeParams)
                                         {
@@ -318,7 +341,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     else
                     {
                         bool debuggerStandard = typeParameterDisplayMode == TypeParameterDisplayMode.DebuggerStandard;
-                        return string.Format("{0}{1}[?],...{2}", target.FullName, debuggerStandard ? '<' : '[', debuggerStandard ? '>' : ']');
+                        return string.Format("{0}{1}[?],...{2}", target.ElementType.BuildTypeName(true, numericTypeParams, typeParameterDisplayMode), debuggerStandard ? '<' : '[', debuggerStandard ? '>' : ']');
                     }
             }
             return null;
@@ -439,11 +462,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                      * uses.
                      * */
                     if ((parameterSource & TypeParameterSources.Method) == TypeParameterSources.Method &&
-                        ((IGenericParameter) (target)).DeclaringType == null &&
+                        ((IGenericParameter) (target)).Parent == null &&
                         ((IGenericParameter) (target)).Position < methodReplacements.Count)
                         return methodReplacements[((IGenericParameter) (target)).Position];
                     if ((parameterSource & TypeParameterSources.Type) == TypeParameterSources.Type &&
-                        ((IGenericParameter) (target)).DeclaringType != null &&
+                        ((IGenericParameter) (target)).Parent != null &&
                         ((IGenericParameter) (target)).Position < typeReplacements.Count)
                         return typeReplacements[((IGenericParameter) (target)).Position];
                 }

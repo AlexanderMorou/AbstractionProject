@@ -125,9 +125,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { return false; }
             }
 
-            public IType DeclaringType
+            ITypeParent IType.Parent
             {
-                get { return this.owner; }
+                get { return (ITypeParent)this.owner; }
             }
 
             public TypeKind Type
@@ -205,7 +205,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 get { throw new NotImplementedException(); }
             }
 
-            public ILockedTypeCollection GetDirectImplementedInterfaces() { return this.ImplementedInterfaces; }
+            public ILockedTypeCollection GetDirectlyImplementedInterfaces() { return this.ImplementedInterfaces; }
 
             public IAssembly Assembly
             {

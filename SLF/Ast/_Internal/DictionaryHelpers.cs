@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal
              * no specific type references added: mirror the definition
              * down to the generic parameters.
              * */
-            if (signature.IsGenericConstruct && signature.IsGenericDefinition && signature.DeclaringType == null)
+            if (signature.IsGenericConstruct && signature.IsGenericDefinition && signature.Parent == null)
             {
                 var method = addHelper(name);
                 var genericParameters = new IIntermediateGenericParameter[signature.TypeParameters.Count];

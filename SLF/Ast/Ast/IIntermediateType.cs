@@ -45,12 +45,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         event EventHandler<EventArgs<IType, IType>> BaseTypeChanged;
         /// <summary>
-        /// Returns the <see cref="IIntermediateType"/> in which the current 
-        /// <see cref="IIntermediateType"/> is declared.
-        /// </summary>
-        new IIntermediateType DeclaringType { get; }
-
-        /// <summary>
         /// Returns/sets the <see cref="IIntermediateModule"/>
         /// in which the <see cref="IIntermediateType"/>
         /// is defined.
@@ -65,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns the <see cref="IIntermediateTypeParent"/> which contains
         /// the current <see cref="IIntermediateType"/>.
         /// </summary>
-        IIntermediateTypeParent Parent { get; }
+        new IIntermediateTypeParent Parent { get; }
 
         /// <summary>
         /// Returns the <see cref="IIntermediateFullMemberDictionary"/>

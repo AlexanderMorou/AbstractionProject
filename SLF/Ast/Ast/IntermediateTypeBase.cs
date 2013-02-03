@@ -133,24 +133,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Returns the <see cref="IIntermediateType"/> in which the current
-        /// <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> is declared.
-        /// </summary>
-        public new IIntermediateType DeclaringType
-        {
-            get {
-                if (this.Parent is IIntermediateType)
-                    return ((IIntermediateType)(this.Parent));
-                else
-                    return null;
-            }
-        }
-
-        /// <summary>
         /// Returns the <see cref="IIntermediateTypeParent"/> which
         /// contains the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
-        public IIntermediateTypeParent Parent
+        public new IIntermediateTypeParent Parent
         {
             get
             {
@@ -327,15 +313,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         #endregion
 
         /// <summary>
-        /// Returns the <see cref="IType"/> from which the current
-        /// <see cref="TypeBase{TIdentifier}"/> is declared.
+        /// Returns the <see cref="ITypeParent"/> from which the current
+        /// <see cref="IntermediateTypeBase{TIdentifier, TType, TIntermediateType}"/> is declared.
         /// </summary>
-        /// <returns>An <see cref="IType"/> instance denoting
-        /// the current <see cref="TypeBase{TIdentifier}"/>'s point 
+        /// <returns>An <see cref="ITypeParent"/> instance denoting
+        /// the current <see cref="IntermediateTypeBase{TIdentifier, TType, TIntermediateType}"/>'s point 
         /// of declaration.</returns>
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
-            return this.DeclaringType;
+            return this.Parent;
         }
 
         /// <summary>
@@ -350,11 +336,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override INamespaceDeclaration OnGetNamespace()
         {
-            if (this.DeclaringType != null)
-                return this.DeclaringType.Namespace;
-            if (this.Parent is IIntermediateNamespaceDeclaration)
-                return ((IIntermediateNamespaceDeclaration)(this.Parent));
-            return null;
+            return this.GetNamespace();
         }
 
         protected override string OnGetNamespaceName()
@@ -527,6 +509,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// has changed.
         /// </summary>
         public event EventHandler<EventArgs<IType, IType>> BaseTypeChanged;
+
+        public override string FullName
+        {
+            get
+            {
+                return this.BuildIntermediateTypeName();
+            }
+        }
 
     }
 }

@@ -1362,7 +1362,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IntermediateClassTypeDictionary"/> instance.</returns>
         protected virtual IntermediateClassTypeDictionary InitializeClasses()
         {
-            return new IntermediateClassTypeDictionary(this, this._Types);
+            return new IntermediateClassTypeDictionary(this.Owner ?? this, this._Types);
         }
 
         /// <summary>
@@ -1371,7 +1371,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IntermediateDelegateTypeDictionary"/> instance</returns>
         protected virtual IntermediateDelegateTypeDictionary InitializeDelegates()
         {
-            return new IntermediateDelegateTypeDictionary(this, this._Types);
+            return new IntermediateDelegateTypeDictionary(this.Owner ?? this, this._Types);
         }
 
         /// <summary>
@@ -1380,7 +1380,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IntermediateEnumTypeDictionary"/> instance</returns>
         protected virtual IntermediateEnumTypeDictionary InitializeEnums()
         {
-            return new IntermediateEnumTypeDictionary(this, this._Types);
+            return new IntermediateEnumTypeDictionary(this.Owner ?? this, this._Types);
         }
 
         /// <summary>
@@ -1389,7 +1389,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IntermediateInterfaceTypeDictionary"/> instance</returns>
         protected virtual IntermediateInterfaceTypeDictionary InitializeInterfaces()
         {
-            return new IntermediateInterfaceTypeDictionary(this, this._Types);
+            return new IntermediateInterfaceTypeDictionary(this.Owner ?? this, this._Types);
         }
 
         /// <summary>
@@ -1398,7 +1398,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IntermediateStructTypeDictionary"/> instance</returns>
         protected virtual IntermediateStructTypeDictionary InitializeStructs()
         {
-            return new IntermediateStructTypeDictionary(this, this._Types);
+            return new IntermediateStructTypeDictionary(this.Owner ?? this, this._Types);
         }
 
         /// <summary>
@@ -1409,7 +1409,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IntermediateFullTypeDictionary"/> instance</returns>
         protected virtual IntermediateFullTypeDictionary InitializeTypes()
         {
-            return new IntermediateFullTypeDictionary(this);
+            return new IntermediateFullTypeDictionary(this.Owner ?? this);
         }
 
         #endregion

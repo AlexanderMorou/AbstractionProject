@@ -514,7 +514,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.Parent is IGenericType)
                     {
                         IGenericType genericParentType = ((IGenericType)(this.Parent));
-                        for (; genericParentType != null; genericParentType = (((genericParentType.DeclaringType != null) && (genericParentType.DeclaringType is IGenericType)) ? (IGenericType)genericParentType.DeclaringType : null))
+                        for (; genericParentType != null; genericParentType = (((genericParentType.Parent != null) && (genericParentType.Parent is IGenericType)) ? (IGenericType)genericParentType.Parent : null))
                             if (genericParentType.TypeParameters.ContainsName(source.SymbolReference))
                                 return ((IGenericTypeParameter)genericParentType.TypeParameters[source.SymbolReference]);
                         IType alternateSymbolDefinition = null;

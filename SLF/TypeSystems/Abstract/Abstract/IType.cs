@@ -46,9 +46,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         bool IsGenericConstruct { get; }
 
         /// <summary>
-        /// Returns the <see cref="IType"/> in which the current <see cref="IType"/> is declared.
+        /// Returns the <see cref="ITypeParent"/> in which the current <see cref="IType"/> is declared.
         /// </summary>
-        IType DeclaringType { get; }
+        ITypeParent Parent { get; }
 
         /// <summary>
         /// Returns the kind of type the <see cref="IType"/> is.
@@ -173,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <returns>A <see cref="ILockedTypeCollection"/> which represents the <see cref="IType"/> instances which directly implemented by the current
         /// <see cref="IType"/></returns>
-        ILockedTypeCollection GetDirectImplementedInterfaces();
+        ILockedTypeCollection GetDirectlyImplementedInterfaces();
 
         /// <summary>
         /// Returns the <see cref="IAssembly"/> in which the <see cref="IType"/> is declared

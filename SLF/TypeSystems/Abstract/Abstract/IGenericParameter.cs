@@ -148,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="IGenericParamParent"/> which
         /// contains the <see cref="IGenericParameter"/>.
         /// </summary>
-        IGenericParamParent Parent { get; }
+        new IGenericParamParent Parent { get; }
         /// <summary>
         /// Returns the <see cref="IGenericParameterConstructorMemberDictionary"/>
         /// associated to the current <see cref="IGenericParameter"/>.

@@ -200,7 +200,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             return ReferenceEquals(other, this);
         }
 
-        protected override IType OnGetDeclaringType()
+        protected override ITypeParent OnGetParent()
         {
             return null;
         }
