@@ -37,6 +37,29 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// <see cref="ICSharpLanguage">C&#9839; language</see>.</returns>
         new ICSharpProvider GetProvider(CSharpLanguageVersion version);
         /// <summary>
+        /// Returns a new <see cref="ICSharpProvider"/> associated to the
+        /// <see cref="ICSharpLanguage">C&#9839; language</see> relative
+        /// to the <paramref name="version"/>.
+        /// </summary>
+        /// <param name="version">The <see cref="CSharpLanguageVersion"/>
+        /// value which denotes what version of the language to return 
+        /// the provider for.</param>
+        /// <param name="identityManager">The <see cref="IIntermediateCliManager"/>
+        /// which is used to marshal type identities in the current type model.</param>
+        /// <returns>A new <see cref="ICSharpProvider"/> for the 
+        /// <see cref="ICSharpLanguage">C&#9839; language</see>.</returns>
+        ICSharpProvider GetProvider(CSharpLanguageVersion version, IIntermediateCliManager identityManager);
+        /// <summary>
+        /// Returns a new <see cref="ICSharpProvider"/> associated to the
+        /// <see cref="ICSharpLanguage">C&#9839; language</see> relative
+        /// to the current version and the <paramref name="identityManager"/> provided.
+        /// </summary>
+        /// <param name="identityManager">The <see cref="IIntermediateCliManager"/>
+        /// which is used to marshal type identities in the current type model.</param>
+        /// <returns>A new <see cref="ICSharpProvider"/> for the 
+        /// <see cref="ICSharpLanguage">C&#9839; language</see>.</returns>
+        new ICSharpProvider GetProvider(IIntermediateCliManager identityManager);
+        /// <summary>
         /// Creates a new <see cref="ICSharpAssembly"/>
         /// with the <paramref name="name"/> provided.
         /// </summary>
@@ -56,7 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// </summary>
         /// <param name="name">The <see cref="String"/> value
         /// representing part of the identity of the assembly.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIntermediateCliManager"/>
         /// which is used to marshal type identities in the current type model.</param>
         /// <param name="version">The <see cref="CSharpLanguageVersion"/>
         /// to which the <see cref="ICSharpAssembly"/>

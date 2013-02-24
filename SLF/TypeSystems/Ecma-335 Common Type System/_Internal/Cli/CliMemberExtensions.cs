@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Members;
 using System.Reflection;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using System.Diagnostics;

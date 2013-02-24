@@ -8,7 +8,6 @@ using AllenCopeland.Abstraction.IO;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Members;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata

@@ -12,6 +12,7 @@ using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Utilities;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,29 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     internal class Program
     {
         public static void Main()
+        {
+            ICliType test = null;
+            try
+            {
+                test = (ICliType)typeof(IntermediateAssembly<,,,,,>).GetTypeReference(AstExtensions.CreateIdentityManager(CliFrameworkPlatform.x86Platform));
+            }
+            catch { }
+            var firstMethod = test.MetadataEntry.Methods.First(m => m.Name == "Dispose");
+            try
+            {
+                var methodHeader = firstMethod.Body.Header;
+            }
+            catch
+            {
+                Console.WriteLine("Catch");
+            }
+            finally
+            {
+                Console.WriteLine("Finally");
+            }
+        }
+
+        private static void IntermediateForm()
         {
             var csProvider = LanguageVendors.Microsoft.GetCSharpLanguage().GetProvider(CSharpLanguageVersion.Version4);
             var csAssembly = csProvider.CreateAssembly("TestAssembly");
@@ -48,19 +72,11 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             testMethod.TypeParameters.Add("T3");
             var testMethodClass = testMethod.Classes.Add("TestMethod2Class");
             testMethodClass.TypeParameters.Add("T4");
-            /* *
-             * ^- Current system is broke.
-             * */
-            var testMethodClassGen = testMethodClass.MakeGenericClosure(csProvider.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64));
-            var d = testMethodClass.Parent;
-            /* *
-             * Should not work, but does in current model.
-             * */
-            Console.WriteLine(testMethodClassGen.FullName);
-            //IType d = testClass;
-            //foreach (var metadata in d.Metadata)
-            //    Console.WriteLine(metadata);
+            Console.WriteLine(testMethodClass.FullName);
+            TimeTestWith((_ICliManager)csProvider.IdentityManager);
         }
+
+
         public class ExampleAttribute :
             Attribute
         {
@@ -69,6 +85,11 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
         private static void TimeTest()
         {
             var identityManager = (_ICliManager)CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion, true, true, true);
+            TimeTestWith(identityManager);
+        }
+
+        private static void TimeTestWith(_ICliManager identityManager)
+        {
             var mscorValidate = MiscHelperMethods.CreateActionOfTime<_ICliManager>(GetAndValidateMSCorLib);
             var validateTime1 = mscorValidate(identityManager);
             var validateTime2 = mscorValidate(identityManager);

@@ -510,13 +510,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public event EventHandler<EventArgs<IType, IType>> BaseTypeChanged;
 
-        public override string FullName
-        {
-            get
-            {
-                return this.BuildIntermediateTypeName();
-            }
-        }
 
     }
 }

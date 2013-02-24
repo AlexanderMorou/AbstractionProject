@@ -218,7 +218,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
                 default:
                     throw new ArgumentOutOfRangeException("version");
             }
-            return new CSharpProvider(version, new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, frameworkVersion)));
+            return this.GetProvider(version, new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, frameworkVersion)));
         }
 
         /// <summary>
@@ -292,6 +292,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         public ICSharpProvider GetProvider(CSharpLanguageVersion version, IIntermediateCliManager identityManager)
         {
             return new CSharpProvider(version, identityManager);
+        }
+
+        public ICSharpProvider GetProvider(IIntermediateCliManager identityManager)
+        {
+            return GetProvider(CSharpLanguage.DefaultVersion, identityManager);
         }
     }
 }

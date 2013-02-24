@@ -102,7 +102,14 @@
     <Compile Include="Cli\Metadata\Blobs\CliMetadataTypeSignatureKind.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionClause.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodExceptionTable.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeaderSection.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTableSubset.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeaderSection.cs" />
     <Compile Include="Languages\Cil\CliReferenceWarning.cs" />
     <Compile Include="Languages\Cil\CliWarningLevel.cs" />
     <Compile Include="Languages\Cil\CliWarningsAndErrors.cs" />
@@ -182,7 +189,7 @@
     <Compile Include="Cli\Metadata\ICliMetadataBlobHeaderAndHeap.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataBlobHeap.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataGuidHeaderAndHeap.cs" />
-    <Compile Include="Cli\Metadata\ICliMetadataMethodBody.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodBody.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataRoot.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataStringsHeader.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataStringsHeaderAndHeap.cs" />
@@ -347,7 +354,7 @@
     <Compile Include="_Internal\Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="_Internal\Cli\Metadata\CliMetadataMethodBody.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyProcessorTable.cs" />
@@ -437,7 +444,7 @@
     <Compile Include="Cli\Metadata\BitEncodedIndexTypes.cs" />
     <Compile Include="Cli\Metadata\Blobs\SignatureKinds.cs" />
     <Compile Include="Cli\Metadata\ICliMetadataStreamHeader.cs" />
-    <Compile Include="Cli\Metadata\Members\MethodSemanticsAttributes.cs" />
+    <Compile Include="Cli\Metadata\Tables\MethodSemanticsAttributes.cs" />
     <Compile Include="Cli\Metadata\PlatformInvokeAttributes.cs" />
     <Compile Include="Cli\Metadata\Tables\CliMetadataReferenceIndexSize.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazyTable.cs" />
@@ -469,8 +476,8 @@
     <Compile Include="_Internal\Cli\Metadata\CliMetadataStringsHeaderAndHeap.cs" />
     <Compile Include="_Internal\Cli\Metadata\CliMetadataUserStringsHeaderAndHeap.cs" />
     <Compile Include="Cli\Metadata\CliRuntimeFlags.cs" />
-    <Compile Include="Cli\Metadata\Members\MethodHeaderFlags.cs" />
-    <Compile Include="Cli\Metadata\Members\MethodSectionFlags.cs" />
+    <Compile Include="Cli\Metadata\Tables\MethodHeaderFlags.cs" />
+    <Compile Include="Cli\Metadata\Tables\MethodSectionFlags.cs" />
     <Compile Include="Cli\Metadata\MetadataValidationRuleCategory.cs" />
     <Compile Include="Cli\Metadata\CliMetadataNativeTypes.cs" />
     <Compile Include="Cli\Metadata\ValidCultureIdentifiers.cs" />
@@ -534,6 +541,10 @@
       <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
       <Name>TypeSystem Abstract</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cli\Metadata\Members\" />
+    <Folder Include="_Internal\Cli\Metadata\Instructions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

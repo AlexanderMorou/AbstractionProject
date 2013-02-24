@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
+namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 {
     /// <summary>
     /// The flags that describe the header of a 
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
         /// </summary>
         WideFormat = WideFormatBit | NarrowFormat, //CorILMethod_FatFormat
         /// <summary>
-        /// <para>The method header contains more sections following this header.</para>
+        /// <para>The method header contains more sections following the method body.</para>
         /// <para>This flag is equivalent to the 
         /// CorILMethod_MoreSects, name changed for convenience.</para>
         /// </summary>

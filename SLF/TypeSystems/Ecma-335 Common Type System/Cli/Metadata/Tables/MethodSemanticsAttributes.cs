@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Members
+namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 {
     /// <summary>
     /// Determines the kind of specialized meaning that
