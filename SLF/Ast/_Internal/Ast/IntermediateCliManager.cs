@@ -15,6 +15,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         CliManager,
         IIntermediateCliManager
     {
+        /// <summary>
+        /// Data member to store the intermediate types within the current model.
+        /// </summary>
         private ControlledDictionary<IAssemblyUniqueIdentifier, IIntermediateAssembly> intermediateAssemblies = new ControlledDictionary<IAssemblyUniqueIdentifier, IIntermediateAssembly>();
 
         internal IntermediateCliManager(ICliRuntimeEnvironmentInfo runtimeEnvironment)
@@ -73,6 +76,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         public override ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
         {
+            if (scope == null)
+                return null;
             var assembly = this.GetRelativeAssembly(scope.MetadataRoot);
             if (assembly is IIntermediateAssembly)
                 throw new NotImplementedException();

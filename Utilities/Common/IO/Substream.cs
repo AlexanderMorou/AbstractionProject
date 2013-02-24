@@ -88,7 +88,7 @@ namespace AllenCopeland.Abstraction.IO
             set
             {
                 if (value < 0 ||
-                    value >= this.Length)
+                    (value >= this.Length && this.isFixedLength))
                     throw new ArgumentOutOfRangeException("value");
                 this.position = value;
             }
@@ -162,7 +162,7 @@ namespace AllenCopeland.Abstraction.IO
             this.baseStream = baseStream;
             this.offset = offset;
             this.length = length;
-            this.isFixedLength=fixedLength;
+            this.isFixedLength = fixedLength;
         }
 
         private void AdjustSubstream(ref Stream baseStream, ref long offset)

@@ -7,12 +7,12 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 {
@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 ((_IGenericClosureRegistrar)(original)).RegisterGenericClosure(this, this.genericParameters);
             foreach (var type in this.genericParameters)
                 type.Disposed += new EventHandler(genericParameter_Disposed);
-            
+
         }
 
         void genericParameter_Disposed(object sender, EventArgs e)
@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return this.Original;
         }
 
-        
+
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get { return this.Original.AggregateIdentifiers; }
@@ -195,33 +195,46 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             //    return this.declaringType;
             //}
             //else
-                /* *
-                 * Can't predict the volatility of non-compiled types.
-                 * */
-                return this.OnGetParentImpl();
+            /* *
+             * Can't predict the volatility of non-compiled types.
+             * */
+            return this.OnGetParentImpl();
         }
 
         private ITypeParent OnGetParentImpl()
         {
-            ITypeParent declType = this.Original.Parent;
-            if (declType == null)
+
+            ITypeParent declParent = this.Original.Parent;
+            if (declParent == null)
                 return null;
             else
             {
-                if (this.Original.IsGenericConstruct && declType is IGenericType)
+                if (this.Original.IsGenericConstruct)
                 {
-                    IGenericType genericParent = ((IGenericType)(declType));
-                    if (genericParent.IsGenericConstruct)
+                    if (declParent is IGenericType)
                     {
-                        if (!genericParent.IsGenericDefinition)
-                            genericParent = (IGenericType)genericParent.ElementType;
-                        return (ITypeParent)genericParent.MakeGenericClosure(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
+                        IGenericType genericParent = ((IGenericType)(declParent));
+                        if (genericParent.IsGenericConstruct)
+                        {
+                            if (!genericParent.IsGenericDefinition)
+                                genericParent = (IGenericType)genericParent.ElementType;
+                            return (ITypeParent)genericParent.MakeGenericClosure(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
+                        }
+                        else
+                            return (ITypeParent)genericParent;
                     }
-                    else
-                        return (ITypeParent)genericParent;
+                    else if (declParent is IMethodMember)
+                    {
+                        IMethodMember genericParent = ((IMethodMember)(declParent));
+                        if (genericParent.IsGenericConstruct)
+                        {
+                            if (!genericParent.IsGenericDefinition)
+                                genericParent = (IMethodMember)genericParent.GetGenericDefinition();
+                            return (ITypeParent)genericParent.MakeGenericClosure(this.GenericParameters.Take(genericParent.GenericParameters.Count).ToCollection());
+                        }
+                    }
                 }
-                else
-                    return declType;
+                return declParent;
             }
         }
 
@@ -283,7 +296,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IType BaseTypeImpl
         {
-            get {
+            get
+            {
                 if (this.IsDisposed)
                     throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                 /* *
@@ -408,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             else
                 for (int i = from; i < to; i++)
                     items[i] = items[i + 1];
-            
+
             items[to] = item;
             this.genericParameters = new LockedTypeCollection(items);
         }

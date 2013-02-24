@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Globalization;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
