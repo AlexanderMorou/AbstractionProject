@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

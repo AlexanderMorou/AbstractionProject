@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
         private MethodHeaderFlags flags;
         private uint codeSize;
         private CliMetadataMethodExceptionTable exceptionTable;
-        private BitVectorStream methodBody;
+        private byte[] methodBody;
         private ushort maxStack;
         private byte headerSize;
         internal CliMetadataMethodHeader(ICliMetadataRoot metadataRoot, uint relativeVirtualAddress)
@@ -28,9 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
             var rvaLocationScan = image.ResolveRelativeVirtualAddress(relativeVirtualAddress);
             if (rvaLocationScan.Resolved)
             {
-
                 var section = rvaLocationScan.Section;
-
                 var bodySubstream = new Substream(section.SectionData, rvaLocationScan.Offset, 65536, false);
                 var bodyReader = new EndianAwareBinaryReader(bodySubstream, Endianness.LittleEndian, false);
                 var peekedChar = bodyReader.PeekByte();
@@ -71,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
                     }
                 }
                 long codePosition = reader.BaseStream.Position;
-                this.methodBody = new BitVectorStream(new BitVector(reader.ReadBytes((int)this.codeSize)), false);
+                this.methodBody = reader.ReadBytes((int)this.codeSize);
                 if ((reader.BaseStream.Position % 4) != 0)
                     reader.BaseStream.Position += 4 - reader.BaseStream.Position % 4;
                 var ehTable = new byte[0];
@@ -127,7 +125,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
             get { return this.codeSize; }
         }
 
-        internal BitVectorStream BodyVector { get { return this.methodBody; } }
+        internal byte[] BodyData { get { return this.methodBody; } }
 
         public ushort MaxStack { get { return this.maxStack; } }
 

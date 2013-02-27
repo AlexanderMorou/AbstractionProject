@@ -222,5 +222,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         ConstrainedCallVirtModifier = 0xFE16,
         CopyMemoryBlock = 0xFE17,
         InitializeMemoryBlock = 0xFE18,
+        TwoByteLeadIn = 0xFE,
     }
 }
