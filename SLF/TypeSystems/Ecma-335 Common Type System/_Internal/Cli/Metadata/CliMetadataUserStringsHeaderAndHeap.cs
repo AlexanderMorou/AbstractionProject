@@ -13,7 +13,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
     {
 
         private object syncObject;
-
         public CliMetadataUserStringsHeaderAndHeap(CliMetadataStreamHeader header, object syncObject)
             : base(header, syncObject)
         {
@@ -44,6 +43,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             }
             return new string(result);
         }
+
         public override IEnumerator<Tuple<int, string>> GetEnumerator()
         {
             return (from _ in base._GetEnumerable()
