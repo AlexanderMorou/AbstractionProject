@@ -259,6 +259,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         CustomAttributeTypeTag_Unused1  = 1UL << 0x3D,
         CustomAttributeTypeTag_Unused2  = 1UL << 0x3E,
         CustomAttributeTypeTag_Unused3  = 1UL << 0x3F,
+        UserStringMask                  = 7U  << 0x1C,
         SupportedMask                   = Assembly | AssemblyOS | AssemblyProcessor | AssemblyReference | AssemblyReferenceOS | AssemblyReferenceProcessor |
                                           ClassLayout | Constant | CustomAttribute | DeclSecurity | EventMap | Event | ExportedType | Field | FieldLayout |
                                           FieldMarshal | FieldRelativeVirtualAddress | File | GenericParameter | GenericParamConstraint | ImportMap |

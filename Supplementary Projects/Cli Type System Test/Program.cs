@@ -1,6 +1,7 @@
 ﻿using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
@@ -28,10 +29,11 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             ICliType test = null;
             try
             {
-                test = (ICliType)typeof(IntermediateAssembly<,,,,,>).GetTypeReference(AstExtensions.CreateIdentityManager(CliFrameworkPlatform.x86Platform));
+                test = (ICliType)typeof(CliMetadataMethodBody).GetTypeReference(AstExtensions.CreateIdentityManager(CliFrameworkPlatform.x86Platform));
             }
             catch { }
-            var firstMethod = test.MetadataEntry.Methods.First(m => m.Name == "Dispose");
+            //var firstMethod = test.MetadataEntry.Methods.First(m => m.Name == "Dispose");
+            var firstMethod = test.MetadataEntry.Methods.Last(m => m.Name == "BuildBody");
             try
             {
                 var methodHeader = firstMethod.Body.Header;

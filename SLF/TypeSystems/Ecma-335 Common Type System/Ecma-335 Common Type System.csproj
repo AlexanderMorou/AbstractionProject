@@ -105,6 +105,7 @@
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionClause.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodSpecSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodExceptionTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeader.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeaderSection.cs" />
@@ -344,7 +345,7 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneMethodSig.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSignature.cs" />
-    <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSpecSignature.cs.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSpecSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataValueOrClassTypeSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataVectorArrayTypeSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataReturnTypeSignature.cs" />

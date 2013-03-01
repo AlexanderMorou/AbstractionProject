@@ -22,7 +22,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
         private byte[] methodBody;
         private ushort maxStack;
         private byte headerSize;
-        internal CliMetadataMethodHeader(ICliMetadataRoot metadataRoot, uint relativeVirtualAddress)
+
+        internal CliMetadataMethodHeader(ICliMetadataRoot metadataRoot, uint relativeVirtualAddress, Action<byte[]> bodyBuilder)
         {
             var image = metadataRoot.SourceImage;
             var rvaLocationScan = image.ResolveRelativeVirtualAddress(relativeVirtualAddress);
@@ -36,13 +37,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
                 {
                     MethodHeaderFlags headerType = ((MethodHeaderFlags)peekedChar) & MethodHeaderFlags.WideFormat;
                     if (headerType == MethodHeaderFlags.NarrowFormat)
-                        this.ReadNarrow(bodyReader, metadataRoot);
+                        this.ReadNarrow(bodyReader, metadataRoot, bodyBuilder);
                     else
-                        this.ReadWide(bodyReader, metadataRoot);
+                        this.ReadWide(bodyReader, metadataRoot, bodyBuilder);
                 }
             }
         }
-        private void ReadWide(EndianAwareBinaryReader reader, ICliMetadataRoot metadataRoot)
+        private void ReadWide(EndianAwareBinaryReader reader, ICliMetadataRoot metadataRoot, Action<byte[]> bodyBuilder)
         {
             var flagsAndSize = reader.ReadUInt16();
             this.flags = ((MethodHeaderFlags)(flagsAndSize & 0x0FFF)) & ~MethodHeaderFlags.WideFormat;
@@ -69,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
                     }
                 }
                 long codePosition = reader.BaseStream.Position;
-                this.methodBody = reader.ReadBytes((int)this.codeSize);
+                bodyBuilder(reader.ReadBytes((int)this.codeSize));
                 if ((reader.BaseStream.Position % 4) != 0)
                     reader.BaseStream.Position += 4 - reader.BaseStream.Position % 4;
                 var ehTable = new byte[0];
@@ -99,10 +100,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables
             }
         }
 
-        private void ReadNarrow(EndianAwareBinaryReader reader, ICliMetadataRoot metadataRoot)
+        private void ReadNarrow(EndianAwareBinaryReader reader, ICliMetadataRoot metadataRoot, Action<byte[]> bodyBuilder)
         {
             var firstByte = reader.ReadByte();
             this.codeSize = (byte)((firstByte & 0xFC) >> 2);
+            bodyBuilder(reader.ReadBytes((int)this.CodeSize));
         }
 
         public ICliMetadataLocalVarSignature LocalVariables

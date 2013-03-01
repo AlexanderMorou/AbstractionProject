@@ -457,7 +457,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
         }
 
-        internal static ICliMetadataTypeSignature ParseType(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool voidContext = false, bool allowGenericParamStart = false)
+        internal static ICliMetadataTypeSignature ParseType(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot, bool voidContext = false, bool allowModifiers = false)
         {
             ICliMetadataCustomModifierSignature[] cmods = null;
         postCustomMods:
@@ -469,11 +469,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                         return new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Void);
                     goto default;
                 case CliMetadataNativeTypes.Pointer:
-                    if (allowGenericParamStart && cmods == null)
+                    if (allowModifiers && cmods == null)
                         return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.Pointer, customModifiers: cmods.Concat(ParseCustomModifierSignatures(reader, metadataRoot)).ToArray(), elementType: ParseType(reader, metadataRoot, true));
                     return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.Pointer, customModifiers: ParseCustomModifierSignatures(reader, metadataRoot), elementType: ParseType(reader, metadataRoot, true));
                 case CliMetadataNativeTypes.ByRef:
-                    if (allowGenericParamStart && cmods == null)
+                    if (allowModifiers && cmods == null)
                         return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.Reference, customModifiers: cmods.Concat(ParseCustomModifierSignatures(reader, metadataRoot)).ToArray(), elementType: ParseType(reader, metadataRoot, true));
                     return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.Reference, customModifiers: ParseCustomModifierSignatures(reader, metadataRoot), elementType: ParseType(reader, metadataRoot, true));
                 case CliMetadataNativeTypes.Boolean:
@@ -493,7 +493,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case CliMetadataNativeTypes.NativeUnsignedInteger:
                 case CliMetadataNativeTypes.Object:
                 case CliMetadataNativeTypes.Type:
-                    if (allowGenericParamStart && cmods != null)
+                    if (allowModifiers && cmods != null)
                         return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.ModifiedType, new CliMetadataNativeTypeSignature(firstValue), cmods);
                     return new CliMetadataNativeTypeSignature(firstValue);
                 case CliMetadataNativeTypes.GenericClosure:
@@ -515,8 +515,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     var genParams = CliMetadataRoot.ReadCompressedUnsignedInt(reader, out r);
                     ICliMetadataTypeSignature[] genericParams = new ICliMetadataTypeSignature[genParams];
                     for (int i = 0; i < genericParams.Length; i++)
-                        genericParams[i] = ParseType(reader, metadataRoot, allowGenericParamStart: true);
-                    if (allowGenericParamStart && cmods != null)
+                        genericParams[i] = ParseType(reader, metadataRoot, allowModifiers: true);
+                    if (allowModifiers && cmods != null)
                         return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.ModifiedType, new CliMetadataGenericInstanceTypeSignature(isClass, typeRefOrDefOrSpec, genericParams), cmods);
                     return new CliMetadataGenericInstanceTypeSignature(isClass, typeRefOrDefOrSpec, genericParams);
                 case CliMetadataNativeTypes.ValueType:
@@ -526,18 +526,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case CliMetadataNativeTypes.FunctionPointer:
                     return new CliMetadataFunctionPointerTypeSignature(ParseMethodSignature(reader, metadataRoot));
                 case CliMetadataNativeTypes.MethodGenericParameter:
-                    if (allowGenericParamStart && cmods != null)
+                    if (allowModifiers && cmods != null)
                         return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.ModifiedType, new CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent.Method, (uint) CliMetadataRoot.ReadCompressedUnsignedInt(reader)), cmods);
                     else
                         return new CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent.Method, (uint) CliMetadataRoot.ReadCompressedUnsignedInt(reader));
                 case CliMetadataNativeTypes.GenericTypeParameter:
-                    if (allowGenericParamStart && cmods != null)
+                    if (allowModifiers && cmods != null)
                         return new CliMetadataElementTypeAndModifiersSignature(TypeElementClassification.ModifiedType, new CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent.Type, (uint) CliMetadataRoot.ReadCompressedUnsignedInt(reader)), cmods);
                     else
                         return new CliMetadataGenericParameterSignature(CliMetadataGenericParameterParent.Type, (uint) CliMetadataRoot.ReadCompressedUnsignedInt(reader));
                 case CliMetadataNativeTypes.OptionalModifier:
                 case CliMetadataNativeTypes.RequiredModifier:
-                    if (!allowGenericParamStart)
+                    if (!allowModifiers)
                         goto default;
                     reader.BaseStream.Position--;
                     cmods = ParseCustomModifierSignatures(reader, metadataRoot);
@@ -647,7 +647,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataMethodSpecSignature ParseMethodSpec(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
         {
-            throw new NotImplementedException();
+            const byte GenericInstProlog = 0x0A;
+            byte methodSpecLeadIn = reader.ReadByte();
+            if (methodSpecLeadIn != GenericInstProlog)
+                throw new BadImageFormatException();
+            int genericParamCnt = CliMetadataRoot.ReadCompressedUnsignedInt(reader);
+            ICliMetadataTypeSignature[] genericParameters = new ICliMetadataTypeSignature[genericParamCnt];
+            for (int i = 0; i < genericParamCnt; i++)
+                genericParameters[i] = ParseType(reader, metadataRoot, allowModifiers: true);
+            return new CliMetadataMethodSpecSignature(genericParameters);
         }
 
         internal static ICliMetadataSignature ParseMemberRefSig(EndianAwareBinaryReader reader, CliMetadataRoot metadataRoot)
