@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using System.Reflection;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 {
@@ -54,18 +55,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         {
             get
             {
-                var flags = this.MetadataEntry.Flags;
-                if ((flags & MethodAttributes.Public) == MethodAttributes.Public)
+                var access = this.MetadataEntry.UsageDetails.Accessibility;
+                if (access == MethodMemberAccessibility.Public)
                     return AccessLevelModifiers.Public;
-                else if ((flags & MethodAttributes.Assembly) == MethodAttributes.Assembly)
+                else if (access == MethodMemberAccessibility.Assembly)
                     return AccessLevelModifiers.Internal;
-                else if ((flags & MethodAttributes.Private) == MethodAttributes.Private)
+                else if (access == MethodMemberAccessibility.Private)
                     return AccessLevelModifiers.Private;
-                else if ((flags & MethodAttributes.Family) == MethodAttributes.Family)
+                else if (access == MethodMemberAccessibility.Family)
                     return AccessLevelModifiers.Protected;
-                else if ((flags & MethodAttributes.FamORAssem) == MethodAttributes.FamORAssem)
+                else if (access == MethodMemberAccessibility.FamilyOrAssembly)
                     return AccessLevelModifiers.ProtectedOrInternal;
-                else if ((flags & MethodAttributes.FamANDAssem) == MethodAttributes.FamANDAssem)
+                else if (access == MethodMemberAccessibility.FamilyAndAssembly)
                     //Special case, not available in C# or VB.
                     return AccessLevelModifiers.ProtectedAndInternal;
                 return AccessLevelModifiers.PrivateScope;

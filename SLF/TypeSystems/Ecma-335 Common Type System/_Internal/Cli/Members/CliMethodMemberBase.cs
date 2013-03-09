@@ -4,6 +4,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public AccessLevelModifiers AccessLevel
         {
-            get { return CliCommon.GetMethodAccessLevel(this.MetadataEntry.Flags); }
+            get { return CliCommon.GetMethodAccessLevel((MethodAttributes)this.MetadataEntry.UsageDetails.Accessibility); }
         }
     }
 }

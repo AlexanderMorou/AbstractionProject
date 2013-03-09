@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Languages.CSharp;
@@ -14,6 +15,7 @@ using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -27,25 +29,71 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
         public static void Main()
         {
             ICliType test = null;
-            try
-            {
-                test = (ICliType)typeof(CliMetadataMethodBody).GetTypeReference(AstExtensions.CreateIdentityManager(CliFrameworkPlatform.x86Platform));
-            }
-            catch { }
+            var identityManager = AstExtensions.CreateIdentityManager(CliFrameworkPlatform.x86Platform);
+            var assemblies = new[] { (ICliAssembly)identityManager.ObtainAssemblyReference(typeof(int).Assembly), (ICliAssembly)identityManager.ObtainAssemblyReference(typeof(Uri).Assembly), (ICliAssembly)identityManager.ObtainAssemblyReference(typeof(DataRow).Assembly) };
+            
             //var firstMethod = test.MetadataEntry.Methods.First(m => m.Name == "Dispose");
-            var firstMethod = test.MetadataEntry.Methods.Last(m => m.Name == "BuildBody");
-            try
+            var enumerateMethodsTime = MiscHelperMethods.CreateActionOfTime<IEnumerable<ICliAssembly>>(EnumerateMethods);
+            Console.WriteLine("Took {0} ms to enumerate methods.", enumerateMethodsTime(assemblies).TotalMilliseconds);
+            Console.WriteLine("Took {0} ms to enumerate methods after loading.", enumerateMethodsTime(assemblies).TotalMilliseconds);
+        }
+
+        private static void EnumerateMethods(IEnumerable<ICliAssembly> targets)
+        {
+            int totalManagedCount = 0;
+            int totalUnmanagedCount = 0;
+            foreach (var assembly in targets)
             {
-                var methodHeader = firstMethod.Body.Header;
+                ICliMetadataMethodDefinitionTable mdt = assembly.MetadataRoot.TableStream.MethodDefinitionTable;
+                if (mdt == null)
+                    continue;
+                foreach (var methodDef in mdt)
+                {
+                    var body = methodDef.Body;
+                    if (body != null)
+                    {
+                        body.Header.ToString();
+                        totalManagedCount++;
+                    }
+                    else
+                    {
+                        if (methodDef.RVA == 0)
+                            methodDef.ToString();
+                        totalUnmanagedCount++;
+                    }
+                }
             }
-            catch
+            Console.WriteLine("Total methods with bodies: {0}", totalManagedCount);
+            Console.WriteLine("Total methods without bodies: {0}", totalUnmanagedCount);
+        }
+
+        private static void FlowControl(int i)
+        {
+            Console.WriteLine("{1} {2}");
+            Console.WriteLine("{0} {1} {2}", 32.9, 32.2F, new Nullable<long>(0x3200000000L));
+            if (i < 32)
             {
-                Console.WriteLine("Catch");
+                for (int k = 2; k < 6; k++)
+                    Console.WriteLine("Condition1");
             }
-            finally
+            else if (i > 40)
             {
-                Console.WriteLine("Finally");
+                int o = 9;
+                do
+                {
+                    Console.WriteLine("Condition2");
+                } while (o++ < 33);
             }
+            switch (i)
+            {
+                case 0:
+                    Console.WriteLine("Switch Case 0");
+                    break;
+                case 21:
+                    Console.WriteLine("Switch Case 21");
+                    break;
+            }
+            Console.WriteLine("End");
         }
 
         private static void IntermediateForm()

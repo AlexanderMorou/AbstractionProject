@@ -60,6 +60,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// 64-bit integer.
         /// </summary>
         UInt64 = PrimitiveType.UInt64,
+        /// <summary>
+        /// The base-type for the enumeration is a signed
+        /// native integer.
+        /// </summary>
+        NativeInteger,
+        /// <summary>
+        /// The base-type for the enumeration is an unsigned
+        /// native integer.
+        /// </summary>
+        NativeUnsignedInteger,
     }
     /// <summary>
     /// Defines properties and methods for working with an enumeration type which contains a series of 

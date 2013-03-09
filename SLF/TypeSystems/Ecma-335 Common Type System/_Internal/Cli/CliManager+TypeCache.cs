@@ -84,14 +84,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         else if ((typeIdentity.TypeAttributes & TypeAttributes.Interface) == TypeAttributes.Interface &&
                          (typeIdentity.TypeAttributes & TypeAttributes.Sealed) != TypeAttributes.Sealed)
                             result = new CliInterfaceType(refAssem, typeIdentity);
-                        //result = new M_T<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>(TypeKind.Interface, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsBaseObject(this.manager, typeIdentity.Extends))
                             result = new CliClassType(refAssem, typeIdentity);
                         else if (CliCommon.IsEnum(this.manager, typeIdentity))
-                            result = new M_T<IGeneralTypeUniqueIdentifier>(TypeKind.Enumeration, typeIdentity, this.manager);
+                            //result = new CliEnumType();
+                            result = new CliEnumType(refAssem, typeIdentity);
                         else if (CliCommon.IsValueType(this.manager, typeIdentity))
                             result = new CliStructType(refAssem, typeIdentity);
-                            //result = new M_T<IGeneralGenericTypeUniqueIdentifier, IStructType>(TypeKind.Struct, typeIdentity, this.manager, refAssem);
                         else if (CliCommon.IsDelegate(this.manager, typeIdentity))
                             result = new CliDelegateType(refAssem, typeIdentity);
                         else
