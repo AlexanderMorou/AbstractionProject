@@ -63,6 +63,18 @@ namespace AllenCopeland.Abstraction.Numerics
         /// </summary>
         public static readonly Endianness SystemEndianness = BitConverter.IsLittleEndian ? Endianness.LittleEndian : Endianness.BigEndian;
 
+        public static unsafe float EndianChange(this float value, Endianness end, bool bitEndianness = false)
+        {
+            uint ivalue = (*(uint*)&value).EndianChange(end, bitEndianness);
+            return *(float*)&ivalue;
+        }
+
+        public static unsafe double EndianChange(this double value, Endianness end, bool bitEndianness = false)
+        {
+            ulong ivalue = (*(ulong*)&value).EndianChange(end, bitEndianness);
+            return *(double*)&ivalue;
+        }
+
         public static int EndianChange(this int value, Endianness end, bool bitEndianness = false)
         {
             return value.EndianChange(SystemEndianness, end, bitEndianness);

@@ -102,10 +102,27 @@
     <Compile Include="Cli\Metadata\Blobs\CliMetadataTypeSignatureKind.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilBinaryOperationEntry.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilBranchEntry.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilMultipleStackEntry.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilStackEntry.cs" />
+    <Compile Include="Cli\Metadata\MethodImplementationDetails.cs" />
+    <Compile Include="Cli\Metadata\MethodUseDetails.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionClause.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeader.cs" />
+    <Compile Include="_Internal\Cli\CliEnumType.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodSpecSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Instructions\CilBinaryOperationEntry.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Instructions\CliFlowInstruction.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Instructions\CilInstructionManager.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Instructions\CilOpcodeInstruction.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody %28Instruction Visitor%29.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodExceptionTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeader.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeaderSection.cs" />
@@ -355,7 +372,6 @@
     <Compile Include="_Internal\Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTable.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTableRow.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyProcessorTable.cs" />
@@ -510,6 +526,7 @@
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+ValuesCollection.cs" />
     <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataTableIndexedRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\ICilInstructionVisitor.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
     <Compile Include="_Internal\Cli\Modules\CliModuleMethod.cs" />
@@ -545,7 +562,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Cli\Metadata\Members\" />
-    <Folder Include="_Internal\Cli\Metadata\Instructions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

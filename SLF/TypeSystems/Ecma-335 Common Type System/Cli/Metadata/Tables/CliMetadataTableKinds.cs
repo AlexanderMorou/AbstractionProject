@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
 {
@@ -23,14 +24,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
     /// </description></item>
     /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
     /// </term><description>
-    /// <see cref="ICliMetadataAssemblyTableRow.HashAlgorithmIdentifier"/> shall
+    /// <see cref="ICliMetadataAssemblyTableRow.HashAlgorithmId"/> shall
     /// be one of the specified values within
     /// <see cref="AssemblyHashAlgorithm"/>.
     /// </description></item>
     /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
-    /// </term><description><see cref="ICliMetadataAssemblyTableRow.MajorVersion"/>, 
-    /// <see cref="ICliMetadataAssemblyTableRow.MinorVersion"/> and 
-    /// <see cref="ICliMetadataAssemblyTableRow.Revision"/> can each have any value.
+    /// </term><description><see cref="QWordLongVersion.MajorVersion"/>, 
+    /// <see cref="QWordLongVersion.MinorVersion"/> and 
+    /// <see cref="QWordLongVersion.RevisionNumber"/> can each have any value.
     /// </description></item>
     /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
     /// </term><description><see cref="ICliMetadataAssemblyTableRow.Flags"/>
@@ -38,11 +39,11 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
     /// <see cref="CliMetadataAssemblyFlags"/>.
     /// </description></item>
     /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
-    /// </term><description><see cref="ICliMetadataAssemblyTableRow.NameIndex"/>
+    /// </term><description><see cref="ICliMetadataHasDeclSecurityRow.NameIndex"/>
     /// shall index a non-empty string in the String heap.
     /// </description></item>
     /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
-    /// </term><description>The string indexed by <see cref="ICliMetadataAssemblyTableRow.NameIndex"/>
+    /// </term><description>The string indexed by <see cref="ICliMetadataHasDeclSecurityRow.NameIndex"/>
     /// can be of unlimited length.</description></item>
     /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
     /// </term><description><see cref="ICliMetadataAssemblyTableRow.CultureIndex"/>
@@ -95,14 +96,14 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         /// </listheader>
         /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
         /// </term><description>
-        /// <see cref="ICliMetadataAssemblyRefTableRow.HashAlgorithmIdentifier"/> shall
+        /// <see cref="ICliMetadataAssemblyRefTableRow.HashAlgorithmId"/> shall
         /// be one of the specified values within
         /// <see cref="AssemblyHashAlgorithm"/>.
         /// </description></item>
         /// <item><term><see cref="MetadataValidationRuleCategory.None"/>
-        /// </term><description><see cref="ICliMetadataAssemblyRefTableRow.MajorVersion"/>, 
-        /// <see cref="ICliMetadataAssemblyRefTableRow.MinorVersion"/> and 
-        /// <see cref="ICliMetadataAssemblyRefTableRow.Revision"/> can each have any value.
+        /// </term><description><see cref="QWordLongVersion.MajorVersion"/>, 
+        /// <see cref="QWordLongVersion.MinorVersion"/> and 
+        /// <see cref="QWordLongVersion.RevisionNumber"/> can each have any value.
         /// </description></item>
         /// <item><term><see cref="MetadataValidationRuleCategory.Error"/>
         /// </term><description><see cref="ICliMetadataAssemblyRefTableRow.Flags"/>
@@ -259,7 +260,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
         CustomAttributeTypeTag_Unused1  = 1UL << 0x3D,
         CustomAttributeTypeTag_Unused2  = 1UL << 0x3E,
         CustomAttributeTypeTag_Unused3  = 1UL << 0x3F,
-        UserStringMask                  = 7U  << 0x1C,
+        UserStringMask                  = 7UL << 0x1C,
         SupportedMask                   = Assembly | AssemblyOS | AssemblyProcessor | AssemblyReference | AssemblyReferenceOS | AssemblyReferenceProcessor |
                                           ClassLayout | Constant | CustomAttribute | DeclSecurity | EventMap | Event | ExportedType | Field | FieldLayout |
                                           FieldMarshal | FieldRelativeVirtualAddress | File | GenericParameter | GenericParamConstraint | ImportMap |

@@ -172,14 +172,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private static CliMemberType DiscernMemberType(ICliMetadataMethodDefinitionTableRow method)
         {
-            if ((method.Flags & (MethodAttributes.SpecialName | MethodAttributes.RTSpecialName)) == (MethodAttributes.SpecialName | MethodAttributes.RTSpecialName))
+            MethodUseFlags usageFlags = method.UsageDetails.UsageFlags;
+            if ((usageFlags & (MethodUseFlags.SpecialName | MethodUseFlags.RTSpecialName)) == (MethodUseFlags.SpecialName | MethodUseFlags.RTSpecialName))
             {
-                if (method.Name == ".ctor" && (method.Flags & MethodAttributes.Static) != MethodAttributes.Static)
+                if (method.Name == ".ctor" && (usageFlags & MethodUseFlags.Static) != MethodUseFlags.Static)
                     return CliMemberType.Constructor;
-                else if (method.Name == ".cctor" && (method.Flags & MethodAttributes.Static) == MethodAttributes.Static)
+                else if (method.Name == ".cctor" && (usageFlags & MethodUseFlags.Static) == MethodUseFlags.Static)
                     return CliMemberType.Constructor;
             }
-            else if ((method.Flags & (MethodAttributes.SpecialName | MethodAttributes.Static)) == (MethodAttributes.SpecialName | MethodAttributes.Static))
+            else if ((usageFlags & (MethodUseFlags.SpecialName | MethodUseFlags.Static)) == (MethodUseFlags.SpecialName | MethodUseFlags.Static))
             {
                 switch (method.Name)
                 {

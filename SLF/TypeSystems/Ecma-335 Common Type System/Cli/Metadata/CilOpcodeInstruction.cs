@@ -5,47 +5,226 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
 {
+
     public enum CilOpcodeInstruction :
         ushort
     {
+        /// <summary>
+        /// A Common Intermediate Language Instruction which represents a 
+        /// break in processing for debuggers to step in.
+        /// </summary>
         NoOperation = 0x00, // nop
+        /// <summary>
+        /// A Common Intermediate Language Instruction which notifies debugging
+        /// software that a break has been reached.  Typically injected by debuggers
+        /// directly.
+        /// </summary>
         Break = 0x01, // break
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes the argument, at index 0, onto the stack.
+        /// </summary>
         LoadArg0 = 0x02, // ldarg.0
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes the argument, at index 1, onto the stack.
+        /// </summary>
         LoadArg1 = 0x03, // ldarg.1
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes the argument, at index 2, onto the stack.
+        /// </summary>
         LoadArg2 = 0x04, // ldarg.2
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes the argument, at index 3, onto the stack.
+        /// </summary>
         LoadArg3 = 0x05, // ldarg.3
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a local, at index 0, onto the stack.
+        /// </summary>
         LoadLocal0 = 0x06, // ldloc.0
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a local, at index 1, onto the stack.
+        /// </summary>
         LoadLocal1 = 0x07, // ldloc.1
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a local, at index 2, onto the stack.
+        /// </summary>
         LoadLocal2 = 0x08, // ldloc.2
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a local, at index 3, onto the stack.
+        /// </summary>
         LoadLocal3 = 0x09, // ldloc.3
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pops the top-most element from the stack and 
+        /// stores it in a local at index 0.
+        /// </summary>
         StoreLocal0 = 0x0A, // stloc.0
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pops the top-most element from the stack and 
+        /// stores it in a local at index 1.
+        /// </summary>
         StoreLocal1 = 0x0B, // stloc.1
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pops the top-most element from the stack and 
+        /// stores it in a local at index 2.
+        /// </summary>
         StoreLocal2 = 0x0C, // stloc.2
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pops the top-most element from the stack and 
+        /// stores it in a local at index 3.
+        /// </summary>
         StoreLocal3 = 0x0D, // stloc.3
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes an argument onto the stack with short-form
+        /// syntax using an unsigned 8-bit integer, a byte, to
+        /// represent the index of the argument.
+        /// </summary>
         LoadArgumentShortForm = 0x0E, // ldarg.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes an argument's address onto the stack with
+        /// short-form syntax using an unsigned 8-bit integer,
+        /// a byte, to represent the index of the argument.
+        /// </summary>
         LoadArgumentAddressShortForm = 0x0F, // ldarga.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// stores an argument with short-form syntax using an
+        /// unsigned 8-bit integer, a byte, to represent the
+        /// index of the argument.
+        /// </summary>
         StoreArgumentShortForm = 0x10, // starg.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a local onto the stack with short-form
+        /// syntax using an unsigned 8-bit integer, a byte,
+        /// to represent the index of the local.
+        /// </summary>
         LoadLocalShortForm = 0x11, // ldloc.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a local's address onto the stack with
+        /// short-form syntax using an unsigned 8-bit integer,
+        /// a byte, to represent the index of the local.
+        /// </summary>
         LoadLocalAddressShortForm = 0x12, // ldloca.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// stores a local with short-form syntax using an
+        /// unsigned 8-bit integer, a byte, to represent the
+        /// index of the local.
+        /// </summary>
         StoreLocalShortForm = 0x13, // stloc.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a null value onto the stack.
+        /// </summary>
         LoadNullValue = 0x14, // ldnull
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of -1 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfMinusOne = 0x15, // ldc.i4.m1
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 0 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfZero = 0x16, // ldc.i4.0
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 1 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfOne = 0x17, // ldc.i4.1
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 2 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfTwo = 0x18, // ldc.i4.2
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 3 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfThree = 0x19, // ldc.i4.3
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 4 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfFour = 0x1A, // ldc.i4.4
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 5 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfFive = 0x1B, // ldc.i4.5
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 6 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfSix = 0x1C, // ldc.i4.6
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 7 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfSeven = 0x1D, // ldc.i4.7 
+        /// <summary>
+        /// A Common Intermediate Language Instruction which pushes
+        /// a 32-bit integer of 8 onto the stack.
+        /// </summary>
         LoadInt32ConstantOfEight = 0x1E, // ldc.i4.8
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a 32-bit integer onto the stack with short-form
+        /// syntax using an unsigned 8-bit integer, a byte, to
+        /// represent the 32-bit value.
+        /// </summary>
         LoadInt32ConstantShortForm = 0x1F, // ldc.i4.s
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a 32-bit integer onto the stack.
+        /// </summary>
         LoadInt32Constant = 0x20, // ldc.i4
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a 64-bit integer onto the stack.
+        /// </summary>
         LoadInt64Constant = 0x21, // ldc.i8
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a 32-bit floating point value onto the stack.
+        /// </summary>
         LoadSingleConstant = 0x22, // ldc.r4
+        /// <summary>
+        /// A Common Intermediate Language Instruction which 
+        /// pushes a 64-bit floating point value onto the stack.
+        /// </summary>
         LoadDoubleConstant = 0x23, // ldc.r8
+        /// <summary>
+        /// A Common Intermediate Language Instruction which
+        /// peeks the top element of the stack and pushes
+        /// a duplicate of that value onto the stack.
+        /// </summary>
         DuplicateStackItem = 0x25, // dup
+        /// <summary>
+        /// A Common Intermediate Language Instruction which
+        /// pops the top-most element off of the stack.
+        /// </summary>
         PopStackItem = 0x26, // pop
+        /// <summary>
+        /// A Common Intermediate Language Instruction which
+        /// transfers execution to the target method.  The target
+        /// method must contain the exact number of parameters and
+        /// the stack must be empty at the time of the call.
+        /// </summary>
         JumpTo = 0x27, // jmp
         CallMethod = 0x28, // call
         CallMethodIndirect = 0x29, // calli
@@ -91,7 +270,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         StoreIndirectReference = 0x51, // stind.ref
         StoreIndirectSByte = 0x52, // stind.i1
         StoreIndirectInt16 = 0x53, // stind.i2
-        SotreIndirectInt32 = 0x54, // stind.i4
+        StoreIndirectInt32 = 0x54, // stind.i4
         StoreIndirectInt64 = 0x55, // stind.i8
         StoreIndirectSingle = 0x56, // stind.r4
         StoreIndirectDouble = 0x57, // stind.r8
