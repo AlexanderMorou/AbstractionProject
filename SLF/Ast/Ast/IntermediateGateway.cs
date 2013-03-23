@@ -103,19 +103,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         /// <summary>
-        /// Creates a new <see cref="ICommonIntermediateAssembly"/> instance
-        /// with the <paramref name="name"/> provided.
-        /// </summary>
-        /// <param name="name">The <see cref="String"/>
-        /// that represents the name of the <see cref="ICommonIntermediateAssembly"/>
-        /// created.</param>
-        /// <returns>An <see cref="IIntermediateAssembly"/> instance.</returns>
-        public static ICommonIntermediateAssembly CreateAssembly(string name)
-        {
-            return CreateAssembly<CommonIntermediateAssembly>(name);
-        }
-
-        /// <summary>
         /// Creates a new <typeparamref name="TAssembly"/> with
         /// the <paramref name="name"/> provided.
         /// </summary>
@@ -1101,24 +1088,149 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return resultType;
         }
 
-        internal static void SetAttributeUsage(IIntermediateClassType targetAttribute, AttributeTargets targets, IIntermediateCliManager identityManager)
+        internal static IEnumerable<IType> GetTypes(this IIntermediateFullTypeDictionary @this)
         {
-            if (targetAttribute == null)
-                throw new ArgumentNullException();
-            var rootMetadatum = identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum), targetAttribute.Assembly);
-            if (!targetAttribute.IsSubclassOf(rootMetadatum))
-                throw new ArgumentException(string.Format("targetAttribute must be derived from {0}", rootMetadatum.FullName), "targetAttribute");
-
+            if (@this == null)
+                return new IType[0];
+            return from t in @this.Values
+                   let tParentT = t.Entry as IIntermediateTypeParent
+                   from sType in ((tParentT == null) ? new IType[1] { t.Entry } : new IType[1] { t.Entry }.Concat(tParentT.GetTypes()))
+                   select sType;
         }
 
-        public static IEnumType AttributeTargetsEnum(IIntermediateAssembly assembly, IIntermediateCliManager identityManager)
+        internal static IEnumerable<IType> GetTypes(this IIntermediateNamespaceDictionary @this)
         {
-            var attributeTargets = typeof(AttributeTargets);
-            var targetsInternal = identityManager.RuntimeEnvironment.UseCoreLibrary ?
-                    identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier(attributeTargets.Namespace, attributeTargets.Name)) :
-                    identityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier(attributeTargets.Namespace, attributeTargets.Name), assembly);
-            return targetsInternal as IEnumType;
+            if (@this == null)
+                return new IType[0];
+            return from ns in @this.Values
+                   from t in ns.GetTypes()
+                   select t;
         }
 
+        internal static IEnumerable<IType> GetTypes<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>(this IIntermediateMethodMemberDictionary<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> @this)
+            where TMethod :
+                IMethodMember<TMethod, TMethodParent>
+            where TIntermediateMethod :
+                TMethod,
+                IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
+            where TMethodParent :
+                IMethodParent<TMethod, TMethodParent>
+            where TIntermediateMethodParent :
+                TMethodParent,
+                IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
+        {
+            if (@this == null)
+                return new IType[0];
+            return from m in @this.Values
+                   from t in m.Types.GetTypes()
+                   select t;
+        }
+
+        internal static IEnumerable<IType> GetTypes<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>(this IIntermediateEventMemberDictionary<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> @this)
+            where TEvent :
+                IEventMember<TEvent, TEventParent>
+            where TIntermediateEvent :
+                IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>,
+                TEvent
+            where TEventParent :
+                IEventParent<TEvent, TEventParent>
+            where TIntermediateEventParent :
+                IIntermediateEventParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>,
+                TEventParent
+        {
+            if (@this == null)
+                return new IType[0];
+            return from m in @this.Values
+                   from t in _GetTypes(m.OnAddMethod, m.OnRemoveMethod, m.OnRaiseMethod)
+                   select t;
+        }
+
+        internal static IEnumerable<IType> GetTypes<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>(this IIntermediateIndexerMemberDictionary<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> @this)
+            where TIndexer :
+                IIndexerMember<TIndexer, TIndexerParent>
+            where TIntermediateIndexer :
+                TIndexer,
+                IIntermediateIndexerMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+            where TIndexerParent :
+                IIndexerParent<TIndexer, TIndexerParent>
+            where TIntermediateIndexerParent :
+                TIndexerParent,
+                IIntermediateIndexerParent<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
+        {
+            if (@this == null)
+                return new IType[0];
+            return from m in @this.Values
+                   from t in _GetTypes(m.CanRead ? m.GetMethod : null, m.CanWrite ? m.SetMethod : null)
+                   select t;
+        }
+
+        internal static IEnumerable<IType> GetTypes<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>(this IIntermediatePropertyMemberDictionary<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent> @this)
+            where TProperty :
+                IPropertyMember<TProperty, TPropertyParent>
+            where TIntermediateProperty :
+                TProperty,
+                IIntermediatePropertyMember<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+            where TPropertyParent :
+                IPropertyParent<TProperty, TPropertyParent>
+            where TIntermediatePropertyParent :
+                TPropertyParent,
+                IIntermediatePropertyParent<TProperty, TIntermediateProperty, TPropertyParent, TIntermediatePropertyParent>
+        {
+            if (@this == null)
+                return new IType[0];
+            return from m in @this.Values
+                   from t in _GetTypes(m.CanRead ? m.GetMethod : null, m.CanWrite ? m.SetMethod : null)
+                   select t;
+        }
+
+        internal static IEnumerable<IType> GetTypes<TCoercionParent, TIntermediateCoercionParent>(this IIntermediateBinaryOperatorCoercionMemberDictionary<TCoercionParent, TIntermediateCoercionParent> @this)
+            where TCoercionParent :
+                ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            where TIntermediateCoercionParent :
+                IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+                TCoercionParent
+        {
+            if (@this == null)
+                return new IType[0];
+            return from bop in @this.Values
+                   from t in bop.GetTypes()
+                   select t;
+        }
+
+        internal static IEnumerable<IType> GetTypes<TCoercionParent, TIntermediateCoercionParent>(this IIntermediateUnaryOperatorCoercionMemberDictionary<TCoercionParent, TIntermediateCoercionParent> @this)
+            where TCoercionParent :
+                ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            where TIntermediateCoercionParent :
+                IIntermediateCoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+                TCoercionParent
+        {
+            if (@this == null)
+                return new IType[0];
+            return from uop in @this.Values
+                   from t in uop.GetTypes()
+                   select t;
+        }
+
+        internal static IEnumerable<IType> GetTypes<TCoercionParent, TIntermediateCoercionParent>(this IIntermediateTypeCoercionMemberDictionary<TCoercionParent, TIntermediateCoercionParent> @this)
+            where TCoercionParent :
+                ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
+            where TIntermediateCoercionParent :
+                TCoercionParent,
+                IIntermediateCoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>
+        {
+            if (@this == null)
+                return new IType[0];
+            return from tcm in @this.Values
+                   from t in tcm.GetTypes()
+                   select t;
+        }
+
+        private static IEnumerable<IType> _GetTypes(params IIntermediateMethodMember[] targets)
+        {
+            return from target in targets
+                   where target != null
+                   from t in target.Types.GetTypes()
+                   select t;
+        }
     }
 }

@@ -329,7 +329,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>
         /// can be cached.
         /// </summary>
-        protected internal override bool CanCacheImplementsList
+        protected sealed override bool CanCacheImplementsList
         {
             get { return false; }
         }

@@ -42,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
             {
                 get
                 {
-                    return LanguageGuids.ConstructorServices.IntermediateClassCreatorService;
+                    return LanguageGuids.Services.ClassServices.ClassCreatorService;
                 }
             }
 

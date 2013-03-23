@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public static class CliGateway
     {
-        public const CliFrameworkVersion CurrentVersion = CliFrameworkVersion.v4_0_30319;
+        public const CliFrameworkVersion CurrentVersion = CliFrameworkVersion.v4_5;
 #if x86
         public const CliFrameworkPlatform CurrentPlatform = CliFrameworkPlatform.x86Platform;
 #elif x64

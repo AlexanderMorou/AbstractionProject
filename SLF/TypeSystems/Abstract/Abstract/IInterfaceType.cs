@@ -30,5 +30,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// identifiers contained within the <see cref="IInterfaceType"/>
         /// </summary>
         new IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers { get; }
+        /// <summary>
+        /// Returns the <see cref="IAssembly"/> in which the <see cref="IInterfaceType"/>
+        /// is declared.
+        /// </summary>
+        IAssembly Assembly { get; }
     }
 }

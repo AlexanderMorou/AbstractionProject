@@ -16,7 +16,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// of the 
     /// <see cref="IVisualBasicLanguage">Visual Basic.NET language</see>.
     /// </summary>
-    [Flags]
     public enum VisualBasicVersion
     {
         /* 0000111000001 */
@@ -47,5 +46,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// to contain asynchronous methods.
         /// </summary>
         Version11 = 11,
+        CurrentVersion = Version11,
     }
 }

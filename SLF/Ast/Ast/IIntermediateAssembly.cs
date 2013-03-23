@@ -109,6 +109,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which invalidates the previous unique identifier.
         /// </summary>
         new event EventHandler<DeclarationIdentifierChangeEventArgs<IAssemblyUniqueIdentifier>> IdentifierChanged;
-
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the assembly.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the assembly.</returns>
+        new IEnumerable<IType> GetTypes();
     }
 }

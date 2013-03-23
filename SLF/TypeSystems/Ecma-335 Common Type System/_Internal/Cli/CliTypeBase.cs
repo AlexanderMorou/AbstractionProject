@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal CliManager IdentityManager { get { return (CliManager)base.IdentityManager; } }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get { return true; }
         }
@@ -87,6 +87,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
+                if (this.metadataEntry.TypeParameters == null)
+                    return false;
                 return this.MetadataEntry.TypeParameters.Count > 0;
             }
         }
@@ -120,20 +122,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected override TIdentifier OnGetUniqueIdentifier()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override IMetadataCollection InitializeCustomAttributes()
         {
             throw new NotImplementedException();
         }
 
-        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
-        {
-            get { throw new NotImplementedException(); }
-        }
 
         protected override ITypeIdentityManager OnGetManager()
         {

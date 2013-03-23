@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return TypeKind.Modified; }
         }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get { return true; }
         }

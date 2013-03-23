@@ -91,6 +91,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
+        public IEnumerable<IType> GetTypes()
+        {
+            if (this.statementContainer == null)
+                return new IType[0];
+            return this.statementContainer.GetTypes();
+        }
+
         private void CheckStatementContainer()
         {
             if (this.statementContainer == null)

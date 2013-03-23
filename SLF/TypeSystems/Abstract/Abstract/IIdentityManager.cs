@@ -207,14 +207,5 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// of.</param>
         /// <returns></returns>
         RuntimeCoreType ObtainCoreType(IType type);
-        /// <summary>
-        /// Obtains the proper <see cref="IType"/> associated to a given kind of internal
-        /// metadatum.
-        /// </summary>
-        /// <param name="kind">The <see cref="MetadatumKind"/>
-        /// to obtain a relative instance of.</param>
-        /// <returns>A <see cref="IType"/> which represents the metadatum of the <paramref name="kind"/>
-        /// provided.</returns>
-        IType GetMetadatum(MetadatumKind kind);
     }
 }

@@ -47,5 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// targets.
         /// </summary>
         CliFrameworkVersion FrameworkVersion { get; }
+
+        ICliManager IdentityManager { get; }
     }
 }

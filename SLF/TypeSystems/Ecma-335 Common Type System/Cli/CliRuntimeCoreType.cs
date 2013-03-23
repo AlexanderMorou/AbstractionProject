@@ -8,6 +8,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     public enum CliRuntimeCoreType
     {
         /// <summary>
+        /// The definition of the extension metadatum type.
+        /// </summary>
+        ExtensionMetadatum,
+        /// <summary>
         /// The definition of all asynchronous tasks.
         /// </summary>
         AsynchronousTask,

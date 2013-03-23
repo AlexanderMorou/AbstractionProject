@@ -29,6 +29,16 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             Random r = new Random();
             return new Random(Environment.TickCount + r.Next());
         }
+
+        public static IEnumerable<T> Drop<T>(this IEnumerable<T> target, int numberToDrop)
+        {
+            var set = target.ToArray();
+            if (set.Length < numberToDrop)
+                throw new ArgumentException(string.Format("Can't drop '{0}' from set, too few elements.", numberToDrop), "target");
+            for (int i = 0; i < set.Length - numberToDrop; i++)
+                yield return set[i];
+        }
+
         public static IEnumerable<T> AddInline<T>(this IEnumerable<T> target, params T[] inlineElements)
         {
             foreach (var element in target)

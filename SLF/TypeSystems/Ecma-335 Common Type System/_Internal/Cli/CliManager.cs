@@ -1004,7 +1004,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataElementTypeAndModifiersSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            return this.ObtainTypeReference(typeIdentity, typeIdentity.ElementType, activeType, activeMethod);
+            return this.ObtainTypeReference(typeIdentity, typeIdentity.ElementType, activeType, activeMethod,
+                target =>
+                {
+                    switch (typeIdentity.Classification)
+                    {
+                        case TypeElementClassification.Nullable:
+                            return target.MakeNullable();
+                        case TypeElementClassification.Pointer:
+                            return target.MakePointer();
+                        case TypeElementClassification.Reference:
+                            return target.MakeByReference();
+                        default:
+                            throw new NotSupportedException();
+                    }
+                });
         }
 
         private IType ObtainTypeReference(ICliMetadataGenericParameterTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -1079,13 +1093,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return ObtainTypeReference(typeIdentity, typeIdentity.ReturnType, activeType, activeMethod);
         }
 
-        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customAttrHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customAttrHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, Func<IType, IType> preModifier = null)
         {
-            if (customAttrHolder.CustomModifiers.Count == 0)
-                return this.ObtainTypeReference(typeIdentity, activeType, activeMethod);
-            else
-                return this.ObtainTypeReference(typeIdentity, activeType, activeMethod).MakeModified((from m in customAttrHolder.CustomModifiers
+            if (preModifier == null)
+                if (customAttrHolder.CustomModifiers.Count == 0)
+                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod);
+                else
+                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod).MakeModified((from m in customAttrHolder.CustomModifiers
                                                                                                       select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
+            else
+                if (customAttrHolder.CustomModifiers.Count == 0)
+                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod));
+                else
+                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod)).MakeModified((from m in customAttrHolder.CustomModifiers
+                                                                                                                       select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
         }
 
         private IType ObtainTypeReference(ICliMetadataValueOrClassTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -1107,7 +1128,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataVectorArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            throw new NotImplementedException();
+            return this.ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod).MakeArray();
         }
 
         #endregion
@@ -1120,214 +1141,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         //#endregion
-        private class M_T<T, D> :
-            CliGenericTypeBase<T, D>,
-            ICliType
-            where T :
-        IGenericTypeUniqueIdentifier
-            where D :
-        IGenericType<T, D>
-        {
-            private _ICliManager creatingManager;
-
-            internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata, _ICliManager creatingManager, CliAssembly assembly)
-                : base(assembly, metadata)
-            {
-                this.TypeKind = kind;
-                this.MetadataEntry = metadata;
-                this.creatingManager = creatingManager;
-            }
-            protected override ITypeParent OnGetParent()
-            {
-                if (this.MetadataEntry.DeclaringType == null)
-                    return null;
-                return (ITypeParent)this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
-            }
-
-            private TypeKind TypeKind { get; set; }
-
-            protected override TypeKind TypeImpl
-            {
-                get { return TypeKind; }
-            }
-
-            #region ICliType Members
-
-            public new ICliAssembly Assembly
-            {
-                get
-                {
-                    return this.creatingManager.GetRelativeAssembly(this.MetadataEntry.MetadataRoot);
-                }
-            }
-
-            public ICliMetadataTypeDefinitionTableRow MetadataEntry { get; private set; }
-
-            #endregion
-
-            #region ICliDeclaration Members
-
-            ICliMetadataTableRow ICliDeclaration.MetadataEntry
-            {
-                get { return this.MetadataEntry; }
-            }
-
-            #endregion
-
-            protected override IFullMemberDictionary OnGetMembers()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override D OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private class M_T<T> :
-            TypeBase<T>,
-            ICliType
-        where T :
-            ITypeUniqueIdentifier
-        {
-            private _ICliManager creatingManager;
-            internal M_T(TypeKind kind, ICliMetadataTypeDefinitionTableRow metadata, _ICliManager creatingManager)
-            {
-                this.TypeKind = kind;
-                this.MetadataEntry = metadata;
-                this.creatingManager = creatingManager;
-            }
-            protected override ITypeParent OnGetParent()
-            {
-                if (this.MetadataEntry.DeclaringType == null)
-                    return null;
-                return (ITypeParent)this.creatingManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
-            }
-
-            private TypeKind TypeKind { get; set; }
-
-            protected override TypeKind TypeImpl
-            {
-                get { return TypeKind; }
-            }
-
-            protected internal override bool CanCacheImplementsList
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            protected override ILockedTypeCollection OnGetImplementedInterfaces()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IFullMemberDictionary OnGetMembers()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override INamespaceDeclaration OnGetNamespace()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override AccessLevelModifiers OnGetAccessLevel()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IAssembly OnGetAssembly()
-            {
-                return this.Assembly;
-            }
-
-            public override bool IsGenericConstruct
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            protected override bool IsSubclassOfImpl(IType other)
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override string OnGetNamespaceName()
-            {
-                return this.MetadataEntry.Namespace;
-            }
-
-            protected override IType BaseTypeImpl
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            protected override T OnGetUniqueIdentifier()
-            {
-                throw new NotImplementedException();
-            }
-
-            protected override IMetadataCollection InitializeCustomAttributes()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
-            {
-                get { throw new NotImplementedException(); }
-            }
-
-            protected override ITypeIdentityManager OnGetManager()
-            {
-                return this.creatingManager;
-            }
-
-            protected override string OnGetName()
-            {
-                return this.MetadataEntry.Name;
-            }
-
-            public override string FullName
-            {
-                get
-                {
-                    if (this.MetadataEntry.NamespaceIndex == 0)
-                        return string.Format("{0}", this.MetadataEntry.Name);
-                    else
-                        return string.Format("{0}.{1}", this.MetadataEntry.Namespace, this.MetadataEntry.Name);
-                }
-            }
-
-            #region ICliType Members
-
-            public new ICliAssembly Assembly
-            {
-                get
-                {
-                    return this.creatingManager.GetRelativeAssembly(this.MetadataEntry.MetadataRoot);
-                }
-            }
-
-            public ICliMetadataTypeDefinitionTableRow MetadataEntry { get; private set; }
-
-            #endregion
-
-
-            #region ICliDeclaration Members
-
-            ICliMetadataTableRow ICliDeclaration.MetadataEntry
-            {
-                get { return this.MetadataEntry; }
-            }
-
-            #endregion
-
-        }
 
         public virtual ICliMetadataTypeDefinitionTableRow ResolveScope(ICliMetadataTypeDefOrRefRow scope)
         {
@@ -1491,21 +1304,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
             return RuntimeCoreType.None;
-        }
-
-        public IType GetMetadatum(MetadatumKind kind)
-        {
-            switch (kind)
-            {
-                case MetadatumKind.ParameterArray:
-                    return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "ParamArrayAttribute", 0));
-                case MetadatumKind.CompilerGenerated:
-                    return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0));
-                case MetadatumKind.Obsolete:
-                    return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "ObsoleteAttribute", 0));
-                default:
-                    throw new ArgumentOutOfRangeException("kind");
-            }
         }
         public ITypeIdentityMetadataService MetadatumHandler
         {

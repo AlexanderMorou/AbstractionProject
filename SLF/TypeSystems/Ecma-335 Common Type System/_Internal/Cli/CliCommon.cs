@@ -42,7 +42,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal const string ConstructorName = ".ctor";
         internal const string ConstructorStaticName = ".cctor";
 
-
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
@@ -57,17 +56,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static IGeneralTypeUniqueIdentifier ObtainTypeIdentifier(ICliMetadataTypeDefinitionTableRow typeDefinition, IAssemblyUniqueIdentifier aId)
         {
-            int tcCount = (typeDefinition.DeclaringType != null) ? (typeDefinition.TypeParameters.Count - typeDefinition.DeclaringType.TypeParameters.Count) : typeDefinition.TypeParameters.Count;
+            bool hasTypeParametrs = typeDefinition.TypeParameters != null;
+            int typeParamCount = 0;
+            if (hasTypeParametrs)
+                typeParamCount = typeDefinition.TypeParameters.Count;
+            int uniqueTCount = (typeDefinition.DeclaringType != null) ? (hasTypeParametrs ? typeParamCount - typeDefinition.DeclaringType.TypeParameters.Count : 0) : hasTypeParametrs ? typeDefinition.TypeParameters.Count : 0;
             if (typeDefinition.DeclaringType != null)
                 if (typeDefinition.NamespaceIndex == 0)
-                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, tcCount);
+                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, uniqueTCount);
                 else
-                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, tcCount, AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace));
+                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, uniqueTCount, AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace));
             else
                 if (typeDefinition.NamespaceIndex == 0)
-                    return aId.GetTypeIdentifier((string) null, typeDefinition.Name, tcCount);
+                    return aId.GetTypeIdentifier((string) null, typeDefinition.Name, uniqueTCount);
                 else
-                    return aId.GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace), typeDefinition.Name, tcCount);
+                    return aId.GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace), typeDefinition.Name, uniqueTCount);
         }
 
         public static IGeneralTypeUniqueIdentifier ObtainTypeIdentifier(ICliMetadataTypeRefTableRow typeReference)
@@ -589,8 +592,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     else
                         return false;
                 }
-                else if (((field.FieldAttributes & FieldAttributes.RTSpecialName) == FieldAttributes.RTSpecialName) &&
-                    field.Name == "value__")
+                else if (((field.FieldAttributes & FieldAttributes.RTSpecialName) == FieldAttributes.RTSpecialName))
                     continue;
                 else
                     return false;
@@ -614,9 +616,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         return true;
                     return false;
                 }
-                string typeName;
-                bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeIdentity.Namespace == "System" && ((typeName = typeIdentity.Name) == "Delegate" || typeName == "MulticastDelegate") &&
-                       IsBaseObject(manager, typeIdentity.Extends);
+                string typeName = typeIdentity.Name;
+                bool result = false;
+                if (((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract))
+                {
+                    if (typeName == "MulticastDelegate")
+                        result = IsBaseDelegateType(manager, typeIdentity.Extends);
+                    else if (typeName == "Delegate")
+                        result = IsBaseObject(manager, typeIdentity.Extends);
+                }
+                //bool result = ((typeIdentity.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract) && typeIdentity.Namespace == "System" && ((typeName = typeIdentity.Name) == "Delegate" || typeName == "MulticastDelegate") &&
+                //       IsBaseObject(manager, typeIdentity.Extends);
                 if (result)
                     manager.BaseTypeKinds.Add(typeIdentity, BaseKindCacheType.DelegateBase);
                 return result;
@@ -976,6 +986,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 default:
                     return AccessLevelModifiers.PrivateScope;
             }
+        }
+
+        internal static IType ObtainTypeReference(this ICliMetadataPropertySignature signature, _ICliManager manager, ICliType activeType)
+        {
+            var result = manager.ObtainTypeReference(signature.PropertyType, activeType, null);
+            if (signature.CustomModifiers.Count > 0)
+            {
+                result = result.MakeModified((from t in signature.CustomModifiers
+                                              select new TypeModification(manager.ObtainTypeReference(t.ModifierType, activeType, null), t.Required)).ToArray());
+            }
+            return result;
+        }
+
+        internal static void GetCustomAttributeData(this ICliMetadataCustomAttributeTableRow target)
+        {
+
         }
     }
 }

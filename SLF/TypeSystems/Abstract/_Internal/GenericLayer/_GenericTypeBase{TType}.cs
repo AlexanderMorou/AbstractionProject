@@ -238,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get
             {
@@ -249,7 +249,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                  * */
                 var tbOrig = original as TypeBase<TTypeIdentifier>;
                 if (tbOrig != null)
-                    return tbOrig.CanCacheImplementsList;
+                    return tbOrig._CanCacheImplementsList;
                 return false;
             }
         }

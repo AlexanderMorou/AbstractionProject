@@ -18,8 +18,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IMethodSignatureParent<TSignature, TSignatureParent>
     {
 
-        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, TSignatureParent parent)
-            : base(metadata, assembly, parent)
+        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, TSignatureParent parent, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
+            : base(metadata, assembly, parent, uniqueIdentifier)
         {
         }
 
@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             private new CliMethodSignatureBase<TSignature, TSignatureParent> Parent { get { return ((CliMethodSignatureBase<TSignature, TSignatureParent>) (object) base.Parent); } }
 
             public ParameterMemberDictionary(CliMethodSignatureBase<TSignature, TSignatureParent> signature)
-                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot)
+                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot, (TSignature)(object)signature)
             {
             }
 
@@ -77,9 +77,47 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 get { return this.Parent; }
             }
+            
+            public override string ToString()
+            {
+                return this.UniqueIdentifier.ToString();
+            }
+        }
+    }
 
+    internal partial class CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent>
+    {
+
+        internal class TypeParameterDictionary :
+            CliGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>
+        {
+            public TypeParameterDictionary(CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> parent)
+                : base(parent.MetadataEntry.TypeParameters, parent) { }
+
+            public new CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> Parent { get { return (CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent>)base.Parent; } }
+
+            protected override IGenericParameterUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataGenericParameterTableRow metadata) { return AstIdentifier.GetGenericParameterIdentifier(index, false); }
+
+            protected override IMethodSignatureGenericTypeParameterMember CreateElementFrom(int index, ICliMetadataGenericParameterTableRow metadataEntry)
+            {
+                return this.Parent.GetTypeParameter(index, metadataEntry);
+            }
         }
 
+        internal abstract class TypeParameter :
+            CliGenericParameterMember<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>,
+            IMethodSignatureGenericTypeParameterMember
+        {
+            internal TypeParameter(IMethodSignatureMember parent, ICliMetadataGenericParameterTableRow metadataEntry, int position)
+                : base(parent, metadataEntry, position)
+            {
+            }
 
+            protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
+            {
+                return AstIdentifier.GetGenericParameterIdentifier((int)this.Position, false);
+            }
+
+        }
     }
 }

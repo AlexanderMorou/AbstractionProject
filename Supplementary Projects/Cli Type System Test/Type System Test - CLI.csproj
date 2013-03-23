@@ -80,7 +80,12 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="_abs.odcs">
+      <HintPath>..\..\UI\Ownerdrawn Controls\obj\x86\Debug\_abs.odcs.dll</HintPath>
+    </Reference>
     <!--x86 Platform-->
     <!--Release-->
     <!--Debug-->
@@ -105,6 +110,14 @@
     <ProjectReference Include="..\..\SLF\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
       <Name>Abstraction Compiler Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Languages\CSharp\CSharp.csproj">
+      <Project>{a5e27b08-e854-40d5-b88b-0f10d1ca64af}</Project>
+      <Name>CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj">
+      <Project>{9c89419d-f2a1-4882-8408-6708a038e025}</Project>
+      <Name>VisualBasic.NET</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SLF\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>

@@ -1279,9 +1279,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     else if (this.Parent is INamespaceDeclaration)
                     {
                         if (this.TypeParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, this.TypeParameters.Count);
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, 0);
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
 
                     }
                     else if (this.TypeParametersInitialized)
@@ -1467,6 +1467,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                             else
                                 return TypeBase<IGeneralGenericTypeUniqueIdentifier, TType>.EmptyIdentifiers;
             }
+        }
+        public override IEnumerable<IType> GetTypes()
+        {
+            return base.GetTypes().Concat(this.binaryOperatorCoercions.GetTypes().Concat(this.events.GetTypes()).Concat(this.indexers.GetTypes()).Concat(this.methods.GetTypes()).Concat(this.properties.GetTypes()).Concat(this.typeCoercions.GetTypes()).Concat(this.unaryOperatorCoercions.GetTypes()));
         }
     }
 }

@@ -692,5 +692,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return this.Parent.IdentityManager;
         }
+
+        public virtual IEnumerable<IType> GetTypes()
+        {
+            return this.types.GetTypes();
+        }
     }
 }

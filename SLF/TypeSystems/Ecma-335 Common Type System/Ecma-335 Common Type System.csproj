@@ -90,6 +90,12 @@
     <!--Debug-->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cli\ICliFlagsEnumerationEntry.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomAttribute.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomAttributeArgument.cs" />
+    <Compile Include="_Internal\Cli\CliClassType %28MemberDefinitions%29.cs" />
+    <Compile Include="_Internal\Cli\CliFlagsEnumeration.cs" />
+    <Compile Include="Cli\CliFlagsEnumerationEntry.cs" />
     <Compile Include="Cli\CliGateway.cs" />
     <Compile Include="Cli\CliRuntimeCoreType.cs" />
     <Compile Include="Cli\CliRuntimeTarget.cs" />
@@ -111,7 +117,33 @@
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionClause.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionTable.cs" />
     <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeader.cs" />
+    <Compile Include="Languages\CliMetadatumService.cs" />
     <Compile Include="_Internal\Cli\CliEnumType.cs" />
+    <Compile Include="_Internal\Cli\Members\CliConstructorMember+ParameterDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliConstructorMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliConstructorMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliDependentParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliDependentParameterMemberDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliDependentParameterMemberDictionary+ValueCollection.cs" />
+    <Compile Include="_Internal\Cli\Members\CliGenericParameterMember+DefaultCtorEntry.cs" />
+    <Compile Include="_Internal\Cli\Members\CliGenericParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliGenericParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliInterfaceType %28MemberDefinitions%29.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerSignatureMember+ParameterDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertyMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertyMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertySignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertySignatureMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerSignatureMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerMember+ParameterDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventMember+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventMember.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodSpecSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Instructions\CilBinaryOperationEntry.cs" />
     <Compile Include="_Internal\Cli\Metadata\Instructions\CliFlowInstruction.cs" />
@@ -168,7 +200,7 @@
     <Compile Include="_Internal\Cli\CliMetadataCollection.cs" />
     <Compile Include="_Internal\Cli\CliMetadatum.cs" />
     <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
-    <Compile Include="_Internal\Cli\CliStructType+MemberDefinitions.cs" />
+    <Compile Include="_Internal\Cli\CliStructType %28MemberDefinitions%29.cs" />
     <Compile Include="_Internal\Cli\CliStructType.cs" />
     <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
       <SubType>Code</SubType>
@@ -315,7 +347,6 @@
     <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
     <Compile Include="_Internal\Cli\CliTypeBase.cs" />
     <Compile Include="_Internal\Cli\CliGenericTypeBase+TypeParameterDictionary.cs" />
-    <Compile Include="_Internal\Cli\Members\CliMethodSignatureMemberDictionary.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
     <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomModifierSignature.cs" />
@@ -475,7 +506,6 @@
     <Compile Include="Cli\ICliManager.cs" />
     <Compile Include="Cli\ICliRuntimeEnvironmentInfo.cs" />
     <Compile Include="Cli\ICliAssembly.cs" />
-    <Compile Include="Cli\ITypeUniqueIdentifierEx.cs" />
     <Compile Include="Cli\Metadata\AssemblyFlags.cs" />
     <Compile Include="Cli\Metadata\AssemblyHashAlgorithm.cs">
       <SubType>Code</SubType>
@@ -546,6 +576,10 @@
     <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\FiniteAutomation\Finite Automation.csproj">
+      <Project>{ecc67b87-6eba-4f40-baae-fe838ff8afa3}</Project>
+      <Name>Finite Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>

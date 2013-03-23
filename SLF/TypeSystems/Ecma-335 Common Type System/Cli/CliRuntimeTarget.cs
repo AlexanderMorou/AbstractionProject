@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf.Cli;
 
-namespace AllenCopeland.Abstraction.Slf.Cli
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class CliRuntimeTarget :
         ICliRuntimeTarget

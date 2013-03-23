@@ -86,6 +86,9 @@
   <PropertyGroup>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
@@ -116,7 +119,6 @@
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary+ParameterMember.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
-    <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\ICompilationContext.cs" />
     <Compile Include="Compilers\IMalleableCompilationContext.cs">
@@ -126,19 +128,6 @@
     <Compile Include="Compilers\MalleableCompilationContext.cs" />
     <Compile Include="Compilers\PrimitiveTypeSizes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Languages\Cil\CommonIntermediateProvider+AssemblyService.cs" />
-    <Compile Include="Languages\CSharp\CSharpCompilerMessages %28Message Creator%29.cs" />
-    <Compile Include="Languages\CSharp\CSharpCompilerReferenceError.cs" />
-    <Compile Include="Languages\CSharp\CSharpCompilerReferenceWarning.cs" />
-    <Compile Include="Languages\CSharp\CSharpErrorIdentifiers.cs" />
-    <Compile Include="Languages\CSharp\CSharpProvider+AssemblyService.cs" />
-    <Compile Include="Languages\CSharp\CSharpWarningIdentifiers.cs" />
-    <Compile Include="Languages\CSharp\CSharpWarningLevels.cs" />
-    <Compile Include="Languages\CSharp\ICSharpCompilerReferenceError.cs" />
-    <Compile Include="Languages\CSharp\ICSharpCompilerReferenceWarning.cs" />
-    <Compile Include="Languages\IIntermediateAssemblyCtorLanguageService.cs" />
-    <Compile Include="Languages\IIntermediateTypeCtorLanguageService.cs" />
-    <Compile Include="Languages\IHighLevelLanguageService.cs" />
     <Compile Include="Ast\DeclarationIdentifierChangeEventArgs.cs" />
     <Compile Include="Ast\DynamicType.cs" />
     <Compile Include="Ast\IIntermediateInstantiableType`15.cs" />
@@ -150,11 +139,28 @@
     <Compile Include="Ast\IntermediateSignatureMemberMapping.cs" />
     <Compile Include="Ast\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Ast\Statements\IBoundChangeEventSignatureHandlerStatement.cs" />
-    <Compile Include="Languages\ILanguageAsynchronousQueryService.cs" />
-    <Compile Include="Languages\ILanguageService.cs" />
-    <Compile Include="Languages\LanguageGuids.cs" />
+    <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
     <Compile Include="Languages\DefaultLanguageServices.cs" />
+    <Compile Include="Languages\IAllenCopelandLanguageVendor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Languages\IIntermediateAssemblyCtorLanguageService.cs" />
+    <Compile Include="Languages\IIntermediateTypeCtorLanguageService.cs" />
+    <Compile Include="Languages\ILanguageASTTranslator.cs" />
+    <Compile Include="Languages\ILanguageAsynchronousQueryService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Languages\ILanguageCSTTranslator.cs" />
+    <Compile Include="Languages\ILanguageParser.cs" />
+    <Compile Include="Languages\IMicrosoftLanguageVendor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Languages\IntermediateMetadatumMarshalService.cs" />
+    <Compile Include="Languages\LanguageGuids.cs" />
     <Compile Include="Languages\LanguageProvider.cs" />
+    <Compile Include="Languages\LanguageVendorBase.cs" />
+    <Compile Include="Languages\LanguageVendors.cs" />
+    <Compile Include="Languages\MicrosoftLanguageVendor.cs" />
     <Compile Include="Languages\VersionedHighLevelLanguageProvider.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -203,75 +209,8 @@
     <Compile Include="Compilers\AnonymousTypeMember.cs" />
     <Compile Include="Compilers\AnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\AssemblyOutputType.cs" />
-    <Compile Include="Languages\CSharp\CSharpCompilerMessages.cs" />
-    <Compile Include="Languages\CSharp\CSharpCompilerMessages+Formatter.cs">
-      <DependentUpon>CSharpCompilerMessages.cs</DependentUpon>
-    </Compile>
     <Compile Include="Compilers\DebugSupport.cs" />
-    <Compile Include="Cst\IConcreteNode.cs" />
     <Compile Include="Cst\ICSharpCompilationUnit.cs" />
-    <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
-    <Compile Include="Languages\Cil\CommonIntermediateAssembly.cs" />
-    <Compile Include="Languages\Cil\CommonIntermediateLanguage.cs" />
-    <Compile Include="Languages\Cil\CommonIntermediateProvider.cs" />
-    <Compile Include="Languages\Cil\ICommonIntermediateAssembly.cs" />
-    <Compile Include="Languages\Cil\ICommonIntermediateLanguage.cs" />
-    <Compile Include="Languages\Cil\ICommonIntermediateProvider.cs" />
-    <Compile Include="Languages\CSharp\CSharpAssembly.cs" />
-    <Compile Include="Languages\CSharp\CSharpLanguage.cs" />
-    <Compile Include="Languages\CSharp\CSharpProvider.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpAddSubtExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpAssignExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpBinaryOperationExpressionBase.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpBitwiseAndExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpBitwiseExclusiveOrExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpBitwiseOrExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpConditionalExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpExpressionBase.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpExpressionExtensions.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpInequalityExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpLogicalAndExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpLogicalOrExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpMulDivExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpRelationalExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\CSharpShiftExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpAddSubtExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpAssignExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpBinaryOperator.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpBitwiseAndExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpBitwiseExclusiveOrExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpBitwiseOrExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpConditionalExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpInequalityExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpLogicalAndExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpLogicalOrExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpMulDivExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpRelationalExpression.cs" />
-    <Compile Include="Languages\CSharp\Expressions\ICSharpShiftExpression.cs" />
-    <Compile Include="Languages\CSharp\ICSharpAssembly.cs" />
-    <Compile Include="Languages\CSharp\ICSharpASTTranslator.cs" />
-    <Compile Include="Languages\CSharp\ICSharpLanguage.cs" />
-    <Compile Include="Languages\CSharp\ICSharpProvider.cs" />
-    <Compile Include="Languages\IAllenCopelandLanguageVendor.cs" />
-    <Compile Include="Languages\IDynamicLanguage.cs" />
-    <Compile Include="Languages\IHighLevelLanguage.cs" />
-    <Compile Include="Languages\IHighLevelLanguageProvider.cs" />
-    <Compile Include="Languages\ILanguage.cs" />
-    <Compile Include="Languages\ILanguageASTTranslator.cs" />
-    <Compile Include="Languages\ILanguageCSTTranslator.cs" />
-    <Compile Include="Languages\ILanguageParser.cs" />
-    <Compile Include="Languages\ILanguageProcessor.cs" />
-    <Compile Include="Languages\ILanguageProvider.cs" />
-    <Compile Include="Languages\ILanguageVendor.cs" />
-    <Compile Include="Languages\IMicrosoftLanguageVendor.cs" />
-    <Compile Include="Languages\IVersionedHighLevelLanguage{TVersion}.cs" />
-    <Compile Include="Languages\IVersionedHighLevelLanguageProvider{TVersion, TRootNode}.cs" />
-    <Compile Include="Languages\IVersionedLanguage{TVersion}.cs" />
-    <Compile Include="Languages\IVersionedLanguageProvider{TVersion}.cs" />
-    <Compile Include="Languages\LanguageVendorBase.cs" />
-    <Compile Include="Languages\LanguageVendors.cs" />
-    <Compile Include="Languages\MicrosoftLanguageVendor.cs" />
     <Compile Include="Linkers\AssemblyReference.cs" />
     <Compile Include="Linkers\AssemblyReferenceAliasCollection.cs" />
     <Compile Include="Linkers\AssemblyReferenceCollection.cs" />
@@ -525,7 +464,6 @@
     <Compile Include="Ast\IMetadataDefinitionParameterCollection.cs" />
     <Compile Include="Ast\_IMetadatumDefinitionParameterValue.cs" />
     <Compile Include="Ast\IDataSizeType.cs" />
-    <Compile Include="Ast\IHighLevelIntermediateAssembly.cs" />
     <Compile Include="Ast\IIntermediateAssembly.cs" />
     <Compile Include="Ast\IIntermediateAssembly`2.cs" />
     <Compile Include="Ast\IIntermediateAssemblyInformation.cs" />
@@ -1009,6 +947,10 @@
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
       <Name>Common Utilities</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\FiniteAutomation\Finite Automation.csproj">
+      <Project>{ecc67b87-6eba-4f40-baae-fe838ff8afa3}</Project>
+      <Name>Finite Automation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>

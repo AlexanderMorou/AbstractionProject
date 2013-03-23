@@ -110,7 +110,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public TCtor TypeInitializer
         {
-            get { throw new NotImplementedException(); }
+            get { 
+                TCtor staticCtor ;
+                if (!this.Constructors.TryGetValue(AstIdentifier.GetCtorSignatureIdentifier(), out staticCtor))
+                    return null;
+                return staticCtor;
+            }
         }
 
         #endregion
@@ -316,7 +321,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IConstructorMemberDictionary<TCtor, TType> InitializeConstructors()
         {
-            throw new NotImplementedException();
+            return new CliConstructorMemberDictionary<TCtor, TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IBinaryOperatorCoercionMemberDictionary<TType> InitializeBinaryOperatorCoercions()
@@ -346,17 +351,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IMethodMemberDictionary<TMethod, TType> InitializeMethods()
         {
-            throw new NotImplementedException();
+            return new CliMethodMemberDictionary<TMethod, TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IIndexerMemberDictionary<TIndexer, TType> InitializeIndexers()
         {
-            throw new NotImplementedException();
+            return new CliIndexerMemberDictionary<TIndexer, TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IPropertyMemberDictionary<TProperty, TType> InitializeProperties()
         {
-            throw new NotImplementedException();
+            return new CliPropertyMemberDictionary<TProperty, TType>((TType)(object)this, (CliFullMemberDictionary)this.Members);
         }
 
         private IFullMemberDictionary Initialize_Members()
@@ -441,13 +446,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 case CliMemberType.BinaryOperator:
                     return this.GetBinaryOperator((ICliMetadataMethodDefinitionTableRow)metadataEntry, (IBinaryOperatorUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Constructor:
-                    return this.GetConstructor((ICliMetadataMethodDefinitionTableRow)(metadataEntry));
+                    return this.GetConstructor((ICliMetadataMethodDefinitionTableRow)(metadataEntry), (IGeneralSignatureMemberUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Event:
                     return this.GetEvent((ICliMetadataEventTableRow)metadataEntry, (IGeneralSignatureMemberUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Field:
                     return this.GetField((ICliMetadataFieldTableRow)metadataEntry);
                 case CliMemberType.Indexer:
-                    return this.GetIndexer((ICliMetadataPropertyTableRow)metadataEntry);
+                    return this.GetIndexer((ICliMetadataPropertyTableRow)metadataEntry, (IGeneralSignatureMemberUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Method:
                     return this.GetMethod((ICliMetadataMethodDefinitionTableRow)metadataEntry, (IGeneralGenericSignatureMemberUniqueIdentifier)uniqueIdentifier);
                 case CliMemberType.Property:
@@ -461,13 +466,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        protected abstract TCtor GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry);
+        protected abstract TCtor GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier);
 
         protected abstract TEvent GetEvent(ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier);
 
         protected abstract TField GetField(ICliMetadataFieldTableRow metadataEntry);
 
-        protected abstract TIndexer GetIndexer(ICliMetadataPropertyTableRow metadataEntry);
+        protected abstract TIndexer GetIndexer(ICliMetadataPropertyTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier);
 
         protected abstract TMethod GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier);
 
@@ -486,6 +491,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected virtual IUnaryOperatorCoercionMember<TType> GetUnaryOperator(ICliMetadataMethodDefinitionTableRow metadataEntry, IUnaryOperatorUniqueIdentifier uniqueIdentifier)
         {
             return new UnaryOperatorMember(uniqueIdentifier, metadataEntry, (TType)(object)(this));
+        }
+
+        protected override TType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
+        {
+            get { return this.Members.Keys.Cast<IGeneralDeclarationUniqueIdentifier>().Concat(this.Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()); }
         }
     }
 }

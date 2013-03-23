@@ -6,41 +6,23 @@ using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.Compilers;
+using System.Reflection;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
     internal partial class MyVisualBasicProvider :
-        VersionedHighLevelLanguageProvider<IVisualBasicLanguage, IMyVisualBasicProvider, VisualBasicVersion, IVisualBasicStart>,
+        VersionedLanguageProvider<IVisualBasicLanguage, IMyVisualBasicProvider, VisualBasicVersion, IIntermediateCliManager, Type, Assembly>,
         //IVisualBasicProvider<TAssembly, TProvider>
         //VisualBasicProvider<IMyVisualBasicAssembly, IMyVisualBasicProvider>,
         IMyVisualBasicProvider
     {
-        internal MyVisualBasicProvider(VisualBasicVersion version)
-            : base(version)
+        internal MyVisualBasicProvider(VisualBasicVersion version, ITypeIdentityManager identityManager)
+            : base(version, identityManager)
         {
-            this.RegisterService<IIntermediateAssemblyCtorLanguageService<IMyVisualBasicProvider, IVisualBasicLanguage, IVisualBasicStart, IMyVisualBasicAssembly>>(LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService, new AssemblyService(this));
-            this.RegisterService<IIntermediateTypeCtorLanguageService<IIntermediateClassType>>(LanguageGuids.ConstructorServices.IntermediateClassCreatorService, new ClassService(this));
-        }
-
-
-        protected override ILanguageParser<IVisualBasicStart> OnGetParser()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override ILanguageCSTTranslator<IVisualBasicStart> OnGetCSTTranslator()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IIntermediateCodeTranslator OnGetTranslator()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override IAnonymousTypePatternAid OnGetAnonymousTypePattern()
-        {
-            return IntermediateGateway.VBPattern;
+            this.RegisterService<IIntermediateAssemblyCtorLanguageService<IMyVisualBasicProvider, IVisualBasicLanguage, IMyVisualBasicAssembly>>(LanguageGuids.Services.IntermediateAssemblyCreatorService, new AssemblyService(this));
+            this.RegisterService<IIntermediateTypeCtorLanguageService<IIntermediateClassType>>(LanguageGuids.Services.ClassServices.ClassCreatorService, new ClassService(this));
+            this.RegisterService<IMetadatumMarshalService>(LanguageGuids.Services.MetadatumMarshalService, new IntermediateMetadatumMarshalService(this));
         }
 
         protected override IVisualBasicLanguage OnGetLanguage()
@@ -65,6 +47,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         public new IMyVisualBasicAssembly CreateAssembly(string name)
         {
             return (IMyVisualBasicAssembly)base.CreateAssembly(name);
+        }
+
+        public IIntermediateCliManager IdentityManager
+        {
+            get
+            {
+                return (IIntermediateCliManager)base.IdentityManager;
+            }
         }
 
         #endregion

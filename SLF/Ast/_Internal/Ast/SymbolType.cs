@@ -210,7 +210,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             get { return TypeKind.Other; }
         }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get { return true; }
         }

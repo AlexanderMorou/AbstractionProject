@@ -176,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         ILockedTypeCollection GetDirectlyImplementedInterfaces();
 
         /// <summary>
-        /// Returns the <see cref="IAssembly"/> in which the <see cref="IType"/> is declared
+        /// Returns the <see cref="IAssembly"/> in which the <see cref="IType"/> is declared.
         /// </summary>
         IAssembly Assembly { get; }
 

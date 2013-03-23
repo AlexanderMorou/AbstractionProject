@@ -127,7 +127,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
 
 
             interLangGenerator.Emit(OpCodes.Newobj, constructor);
-            if (constructor.DeclaringType.IsValueType)
+            if (constructor.DeclaringType.IsValueType && !delegateInvoke.ReturnType.IsValueType)
                 interLangGenerator.Emit(OpCodes.Box, constructor.DeclaringType);
 
             interLangGenerator.Emit(OpCodes.Ret);

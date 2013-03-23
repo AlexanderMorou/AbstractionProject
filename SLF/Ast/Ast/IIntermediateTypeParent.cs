@@ -64,5 +64,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// helps resolve type identities.
         /// </summary>
         ITypeIdentityManager IdentityManager { get; }
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the type parent.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the type parent.</returns>
+        IEnumerable<IType> GetTypes();
     }
 }

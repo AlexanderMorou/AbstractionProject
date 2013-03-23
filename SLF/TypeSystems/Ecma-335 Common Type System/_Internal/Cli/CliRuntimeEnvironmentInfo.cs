@@ -258,7 +258,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     goto case CliFrameworkVersion.v1_0_3705;
                 case CliFrameworkVersion.v4_5:
                 case CliFrameworkVersion.v4_0_30319:
-                    string fVer = (Version & ~CliFrameworkVersion.ClientProfile) == CliFrameworkVersion.v4_0_30319 ? "v4.0" : "v4.5";
+                    string fVer = "v4.0";//(Version & ~CliFrameworkVersion.ClientProfile) == CliFrameworkVersion.v4_0_30319 ? "v4.0" : "v4.5";
                     string runtimeDir;
                     string[] parts;
                     int frIndex;
@@ -650,7 +650,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region ICliRuntimeEnvironmentInfo Members
 
-
         public IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly assembly)
         {
             switch (coreType)
@@ -672,7 +671,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 case CliRuntimeCoreType.NullableType:
                     return NullableType;
                 case CliRuntimeCoreType.ParamArrayMetadatum:
-                    return ParamArrayAttribute;
+                    return ParamArrayMetadatum;
+                case CliRuntimeCoreType.ExtensionMetadatum:
+                    return ExtensionMetadatum;
                 default:
                     throw new ArgumentOutOfRangeException("coreType");
             }
@@ -680,7 +681,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #endregion
 
-        public IGeneralTypeUniqueIdentifier ParamArrayAttribute
+        public IGeneralTypeUniqueIdentifier ParamArrayMetadatum
         {
             get
             {
@@ -705,6 +706,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IEnumerable<string> AdditionalPaths
         {
             get { return this.additionalResolutionPaths.GetEnumerable(); }
+        }
+
+        public IGeneralTypeUniqueIdentifier ExtensionMetadatum
+        {
+            get
+            {
+                if (this.UseCoreLibrary)
+                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "ExtensionAttribute", 0);
+                else
+                    return AstIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "ExtensionAttribute", 0);
+            }
         }
     }
 }

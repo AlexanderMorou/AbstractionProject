@@ -67,7 +67,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// 
         /// </summary>
-        internal protected abstract bool CanCacheImplementsList { get; }
+        protected abstract bool CanCacheImplementsList { get; }
+
+        /* *
+         * Fix attributed to issue with inheritance of abstract member marked
+         * with protected and internal.  Inheritance tree broke on inheritors
+         * which implemented the abstract property properly, but the C# compiler
+         * failed to accept the entry.
+         * */
+        internal bool _CanCacheImplementsList { get { return this.CanCacheImplementsList; } }
 
         /// <summary>
         /// Returns the <see cref="ITypeCollection"/> which represents

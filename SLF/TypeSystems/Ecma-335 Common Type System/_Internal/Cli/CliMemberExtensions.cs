@@ -10,6 +10,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -175,9 +176,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             MethodUseFlags usageFlags = method.UsageDetails.UsageFlags;
             if ((usageFlags & (MethodUseFlags.SpecialName | MethodUseFlags.RTSpecialName)) == (MethodUseFlags.SpecialName | MethodUseFlags.RTSpecialName))
             {
-                if (method.Name == ".ctor" && (usageFlags & MethodUseFlags.Static) != MethodUseFlags.Static)
+                if (method.Name == CliCommon.ConstructorName && (usageFlags & MethodUseFlags.Static) != MethodUseFlags.Static)
                     return CliMemberType.Constructor;
-                else if (method.Name == ".cctor" && (usageFlags & MethodUseFlags.Static) == MethodUseFlags.Static)
+                else if (method.Name == CliCommon.ConstructorStaticName && (usageFlags & MethodUseFlags.Static) == MethodUseFlags.Static)
                     return CliMemberType.Constructor;
             }
             else if ((usageFlags & (MethodUseFlags.SpecialName | MethodUseFlags.Static)) == (MethodUseFlags.SpecialName | MethodUseFlags.Static))
@@ -292,7 +293,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return AstIdentifier.GetMemberIdentifier(fieldDef.Name);
         }
 
-        internal static ISignatureMemberUniqueIdentifier GetIndexerIdentifier(ICliMetadataPropertyTableRow indexerDef, IType owner, _ICliManager manager)
+        internal static IGeneralSignatureMemberUniqueIdentifier GetIndexerIdentifier(ICliMetadataPropertyTableRow indexerDef, IType owner, _ICliManager manager)
         {
             ICliMetadataMethodDefinitionTableRow targetMethod = null;
             bool knockOffLast = false;
@@ -318,9 +319,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static IGeneralGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodSignatureMember> memberGetter)
         {
-            return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
-                                                                                                                select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
+            bool typeParamCheck = methodDef.MetadataRoot.TableStream.GenericParameterTable != null;
+            if (typeParamCheck)
+                return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
+                                                                                                                    select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
+            else
+                return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, 0, (from p in methodDef.Signature.Parameters
+                                                                                       select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
         }
+
 
         internal static IMemberUniqueIdentifier GetPropertyIdentifier(ICliMetadataPropertyTableRow propertyDef)
         {
@@ -418,6 +425,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var delegateType = (ICliDelegateType)signatureType;
             return delegateType.InvokeMethodIndex;
         }
+        internal static ICliMetadataRoot GetEventDelegateMetadataRoot(ICliMetadataEventTableRow metadataEntry, _ICliManager manager)
+        {
+            return manager.ResolveScope(metadataEntry.SignatureType).MetadataRoot;
+        }
 
         internal static bool IsLastParams<TParent, TParameter>(this IParameterParent<TParent, TParameter> parent, ICliAssembly assembly, _ICliManager manager)
             where TParent :
@@ -429,6 +440,48 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var @params = parent.Parameters;
             var lastParam = @params.Count == 0 ? (TParameter)null : @params[@params.Keys[@params.Count - 1]];
             return lastParam.IsDefined(manager.ObtainTypeReference(manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, assembly)));
+        }
+
+        internal static AccessLevelModifiers ObtainAccessLevelModifiers(this IEnumerable<ICliMetadataMethodDefinitionTableRow> methods)
+        {
+            AccessLevelModifiers resultModifiers = AccessLevelModifiers.PrivateScope;
+            foreach (var method in methods)
+            {
+                AccessLevelModifiers currentModifiers;
+                switch (method.UsageDetails.Accessibility)
+                {
+                    case MethodMemberAccessibility.Private:
+                        currentModifiers = AccessLevelModifiers.Private;
+                        break;
+                    case MethodMemberAccessibility.FamilyAndAssembly:
+                        currentModifiers = AccessLevelModifiers.ProtectedAndInternal;
+                        break;
+                    case MethodMemberAccessibility.Assembly:
+                        currentModifiers = AccessLevelModifiers.Internal;
+                        break;
+                    case MethodMemberAccessibility.Family:
+                        currentModifiers = AccessLevelModifiers.Protected;
+                        break;
+                    case MethodMemberAccessibility.FamilyOrAssembly:
+                        currentModifiers = AccessLevelModifiers.ProtectedOrInternal;
+                        break;
+                    case MethodMemberAccessibility.Public:
+                        currentModifiers = AccessLevelModifiers.Public;
+                        break;
+                    default:
+                        currentModifiers = AccessLevelModifiers.PrivateScope;
+                        break;
+                }
+                if (resultModifiers.CompareTo(currentModifiers) < 0)
+                    resultModifiers = currentModifiers;
+            }
+            return resultModifiers;
+        }
+
+        internal static AccessLevelModifiers ObtainAccessLevelModifiers(this IEnumerable<ICliMetadataMethodSemanticsTableRow> methods)
+        {
+            return (from semantics in methods
+                    select semantics.Method).ObtainAccessLevelModifiers();
         }
     }
 }

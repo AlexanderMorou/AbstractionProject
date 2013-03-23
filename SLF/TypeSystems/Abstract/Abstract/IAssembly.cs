@@ -1,6 +1,8 @@
 ﻿using System;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Collections;
+using System.Collections.Generic;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -72,5 +74,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A <see cref="IType"/> relative to the <paramref name="typeIdentifier"/>
         /// provided.</returns>
         IType GetType(IGeneralTypeUniqueIdentifier typeIdentifier);
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the assembly.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the assembly.</returns>
+        IEnumerable<IType> GetTypes();
     }
 }

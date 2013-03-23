@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             private new CliMethodMemberBase<TMethod, TMethodParent> Parent { get { return ((CliMethodMemberBase<TMethod, TMethodParent>)(object)base.Parent); } }
 
             public ParameterMemberDictionary(CliMethodMemberBase<TMethod, TMethodParent> signature)
-                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot)
+                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot, (TMethod)(object)signature)
             {
             }
 
@@ -70,6 +70,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 get { return this.Parent; }
             }
 
+            public override string ToString()
+            {
+                return this.UniqueIdentifier.ToString();
+            }
         }
 
     }

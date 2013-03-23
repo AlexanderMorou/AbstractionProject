@@ -90,6 +90,5 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     return this.GetRoot().provider;
             }
         }
-
     }
 }

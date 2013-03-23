@@ -76,5 +76,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         {
             return new MethodUseDetails(value);
         }
+
+        public override string ToString()
+        {
+            return string.Format("Accessibility = {0}, UsageFlags = {1}, VTableFlags = {2}", this.Accessibility, this.UsageFlags, this.VTableFlags);
+        }
     }
 }

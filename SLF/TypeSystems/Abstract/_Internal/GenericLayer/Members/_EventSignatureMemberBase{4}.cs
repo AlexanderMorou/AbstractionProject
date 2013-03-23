@@ -23,6 +23,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             IEventSignatureParent<TEvent, TEventParameter, TEventParent>
     {
         private IParameterMemberDictionary<TEvent, TEventParameter> parameters;
+        private IMethodSignatureMember onAddMethod;
+        private IMethodSignatureMember _onAddMethod;
+        private IMethodSignatureMember onRemoveMethod;
+        private IMethodSignatureMember _onRemoveMethod;
         internal _EventSignatureMemberBase(TEvent original, TEventParent adjustedParent)
             : base(original, adjustedParent)
         {
@@ -68,6 +72,62 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         #endregion
 
         #region IEventSignatureMember Members
+
+        public IMethodSignatureMember OnAddMethod
+        {
+            get
+            {
+                if (this.onAddMethod == null)
+                {
+                    IMethodSignatureMember origOnAddMethod = this.Original.OnAddMethod;
+                    _onAddMethod = origOnAddMethod;
+                    _onAddMethod.Disposed += new EventHandler(_onAddMethod_Disposed);
+                    onAddMethod = this.OnGetMethod(Original.OnAddMethod);
+                }
+                return this.onAddMethod;
+            }
+        }
+        void _onAddMethod_Disposed(object sender, EventArgs e)
+        {
+            if (this._onAddMethod != null)
+            {
+                _onAddMethod.Disposed -= new EventHandler(_onAddMethod_Disposed);
+                this._onAddMethod = null;
+            }
+            if (this.onAddMethod != null)
+            {
+                this.onAddMethod.Dispose();
+                this.onAddMethod = null;
+            }
+        }
+
+        public IMethodSignatureMember OnRemoveMethod
+        {
+            get
+            {
+                if (this.onRemoveMethod == null)
+                {
+                    IMethodSignatureMember origOnRemoveMethod = this.Original.OnRemoveMethod;
+                    _onRemoveMethod = origOnRemoveMethod;
+                    _onRemoveMethod.Disposed += new EventHandler(_onRemoveMethod_Disposed);
+                    onRemoveMethod = this.OnGetMethod(Original.OnRemoveMethod);
+                }
+                return this.onRemoveMethod;
+            }
+        }
+        void _onRemoveMethod_Disposed(object sender, EventArgs e)
+        {
+            if (this._onRemoveMethod != null)
+            {
+                _onRemoveMethod.Disposed -= new EventHandler(_onRemoveMethod_Disposed);
+                this._onRemoveMethod = null;
+            }
+            if (this.onRemoveMethod != null)
+            {
+                this.onRemoveMethod.Dispose();
+                this.onRemoveMethod = null;
+            }
+        }
 
         public EventSignatureSource SignatureSource
         {

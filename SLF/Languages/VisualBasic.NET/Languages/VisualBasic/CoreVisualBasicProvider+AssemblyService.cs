@@ -10,7 +10,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     partial class CoreVisualBasicProvider
     {
         private class AssemblyService :
-            IIntermediateAssemblyCtorLanguageService<ICoreVisualBasicProvider, IVisualBasicLanguage, IVisualBasicStart, ICoreVisualBasicAssembly>
+            IIntermediateAssemblyCtorLanguageService<ICoreVisualBasicProvider, IVisualBasicLanguage, ICoreVisualBasicAssembly>
         {
             internal AssemblyService(CoreVisualBasicProvider provider)
             {
@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
             public Guid ServiceGuid
             {
-                get { return LanguageGuids.ConstructorServices.IntermediateAssemblyCreatorService; }
+                get { return LanguageGuids.Services.IntermediateAssemblyCreatorService; }
             }
 
             #endregion

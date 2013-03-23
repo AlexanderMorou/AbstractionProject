@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             }
         }
 
-        public override IEnumerator<KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>> GetEnumerator()
+        protected override IEnumerator<KeyValuePair<TDeclarationIdentifier, MasterDictionaryEntry<TDeclaration>>> OnGetEnumerator()
         {
             foreach (var subordinate in this.Subordinates)
                 for (int i = 0, c = subordinate.Count; i < c; i++)

@@ -304,6 +304,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 : base(parent)
             {
             }
+
         }
 
         /// <summary>

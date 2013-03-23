@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction.Slf.Languages.CSharp</RootNamespace>
+    <AssemblyName>_abs.slf.languages.csharp</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Build\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\Build\x64\Debug\_abs.slf.languages.csharp.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\Build\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\Build\x64\Release\_abs.slf.languages.csharp.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\Build\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\Build\x86\Debug\_abs.slf.languages.csharp.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\Build\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>..\..\Build\x86\Release\_abs.slf.languages.csharp.XML</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CSharpAssembly.cs" />
+    <Compile Include="CSharpCompilerMessages %28Message Creator%29.cs" />
+    <Compile Include="CSharpCompilerMessages+Formatter.cs" />
+    <Compile Include="CSharpCompilerMessages.cs" />
+    <Compile Include="CSharpCompilerReferenceError.cs" />
+    <Compile Include="CSharpCompilerReferenceWarning.cs" />
+    <Compile Include="CSharpErrorIdentifiers.cs" />
+    <Compile Include="CSharpGateway.cs" />
+    <Compile Include="CSharpLanguage.cs" />
+    <Compile Include="CSharpProvider+AssemblyService.cs" />
+    <Compile Include="CSharpProvider.cs" />
+    <Compile Include="CSharpWarningIdentifiers.cs" />
+    <Compile Include="CSharpWarningLevels.cs" />
+    <Compile Include="Expressions\CSharpAddSubtExpression.cs" />
+    <Compile Include="Expressions\CSharpAssignExpression.cs" />
+    <Compile Include="Expressions\CSharpBinaryOperationExpressionBase.cs" />
+    <Compile Include="Expressions\CSharpBitwiseAndExpression.cs" />
+    <Compile Include="Expressions\CSharpBitwiseExclusiveOrExpression.cs" />
+    <Compile Include="Expressions\CSharpBitwiseOrExpression.cs" />
+    <Compile Include="Expressions\CSharpConditionalExpression.cs" />
+    <Compile Include="Expressions\CSharpExpressionBase.cs" />
+    <Compile Include="Expressions\CSharpExpressionExtensions.cs" />
+    <Compile Include="Expressions\CSharpInequalityExpression.cs" />
+    <Compile Include="Expressions\CSharpLogicalAndExpression.cs" />
+    <Compile Include="Expressions\CSharpLogicalOrExpression.cs" />
+    <Compile Include="Expressions\CSharpMulDivExpression.cs" />
+    <Compile Include="Expressions\CSharpRelationalExpression.cs" />
+    <Compile Include="Expressions\CSharpShiftExpression.cs" />
+    <Compile Include="Expressions\ICSharpAddSubtExpression.cs" />
+    <Compile Include="Expressions\ICSharpAssignExpression.cs" />
+    <Compile Include="Expressions\ICSharpBinaryOperator.cs" />
+    <Compile Include="Expressions\ICSharpBitwiseAndExpression.cs" />
+    <Compile Include="Expressions\ICSharpBitwiseExclusiveOrExpression.cs" />
+    <Compile Include="Expressions\ICSharpBitwiseOrExpression.cs" />
+    <Compile Include="Expressions\ICSharpConditionalExpression.cs" />
+    <Compile Include="Expressions\ICSharpExpression.cs" />
+    <Compile Include="Expressions\ICSharpInequalityExpression.cs" />
+    <Compile Include="Expressions\ICSharpLogicalAndExpression.cs" />
+    <Compile Include="Expressions\ICSharpLogicalOrExpression.cs" />
+    <Compile Include="Expressions\ICSharpMulDivExpression.cs" />
+    <Compile Include="Expressions\ICSharpRelationalExpression.cs" />
+    <Compile Include="Expressions\ICSharpShiftExpression.cs" />
+    <Compile Include="ICSharpAssembly.cs" />
+    <Compile Include="ICSharpASTTranslator.cs" />
+    <Compile Include="ICSharpCompilerReferenceError.cs" />
+    <Compile Include="ICSharpCompilerReferenceWarning.cs" />
+    <Compile Include="ICSharpLanguage.cs" />
+    <Compile Include="ICSharpProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
+      <Project>{b449e1f5-149c-4f47-bbfc-a82eee96471a}</Project>
+      <Name>Common Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ast\Abstract Syntax Tree.csproj">
+      <Project>{02607dc2-e98b-43ae-b906-fe151a70a68d}</Project>
+      <Name>Abstract Syntax Tree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+      <Project>{df6044a9-ae48-4ac2-a170-eb839bb0058c}</Project>
+      <Name>Abstraction Compiler Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{a94a88da-2500-4372-a433-a07ac3bfa05f}</Project>
+      <Name>Metadata Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
+      <Project>{161eaa8c-20c6-4b82-925a-4b8b112910ab}</Project>
+      <Name>TypeSystem Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj">
+      <Project>{d455d4ff-54fd-431e-bd27-43da130a0faa}</Project>
+      <Name>Ecma-335 Common Type System</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

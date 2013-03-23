@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Cst;
+using System.Reflection;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// 
     /// </summary>
     public abstract class VisualBasicAssembly<TAssembly, TProvider, TInstanceAssembly> :
-        IntermediateAssembly<IVisualBasicLanguage, TProvider, TInstanceAssembly>,
+        IntermediateAssembly<IVisualBasicLanguage, TProvider, TInstanceAssembly, IIntermediateCliManager, Type, Assembly>,
         IVisualBasicAssembly<TAssembly, TProvider>
         where TInstanceAssembly :
             VisualBasicAssembly<TAssembly, TProvider, TInstanceAssembly>,
@@ -28,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         where TAssembly :
             IVisualBasicAssembly<TAssembly, TProvider>
         where TProvider :
-            IVersionedHighLevelLanguageProvider<VisualBasicVersion, IVisualBasicStart>,            
+            IVersionedLanguageProvider<VisualBasicVersion>,            
             ILanguageProvider
     {
         private TProvider provider;

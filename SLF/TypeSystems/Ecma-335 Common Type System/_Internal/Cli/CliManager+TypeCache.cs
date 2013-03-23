@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private class TypeCache
         {
             private CliManager manager;
-            private MultikeyedDictionary<IType, TypeElementClassification, IType> classifiedTypeCache;
+            private MultikeyedDictionary<IType, TypeElementClassification, IType> classifiedTypeCache = new MultikeyedDictionary<IType,TypeElementClassification,IType>();
             private Dictionary<IType, TypeArrayCache> arrayCache = new Dictionary<IType,TypeArrayCache>();
             private Dictionary<IType, TypeModifiedCache> modifiedCache = new Dictionary<IType,TypeModifiedCache>();
             internal IDictionary<ICliMetadataTypeDefinitionTableRow, TypeKind> typeKindCache = new Dictionary<ICliMetadataTypeDefinitionTableRow, TypeKind>();
@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             result = new CliEnumType(refAssem, typeIdentity);
                         else if (CliCommon.IsValueType(this.manager, typeIdentity))
                             result = new CliStructType(refAssem, typeIdentity);
-                        else if (CliCommon.IsDelegate(this.manager, typeIdentity))
+                        else if (CliCommon.IsDelegate(this.manager, typeIdentity) && !CliCommon.IsBaseDelegateType(this.manager, typeIdentity))
                             result = new CliDelegateType(refAssem, typeIdentity);
                         else
                             result = new CliClassType(refAssem, typeIdentity);

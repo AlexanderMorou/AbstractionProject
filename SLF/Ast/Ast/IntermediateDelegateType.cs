@@ -12,12 +12,12 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.ComponentModel;
 
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -77,7 +77,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IIntermediateParameterParent<IDelegateType,IIntermediateDelegateType,IDelegateTypeParameterMember,IIntermediateDelegateTypeParameterMember> Members
 
-        IIntermediateParameterMemberDictionary<IDelegateType, IIntermediateDelegateType, IDelegateTypeParameterMember, IIntermediateDelegateTypeParameterMember> IIntermediateParameterParent<IDelegateType,IIntermediateDelegateType,IDelegateTypeParameterMember,IIntermediateDelegateTypeParameterMember>.Parameters
+        IIntermediateParameterMemberDictionary<IDelegateType, IIntermediateDelegateType, IDelegateTypeParameterMember, IIntermediateDelegateTypeParameterMember> IIntermediateParameterParent<IDelegateType, IIntermediateDelegateType, IDelegateTypeParameterMember, IIntermediateDelegateTypeParameterMember>.Parameters
         {
             get
             {
@@ -91,7 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         IIntermediateParameterMemberDictionary IIntermediateParameterParent.Parameters
         {
-            get {
+            get
+            {
                 return this.Parameters;
             }
         }
@@ -104,24 +105,36 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                if (this.parameters == null || 
+                if (this.parameters == null ||
                     this.parameters.Count == 0)
                     return false;
-                return this.Parameters.Values[this.Parameters.Count - 1].IsDefined(this.Parent.IdentityManager.GetMetadatum(MetadatumKind.ParameterArray));
+                var cliManager = Parent.IdentityManager as ICliManager;
+                if (cliManager == null)
+                    return false;
+                else
+                    return this.Parameters.Values[this.Parameters.Count - 1].IsDefined(cliManager.ObtainTypeReference(cliManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum)));
             }
             set
             {
                 if (value == this.LastIsParams)
                     return;
+                if (this.parameters == null)
+                    throw new InvalidOperationException("Cannot set last params on a delegate with zero parameters.");
                 this.CheckParameters();
                 var lastParameter = this.Parameters.Values[this.Parameters.Count - 1];
-                if (value)
-                    lastParameter.Metadata.Add(new MetadatumDefinitionParameterValueCollection(IdentityManager.GetMetadatum(MetadatumKind.ParameterArray)));
-                else
-                {
-                    var customAttrDef = lastParameter.Metadata[IdentityManager.GetMetadatum(MetadatumKind.ParameterArray)];
-                    lastParameter.Metadata.Remove(customAttrDef);
-                }
+                var cliManager = Parent.IdentityManager as ICliManager;
+                if (cliManager != null){
+                    var paramArrayMetadatum = cliManager.ObtainTypeReference(cliManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum));
+                    if (value)
+                        lastParameter.Metadata.Add(new MetadatumDefinitionParameterValueCollection(paramArrayMetadatum));
+                    else
+                    {
+                        if (lastParameter.IsDefined(paramArrayMetadatum))
+                        {
+                            var customAttrDef = lastParameter.Metadata[paramArrayMetadatum];
+                            lastParameter.Metadata.Remove(customAttrDef);
+                        }
+                    }}
             }
         }
 
@@ -187,7 +200,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override TypeKind TypeImpl
         {
-            get {
+            get
+            {
                 return TypeKind.Delegate;
             }
         }
@@ -204,17 +218,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public override bool IsGenericConstruct
         {
-            get {
+            get
+            {
                 if (!base.TypeParametersInitialized)
                     return false;
-                return this.TypeParameters.Count > 0; }
+                return this.TypeParameters.Count > 0;
+            }
         }
 
         protected override bool IsSubclassOfImpl(IType other)
         {
             return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType).Equals(other)
 #if TYPESYSTEM_CLI
-                || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Delegate", 0)).Equals(other)
+ || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Delegate", 0)).Equals(other)
                 || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0)).Equals(other);
 #else
             ;
@@ -223,7 +239,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IType BaseTypeImpl
         {
-            get { 
+            get
+            {
 #if TYPESYSTEM_CLI
                 return this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0));
 #else
@@ -290,6 +307,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         #region IIntermediateParameterParent Members
         private EventHandler<EventArgsR1<IIntermediateParameterMember>> _ParameterAdded;
         private EventHandler<EventArgsR1<IIntermediateParameterMember>> _ParameterRemoved;
+        private IGeneralGenericTypeUniqueIdentifier uniqueIdentifier;
 
         event EventHandler<EventArgsR1<IIntermediateParameterMember>> IIntermediateParameterParent.ParameterAdded
         {
@@ -337,10 +355,30 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IGeneralGenericTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            if (this.TypeParametersInitialized)
-                return AstIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name, this.TypeParameters.Count);
-            else
-                return AstIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name, 0);
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier == null)
+                {
+                    if (this.Parent is IType)
+                    {
+                        if (this.TypeParametersInitialized)
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, this.TypeParameters.Count);
+                        else
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, 0);
+                    }
+                    else if (this.Parent is INamespaceDeclaration)
+                    {
+                        if (this.TypeParametersInitialized)
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
+                        else
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
+
+                    }
+                    else if (this.TypeParametersInitialized)
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
+                    else
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
+                }
+            return this.uniqueIdentifier;
         }
 
         /// <summary>

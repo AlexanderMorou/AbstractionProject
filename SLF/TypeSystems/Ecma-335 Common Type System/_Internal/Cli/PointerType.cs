@@ -17,7 +17,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    public class PointerType :
+    internal class PointerType :
         _IType
     {
         private IType elementType;

@@ -34,13 +34,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return new _InterfaceTypeBase._MethodsBase._Method(this, genericReplacements);
             }
         }
+
         private class EventMember :
-            IntermediateEventSignatureMemberBase<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType>,
+            IntermediateEventSignatureMemberBase<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType, EventMember.Method>,
             IIntermediateInterfaceEventMember
         {
             public EventMember(IIntermediateInterfaceType parent)
                 : base(parent)
             {
+            }
+
+            internal class Method :
+                MethodMember
+            {
+                private EventMethodType methodType;
+                internal Method(IIntermediateInterfaceType parent, EventMethodType methodType)
+                    : base(parent)
+                {
+                    this.methodType = methodType;
+                }
+
+                public EventMethodType MethodType { get { return this.methodType; } }
+            }
+
+            protected override Method GetMethodSignatureMember(EventMethodType type)
+            {
+                return new Method(this.Parent, type);
             }
         }
 

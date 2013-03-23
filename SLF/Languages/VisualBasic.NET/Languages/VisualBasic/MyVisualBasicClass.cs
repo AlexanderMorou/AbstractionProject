@@ -31,7 +31,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         {
             return new MyVisualBasicClass(root, parent);
         }
+
     }
+
+
     public abstract class MyVisualBasicClass<TInstClass> :
         IntermediateClassType<TInstClass>
         where TInstClass :
@@ -50,6 +53,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         public new IMyVisualBasicAssembly Assembly { get { return (IMyVisualBasicAssembly)base.Assembly; } }
 
+        private new IIntermediateCliManager IdentityManager { get { return (IIntermediateCliManager)base.IdentityManager; } }
+
+        private CommonVBTypeRefs CommonVBTypeRefs { get { return VisualBasic.CommonVBTypeRefs.GetCommonTypeRefs(this.IdentityManager); } }
+
         public override SpecialClassModifier SpecialModifier
         {
             get
@@ -65,57 +72,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                     this.GetRoot().SpecialModifier = value;
                     return;
                 }
-                bool isAbstract = (value & SpecialClassModifier.Abstract) == SpecialClassModifier.Abstract;
-                bool isSealed = (value & SpecialClassModifier.Sealed) == SpecialClassModifier.Sealed;
-                bool isModule = (value & SpecialClassModifier.Module) == SpecialClassModifier.Module;
-                bool isHidden = (value & SpecialClassModifier.Hidden) == SpecialClassModifier.Hidden;
-                bool isExtensionSource = (value & SpecialClassModifier.TypeExtensionSource) == SpecialClassModifier.TypeExtensionSource;
-                if (isExtensionSource && isModule)
-                {
-                    value = (value & ~SpecialClassModifier.TypeExtensionSource) | SpecialClassModifier.Module;
-                    isExtensionSource = false;
-                }
-                IList<IMetadatumDefinition> toRemove = new List<IMetadatumDefinition>();
-                IList<MetadatumDefinitionParameterValueCollection> toAdd = new List<MetadatumDefinitionParameterValueCollection>();
-                if (isModule)
-                {
-                    if (!this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute))
-                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.StandardModuleAttribute));
-                    if (isHidden && !this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
-                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.HideModuleNameAttribute));
-                    else if (!isHidden && this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
-                        toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
-                }
-                else if (this.IsDefined(CommonVBTypeRefs.StandardModuleAttribute))
-                {
-                    toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.StandardModuleAttribute]);
-                    if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
-                        toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
-                }
-                else if (this.IsDefined(CommonVBTypeRefs.HideModuleNameAttribute))
-                    toRemove.Add(this.CustomAttributes[CommonVBTypeRefs.HideModuleNameAttribute]);
-                if (isHidden && !isModule)
-                {
-                    if (!this.IsDefined(CommonTypeRefs.ClassIsHiddenAttribute))
-                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.ClassIsHiddenAttribute));
-                }
-                else if (!(isHidden || isModule))
-                {
-                    if (!isHidden && this.IsDefined(CommonTypeRefs.ClassIsHiddenAttribute))
-                        toRemove.Add(this.CustomAttributes[CommonTypeRefs.ClassIsHiddenAttribute]);
-                }
-                if (isExtensionSource)
-                {
-                    if (!this.IsDefined(CommonTypeRefs.ExtensionAttribute))
-                        toAdd.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.ExtensionAttribute));
-                }
-                else if (this.IsDefined(CommonTypeRefs.ExtensionAttribute))
-                    toRemove.Add(this.CustomAttributes[CommonTypeRefs.ExtensionAttribute]);
-                if (toRemove.Count > 0)
-                    this.CustomAttributes.RemoveSet(toRemove.ToArray());
-                if (toAdd.Count > 0)
-                    this.CustomAttributes.Add(toAdd.ToArray());
+                base.SpecialModifier = value;
             }
         }
+
     }
 }

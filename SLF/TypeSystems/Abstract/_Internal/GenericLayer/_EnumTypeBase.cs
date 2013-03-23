@@ -241,7 +241,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { return TypeKind.Enumeration; }
         }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get {
                 return true;

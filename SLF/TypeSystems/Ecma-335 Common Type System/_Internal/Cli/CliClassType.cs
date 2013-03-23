@@ -9,7 +9,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class CliClassType :
+    internal partial class CliClassType :
         CliGenericInstantiableTypeBase<IClassCtorMember, IClassEventMember, IClassFieldMember, 
              IClassIndexerMember, IClassMethodMember, IClassPropertyMember, IClassType>,
         IClassType
@@ -44,34 +44,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return new _ClassTypeBase(this, lockedTypeParameters);
         }
 
-        protected override IClassCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry)
+        protected override IClassCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new CtorMember(this, metadataEntry, this.IdentityManager, uniqueIdentifier);
         }
 
         protected override IClassEventMember GetEvent(ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new EventMember(this, uniqueIdentifier, metadataEntry);
         }
 
         protected override IClassFieldMember GetField(ICliMetadataFieldTableRow metadataEntry)
         {
-            throw new NotImplementedException();
+            return new FieldMember(this, metadataEntry);
         }
 
-        protected override IClassIndexerMember GetIndexer(ICliMetadataPropertyTableRow metadataEntry)
+        protected override IClassIndexerMember GetIndexer(ICliMetadataPropertyTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new IndexerMember(this, metadataEntry, uniqueIdentifier);
         }
 
         protected override IClassMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new MethodMember(metadataEntry, (_ICliAssembly)this.Assembly, this, uniqueIdentifier);
         }
 
         protected override IClassPropertyMember GetProperty(ICliMetadataPropertyTableRow metadataEntry)
         {
-            throw new NotImplementedException();
+            return new PropertyMember(this, metadataEntry);
         }
     }
 }

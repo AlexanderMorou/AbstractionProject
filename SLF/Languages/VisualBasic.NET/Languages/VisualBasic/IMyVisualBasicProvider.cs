@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Ast;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
@@ -13,7 +14,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// </summary>
     public interface IMyVisualBasicProvider :
         ILanguageProvider<IVisualBasicLanguage, IMyVisualBasicProvider>,
-        IVersionedHighLevelLanguageProvider<VisualBasicVersion, IVisualBasicStart>
+        IVersionedLanguageProvider<VisualBasicVersion>
     {
         /// <summary>
         /// Creates a new <see cref="IMyVisualBasicAssembly"/>
@@ -28,5 +29,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
         new IMyVisualBasicAssembly CreateAssembly(string name);
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCliManager"/> which marshalls
+        /// the identities of intermediate and non-intermediate (compiled)
+        /// assemblies and types.
+        /// </summary>
+        new IIntermediateCliManager IdentityManager { get; }
     }
 }

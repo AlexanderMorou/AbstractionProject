@@ -10,11 +10,12 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using System.Reflection;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Modules;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 {
     internal class CliModuleMethod :
-        CliMethodSignatureBase<IMethodParameterMember<IModuleGlobalMethod, IModule>, IModuleGlobalMethod, IModule>,
+        CliMethodMemberBase<IModuleGlobalMethod, IModule>,
         IModuleGlobalMethod
     {
         /// <summary>
@@ -26,8 +27,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         /// <param name="assembly">The <see cref="_ICliAssembly"/> which contains the <see cref="CliModuleMethod"/>.</param>
         /// <param name="owner">The <see cref="ICliModule"/> from which the
         /// <see cref="CliModuleMethod"/> is derived.</param>
-        internal CliModuleMethod(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, ICliModule owner)
-            : base(metadata, assembly, owner)
+        internal CliModuleMethod(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, ICliModule owner, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
+            : base(metadata, assembly, owner, uniqueIdentifier)
         {
         }
 
@@ -40,9 +41,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         /// contains the </param>
         /// <returns>A <see cref="IModuleGlobalMethod"/> as a generic closure of the current 
         /// <see cref="CliModuleMethod"/> with the <paramref name="genericReplacements"/></returns>
-        public override IModuleGlobalMethod MakeGenericClosure(IControlledTypeCollection genericReplacements)
+        protected override IModuleGlobalMethod OnMakeGenericClosure(IControlledTypeCollection genericReplacements)
         {
-            throw new NotImplementedException();
+            return new _GlobalMethodMember(this, genericReplacements);
         }
 
         #region IScopedDeclaration Members
@@ -74,16 +75,53 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         }
 
         #endregion
-
-
-        protected override CliParameterMemberDictionary<IModuleGlobalMethod, IMethodParameterMember<IModuleGlobalMethod, IModule>> InitializeParameters()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override IType ActiveType
         {
             get { return null; }
         }
+        internal override CliMethodSignatureBase<IMethodParameterMember<IModuleGlobalMethod, IModule>, IModuleGlobalMethod, IModule>.TypeParameter GetTypeParameter(int index, ICliMetadataGenericParameterTableRow metadataEntry)
+        {
+            return new TypeParameter(this, metadataEntry, index);
+        }
+        private class TypeParameter :
+            CliMethodSignatureBase<IMethodParameterMember<IModuleGlobalMethod, IModule>, IModuleGlobalMethod, IModule>.TypeParameter
+        {
+            public TypeParameter(CliModuleMethod parent, ICliMetadataGenericParameterTableRow metadataEntry, int position)
+                : base(parent, metadataEntry, position)
+            {
+            }
+
+            public new CliModuleMethod Parent { get { return (CliModuleMethod)base.Parent; } }
+
+            protected override IAssembly OnGetAssembly()
+            {
+                return this.Parent.Assembly;
+            }
+
+            protected override ITypeIdentityManager OnGetManager()
+            {
+                return this.Parent.IdentityManager;
+            }
+        }
+
+        internal override IMethodParameterMember<IModuleGlobalMethod, IModule> CreateParameter(int index, ICliMetadataParameterTableRow metadata)
+        {
+            return new ParameterMember(metadata, this, index);
+        }
+
+        private new class ParameterMember :
+            CliMethodMemberBase<IModuleGlobalMethod, IModule>.ParameterMember
+        {
+            internal ParameterMember(ICliMetadataParameterTableRow metadataEntry, CliModuleMethod parent, int index)
+                : base(metadataEntry, parent, index)
+            {
+            }
+
+            protected override IType ActiveType
+            {
+                get { return null; }
+            }
+        }
+
     }
 }

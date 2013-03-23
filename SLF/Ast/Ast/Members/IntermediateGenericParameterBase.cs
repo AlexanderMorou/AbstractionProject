@@ -52,6 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         private IndexerMemberDictionary indexers;
         private MethodMemberDictionary methods;
         private PropertyMemberDictionary properties;
+        private ITypeIdentityManager identityManager;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
@@ -62,9 +63,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// the unique identifier of the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
         /// which contains the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.</param>
-        protected IntermediateGenericParameterBase(string name, TIntermediateParent parent)
+        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/> which aids in type identity resolution.</param>
+        protected IntermediateGenericParameterBase(string name, TIntermediateParent parent, ITypeIdentityManager identityManager)
         {
             base.AssignName(name);
+            this.identityManager = identityManager;
             if (parent is IIntermediateTypeParent)
                 base.Parent = (IIntermediateTypeParent)parent;
             this.Parent = parent;
@@ -833,7 +836,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
             get {
-                return this.Members.Keys;
+                return this._Members.Keys;
             }
         }
 
@@ -844,7 +847,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected override ITypeIdentityManager OnGetManager()
         {
-            return this.IdentityManager;
+            return this.identityManager;
         }
     }
 }

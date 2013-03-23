@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
 using System.Diagnostics.SymbolStore;
-using AllenCopeland.Abstraction.Slf.Languages.CSharp;
-using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -17,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     public static class LanguageGuids
     {
         /// <summary>
-        /// The <see cref="Guid"/> for the <see cref="CSharpLanguage">C&#9839; Language</see>.
+        /// The <see cref="Guid"/> for the C&#9839; Language.
         /// </summary>
         public static readonly Guid CSharp = SymLanguageType.CSharp;
         /// <summary>
@@ -25,15 +24,13 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// </summary>
         public static readonly Guid VisualBasic = SymLanguageType.Basic;
         /// <summary>
-        /// The <see cref="Guid"/> for the <see cref="Cil.CommonIntermediateLanguage">Common Intermediate Language</see>.
+        /// The <see cref="Guid"/> for the Common Intermediate Language.
         /// </summary>
         public static readonly Guid CommonIntermediateLanguage = SymLanguageType.ILAssembly;
         /// <summary>
         /// The <see cref="Guid"/> for the Objectified Intermediate Language Lexical Analysis program generator, aka: OILexer.
         /// </summary>
         public static readonly Guid Oilexer = new Guid(0xED13FCAD, 0xE20F, 0x4C81, 0xA6, 0xFE, 0xAF, 0xAD, 0xE2, 0x99, 0xB9, 0xC0);
-
-        
 
         /// <summary>
         /// Globally unique identifiers for the constructor
@@ -48,6 +45,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             /// </summary>
             /// <remarks>Guid = {0x270ef8ab, 0xf881, 0x4687, { 0xa7, 0xa2, 0x32, 0xaa, 0x66, 0x9b, 0xd2, 0x91 } }</remarks>
             public static readonly Guid AsyncQueryService = new Guid(0x270ef8ab, 0xf881, 0x4687, 0xa7, 0xa2, 0x32, 0xaa, 0x66, 0x9b, 0xd2, 0x91);
+            /// <summary>
+            /// A service which aids in marshaling metadatum definitions.
+            /// </summary>
+            /// <remarks>Guid = { 0xe701b831, 0x5a52, 0x47c1, { 0xa0, 0xf5, 0xa9, 0xb8, 0xb2, 0x7e, 0x55, 0xd3 } }</remarks>
+            public static readonly Guid MetadatumMarshalService = AbstractGateway.MetadatumMarshalServiceGuid;
             public static class ClassServices
             {
                 /// <summary>

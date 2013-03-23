@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     public interface IVisualBasicLanguage :
         ILanguage<IVisualBasicLanguage, ICoreVisualBasicProvider>,
         ILanguage<IVisualBasicLanguage, IMyVisualBasicProvider>,
-        IVersionedHighLevelLanguage<VisualBasicVersion, IVisualBasicStart>
+        IVersionedLanguage<VisualBasicVersion>
     {
         /// <summary>
         /// Returns a new <see cref="ICoreVisualBasicProvider"/> associated to the current
@@ -40,11 +40,36 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <see cref="IVisualBasicLanguage"/>.</returns>
         new ICoreVisualBasicProvider GetProvider(VisualBasicVersion version);
         /// <summary>
-        /// 
+        /// Returns a new <see cref="ICoreVisualBasicProvider"/> associated to the
+        /// <see cref="IVisualBasicLanguage"/>.
         /// </summary>
-        /// <param name="version"></param>
-        /// <returns></returns>
-        IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version = VisualBasicLanguage.DefaultVersion);
+        /// <param name="version">The <see cref="VisualBasicVersion"/>
+        /// value which denotes what version of the visual basic 
+        /// language to return the provider for.</param>
+        /// <param name="identityManager">The <see cref="IIntermediateCliManager"/>
+        /// which is used to marshal type identities in the current type model.</param>
+        /// <returns>A new <see cref="ICoreVisualBasicProvider"/> for the current
+        /// <see cref="IVisualBasicLanguage"/>.</returns>
+        new ICoreVisualBasicProvider GetProvider(VisualBasicVersion version, IIntermediateCliManager identityManager);
+        /// <summary>
+        /// Returns a new <see cref="IMyVisualBasicProvider"/> associated to the current
+        /// <see cref="IVisualBasicLanguage"/>.
+        /// </summary>
+        /// <returns>A new <see cref="IMyVisualBasicProvider"/> for the
+        /// <see cref="IVisualBasicLanguage"/>.</returns>
+        new IMyVisualBasicProvider GetMyProvider();
+        /// <summary>
+        /// Returns a new <see cref="IMyVisualBasicProvider"/> associated to the current
+        /// <see cref="IVisualBasicLanguage"/>.
+        /// </summary>
+        /// <param name="version">The <see cref="VisualBasicVersion"/>
+        /// value which denotes what version of the visual basic 
+        /// language to return the provider for.</param>
+        /// <returns>A new <see cref="IMyVisualBasicProvider"/> for the current
+        /// <see cref="IVisualBasicLanguage"/>.</returns>
+        IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version);
+
+        IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version, IIntermediateCliManager identityManager);
         /// <summary>
         /// Creates a new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> and 
@@ -62,7 +87,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         /// <exception cref="System.ArgumentException">thrown when
         /// <paramref name="name"/> is <see cref="String.Empty"/>
         /// or <paramref name="version"/> is out of the values allowed.</exception>
-        new ICoreVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
+        ICoreVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version);
         /// <summary>
         /// Creates a new <see cref="ICoreVisualBasicAssembly"/>
         /// with the <paramref name="name"/> provided.
