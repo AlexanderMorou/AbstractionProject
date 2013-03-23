@@ -30,7 +30,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         protected _ConstructorBase(TCtor original, TCtorParent adjustedParent)
             : base(original, adjustedParent)
         {
-
+            if (original.UniqueIdentifier.Name == ".cctor")
+            {
+            }
         }
 
         #region IParameterParent<TCtor,IConstructorParameterMember<TCtor,TCtorParent>> Members
@@ -82,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(".ctor", this.Parameters.ParameterTypes.ToArray());
+                    this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Original.Name, this.Parameters.ParameterTypes.ToArray());
                 return this.uniqueIdentifier;
             }
         }

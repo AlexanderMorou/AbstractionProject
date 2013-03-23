@@ -15,13 +15,13 @@ using AllenCopeland.Abstraction.Slf.Cli;
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
  \-------------------------------------------------------------------- */
 
-namespace AllenCopeland.Abstraction.Slf.Cli
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     /// <summary>
     /// Provides a base implementation of an <see cref="IType"/>
     /// which is by-reference.
     /// </summary>
-    public class ByRefType :
+    internal class ByRefType :
         _IType
     {
         private object syncObject;

@@ -42,10 +42,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
         }
 
-        protected override EventMethodMember GetMethodMember(EventMethodType type)
-        {
-            return new EventMethodMember(this, type);
-        }
 
         public class EventMethodMember :
             IntermediateClassMethodMember<TInstanceIntermediateType>,
@@ -101,6 +97,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     this.parent.ReturnType = value;
             }
         }
+        protected override EventMethodMember GetMethodMember(EventMethodType type)
+        {
+            return new EventMethodMember(this, type);
+        }
+
     }
 
     public class IntermediateClassCtorMember<TInstanceIntermediateType> :

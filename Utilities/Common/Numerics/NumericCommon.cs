@@ -538,5 +538,65 @@ namespace AllenCopeland.Abstraction.Numerics
             return value >> shift;
         }
 
+        public static long RotL(this long value, byte numberOfBits)
+        {
+            return (value << numberOfBits) | value >> (64 - numberOfBits);
+        }
+
+        public static long RotR(this long value, byte numberOfBits)
+        {
+            return (value >> numberOfBits) | value << (64 - numberOfBits);
+        }
+
+        public static ulong RotL(this ulong value, byte numberOfBits)
+        {
+            return (value << numberOfBits) | value >> (64 - numberOfBits);
+        }
+
+        public static ulong RotR(this ulong value, byte numberOfBits)
+        {
+            return (value >> numberOfBits) | value << (64 - numberOfBits);
+        }
+
+        public static int RotL(this int value, byte numberOfBits)
+        {
+            return (value << numberOfBits) | value >> (32 - numberOfBits);
+        }
+
+        public static int RotR(this int value, byte numberOfBits)
+        {
+            return (value >> numberOfBits) | value << (32 - numberOfBits);
+        }
+
+        public static uint RotL(this uint value, byte numberOfBits)
+        {
+            return (value << numberOfBits) | value >> (32 - numberOfBits);
+        }
+
+        public static uint RotR(this uint value, byte numberOfBits)
+        {
+            return (value >> numberOfBits) | value << (32 - numberOfBits);
+        }
+
+        public static short RotL(this short value, byte numberOfBits)
+        {
+            return (short)((value << numberOfBits) | (value >> (16 - numberOfBits)));
+        }
+
+        public static short RotR(this short value, byte numberOfBits)
+        {
+            return (short)((value >> numberOfBits) | value << (16 - numberOfBits));
+        }
+
+        public static ushort RotL(this ushort value, byte numberOfBits)
+        {
+            return (ushort)((value << numberOfBits) | value >> (16 - numberOfBits));
+        }
+
+        public static ushort RotR(this ushort value, byte numberOfBits)
+        {
+            return (ushort)((value >> numberOfBits) | value << (16 - numberOfBits));
+        }
+
     }
 }

@@ -211,8 +211,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            if (this.uniqueIdentifier == null)
-                this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name);
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier == null)
+                {
+                    if (this.Parent is IType)
+                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, 0);
+                    else if (this.Parent is INamespaceDeclaration)
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
+                    else
+                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
+                }
             return this.uniqueIdentifier;
         }
 

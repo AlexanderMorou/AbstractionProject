@@ -25,6 +25,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             protected override IStructCtorMember ObtainWrapper(IStructCtorMember item)
             {
+                if (item == ((_StructTypeBase)this.Parent).Original.TypeInitializer)
+                    return ((_StructTypeBase)this.Parent).TypeInitializer;
                 return new _Constructor(item, (_StructTypeBase)this.Parent);
             }
             

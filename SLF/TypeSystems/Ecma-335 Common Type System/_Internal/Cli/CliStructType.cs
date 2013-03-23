@@ -25,9 +25,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal ICliAssembly Assembly { get { return (ICliAssembly)base.Assembly; } }
 
-        protected override IStructCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry)
+        protected override IStructCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new CtorMember(this, metadataEntry, this.IdentityManager, uniqueIdentifier);
         }
 
         protected override IStructEventMember GetEvent(ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
@@ -40,9 +40,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return new FieldMember(this, metadataEntry);
         }
 
-        protected override IStructIndexerMember GetIndexer(ICliMetadataPropertyTableRow metadataEntry)
+        protected override IStructIndexerMember GetIndexer(ICliMetadataPropertyTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
-            throw new NotImplementedException();
+            return new IndexerMember(this, metadataEntry, uniqueIdentifier);
         }
 
         protected override IStructMethodMember GetMethod(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IStructPropertyMember GetProperty(ICliMetadataPropertyTableRow metadataEntry)
         {
-            throw new NotImplementedException();
+            return new PropertyMember(this, metadataEntry);
         }
 
         protected override IStructType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)

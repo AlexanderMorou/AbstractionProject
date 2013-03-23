@@ -155,7 +155,6 @@
     <Compile Include="Abstract\Members\ISignatureSearchResultSet.cs" />
     <Compile Include="Abstract\Members\ITypeCoercionUniqueIdentifier.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorUniqueIdentifier.cs" />
-    <Compile Include="Abstract\MetadatumKind.cs" />
     <Compile Include="Abstract\ModifiedType.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -176,6 +175,7 @@
     <Compile Include="Compilers\CompilerSourceModelError{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceModelWarning{T1-T4}.cs" />
     <Compile Include="Compilers\CompilerSourceWarning.cs" />
+    <Compile Include="Compilers\CompilerSupport.cs" />
     <Compile Include="Compilers\ICompilerError.cs" />
     <Compile Include="Compilers\ICompilerMessage.cs" />
     <Compile Include="Compilers\ICompilerMessageCollection.cs" />
@@ -195,14 +195,24 @@
     <Compile Include="Compilers\ICompilerSourceWarning.cs" />
     <Compile Include="Compilers\ICompilerWarning.cs" />
     <Compile Include="Compilers\WarningLevel.cs" />
+    <Compile Include="Cst\IConcreteNode.cs" />
     <Compile Include="IProtectableComponent.cs" />
     <Compile Include="Abstract\IMassTargetHandler.cs" />
     <Compile Include="Abstract\MassDisposalAid.cs" />
     <Compile Include="Abstract\Members\IGenericParameterPropertyMethodMember{1}.cs" />
     <Compile Include="Abstract\IStandardRuntimeEnvironmentInfo.cs" />
+    <Compile Include="Languages\IDynamicLanguage.cs" />
+    <Compile Include="Languages\ILanguage.cs" />
+    <Compile Include="Languages\ILanguageProcessor.cs" />
+    <Compile Include="Languages\ILanguageProvider.cs" />
+    <Compile Include="Languages\ILanguageService.cs" />
+    <Compile Include="Languages\ILanguageVendor.cs" />
+    <Compile Include="Languages\IMetadatumMarshalService.cs" />
     <Compile Include="Languages\ISourceRelatedError.cs" />
     <Compile Include="Languages\ISourceRelatedMessage.cs" />
     <Compile Include="Languages\ISourceRelatedWarning.cs" />
+    <Compile Include="Languages\IVersionedLanguageProvider{TVersion}.cs" />
+    <Compile Include="Languages\IVersionedLanguage{TVersion}.cs" />
     <Compile Include="Languages\SourceRelatedError.cs" />
     <Compile Include="Languages\SourceRelatedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -403,9 +413,6 @@
     <Compile Include="_Internal\Abstract\Members\BinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase{TCtor, TCtorParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMembers`2.cs" />
-    <Compile Include="_Internal\Abstract\Members\EventMemberBase{TEvent, TEventParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase{TEvent, TEventParameter, TEventParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\EventSignatureMemberBase{TEvent, TEventParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\FieldMemberBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\FieldMembersBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\FilteredSignatureMembers.cs" />

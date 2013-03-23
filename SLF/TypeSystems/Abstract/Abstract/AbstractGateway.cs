@@ -20,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// </summary>
     public static partial class AbstractGateway
     {
+        internal static Guid MetadatumMarshalServiceGuid = new Guid(0xe701b831, 0x5a52, 0x47c1, 0xa0, 0xf5, 0xa9, 0xb8, 0xb2, 0x7e, 0x55, 0xd3);
         /// <summary>
         /// Determines how the <paramref name="modifiers"/> <paramref name="compare"/> to the
         /// second set of <see cref="AccessLevelModifiers"/> provided.

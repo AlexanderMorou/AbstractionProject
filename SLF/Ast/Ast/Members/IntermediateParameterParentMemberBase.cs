@@ -217,7 +217,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 var lastParam = this.parameters.Values.LastOrDefault();
                 if (lastParam == null)
                     return false;
-                return lastParam.Metadata.Contains(this.identityManager.GetMetadatum(MetadatumKind.ParameterArray));
+                var cliManager = this.identityManager as ICliManager;
+                if (cliManager == null)
+                    return false;
+                return lastParam.Metadata.Contains(cliManager.ObtainTypeReference(cliManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum)));
             }
         }
 

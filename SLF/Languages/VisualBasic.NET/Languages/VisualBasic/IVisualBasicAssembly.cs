@@ -22,11 +22,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
     /// <remarks>Relative to Start in Visual Basic Language 
     /// Specification Version 10.0</remarks>
     public interface IVisualBasicAssembly<TAssembly, TProvider> :
-        IVersionedHighLevelIntermediateAssembly<IVisualBasicLanguage, IVisualBasicStart, TProvider, VisualBasicVersion>
+        IVersionedIntermediateAssembly<IVisualBasicLanguage, TProvider, VisualBasicVersion>
         where TAssembly :
             IVisualBasicAssembly<TAssembly, TProvider>
         where TProvider :
-            IVersionedHighLevelLanguageProvider<VisualBasicVersion, IVisualBasicStart>,
+            IVersionedLanguageProvider<VisualBasicVersion>,
             ILanguageProvider
     {
 

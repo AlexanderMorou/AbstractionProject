@@ -16,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
         public MyApplicationClass(IIntermediateTypeParent parent)
             : base("MyApplication", parent)
         {
-            this.CustomAttributes.Add(new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.EditorBrowsableAttribute) { (int)EditorBrowsableState.Never }, new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.GeneratedCodeAttribute) { "MyTemplate", string.Format("{0}.0.0.0", (int)this.Assembly.Provider.Version) });
+            //new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.EditorBrowsableAttribute) { (int)EditorBrowsableState.Never }
+            this.Metadata.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).GeneratedCodeAttribute) { "MyTemplate", string.Format("{0}.0.0.0", (int)this.Assembly.Provider.Version) });
         }
 
         private MyApplicationClass(MyApplicationClass root, IIntermediateTypeParent parent)
@@ -36,10 +37,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
                 switch (assembly.CompilationContext.OutputType)
                 {
                     case AssemblyOutputType.ClassLibrary:
-                        return CommonVBTypeRefs.ApplicationBase;
+                        return CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).ApplicationBase;
                     case AssemblyOutputType.ConsoleApplication:
                     case AssemblyOutputType.WinFormsApplication:
-                        return CommonVBTypeRefs.ConsoleApplicationBase;
+                        return CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).ConsoleApplicationBase;
                     default:
                         return base.BaseType;
                 }

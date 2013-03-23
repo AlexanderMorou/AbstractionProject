@@ -201,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 base.Subordinate_ItemRemoved<TSKey, TSValue>(subordinate, key);
         }
 
-        public override IEnumerator<KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>> GetEnumerator()
+        protected override IEnumerator<KeyValuePair<TMItemIdentifier, MasterDictionaryEntry<TMItem>>> OnGetEnumerator()
         {
             int state;
             lock (syncObject)

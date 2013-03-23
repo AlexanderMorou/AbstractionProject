@@ -219,7 +219,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                 targetName += "`?";
                         }
                     }
-                    if (target.Parent != null && !(target.Parent is INamespaceDeclaration))
+                    if (target.Parent != null && !(target.Parent is INamespaceDeclaration ||
+                                                   target.Parent is IAssembly))
                         return string.Format("{0}+{1}", target.Parent.BuildVariedName(shortFormGeneric, numericTypeParams, typeParameterDisplayMode), targetName);
                     else if (!string.IsNullOrEmpty(target.NamespaceName))
                         return string.Format("{0}.{1}", target.NamespaceName, targetName);

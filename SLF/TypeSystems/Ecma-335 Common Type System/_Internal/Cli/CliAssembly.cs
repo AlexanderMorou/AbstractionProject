@@ -50,7 +50,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get { throw new NotImplementedException(); }
+            get { return this.Members.Keys.Cast<IGeneralDeclarationUniqueIdentifier>().Concat(this.Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()); }
         }
 
         protected override bool CanCacheManifestModule
@@ -531,6 +531,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
             return typeDefinition;
+        }
+
+        public override IEnumerable<IType> GetTypes()
+        {
+            if (this.MetadataRoot == null ||
+                this.MetadataRoot.TableStream == null||
+                this.MetadataRoot.TableStream.TypeDefinitionTable == null)
+                return new IType[0];
+            return from typeDef in this.MetadataRoot.TableStream.TypeDefinitionTable
+                   select this.IdentityManager.ObtainTypeReference(typeDef);
+        }
+
+        ICliManager ICliAssembly.IdentityManager
+        {
+            get
+            {
+                return this.IdentityManager;
+            }
+        }
+        _ICliManager _ICliAssembly.IdentityManager
+        {
+            get
+            {
+                return this.IdentityManager;
+            }
         }
     }
 }

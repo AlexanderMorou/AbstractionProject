@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Languages;
-using AllenCopeland.Abstraction.Slf.Languages.Cil;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -16,35 +15,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 {
     partial class IntermediateGateway
     {
-
-        [CompilerGenerated]
-        private class CreateIntermediateAssemblyBridge :
-            ICreateAssemblyBridge<CommonIntermediateAssembly>
-        {
-
-            #region ICreateAssemblyBridge<CommonIntermediateLanguageAssembly> Members
-
-            public CommonIntermediateAssembly ctor(string name)
-            {
-                return new CommonIntermediateAssembly(name);
-            }
-
-            public CommonIntermediateAssembly ctor<TLanguage, TProvider>(string name, TProvider provider)
-                where TLanguage :
-                    ILanguage
-                where TProvider :
-                    ILanguageProvider
-            {
-                if (typeof(ICommonIntermediateLanguage).IsAssignableFrom(typeof(TLanguage)))
-                    if (typeof(ICommonIntermediateProvider).IsAssignableFrom(typeof(TProvider)))
-                        return new CommonIntermediateAssembly(name);
-                throw new NotSupportedException();
-            }
-
-            #endregion
-
-        }
-
         [CompilerGenerated]
         private static class CreateAssemblyBridgeCache<T>
             where T :
@@ -71,11 +41,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        static IntermediateGateway()
-        {
-            (new CreateIntermediateAssemblyBridge()).RegisterCreateAssemblyBridge();
-        }
-
         /// <summary>
         /// Registers a <see cref="ICreateAssemblyBridge{T}"/> which associates
         /// the create assembly functionality to the <paramref name="bridge"/> provided
@@ -92,5 +57,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             CreateAssemblyBridgeCache<T>.RegisterBridge(bridge);
         }
+
     }
 }

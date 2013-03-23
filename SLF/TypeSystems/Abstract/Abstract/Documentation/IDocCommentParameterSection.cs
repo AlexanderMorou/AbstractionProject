@@ -20,6 +20,5 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Documentation
     public interface IDocCommentParameterSection :
         IDocCommentNamedSection<IParameterMember>
     {
-
     }
 }

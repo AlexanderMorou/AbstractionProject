@@ -330,10 +330,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// the elements of the <see cref="ControlledDictionary{TKey, TValue}"/>.</exception>
         public virtual void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            if (this.Count == 0)
+            int c;
+            lock (this.SyncRoot)
+                c = this.locals.orderings.Count;
+            ThrowHelper.CopyToCheck(array, arrayIndex, c);
+            if (c == 0)
                 return;
             lock (this.SyncRoot)
-                Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, this.Count);
+                Array.ConstrainedCopy(this.locals.entries, 0, array, arrayIndex, c);
         }
 
         /// <summary>
@@ -372,8 +376,12 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <see cref="ControlledDictionary{TKey, TValue}"/>.</exception>
         protected virtual void OnSetThis(int index, KeyValuePair<TKey, TValue> value)
         {
+            int c;
+            lock (this.SyncRoot)
+                c = this.locals.orderings.Count;
+
             if (index < 0 ||
-                index >= this.Count)
+                index >= c)
                 throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             var newKey = value.Key;
             var newValue = value.Value;
@@ -403,8 +411,11 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <paramref name="index"/> provided.</returns>
         protected virtual KeyValuePair<TKey, TValue> OnGetThis(int index)
         {
+            int c;
+            lock (this.SyncRoot)
+                c = this.locals.orderings.Count;
             if (index < 0 ||
-                index >= this.Count)
+                index >= c)
                 throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
             lock (this.SyncRoot)
                 return this.locals.entries[index];
@@ -436,9 +447,17 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         /// <returns>An <see cref="IEnumerator{T}"/> which enumerates
         /// the values of the <see cref="ControlledDictionary{TKey, TValue}"/>.
         /// </returns>
-        public virtual IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            for (int i = 0; i < this.Count; i++)
+            return this.OnGetEnumerator();
+        }
+
+        protected virtual IEnumerator<KeyValuePair<TKey, TValue>> OnGetEnumerator()
+        {
+            int c;
+            lock (this.SyncRoot)
+                c = this.locals.orderings.Count;
+            for (int i = 0; i < c; i++)
                 yield return this.locals.entries[i];
         }
 

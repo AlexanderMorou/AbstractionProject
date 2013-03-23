@@ -28,10 +28,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private CliParameterMemberDictionary<TSignature, TSignatureParameter> parameters;
         private CliMetadataCollection metadata;
         private CliMetadataCollection returnTypeMetadata;
-        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliAssembly assembly, TSignatureParent parent)
+        private  IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier;
+        private TypeParameterDictionary typeParameters;
+        /// <summary>
+        /// Data member for maintaining a single-ton view of the generic
+        /// closures of the generic series.
+        /// </summary>
+        private IDictionary<IControlledTypeCollection, TSignature> genericCache;
+
+        protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliAssembly assembly, TSignatureParent parent, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
             : base(parent, metadataEntry)
         {
             this.assembly = assembly;
+            this.uniqueIdentifier = uniqueIdentifier;
         }
 
         internal CliManager IdentityManager
@@ -59,7 +68,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members
 
-        public abstract TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements);
+        private bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TSignature r)
+        {
+            if (this.genericCache == null)
+                return false;
+            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
+            if (fd == null)
+                return false;
+            r = this.genericCache[fd];
+            return true;
+        }
+
+        public TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements) {
+            if (!this.IsGenericConstruct)
+                throw new InvalidOperationException("not a generic method");
+            TSignature k = default(TSignature);
+            IGenericType genericParent = null;
+            if (this.Parent is IGenericType && (genericParent = ((IGenericType)(this.Parent))).IsGenericConstruct &&
+                genericParent.IsGenericDefinition)
+                throw new InvalidOperationException("Cannot obtain a closed generic method whose containing type is an open generic definition.");
+            if (this.ContainsGenericMethod(genericReplacements, ref k))
+                return k;
+            /* *
+             * _IGenericMethodRegistrar handles cache.
+             * */
+            var tK = this.OnMakeGenericClosure(genericReplacements);
+            //CliCommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
+            return tK;
+
+        }
+
+        protected abstract TSignature OnMakeGenericClosure(IControlledTypeCollection genericReplacements);
 
         public TSignature GetGenericDefinition()
         {
@@ -70,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             if (this.IsGenericConstruct)
                 throw new InvalidOperationException("Not a generic construct.");
-            throw new NotImplementedException();
+            return MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
         #endregion
@@ -147,10 +186,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-
-                throw new NotSupportedException();
-                //if (this.returnTypeMetadata == null)
-                //    this.returnTypeMetadata = new CliMetadataCollection(this.MetadataEntry.Signature.ReturnType);
+                if (this.returnTypeMetadata == null && 
+                    this.MetadataEntry.Signature.Parameters.Count > 0 &&
+                    this.MetadataEntry.Parameters[0].Sequence == 0)
+                    this.returnTypeMetadata = new CliMetadataCollection(this.MetadataEntry.Parameters[0].CustomAttributes, this, this.IdentityManager);
+                return this.returnTypeMetadata;
             }
         }
 
@@ -165,17 +205,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember> TypeParameters
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (this.typeParameters == null)
+                    this.typeParameters = new TypeParameterDictionary(this);
+                return this.typeParameters;
+            }
         }
 
         IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(IControlledTypeCollection typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters);
         }
 
         IMethodSignatureMember IGenericParamParent<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember>.MakeGenericClosure(params IType[] typeParameters)
         {
-            throw new NotImplementedException();
+            return this.MakeGenericClosure(typeParameters);
         }
 
         #endregion
@@ -189,7 +233,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public bool IsGenericConstruct
         {
-            get { return this.MetadataEntry.TypeParameters.Count > 0; }
+            get {
+                if (this.MetadataEntry.TypeParameters == null)
+                    return false;
+                return this.MetadataEntry.TypeParameters.Count > 0; 
+            }
         }
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters
@@ -220,11 +268,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             return this.MetadataEntry.Name;
         }
 
-        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
-        {
-            get { return (IGeneralGenericSignatureMemberUniqueIdentifier)CliMemberExtensions.GetMethodIdentifier(this.MetadataEntry, this.Parent as IType, this.IdentityManager, () => this); }
-        }
-
+        public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier { get { return this.uniqueIdentifier; } }
 
         #region _ICliParameterParent Members
 
@@ -240,7 +284,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         #endregion
 
-
         public ICliAssembly Assembly
         {
             get { return this.assembly; }
@@ -254,6 +297,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
+
         protected abstract IType ActiveType { get; }
+
+        internal abstract TypeParameter GetTypeParameter(int index, ICliMetadataGenericParameterTableRow metadataEntry);
     }
 }

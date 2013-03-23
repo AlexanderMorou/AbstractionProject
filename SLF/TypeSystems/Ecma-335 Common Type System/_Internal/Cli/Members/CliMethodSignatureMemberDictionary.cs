@@ -1,90 +1,80 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using AllenCopeland.Abstraction.Slf.Abstract.Members;
-using AllenCopeland.Abstraction.Slf.Abstract;
-using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
-using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Utilities.Collections;
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal abstract class CliMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent> :
-        CliMetadataDrivenDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, int, TSignature>,
-        IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent>,
+    internal class CliMethodSignatureMemberDictionary<TMethod, TMethodParent> :
+        CliMetadataDrivenDictionary<IGeneralGenericSignatureMemberUniqueIdentifier, int, TMethod>,
+        IMethodSignatureMemberDictionary<TMethod, TMethodParent>,
         IMethodSignatureMemberDictionary
-        where TSignatureParameter :
-            IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
-        where TSignature :
+        where TMethod :
             class,
-            IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
-        where TSignatureParent :
-            ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
+            IMethodSignatureMember<TMethod, TMethodParent>
+        where TMethodParent :
+            IMethodSignatureParent<TMethod, TMethodParent>
     {
-        private TSignatureParent parent;
         private CliFullMemberDictionary master;
-        IGeneralGenericSignatureMemberUniqueIdentifier[] uniqueIdentifiers;
-        internal CliMethodSignatureMemberDictionary(TSignatureParent parent, CliFullMemberDictionary master)
+        private IGeneralGenericSignatureMemberUniqueIdentifier[] identifiers;
+        private TMethodParent parent;
+        internal CliMethodSignatureMemberDictionary(TMethodParent parent, CliFullMemberDictionary fullMembers)
             : base()
         {
             this.parent = parent;
-            this.master = master;
-            var segmentedData = master.ObtainSubset<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature>(CliMemberType.Method).SplitSet();
-            this.Initialize(segmentedData.Item1);
-            this.uniqueIdentifiers = segmentedData.Item2;
+            this.master = fullMembers;
+            var set = fullMembers.ObtainSubset<IGeneralGenericSignatureMemberUniqueIdentifier, TMethod>(CliMemberType.Method).SplitSet();
+            this.Initialize(set.Item1);
+            this.identifiers = set.Item2;
         }
 
-        //#region IMemberDictionary<TSignatureParent,IGeneralGenericSignatureMemberUniqueIdentifier,TSignature> Members
-
-        public TSignatureParent Parent
+        protected override TMethod CreateElementFrom(int index, int metadata)
         {
-            get { return parent; }
+            return (TMethod)this.master.Values[metadata].Entry;
         }
 
-        //#endregion
-
-        protected override TSignature CreateElementFrom(int index, int metadata)
+        public int IndexOf(IMethodSignatureMember method)
         {
-            return (TSignature)this.master.Values[metadata].Entry;
+            int valueIndex = this.master.Values.IndexOf(new MasterDictionaryEntry<IMember>(this, method));
+            if (valueIndex == -1)
+                return -1;
+            return this.identifiers.GetIndexOf(master.Keys[valueIndex]);
         }
-
         protected override IGeneralGenericSignatureMemberUniqueIdentifier GetIdentifierFrom(int index, int metadata)
         {
-            return this.uniqueIdentifiers[metadata];
+            return this.identifiers[index];
         }
 
-        //#region IMethodSignatureMemberDictionary Members
-
-        int IMethodSignatureMemberDictionary.IndexOf(IMethodSignatureMember method)
+        public TMethodParent Parent
         {
-            if (method is TSignature)
-                return this.IndexOf((TSignature) method);
-            return -1;
+            get { return this.parent; }
         }
 
-        //#endregion
+        public IMasterDictionary<IGeneralMemberUniqueIdentifier, IMember> Master
+        {
+            get { return this.master; }
+        }
 
 
-        //#region IMemberDictionary Members
+        int IMemberDictionary.IndexOf(IMember member)
+        {
+            if (!(member is IMethodSignatureMember))
+                return -1;
+            return this.IndexOf((IMethodSignatureMember)member);
+        }
 
         IMemberParent IMemberDictionary.Parent
         {
             get { return this.Parent; }
         }
 
-        public int IndexOf(IMember member)
-        {
-            if (member is TSignature)
-                return this.IndexOf((TSignature) member);
-            return -1;
-        }
-
-        //#endregion
-
         IMasterDictionary ISubordinateDictionary.Master
         {
-            get { return (IMasterDictionary)this.master; }
+            get { throw new NotImplementedException(); }
         }
     }
 }

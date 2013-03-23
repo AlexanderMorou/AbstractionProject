@@ -1,12 +1,12 @@
-﻿using AllenCopeland.Abstraction.Utilities.Arrays;
-using AllenCopeland.Abstraction.Slf.Abstract;
+﻿using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {

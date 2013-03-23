@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
-    partial class IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+    partial class IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodSignature>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParent>
         where TIntermediateEvent :
@@ -24,6 +24,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TIntermediateEventParent :
             TEventParent,
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+        where TMethodSignature :
+            class,
+            IIntermediateMethodSignatureMember
     {
         protected partial class _Parameters :
             IntermediateParameterMemberDictionary<TEvent, TIntermediateEvent, IEventSignatureParameterMember<TEvent, TEventParent>, IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>>

@@ -132,7 +132,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return -1;
         }
 
-        public override IEnumerator<KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>> GetEnumerator()
+        protected override IEnumerator<KeyValuePair<TDeclarationSpecificIdentifier, TDeclarationSpecific>> OnGetEnumerator()
         {
             var kE = this.Keys.GetEnumerator();
             var vE = this.Values.GetEnumerator();

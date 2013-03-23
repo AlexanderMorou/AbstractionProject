@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             bool negate = (result & 1) == 1;
             result >>= 1;
             if (negate)
-                result |= unchecked((int) 0x80000000);
+                result |= unchecked((int)0x80000000);
             return result;
         }
 
@@ -68,14 +68,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 decompressedResult = compressedFirstByte;
             else if ((compressedFirstByte & fourteenBitmask) == compressedFirstByte)
             {
-                byte hiByte = (byte) (compressedFirstByte & 0x3F);
+                byte hiByte = (byte)(compressedFirstByte & 0x3F);
                 byte loByte = reader.ReadByte();
                 decompressedResult = loByte | hiByte << 8;
                 bytesUsed = 2;
             }
             else if ((compressedFirstByte & twentyNineBitMask) == compressedFirstByte)
             {
-                byte hiWordHiByte = (byte) (compressedFirstByte & 0x1F);
+                byte hiWordHiByte = (byte)(compressedFirstByte & 0x1F);
                 byte hiWordLoByte = reader.ReadByte();
                 byte loWordHiByte = reader.ReadByte();
                 byte loWordLoByte = reader.ReadByte();
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             break;
                         }
                         else
-                            realVersion[index] = (char) this.version[index];
+                            realVersion[index] = (char)this.version[index];
                     }
                     this.realVersion = new string(realVersion, 0, broke ? index : realVersionLength);
                 }
@@ -215,12 +215,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 throw new BadImageFormatException(string.Format("Duplicate {0} section encountered.", currentHeader.Name));
             }
             if (this.tableStream == null)
-                throw new BadImageFormatException("#~ stream not present in image.");
+                throw new BadImageFormatException("#~ or #- stream not present in image.");
         }
 
         private void ScanAndReadSection(PEImage sourceImage, ICliMetadataStreamHeader currentHeader, Action<EndianAwareBinaryReader> readFunc)
         {
-            var stringsPEScan = sourceImage.ResolveRelativeVirtualAddress((uint) (this.streamPosition + currentHeader.Offset));
+            var stringsPEScan = sourceImage.ResolveRelativeVirtualAddress((uint)(this.streamPosition + currentHeader.Offset));
             if (!stringsPEScan.Resolved)
                 throw new BadImageFormatException(string.Format("{0} offset not valid.", currentHeader));
             var stringsPESection = stringsPEScan.Section;
@@ -295,8 +295,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             {
                 if (this.eventSemantics == null)
                     this.eventSemantics = (from s in this.TableStream.MethodSemanticsTable
-                                              where s.AssociationSource == CliMetadataHasSemanticsTag.Event &&
-                                                   (s.Semantics & MethodSemanticsAttributes.AddOn | MethodSemanticsAttributes.Fire | MethodSemanticsAttributes.RemoveOn | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
+                                           where s.AssociationSource == CliMetadataHasSemanticsTag.Event &&
+                                                (s.Semantics & MethodSemanticsAttributes.AddOn | MethodSemanticsAttributes.Fire | MethodSemanticsAttributes.RemoveOn | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
                                            select s).ToArray().GetEnumerable();
                 return this.eventSemantics;
             }

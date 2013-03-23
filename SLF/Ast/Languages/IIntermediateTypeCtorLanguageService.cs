@@ -7,24 +7,20 @@ using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
-    public interface IIntermediateTypeCtorLanguageService<TProvider, TLanguage, TRootNode, TType> :
-        IHighLevelLanguageService<TProvider, TLanguage, TRootNode>,
+    public interface IIntermediateTypeCtorLanguageService<TProvider, TLanguage, TType> :
+        ILanguageService<TLanguage, TProvider>,
         IIntermediateTypeCtorLanguageService<TType>
-        where TRootNode :
-            IConcreteNode
         where TProvider :
-            ILanguageProvider<TLanguage, TProvider>,
-            IHighLevelLanguageProvider<TRootNode>
+            ILanguageProvider<TLanguage, TProvider>
         where TLanguage :
-            ILanguage<TLanguage, TProvider>,
-            IHighLevelLanguage<TRootNode>
+            ILanguage<TLanguage, TProvider>
         where TType :
             IIntermediateType
     {
     }
 
     public interface IIntermediateTypeCtorLanguageService<TType> :
-        IHighLevelLanguageService
+        ILanguageService
         where TType :
             IIntermediateType
     {

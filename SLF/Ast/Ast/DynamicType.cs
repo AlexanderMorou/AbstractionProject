@@ -9,7 +9,6 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Properties;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
-using AllenCopeland.Abstraction.Slf.Languages.CSharp;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -35,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get { return TypeKind.Dynamic; }
         }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get { return true; }
         }

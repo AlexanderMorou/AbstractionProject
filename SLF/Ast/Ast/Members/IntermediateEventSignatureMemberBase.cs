@@ -26,8 +26,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// <typeparam name="TIntermediateEventParent">The type which contains the
     /// <typeparamref name="TIntermediateEvent"/> instances in the intermediate
     /// abstract syntax tree.</typeparam>
-    public abstract partial class IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent> :
-        IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, IEventSignatureParameterMember<TEvent, TEventParent>, IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
+    /// <typeparam name="TMethodSignature">The type of method signature used within the current
+    /// type system.</typeparam>
+    public abstract partial class IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodSignature> :
+        IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, IEventSignatureParameterMember<TEvent, TEventParent>, IIntermediateEventSignatureParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent, TMethodSignature>,
         IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
         where TEvent :
             IEventSignatureMember<TEvent, TEventParent>
@@ -39,6 +41,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TIntermediateEventParent :
             TEventParent,
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+        where TMethodSignature :
+            class,
+            IIntermediateMethodSignatureMember
     {
         public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent) :
             base(parent, parent.IdentityManager)
@@ -72,7 +77,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// <typeparam name="TIntermediateEventParent">The type which contains the
     /// <typeparamref name="TIntermediateEvent"/> instances in the intermediate
     /// abstract syntax tree.</typeparam>
-    public abstract class IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent> :
+    /// <typeparam name="TMethodSignature">The type of method signature used within the current
+    /// type system.</typeparam>
+    public abstract class IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature> :
         IntermediateSignatureMemberBase<IGeneralSignatureMemberUniqueIdentifier, TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
         IIntermediateEventSignatureMember<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>
         where TEvent :
@@ -90,17 +97,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TIntermediateEventParent :
             TEventParent,
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>
+        where TMethodSignature :
+            IIntermediateMethodSignatureMember
     {
         private EventSignatureSource signatureSource;
         private IType returnType;
         private IDelegateType signatureType;
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
+        private TMethodSignature addMethod;
+        private TMethodSignature removeMethod;
         /// <summary>
-        /// Creates a new <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>
+        /// Creates a new <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}"/>
         /// instance with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">A <typeparamref name="TIntermediateEventParent"/> instance
-        /// which owns the current <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>.</param>
+        /// which owns the current <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}"/>.</param>
         /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
@@ -154,6 +165,39 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         #endregion
+
+        /// <summary>
+        /// Obtains the <typeparamref name="TMethodSignature"/> for a given
+        /// <paramref name="type"/> of event method.
+        /// </summary>
+        /// <param name="type">The <see cref="EventMethodType"/> which designates
+        /// which of the types of event method members the method needs to be.</param>
+        /// <returns>A new <typeparamref name="TMethodSignature"/> structured for
+        /// the <paramref name="type"/> provided.</returns>
+        protected abstract TMethodSignature GetMethodSignatureMember(EventMethodType type);
+
+        public TMethodSignature OnAddMethod
+        {
+            get
+            {
+                if (this.addMethod == null)
+                    this.addMethod = this.GetMethodSignatureMember(EventMethodType.Add);
+                return this.addMethod;
+            }
+        }
+
+        public TMethodSignature OnRemoveMethod
+        {
+            get
+            {
+                if (this.removeMethod == null)
+                    this.removeMethod = this.GetMethodSignatureMember(EventMethodType.Remove);
+                return this.removeMethod;
+            }
+        }
+
+        IMethodSignatureMember IEventSignatureMember.OnAddMethod { get { return this.OnAddMethod; } }
+        IMethodSignatureMember IEventSignatureMember.OnRemoveMethod { get { return this.OnRemoveMethod; } }
 
         public IType ReturnType
         {

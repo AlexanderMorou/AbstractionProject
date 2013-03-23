@@ -1428,5 +1428,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         }
 
         public virtual ITypeIdentityManager IdentityManager { get { return this.Owner.IdentityManager; } }
+
+
+        public IEnumerable<IType> GetTypes()
+        {
+            if (this.types == null)
+                return new IType[0];
+            return this._Types.GetTypes();
+        }
     }
 }

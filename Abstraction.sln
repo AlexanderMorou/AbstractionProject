@@ -36,9 +36,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Type System Test - CLI", "S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract Syntax Tree", "SLF\Ast\Abstract Syntax Tree.csproj", "{02607DC2-E98B-43AE-B906-FE151A70A68D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp", "SLF\Languages\CSharp\CSharp.csproj", "{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualBasic.NET", "SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj", "{9C89419D-F2A1-4882-8408-6708A038E025}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
+		SccNumberOfProjects = 12
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
 		SccLocalPath0 = .
@@ -78,6 +82,14 @@ Global
 		SccProjectTopLevelParentUniqueName9 = Abstraction.sln
 		SccProjectName9 = Utilities/FiniteAutomation
 		SccLocalPath9 = Utilities\\FiniteAutomation
+		SccProjectUniqueName10 = SLF\\Languages\\CSharp\\CSharp.csproj
+		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
+		SccProjectName10 = SLF/Languages/CSharp
+		SccLocalPath10 = SLF\\Languages\\CSharp
+		SccProjectUniqueName11 = SLF\\Languages\\VisualBasic.NET\\VisualBasic.NET.csproj
+		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
+		SccProjectName11 = SLF/Languages/VisualBasic.NET
+		SccLocalPath11 = SLF\\Languages\\VisualBasic.NET
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -159,6 +171,22 @@ Global
 		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x64.Build.0 = Release|x64
 		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x86.ActiveCfg = Release|x86
 		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Release|x86.Build.0 = Release|x86
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Debug|x64.ActiveCfg = Debug|x64
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Debug|x64.Build.0 = Debug|x64
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Debug|x86.ActiveCfg = Debug|x86
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Debug|x86.Build.0 = Debug|x86
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Release|x64.ActiveCfg = Release|x64
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Release|x64.Build.0 = Release|x64
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Release|x86.ActiveCfg = Release|x86
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}.Release|x86.Build.0 = Release|x86
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x64.ActiveCfg = Debug|x64
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x64.Build.0 = Debug|x64
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x86.ActiveCfg = Debug|x86
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Debug|x86.Build.0 = Debug|x86
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x64.ActiveCfg = Release|x64
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x64.Build.0 = Release|x64
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.ActiveCfg = Release|x86
+		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +200,8 @@ Global
 		{161EAA8C-20C6-4B82-925A-4B8B112910AB} = {C83E49F5-9884-4A95-BB30-E3138DC4FF86}
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA} = {C83E49F5-9884-4A95-BB30-E3138DC4FF86}
 		{02607DC2-E98B-43AE-B906-FE151A70A68D} = {460F9AF5-9236-4661-B1AD-42E5CB44CABD}
+		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
+		{9C89419D-F2A1-4882-8408-6708A038E025} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}

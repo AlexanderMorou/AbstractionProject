@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// The standard pattern for visual basic.
         /// </summary>
-        internal static readonly IAnonymousTypePatternAid VBPattern = new DefaultATPatternAid(AnonymousTypeDisplayStyles.VisualBasic);
+        public static readonly IAnonymousTypePatternAid VBPattern = new DefaultATPatternAid(AnonymousTypeDisplayStyles.VisualBasic);
         private class DefaultATPatternAid :
             AnonymousTypePatternAid
         {

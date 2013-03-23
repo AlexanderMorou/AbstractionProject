@@ -51,7 +51,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         where TEventParent :
             IEventSignatureParent<TEvent, TEventParameter, TEventParent>
     {
-
     }
     /// <summary>
     /// Defines properties and methods for working with
@@ -87,18 +86,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <see cref="EventSignatureSource.Declared"/> and Visual 
         /// Basic will not.</para></remarks>
         IDelegateType SignatureType { get; }
-        ///// <summary>
-        ///// Returns the <see cref="IMethodSignatureMember"/>
-        ///// which is responsible for adding a handler
-        ///// of the event.
-        ///// </summary>
-        //IMethodSignatureMember OnAddMethod { get; }
-        ///// <summary>
-        ///// Returns the <see cref="IMethodSignatureMember"/>
-        ///// which is responsible for removing a handler
-        ///// of the event.
-        ///// </summary>
-        //IMethodSignatureMember OnRemoveMethod { get; }
+        /// <summary>
+        /// Returns the <see cref="IMethodSignatureMember"/>
+        /// which is responsible for adding a handler
+        /// of the event.
+        /// </summary>
+        IMethodSignatureMember OnAddMethod { get; }
+        /// <summary>
+        /// Returns the <see cref="IMethodSignatureMember"/>
+        /// which is responsible for removing a handler
+        /// of the event.
+        /// </summary>
+        IMethodSignatureMember OnRemoveMethod { get; }
         /// <summary>
         /// Returns the <see cref="IType"/> associated to the event
         /// signature's returntype.

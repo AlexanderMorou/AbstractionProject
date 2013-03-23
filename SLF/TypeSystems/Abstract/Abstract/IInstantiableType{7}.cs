@@ -64,5 +64,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// by the <typeparamref name="TType"/> with regards
         /// to <paramref name="type"/>.</returns>
         IInterfaceMemberMapping<TMethod, TProperty,TEvent, TIndexer,TType> GetInterfaceMap(IInterfaceType type);
+        /// <summary>
+        /// Returns the <see cref="IAssembly"/> in which the <see cref="IInstantiableType{TCtor, TEvent, TField, TIndexer, TMethod, TProperty, TTypeIdentifier, TType}"/> is declared
+        /// </summary>
+        IAssembly Assembly { get; }
     }
 }

@@ -136,7 +136,5 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             return orderedIntrinsicResults;
         }
 
-
-
     }
 }

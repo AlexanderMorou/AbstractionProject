@@ -971,5 +971,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A <see cref="IType"/> from the current <see cref="AssemblyBase"/>
         /// which is represented by the <paramref name="identifier"/>.</returns>
         public abstract IType GetType(IGeneralTypeUniqueIdentifier identifier);
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the assembly.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{IType}"/> which steps through the types
+        /// within the assembly.</returns>
+        public abstract IEnumerable<IType> GetTypes();
     }
 }

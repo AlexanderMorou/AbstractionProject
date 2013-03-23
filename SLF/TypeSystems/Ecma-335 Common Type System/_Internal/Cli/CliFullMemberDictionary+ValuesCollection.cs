@@ -102,6 +102,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             return new MasterDictionaryEntry<IMember>(this.owner.parent.BinaryOperators, this.owner.members[index]);
                         case CliMemberType.Constructor:
                             return new MasterDictionaryEntry<IMember>(this.owner.parent.Constructors, this.owner.members[index]);
+                        case CliMemberType.Indexer:
+                            return new MasterDictionaryEntry<IMember>(this.owner.parent.Indexers, this.owner.members[index]);
                         case CliMemberType.Event:
                             return new MasterDictionaryEntry<IMember>(this.owner.parent.Events, this.owner.members[index]);
                         case CliMemberType.Field:

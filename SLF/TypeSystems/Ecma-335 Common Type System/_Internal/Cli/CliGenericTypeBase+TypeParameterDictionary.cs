@@ -24,8 +24,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             /// <param name="owner">The <see cref="CliGenericTypeBase{TIdentifier, TType}"/> which 
             /// contains the generic parameters.</param>
             internal TypeParameterDictionary(CliGenericTypeBase<TIdentifier, TType> owner)
-                : base(owner.MetadataEntry.TypeParameters)
             {
+                if (owner.MetadataEntry.TypeParameters == null)
+                    this.Initialize(new ICliMetadataGenericParameterTableRow[0]);
+                else
+                    this.Initialize(owner.MetadataEntry.TypeParameters);
                 this.owner = owner;
             }
 

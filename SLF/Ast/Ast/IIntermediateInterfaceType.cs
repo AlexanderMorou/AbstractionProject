@@ -28,6 +28,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IInterfaceType
     {
         /// <summary>
+        /// Suspends the duality in the type layout where members 
+        /// inserted in methods, properties, events and so on are 
+        /// dually inserted in a verbatim-order master set.
+        /// </summary>
+        /// <remarks>Incremental function, all resumes must
+        /// be invoked prior to resuming the duality.</remarks>
+        void SuspendDualLayout();
+        /// <summary>
+        /// Resumes the duality in the type layout where members
+        /// inserted in methods, properties, events, and so on are
+        /// dually inserted in a verbatim-order master set.
+        /// </summary>
+        /// <remarks>Incremental function, all resumes must
+        /// be invoked prior to resuming the duality.</remarks>
+        void ResumeDualLayout();
+        /// <summary>
         /// The <see cref="ITypeCollection"/> which represents the interfaces implemented by the
         /// <see cref="IIntermediateInterfaceType"/>.
         /// </summary>
@@ -37,6 +53,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// type identities in the current type model.
         /// </summary>
         new ITypeIdentityManager IdentityManager { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> in which
+        /// the <see cref="IIntermediateInterfaceType"/> is declared
+        /// </summary>
+        new IIntermediateAssembly Assembly { get; }
+
     }
     /* *
      *    /// <summary>

@@ -55,5 +55,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <param name="visitor">The <see cref="IIntermediateDeclarationVisitor"/>
         /// which should receive the <see cref="IIntermediateNamespaceDeclaration"/> as a visitor.</param>
         void Visit(IIntermediateDeclarationVisitor visitor);
+
     }
 }

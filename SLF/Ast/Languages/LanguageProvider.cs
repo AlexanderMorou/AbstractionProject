@@ -274,7 +274,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             get { return this.Language; }
         }
 
-        public IIntermediateAssembly CreateAssembly(string name)
+        public IAssembly CreateAssembly(string name)
         {
             return this.OnCreateAssembly(name);
         }

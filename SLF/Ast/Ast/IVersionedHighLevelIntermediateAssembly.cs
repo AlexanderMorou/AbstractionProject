@@ -21,26 +21,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// language.
     /// </summary>
     /// <typeparam name="TLanguage">The type of 
-    /// <see cref="IVersionedHighLevelLanguage{TVersion, TRootNode}">language</see>
+    /// <see cref="IVersionedLanguage{TVersion}">language</see>
     /// which yields information and services pertinent to the 
     /// tools which build the assembly.</typeparam>
     /// <typeparam name="TRootNode">The <see cref="IConcreteNode"/>
     /// which represents the top-level node of the concrete syntax tree that results
     /// from a parse.</typeparam>
     /// <typeparam name="TProvider">The language service 
-    /// <see cref="IVersionedHighLevelLanguageProvider{TVersion, TRootNode}">provider</see>
+    /// <see cref="IVersionedLanguageProvider{TVersion}">provider</see>
     /// which yields a set of services to aid in compilation
-    /// of the <see cref="IVersionedHighLevelIntermediateAssembly{TLanguage, TRootNode, TProvider, TVersion}">assembly</see>.</typeparam>
+    /// of the <see cref="IVersionedIntermediateAssembly{TLanguage, TProvider, TVersion}">assembly</see>.</typeparam>
     /// <typeparam name="TVersion">The kind of entity used to represent the
     /// <typeparamref name="TLanguage">language</typeparamref>'s various versions.</typeparam>
-    public interface IVersionedHighLevelIntermediateAssembly<TLanguage, TRootNode, TProvider, TVersion> :
-        IHighLevelIntermediateAssembly<TLanguage, TRootNode, TProvider>
+    public interface IVersionedIntermediateAssembly<TLanguage, TProvider, TVersion> :
+        IIntermediateAssembly<TLanguage, TProvider>
         where TLanguage :
-            IVersionedHighLevelLanguage<TVersion, TRootNode>
-        where TRootNode :
-            IConcreteNode
+            IVersionedLanguage<TVersion>
         where TProvider :
-            IVersionedHighLevelLanguageProvider<TVersion, TRootNode>
+            IVersionedLanguageProvider<TVersion>
     {
     }
 }

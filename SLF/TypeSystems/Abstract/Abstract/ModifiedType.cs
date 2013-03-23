@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get { return TypeKind.Modified; }
         }
 
-        protected internal override bool CanCacheImplementsList
+        protected override bool CanCacheImplementsList
         {
             get { return true; }
         }

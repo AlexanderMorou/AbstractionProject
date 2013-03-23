@@ -135,6 +135,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             yield break;
         }
 
+        protected override IEnumerator<KeyValuePair<TDeclarationIdentifier, TDeclaration>> OnGetEnumerator()
+        {
+            for (var m = base.OnGetEnumerator(); m.MoveNext(); )
+            {
+                yield return m.Current;
+            }
+            if (this.Suspended)
+                foreach (var item in this.suspendedMembers)
+                    yield return new KeyValuePair<TDeclarationIdentifier, TDeclaration>((TDeclarationIdentifier)item.UniqueIdentifier, (TDeclaration)item);
+        }
+
         /// <summary>
         /// Occurs when an item is added to the 
         /// <see cref="IntermediateGroupedDeclarationDictionary{TDeclarationIdentifier, TDeclaration, TMDeclarationIdentifier, TMDeclaration, TIntermediateDeclaration}"/>.
@@ -237,6 +248,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 GC.SuppressFinalize(this);
             }
         }
+
 
         /// <summary>
         /// Determines whether the <typeparamref name="TIntermediateDeclaration"/>
@@ -449,13 +461,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected internal override void _Clear()
         {
-            if (Suspended)
-                if (this.Suspended)
-                {
-                    for (int i = 0; i < this.suspendedMembers.Count; i++)
-                        this.suspendedMembers[i].Dispose();
-                    this.suspendedMembers.Clear();
-                }
+            if (this.Suspended)
+            {
+                for (int i = 0; i < this.suspendedMembers.Count; i++)
+                    this.suspendedMembers[i].Dispose();
+                this.suspendedMembers.Clear();
+            }
             base._Clear();
         }
 

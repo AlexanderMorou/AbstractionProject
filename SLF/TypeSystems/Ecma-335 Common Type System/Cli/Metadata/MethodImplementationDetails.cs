@@ -86,5 +86,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         {
             return new MethodImplementationDetails(value);
         }
+
+        public override string ToString()
+        {
+            return string.Format("CodeType = {0}, IsManaged = {1}, ImplementationFlags = {2}", this.CodeType, this.IsManaged, this.ImplementationFlags);
+        }
     }
 }

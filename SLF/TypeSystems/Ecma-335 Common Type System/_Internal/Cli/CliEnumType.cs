@@ -84,6 +84,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        protected override ITypeParent OnGetParent()
+        {
+            return base.OnGetParent();
+        }
+
         public new IEnumType ElementType
         {
             get { return (IEnumType)base.ElementType; }
@@ -97,6 +102,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         IFieldMemberDictionary IFieldParent.Fields
         {
             get { return (IFieldMemberDictionary)this.Fields; }
+        }
+
+        protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            if (this.Parent is IType)
+                return ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.MetadataEntry.Name, AstIdentifier.GetDeclarationIdentifier(this.NamespaceName));
+            else
+                return this.Assembly.UniqueIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.MetadataEntry.Name);
+        }
+
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
+        {
+            get { return this.Fields.Keys.Cast<IGeneralDeclarationUniqueIdentifier>(); }
         }
     }
 }

@@ -6,6 +6,9 @@ using System.Diagnostics.SymbolStore;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Cst;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Ast;
+using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -34,12 +37,51 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         public ICoreVisualBasicProvider GetProvider(VisualBasicVersion version)
         {
-            return new CoreVisualBasicProvider(version);
+            return new CoreVisualBasicProvider(version, GetIdentityManager(version));
+        }
+
+        public ICoreVisualBasicProvider GetProvider(VisualBasicVersion version, IIntermediateCliManager identityManager)
+        {
+            return new CoreVisualBasicProvider(version, identityManager);
+        }
+
+        public IMyVisualBasicProvider GetMyProvider()
+        {
+            return GetMyProvider(VisualBasicLanguage.DefaultVersion);
         }
 
         public IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version)
         {
-            return new MyVisualBasicProvider(version);
+            return GetMyProvider(version, GetIdentityManager(version));
+        }
+
+        private static IntermediateCliManager GetIdentityManager(VisualBasicVersion version)
+        {
+            CliFrameworkVersion frameworkVersion = CliGateway.CurrentVersion;
+            switch (version)
+            {
+                case VisualBasicVersion.Version08:
+                    frameworkVersion = CliFrameworkVersion.v2_0_50727;
+                    break;
+                case VisualBasicVersion.Version09:
+                    frameworkVersion = CliFrameworkVersion.v3_5;
+                    break;
+                case VisualBasicVersion.Version10:
+                    frameworkVersion = CliFrameworkVersion.v4_0_30319;
+                    break;
+                case VisualBasicVersion.Version11:
+                    frameworkVersion = CliFrameworkVersion.v4_5;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("version");
+            }
+            var identityManager = new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, frameworkVersion));
+            return identityManager;
+        }
+
+        public IMyVisualBasicProvider GetMyProvider(VisualBasicVersion version, IIntermediateCliManager identityManager)
+        {
+            return new MyVisualBasicProvider(version, identityManager);
         }
 
         public ICoreVisualBasicAssembly CreateAssembly(string name, VisualBasicVersion version)
@@ -54,28 +96,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         #endregion
 
-        #region IVersionedHighLevelLanguage<VisualBasicVersion,IVisualBasicStart> Members
+        #region IVersionedLanguage<VisualBasicVersion,IVisualBasicStart> Members
 
-        IVersionedHighLevelLanguageProvider<VisualBasicVersion, Cst.IVisualBasicStart> IVersionedHighLevelLanguage<VisualBasicVersion, Cst.IVisualBasicStart>.GetProvider(VisualBasicVersion version)
+        IVersionedLanguageProvider<VisualBasicVersion> IVersionedLanguage<VisualBasicVersion>.GetProvider(VisualBasicVersion version)
         {
             return this.GetProvider(version);
         }
 
-        IIntermediateAssembly IVersionedHighLevelLanguage<VisualBasicVersion,IVisualBasicStart>.CreateAssembly(string name, VisualBasicVersion version)
-        {
-            return this.CreateAssembly(name, version);
-        }
-
-        #endregion
-
-        #region IHighLevelLanguage<IVisualBasicStart> Members
-
-        IHighLevelLanguageProvider<Cst.IVisualBasicStart> IHighLevelLanguage<Cst.IVisualBasicStart>.GetProvider()
-        {
-            return this.GetProvider();
-        }
-
-        IIntermediateAssembly ILanguage.CreateAssembly(string name)
+        IAssembly ILanguage.CreateAssembly(string name)
         {
             return this.CreateAssembly(name);
         }
@@ -115,11 +143,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         #region IVersionedLanguage<VisualBasicVersion> Members
 
-        IVersionedLanguageProvider<VisualBasicVersion> IVersionedLanguage<VisualBasicVersion>.GetProvider(VisualBasicVersion version)
-        {
-            return this.GetProvider(version);
-        }
-
         public CompilerSupport GetCompilerSupport(VisualBasicVersion version)
         {
             CompilerSupport result = CompilerSupport.FullSupport ^ (CompilerSupport.Win32Resources | CompilerSupport.PrimaryInteropEmbedding | CompilerSupport.StructuralTyping | Compilers.CompilerSupport.Unsafe);
@@ -149,5 +172,6 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         }
 
         #endregion
+
     }
 }

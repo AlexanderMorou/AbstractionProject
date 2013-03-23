@@ -64,21 +64,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Data member for <see cref="Events"/>.
         /// </summary>
-        private IIntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType> events;
+        private IntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType> events;
         /// <summary>
         /// Data member for <see cref="Indexers"/>.
         /// </summary>
-        private IIntermediateIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IIntermediateInterfaceIndexerMember, IInterfaceType, IIntermediateInterfaceType> indexers;
+        private IntermediateIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IIntermediateInterfaceIndexerMember, IInterfaceType, IIntermediateInterfaceType> indexers;
         /// <summary>
         /// Data member for <see cref="Properties"/>.
         /// </summary>
-        private IIntermediatePropertySignatureMemberDictionary<IInterfacePropertyMember, IIntermediateInterfacePropertyMember, IInterfaceType, IIntermediateInterfaceType> properties;
+        private IntermediatePropertySignatureMemberDictionary<IInterfacePropertyMember, IIntermediateInterfacePropertyMember, IInterfaceType, IIntermediateInterfaceType> properties;
         /// <summary>
         /// Data member for <see cref="Methods"/>.
         /// </summary>
-        private IIntermediateMethodSignatureMemberDictionary<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType> methods;
+        private IntermediateGroupedMethodSignatureMemberDictionary<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IIntermediateMethodSignatureParameterMember<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType>, IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType> methods;
 
         private IntermediateFullMemberDictionary members;
+        private int suspendLevel;
 
         #endregion
 
@@ -270,7 +271,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckMethods();
-                return this.methods;
+                return (IIntermediateMethodSignatureMemberDictionary<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType>)this.methods;
             }
         }
 
@@ -419,25 +420,41 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void CheckEvents()
         {
             if (this.events == null)
+            {
                 this.events = this.InitializeEvents();
+                for (int i = 0; i < this.suspendLevel; i++)
+                    this.events.Suspend();
+            }
         }
 
         private void CheckIndexers()
         {
             if (this.indexers == null)
+            {
                 this.indexers = this.InitializeIndexers();
+                for (int i = 0; i < this.suspendLevel; i++)
+                    this.indexers.Suspend();
+            }
         }
 
         private void CheckProperties()
         {
             if (this.properties == null)
+            {
                 this.properties = this.InitializeProperties();
+                for (int i = 0; i < this.suspendLevel; i++)
+                    this.properties.Suspend();
+            }
         }
 
         private void CheckMethods()
         {
             if (this.methods == null)
+            {
                 this.methods = this.InitializeMethods();
+                for (int i = 0; i < this.suspendLevel; i++)
+                    this.methods.Suspend();
+            }
         }
 
         #endregion
@@ -451,7 +468,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region Initializers
 
-        protected virtual IIntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType> InitializeEvents()
+        protected virtual IntermediateEventSignatureMemberDictionary<IInterfaceEventMember, IIntermediateInterfaceEventMember, IInterfaceType, IIntermediateInterfaceType> InitializeEvents()
         {
             if (this.IsRoot)
                 return new EventMembers(this._Members, ((TInstanceType)(this)));
@@ -459,7 +476,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return new EventMembers(this._Members, ((TInstanceType)(this)), (EventMembers)(this.GetRoot().Events));
         }
 
-        protected virtual IIntermediateIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IIntermediateInterfaceIndexerMember, IInterfaceType, IIntermediateInterfaceType> InitializeIndexers()
+        protected virtual IntermediateIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IIntermediateInterfaceIndexerMember, IInterfaceType, IIntermediateInterfaceType> InitializeIndexers()
         {
             if (this.IsRoot)
                 return new IndexerMembers(this._Members, ((TInstanceType)(this)));
@@ -467,7 +484,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return new IndexerMembers(this._Members, ((TInstanceType)(this)), (IndexerMembers)(this.GetRoot().Indexers));
         }
 
-        protected virtual IIntermediatePropertySignatureMemberDictionary<IInterfacePropertyMember, IIntermediateInterfacePropertyMember, IInterfaceType, IIntermediateInterfaceType> InitializeProperties()
+        protected virtual IntermediatePropertySignatureMemberDictionary<IInterfacePropertyMember, IIntermediateInterfacePropertyMember, IInterfaceType, IIntermediateInterfaceType> InitializeProperties()
         {
             if (this.IsRoot)
                 return new PropertyMembers(this._Members, ((TInstanceType)(this)));
@@ -475,7 +492,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return new PropertyMembers(this._Members, ((TInstanceType)(this)), (PropertyMembers)(this.GetRoot().Properties));
         }
 
-        protected virtual IIntermediateMethodSignatureMemberDictionary<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType> InitializeMethods()
+        protected virtual IntermediateGroupedMethodSignatureMemberDictionary<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IIntermediateMethodSignatureParameterMember<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType>, IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType> InitializeMethods()
         {
             if (this.IsRoot)
                 return new MethodMembers(this._Members, (TInstanceType)this);
@@ -578,9 +595,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     else if (this.Parent is INamespaceDeclaration)
                     {
                         if (this.TypeParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, this.TypeParameters.Count);
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).UniqueIdentifier, this.Name, 0);
+                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
 
                     }
                     else if (this.TypeParametersInitialized)
@@ -632,5 +649,35 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
+        public void SuspendDualLayout()
+        {
+            this.suspendLevel++;
+            base.SuspendTypeContainers();
+            if (this.events != null)
+                this.events.Suspend();
+            if (this.indexers != null)
+                this.indexers.Suspend();
+            if (this.methods != null)
+                this.methods.Suspend();
+            if (this.properties != null)
+                this.properties.Suspend();
+        }
+
+        public void ResumeDualLayout()
+        {
+            if (this.suspendLevel == 0)
+                return;
+            this.suspendLevel--;
+            base.ResumeTypeContainers();
+            if (this.events != null)
+                this.events.Resume();
+            if (this.indexers != null)
+                this.indexers.Resume();
+            if (this.methods != null)
+                this.methods.Resume();
+            if (this.properties != null)
+                this.properties.Resume();
+
+        }
     }
 }

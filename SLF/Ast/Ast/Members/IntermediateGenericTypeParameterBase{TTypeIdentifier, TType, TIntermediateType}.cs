@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which contains the <see cref="IntermediateGenericTypeParameterBase{TTypeIdentifier, TType, TIntermediateType}"/>.</param>
         public IntermediateGenericTypeParameterBase(string name, TIntermediateType parent)
-            : base(name, parent)
+            : base(name, parent, parent.IdentityManager)
         {
         }
 

@@ -26,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// <typeparam name="TMethodMember">The type of <see cref="IIntermediateEventMethodMember"/>
     /// within the current implementation.</typeparam>
     public abstract partial class IntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent, TMethodMember> :
-        IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, IEventParameterMember<TEvent, TEventParent>, IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent>,
+        IntermediateEventSignatureMemberBase<TEvent, TIntermediateEvent, IEventParameterMember<TEvent, TEventParent>, IIntermediateEventParameterMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>, TEventParent, TIntermediateEventParent, TMethodMember>,
         IIntermediateEventMember<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
         where TMethodMember :
             class,
@@ -44,8 +44,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private ExtendedInstanceMemberFlags instanceFlags;
         private IntermediateEventManagementType generationType;
-        private TMethodMember addMethod;
-        private TMethodMember removeMethod;
         private TMethodMember raiseMethod;
         private bool emitRaiseMethod;
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
@@ -77,12 +75,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// the <paramref name="type"/> provided.</returns>
         protected abstract TMethodMember GetMethodMember(EventMethodType type);
 
+        protected sealed override TMethodMember GetMethodSignatureMember(EventMethodType type)
+        {
+            return this.GetMethodMember(type);
+        }
+
         #region IIntermediateEventMember<TEvent,TIntermediateEvent,TEventParent,TIntermediateEventParent> Members
         /// <summary>
         /// Returns/sets the type of management the event receives</summary>
         /// <remarks>If set to <see cref="IntermediateEventManagementType.Automatic"/>, 
-        /// <see cref="OnAddMethod"/>, <see cref="OnRemoveMethod"/>, and <see cref="OnRaiseMethod"/>
-        /// will be locked, and immutable.</remarks>
+        /// <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}.OnAddMethod"/>,
+        /// <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}.OnRemoveMethod"/>,
+        /// and <see cref="OnRaiseMethod"/> will be locked, and immutable.</remarks>
         public IntermediateEventManagementType GenerationType
         {
             get
@@ -95,31 +99,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        public TMethodMember OnAddMethod
-        {
-            get
-            {
-                if (this.addMethod == null)
-                    this.addMethod = this.GetMethodMember(EventMethodType.Add);
-                return this.addMethod;
-            }
-        }
-
-        public TMethodMember OnRemoveMethod
-        {
-            get
-            {
-                if (this.removeMethod == null)
-                    this.removeMethod = this.GetMethodMember(EventMethodType.Remove);
-                return this.removeMethod;
-            }
-        }
-
         /// <summary>
         /// Returns the <typeparamref name="TMethodMember"/> which is responsible for adding a handler
         /// of the event.
         /// </summary>
-        /// <remarks><para>Parameters are read-only when <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}.SignatureSource"/>
+        /// <remarks><para>Parameters are read-only when <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}.SignatureSource"/>
         /// is <see cref="EventSignatureSource.Delegate"/>.</para>
         /// <para>Statements emitted by the raise method are read-only when
         /// <see cref="GenerationType"/> is <see cref="IntermediateEventManagementType.Automatic"/>.

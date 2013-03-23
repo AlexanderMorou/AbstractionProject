@@ -1018,5 +1018,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         public ITypeIdentityManager IdentityManager { get { return this.Parent.IdentityManager; } }
+
+        public IEnumerable<IType> GetTypes()
+        {
+            return this.types.GetTypes().Concat(this.namespaces.GetTypes());
+        }
     }
 }

@@ -10,12 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
     <AssemblyName>_abs.slf.languages.vb.net</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -31,7 +32,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
-    <DocumentationFile>..\..\..\Build\x64\Debug\_abs.slf.languages.vb.net.XML</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x64\Debug\_abs.slf.languages.vb.net.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>..\..\..\Build\x64\Release\</OutputPath>
@@ -43,7 +45,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <DocumentationFile>..\..\..\Build\x64\Release\_abs.slf.languages.vb.net.XML</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x64\Release\_abs.slf.languages.vb.net.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +57,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.languages.vb.net.XML</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x86\Debug\_abs.slf.languages.vb.net.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
@@ -66,7 +70,8 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisIgnoreBuiltInRuleSets>false</CodeAnalysisIgnoreBuiltInRuleSets>
     <CodeAnalysisIgnoreBuiltInRules>false</CodeAnalysisIgnoreBuiltInRules>
-    <DocumentationFile>..\..\..\Build\x86\Release\_abs.slf.languages.vb.net.XML</DocumentationFile>
+    <DocumentationFile>..\..\..\Build\x86\Release\_abs.slf.languages.vb.net.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualBasic" />
@@ -105,29 +110,34 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
-      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Project>{b449e1f5-149c-4f47-bbfc-a82eee96471a}</Project>
       <Name>Common Utilities</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Ast\Abstract Syntax Tree.csproj">
-      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
+      <Project>{02607dc2-e98b-43ae-b906-fe151a70a68d}</Project>
       <Name>Abstract Syntax Tree</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+      <Project>{df6044a9-ae48-4ac2-a170-eb839bb0058c}</Project>
+      <Name>Abstraction Compiler Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{a94a88da-2500-4372-a433-a07ac3bfa05f}</Project>
+      <Name>Metadata Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
-      <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
+      <Project>{161eaa8c-20c6-4b82-925a-4b8b112910ab}</Project>
       <Name>TypeSystem Abstract</Name>
-      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj">
-      <Project>{D455D4FF-54FD-431E-BD27-43DA130A0FAA}</Project>
+      <Project>{d455d4ff-54fd-431e-bd27-43da130a0faa}</Project>
       <Name>Ecma-335 Common Type System</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 private IGenericParameterUniqueIdentifier uniqueIdentifier;
                 public TypeParameter(string name, IntermediateMethodSignatureMemberBase<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent> parent)
-                    : base(name, parent)
+                    : base(name, parent, parent.IdentityManager)
                 {
                 }
 

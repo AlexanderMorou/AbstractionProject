@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             private CliDelegateType parent;
             internal ParameterDictionary(CliDelegateType parent)
-                : base(parent.IdentityManager, parent.InvokeMethodIndex, parent.MetadataEntry.MetadataRoot)
+                : base(parent.IdentityManager, parent.InvokeMethodIndex, parent.MetadataEntry.MetadataRoot, parent)
             {
                 this.parent = parent;
             }

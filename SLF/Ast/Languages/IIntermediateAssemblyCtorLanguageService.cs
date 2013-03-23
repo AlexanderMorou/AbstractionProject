@@ -7,19 +7,15 @@ using AllenCopeland.Abstraction.Slf.Cst;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
-    public interface IIntermediateAssemblyCtorLanguageService<TProvider, TLanguage, TRootNode, TAssembly> :
-        IHighLevelLanguageService<TProvider, TLanguage, TRootNode>,
+    public interface IIntermediateAssemblyCtorLanguageService<TProvider, TLanguage, TAssembly> :
+        ILanguageService<TLanguage, TProvider>,
         IIntermediateAssemblyCtorLanguageService
         where TProvider :
-            ILanguageProvider<TLanguage, TProvider>,
-            IHighLevelLanguageProvider<TRootNode>
+            ILanguageProvider<TLanguage, TProvider>
         where TLanguage :
-            ILanguage<TLanguage, TProvider>,
-            IHighLevelLanguage<TRootNode>
-        where TRootNode :
-            IConcreteNode
+            ILanguage<TLanguage, TProvider>
         where TAssembly :
-            IHighLevelIntermediateAssembly<TLanguage, TRootNode, TProvider>
+            IIntermediateAssembly<TLanguage, TProvider>
     {
         /// <summary>
         /// Creates a new <typeparamref name="TAssembly"/>

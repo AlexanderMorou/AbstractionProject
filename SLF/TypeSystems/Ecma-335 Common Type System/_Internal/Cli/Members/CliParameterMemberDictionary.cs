@@ -27,12 +27,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private _ICliManager manager;
         private TParent parent;
         private ICliMetadataMethodSignature signature;
-        public CliParameterMemberDictionary(_ICliManager manager, uint methodIndex, ICliMetadataRoot metadataRoot)
+        public CliParameterMemberDictionary(_ICliManager manager, uint methodIndex, ICliMetadataRoot metadataRoot, TParent parent, int dropoff = 0)
         {
             this.manager = manager;
+            this.parent = parent;
             var method = metadataRoot.TableStream.MethodDefinitionTable[(int)methodIndex];
             this.signature = method.Signature;
-            this.Initialize(method.Parameters);
+            bool skipFirst = false;
+            if (method.Parameters.Count > 0 &&
+                method.Parameters[0].Sequence == 0)
+                skipFirst = true;
+            if (dropoff != 0)
+                if (skipFirst)
+                    this.Initialize(method.Parameters.Skip(1).Drop(dropoff).ToArray());
+                else
+                    this.Initialize(method.Parameters.Drop(dropoff).ToArray());
+            else if (skipFirst)
+                this.Initialize(method.Parameters.Skip(1).ToArray());
+            else
+                this.Initialize(method.Parameters);
         }
 
         //private static int DeriveCount(int methodIndex, ICliMetadataRoot metadataRoot)

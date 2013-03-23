@@ -1318,5 +1318,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     return (TIdentityManager)this.GetRoot().Provider.IdentityManager;
             }
         }
+
+        public override IEnumerable<IType> GetTypes()
+        {
+            return this._Types.GetTypes().Concat(this.Namespaces.GetTypes());
+        }
     }
 }

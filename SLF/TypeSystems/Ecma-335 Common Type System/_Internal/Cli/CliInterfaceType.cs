@@ -9,10 +9,11 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
-    internal class CliInterfaceType :
+    internal partial class CliInterfaceType :
         CliGenericParentType<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>,
         IInterfaceType,
         _ICliMemberParent
@@ -31,8 +32,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return TypeKind.Interface; }
         }
-
-
 
         public IMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType> Methods
         {
@@ -73,22 +72,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType> InitializeMethods()
         {
-            throw new NotImplementedException();
+            return new CliMethodSignatureMemberDictionary<IInterfaceMethodMember, IInterfaceType>(this, (CliFullMemberDictionary)this.Members);
         }
 
         private IPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType> InitializeProperties()
         {
-            throw new NotImplementedException();
+            return new CliPropertySignatureMemberDictionary<IInterfacePropertyMember, IInterfaceType>(this, (CliFullMemberDictionary)this.Members);
         }
 
         private IEventSignatureMemberDictionary<IInterfaceEventMember, IInterfaceType> InitializeEvents()
         {
-            throw new NotImplementedException();
+            return new CliEventSignatureMemberDictionary<IInterfaceEventMember, IInterfaceType>(this, (CliFullMemberDictionary)this.Members);
         }
 
         private IIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IInterfaceType> InitializeIndexers()
         {
-            throw new NotImplementedException();
+            return new CliIndexerSignatureMemberDictionary<IInterfaceIndexerMember, IInterfaceType>(this, (CliFullMemberDictionary)this.Members);
         }
 
         IMethodSignatureMemberDictionary IMethodSignatureParent.Methods
@@ -200,13 +199,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IMember CreateItem(CliMemberType memberKind, ICliMetadataTableRow metadataEntry, IMemberUniqueIdentifier uniqueIdentifier, int index)
         {
-            throw new NotImplementedException();
+            switch (memberKind)
+            {
+                case CliMemberType.Event:
+                    return new Event(this, (ICliMetadataEventTableRow)metadataEntry, (IGeneralSignatureMemberUniqueIdentifier)uniqueIdentifier);
+                case CliMemberType.Indexer:
+                    return new Indexer(this, (ICliMetadataPropertyTableRow)metadataEntry, (IGeneralSignatureMemberUniqueIdentifier)uniqueIdentifier);
+                case CliMemberType.Method:
+                    return new Method(this, (ICliMetadataMethodDefinitionTableRow)metadataEntry, (IGeneralGenericSignatureMemberUniqueIdentifier)uniqueIdentifier);
+                case CliMemberType.Property:
+                    return new Property(this, (ICliMetadataPropertyTableRow)metadataEntry);
+            }
+            throw new NotSupportedException();
         }
 
 
         protected override IInterfaceType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
         {
             return new _InterfaceTypeBase(this, lockedTypeParameters);
+        }
+
+        public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
+        {
+            get { return this.Members.Keys.Cast<IGeneralDeclarationUniqueIdentifier>().Concat(this.Types.Keys.Cast<IGeneralDeclarationUniqueIdentifier>()); }
         }
     }
 }

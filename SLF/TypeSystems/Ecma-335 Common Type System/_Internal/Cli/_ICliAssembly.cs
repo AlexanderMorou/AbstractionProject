@@ -13,5 +13,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         ICliAssembly
     {
         INamespaceDeclaration GetNamespace(string @namespace);
+        new _ICliManager IdentityManager { get; }
     }
 }
