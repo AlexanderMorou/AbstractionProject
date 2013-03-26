@@ -16,38 +16,49 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal static class CliMemberExtensions
     {
-        public static IEnumerable<ICliMetadataTableRow> GetMemberData2(this ICliMetadataTypeDefinitionTableRow target)
+        public static IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> GetMemberData2(this ICliMetadataTypeDefinitionTableRow target)
         {
             var fields = target.Fields;
             var methods = target.Methods;
             var properties = target.Properties;
             var events = target.Events;
-            IEnumerable<ICliMetadataTableRow> result = fields;
-            if (result == null)
-                result = methods;
+            var methodQuery = from m in methods
+                              select new Tuple<CliMemberType, ICliMetadataTableRow>(CliMemberType.Method, m);
+            var propertyQuery = from m in properties
+                                select new Tuple<CliMemberType, ICliMetadataTableRow>(CliMemberType.Property, m);
+            var eventQuery = from m in properties
+                             select new Tuple<CliMemberType, ICliMetadataTableRow>(CliMemberType.Property, m);
+            IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> result = (fields == null) ? null : from f in fields
+                                                                                                       select new Tuple<CliMemberType, ICliMetadataTableRow>(CliMemberType.Field, f);
+            if (result == null && methods != null)
+                result = methodQuery;
             else if (methods != null)
-                result = result.Concat(methods);
-            if (result == null)
-                result = properties;
+                result = result.Concat(methodQuery);
+            if (result == null && properties != null)
+                result = propertyQuery;
             else if (properties != null)
-                result = result.Concat(properties);
-            if (result == null)
-                result = events;
+                result = result.Concat(propertyQuery);
+            if (result == null && events != null)
+                result = eventQuery;
             else if (events != null)
-                result = result.Concat(events);
-            return result ?? new ICliMetadataTableRow[0];
+                result = result.Concat(eventQuery);
+            return result ?? new Tuple<CliMemberType, ICliMetadataTableRow>[0];
             //return target.Methods.Concat<ICliMetadataTableRow>(target.Properties.Concat<ICliMetadataTableRow>(target.Events.Concat<ICliMetadataTableRow>(target.Fields)));
         }
 
         public static IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> GetMemberData(this ICliMetadataTypeDefinitionTableRow target)
         {
+            if (target.Name == "AstIdentifier")
+            {
+                Console.WriteLine();
+            }
             IEnumerable<Tuple<CliMemberType, uint, ICliMetadataTableRow>> propertyData = null;
-            List<uint> fullSemantics = new List<uint>();
             /* *
              * Build our own list of methods tied to semantics,
              * this is about 3 times faster than querying the full
              * set each time, but uses a little more memory.
              * */
+            List<uint> fullSemantics = new List<uint>();
             uint fieldCount = target.Fields == null ? 0 : (uint)target.Fields.Count;
             var properties = target.Properties;
             /* *
@@ -81,7 +92,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 let elementType = (minSemantics.Semantics == MethodSemanticsAttributes.Getter ?
                                                        minSemantics.Method.Parameters.Count > 0 :
                                                        minSemantics.Method.Parameters.Count > 1) ? CliMemberType.Indexer : CliMemberType.Property
-                                select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(elementType, minSemantics.MethodIndex + fieldCount, property));
+                                select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(elementType, minSemantics.MethodIndex + fieldCount + target.FieldStartIndex, property));
             }
             IEnumerable<Tuple<CliMemberType, uint, ICliMetadataTableRow>> @eventData = null;
             var events = target.Events;
@@ -100,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                 eventData = (from @event in target.Events
                              join semantics in subSemantics on @event.Index equals semantics.AssociationIndex into methods
-                             select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(CliMemberType.Event, methods.Min() + fieldCount, @event));
+                             select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(CliMemberType.Event, methods.Min() + fieldCount + target.FieldStartIndex, @event));
             }
             /* *
              * Using the indices gathered from the events and properties, 
@@ -118,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                     //(target.Methods.Except(from m in target.Methods
                                     //                       join semantics in fullSemantics on m.Index equals semantics
                                     //                       select m))
-                                    select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(DiscernMemberType(m), m.Index + fieldCount, m));
+                                    select new Tuple<CliMemberType, uint, ICliMetadataTableRow>(DiscernMemberType(m), m.Index + fieldCount + target.FieldStartIndex, m));
             /* *
              * Yield a full set of members, remembering their kind, and ordering them 
              * by a close approximate of their original order.
@@ -154,6 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             return result;
         }
+
         private static ICliMetadataMethodSemanticsTableRow MinSemantics(this IEnumerable<ICliMetadataMethodSemanticsTableRow> target)
         {
             ICliMetadataMethodSemanticsTableRow result = null;
@@ -282,9 +294,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                                              select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
         }
 
-        internal static ISignatureMemberUniqueIdentifier GetEventIdentifier(ICliMetadataEventTableRow eventDef, _ICliManager manager)
+        internal static ISignatureMemberUniqueIdentifier GetEventIdentifier(ICliMetadataEventTableRow eventDef, IType owner, _ICliManager manager)
         {
-            return AstIdentifier.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType)).Parameters.Values
+            return AstIdentifier.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType, owner, null)).Parameters.Values
                                                                         select p.ParameterType).SinglePass());
         }
 
@@ -416,7 +428,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-
         internal static uint GetEventDelegateMethod(ICliMetadataEventTableRow metadataEntry, _ICliManager manager)
         {
             var signatureType = manager.ObtainTypeReference(metadataEntry.SignatureType);
@@ -439,7 +450,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             var @params = parent.Parameters;
             var lastParam = @params.Count == 0 ? (TParameter)null : @params[@params.Keys[@params.Count - 1]];
-            return lastParam.IsDefined(manager.ObtainTypeReference(manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, assembly)));
+            if (lastParam == null)
+                return false;
+            return lastParam.IsDefined(manager.ObtainTypeReference(manager.RuntimeEnvironment.ParamArrayMetadatum));
         }
 
         internal static AccessLevelModifiers ObtainAccessLevelModifiers(this IEnumerable<ICliMetadataMethodDefinitionTableRow> methods)

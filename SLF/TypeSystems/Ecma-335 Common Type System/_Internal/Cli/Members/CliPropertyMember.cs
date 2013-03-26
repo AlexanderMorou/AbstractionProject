@@ -162,5 +162,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.MetadataEntry.Methods.ObtainAccessLevelModifiers();
             }
         }
+
+        public override string ToString()
+        {
+            return string.Format("property {0}::{1}", this.Parent, this.UniqueIdentifier);
+        }
     }
 }

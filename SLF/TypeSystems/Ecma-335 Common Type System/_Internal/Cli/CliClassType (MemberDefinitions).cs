@@ -251,33 +251,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         private class FieldMember :
-            CliMemberBase<IGeneralMemberUniqueIdentifier, IClassType, ICliMetadataFieldTableRow>,
+            CliFieldMember<IClassFieldMember, IClassType>,
             IClassFieldMember
         {
             public FieldMember(IClassType parent, ICliMetadataFieldTableRow metadataEntry)
-                : base(parent, metadataEntry)
+                : base(parent, metadataEntry, AstIdentifier.GetMemberIdentifier(metadataEntry.Name))
             {
-            }
-
-            protected override string OnGetName()
-            {
-                return this.MetadataEntry.Name;
-            }
-
-            public override IGeneralMemberUniqueIdentifier UniqueIdentifier
-            {
-                get { return AstIdentifier.GetMemberIdentifier(this.Name); }
             }
 
             private CliManager IdentityManager { get { return (CliManager)this.Parent.IdentityManager; } }
 
-            public IType FieldType
-            {
-                get
-                {
-                    return IdentityManager.ObtainTypeReference(this.MetadataEntry.FieldType, this.MetadataEntry.FieldType.Type, this.Parent, null);
-                }
-            }
 
             public InstanceMemberFlags InstanceFlags
             {
@@ -303,6 +286,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     return CliCommon.GetFieldAccessModifiers(this.MetadataEntry.FieldAttributes);
                 }
+            }
+
+            public override string ToString()
+            {
+                return string.Format("field {0}::{1}", this.Parent, this.UniqueIdentifier);
+            }
+
+            protected override IType OnGetFieldType()
+            {
+                return IdentityManager.ObtainTypeReference(this.MetadataEntry.FieldType, this.MetadataEntry.FieldType.Type, this.Parent, null);
             }
         }
         private class PropertyMember :

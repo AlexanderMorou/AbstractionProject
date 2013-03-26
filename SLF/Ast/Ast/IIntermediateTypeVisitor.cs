@@ -70,4 +70,78 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 TParent,
                 IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>;
     }
+    /// <summary>
+    /// Defines methods for a visitor model which yields
+    /// a specific kind of result.
+    /// </summary>
+    /// <typeparam name="TResult">The type of result to yield.</typeparam>
+    public interface IIntermediateTypeVisitor<TResult>
+    {
+        /// <summary>
+        /// Visits the <paramref name="class"/> provided.
+        /// </summary>
+        /// <param name="class">The <see cref="IIntermediateClassType"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IIntermediateClassType @class);
+        /// <summary>
+        /// Visits the <paramref name="delegate"/> provided.
+        /// </summary>
+        /// <param name="delegate">The <see cref="IIntermediateDelegateType"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IIntermediateDelegateType @delegate);
+        /// <summary>
+        /// Visits the <paramref name="enum"/> provided.
+        /// </summary>
+        /// <param name="enum">The <see cref="IIntermediateEnumType"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IIntermediateEnumType @enum);
+        /// <summary>
+        /// Visits the <paramref name="interface"/> provided.
+        /// </summary>
+        /// <param name="interface">The <see cref="IIntermediateInterfaceType"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IIntermediateInterfaceType @interface);
+        /// <summary>
+        /// Visits the <paramref name="struct"/> provided.
+        /// </summary>
+        /// <param name="struct">The <see cref="IIntermediateStructType"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IIntermediateStructType @struct);
+
+        /// <summary>
+        /// Visits the <paramref name="parameter"/> provided.
+        /// </summary>
+        /// <typeparam name="TGenericParameter">The type of generic parameter in the abstract
+        /// type system.</typeparam>
+        /// <typeparam name="TIntermediateGenericParameter">The type of generic parameter in
+        /// the intermediate abstract syntax tree.</typeparam>
+        /// <typeparam name="TParent">The type which owns the generic parameters in the abstract
+        /// type system.</typeparam>
+        /// <typeparam name="TIntermediateParent">The type which owns the generic parameters in the intermediate
+        /// abstract syntax tree.</typeparam>
+        /// <param name="parameter">The parameter to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>(IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent> parameter)
+            where TGenericParameter :
+                IGenericParameter<TGenericParameter, TParent>
+            where TIntermediateGenericParameter :
+                TGenericParameter,
+                IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>
+            where TParent :
+                IGenericParamParent<TGenericParameter, TParent>
+            where TIntermediateParent :
+                TParent,
+                IIntermediateGenericParameterParent<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>;
+    }
 }

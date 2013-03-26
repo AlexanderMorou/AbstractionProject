@@ -60,6 +60,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             visitor.Visit(this);
         }
 
+        public TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
         #endregion
 
         #region ITypeReferenceExpression Members

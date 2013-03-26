@@ -669,5 +669,19 @@ namespace AllenCopeland.Abstraction.Slf.Translation
             throw new NotImplementedException();
         }
 
+        public override void Translate<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -272,5 +272,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return (this.InstanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static; }
         }
 
+        public override string ToString()
+        {
+            return string.Format("indexer {0}::{1}", this.Parent, this.uniqueIdentifier);
+        }
+
     }
 }

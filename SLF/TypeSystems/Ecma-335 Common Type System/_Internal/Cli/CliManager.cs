@@ -973,7 +973,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
-            var elementType = this.ObtainTypeReference(typeIdentity.ElementType);
+            var elementType = this.ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod);
             var shape = typeIdentity.Shape;
             int[] lowerBounds;
             if (shape.LowerBounds.Count < shape.Rank)
@@ -1043,49 +1043,68 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IType ObtainTypeReference(ICliMetadataNativeTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
+            RuntimeCoreType coreType = RuntimeCoreType.None;
+            ICliAssembly assembly = activeType.Assembly as ICliAssembly;
             switch (typeIdentity.TypeKind)
             {
                 case CliMetadataNativeTypes.Void:
-                    return this.ObtainTypeReference(RuntimeCoreType.VoidType);
+                    coreType = RuntimeCoreType.VoidType;
+                    break;
                 case CliMetadataNativeTypes.Boolean:
-                    return this.ObtainTypeReference(RuntimeCoreType.Boolean);
+                    coreType = RuntimeCoreType.Boolean;
+                    break;
                 case CliMetadataNativeTypes.Char:
-                    return this.ObtainTypeReference(RuntimeCoreType.Char);
+                    coreType = RuntimeCoreType.Char;
+                    break;
                 case CliMetadataNativeTypes.SByte:
-                    return this.ObtainTypeReference(RuntimeCoreType.SByte);
+                    coreType = RuntimeCoreType.SByte;
+                    break;
                 case CliMetadataNativeTypes.Byte:
-                    return this.ObtainTypeReference(RuntimeCoreType.Byte);
+                    coreType = RuntimeCoreType.Byte;
+                    break;
                 case CliMetadataNativeTypes.Int16:
-                    return this.ObtainTypeReference(RuntimeCoreType.Int16);
+                    coreType = RuntimeCoreType.Int16;
+                    break;
                 case CliMetadataNativeTypes.UInt16:
-                    return this.ObtainTypeReference(RuntimeCoreType.UInt16);
+                    coreType = RuntimeCoreType.UInt16;
+                    break;
                 case CliMetadataNativeTypes.Int32:
-                    return this.ObtainTypeReference(RuntimeCoreType.Int32);
+                    coreType = RuntimeCoreType.Int32;
+                    break;
                 case CliMetadataNativeTypes.UInt32:
-                    return this.ObtainTypeReference(RuntimeCoreType.UInt32);
+                    coreType = RuntimeCoreType.UInt32;
+                    break;
                 case CliMetadataNativeTypes.Int64:
-                    return this.ObtainTypeReference(RuntimeCoreType.Int64);
+                    coreType = RuntimeCoreType.Int64;
+                    break;
                 case CliMetadataNativeTypes.UInt64:
-                    return this.ObtainTypeReference(RuntimeCoreType.UInt64);
+                    coreType = RuntimeCoreType.UInt64;
+                    break;
                 case CliMetadataNativeTypes.Single:
-                    return this.ObtainTypeReference(RuntimeCoreType.Single);
+                    coreType = RuntimeCoreType.Single;
+                    break;
                 case CliMetadataNativeTypes.Double:
-                    return this.ObtainTypeReference(RuntimeCoreType.Double);
+                    coreType = RuntimeCoreType.Double;
+                    break;
                 case CliMetadataNativeTypes.String:
-                    return this.ObtainTypeReference(RuntimeCoreType.String);
+                    coreType = RuntimeCoreType.String;
+                    break;
                 case CliMetadataNativeTypes.TypedByReference:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"));
+                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"), assembly);
                 case CliMetadataNativeTypes.NativeInteger:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"));
+                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"), assembly);
                 case CliMetadataNativeTypes.NativeUnsignedInteger:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"));
+                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"), assembly);
                 case CliMetadataNativeTypes.Object:
-                    return this.ObtainTypeReference(RuntimeCoreType.RootType);
+                    coreType = RuntimeCoreType.RootType;
+                    break;
                 case CliMetadataNativeTypes.Type:
-                    return this.ObtainTypeReference(RuntimeCoreType.Type);
+                    coreType = RuntimeCoreType.Type;
+                    break;
                 default:
                     throw new NotSupportedException();
             }
+            return this.ObtainTypeReference(coreType, assembly);
         }
 
         private IType ObtainTypeReference(ICliMetadataReturnTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
@@ -1093,19 +1112,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return ObtainTypeReference(typeIdentity, typeIdentity.ReturnType, activeType, activeMethod);
         }
 
-        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customAttrHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, Func<IType, IType> preModifier = null)
+        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customModifierHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, Func<IType, IType> preModifier = null)
         {
             if (preModifier == null)
-                if (customAttrHolder.CustomModifiers.Count == 0)
+                if (customModifierHolder.CustomModifiers.Count == 0)
                     return this.ObtainTypeReference(typeIdentity, activeType, activeMethod);
                 else
-                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod).MakeModified((from m in customAttrHolder.CustomModifiers
+                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod).MakeModified((from m in customModifierHolder.CustomModifiers
                                                                                                       select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
             else
-                if (customAttrHolder.CustomModifiers.Count == 0)
+                if (customModifierHolder.CustomModifiers.Count == 0)
                     return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod));
                 else
-                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod)).MakeModified((from m in customAttrHolder.CustomModifiers
+                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod)).MakeModified((from m in customModifierHolder.CustomModifiers
                                                                                                                        select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
         }
 
@@ -1114,7 +1133,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod);
         }
 
-
         private IType ObtainTypeReference(ICliMetadataGenericInstanceTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
             var type = this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod);
@@ -1122,6 +1140,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 return ((IGenericType)type).MakeGenericClosure((from t in typeIdentity.GenericParameters
                                                                 select this.ObtainTypeReference(t, activeType, activeMethod)).ToArray());
+            }
+            else if (type is IEnumType && type.Parent is IGenericType &&
+                ((IGenericType)type.Parent).GenericParameters.Count == typeIdentity.GenericParameters.Count)
+            {
+                var parentType = (IGenericType)type.Parent;
+                var parent = parentType.MakeGenericClosure((from t in typeIdentity.GenericParameters
+                                                            select this.ObtainTypeReference(t, activeType, activeMethod)).ToArray());
+                if (parent is ITypeParent)
+                {
+                    var typeParent = (ITypeParent)parent;
+                    return typeParent.Types[type.UniqueIdentifier].Entry;
+                }
             }
             throw new InvalidOperationException();
         }
@@ -1203,27 +1233,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 result = cache.CreateArray(lowerBounds, lengths);
             return result;
         }
-
-        public IClassType MakeGenericClosure(IClassType source, IControlledTypeCollection closureArguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IDelegateType MakeGenericClosure(IDelegateType source, IControlledTypeCollection closureArguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IInterfaceType MakeGenericClosure(IInterfaceType source, IControlledTypeCollection closureArguments)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IStructType MakeGenericClosure(IStructType source, IControlledTypeCollection closureArguments)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public IModifiedType MakeModifiedType(IType elementType, params TypeModification[] modifications)
         {

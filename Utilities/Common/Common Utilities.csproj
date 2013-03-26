@@ -97,6 +97,7 @@
     <Compile Include="Collections\BitVector.cs" />
     <Compile Include="Collections\ConcatenatedArrayReadOnlyCollection.cs" />
     <Compile Include="Collections\IArrayReadOnlyCollection.cs" />
+    <Compile Include="Collections\ICountableEnumerable.cs" />
     <Compile Include="Collections\IMultikeyedDictionary`3.cs" />
     <Compile Include="Collections\IMultikeyedDictionary`4.cs" />
     <Compile Include="Collections\IMultikeyedDictionary`5.cs" />

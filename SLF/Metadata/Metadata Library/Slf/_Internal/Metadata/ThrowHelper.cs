@@ -108,7 +108,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Metadata
                 case ArgumentWithException.argument:
                     return "argument";
                 case ArgumentWithException.genericLocalType:
-                    return "genericLocalType";
+                    return "structuralTypeInfo";
                 case ArgumentWithException.globalMemberType:
                     return "globalMemberType";
                 case ArgumentWithException.message:

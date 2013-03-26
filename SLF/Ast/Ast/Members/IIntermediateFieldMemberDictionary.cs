@@ -79,7 +79,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <returns>A new <see cref="IIntermediateFieldMember"/>
         /// which represents the field added.</returns>
         IIntermediateFieldMember Add(TypedName nameAndType);
-
         /// <summary>
         /// Adds a new <see cref="IIntermediateFieldMember"/> with the
         /// <paramref name="nameAndType"/> and
@@ -98,6 +97,5 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// owns the <see cref="IIntermediateFieldMemberDictionary"/>.
         /// </summary>
         new IIntermediateFieldParent Parent { get; }
-
     }
 }

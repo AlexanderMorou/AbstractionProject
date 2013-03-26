@@ -85,6 +85,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// receive the <see cref="IIntermediateType"/> as a visitor.</param>
         void Visit(IIntermediateTypeVisitor visitor);
         /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
+        /// receive the <see cref="IIntermediateType"/> as a visitor.</param>
+        TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor);
+        /// <summary>
         /// Returns whether the <see cref="IIntermediateType"/> is disposed.
         /// </summary>
         bool IsDisposed { get; }

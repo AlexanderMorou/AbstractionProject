@@ -94,6 +94,7 @@
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomAttribute.cs" />
     <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomAttributeArgument.cs" />
     <Compile Include="_Internal\Cli\CliClassType %28MemberDefinitions%29.cs" />
+    <Compile Include="_Internal\Cli\CliEnumType %28FieldDeclaration%29.cs" />
     <Compile Include="_Internal\Cli\CliFlagsEnumeration.cs" />
     <Compile Include="Cli\CliFlagsEnumerationEntry.cs" />
     <Compile Include="Cli\CliGateway.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="_Internal\Cli\Members\CliDependentParameterDictionary.cs" />
     <Compile Include="_Internal\Cli\Members\CliDependentParameterMemberDictionary+ParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliDependentParameterMemberDictionary+ValueCollection.cs" />
+    <Compile Include="_Internal\Cli\Members\CliFieldMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliGenericParameterMember+DefaultCtorEntry.cs" />
     <Compile Include="_Internal\Cli\Members\CliGenericParameterMember.cs" />
     <Compile Include="_Internal\Cli\Members\CliGenericParameterDictionary.cs" />
@@ -594,7 +596,6 @@
       <Name>TypeSystem Abstract</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

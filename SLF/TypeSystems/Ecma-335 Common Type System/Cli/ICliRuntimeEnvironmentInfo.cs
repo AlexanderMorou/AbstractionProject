@@ -89,6 +89,49 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// resolution occurs.
         /// </summary>
         CliFrameworkVersion Version { get; }
+        /// <summary>
+        /// Returns the definition of the extension metadatum type.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier ExtensionMetadatum { get; }
+        /// <summary>
+        /// Returns the definition of all asynchronous tasks.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier AsynchronousTask { get; }
+        /// <summary>
+        /// Returns the definition of all generic asynchronous tasks.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier AsynchronousTaskOfT { get; }
+        /// <summary>
+        /// Returns the definition of the compiler generated metadatum.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier CompilerGeneratedMetadatum { get; }
+        /// <summary>
+        /// Returns the definition of the root of all delegate types.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier Delegate { get; }
+        /// <summary>
+        /// Returns the definition of the root of all multicast delegate types.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier MulticastDelegate { get; }
+        /// <summary>
+        /// Returns the definition of the base type of a nullable type.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier NullableBaseType { get; }
+        /// <summary>
+        /// Returns the definition a nullable type.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier NullableType { get; }
+        /// <summary>
+        /// Returns the definition of the parameter array metadatum to be applied
+        /// to the final parameter of a method which signifies that
+        /// the method accepts multiple arguments as one in place of 
+        /// the array.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier ParamArrayMetadatum { get; }
+        /// <summary>
+        /// Returns the definition of the root metadatum type.
+        /// </summary>
+        IGeneralTypeUniqueIdentifier RootMetadatum { get; }
 
 
     }

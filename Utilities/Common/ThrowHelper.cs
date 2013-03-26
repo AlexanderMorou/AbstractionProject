@@ -307,7 +307,7 @@ namespace AllenCopeland.Abstraction
                 case ArgumentWithException.elementType:
                     return "elementType";
                 case ArgumentWithException.genericLocalType:
-                    return "genericLocalType";
+                    return "structuralTypeInfo";
                 case ArgumentWithException.genericParameters:
                     return "genericParameters";
                 case ArgumentWithException.genericType:

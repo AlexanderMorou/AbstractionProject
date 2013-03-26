@@ -16,12 +16,14 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// </summary>
     /// <typeparam name="T">The type of elements in the <see cref="IControlledCollection{T}"/></typeparam>
     public interface IControlledCollection<T> :
-        IEnumerable<T>
+        ICountableEnumerable<T>
     {
         /// <summary>
-        /// Gets the number of elements contained in the <see cref="IControlledCollection{T}"/>.</summary>
+        /// Gets the number of elements contained in the <see cref="IControlledCollection{T}"/>.
+        /// </summary>
         /// <returns>
-        /// The number of elements contained in the <see cref="IControlledCollection{T}"/>.</returns>
+        /// The number of elements contained in the <see cref="IControlledCollection{T}"/>.
+        /// </returns>
         int Count { get; }
 
         /// <summary>

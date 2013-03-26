@@ -32,6 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private IGenericParameterMethodMemberDictionary<TGenericParameter> methods;
         private IGenericParameterPropertyMemberDictionary<TGenericParameter> properties;
         private static readonly ICliMetadataMethodDefinitionTableRow DefaultCtorEntry = CreateDefaultCtorEntry();
+        private ILockedTypeCollection constraints;
 
         protected CliGenericParameterMember(TParent parent, ICliMetadataGenericParameterTableRow metadataEntry, int position)
         {
@@ -223,7 +224,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public ILockedTypeCollection Constraints
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return this.constraints ?? (this.constraints = (from c in this.metadataEntry.Constraints
+                                                                select this.IdentityManager.ObtainTypeReference(c.Constraint, (this.Parent as IType), null)).ToLockedCollection());
+            }
         }
 
         IGenericParamParent IGenericParameter.Parent

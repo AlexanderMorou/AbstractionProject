@@ -207,7 +207,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (syncObject)
                 state = this.state;
             if (state != USE_FETCH)
-                return base.GetEnumerator();
+                return base.OnGetEnumerator();
             else
                 return FetchEnumerator();
         }

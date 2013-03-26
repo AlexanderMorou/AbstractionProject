@@ -217,6 +217,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 }
             }
 
+            protected override IType OnGetReturnType()
+            {
+                switch (this.MethodType)
+                {
+                    case PropertyMethodType.GetMethod:
+                        return this.Owner.PropertyType;
+                    case PropertyMethodType.SetMethod:
+                        return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
+                    default:
+                        return base.OnGetReturnType();
+                }
+            }
+
             #region IPropertySignatureMethodMember Members
             /// <summary>
             /// Returns the <see cref="PropertyMethodType"/> which 
@@ -395,6 +408,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 var result = base.InitializeTypeParameters();
                 result.Lock();
                 return result;
+            }
+
+            protected override IType OnGetReturnType()
+            {
+                switch (this.MethodType)
+                {
+                    case PropertyMethodType.GetMethod:
+                        return this.Owner.PropertyType;
+                    case PropertyMethodType.SetMethod:
+                        return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
+                    default:
+                        return base.OnGetReturnType();
+                } 
             }
 
             protected override void Dispose(bool disposing)

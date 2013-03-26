@@ -844,6 +844,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             visitor.Visit(this);
         }
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
+        /// receive the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/> as a visitor.</param>
+        public override TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
 
         protected override ITypeIdentityManager OnGetManager()
         {

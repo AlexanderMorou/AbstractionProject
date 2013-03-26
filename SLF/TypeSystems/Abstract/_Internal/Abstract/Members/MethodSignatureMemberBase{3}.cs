@@ -164,7 +164,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         /// </returns>
         public override string ToString()
         {
-            return string.Format(this.UniqueIdentifier.ToString(this.Parent.ToString()));
+            return string.Format("method {0}",this.UniqueIdentifier.ToString(this.Parent.ToString()));
         }
 
         #region IMethodSignatureMember<TSignatureParameter,TSignature,TSignatureParent> Members

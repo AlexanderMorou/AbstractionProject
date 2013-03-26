@@ -538,9 +538,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.MetadataRoot == null ||
                 this.MetadataRoot.TableStream == null||
                 this.MetadataRoot.TableStream.TypeDefinitionTable == null)
-                return new IType[0];
-            return from typeDef in this.MetadataRoot.TableStream.TypeDefinitionTable
-                   select this.IdentityManager.ObtainTypeReference(typeDef);
+                yield break;
+                //return new IType[0];
+            foreach (var typeDef in this.MetadataRoot.TableStream.TypeDefinitionTable)
+            {
+                if (typeDef.Index == 1)
+                    continue;
+                var currentType = this.IdentityManager.ObtainTypeReference(typeDef);
+                yield return currentType;
+            }
         }
 
         ICliManager ICliAssembly.IdentityManager

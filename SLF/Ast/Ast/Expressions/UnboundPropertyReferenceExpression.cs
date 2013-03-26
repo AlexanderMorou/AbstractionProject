@@ -99,6 +99,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return string.Format("{0}.{1}", this.source.ToString(), this.Name);
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
         public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);

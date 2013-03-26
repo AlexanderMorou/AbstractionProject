@@ -168,5 +168,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected abstract IMethodSignatureMember InitializeOnAddMethodSignature();
 
         protected abstract IMethodSignatureMember InitializeOnRemoveMethodSignature();
+
+        public override string ToString()
+        {
+            return string.Format("event {0}::{1}", this.Parent, this.UniqueIdentifier);
+        }
     }
 }

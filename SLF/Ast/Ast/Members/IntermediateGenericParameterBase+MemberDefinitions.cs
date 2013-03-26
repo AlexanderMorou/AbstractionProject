@@ -92,6 +92,100 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         }
 
+        public class IndexerMember :
+            IntermediateIndexerSignatureMember<IGenericParameterIndexerMember<TGenericParameter>, IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter, IndexerMember.IndexerMethodMember>,
+            IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>
+        {
+            internal IndexerMember(string name, TIntermediateGenericParameter parent, ITypeIdentityManager identityManager)
+                : base(name, parent, identityManager)
+            {
+            }
+            internal IndexerMember(TIntermediateGenericParameter parent, ITypeIdentityManager identityManager)
+                : base(parent, identityManager)
+            {
+            }
+
+            protected override IndexerMember.IndexerMethodMember GetMethodSignatureMember(PropertyMethodType methodType)
+            {
+                switch (methodType)
+                {
+                    case PropertyMethodType.SetMethod:
+                        return new IndexerSetMethodMember(this);
+                    case PropertyMethodType.GetMethod:
+                    default:
+                        return new IndexerMethodMember(this, PropertyMethodType.GetMethod);
+                }
+            }
+
+            public class IndexerSetMethodMember :
+                IndexerMethodMember
+            {
+                private IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter> valueParameter;
+                internal IndexerSetMethodMember(IndexerMember owner)
+                    : base(owner, PropertyMethodType.SetMethod)
+                {
+                }
+                protected override IntermediateParameterMemberDictionary<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>> InitializeParameters()
+                {
+                    var result = base.InitializeParameters();
+                    this.valueParameter = result._Add(new TypedName("value", this.Owner.PropertyType));
+                    return result;
+                }
+
+            }
+
+            public class IndexerMethodMember :
+                MethodMember, 
+                IIntermediatePropertySignatureMethodMember
+            {
+                private PropertyMethodType methodType;
+                internal IndexerMethodMember(IndexerMember owner, PropertyMethodType methodType)
+                    : base(owner.Parent)
+                {
+                    this.Owner = owner;
+                    this.methodType = MethodType;
+                }
+                public PropertyMethodType MethodType
+                {
+                    get { return this.methodType; }
+                }
+
+                protected override IntermediateParameterMemberDictionary<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>> InitializeParameters()
+                {
+                    var result = base.InitializeParameters();
+                    result.Lock();
+                    return result;
+                }
+
+                protected override IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>, IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>.TypeParameterDictionary InitializeTypeParameters()
+                {
+                    var result = base.InitializeTypeParameters();
+                    result.Lock();
+                    return result;
+                }
+
+                protected override string OnGetName()
+                {
+                    switch (this.MethodType)
+                    {
+                        case PropertyMethodType.SetMethod:
+                            return string.Format("set_{0}", this.Owner.Name);
+                        default:
+                        case PropertyMethodType.GetMethod:
+                            return string.Format("get_{0}", this.Owner.Name);
+                    }
+                }
+
+                protected override sealed void OnSetName(string name)
+                {
+                    throw new NotSupportedException(string.Format("Cannot set the name of the {0} method of a property.", MethodType == PropertyMethodType.SetMethod ? "set" : "get"));
+                }
+
+                protected IndexerMember Owner { get; private set; }
+            }
+
+        }
+
         public class PropertyMember :
             IntermediatePropertySignatureMember<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter, PropertyMember.PropertyMethodMember>,
             IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>
@@ -116,10 +210,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 switch (methodType)
                 {
                     case PropertyMethodType.SetMethod:
-                        return new PropertySetMethodMember(this.Parent, this);
+                        return new PropertySetMethodMember(this);
                     case PropertyMethodType.GetMethod:
                     default:
-                        return new PropertyMethodMember(PropertyMethodType.GetMethod, this.Parent, this);
+                        return new PropertyMethodMember(PropertyMethodType.GetMethod, this);
                 }
             }
 
@@ -134,8 +228,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 private IIntermediateSignatureParameterMember valueParameter;
 
-                public PropertySetMethodMember(TIntermediateGenericParameter parent, PropertyMember owner)
-                    : base(PropertyMethodType.SetMethod, parent, owner)
+                public PropertySetMethodMember(PropertyMember owner)
+                    : base(PropertyMethodType.SetMethod, owner)
                 {
                 }
 
@@ -165,8 +259,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 MethodMember, 
                 IIntermediatePropertySignatureMethodMember
             {
-                public PropertyMethodMember(PropertyMethodType methodType, TIntermediateGenericParameter parent, PropertyMember owner)
-                    : base(parent)
+                public PropertyMethodMember(PropertyMethodType methodType, PropertyMember owner)
+                    : base(owner.Parent)
                 {
                     this.Owner = owner;
                     this.MethodType = methodType;
@@ -200,6 +294,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         default:
                         case PropertyMethodType.GetMethod:
                             return string.Format("get_{0}", this.Owner.Name);
+                    }
+                }
+
+                protected override IType OnGetReturnType()
+                {
+                    switch (this.MethodType)
+                    {
+                        case PropertyMethodType.GetMethod:
+                            return this.Owner.PropertyType;
+                        case PropertyMethodType.SetMethod:
+                            return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
+                        default:
+                            return base.OnGetReturnType();
                     }
                 }
 

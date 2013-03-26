@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             public TypeArrayCache GetArrayCache(IType target)
             {
                 if (target is _IType)
-                    return (target as _IType).ArrayCache;
+                    return ((_IType)target).ArrayCache;
                 TypeArrayCache result;
                 lock (arrayCache)
                     if (!arrayCache.TryGetValue(target, out result))

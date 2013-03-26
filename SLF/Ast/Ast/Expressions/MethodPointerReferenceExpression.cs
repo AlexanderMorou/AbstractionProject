@@ -228,7 +228,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             }
         }
 
-        public override IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
+        public new IMethodInvokeExpression<TSignatureParameter, TSignature, TParent> Invoke(IExpressionCollection<IExpression> parameters)
+        {
+            return (IMethodInvokeExpression<TSignatureParameter, TSignature, TParent>)base.Invoke(parameters);
+        }
+
+        public new IMethodInvokeExpression<TSignatureParameter, TSignature, TParent> Invoke(params IExpression[] parameters)
+        {
+            return this.Invoke(parameters.ToCollection());
+        }
+
+        protected override sealed IMethodInvokeExpression InvokeImpl(IExpressionCollection<IExpression> parameters)
         {
             return new MethodInvokeExpression<TSignatureParameter, TSignature, TParent>(this, parameters);
         }
@@ -321,7 +331,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             get { return this.signature; }
         }
 
-        public virtual IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
+        public IMethodInvokeExpression Invoke(IExpressionCollection<IExpression> parameters)
+        {
+            return InvokeImpl(parameters);
+        }
+
+        protected virtual IMethodInvokeExpression InvokeImpl(IExpressionCollection<IExpression> parameters)
         {
             return new MethodInvokeExpression(this, parameters);
         }
@@ -366,6 +381,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 sb.Append("()");
             }
             return sb.ToString();
+        }
+
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
         }
 
         public override void Visit(IExpressionVisitor visitor)

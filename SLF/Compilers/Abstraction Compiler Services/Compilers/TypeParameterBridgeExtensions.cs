@@ -158,11 +158,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             {
                 try
                 {
-                    GenericParamDataTargetAttribute sigs =
-                        parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().FirstOrDefault();
+                    HasStructuralTypeBehavior sigs =
+                        parameter.GetCustomAttributes(typeof(HasStructuralTypeBehavior), true).Cast<HasStructuralTypeBehavior>().FirstOrDefault();
                     if (sigs == null)
                         goto yieldNone;
-                    var sigSource = sigs.GenericLocalType;
+                    var sigSource = sigs.StructuralTypeInfo;
                     var ctors = from c in sigSource.GetConstructors(BindingFlags.NonPublic | BindingFlags.Instance)
                                 /* *
                                  * Might otherwise imply new() constraint.
@@ -193,11 +193,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             {
                 try
                 {
-                    GenericParamDataTargetAttribute sigs =
-                        parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().FirstOrDefault();
+                    HasStructuralTypeBehavior sigs =
+                        parameter.GetCustomAttributes(typeof(HasStructuralTypeBehavior), true).Cast<HasStructuralTypeBehavior>().FirstOrDefault();
                     if (sigs == null)
                         goto yieldNone;
-                    var sigSource = sigs.GenericLocalType;
+                    var sigSource = sigs.StructuralTypeInfo;
                     var methods = sigSource.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                     return methods;
                 }
@@ -219,11 +219,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             {
                 try
                 {
-                    GenericParamDataTargetAttribute sigs =
-                        parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().FirstOrDefault();
+                    HasStructuralTypeBehavior sigs =
+                        parameter.GetCustomAttributes(typeof(HasStructuralTypeBehavior), true).Cast<HasStructuralTypeBehavior>().FirstOrDefault();
                     if (sigs == null)
                         goto yieldNone;
-                    var sigSource = sigs.GenericLocalType;
+                    var sigSource = sigs.StructuralTypeInfo;
                     var properties = (from property in sigSource.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                                       where property.GetIndexParameters().Length == 0
                                       select property).ToArray();
@@ -245,10 +245,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         {
             if (parameter.IsGenericParameter)
             {
-                GenericParamDataTargetAttribute sigs;
+                HasStructuralTypeBehavior sigs;
                 try
                 {
-                    sigs = parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().FirstOrDefault();
+                    sigs = parameter.GetCustomAttributes(typeof(HasStructuralTypeBehavior), true).Cast<HasStructuralTypeBehavior>().FirstOrDefault();
                     if (sigs == null)
                         goto yieldNone;
                 }
@@ -257,7 +257,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                     //Type obtained in an assembly loaded for reflection only.
                     goto yieldNone;
                 }
-                var sigSource = sigs.GenericLocalType;
+                var sigSource = sigs.StructuralTypeInfo;
                 return (from indexer in sigSource.GetProperties(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly)
                         where indexer.GetIndexParameters().Length > 0
                         select indexer).ToArray();
@@ -274,11 +274,11 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
             {
                 try
                 {
-                    GenericParamDataTargetAttribute sigs =
-                        parameter.GetCustomAttributes(typeof(GenericParamDataTargetAttribute), true).Cast<GenericParamDataTargetAttribute>().FirstOrDefault();
+                    HasStructuralTypeBehavior sigs =
+                        parameter.GetCustomAttributes(typeof(HasStructuralTypeBehavior), true).Cast<HasStructuralTypeBehavior>().FirstOrDefault();
                     if (sigs == null)
                         goto yieldNone;
-                    var sigSource = sigs.GenericLocalType;
+                    var sigSource = sigs.StructuralTypeInfo;
                     var events = sigSource.GetEvents(BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
                     return events;
                 }

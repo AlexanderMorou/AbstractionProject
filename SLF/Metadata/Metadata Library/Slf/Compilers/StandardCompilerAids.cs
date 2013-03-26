@@ -12,6 +12,20 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     public static class StandardCompilerAids
     {
 
+        public static T GetInternalBridge<T>(Type target, Type bridge, Guid bridgeGuid)
+        {
+            var bridgeAttribute = (from attr in target.GetCustomAttributes<HasStructuralTypeBridgeAttribute>()
+                                   where attr.BridgeCreatable &&
+                                         attr.BridgeGuidValid &&
+                                         attr.BridgeGuid == bridgeGuid
+                                   select attr).FirstOrDefault();
+            if (bridgeAttribute == null)
+                return default(T);
+            if (bridge.IsAssignableFrom(bridgeAttribute.Bridge))
+                return (T)Activator.CreateInstance(bridgeAttribute.Bridge);
+            return default(T);
+        }
+
         public static byte[] DecompressByteStream(byte[] compressedData, int originalLength)
         {
             MemoryStream memoryStream = new MemoryStream();

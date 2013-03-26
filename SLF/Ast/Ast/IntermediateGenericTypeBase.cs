@@ -532,5 +532,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
+        public override bool Equals(IIntermediateType other)
+        {
+            if (other == null)
+                return false;
+            if (base.Equals(other))
+                return true;
+            if (this.IsGenericConstruct && other.IsGenericConstruct)
+            {
+                if (!(other is IGenericType))
+                    return false;
+                IGenericType otherGeneric = (IGenericType)other;
+                if (this.GenericParameters.Count != otherGeneric.GenericParameters.Count)
+                    return false;
+                if (otherGeneric.IsGenericDefinition)
+                    return false;
+                return otherGeneric.GenericParameters.SequenceEqual(this.GenericParameters);
+            }
+            return false;
+        }
+
     }
 }

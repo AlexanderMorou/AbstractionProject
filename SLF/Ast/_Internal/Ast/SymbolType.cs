@@ -313,6 +313,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             visitor.Visit(this);
         }
 
+        public TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
         #endregion
 
         protected override string OnGetNamespaceName()

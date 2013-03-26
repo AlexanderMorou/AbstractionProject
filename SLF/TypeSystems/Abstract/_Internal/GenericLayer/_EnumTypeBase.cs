@@ -390,7 +390,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            return this.Assembly.UniqueIdentifier.GetTypeIdentifier(this.Namespace.UniqueIdentifier, this.Name);
+            return this.Original.UniqueIdentifier;
         }
 
         protected override ITypeIdentityManager OnGetManager()

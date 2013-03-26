@@ -68,6 +68,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 visitor.Visit((ISpecialReferenceExpression)this);
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            if (member.IsStatic)
+                return visitor.Visit((ITypeReferenceExpression)this);
+            else
+                return visitor.Visit((ISpecialReferenceExpression)this);
+        }
+
         #endregion
 
         #region ITypeReferenceExpression Members

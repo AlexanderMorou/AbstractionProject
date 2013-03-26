@@ -37,5 +37,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return this.MetadataEntry; }
         }
+
     }
 }

@@ -29,7 +29,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     {
     }
     /// <summary>
-    /// Defines generic properties and methods for working with the parameter of a method signature.
+    /// Defines generic properties and methods for working with
+    /// the parameter of a method signature.
     /// </summary>
     /// <typeparam name="TSignatureParameter">The type of parameter used in the <typeparamref name="TSignature"/>.</typeparam>
     /// <typeparam name="TSignature">The type of signature used as a parent of <typeparamref name="TSignatureParameter"/> instances.</typeparam>

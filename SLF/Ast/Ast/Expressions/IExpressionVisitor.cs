@@ -5,6 +5,8 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions.Lambda;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -22,11 +24,54 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         ILinqVisitor,
         IPrimitiveVisitor
     {
+        /// <summary>
+        /// Visits a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertyReferenceExpression{TProperty, TPropertyParent}"/> to visit.</param>
+        void Visit<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression)
+            where TProperty :
+                IPropertyMember<TProperty, TPropertyParent>
+            where TPropertyParent :
+                IPropertyParent<TProperty, TPropertyParent>;
+        /// <summary>
+        /// Visits a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TPropertySignatureParent}"/> to visit.</param>
+        void Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression)
+            where TPropertySignature :
+                IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
+            where TPropertySignatureParent :
+                IPropertySignatureParent<TPropertySignature, TPropertySignatureParent>;
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IFieldReferenceExpression{TField, TFieldParent}"/>
+        /// to visit.</param>
+        void Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression)
+            where TField :
+                IFieldMember<TField, TFieldParent>
+            where TFieldParent :
+                IFieldParent<TField, TFieldParent>;
+
+        /// <summary>
+        /// Visits a binary operation expression.
+        /// </summary>
+        /// <typeparam name="TLeft">The type of the left operand of the 
+        /// binary expression.</typeparam>
+        /// <typeparam name="TRight">The type of the right operand of the
+        /// binary expression.</typeparam>
+        /// <param name="expression">The <see cref="IBinaryOperationExpression{TLeft, TRight}"/>
+        /// to visit.</param>
         void Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
             where TLeft :
                 INaryOperandExpression
             where TRight :
                 INaryOperandExpression;
+        /// <summary>
+        /// Visits the indexer reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IIndexerReferenceExpression"/>
+        /// to visit.</param>
         void Visit(IIndexerReferenceExpression expression);
         /// <summary>
         /// Visits a conditional expression.
@@ -279,5 +324,412 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="expression">The <see cref="IEventReferenceExpression"/> 
         /// to visit.</param>
         void Visit(IEventReferenceExpression expression);
+    }
+    /// <summary>
+    /// Defines properties and methods for working with an expression
+    /// visitor.
+    /// </summary>
+    /// <typeparam name="TResult">The value returned upon visiting the expression.</typeparam>
+    public interface IExpressionVisitor<TResult> :
+        ILinqVisitor<TResult>,
+        IPrimitiveVisitor<TResult>
+    {
+        /// <summary>
+        /// Visits a binary operation expression.
+        /// </summary>
+        /// <typeparam name="TLeft">The type of the left operand of the 
+        /// binary expression.</typeparam>
+        /// <typeparam name="TRight">The type of the right operand of the
+        /// binary expression.</typeparam>
+        /// <param name="expression">The <see cref="IBinaryOperationExpression{TLeft, TRight}"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
+            where TLeft :
+                INaryOperandExpression
+            where TRight :
+                INaryOperandExpression;
+        /// <summary>
+        /// Visits the indexer reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IIndexerReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IIndexerReferenceExpression expression);
+        /// <summary>
+        /// Visits a conditional expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IConditionalExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IConditionalExpression expression);
+        /// <summary>
+        /// Visits a unary operation expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IUnaryOperationExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IUnaryOperationExpression expression);
+        /// <summary>
+        /// Visits a type cast expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="ITypeCastExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ITypeCastExpression expression);
+        /// <summary>
+        /// Visits a type of expression
+        /// </summary>
+        /// <param name="expression">The <see cref="ITypeOfExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ITypeOfExpression expression);
+        /// <summary>
+        /// Visits a type reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="ITypeReferenceExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ITypeReferenceExpression expression);
+        /// <summary>
+        /// Visits a variadic type cast expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IVariadicTypeCastExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IVariadicTypeCastExpression expression);
+        /// <summary>
+        /// Visits a symbol expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="ISymbolExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ISymbolExpression expression);
+        /// <summary>
+        /// Visits an expression which obtains a member handle through a static
+        /// reference.
+        /// </summary>
+        /// <param name="expression">The <see cref="IStaticGetMemberHandleExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IStaticGetMemberHandleExpression expression);
+        /// <summary>
+        /// Visits a special reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="ISpecialReferenceExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ISpecialReferenceExpression expression);
+        /// <summary>
+        /// Visits a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertyReferenceExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IPropertyReferenceExpression expression);
+        /// <summary>
+        /// Visits a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertyReferenceExpression{TProperty, TPropertyParent}"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression)
+            where TProperty :
+                IPropertyMember<TProperty, TPropertyParent>
+            where TPropertyParent :
+                IPropertyParent<TProperty, TPropertyParent>;
+        /// <summary>
+        /// Visits a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TPropertySignatureParent}"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression)
+            where TPropertySignature :
+                IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
+            where TPropertySignatureParent :
+                IPropertySignatureParent<TPropertySignature, TPropertySignatureParent>;
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IFieldReferenceExpression{TField, TFieldParent}"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression)
+            where TField :
+                IFieldMember<TField, TFieldParent>
+            where TFieldParent :
+                IFieldParent<TField, TFieldParent>;
+        /// <summary>
+        /// Visits a parenthesized expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IParenthesizedExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IParenthesizedExpression expression);
+        /// <summary>
+        /// Visits a named parameter expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="INamedParameterExpression"/> which designates
+        /// the name and value of a parameter to pass into a method/constructor/indexer.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(INamedParameterExpression expression);
+        /// <summary>
+        /// Visits a method pointer reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IMethodPointerReferenceExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IMethodPointerReferenceExpression expression);
+        /// <summary>
+        /// Visits a method invoke expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IMethodInvokeExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IMethodInvokeExpression expression);
+        /// <summary>
+        /// Visits a local reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILocalReferenceExpression"/> to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILocalReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IFieldReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IFieldReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IExpressionToCommaTypeReferenceFusionExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IExpressionToCommaTypeReferenceFusionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IExpressionToCommaFusionExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IExpressionToCommaFusionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IExpressionFusionExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IExpressionFusionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IEventInvokeExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IEventInvokeExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDirectionExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IDirectionExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IDelegateReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateMethodPointerReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IDelegateMethodPointerReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateInvokeExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IDelegateInvokeExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IDelegateHolderReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IDelegateHolderReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateInstanceMemberAssignment"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ICreateInstanceMemberAssignment expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateInstanceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ICreateInstanceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateArrayExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ICreateArrayExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateArrayNestedDetailExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ICreateArrayNestedDetailExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICreateArrayDetailExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ICreateArrayDetailExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ICommaExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ICommaExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IAnonymousMethodWithParametersExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IAnonymousMethodWithParametersExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IAnonymousMethodExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IAnonymousMethodExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypedStatementExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILambdaTypedStatementExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypeInferredStatementExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILambdaTypeInferredStatementExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypedSimpleExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILambdaTypedSimpleExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILambdaTypeInferredSimpleExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILambdaTypeInferredSimpleExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IParameterReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IParameterReferenceExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IConstructorInvokeExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IConstructorInvokeExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="ctorPointerReference"/> provided.
+        /// </summary>
+        /// <param name="ctorPointerReference">The <see cref="IConstructorPointerReferenceExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IConstructorPointerReferenceExpression ctorPointerReference);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqExpression expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IAssignmentExpression"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IAssignmentExpression expression);
+        /// <summary>
+        /// Visits the range variable of a language integrated query.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqRangeVariableReference"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqRangeVariableReference expression);
+        /// <summary>
+        /// Visits the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IEventReferenceExpression"/> 
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IEventReferenceExpression expression);
     }
 }

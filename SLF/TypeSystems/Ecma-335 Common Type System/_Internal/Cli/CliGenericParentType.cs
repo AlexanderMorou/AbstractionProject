@@ -138,6 +138,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return null;
         }
 
+        protected override IEnumerable<IDeclaration> OnGetDeclarations()
+        {
+            return (from d in this.Types.Values
+                    select (IDeclaration)d.Entry).Concat((from d in this.Members.Values
+                                                          select (IDeclaration)d.Entry));
+
+        }
+
         public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
         {
             var myID = this.UniqueIdentifier;

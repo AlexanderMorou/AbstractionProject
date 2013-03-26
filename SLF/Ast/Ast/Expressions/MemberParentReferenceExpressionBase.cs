@@ -192,6 +192,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 
         public abstract void Visit(IExpressionVisitor visitor);
 
+        public abstract TResult Visit<TResult>(IExpressionVisitor<TResult> visitor);
+
         protected virtual IType TypeLookupAid
         {
             get

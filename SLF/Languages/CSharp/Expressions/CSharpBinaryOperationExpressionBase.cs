@@ -147,5 +147,20 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp.Expressions
         public abstract BinaryOperationKind OperationKind { get; }
 
         #endregion
+
+        public override ExpressionKind Type
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public override void Visit(IExpressionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
     }
 }
