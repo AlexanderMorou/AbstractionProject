@@ -31,5 +31,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// to which the <see cref="IExpression"/> needs to repay the visit
         /// to.</param>
         void Visit(IExpressionVisitor visitor);
+
+        /// <summary>
+        /// Visits the elements of the <see cref="IExpression"/>.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IExpressionVisitor{TResult}"/>
+        /// to which the <see cref="IExpression"/> needs to repay the visit
+        /// to.</param>
+        /// <returns>The <typeparamref name="TResult"/> of the 
+        /// current implementation.</returns>
+        TResult Visit<TResult>(IExpressionVisitor<TResult> visitor);
     }
 }

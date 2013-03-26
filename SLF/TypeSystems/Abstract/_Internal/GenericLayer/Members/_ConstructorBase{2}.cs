@@ -99,7 +99,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         public override string ToString()
         {
-            return this.UniqueIdentifier.ToString();
+            return string.Format("constructor {0}::{1}", this.Parent, this.UniqueIdentifier);
         }
 
     }

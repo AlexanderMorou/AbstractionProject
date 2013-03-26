@@ -15,15 +15,8 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
     /// Defines properties and methods for working with a collection which is tightly controlled.
     /// </summary>
     public interface IControlledCollection :
-        IEnumerable
+        ICountableEnumerable
     {
-        /// <summary>
-        /// Gets the number of elements contained in the <see cref="IControlledCollection"/>.
-        /// </summary>
-        /// <returns>
-        /// The number of elements contained in the <see cref="IControlledCollection"/>.
-        /// </returns>
-        int Count { get; }
         /// <summary>
         /// Determines whether the <see cref="IControlledCollection"/> contains a specific 
         /// value.

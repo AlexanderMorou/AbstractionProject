@@ -462,5 +462,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             get { throw new NotImplementedException(); }
         }
 
+        public override bool Equals(IType other)
+        {
+            if (other == null)
+                return false;
+            if (!other.IsGenericConstruct)
+                return false;
+
+            if (base.Equals(other))
+                return true;
+
+            if (other == this.ElementType && other is IGenericType)
+            {
+                var otherGeneric = (IGenericType)other;
+                if (otherGeneric.GenericParameters.Count == this.GenericParameters.Count)
+                    return otherGeneric.GenericParameters.SequenceEqual(this.GenericParameters);
+            }
+            return true;
+        }
+
     }
 }

@@ -93,5 +93,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
+        public override string ToString()
+        {
+            return string.Format("property {0}::{1}", this.Parent, this.UniqueIdentifier);
+        }
     }
 }

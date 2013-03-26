@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction
         /// </summary>
         elementType,
         /// <summary>
-        /// Parameter 'genericLocalType'.
+        /// Parameter 'structuralTypeInfo'.
         /// </summary>
         genericLocalType,
         /// <summary>

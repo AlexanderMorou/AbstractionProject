@@ -49,6 +49,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             visitor.Visit(this);
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            if (visitor == null)
+                throw new ArgumentNullException("visitor");
+            return visitor.Visit(this);
+        }
+
         #region IFieldReferenceExpression<TField,TIntermediateField,TFieldParent,TIntermediateFieldParent> Members
         /// <summary>
         /// Returns the <typeparamref name="TField"/> associated to the
@@ -152,5 +159,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             else
                 return this.Name;
         }
+
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
     }
 }

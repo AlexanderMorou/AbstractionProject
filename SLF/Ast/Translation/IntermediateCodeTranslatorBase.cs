@@ -88,6 +88,36 @@ namespace AllenCopeland.Abstraction.Slf.Translation
 
         #region IExpressionVisitor Members
 
+        /// <summary>
+        /// Translates a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertyReferenceExpression{TProperty, TPropertyParent}"/> to translate.</param>
+        public abstract void Translate<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression)
+            where TProperty :
+                IPropertyMember<TProperty, TPropertyParent>
+            where TPropertyParent :
+                IPropertyParent<TProperty, TPropertyParent>;
+
+        /// <summary>
+        /// Translates a property reference expression.
+        /// </summary>
+        /// <param name="expression">The <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TPropertySignatureParent}"/> to translate.</param>
+        public abstract void Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression)
+            where TPropertySignature :
+                IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
+            where TPropertySignatureParent :
+                IPropertySignatureParent<TPropertySignature, TPropertySignatureParent>;
+        /// <summary>
+        /// Translates the <paramref name="expression"/> provided.
+        /// </summary>
+        /// <param name="expression">The <see cref="IFieldReferenceExpression{TField, TFieldParent}"/>
+        /// to translate.</param>
+        public abstract void Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression)
+            where TField :
+                IFieldMember<TField, TFieldParent>
+            where TFieldParent :
+                IFieldParent<TField, TFieldParent>;
+
         public virtual void Translate<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
             where TLeft : 
                 INaryOperandExpression
@@ -1655,5 +1685,20 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         }
 
         #endregion
+
+        void IExpressionVisitor.Visit<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression)
+        {
+            this.Translate(expression);
+        }
+
+        void IExpressionVisitor.Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression)
+        {
+            this.Translate(expression);
+        }
     }
 }

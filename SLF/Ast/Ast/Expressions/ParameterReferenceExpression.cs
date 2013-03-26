@@ -44,6 +44,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             visitor.Visit(this);
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
         #region IParameterReferenceExpression Members
 
         public TIntermediateParameter ReferenceTarget { get; set; }
@@ -97,6 +102,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         {
             visitor.Visit(this);
         }
+
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
+
         public string Name { get; set; }
     }
 }

@@ -281,5 +281,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             return this.Original.IsDefined(metadatumType);
         }
+
+        public override string ToString()
+        {
+            return string.Format("property {0}::{1}", this.Parent, this.UniqueIdentifier);
+        }
     }
 }

@@ -208,7 +208,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetCtorIdentifier(ctor, (IType)this.parent, this.parent.IdentityManager);
                     break;
                 case CliMemberType.Event:
-                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetEventIdentifier((ICliMetadataEventTableRow)this.memberSources[memberIndex], this.parent.IdentityManager);
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetEventIdentifier((ICliMetadataEventTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
                     break;
                 case CliMemberType.Field:
                     this.memberIdentifiers[memberIndex] = (IGeneralMemberUniqueIdentifier)CliMemberExtensions.GetFieldIdentifier((ICliMetadataFieldTableRow)this.memberSources[memberIndex]);
@@ -217,7 +217,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetIndexerIdentifier((ICliMetadataPropertyTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager);
                     break;
                 case CliMemberType.Method:
-                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetMethodIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager, () => (IMethodMember)this.Values[memberIndex].Entry);
+                    this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetMethodIdentifier((ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex], (IType)this.parent, this.parent.IdentityManager, () => (IMethodSignatureMember)this.Values[memberIndex].Entry);
                     break;
                 case CliMemberType.Property:
                     this.memberIdentifiers[memberIndex] = (IGeneralMemberUniqueIdentifier)CliMemberExtensions.GetPropertyIdentifier((ICliMetadataPropertyTableRow)this.memberSources[memberIndex]);
@@ -236,7 +236,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private void CheckItemAt(int memberIndex)
         {
             if (this.members[memberIndex] == null)
+            {
+                this.CheckIdentifierAt(memberIndex);
                 this.members[memberIndex] = this.parent.CreateItem(this.memberTypes[memberIndex], this.memberSources[memberIndex], this.memberIdentifiers[memberIndex], memberIndex);
+            }
         }
 
         internal IEnumerable<Tuple<int, TIdentifier>> ObtainSubset<TIdentifier, TMember>(CliMemberType kind)

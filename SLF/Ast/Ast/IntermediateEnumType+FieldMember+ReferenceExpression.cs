@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -18,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             private class ReferenceExpression :
                 MemberParentReferenceExpressionBase,
-                IFieldReferenceExpression
+                IFieldReferenceExpression<IEnumFieldMember, IEnumType>
             {
                 private FieldMember owner;
 
@@ -54,9 +56,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     get { return ExpressionKind.FieldReference; }
                 }
 
+                public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+                {
+                    return visitor.Visit(this);
+                }
                 public override void Visit(IExpressionVisitor visitor)
                 {
                     visitor.Visit(this);
+                }
+
+                public IEnumFieldMember Member
+                {
+                    get { return this.owner; }
+                }
+
+                public IType MemberType
+                {
+                    get { return this.Member.Parent; }
+                }
+
+                IMember IBoundMemberReference.Member
+                {
+                    get { return this.Member; }
                 }
             }
         }

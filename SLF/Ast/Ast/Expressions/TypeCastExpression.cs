@@ -73,6 +73,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             visitor.Visit(this);
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
         #region ITypeCastExpression Members
 
         /// <summary>

@@ -38,6 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 var result = new IndexerMember(nameAndReturn.Name, (TInstanceType)this.Parent);
                 if (parameters.Count > 0)
                     result.Parameters.AddRange(parameters.ToArray());
+                result.PropertyType = nameAndReturn.TypeReference;
                 result.CanRead = canGet;
                 result.CanWrite = canSet;
                 return result;

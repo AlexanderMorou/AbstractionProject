@@ -225,7 +225,51 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             this.Visit((IPrimitiveVisitor)visitor);
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return this.Visit((IPrimitiveVisitor<TResult>)visitor);
+        }
+
         #region IPrimitiveExpression Members
+
+        public TResult Visit<TResult>(IPrimitiveVisitor<TResult> visitor)
+        {
+            switch (this.PrimitiveType)
+            {
+                case PrimitiveType.Boolean:
+                    return visitor.Visit((IPrimitiveExpression<bool>)this);
+                case PrimitiveType.Byte:
+                    return visitor.Visit((IPrimitiveExpression<byte>)this);
+                case PrimitiveType.SByte:
+                    return visitor.Visit((IPrimitiveExpression<sbyte>)this);
+                case PrimitiveType.Int16:
+                    return visitor.Visit((IPrimitiveExpression<short>)this);
+                case PrimitiveType.UInt16:
+                    return visitor.Visit((IPrimitiveExpression<ushort>)this);
+                case PrimitiveType.Int32:
+                    return visitor.Visit((IPrimitiveExpression<int>)this);
+                case PrimitiveType.UInt32:
+                    return visitor.Visit((IPrimitiveExpression<uint>)this);
+                case PrimitiveType.Int64:
+                    return visitor.Visit((IPrimitiveExpression<long>)this);
+                case PrimitiveType.UInt64:
+                    return visitor.Visit((IPrimitiveExpression<ulong>)this);
+                case PrimitiveType.Decimal:
+                    return visitor.Visit((IPrimitiveExpression<decimal>)this);
+                case PrimitiveType.Float:
+                    return visitor.Visit((IPrimitiveExpression<float>)this);
+                case PrimitiveType.Double:
+                    return visitor.Visit((IPrimitiveExpression<double>)this);
+                case PrimitiveType.Char:
+                    return visitor.Visit((IPrimitiveExpression<char>)this);
+                case PrimitiveType.String:
+                    return visitor.Visit((IPrimitiveExpression<string>)this);
+                case PrimitiveType.Null:
+                    return visitor.VisitNull();
+                default:
+                    return default(TResult);
+            }
+        }
 
         public void Visit(IPrimitiveVisitor visitor)
         {

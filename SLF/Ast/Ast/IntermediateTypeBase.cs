@@ -430,6 +430,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         #region IIntermediateType Members
 
         public abstract void Visit(IIntermediateTypeVisitor visitor);
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
+        /// receive the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> as a visitor.</param>
+        public abstract TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor);
 
         #endregion
 

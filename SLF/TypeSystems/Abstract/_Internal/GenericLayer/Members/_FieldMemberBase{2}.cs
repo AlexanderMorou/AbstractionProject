@@ -54,5 +54,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("field {0}::{1}", this.Parent, this.UniqueIdentifier);
+        }
     }
 }

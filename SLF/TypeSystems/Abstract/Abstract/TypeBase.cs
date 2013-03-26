@@ -537,7 +537,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// to check against.</param>
         /// <returns>true if the <see cref="IType"/> is
         /// equal to the current <see cref="TypeBase{TIdentifier}"/>.</returns>
-        public bool Equals(IType other)
+        public virtual bool Equals(IType other)
         {
             if (other.GetType() != this.GetType())
                 return false;

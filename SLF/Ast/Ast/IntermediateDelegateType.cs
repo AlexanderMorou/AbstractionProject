@@ -344,6 +344,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             visitor.Visit(this);
         }
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
+        /// receive the <see cref="IntermediateDelegateType"/> as a visitor.</param>
+        public override TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {

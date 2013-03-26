@@ -118,12 +118,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Slf\Compilers\StandardCompilerAids.cs" />
+    <Compile Include="Slf\Compilers\HasStructuralTypeBridgeAttribute.cs" />
     <Compile Include="Slf\_Internal\Metadata\ExceptionMessage.cs" />
     <Compile Include="Slf\Compilers\ClassIsHiddenAttribute.cs" />
     <Compile Include="Slf\Compilers\ClassIsModuleAttribute.cs" />
     <Compile Include="Slf\_Internal\Metadata\ArgumentWithException.cs" />
     <Compile Include="Slf\Compilers\GenericParamCtorFailureException.cs" />
-    <Compile Include="Slf\Compilers\GenericParamDataTargetAttribute.cs" />
+    <Compile Include="Slf\Compilers\HasStructuralTypeBehavior.cs" />
     <Compile Include="Slf\Compilers\GlobalMemberContainerAttribute.cs" />
     <Compile Include="Slf\Compilers\InferredAttribute.cs" />
     <Compile Include="Slf\Compilers\StaticContainerExtensionAttribute.cs" />

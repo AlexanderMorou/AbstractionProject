@@ -123,6 +123,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     }
                 }
 
+                protected override IType OnGetReturnType()
+                {
+                    switch (this.MethodType)
+                    {
+                        case PropertyMethodType.GetMethod:
+                            return this.Owner.PropertyType;
+                        case PropertyMethodType.SetMethod:
+                            return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
+                        default:
+                            return base.OnGetReturnType();
+                    }
+                }
+
                 protected override void Dispose(bool disposing)
                 {
                     try
@@ -310,6 +323,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     var result = base.InitializeParameters();
                     result.Lock();
                     return result;
+                }
+
+                protected override IType OnGetReturnType()
+                {
+                    switch (this.MethodType)
+                    {
+                        case PropertyMethodType.GetMethod:
+                            return this.Owner.PropertyType;
+                        case PropertyMethodType.SetMethod:
+                            return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
+                        default:
+                            return base.OnGetReturnType();
+                    }
                 }
 
                 public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier

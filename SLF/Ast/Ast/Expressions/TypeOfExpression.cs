@@ -42,6 +42,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return string.Format("typeof({0})", this.ReferenceType.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard));
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
         public override void Visit(IExpressionVisitor visitor)
         {
             visitor.Visit(this);

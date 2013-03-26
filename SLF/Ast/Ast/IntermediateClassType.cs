@@ -9,7 +9,6 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
-using Microsoft.VisualBasic.CompilerServices;
 using System.ComponentModel;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
@@ -343,6 +342,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public override void Visit(IIntermediateTypeVisitor visitor)
         {
             visitor.Visit(this);
+        }
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
+        /// receive the <see cref="IntermediateClassType{TInstanceIntermediateType}"/> as a visitor.</param>
+        public override TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
         }
 
         IIntermediateInstantiableTypeImplementedInterfaces<IClassEventMember, IIntermediateClassEventMember, IClassIndexerMember, IIntermediateClassIndexerMember, 

@@ -122,6 +122,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return string.Format("{0} {1}({2}, {3})", this.ReturnType, operatorText, left, right);
             }
 
+            public override string ToString()
+            {
+                return string.Format("binaryop {0}::{1}",this.Parent,  this.UniqueIdentifier);
+            }
+
             public override IBinaryOperatorUniqueIdentifier UniqueIdentifier
             {
                 get { return this.uniqueIdentifier; }
@@ -226,6 +231,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get { return this.UniqueIdentifier.CoercionType; }
             }
+
+            public override string ToString()
+            {
+                return string.Format("typeCoercion {0}::{1}", this.Parent, this.UniqueIdentifier);
+            }
+
         }
 
         private class UnaryOperatorMember :
@@ -292,6 +303,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     return (_ICliManager)this.Parent.IdentityManager;
                 }
+            }
+
+            public override string ToString()
+            {
+                return string.Format("unaryop {0}::{1}", this.Parent, this.UniqueIdentifier);
             }
 
             public IType ResultedType

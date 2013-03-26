@@ -27,11 +27,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return CliCommon.GetMethodAccessLevel((MethodAttributes)this.MetadataEntry.UsageDetails.Accessibility); }
         }
-        public override string ToString()
-        {
-            return this.UniqueIdentifier.ToString();
-        }
-
         protected override sealed CliParameterMemberDictionary<TMethod, IMethodParameterMember<TMethod, TMethodParent>> InitializeParameters()
         {
             return new ParameterMemberDictionary(this);

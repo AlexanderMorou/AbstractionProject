@@ -188,6 +188,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.MetadataEntry.Methods.ObtainAccessLevelModifiers();
             }
         }
+
     }
 
 }

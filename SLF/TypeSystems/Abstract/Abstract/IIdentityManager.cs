@@ -79,20 +79,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IType ObtainTypeReference(TTypeIdentity typeIdentity);
     }
 
-    public interface IGenericConstructIdentityManager<TGenericConstruct, TGenericParameter>
-        where TGenericConstruct :
-                IGenericParamParent<TGenericParameter, TGenericConstruct>
-        where TGenericParameter :
-                IGenericParameter<TGenericParameter, TGenericConstruct>
-    {
-        TGenericConstruct MakeGenericClosure(TGenericConstruct source, IControlledTypeCollection closureArguments);
-    }
-
     public interface ITypeIdentityManager :
-        IGenericConstructIdentityManager<IClassType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IClassType>>,
-        IGenericConstructIdentityManager<IDelegateType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IDelegateType>>,
-        IGenericConstructIdentityManager<IInterfaceType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IInterfaceType>>,
-        IGenericConstructIdentityManager<IStructType, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, IStructType>>,
         IDisposable
     {
         /// <summary>
@@ -104,6 +91,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// is defined.</param>
         /// <returns>An <see cref="IType"/> instance relative to the
         /// <paramref name="coreType"/> provided.</returns>
+        /// <exception cref="System.ArgumentException"><paramref name="coreType"/> is <see cref="RuntimeCoreType.None"/> 
+        /// or another value not within the set.</exception>
         IType ObtainTypeReference(RuntimeCoreType coreType);
         /// <summary>
         /// Returns the <see cref="IType"/> from the
@@ -207,5 +196,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// of.</param>
         /// <returns></returns>
         RuntimeCoreType ObtainCoreType(IType type);
+
     }
 }

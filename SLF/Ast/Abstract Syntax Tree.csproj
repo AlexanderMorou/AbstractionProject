@@ -90,7 +90,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -167,7 +166,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="_Internal\Ast\AstExtensions.cs" />
     <Compile Include="_Internal\Ast\IntermediateCliManager.cs" />
     <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection+Enumerator.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
@@ -992,6 +990,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Transformation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

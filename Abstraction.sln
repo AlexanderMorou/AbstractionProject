@@ -32,13 +32,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Compilers", "Compilers", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecma-335 Common Type System", "SLF\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj", "{D455D4FF-54FD-431E-BD27-43DA130A0FAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Type System Test - CLI", "Supplementary Projects\Cli Type System Test\Type System Test - CLI.csproj", "{54398E20-2E0F-4E98-8670-69C89B346CB0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract Syntax Tree", "SLF\Ast\Abstract Syntax Tree.csproj", "{02607DC2-E98B-43AE-B906-FE151A70A68D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp", "SLF\Languages\CSharp\CSharp.csproj", "{A5E27B08-E854-40D5-B88B-0F10D1CA64AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualBasic.NET", "SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj", "{9C89419D-F2A1-4882-8408-6708A038E025}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructuralTypingExample", "Supplementary Projects\StructuralTypingExample\StructuralTypingExample\StructuralTypingExample.csproj", "{86614EA9-6F12-415A-A2D4-14B34175F660}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -66,30 +66,30 @@ Global
 		SccProjectTopLevelParentUniqueName5 = Abstraction.sln
 		SccProjectName5 = SLF/TypeSystems/Ecma-335\u0020Common\u0020Type\u0020System
 		SccLocalPath5 = SLF\\TypeSystems\\Ecma-335\u0020Common\u0020Type\u0020System
-		SccProjectUniqueName6 = Supplementary\u0020Projects\\Cli\u0020Type\u0020System\u0020Test\\Type\u0020System\u0020Test\u0020-\u0020CLI.csproj
+		SccProjectUniqueName6 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
 		SccProjectTopLevelParentUniqueName6 = Abstraction.sln
-		SccProjectName6 = Supplementary\u0020Projects/Cli\u0020Type\u0020System\u0020Test
-		SccLocalPath6 = Supplementary\u0020Projects\\Cli\u0020Type\u0020System\u0020Test
-		SccProjectUniqueName7 = UI\\Ownerdrawn\u0020Controls\\Ownerdrawn\u0020Controls.csproj
+		SccProjectName6 = UI/Ownerdrawn\u0020Controls
+		SccLocalPath6 = UI\\Ownerdrawn\u0020Controls
+		SccProjectUniqueName7 = Utilities\\Common\\Common\u0020Utilities.csproj
 		SccProjectTopLevelParentUniqueName7 = Abstraction.sln
-		SccProjectName7 = UI/Ownerdrawn\u0020Controls
-		SccLocalPath7 = UI\\Ownerdrawn\u0020Controls
-		SccProjectUniqueName8 = Utilities\\Common\\Common\u0020Utilities.csproj
+		SccProjectName7 = Utilities/Common
+		SccLocalPath7 = Utilities\\Common
+		SccProjectUniqueName8 = Utilities\\FiniteAutomation\\Finite\u0020Automation.csproj
 		SccProjectTopLevelParentUniqueName8 = Abstraction.sln
-		SccProjectName8 = Utilities/Common
-		SccLocalPath8 = Utilities\\Common
-		SccProjectUniqueName9 = Utilities\\FiniteAutomation\\Finite\u0020Automation.csproj
+		SccProjectName8 = Utilities/FiniteAutomation
+		SccLocalPath8 = Utilities\\FiniteAutomation
+		SccProjectUniqueName9 = SLF\\Languages\\CSharp\\CSharp.csproj
 		SccProjectTopLevelParentUniqueName9 = Abstraction.sln
-		SccProjectName9 = Utilities/FiniteAutomation
-		SccLocalPath9 = Utilities\\FiniteAutomation
-		SccProjectUniqueName10 = SLF\\Languages\\CSharp\\CSharp.csproj
+		SccProjectName9 = SLF/Languages/CSharp
+		SccLocalPath9 = SLF\\Languages\\CSharp
+		SccProjectUniqueName10 = SLF\\Languages\\VisualBasic.NET\\VisualBasic.NET.csproj
 		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
-		SccProjectName10 = SLF/Languages/CSharp
-		SccLocalPath10 = SLF\\Languages\\CSharp
-		SccProjectUniqueName11 = SLF\\Languages\\VisualBasic.NET\\VisualBasic.NET.csproj
+		SccProjectName10 = SLF/Languages/VisualBasic.NET
+		SccLocalPath10 = SLF\\Languages\\VisualBasic.NET
+		SccProjectUniqueName11 = Supplementary\u0020Projects\\StructuralTypingExample\\StructuralTypingExample\\StructuralTypingExample.csproj
 		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
-		SccProjectName11 = SLF/Languages/VisualBasic.NET
-		SccLocalPath11 = SLF\\Languages\\VisualBasic.NET
+		SccProjectName11 = Supplementary\u0020Projects/StructuralTypingExample/StructuralTypingExample
+		SccLocalPath11 = Supplementary\u0020Projects\\StructuralTypingExample\\StructuralTypingExample
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -155,14 +155,6 @@ Global
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Release|x64.Build.0 = Release|x64
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Release|x86.ActiveCfg = Release|x86
 		{D455D4FF-54FD-431E-BD27-43DA130A0FAA}.Release|x86.Build.0 = Release|x86
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x64.ActiveCfg = Debug|x64
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x64.Build.0 = Debug|x64
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x86.ActiveCfg = Debug|x86
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Debug|x86.Build.0 = Debug|x86
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x64.ActiveCfg = Release|x64
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x64.Build.0 = Release|x64
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x86.ActiveCfg = Release|x86
-		{54398E20-2E0F-4E98-8670-69C89B346CB0}.Release|x86.Build.0 = Release|x86
 		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x64.ActiveCfg = Debug|x64
 		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x64.Build.0 = Debug|x64
 		{02607DC2-E98B-43AE-B906-FE151A70A68D}.Debug|x86.ActiveCfg = Debug|x86
@@ -187,6 +179,14 @@ Global
 		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x64.Build.0 = Release|x64
 		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.ActiveCfg = Release|x86
 		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.Build.0 = Release|x86
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x64.ActiveCfg = Debug|x64
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x64.Build.0 = Debug|x64
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x86.ActiveCfg = Debug|x86
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x86.Build.0 = Debug|x86
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x64.ActiveCfg = Release|x64
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x64.Build.0 = Release|x64
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x86.ActiveCfg = Release|x86
+		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,7 +205,7 @@ Global
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
-		{54398E20-2E0F-4E98-8670-69C89B346CB0} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
+		{86614EA9-6F12-415A-A2D4-14B34175F660} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}
 	EndGlobalSection

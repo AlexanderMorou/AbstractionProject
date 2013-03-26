@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Metadata
         /// </summary>
         globalMemberType,
         /// <summary>
-        /// Parameter 'genericLocalType'.
+        /// Parameter 'structuralTypeInfo'.
         /// </summary>
         genericLocalType,
         /// <summary>

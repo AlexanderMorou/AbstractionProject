@@ -1029,7 +1029,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             public override int GetHashCode()
             {
-                return this.Name.GetHashCode() ^ this.ParameterCount;
+                return ((this.Name == null) ? 0 : this.Name.GetHashCode()) ^ this.ParameterCount;
             }
 
             public override bool Equals(object obj)
@@ -1304,8 +1304,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     builder.Append("::");
                 }
                 builder.Append(this.Name);
-                if (this.IsGenericConstruct)
-                    builder.AppendFormat("`{0}", this.TypeParameters);
                 builder.Append('(');
                 bool first = true;
                 foreach (var element in this.Parameters)

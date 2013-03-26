@@ -40,6 +40,36 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <remarks>Used to provide initial context data 
         /// for the lookup.</remarks>
         new IMethodReferenceStub<TSignatureParameter, TSignature, TParent> Reference { get; }
+        /// <summary>
+        /// Obtains a <see cref="IMethodInvokeExpression"/>
+        /// by evaluating the <paramref name="parameters"/>
+        /// provided.
+        /// </summary>
+        /// <param name="parameters">A series of 
+        /// <see cref="IExpression"/> elements 
+        /// which relate to the data of the 
+        /// parameters of the invoke, and the 
+        /// types of the parameters.</param>
+        /// <returns>A new <see cref="IMethodInvokeExpression"/> 
+        /// relative to the signature and data of 
+        /// the <paramref name="parameters"/> 
+        /// provided.</returns>
+        new IMethodInvokeExpression<TSignatureParameter, TSignature, TParent> Invoke(IExpressionCollection<IExpression> parameters);
+        /// <summary>
+        /// Obtains a <see cref="IMethodInvokeExpression"/>
+        /// by evaluating the <paramref name="parameters"/>
+        /// provided.
+        /// </summary>
+        /// <param name="parameters">A series of
+        /// <see cref="IExpression"/> elements 
+        /// which relate to the data of the 
+        /// parameters of the invoke, and the types 
+        /// of the parameters.</param>
+        /// <returns>A new <see cref="IMethodInvokeExpression"/> 
+        /// relative to the signature and data of 
+        /// the <paramref name="parameters"/> 
+        /// provided.</returns>
+        new IMethodInvokeExpression<TSignatureParameter, TSignature, TParent> Invoke(params IExpression[] parameters);
     }
     /// <summary>
     /// Defines properties and methods for working with a 

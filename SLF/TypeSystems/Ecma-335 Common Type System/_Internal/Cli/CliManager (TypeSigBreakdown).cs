@@ -25,7 +25,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         public IType ObtainTypeReference(RuntimeCoreType coreType, IAssembly assembly)
         {
-            return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType), assembly);
+            ICliRuntimeEnvironmentInfo runtimeEnvironmentInfo = this.runtimeEnvironment;
+            if (assembly is ICliAssembly)
+            {
+                ICliAssembly cliAssembly = (ICliAssembly)assembly;
+                if (cliAssembly.RuntimeEnvironment.Version != runtimeEnvironmentInfo.Version)
+                    runtimeEnvironmentInfo = cliAssembly.RuntimeEnvironment;
+            }
+            return this.ObtainTypeReference(runtimeEnvironmentInfo.GetCoreIdentifier(coreType), assembly);
         }
 
         public IType ObtainTypeReference(RuntimeCoreType coreType)
@@ -180,7 +187,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 var assembly = this.ObtainAssemblyReference(typeIdentity.Assembly);
                 var type = assembly.GetType(typeIdentity);
                 if (type != null)
-                    return this.ObtainTypeReference(type);
+                    return type;
             }
             throw new TypeLoadException(string.Format("Could not load {0}.", typeIdentity.ToString()));
         }

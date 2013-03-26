@@ -17,7 +17,8 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 {
     internal class MethodInvokeExpression<TSignatureParameter, TSignature, TParent> :
-        MethodInvokeExpression
+        MethodInvokeExpression,
+        IMethodInvokeExpression<TSignatureParameter, TSignature, TParent>
         where TSignatureParameter :
             IMethodSignatureParameterMember<TSignatureParameter, TSignature, TParent>
         where TSignature :
@@ -106,6 +107,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         {
             get { return (IMethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>)base.Reference; }
         }
+
         protected override IType TypeLookupAid
         {
             get
@@ -286,6 +288,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return sb.ToString();
         }
 
+        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        {
+            return visitor.Visit(this);
+        }
 
         public override void Visit(IExpressionVisitor visitor)
         {

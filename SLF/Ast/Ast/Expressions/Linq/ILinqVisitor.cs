@@ -84,4 +84,99 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq
         /// to visit.</param>
         void Visit(ILinqWhereClause linqClause);
     }
+    public interface ILinqVisitor<TResult>
+    {
+        /// <summary>
+        /// Visits the <see cref="ILinqSelectBody"/> 
+        /// <paramref name="expression"/>.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqSelectBody"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqSelectBody expression);
+        /// <summary>
+        /// Visits the <see cref="ILinqGroupBody"/> 
+        /// <paramref name="expression"/>.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqGroupBody"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqGroupBody expression);
+        /// <summary>
+        /// Visits the <see cref="ILinqFusionSelectBody"/> 
+        /// <paramref name="expression"/>.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqFusionSelectBody"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqFusionSelectBody expression);
+        /// <summary>
+        /// Visits the <see cref="ILinqFusionGroupBody"/> 
+        /// <paramref name="expression"/>.
+        /// </summary>
+        /// <param name="expression">The <see cref="ILinqFusionGroupBody"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqFusionGroupBody expression);
+        /// <summary>
+        /// Visits the <see cref="ILinqFromClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqFromClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqFromClause linqClause);
+        /// <summary>
+        /// Visits the <see cref="ILinqJoinClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqJoinClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqJoinClause linqClause);
+        /// <summary>
+        /// Visits the <see cref="ILinqLetClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqLetClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqLetClause linqClause);
+        /// <summary>
+        /// Visits the <see cref="ILinqOrderByClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqOrderByClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqOrderByClause linqClause);
+        /// <summary>
+        /// Visits the <see cref="ILinqTypedFromClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqTypedFromClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqTypedFromClause linqClause);
+        /// <summary>
+        /// Visits the <see cref="ILinqTypedJoinClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqTypedJoinClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqTypedJoinClause linqClause);
+        /// <summary>
+        /// Visits the <see cref="ILinqWhereClause"/>.
+        /// </summary>
+        /// <param name="linqClause">The <see cref="ILinqWhereClause"/>
+        /// to visit.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILinqWhereClause linqClause);
+    }
 }

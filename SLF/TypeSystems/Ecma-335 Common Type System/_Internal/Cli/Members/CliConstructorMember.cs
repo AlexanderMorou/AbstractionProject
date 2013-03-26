@@ -107,5 +107,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get { return this.MetadataEntry; }
         }
+
+        public override string ToString()
+        {
+            return string.Format("constructor {0}::{1}", this.Parent, this.UniqueIdentifier);
+        }
     }
 }

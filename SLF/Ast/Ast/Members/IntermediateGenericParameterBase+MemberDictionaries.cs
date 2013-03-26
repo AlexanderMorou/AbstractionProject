@@ -69,7 +69,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             protected override IIntermediateGenericParameterConstructorMember<TGenericParameter, TIntermediateGenericParameter> GetConstructor()
             {
-                return new IntermediateGenericParameterBase<TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent>.ConstructorMember(this.Parent);
+                return new ConstructorMember(this.Parent);
             }
         }
 
@@ -159,7 +159,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             protected override IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter> GetNew(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
             {
-                throw new NotImplementedException();
+                var result = new IndexerMember(nameAndReturn.Name, this.Parent, this.Parent.IdentityManager);
+                if (parameters.Count > 0)
+                    result.Parameters.AddRange(parameters.ToArray());
+                result.PropertyType = nameAndReturn.TypeReference;
+                result.CanRead = canGet;
+                result.CanWrite = canSet;
+                return result;
             }
         }
 
@@ -201,7 +207,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             protected override IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter> OnGetNewMethod(string name)
             {
-                throw new NotImplementedException();
+                return new MethodMember(name, this.Parent);
             }
         }
 
@@ -243,7 +249,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
             protected override IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter> OnGetProperty(TypedName nameAndType)
             {
-                throw new NotImplementedException();
+                var result = new PropertyMember(nameAndType.Name, this.Parent);
+                result.PropertyType = nameAndType.TypeReference;
+                return result;
             }
         }
     }

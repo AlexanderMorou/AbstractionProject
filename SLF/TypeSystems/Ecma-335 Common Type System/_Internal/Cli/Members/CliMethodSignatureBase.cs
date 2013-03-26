@@ -43,6 +43,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             this.uniqueIdentifier = uniqueIdentifier;
         }
 
+        internal _ICliAssembly _Assembly { get { return (_ICliAssembly)this.Assembly; } }
+
         internal CliManager IdentityManager
         {
             get
@@ -139,14 +141,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                if (lastIsParams == null)
-                {
-                    var paramArrayAttrType = this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), IdentityManager.GetRelativeAssembly(MetadataEntry.MetadataRoot));
-                    var lParam = this.MetadataEntry.Parameters.LastOrDefault();
-                    if (lParam != null && lParam.CustomAttributes.Count > 0)
-                        lastIsParams = CliCommon.GetMetadatum(this.IdentityManager, paramArrayAttrType, lParam.CustomAttributes) != null;
-                }
-                return (bool) lastIsParams;
+                return this.IsLastParams(this.Assembly, this._Assembly.IdentityManager);
+                //if (lastIsParams == null)
+                //{
+                //    var paramArrayAttrType = this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum, this.assembly), IdentityManager.GetRelativeAssembly(MetadataEntry.MetadataRoot));
+                //    var lParam = this.MetadataEntry.Parameters.LastOrDefault();
+                //    if (lParam != null && lParam.CustomAttributes.Count > 0)
+                //        lastIsParams = CliCommon.GetMetadatum(this.IdentityManager, paramArrayAttrType, lParam.CustomAttributes) != null;
+                //}
+                //return (bool) lastIsParams;
             }
         }
 
@@ -196,7 +199,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public bool IsDefined(IType metadatumType)
         {
-            throw new NotImplementedException();
+            return this.Metadata.Contains(metadatumType);
         }
 
         #endregion
@@ -301,5 +304,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         protected abstract IType ActiveType { get; }
 
         internal abstract TypeParameter GetTypeParameter(int index, ICliMetadataGenericParameterTableRow metadataEntry);
+        public override string ToString()
+        {
+            return string.Format("method {0}", this.UniqueIdentifier.ToString(this.Parent.ToString()));
+        }
     }
 }

@@ -187,7 +187,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                        methods = null,
                                        props = null,
                                        typeCs = null,
-                                       unops = null;
+                                       unops = null,
+                                       indxrs = null;
                 for (int memberIndex = 0; memberIndex < this.Count; memberIndex++)
                 {
                     if (this.owner.members[memberIndex] == null)
@@ -211,6 +212,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             break;
                         case CliMemberType.Property:
                             yield return new MasterDictionaryEntry<IMember>(props ?? (props = this.owner.parent.Properties), this.owner.members[memberIndex]);
+                            break;
+                        case CliMemberType.Indexer:
+                            yield return new MasterDictionaryEntry<IMember>(indxrs ?? (indxrs = this.owner.parent.Indexers), this.owner.members[memberIndex]);
                             break;
                         case CliMemberType.TypeCoercionOperator:
                             yield return new MasterDictionaryEntry<IMember>(typeCs ?? (typeCs = this.owner.parent.TypeCoercions), this.owner.members[memberIndex]);

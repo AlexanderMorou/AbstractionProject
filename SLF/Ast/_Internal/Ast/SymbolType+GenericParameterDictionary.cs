@@ -292,11 +292,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
             #region IControlledCollection Members
 
-            int IControlledCollection.Count
-            {
-                get { return this.Count; }
-            }
-
             bool IControlledCollection.Contains(object item)
             {
                 if (!(item is KeyValuePair<IGenericParameterUniqueIdentifier, IGenericTypeParameter<IGeneralGenericTypeUniqueIdentifier, ISymbolType>>))
