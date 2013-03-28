@@ -289,7 +289,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IStructFieldMember
         {
             public FieldMember(IStructType parent, ICliMetadataFieldTableRow metadataEntry)
-                : base(parent, metadataEntry, AstIdentifier.GetMemberIdentifier(metadataEntry.Name))
+                : base(parent, metadataEntry, TypeSystemIdentifiers.GetMemberIdentifier(metadataEntry.Name))
             {
             }
 

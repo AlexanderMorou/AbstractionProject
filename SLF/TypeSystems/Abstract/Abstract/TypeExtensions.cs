@@ -516,7 +516,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             {
                 INamespaceDeclaration insd = null;
                 var points = (from s in path.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
-                              select AstIdentifier.GetDeclarationIdentifier(s)).ToArray();
+                              select TypeSystemIdentifiers.GetDeclarationIdentifier(s)).ToArray();
                 StringBuilder sb = new StringBuilder();
                 bool first = true;
 
@@ -529,14 +529,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     //The first is the dictionary calling this method.
                     sb.Append(s);
                     if (insd == null)
-                        insd = target.Values[target.Keys.GetIndexOf(AstIdentifier.GetDeclarationIdentifier(sb.ToString()))];
+                        insd = target.Values[target.Keys.GetIndexOf(TypeSystemIdentifiers.GetDeclarationIdentifier(sb.ToString()))];
                     else
-                        insd = insd.Namespaces[AstIdentifier.GetDeclarationIdentifier(sb.ToString())];
+                        insd = insd.Namespaces[TypeSystemIdentifiers.GetDeclarationIdentifier(sb.ToString())];
                 }
                 return insd;
             }
             else
-                return target.Values[target.Keys.GetIndexOf(AstIdentifier.GetDeclarationIdentifier(path))];
+                return target.Values[target.Keys.GetIndexOf(TypeSystemIdentifiers.GetDeclarationIdentifier(path))];
         }
 
         public static TypedNameSeries ToSeries(this IEnumerable<TypedName> target)

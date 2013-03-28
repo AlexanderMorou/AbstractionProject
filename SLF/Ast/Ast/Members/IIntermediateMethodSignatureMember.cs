@@ -77,7 +77,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         IMethodSignatureMember
     {
         /// <summary>
-        /// Returns the <see cref="IType"/> that the <see cref="IMethodSignatureMember"/>
+        /// Returns/sets the <see cref="IType"/> that the
+        /// <see cref="IIntermediateMethodSignatureMember"/>
         /// yields upon return.
         /// </summary>
         new IType ReturnType { get; set; }

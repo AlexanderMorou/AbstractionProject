@@ -53,9 +53,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.uniqueIdentifier == null)
                     {
                         if (this.Position > -1)
-                            this.uniqueIdentifier = AstIdentifier.GetGenericParameterIdentifier(this.Position, this.Name, false);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericParameterIdentifier(this.Position, this.Name, false);
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetGenericParameterIdentifier(this.Name, false);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericParameterIdentifier(this.Name, false);
                     }
                     return this.uniqueIdentifier;
                 }

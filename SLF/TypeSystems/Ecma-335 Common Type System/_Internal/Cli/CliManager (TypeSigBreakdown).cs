@@ -97,17 +97,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (this.RuntimeEnvironment.UseCoreLibrary)
                         return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"));
                     else
-                        return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "TypedReference"));
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "TypedReference"));
                 case CliMetadataNativeTypes.NativeInteger:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
                         return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"));
                     else
-                        return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "IntPtr"), assembly);
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IntPtr"), assembly);
                 case CliMetadataNativeTypes.NativeUnsignedInteger:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
                         return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"));
                     else
-                        return this.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "UIntPtr"), assembly);
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "UIntPtr"), assembly);
                 case CliMetadataNativeTypes.Object:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
                         return this.ObtainTypeReference(RuntimeCoreType.RootType);

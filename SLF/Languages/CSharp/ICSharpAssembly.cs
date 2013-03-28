@@ -20,6 +20,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
     public interface ICSharpAssembly :
         IVersionedIntermediateAssembly<ICSharpLanguage, ICSharpProvider, CSharpLanguageVersion>
     {
-
+        /// <summary>
+        /// Returns the <see cref="IIntermediateCliManager"/> used to 
+        /// handle identities.
+        /// </summary>
+        IIntermediateCliManager IdentityManager { get; }
     }
 }

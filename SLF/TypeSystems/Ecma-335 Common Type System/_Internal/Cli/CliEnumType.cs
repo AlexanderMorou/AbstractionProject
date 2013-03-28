@@ -120,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
             if (this.Parent is IType)
-                return ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.MetadataEntry.Name, AstIdentifier.GetDeclarationIdentifier(this.NamespaceName));
+                return ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.MetadataEntry.Name, TypeSystemIdentifiers.GetDeclarationIdentifier(this.NamespaceName));
             else if (this.Namespace == null)
                 return this.Assembly.UniqueIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.MetadataEntry.Name);
             else

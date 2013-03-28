@@ -85,11 +85,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (this.uniqueIdentifier == null)
                     if (typeInitializer)
-                        this.uniqueIdentifier = AstIdentifier.GetCtorSignatureIdentifier();
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier();
                     else if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.GetCtorSignatureIdentifier(this.Parameters.ParameterTypes.ToArray());
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier(this.Parameters.ParameterTypes.ToArray());
                     else
-                        this.uniqueIdentifier = AstIdentifier.GetCtorSignatureIdentifier(new IType[0]);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier(new IType[0]);
                 return this.uniqueIdentifier;
             }
         }

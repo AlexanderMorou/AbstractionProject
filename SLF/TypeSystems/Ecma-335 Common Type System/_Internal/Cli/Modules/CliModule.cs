@@ -62,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
         {
             get
             {
-                return AstIdentifier.GetDeclarationIdentifier(this.Metadata.Name);
+                return TypeSystemIdentifiers.GetDeclarationIdentifier(this.Metadata.Name);
             }
         }
     

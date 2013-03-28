@@ -112,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     get
                     {
-                        return AstIdentifier.GetUnaryOperatorIdentifier(this.Operator);
+                        return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(this.Operator);
                     }
                 }
                 #region ICoercionMember Members

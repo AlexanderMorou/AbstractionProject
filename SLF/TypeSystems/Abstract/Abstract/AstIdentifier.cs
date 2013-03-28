@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    public static partial class AstIdentifier
+    public static partial class TypeSystemIdentifiers
     {
         private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> TypeGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
         private static IMultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier> MemberGenericParameterCache = new MultikeyedDictionary<int, string, IGenericParameterUniqueIdentifier>();
@@ -209,7 +209,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (string.IsNullOrEmpty(@namespace))
                 return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, name);
             else
-                return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name);
+                return GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(@namespace), name);
         }
 
         public static IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name, int typeParameters)
@@ -222,7 +222,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             if (string.IsNullOrEmpty(@namespace))
                 return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, name, typeParameters);
             else
-                return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name, typeParameters);
+                return GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(@namespace), name, typeParameters);
         }
 
     }

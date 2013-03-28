@@ -600,9 +600,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
                         if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -675,5 +675,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             return this.Metadata.Contains(metadatumType);
         }
+
+        protected internal bool IsGetMethodInitialized { get { return this.getMethod != null; } }
+        protected internal bool IsSetMethodInitialized { get { return this.setMethod != null; } }
     }
 }

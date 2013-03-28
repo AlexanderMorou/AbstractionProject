@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override IGeneralTypeUniqueIdentifier OnGetUniqueIdentifier()
         {
-            return AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, "dynamic");
+            return TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, "dynamic");
         }
 
         protected override ITypeIdentityManager OnGetManager()

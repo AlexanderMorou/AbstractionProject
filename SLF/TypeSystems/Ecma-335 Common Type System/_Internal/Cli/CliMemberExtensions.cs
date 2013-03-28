@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> GetMemberData(this ICliMetadataTypeDefinitionTableRow target)
         {
-            if (target.Name == "AstIdentifier")
+            if (target.Name == "TypeSystemIdentifiers")
             {
                 Console.WriteLine();
             }
@@ -252,37 +252,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             switch (methodDef.Name)
             {
                 case CliCommon.BinaryOperatorNames.Addition:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Add, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Add, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.BitwiseAnd:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.BitwiseAnd, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.BitwiseAnd, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.BitwiseOr:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.BitwiseOr, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.BitwiseOr, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.Division:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Divide, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Divide, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.Equality:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.IsEqualTo, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.IsEqualTo, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.ExclusiveOr:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.ExclusiveOr, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.ExclusiveOr, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.GreaterThan:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.GreaterThan, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.GreaterThan, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.GreaterThanOrEqual:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.GreaterThanOrEqualTo, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.GreaterThanOrEqualTo, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.Inequality:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.IsNotEqualTo, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.IsNotEqualTo, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.LeftShift:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LeftShift, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LeftShift, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.LessThan:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LessThan, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LessThan, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.LessThanOrEqual:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LessThanOrEqualTo, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.LessThanOrEqualTo, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.Modulus:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Modulus, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Modulus, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.Multiply:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Multiply, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Multiply, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.RightShift:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.RightShift, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.RightShift, containingSide, otherSide);
                 case CliCommon.BinaryOperatorNames.Subtraction:
-                    return AstIdentifier.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Subtract, containingSide, otherSide);
+                    return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(CoercibleBinaryOperators.Subtract, containingSide, otherSide);
                 default:
                     throw new InvalidOperationException();
             }
@@ -290,19 +290,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static ISignatureMemberUniqueIdentifier GetCtorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
-            return AstIdentifier.GetCtorSignatureIdentifier((from p in methodDef.Signature.Parameters
+            return TypeSystemIdentifiers.GetCtorSignatureIdentifier((from p in methodDef.Signature.Parameters
                                                              select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
         }
 
         internal static ISignatureMemberUniqueIdentifier GetEventIdentifier(ICliMetadataEventTableRow eventDef, IType owner, _ICliManager manager)
         {
-            return AstIdentifier.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType, owner, null)).Parameters.Values
+            return TypeSystemIdentifiers.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType, owner, null)).Parameters.Values
                                                                         select p.ParameterType).SinglePass());
         }
 
         internal static IMemberUniqueIdentifier GetFieldIdentifier(ICliMetadataFieldTableRow fieldDef)
         {
-            return AstIdentifier.GetMemberIdentifier(fieldDef.Name);
+            return TypeSystemIdentifiers.GetMemberIdentifier(fieldDef.Name);
         }
 
         internal static IGeneralSignatureMemberUniqueIdentifier GetIndexerIdentifier(ICliMetadataPropertyTableRow indexerDef, IType owner, _ICliManager manager)
@@ -323,27 +323,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     knockOffLast = true;
             }
             if (targetMethod != null)
-                return AstIdentifier.GetSignatureIdentifier(indexerDef.Name, (from p in (knockOffLast ? targetMethod.Signature.Parameters.Take(targetMethod.Signature.Parameters.Count - 1) : targetMethod.Signature.Parameters)
+                return TypeSystemIdentifiers.GetSignatureIdentifier(indexerDef.Name, (from p in (knockOffLast ? targetMethod.Signature.Parameters.Take(targetMethod.Signature.Parameters.Count - 1) : targetMethod.Signature.Parameters)
                                                                               select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
             else
-                return AstIdentifier.GetSignatureIdentifier(indexerDef.Name);
+                return TypeSystemIdentifiers.GetSignatureIdentifier(indexerDef.Name);
         }
 
         internal static IGeneralGenericSignatureMemberUniqueIdentifier GetMethodIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager, Func<IMethodSignatureMember> memberGetter)
         {
             bool typeParamCheck = methodDef.MetadataRoot.TableStream.GenericParameterTable != null;
             if (typeParamCheck)
-                return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
+                return TypeSystemIdentifiers.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
                                                                                                                     select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
             else
-                return AstIdentifier.GetGenericSignatureIdentifier(methodDef.Name, 0, (from p in methodDef.Signature.Parameters
+                return TypeSystemIdentifiers.GetGenericSignatureIdentifier(methodDef.Name, 0, (from p in methodDef.Signature.Parameters
                                                                                        select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
         }
 
 
         internal static IMemberUniqueIdentifier GetPropertyIdentifier(ICliMetadataPropertyTableRow propertyDef)
         {
-            return AstIdentifier.GetMemberIdentifier(propertyDef.Name);
+            return TypeSystemIdentifiers.GetMemberIdentifier(propertyDef.Name);
         }
 
         internal static IGeneralMemberUniqueIdentifier GetTypeCoercionOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
@@ -364,9 +364,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (owner.IsGenericConstruct)
                 {
                     if (TypesAreEquivalent(owner, coercionType))
-                        return AstIdentifier.GetTypeOperatorFromIdentifier(requirement, returnType);
+                        return TypeSystemIdentifiers.GetTypeOperatorFromIdentifier(requirement, returnType);
                     else if (TypesAreEquivalent(owner, returnType))
-                        return AstIdentifier.GetTypeOperatorToIdentifier(requirement, coercionType);
+                        return TypeSystemIdentifiers.GetTypeOperatorToIdentifier(requirement, coercionType);
                     else
                         goto nonGenericResolution;
                 }
@@ -375,9 +375,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         nonGenericResolution:
             if (owner == coercionType)
-                return AstIdentifier.GetTypeOperatorFromIdentifier(requirement, returnType);
+                return TypeSystemIdentifiers.GetTypeOperatorFromIdentifier(requirement, returnType);
             else if (owner == returnType)
-                return AstIdentifier.GetTypeOperatorToIdentifier(requirement, coercionType);
+                return TypeSystemIdentifiers.GetTypeOperatorToIdentifier(requirement, coercionType);
             else
                 return null;
         }
@@ -408,21 +408,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             switch (methodDef.Name)
             {
                 case CliCommon.UnaryOperatorNames.Decrement:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Decrement);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Decrement);
                 case CliCommon.UnaryOperatorNames.False:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.EvaluatesToFalse);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.EvaluatesToFalse);
                 case CliCommon.UnaryOperatorNames.Increment:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Increment);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Increment);
                 case CliCommon.UnaryOperatorNames.LogicalNot:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.LogicalInvert);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.LogicalInvert);
                 case CliCommon.UnaryOperatorNames.Negation:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Negation);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Negation);
                 case CliCommon.UnaryOperatorNames.OnesComplement:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Complement);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Complement);
                 case CliCommon.UnaryOperatorNames.Plus:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Plus);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.Plus);
                 case CliCommon.UnaryOperatorNames.True:
-                    return AstIdentifier.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.EvaluatesToTrue);
+                    return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(CoercibleUnaryOperators.EvaluatesToTrue);
                 default:
                     throw new InvalidOperationException();
             }

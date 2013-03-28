@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Provides a parameter member for a method member.
         /// </summary>
-        protected new class ParameterMember :
+        internal protected new class ParameterMember :
             IntermediateMethodSignatureMemberBase<IMethodParameterMember<TMethod, TMethodParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>.ParameterMember,
             IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
         {

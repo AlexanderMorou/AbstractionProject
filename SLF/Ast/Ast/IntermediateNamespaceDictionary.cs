@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 IGeneralDeclarationUniqueIdentifier[] names =
                     (from subKey in path.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
-                     select AstIdentifier.GetDeclarationIdentifier(subKey)).ToArray();
+                     select TypeSystemIdentifiers.GetDeclarationIdentifier(subKey)).ToArray();
                 //It was comprised of dots only.
                 if (names.Length == 0)
                     throw ThrowHelper.ObtainArgumentException(ArgumentWithException.path, ExceptionMessageId.PathCannotBeDotsOnly);
@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 throw new ArgumentNullException("key");
             if (key == string.Empty)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.key));
-            return this.ContainsKey(AstIdentifier.GetDeclarationIdentifier(key));
+            return this.ContainsKey(TypeSystemIdentifiers.GetDeclarationIdentifier(key));
         }
 
         public override bool ContainsKey(IGeneralDeclarationUniqueIdentifier key)
@@ -157,7 +157,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 IGeneralDeclarationUniqueIdentifier[] keys =
                     (from subKey in key.Name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
-                     select AstIdentifier.GetDeclarationIdentifier(subKey)).ToArray();
+                     select TypeSystemIdentifiers.GetDeclarationIdentifier(subKey)).ToArray();
                 if (keys.Length == 0)
                     throw new ArgumentException("keys");
                 if (keys.Length == 1)

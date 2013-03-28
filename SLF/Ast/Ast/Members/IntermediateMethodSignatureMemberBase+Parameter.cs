@@ -28,7 +28,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Provides a base class for the intermediate method signature member parameters to derive from.
         /// </summary>
-        protected new class ParameterMember :
+        protected internal new class ParameterMember :
             IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.ParameterMember,
             IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         {
@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <typeparam name="TIntermediateAltParameter">The kind of intermediate parameter that is 
         /// mirrored by the <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter}"/>.
         /// </typeparam>
-        protected class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> :
+        protected internal class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter> :
             IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>, TSignature, TIntermediateSignature, TParent, TIntermediateParent>.ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter>>,
             IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
             where TAltParent :
@@ -103,7 +103,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Provides a base for the method signature parameter members to derive from.
         /// </summary>
-        protected abstract class ParameterMember :
+        protected internal abstract class ParameterMember :
             IntermediateSignatureParameterMemberBase<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
             IIntermediateMethodSignatureParameterMember<TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent>
         {
@@ -152,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// as the mirrored parameter and derives directly from
         /// <see cref="ParameterMember{TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter}"/>.
         /// </typeparam>
-        protected abstract class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter> :
+        protected internal abstract class ParameterMember<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter> :
             ParameterMember,
             ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter>.IWrapperParameter
             where TAltParent :

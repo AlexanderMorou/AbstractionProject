@@ -203,7 +203,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var ctor = (ICliMetadataMethodDefinitionTableRow)this.memberSources[memberIndex];
                     if (ctor.Name == CliCommon.ConstructorStaticName &&
                         ctor.Parameters.Count == 0)
-                        this.memberIdentifiers[memberIndex] = AstIdentifier.GetCtorSignatureIdentifier();
+                        this.memberIdentifiers[memberIndex] = TypeSystemIdentifiers.GetCtorSignatureIdentifier();
                     else
                         this.memberIdentifiers[memberIndex] = CliMemberExtensions.GetCtorIdentifier(ctor, (IType)this.parent, this.parent.IdentityManager);
                     break;

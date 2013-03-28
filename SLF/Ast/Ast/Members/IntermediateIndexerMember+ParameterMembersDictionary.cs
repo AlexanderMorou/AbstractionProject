@@ -29,7 +29,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             class,
             IIntermediatePropertyMethodMember
     {
-        protected partial class ParameterMembersDictionary :
+        internal protected partial class ParameterMembersDictionary :
             IntermediateParameterMemberDictionary<TIndexer, TIntermediateIndexer, IIndexerParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>>
         {
             /// <summary>

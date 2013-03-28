@@ -232,7 +232,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         void assemblyInformation_CultureChanged(object sender, EventArgsR1R2<ICultureIdentifier, ICultureIdentifier> e)
         {
             if (this.uniqueIdentifier == null)
-                this.OnIdentifierChanged(AstIdentifier.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, e.Arg1, this.PublicKey), DeclarationChangeCause.Signature);
+                this.OnIdentifierChanged(TypeSystemIdentifiers.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, e.Arg1, this.PublicKey), DeclarationChangeCause.Signature);
             else
             {
                 var uniqueIdBackup = this.uniqueIdentifier;
@@ -244,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         void assemblyInformation_AssemblyVersionChanged(object sender, EventArgsR1R2<IVersion, IVersion> e)
         {
             if (this.uniqueIdentifier == null)
-                this.OnIdentifierChanged(AstIdentifier.GetAssemblyIdentifier(this.Name, e.Arg1, this.AssemblyInformation.Culture, this.PublicKey), DeclarationChangeCause.Signature);
+                this.OnIdentifierChanged(TypeSystemIdentifiers.GetAssemblyIdentifier(this.Name, e.Arg1, this.AssemblyInformation.Culture, this.PublicKey), DeclarationChangeCause.Signature);
             else
             {
                 var uniqueIdBackup = this.uniqueIdentifier;
@@ -1198,7 +1198,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.IsRoot)
                 {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
                     return this.uniqueIdentifier;
                 }
                 else

@@ -637,7 +637,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var topScopeGenericType = (IIntermediateGenericType)containingType;
                     if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
-                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, true)];
+                        return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(symbolReference, true)];
                 }
                 if (containingType.Parent is IIntermediateType)
                     containingType = (IIntermediateType)containingType.Parent;
@@ -654,7 +654,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
                             if (topScopeGenericMember.TypeParameters.ContainsName(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, false)];
+                                return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(symbolReference, false)];
                         }
                         if (containingMember.Parent == null)
                             break;
@@ -698,7 +698,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var topScopeGenericMember = (IIntermediateGenericParameterParent)containingMember;
                     if (topScopeGenericMember.TypeParameters.ContainsName(symbolReference))
-                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, false)];
+                        return (IIntermediateGenericParameter)topScopeGenericMember.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(symbolReference, false)];
                 }
                 if (containingMember.Parent == null)
                     break;
@@ -720,7 +720,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             var topScopeGenericType = (IIntermediateGenericType)topScopeType;
                             if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
-                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(symbolReference, true)];
+                                return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(symbolReference, true)];
                         }
                         if (topScopeType.Parent is IIntermediateType)
                             topScopeType = (IIntermediateType)topScopeType.Parent;

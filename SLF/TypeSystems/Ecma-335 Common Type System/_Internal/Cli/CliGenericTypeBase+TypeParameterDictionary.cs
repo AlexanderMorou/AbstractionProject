@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             protected override IGenericParameterUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataGenericParameterTableRow metadata)
             {
-                return AstIdentifier.GetGenericParameterIdentifier(index, true);
+                return TypeSystemIdentifiers.GetGenericParameterIdentifier(index, true);
             }
         }
     }

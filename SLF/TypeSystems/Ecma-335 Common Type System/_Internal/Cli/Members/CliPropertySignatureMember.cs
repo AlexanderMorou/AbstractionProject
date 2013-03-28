@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return AstIdentifier.GetMemberIdentifier(this.Name); }
+            get { return TypeSystemIdentifiers.GetMemberIdentifier(this.Name); }
         }
 
         public IPropertySignatureMethodMember GetMethod

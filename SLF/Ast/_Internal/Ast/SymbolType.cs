@@ -495,7 +495,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 int typeParamCount;
                 lock (this.SyncObject)
                     typeParamCount = this.typeParameters == null ? 0 : this.typeParameters.Count;
-                this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(this.NamespaceName, this.Name, typeParamCount);
+                this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(this.NamespaceName, this.Name, typeParamCount);
             }
             return this.uniqueIdentifier;
         }

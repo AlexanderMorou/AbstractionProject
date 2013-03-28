@@ -119,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Modules
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
+                    this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

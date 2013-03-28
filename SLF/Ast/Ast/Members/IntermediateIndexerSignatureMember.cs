@@ -268,9 +268,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
                         if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }
@@ -370,5 +370,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             //Metadata inheritance rules don't apply to methods.
             return this.Metadata.Contains(metadatumType);
         }
+
+        internal bool IsGetMethodInitialized { get { return this.getMethod != null; } }
+        internal bool IsSetMethodInitialized { get { return this.setMethod != null; } }
+
     }
 }

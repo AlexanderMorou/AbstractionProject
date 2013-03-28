@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         partial class ParametersDictionary
         {
-            protected class ParameterMember :
+            protected internal class ParameterMember :
                 IntermediateParameterMemberBase<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>>,
                 IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
             {
@@ -57,5 +57,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 #endregion
             }
         }
+
     }
 }

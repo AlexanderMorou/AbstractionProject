@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
             public new CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent> Parent { get { return (CliMethodSignatureBase<TSignatureParameter, TSignature, TSignatureParent>)base.Parent; } }
 
-            protected override IGenericParameterUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataGenericParameterTableRow metadata) { return AstIdentifier.GetGenericParameterIdentifier(index, false); }
+            protected override IGenericParameterUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataGenericParameterTableRow metadata) { return TypeSystemIdentifiers.GetGenericParameterIdentifier(index, false); }
 
             protected override IMethodSignatureGenericTypeParameterMember CreateElementFrom(int index, ICliMetadataGenericParameterTableRow metadataEntry)
             {
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
             protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
             {
-                return AstIdentifier.GetGenericParameterIdentifier((int)this.Position, false);
+                return TypeSystemIdentifiers.GetGenericParameterIdentifier((int)this.Position, false);
             }
 
         }

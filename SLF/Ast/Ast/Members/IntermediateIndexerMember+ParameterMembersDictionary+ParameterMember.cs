@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         partial class ParameterMembersDictionary
         {
-            private class ParameterMember :
+            internal class ParameterMember :
                 IntermediateSignatureParameterMemberBase<IGeneralSignatureMemberUniqueIdentifier, TIndexer, TIntermediateIndexer, IIndexerParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>, TIndexerParent, TIntermediateIndexerParent>,
                 IIntermediateIndexerParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
             {
