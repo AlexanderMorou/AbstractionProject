@@ -230,8 +230,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType).Equals(other)
 #if TYPESYSTEM_CLI
- || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "Delegate", 0)).Equals(other)
-                || this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0)).Equals(other);
+ || this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "Delegate", 0)).Equals(other)
+                || this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "MulticastDelegate", 0)).Equals(other);
 #else
             ;
 #endif
@@ -242,7 +242,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
 #if TYPESYSTEM_CLI
-                return this.IdentityManager.ObtainTypeReference(AstIdentifier.GetTypeIdentifier("System", "MulticastDelegate", 0));
+                return this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "MulticastDelegate", 0));
 #else
                 throw new NotImplementedException();
 #endif
@@ -377,15 +377,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     else if (this.Parent is INamespaceDeclaration)
                     {
                         if (this.TypeParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
 
                     }
                     else if (this.TypeParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
                     else
-                        this.uniqueIdentifier = AstIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
                 }
             return this.uniqueIdentifier;
         }

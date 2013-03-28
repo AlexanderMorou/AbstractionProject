@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateSignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TParent, TIntermediateParent>,
             TParent
     {
-        protected abstract class ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter> :
+        protected internal abstract class ParameterDictionary<TAltParent, TIntermediateAltParent, TAltParameter, TIntermediateAltParameter, TWrapperParameter> :
             IntermediateParameterMemberDictionary<TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter>
             where TAltParent :
                 IParameterParent<TAltParent, TAltParameter>

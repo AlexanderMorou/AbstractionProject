@@ -91,7 +91,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                     else
-                        this.uniqueIdentifier = AstIdentifier.GetMemberIdentifier(this.Name);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

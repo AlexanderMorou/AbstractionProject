@@ -141,7 +141,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
-            get { return AstIdentifier.GetMemberIdentifier(this.Name); }
+            get { return TypeSystemIdentifiers.GetMemberIdentifier(this.Name); }
         }
 
         #endregion

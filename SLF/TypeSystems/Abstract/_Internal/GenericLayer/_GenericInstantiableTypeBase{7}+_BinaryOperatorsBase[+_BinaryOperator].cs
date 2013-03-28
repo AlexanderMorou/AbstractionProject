@@ -159,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     get
                     {
-                        return AstIdentifier.GetBinaryOperatorIdentifier(this.Operator, this.ContainingSide, this.OtherSide);
+                        return TypeSystemIdentifiers.GetBinaryOperatorIdentifier(this.Operator, this.ContainingSide, this.OtherSide);
                     }
                 }
             }

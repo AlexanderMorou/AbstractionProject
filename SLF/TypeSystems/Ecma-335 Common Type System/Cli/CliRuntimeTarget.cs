@@ -113,7 +113,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (UseCoreLibrary)
                 return CoreLibraryIdentifier.GetTypeIdentifier("System", typeName, 0);
             else
-                return AstIdentifier.GetTypeIdentifier("System", typeName, 0);                
+                return TypeSystemIdentifiers.GetTypeIdentifier("System", typeName, 0);                
         }
 
         public IEnumerable<IType> GetCoreTypeInterfaces(RuntimeCoreType coreType)

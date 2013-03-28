@@ -177,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.GetDeclarationIdentifier(this.Name);
+                    this.uniqueIdentifier = TypeSystemIdentifiers.GetDeclarationIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

@@ -103,21 +103,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// as it exists in the <see cref="IIntermediateParameterMemberDictionary{TParent, TIntermediateParent, TParameter, TIntermediateParameter}"/>.</returns>
         public TIntermediateParameter Add(string name, IType parameterType, ParameterCoercionDirection direction)
         {
+            LockCheckAndThrow();
+            return AddInternal(name, parameterType, direction);
+        }
+
+        private void LockCheckAndThrow()
+        {
             if (this.Locked)
                 throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-            return AddInternal(name, parameterType, direction);
         }
 
         private TIntermediateParameter AddInternal(string name, IType parameterType, ParameterCoercionDirection direction)
         {
             TIntermediateParameter item = this.GetNewParameter(name, parameterType, direction);
-
             this._Add(item.UniqueIdentifier, item);
             return item;
         }
 
         public TIntermediateParameter Add(TypedName parameterInfo)
         {
+            LockCheckAndThrow();
             var paramKind = IntermediateGateway.AdjustParameterType(parameterInfo, this.Parent);
             return this.Add(parameterInfo.Name, paramKind, parameterInfo.Direction);
         }
@@ -132,8 +137,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public TIntermediateParameter[] AddRange(params TypedName[] parameterInfo)
         {
-            if (this.Locked)
-                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+            LockCheckAndThrow();
             if (parameterInfo == null)
                 throw new ArgumentNullException("parameterInfo");
             TIntermediateParameter[] result = new TIntermediateParameter[parameterInfo.Length];

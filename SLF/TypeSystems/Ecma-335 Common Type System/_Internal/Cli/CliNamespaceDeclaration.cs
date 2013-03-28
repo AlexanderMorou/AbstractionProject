@@ -193,7 +193,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get { return AstIdentifier.GetDeclarationIdentifier(this.FullName); }
+            get { return TypeSystemIdentifiers.GetDeclarationIdentifier(this.FullName); }
         }
 
         //#endregion

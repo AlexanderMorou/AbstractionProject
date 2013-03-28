@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (string.IsNullOrEmpty(genericParameterData.Name))
                 throw new ArgumentException("genericParameterData");
             int index = this.Count;
-            var defaultParamId = AstIdentifier.GetGenericParameterIdentifier(index, this.Parent is IType);
+            var defaultParamId = TypeSystemIdentifiers.GetGenericParameterIdentifier(index, this.Parent is IType);
             var result = this.GetNew(genericParameterData.Name);
             if (this.ContainsKey(defaultParamId))
                 throw new ArgumentException("genericParameterData");
@@ -241,7 +241,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 var currentParameterData = genericParameterData[i];
                 var current = this.GetNew(currentParameterData.Name);
-                var currentUniqueId = AstIdentifier.GetGenericParameterIdentifier(i + this.Count, currentParameterData.Name, Parent is IType);
+                var currentUniqueId = TypeSystemIdentifiers.GetGenericParameterIdentifier(i + this.Count, currentParameterData.Name, Parent is IType);
                 if (this.ContainsKey(currentUniqueId) ||
                     currentKeys.Contains(currentUniqueId))
                     throw new ArgumentException("genericParameterData");

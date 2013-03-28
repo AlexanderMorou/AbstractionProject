@@ -61,7 +61,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
 
                         topLevel = topLevel[currentHash];
-                        topNamespaceDict = topNamespaceDict[AstIdentifier.GetDeclarationIdentifier(pathBuilder.ToString())].Namespaces;
+                        topNamespaceDict = topNamespaceDict[TypeSystemIdentifiers.GetDeclarationIdentifier(pathBuilder.ToString())].Namespaces;
                     }
                     else
                         return null;
@@ -76,7 +76,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (topLevel.ContainsKey(currentHash))
                     {
                         topLevel = topLevel[currentHash];
-                        return topNamespaceDict[AstIdentifier.GetDeclarationIdentifier(pathBuilder.ToString())];
+                        return topNamespaceDict[TypeSystemIdentifiers.GetDeclarationIdentifier(pathBuilder.ToString())];
                     }
                     else
                         return null;
@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             string fullSpace = namespaceInfo.StringsSection[namespaceInfo.Value];
             if (namespaceInfo.SubspaceLength != 0)
                 fullSpace = fullSpace.Substring(0, namespaceInfo.SubspaceStart + namespaceInfo.SubspaceLength);
-            return AstIdentifier.GetDeclarationIdentifier(fullSpace);
+            return TypeSystemIdentifiers.GetDeclarationIdentifier(fullSpace);
         }
     }
 }

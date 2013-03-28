@@ -388,9 +388,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (this.uniqueIdentifier == null)
                     if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                     else
-                        this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Name);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Name);
                 return this.uniqueIdentifier;
             }
         }

@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             protected override IGenericParameterUniqueIdentifier OnGetUniqueIdentifier()
             {
-                return AstIdentifier.GetGenericParameterIdentifier(this.Position, true);
+                return TypeSystemIdentifiers.GetGenericParameterIdentifier(this.Position, true);
             }
 
             IGenericType IGenericTypeParameter.Parent { get { return this.Parent; } }

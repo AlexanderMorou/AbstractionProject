@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get
             {
                 if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = AstIdentifier.GetSignatureIdentifier(this.Original.Name, this.Parameters.ParameterTypes.ToArray());
+                    this.uniqueIdentifier = TypeSystemIdentifiers.GetSignatureIdentifier(this.Original.Name, this.Parameters.ParameterTypes.ToArray());
                 return this.uniqueIdentifier;
             }
         }

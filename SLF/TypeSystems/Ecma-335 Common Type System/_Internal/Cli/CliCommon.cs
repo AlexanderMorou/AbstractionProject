@@ -42,10 +42,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal const string ConstructorName = ".ctor";
         internal const string ConstructorStaticName = ".cctor";
 
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = AstIdentifier.GetAssemblyIdentifier("mscorlib", AstIdentifier.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
 
         internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
         {
@@ -65,12 +65,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (typeDefinition.NamespaceIndex == 0)
                     return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, uniqueTCount);
                 else
-                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, uniqueTCount, AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace));
+                    return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, uniqueTCount, TypeSystemIdentifiers.GetDeclarationIdentifier(typeDefinition.Namespace));
             else
                 if (typeDefinition.NamespaceIndex == 0)
                     return aId.GetTypeIdentifier((string) null, typeDefinition.Name, uniqueTCount);
                 else
-                    return aId.GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(typeDefinition.Namespace), typeDefinition.Name, uniqueTCount);
+                    return aId.GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(typeDefinition.Namespace), typeDefinition.Name, uniqueTCount);
         }
 
         public static IGeneralTypeUniqueIdentifier ObtainTypeIdentifier(ICliMetadataTypeRefTableRow typeReference)
@@ -225,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 culture = ValidCultureIdentifiers.TranscodeToCultureIdentifier(culture);
                 cultureId = CultureIdentifiers.GetIdentifierByName(culture);
             }
-            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(firstAssemblyRow.Name, firstAssemblyRow.Version.ToVersion(), cultureId, publicKeyInfo == null ? null : publicKeyInfo.PublicToken.Token);
+            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = TypeSystemIdentifiers.GetAssemblyIdentifier(firstAssemblyRow.Name, firstAssemblyRow.Version.ToVersion(), cultureId, publicKeyInfo == null ? null : publicKeyInfo.PublicToken.Token);
             return Tuple.Create(publicKeyInfo, assemblyUniqueIdentifier, firstAssemblyRow);
         }
 
@@ -249,7 +249,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             byte[] publicKeyToken = null;
             if (publicKeyInfo == null && entry.PublicKeyOrTokenIndex != 0)
                 publicKeyToken = entry.PublicKeyOrToken;
-            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = AstIdentifier.GetAssemblyIdentifier(entry.Name, entry.Version.ToVersion(), cultureId, publicKeyInfo == null ? publicKeyToken : publicKeyInfo.PublicToken.Token);
+            IAssemblyUniqueIdentifier assemblyUniqueIdentifier = TypeSystemIdentifiers.GetAssemblyIdentifier(entry.Name, entry.Version.ToVersion(), cultureId, publicKeyInfo == null ? publicKeyToken : publicKeyInfo.PublicToken.Token);
             return new Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier>(publicKeyInfo, assemblyUniqueIdentifier);
         }
 
@@ -664,7 +664,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (declaringTypeMetadata == null && typeMetadata.NamespaceIndex != 0)
                     @namespace = assembly.GetNamespace(typeMetadata.Namespace).UniqueIdentifier;
                 else if (typeMetadata.NamespaceIndex != 0)
-                    @namespace = AstIdentifier.GetDeclarationIdentifier(typeMetadata.Namespace);
+                    @namespace = TypeSystemIdentifiers.GetDeclarationIdentifier(typeMetadata.Namespace);
                 if (typeMetadata.MetadataRoot.TableStream.GenericParameterTable == null)
                     return assembly.UniqueIdentifier.GetTypeIdentifier(@namespace, typeMetadata.Name, 0);
                 else if (declaringTypeMetadata != null)
@@ -740,7 +740,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             int lastIndex = 0;
             IModule module;
-            if (!moduleDictionary.TryGetValue(AstIdentifier.GetDeclarationIdentifier(moduleName), out module))
+            if (!moduleDictionary.TryGetValue(TypeSystemIdentifiers.GetDeclarationIdentifier(moduleName), out module))
                 return null;
             ICliModule cliModule = module as ICliModule;
             if (cliModule == null)

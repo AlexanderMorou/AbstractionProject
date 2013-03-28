@@ -71,7 +71,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 {
                     get
                     {
-                        return AstIdentifier.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes);
+                        return TypeSystemIdentifiers.GetSignatureIdentifier(this.Name, this.Parameters.ParameterTypes);
                     }
                 }
             }

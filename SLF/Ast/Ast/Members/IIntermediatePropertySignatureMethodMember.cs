@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -20,6 +21,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         IIntermediateMethodSignatureMember,
         IPropertySignatureMethodMember
     {
+        /// <summary>
+        /// Returns the dictionary of <see cref="IParameterMember"/> instances for the current <see cref="IIntermediatePropertySignatureMethodMember"/>
+        /// implementation.
+        /// </summary>
+        new IParameterMemberDictionary Parameters { get; }
+
+        /// <summary>
+        /// Returns the <see cref="IType"/> that the <see cref="IIntermediatePropertySignatureMethodMember"/>
+        /// yields upon return.
+        /// </summary>
+        new IType ReturnType { get; }
     }
 
     public interface IIntermediatePropertySignatureSetMethodMember :

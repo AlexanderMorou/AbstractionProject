@@ -259,7 +259,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.GetBinaryOperatorIdentifier(this.Operator, this.ContainingSide, this.OtherSide);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetBinaryOperatorIdentifier(this.Operator, this.ContainingSide, this.OtherSide);
                     return this.uniqueIdentifier;
                 }
             }
@@ -445,7 +445,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.GetTypeOperatorIdentifier(this.Requirement, this.Direction, this.CoercionType);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeOperatorIdentifier(this.Requirement, this.Direction, this.CoercionType);
                     return this.uniqueIdentifier;
                 }
             }
@@ -568,7 +568,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get {
                     if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = AstIdentifier.GetUnaryOperatorIdentifier(this.Operator);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetUnaryOperatorIdentifier(this.Operator);
                     return this.uniqueIdentifier;
                 }
             }

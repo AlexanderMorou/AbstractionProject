@@ -173,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                             break;
                         case CliMetadataResolutionScopeTag.ModuleReference:
                             var moduleRef = (ICliMetadataModuleReferenceTableRow)typeRef.Source;
-                            if (!hostAssembly.Modules.ContainsKey(AstIdentifier.GetDeclarationIdentifier(moduleRef.Name)))
+                            if (!hostAssembly.Modules.ContainsKey(TypeSystemIdentifiers.GetDeclarationIdentifier(moduleRef.Name)))
                                 /* *
                                  * When resolution scope is a moduleref token, the target type (fullName)
                                  * is defined in another module within the same assembly.

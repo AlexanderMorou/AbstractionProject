@@ -5,6 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -75,6 +76,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
             }
 
+            internal new bool _AreParametersInitialized{get{return base.AreParametersInitialized;}}
+
             internal MethodMember(TIntermediateGenericParameter parent)
                 : base(parent, parent.IdentityManager)
             {
@@ -105,6 +108,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
             }
 
+            protected override void OnParameterAdded(EventArgsR1<IIntermediateIndexerSignatureParameterMember<IGenericParameterIndexerMember<TGenericParameter>, IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>> e)
+            {
+                if (this.CanRead && base.IsGetMethodInitialized)
+                {
+                    var gm = (IndexerMethodMember)this.GetMethod;
+                    if (gm._AreParametersInitialized)
+                    {
+                        var gmParams = gm.Parameters;
+                        gmParams._Add(e.Arg1.UniqueIdentifier, new IndexerDependentParameter((ParametersDictionary.ParameterMember)e.Arg1, gm));
+                    }
+                }
+                if (this.CanWrite && this.IsSetMethodInitialized)
+                {
+                    var sm = (IndexerSetMethodMember)this.SetMethod;
+                    if (sm._AreParametersInitialized)
+                    {
+                        var smParams = sm.Parameters;
+                        var valueParam = (IndexerValueParameter)((IIntermediatePropertySetMethodMember)sm).ValueParameter;
+                        smParams._Remove(valueParam.UniqueIdentifier);
+                        smParams._Add(e.Arg1.UniqueIdentifier, new IndexerDependentParameter((ParametersDictionary.ParameterMember)e.Arg1, sm));
+                        smParams._Add(valueParam.UniqueIdentifier, valueParam);
+                    }
+                }
+                base.OnParameterAdded(e);
+            }
+
             protected override IndexerMember.IndexerMethodMember GetMethodSignatureMember(PropertyMethodType methodType)
             {
                 switch (methodType)
@@ -113,79 +142,263 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         return new IndexerSetMethodMember(this);
                     case PropertyMethodType.GetMethod:
                     default:
-                        return new IndexerMethodMember(this, PropertyMethodType.GetMethod);
+                        return new IndexerMethodMember(PropertyMethodType.GetMethod, this);
                 }
             }
 
-            public class IndexerSetMethodMember :
-                IndexerMethodMember
+
+            private class IndexerValueParameter :
+                IndexerMethodMember.ParameterMember
             {
-                private IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter> valueParameter;
-                internal IndexerSetMethodMember(IndexerMember owner)
-                    : base(owner, PropertyMethodType.SetMethod)
+                private IndexerMember owner;
+                internal IndexerValueParameter(IndexerMember owner, IndexerSetMethodMember parent)
+                    : base(parent, parent.IdentityManager)
                 {
+                    this.owner = owner;
                 }
+
+                protected override string OnGetName()
+                {
+                    return "value";
+                }
+
+                protected override void OnSetName(string name)
+                {
+                    throw new InvalidOperationException("Cannot set the name of the value parameter of the set method of an indexer.");
+                }
+
+                public override IType ParameterType
+                {
+                    get
+                    {
+                        return this.owner.PropertyType;
+                    }
+                    set
+                    {
+                        throw new InvalidOperationException("Cannot set the parameter type of the value parameter of the set method of an indexer, set the indexer's property type.");
+                    }
+                }
+
+                public override ParameterCoercionDirection Direction
+                {
+                    get
+                    {
+                        return ParameterCoercionDirection.In;
+                    }
+                    set
+                    {
+                        throw new InvalidOperationException("Cannot change the direction of the value parameter of the set method of an indexer.");
+                    }
+                }
+            }
+
+            private class IndexerDependentParameter :
+                IndexerMethodMember.ParameterMember
+            {
+                private ParametersDictionary.ParameterMember original;
+                internal IndexerDependentParameter(ParametersDictionary.ParameterMember original, IndexerMethodMember parent)
+                    : base(parent, parent.IdentityManager)
+                {
+                    this.original = original;
+                    this.original.IdentifierChanged += original_IdentifierChanged;
+                }
+
+                void original_IdentifierChanged(object sender, DeclarationIdentifierChangeEventArgs<IGeneralMemberUniqueIdentifier> e)
+                {
+                    this.OnIdentifierChanged(e.OldIdentifier, e.Cause);
+                }
+
+                public override IType ParameterType
+                {
+                    get
+                    {
+                        return this.original.ParameterType;
+                    }
+                    set
+                    {
+                        throw new InvalidOperationException("Cannot set the type of a parameter of a method of an indexer, set the indexer's parameter type.");
+                    }
+                }
+                protected override string OnGetName()
+                {
+                    return this.original.Name;
+                }
+                protected override void OnSetName(string name)
+                {
+                    throw new InvalidOperationException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name.");
+                }
+                public override ParameterCoercionDirection Direction
+                {
+                    get
+                    {
+                        return this.original.Direction;
+                    }
+                    set
+                    {
+                        throw new InvalidOperationException("Cannot set the direction of a parameter of a method of an indexer, set the indexer's parameter direction.");
+                    }
+                }
+
+                protected override MetadataDefinitionCollection InitializeCustomAttributes()
+                {
+                    return new MetadataDefinitionCollection(this.original, this.identityManager);
+                }
+
+                public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+                {
+                    get
+                    {
+
+                        return this.original.UniqueIdentifier;
+                    }
+                }
+
+                protected override void Dispose(bool disposing)
+                {
+                    this.original.Dispose();
+                    base.Dispose(disposing);
+                }
+            }
+
+
+            public class IndexerSetMethodMember :
+                IndexerMethodMember,
+                IIntermediatePropertySignatureSetMethodMember
+            {
+                private IndexerValueParameter valueParameter;
+
+                public IndexerSetMethodMember(IndexerMember owner)
+                    : base(PropertyMethodType.SetMethod, owner)
+                {
+
+                }
+
                 protected override IntermediateParameterMemberDictionary<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>> InitializeParameters()
                 {
                     var result = base.InitializeParameters();
-                    this.valueParameter = result._Add(new TypedName("value", this.Owner.PropertyType));
+                    this.valueParameter = new IndexerValueParameter(this.Owner, this);
+                    result._Add(this.valueParameter.UniqueIdentifier, this.valueParameter);
                     return result;
                 }
 
+                #region IIntermediatePropertySetMethodMember Members
+
+                public IIntermediateSignatureParameterMember ValueParameter
+                {
+                    get
+                    {
+                        if (this.valueParameter == null)
+                            return this.Parameters["value"];
+                        return valueParameter;
+                    }
+                }
+
+                #endregion
+
+                #region IIntermediatePropertySignatureSetMethodMember Members
+
+                IIntermediateSignatureParameterMember IIntermediatePropertySignatureSetMethodMember.ValueParameter
+                {
+                    get { return this.ValueParameter; }
+                }
+
+                #endregion
             }
 
             public class IndexerMethodMember :
-                MethodMember, 
+                MethodMember,
                 IIntermediatePropertySignatureMethodMember
             {
                 private PropertyMethodType methodType;
-                internal IndexerMethodMember(IndexerMember owner, PropertyMethodType methodType)
-                    : base(owner.Parent)
+                private IndexerMember owner;
+                public IndexerMethodMember(PropertyMethodType methodType, IndexerMember owner)
+                    : base(owner == null ? null : owner.Parent)
                 {
-                    this.Owner = owner;
-                    this.methodType = MethodType;
+                    if (owner == null)
+                        throw new ArgumentNullException("parent");
+                    this.owner = owner;
+                    this.methodType = methodType;
                 }
+
+                protected override IntermediateParameterMemberDictionary<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>> InitializeParameters()
+                {
+                    var result = base.InitializeParameters();
+                    if (this.Owner.AreParametersInitialized)
+                        foreach (var param in this.Owner.Parameters.Values)
+                            result._Add(param.UniqueIdentifier, new IndexerDependentParameter((IndexerMember.ParametersDictionary.ParameterMember)param, this));
+                    result.Lock();
+                    return result;
+                }
+
+                public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
+                {
+                    get
+                    {
+                        return base.UniqueIdentifier;
+                    }
+                }
+
+                protected override bool AreParametersInitialized
+                {
+                    get
+                    {
+                        return true;
+                    }
+                }
+
+                protected IndexerMember Owner
+                {
+                    get
+                    {
+                        return this.owner;
+                    }
+                }
+
+                protected override string OnGetName()
+                {
+                    switch (this.methodType)
+                    {
+                        case PropertyMethodType.GetMethod:
+                            return string.Format("get_{0}", this.owner.Name);
+                        case PropertyMethodType.SetMethod:
+                            return string.Format("set_{0}", this.owner.Name);
+                        default:
+                            throw new InvalidOperationException();
+                    }
+                }
+
+                protected override IType OnGetReturnType()
+                {
+                    switch (this.MethodType)
+                    {
+                        case PropertyMethodType.GetMethod:
+                            return this.Owner.PropertyType;
+                        case PropertyMethodType.SetMethod:
+                            return this.IdentityManager.ObtainTypeReference(RuntimeCoreType.VoidType);
+                        default:
+                            return base.OnGetReturnType();
+                    }
+                }
+
+                IParameterMemberDictionary IIntermediatePropertySignatureMethodMember.Parameters
+                {
+                    get { return (IParameterMemberDictionary)this.Parameters; }
+                }
+
+                #region IPropertySignatureMethodMember Members
+                /// <summary>
+                /// Returns the <see cref="PropertyMethodType"/> which 
+                /// denotes which method of the property the <see cref="IndexerMethodMember"/> is.
+                /// </summary>
                 public PropertyMethodType MethodType
                 {
                     get { return this.methodType; }
                 }
 
-                protected override IntermediateParameterMemberDictionary<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>> InitializeParameters()
-                {
-                    var result = base.InitializeParameters();
-                    result.Lock();
-                    return result;
-                }
+                #endregion
 
-                protected override IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, TGenericParameter>, IIntermediateMethodSignatureParameterMember<IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>, IGenericParameterMethodMember<TGenericParameter>, IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter>.TypeParameterDictionary InitializeTypeParameters()
-                {
-                    var result = base.InitializeTypeParameters();
-                    result.Lock();
-                    return result;
-                }
-
-                protected override string OnGetName()
-                {
-                    switch (this.MethodType)
-                    {
-                        case PropertyMethodType.SetMethod:
-                            return string.Format("set_{0}", this.Owner.Name);
-                        default:
-                        case PropertyMethodType.GetMethod:
-                            return string.Format("get_{0}", this.Owner.Name);
-                    }
-                }
-
-                protected override sealed void OnSetName(string name)
-                {
-                    throw new NotSupportedException(string.Format("Cannot set the name of the {0} method of a property.", MethodType == PropertyMethodType.SetMethod ? "set" : "get"));
-                }
-
-                protected IndexerMember Owner { get; private set; }
             }
-
         }
-
         public class PropertyMember :
             IntermediatePropertySignatureMember<IGenericParameterPropertyMember<TGenericParameter>, IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter, PropertyMember.PropertyMethodMember>,
             IIntermediateGenericParameterPropertyMember<TGenericParameter, TIntermediateGenericParameter>
@@ -285,6 +498,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     return result;
                 }
 
+                protected override void OnSetReturnType(IType value)
+                {
+                    throw new NotSupportedException(string.Format("Cannot set the return-type of the {0} method of a property.", MethodType == PropertyMethodType.SetMethod ? "set" : "get"));
+                }
+
                 protected override string OnGetName()
                 {
                     switch (this.MethodType)
@@ -316,6 +534,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 }
 
                 protected PropertyMember Owner { get; private set; }
+
+                IParameterMemberDictionary IIntermediatePropertySignatureMethodMember.Parameters
+                {
+                    get { return (IParameterMemberDictionary)this.Parameters; }
+                }
             }
         }
 

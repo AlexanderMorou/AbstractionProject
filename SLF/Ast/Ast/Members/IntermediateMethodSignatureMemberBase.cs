@@ -47,6 +47,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             TParent
     {
         private ITypeIdentityManager identityManager;
+
+        internal bool _AreParametersInitialized { get { return base.AreParametersInitialized; } }
+
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -456,7 +459,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return this.typeParameters != null;
             }
         }
-
+        
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
             get {
@@ -467,16 +470,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     else
                         if (this.AreTypeParametersInitialized)
                             if (this.AreParametersInitialized)
-                                this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
+                                this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
                             else
-                                this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count);
+                                this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count);
                         else if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = AstIdentifier.GetGenericSignatureIdentifier(this.Name);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name);
                 }
                 return this.uniqueIdentifier;
             }
+        }
+
+        internal void _OnIdentifierChanged(IGeneralGenericSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        {
+            this.OnIdentifierChanged(oldIdentifier, cause);
         }
 
         protected override void OnIdentifierChanged(IGeneralGenericSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)

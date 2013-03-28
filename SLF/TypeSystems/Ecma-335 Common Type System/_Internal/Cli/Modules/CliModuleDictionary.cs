@@ -81,7 +81,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
 
         protected override IGeneralDeclarationUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataModuleTableRow metadata)
         {
-            return AstIdentifier.GetDeclarationIdentifier(metadata.Name);
+            return TypeSystemIdentifiers.GetDeclarationIdentifier(metadata.Name);
         }
     }
 }

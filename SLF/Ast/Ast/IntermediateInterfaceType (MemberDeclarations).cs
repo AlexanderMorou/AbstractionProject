@@ -8,6 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Properties;
+using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
  | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
@@ -119,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name);
+                        return TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name);
                     }
                 }
 
@@ -146,6 +147,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     {
                         base.Dispose(disposing);
                     }
+                }
+
+                IParameterMemberDictionary IIntermediatePropertySignatureMethodMember.Parameters
+                {
+                    get { return (IParameterMemberDictionary)this.Parameters; }
                 }
             }
 
@@ -223,7 +229,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var result = base.InitializeParameters();
                     result.Unlock();
-                    result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
+                    result._Add(TypeSystemIdentifiers.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                     result.Lock();
                     return result;
                 }
@@ -232,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Owner.PropertyType);
+                        return TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.Owner.PropertyType);
                     }
                 }
 
@@ -284,6 +290,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 
             }
 
+            protected override void OnParameterAdded(EventArgsR1<IIntermediateIndexerSignatureParameterMember<IInterfaceIndexerMember, IIntermediateInterfaceIndexerMember, IInterfaceType, IIntermediateInterfaceType>> e)
+            {
+                if (this.CanRead && this.IsGetMethodInitialized)
+                {
+                    var gm = (IndexerMethod)this.GetMethod;
+                    if (gm._AreParametersInitialized)
+                    {
+                        var gmParams = gm.Parameters;
+                        gmParams._Add(e.Arg1.UniqueIdentifier, new IndexerMethod.IndexerDependentParameter((IndexerMethod.ParameterMember)e.Arg1, gm));
+                    }
+                }
+                if (this.CanWrite && this.IsSetMethodInitialized)
+                {
+                    var sm = (IndexerSetMethod)this.SetMethod;
+                    if (sm._AreParametersInitialized)
+                    {
+                        var smParams = sm.Parameters;
+                        var valueParam = (IndexerSetMethod._ValueParameter)((IIntermediatePropertySignatureSetMethodMember)sm).ValueParameter;
+                        smParams._Remove(valueParam.UniqueIdentifier);
+                        smParams._Add(e.Arg1.UniqueIdentifier, new IndexerMethod.IndexerDependentParameter((IndexerMethod.ParameterMember)e.Arg1, sm));
+                        smParams._Add(valueParam.UniqueIdentifier, valueParam);
+                    }
+                }
+                base.OnParameterAdded(e);
+            }
+
             internal class IndexerMethod :
                 MethodMember,
                 IIntermediatePropertySignatureMethodMember
@@ -292,6 +324,74 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     : base(owner.Parent)
                 {
                     this.Owner = owner;
+                }
+
+                protected override bool AreParametersInitialized
+                {
+                    get
+                    {
+                        return true;
+                    }
+                }
+
+                internal class IndexerDependentParameter :
+                    ParameterMember
+                {
+                    private ParameterMember original;
+                    internal IndexerDependentParameter(ParameterMember original, MethodMember parent)
+                        : base(parent, parent.IdentityManager)
+                    {
+                        this.original = original;
+                    }
+                    public override IType ParameterType
+                    {
+                        get
+                        {
+                            return this.original.ParameterType;
+                        }
+                        set
+                        {
+                            throw new InvalidOperationException("Cannot set the type of a parameter of a method of an indexer, set the indexer's parameter type.");
+                        }
+                    }
+                    protected override string OnGetName()
+                    {
+                        return this.original.Name;
+                    }
+                    protected override void OnSetName(string name)
+                    {
+                        throw new InvalidOperationException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name.");
+                    }
+                    public override ParameterCoercionDirection Direction
+                    {
+                        get
+                        {
+                            return this.original.Direction;
+                        }
+                        set
+                        {
+                            throw new InvalidOperationException("Cannot set the direction of a parameter of a method of an indexer, set the indexer's parameter direction.");
+                        }
+                    }
+
+                    protected override MetadataDefinitionCollection InitializeCustomAttributes()
+                    {
+                        return new MetadataDefinitionCollection(this.original, this.identityManager);
+                    }
+
+                    public override IGeneralMemberUniqueIdentifier UniqueIdentifier
+                    {
+                        get
+                        {
+                            return this.original.UniqueIdentifier;
+                        }
+                    }
+
+                    protected override void Dispose(bool disposing)
+                    {
+                        this.original.Dispose();
+                        base.Dispose(disposing);
+                    }
                 }
 
                 protected new IndexerMember Owner { get; private set; }
@@ -342,7 +442,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name);
+                        return TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name);
                     }
                 }
 
@@ -356,6 +456,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     {
                         base.Dispose(disposing);
                     }
+                }
+
+                IParameterMemberDictionary IIntermediatePropertySignatureMethodMember.Parameters
+                {
+                    get { return (IParameterMemberDictionary)this.Parameters; }
                 }
             }
 
@@ -371,7 +476,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
                 }
 
-                private class _ValueParameter :
+                internal class _ValueParameter :
                     ParameterMember
                 {
 
@@ -433,7 +538,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     var result = base.InitializeParameters();
                     result.Unlock();
-                    result._Add(AstIdentifier.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
+                    result._Add(TypeSystemIdentifiers.GetMemberIdentifier("value"), this.valueParameter = new _ValueParameter(this));
                     result.Lock();
                     return result;
                 }
@@ -442,7 +547,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     get
                     {
-                        return AstIdentifier.GetGenericSignatureIdentifier(this.Name, this.Owner.PropertyType);
+                        return TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.Owner.PropertyType);
                     }
                 }
 

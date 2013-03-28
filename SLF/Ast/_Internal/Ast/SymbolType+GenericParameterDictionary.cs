@@ -41,7 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 {
                     this.tParamNames = new IGenericParameterUniqueIdentifier[tParamNames.Length];
                     for (int i = 0; i < tParamNames.Length; i++)
-                        this.tParamNames[i] = AstIdentifier.GetGenericParameterIdentifier(i, true);
+                        this.tParamNames[i] = TypeSystemIdentifiers.GetGenericParameterIdentifier(i, true);
                     this.elements = new GenericParameterMember[tParamNames.Length];
                 }
             }

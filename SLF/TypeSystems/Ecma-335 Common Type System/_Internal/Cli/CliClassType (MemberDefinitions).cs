@@ -255,7 +255,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IClassFieldMember
         {
             public FieldMember(IClassType parent, ICliMetadataFieldTableRow metadataEntry)
-                : base(parent, metadataEntry, AstIdentifier.GetMemberIdentifier(metadataEntry.Name))
+                : base(parent, metadataEntry, TypeSystemIdentifiers.GetMemberIdentifier(metadataEntry.Name))
             {
             }
 

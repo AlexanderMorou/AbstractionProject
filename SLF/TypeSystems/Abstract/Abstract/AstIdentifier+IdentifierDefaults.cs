@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    partial class AstIdentifier
+    partial class TypeSystemIdentifiers
     {
         private class DefaultGeneralDeclarationUniqueIdentifier :
             IGeneralDeclarationUniqueIdentifier
@@ -1429,7 +1429,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 if (string.IsNullOrEmpty(@namespace))
                     return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name);
                 else
-                    return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name);
+                    return GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(@namespace), name);
             }
 
             public IGeneralGenericTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name, int typeParameters)
@@ -1442,7 +1442,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 if (string.IsNullOrEmpty(@namespace))
                     return GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier) null, name, typeParameters);
                 else
-                    return GetTypeIdentifier(AstIdentifier.GetDeclarationIdentifier(@namespace), name, typeParameters);
+                    return GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(@namespace), name, typeParameters);
             }
 
             #endregion

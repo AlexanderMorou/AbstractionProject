@@ -105,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         protected override IGeneralMemberUniqueIdentifier GetIdentifierFrom(int index, ICliMetadataParameterTableRow metadata)
         {
-            return AstIdentifier.GetMemberIdentifier(metadata.Name);
+            return TypeSystemIdentifiers.GetMemberIdentifier(metadata.Name);
         }
     }
 }

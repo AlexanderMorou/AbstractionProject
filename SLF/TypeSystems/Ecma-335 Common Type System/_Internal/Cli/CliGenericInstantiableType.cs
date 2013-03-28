@@ -112,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { 
                 TCtor staticCtor ;
-                if (!this.Constructors.TryGetValue(AstIdentifier.GetCtorSignatureIdentifier(), out staticCtor))
+                if (!this.Constructors.TryGetValue(TypeSystemIdentifiers.GetCtorSignatureIdentifier(), out staticCtor))
                     return null;
                 return staticCtor;
             }
