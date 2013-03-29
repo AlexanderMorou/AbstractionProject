@@ -80,5 +80,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq
                 return this.uniqueIdentifier;
             }
         }
+
+        protected override void ClearIdentifier()
+        {
+            lock (base.SyncObject) 
+                this.uniqueIdentifier = null;
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         private string name;
         private int isDisposed = 0;
+        private object syncObject = new object();
 
         #region IIntermediateDeclaration Members
 
@@ -183,6 +184,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <remarks>The new, current, identifier will be obtained in the default implementation.</remarks>
         protected virtual void OnIdentifierChanged(TIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
+            this.ClearIdentifier();
             var newIdentifier = this.UniqueIdentifier;
             var _identifierChanged = this._IdentifierChanged;
             if (_identifierChanged != null)
@@ -191,6 +193,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (identifierChanged != null)
                 identifierChanged(this, new DeclarationIdentifierChangeEventArgs<TIdentifier>(oldIdentifier, newIdentifier, cause));
         }
+
+        protected abstract void ClearIdentifier();
 
         #region IDeclaration Members
         private event EventHandler<DeclarationIdentifierChangeEventArgs<IGeneralDeclarationUniqueIdentifier>> _IdentifierChanged;
@@ -285,5 +289,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public bool IsDisposed { get { return this.isDisposed == 1; } }
 
+        protected object SyncObject { get { return this.syncObject; } }
     }
 }

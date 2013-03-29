@@ -471,14 +471,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
             if (base.Equals(other))
                 return true;
-
-            if (other == this.ElementType && other is IGenericType)
+            var otherGT = other as IGenericType;
+            if (other == this.ElementType && otherGT != null)
             {
-                var otherGeneric = (IGenericType)other;
-                if (otherGeneric.GenericParameters.Count == this.GenericParameters.Count)
-                    return otherGeneric.GenericParameters.SequenceEqual(this.GenericParameters);
+                if (otherGT.GenericParameters.Count == this.GenericParameters.Count)
+                    return otherGT.GenericParameters.SequenceEqual(this.GenericParameters);
             }
-            return true;
+            if (other.ElementClassification == TypeElementClassification.GenericTypeDefinition &&
+                other.ElementType == this.ElementType && otherGT != null)
+                return this.GenericParameters.SequenceEqual(otherGT.GenericParameters);
+            return false;
         }
 
     }

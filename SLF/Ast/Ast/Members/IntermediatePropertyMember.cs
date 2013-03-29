@@ -508,13 +508,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             visitor.Visit(this);
         }
 
-        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
-        {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
-        }
-
         public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
             get
@@ -588,6 +581,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public bool IsDefined(IType metadatumType)
         {
             return this.Metadata.Contains(metadatumType);
+        }
+
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                this.uniqueIdentifier = null;
         }
     }
 }

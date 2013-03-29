@@ -1433,9 +1433,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override void OnIdentifierChanged(IGeneralGenericTypeUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
-            lock (this.SyncObject)
-                if (this.uniqueIdentifier != null)
-                    this.uniqueIdentifier = null;
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
@@ -1472,5 +1469,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return base.GetTypes().Concat(this.binaryOperatorCoercions.GetTypes().Concat(this.events.GetTypes()).Concat(this.indexers.GetTypes()).Concat(this.methods.GetTypes()).Concat(this.properties.GetTypes()).Concat(this.typeCoercions.GetTypes()).Concat(this.unaryOperatorCoercions.GetTypes()));
         }
+
+        protected override sealed void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+        }
+
     }
 }

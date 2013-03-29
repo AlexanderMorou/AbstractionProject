@@ -40,7 +40,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             TType,
             IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>
     {
-        private bool naming = false;
         private bool typeInitializer;
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         /// <summary>
@@ -58,10 +57,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, ITypeIdentityManager identityManager, bool typeInitializer = false)
             : base(parent, identityManager)
         {
-            naming = true;
             this.typeInitializer = typeInitializer;
             this.AssignName(typeInitializer ? ".cctor" : ".ctor");
-            naming = false;
         }
 
         #region IIntermediateScopedDeclaration Members
@@ -83,33 +80,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.uniqueIdentifier == null)
-                    if (typeInitializer)
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier();
-                    else if (this.AreParametersInitialized)
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier(this.Parameters.ParameterTypes.ToArray());
-                    else
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier(new IType[0]);
-                return this.uniqueIdentifier;
+                lock (this.SyncObject)
+                {
+                    if (this.uniqueIdentifier == null)
+                        if (typeInitializer)
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier();
+                        else if (this.AreParametersInitialized)
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier(this.Parameters.ParameterTypes.ToArray());
+                        else
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetCtorSignatureIdentifier(new IType[0]);
+                    return this.uniqueIdentifier;
+                }
             }
         }
 
-        protected override void OnIdentifierChanged(IGeneralSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        protected override void ClearIdentifier()
         {
-            this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
         }
-        protected override void OnRenaming(DeclarationRenamingEventArgs e)
-        {
-            if (!naming && e != null)
-            {
-                //Disallow the name change.
-                e.Change = false;
-                return;
-            }
-            base.OnRenaming(e);
-        }
-
 
         public override void Visit(IIntermediateMemberVisitor visitor)
         {

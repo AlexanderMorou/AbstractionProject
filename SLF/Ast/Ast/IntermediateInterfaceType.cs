@@ -688,5 +688,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 this.properties.Resume();
 
         }
+
+        protected override void ClearIdentifier()
+        {
+            this.uniqueIdentifier = null;
+        }
     }
 }

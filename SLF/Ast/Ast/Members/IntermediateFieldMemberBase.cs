@@ -96,13 +96,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
-        {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
-        }
-
         protected override void Dispose(bool disposing)
         {
             try
@@ -115,6 +108,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 base.Dispose(disposing);
             }
+        }
+
+
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                this.uniqueIdentifier = null;
         }
     }
 }

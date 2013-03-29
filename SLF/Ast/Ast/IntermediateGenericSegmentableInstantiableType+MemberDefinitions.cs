@@ -278,6 +278,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 visitor.Visit(this);
             }
+
+            protected override void ClearIdentifier()
+            {
+                lock (this.SyncObject)
+                    if (this.uniqueIdentifier != null)
+                        this.uniqueIdentifier = null;
+            }
         }
 
         /// <summary>
@@ -434,12 +441,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 visitor.Visit(this);
             }
 
-            protected override void OnIdentifierChanged(ITypeCoercionUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+            protected override void ClearIdentifier()
             {
-                if (this.uniqueIdentifier != null)
-                    this.uniqueIdentifier = null;
-                base.OnIdentifierChanged(oldIdentifier, cause);
+                lock (this.SyncObject)
+                    if (this.uniqueIdentifier != null)
+                        this.uniqueIdentifier = null;
             }
+
 
             public override ITypeCoercionUniqueIdentifier UniqueIdentifier
             {
@@ -582,6 +590,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 visitor.Visit(this);
             }
+
+            protected override void ClearIdentifier()
+            {
+                lock (this.SyncObject)
+                    if (this.uniqueIdentifier != null)
+                        this.uniqueIdentifier = null;
+            }
+
         }
 
         public abstract class PropertyMember :

@@ -607,13 +607,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        protected override void OnIdentifierChanged(IGeneralSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
-        {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
-        }
-
         public IMetadataDefinitionCollection Metadata
         {
             get
@@ -678,5 +671,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected internal bool IsGetMethodInitialized { get { return this.getMethod != null; } }
         protected internal bool IsSetMethodInitialized { get { return this.setMethod != null; } }
+
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                this.uniqueIdentifier = null;
+        }
     }
 }

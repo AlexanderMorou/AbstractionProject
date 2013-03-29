@@ -23,9 +23,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IDelegateType
     {
         /// <summary>
-        /// Returns the <see cref="IType"/> that the <see cref="IDelegateType"/> returns.
+        /// Returns/sets the <see cref="IType"/> that the <see cref="IDelegateType"/> returns.
         /// </summary>
-        new IType ReturnType { get; }
+        new IType ReturnType { get; set; }
         /// <summary>
         /// Returns whether the <see cref="IIntermediateDelegateType"/>'s last parameter
         /// is a parameter array.
