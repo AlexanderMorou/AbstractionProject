@@ -144,7 +144,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.CanRead && this.IsGetMethodInitialized)
             {
                 var gm = this.GetMethod;
-                if (gm.AreParametersInitialized)
+                if (gm._AreParametersInitialized)
                 {
                     var gmParams = gm.Parameters;
                     gmParams._Add(e.Arg1.UniqueIdentifier, new IndexerDependentParameter((ParameterMembersDictionary.ParameterMember)e.Arg1, gm));
@@ -153,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.CanWrite && this.IsSetMethodInitialized)
             {
                 var sm = this.SetMethod;
-                if (sm.AreParametersInitialized)
+                if (sm._AreParametersInitialized)
                 {
                     var smParams = sm.Parameters;
                     var valueParam = (IndexerValueParameter)((IIntermediatePropertySetMethodMember)sm).ValueParameter;
@@ -330,7 +330,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 this.methodType = methodType;
             }
 
-            internal protected new bool AreParametersInitialized { get { return base.AreParametersInitialized; } }
+            /* *
+             * Actual
+             * */
+            internal protected new bool _AreParametersInitialized { get { return base.AreParametersInitialized; } }
+
+            /* *
+             * Perceived
+             * */
+            protected override bool AreParametersInitialized
+            {
+                get
+                {
+                    return true;
+                }
+            }
 
             protected IntermediateClassIndexerMember<TInstanceIntermediateType> Owner
             {

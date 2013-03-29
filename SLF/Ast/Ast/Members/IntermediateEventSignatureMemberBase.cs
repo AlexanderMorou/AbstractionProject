@@ -247,5 +247,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return this.uniqueIdentifier;
             }
         }
+
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject) 
+                this.uniqueIdentifier = null;
+        }
     }
 }

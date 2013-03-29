@@ -38,7 +38,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp", "SLF\Languages\CSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualBasic.NET", "SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj", "{9C89419D-F2A1-4882-8408-6708A038E025}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructuralTypingExample", "Supplementary Projects\StructuralTypingExample\StructuralTypingExample\StructuralTypingExample.csproj", "{86614EA9-6F12-415A-A2D4-14B34175F660}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractionTestSystem", "AbstractionTestSystem\AbstractionTestSystem.csproj", "{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -86,10 +86,10 @@ Global
 		SccProjectTopLevelParentUniqueName10 = Abstraction.sln
 		SccProjectName10 = SLF/Languages/VisualBasic.NET
 		SccLocalPath10 = SLF\\Languages\\VisualBasic.NET
-		SccProjectUniqueName11 = Supplementary\u0020Projects\\StructuralTypingExample\\StructuralTypingExample\\StructuralTypingExample.csproj
+		SccProjectUniqueName11 = AbstractionTestSystem\\AbstractionTestSystem.csproj
 		SccProjectTopLevelParentUniqueName11 = Abstraction.sln
-		SccProjectName11 = Supplementary\u0020Projects/StructuralTypingExample/StructuralTypingExample
-		SccLocalPath11 = Supplementary\u0020Projects\\StructuralTypingExample\\StructuralTypingExample
+		SccProjectName11 = AbstractionTestSystem
+		SccLocalPath11 = AbstractionTestSystem
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -179,14 +179,14 @@ Global
 		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x64.Build.0 = Release|x64
 		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.ActiveCfg = Release|x86
 		{9C89419D-F2A1-4882-8408-6708A038E025}.Release|x86.Build.0 = Release|x86
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x64.ActiveCfg = Debug|x64
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x64.Build.0 = Debug|x64
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x86.ActiveCfg = Debug|x86
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Debug|x86.Build.0 = Debug|x86
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x64.ActiveCfg = Release|x64
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x64.Build.0 = Release|x64
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x86.ActiveCfg = Release|x86
-		{86614EA9-6F12-415A-A2D4-14B34175F660}.Release|x86.Build.0 = Release|x86
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Debug|x64.ActiveCfg = Debug|x64
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Debug|x64.Build.0 = Debug|x64
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Debug|x86.ActiveCfg = Debug|x86
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Debug|x86.Build.0 = Debug|x86
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Release|x64.ActiveCfg = Release|x64
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Release|x64.Build.0 = Release|x64
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Release|x86.ActiveCfg = Release|x86
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -205,7 +205,7 @@ Global
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
-		{86614EA9-6F12-415A-A2D4-14B34175F660} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
+		{9D1F69A5-8319-4F4F-BB54-8C33D3AC5A6B} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}
 	EndGlobalSection

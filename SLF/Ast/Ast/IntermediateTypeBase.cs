@@ -490,6 +490,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected virtual void OnIdentifierChanged(TTypeIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
+            this.ClearIdentifier();
             var newIdentifier = this.UniqueIdentifier;
             var _identifierChanged = this._IdentifierChanged;
             if (_identifierChanged != null)
@@ -498,6 +499,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (identifierChanged != null)
                 identifierChanged(this, new DeclarationIdentifierChangeEventArgs<TTypeIdentifier>(oldIdentifier, newIdentifier, cause));
         }
+
+        protected abstract void ClearIdentifier();
 
         //protected override bool IsAttributeInheritable(IType attribute)
         //{

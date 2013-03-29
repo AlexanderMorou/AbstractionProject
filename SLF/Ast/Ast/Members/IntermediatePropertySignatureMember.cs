@@ -102,11 +102,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                return this.propertyType;
+                lock (this.SyncObject)
+                    return this.propertyType;
             }
             set
             {
-                this.propertyType = value;
+                lock (this.SyncObject)
+                    this.propertyType = value;
             }
         }
 
@@ -120,16 +122,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
+                lock (this.SyncObject)
                 return this.canRead;
             }
             set
             {
-                if (!value && this.canRead && this.getMethod != null)
+                lock (this.SyncObject)
                 {
-                    this.getMethod.Dispose();
-                    this.getMethod = null;
+                    if (!value && this.canRead && this.getMethod != null)
+                    {
+                        this.getMethod.Dispose();
+                        this.getMethod = null;
+                    }
+                    this.canRead = value;
                 }
-                this.canRead = value;
             }
         }
 
@@ -143,16 +149,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                return this.canWrite;
+                lock (this.SyncObject)
+                    return this.canWrite;
             }
             set
             {
-                if (!value && this.canWrite && this.setMethod != null)
+                lock (this.SyncObject)
                 {
-                    this.setMethod.Dispose();
-                    this.setMethod = null;
+                    if (!value && this.canWrite && this.setMethod != null)
+                    {
+                        this.setMethod.Dispose();
+                        this.setMethod = null;
+                    }
+                    this.canWrite = value;
                 }
-                this.canWrite = value;
             }
         }
 
@@ -165,17 +175,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public IIntermediatePropertySignatureMethodMember GetMethod
         {
             get {
-                if (this.canRead)
+                lock (this.SyncObject)
                 {
-                    if (this.getMethod == null)
-                        if (this.IsDisposed)
-                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                        else
-                            this.getMethod = this.GetMethodSignatureMember(PropertyMethodType.GetMethod);
-                    return this.getMethod;
+                    if (this.canRead)
+                    {
+                        if (this.getMethod == null)
+                            if (this.IsDisposed)
+                                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                            else
+                                this.getMethod = this.GetMethodSignatureMember(PropertyMethodType.GetMethod);
+                        return this.getMethod;
+                    }
+                    else
+                        return null;
                 }
-                else
-                    return null;
             }
         }
 
@@ -189,17 +202,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.canWrite)
+                lock (this.SyncObject)
                 {
-                    if (this.setMethod == null)
-                        if (this.IsDisposed)
-                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                        else
-                            this.setMethod = this.GetMethodSignatureMember(PropertyMethodType.SetMethod);
-                    return (IIntermediatePropertySignatureSetMethodMember)this.setMethod;
+                    if (this.canWrite)
+                    {
+                        if (this.setMethod == null)
+                            if (this.IsDisposed)
+                                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                            else
+                                this.setMethod = this.GetMethodSignatureMember(PropertyMethodType.SetMethod);
+                        return (IIntermediatePropertySignatureSetMethodMember)this.setMethod;
+                    }
+                    else
+                        return null;
                 }
-                else
-                    return null;
             }
         }
 
@@ -240,20 +256,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
+            lock (this.SyncObject)
+            {
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
+                base.OnIdentifierChanged(oldIdentifier, cause);
+            }
         }
 
         public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
             get {
-                if (this.uniqueIdentifier == null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                    else
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
-                return this.uniqueIdentifier;
+                lock (this.SyncObject)
+                {
+                    if (this.uniqueIdentifier == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
+                    return this.uniqueIdentifier;
+                }
             }
         }
 
@@ -261,12 +283,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.metadataBack != null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-                    else
-                        this.metadataBack = ((MetadataDefinitionCollection) (this.Metadata)).GetWrapper();
-                return this.metadataBack;
+                lock (this.SyncObject)
+                {
+                    if (this.metadataBack != null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                    return this.metadataBack;
+                }
             }
         }
 
@@ -274,12 +299,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.metadata == null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                    else
-                        this.metadata = new MetadataDefinitionCollection(this, this.Parent.IdentityManager);
-                return this.metadata;
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadata = new MetadataDefinitionCollection(this, this.Parent.IdentityManager);
+                    return this.metadata;
+                }
             }
         }
 
@@ -287,30 +315,40 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             try
             {
-                if (this.uniqueIdentifier != null)
-                    this.uniqueIdentifier = null;
-                if (this.metadata != null)
-                    this.metadata = null;
-                if (this.canRead)
-                    this.canRead = false;
-                if (this.getMethod != null)
+                lock (this.SyncObject)
                 {
-                    this.getMethod.Dispose();
-                    this.getMethod = null;
+                    if (this.uniqueIdentifier != null)
+                        this.uniqueIdentifier = null;
+                    if (this.metadata != null)
+                        this.metadata = null;
+                    if (this.canRead)
+                        this.canRead = false;
+                    if (this.getMethod != null)
+                    {
+                        this.getMethod.Dispose();
+                        this.getMethod = null;
+                    }
+                    if (this.canWrite)
+                        this.canWrite = false;
+                    if (this.setMethod != null)
+                    {
+                        this.setMethod.Dispose();
+                        this.setMethod = null;
+                    }
+                    this.propertyType = null;
                 }
-                if (this.canWrite)
-                    this.canWrite = false;
-                if (this.setMethod != null)
-                {
-                    this.setMethod.Dispose();
-                    this.setMethod = null;
-                }
-                this.propertyType = null;
             }
             finally
             {
                 base.Dispose(disposing);
             }
+        }
+
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
         }
 
         public bool IsDefined(IType metadatumType)

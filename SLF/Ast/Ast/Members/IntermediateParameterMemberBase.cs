@@ -73,14 +73,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                return this.parameterType;
+                lock (this.SyncObject)
+                    return this.parameterType;
             }
             set
             {
-                if (value == parameterType)
-                    return;
-                var originalType = this.parameterType;
-                this.parameterType = value;
+                IType originalType;
+                lock (this.SyncObject)
+                {
+                    if (value == this.parameterType)
+                        return;
+                    originalType = this.parameterType;
+                    this.parameterType = value;
+                }
                 this.OnParameterTypeChanged(originalType, value);
             }
         }
@@ -92,11 +97,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                return this.direction;
+                lock (this.SyncObject)
+                    return this.direction;
             }
             set
             {
-                this.direction = value;
+                lock (this.SyncObject)
+                    this.direction = value;
             }
         }
 
@@ -117,12 +124,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.metadata == null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                    else
-                        this.metadata = this.InitializeCustomAttributes();
-                return this.metadata;
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadata = this.InitializeCustomAttributes();
+                    return this.metadata;
+                }
             }
         }
 
@@ -141,12 +151,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return new MetadataDefinitionCollection(this, this.identityManager);
         }
 
-        protected override void OnIdentifierChanged(IGeneralMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+        protected override void ClearIdentifier()
         {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
         }
+
 
         #region IMetadataEntity Members
 
@@ -154,9 +165,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.metadataBack == null)
-                    this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
-                return this.metadataBack;
+                lock (this.SyncObject)
+                {
+                    if (this.metadataBack == null)
+                        this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                    return this.metadataBack;
+                }
             }
         }
 
@@ -171,9 +185,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
-                return this.uniqueIdentifier;
+                lock (this.SyncObject)
+                {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
+                    return this.uniqueIdentifier;
+                }
             }
         }
 
@@ -187,7 +204,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return;
             if (newType == null)
                 throw new ArgumentNullException("newType");
-            var parameterTypeChanged = this.ParameterTypeChanged;
+
+            EventHandler<EventArgsR1R2<IType, IType>> parameterTypeChanged = this.ParameterTypeChanged;
             if (parameterTypeChanged != null)
                 parameterTypeChanged(this, new EventArgsR1R2<IType, IType>(originalType, newType));
         }

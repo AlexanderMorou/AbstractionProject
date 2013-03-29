@@ -60,11 +60,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     return this.uniqueIdentifier;
                 }
 
-                protected override void OnIdentifierChanged(IGenericParameterUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
+                protected override void ClearIdentifier()
                 {
-                    if (this.uniqueIdentifier != null)
-                        this.uniqueIdentifier = null;
-                    base.OnIdentifierChanged(oldIdentifier, cause);
+                    lock (this.SyncObject)
+                        if (this.uniqueIdentifier != null)
+                            this.uniqueIdentifier = null;
                 }
             }
         }

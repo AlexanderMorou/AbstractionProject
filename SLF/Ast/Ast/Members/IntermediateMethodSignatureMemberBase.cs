@@ -487,13 +487,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             this.OnIdentifierChanged(oldIdentifier, cause);
         }
 
-        protected override void OnIdentifierChanged(IGeneralGenericSignatureMemberUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
-        {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
-            base.OnIdentifierChanged(oldIdentifier, cause);
-        }
-
         protected virtual void OnTypeParameterAdded(IIntermediateMethodSignatureGenericTypeParameterMember arg1)
         {
             var _typeParameterAdded = this._TypeParameterAdded;
@@ -708,5 +701,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return this.StandardIsDefined(attributeType);
         }
 
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                this.uniqueIdentifier = null;
+        }
     }
 }

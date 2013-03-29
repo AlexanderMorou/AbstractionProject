@@ -6,12 +6,12 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
                 while (mParent != null)
                 {
-                    
+
                     var tParent = mParent.Parent as IIntermediateType;
                     if (tParent != null)
                         return tParent.Assembly;
@@ -118,38 +118,44 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         private void Check_Members()
         {
-            if (this._members == null)
-                this._members = new IntermediateFullMemberDictionary();
+            lock (this.SyncObject)
+                if (this._members == null)
+                    this._members = new IntermediateFullMemberDictionary();
         }
 
         private void CheckConstructors()
         {
-            if (this.constructors == null)
-                this.constructors = this.InitializeConstructors();
+            lock (this.SyncObject)
+                if (this.constructors == null)
+                    this.constructors = this.InitializeConstructors();
         }
 
         private void CheckEvents()
         {
-            if (this.events == null)
-                this.events = this.InitializeEvents();
+            lock (this.SyncObject)
+                if (this.events == null)
+                    this.events = this.InitializeEvents();
         }
 
         private void CheckIndexers()
         {
-            if (this.indexers == null)
-                this.indexers = this.InitializeIndexers();
+            lock (this.SyncObject)
+                if (this.indexers == null)
+                    this.indexers = this.InitializeIndexers();
         }
 
         private void CheckMethods()
         {
-            if (this.methods == null)
-                this.methods = this.InitializeMethods();
+            lock (this.SyncObject)
+                if (this.methods == null)
+                    this.methods = this.InitializeMethods();
         }
 
         private void CheckProperties()
         {
-            if (this.properties == null)
-                this.properties = this.InitializeProperties();
+            lock (this.SyncObject)
+                if (this.properties == null)
+                    this.properties = this.InitializeProperties();
         }
         #endregion
 
@@ -168,8 +174,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                this.CheckConstructors();
-                return this.constructors;
+                lock (this.SyncObject)
+                {
+                    this.CheckConstructors();
+                    return this.constructors;
+                }
             }
         }
 
@@ -182,8 +191,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                this.CheckIndexers();
-                return this.indexers;
+                lock (this.SyncObject)
+                {
+                    this.CheckIndexers();
+                    return this.indexers;
+                }
             }
         }
 
@@ -196,8 +208,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                this.CheckEvents();
-                return this.events;
+                lock (this.SyncObject)
+                {
+                    this.CheckEvents();
+                    return this.events;
+                }
             }
         }
 
@@ -210,8 +225,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                this.CheckMethods();
-                return this.methods;
+                lock (this.SyncObject)
+                {
+                    this.CheckMethods();
+                    return this.methods;
+                }
             }
         }
 
@@ -224,8 +242,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                this.CheckProperties();
-                return this.properties;
+                lock (this.SyncObject)
+                {
+                    this.CheckProperties();
+                    return this.properties;
+                }
             }
         }
 
@@ -291,7 +312,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #region IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter> Members
 
-        IIntermediateGenericParameterConstructorMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter>.Constructors
+        IIntermediateGenericParameterConstructorMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter>.Constructors
         {
             get
             {
@@ -299,7 +320,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        IIntermediateGenericParameterEventMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter>.Events
+        IIntermediateGenericParameterEventMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter>.Events
         {
             get
             {
@@ -307,17 +328,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        IIntermediateGenericParameterIndexerMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter>.Indexers
+        IIntermediateGenericParameterIndexerMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter>.Indexers
         {
             get { return this.Indexers; }
         }
 
-        IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter>.Methods
+        IIntermediateGenericParameterMethodMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter>.Methods
         {
             get { return this.Methods; }
         }
 
-        IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter,TIntermediateGenericParameter>.Properties
+        IIntermediateGenericParameterPropertyMemberDictionary<TGenericParameter, TIntermediateGenericParameter> IIntermediateGenericParameter<TGenericParameter, TIntermediateGenericParameter>.Properties
         {
             get { return this.Properties; }
         }
@@ -581,7 +602,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         ILockedTypeCollection IGenericParameter.Constraints
         {
-            get {
+            get
+            {
                 if (this._constraints == null)
                     this._constraints = new LockedTypeCollection(this.Constraints);
                 return this._constraints;
@@ -634,7 +656,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         IGenericParameterConstructorMemberDictionary<TGenericParameter> IGenericParameter<TGenericParameter>.Constructors
         {
-            get {
+            get
+            {
                 return this.Constructors;
             }
         }
@@ -717,8 +740,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                Check_Members();
-                return this._members;
+                lock (this.SyncObject)
+                {
+                    Check_Members();
+                    return this._members;
+                }
             }
         }
 
@@ -730,10 +756,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         public new IMetadataDefinitionCollection Metadata
         {
-            get {
-                if (this.metadata == null)
-                    this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
-                return this.metadata;
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
+                    return this.metadata;
+                }
             }
         }
 
@@ -743,50 +773,53 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             try
             {
-                if (this.metadata != null)
+                lock (this.SyncObject)
                 {
-                    this.metadata.Dispose();
-                    this.metadata = null;
-                }
-                if (this.constraints != null)
-                {
-                    this.constraints.Clear();
-                    this.constraints = null;
-                }
-                if (this._constraints != null)
-                {
-                    this._constraints.Dispose();
-                    this._constraints = null;
-                }
-                if (this.constructors != null)
-                {
-                    this.constructors.Dispose();
-                    this.constructors = null;
-                }
-                if (this.events != null)
-                {
-                    this.events.Dispose();
-                    this.events = null;
-                }
-                if (this.indexers != null)
-                {
-                    this.indexers.Dispose();
-                    this.indexers = null;
-                }
-                if (this.methods != null)
-                {
-                    this.methods.Dispose();
-                    this.methods = null;
-                }
-                if (this.properties != null)
-                {
-                    this.properties.Dispose();
-                    this.properties = null;
-                }
-                if (this._members != null)
-                {
-                    this._members.Dispose();
-                    this._members = null;
+                    if (this.metadata != null)
+                    {
+                        this.metadata.Dispose();
+                        this.metadata = null;
+                    }
+                    if (this.constraints != null)
+                    {
+                        this.constraints.Clear();
+                        this.constraints = null;
+                    }
+                    if (this._constraints != null)
+                    {
+                        this._constraints.Dispose();
+                        this._constraints = null;
+                    }
+                    if (this.constructors != null)
+                    {
+                        this.constructors.Dispose();
+                        this.constructors = null;
+                    }
+                    if (this.events != null)
+                    {
+                        this.events.Dispose();
+                        this.events = null;
+                    }
+                    if (this.indexers != null)
+                    {
+                        this.indexers.Dispose();
+                        this.indexers = null;
+                    }
+                    if (this.methods != null)
+                    {
+                        this.methods.Dispose();
+                        this.methods = null;
+                    }
+                    if (this.properties != null)
+                    {
+                        this.properties.Dispose();
+                        this.properties = null;
+                    }
+                    if (this._members != null)
+                    {
+                        this._members.Dispose();
+                        this._members = null;
+                    }
                 }
             }
             finally
@@ -835,7 +868,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get {
+            get
+            {
                 return this._Members.Keys;
             }
         }
@@ -856,7 +890,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected override ITypeIdentityManager OnGetManager()
         {
-            return this.identityManager;
+            lock (SyncObject)
+                return this.identityManager;
         }
+
     }
 }

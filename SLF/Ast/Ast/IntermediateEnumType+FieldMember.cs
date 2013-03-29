@@ -149,6 +149,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 visitor.Visit(this);
             }
 
+            protected override void ClearIdentifier()
+            {
+                lock (this.SyncObject)
+                    this.uniqueIdentifier = null;
+            }
+
             public override IGeneralMemberUniqueIdentifier UniqueIdentifier
             {
                 get {

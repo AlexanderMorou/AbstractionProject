@@ -244,5 +244,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             return this.Parent.IdentityManager;
         }
+
+        protected override void ClearIdentifier()
+        {
+            this.uniqueIdentifier = null;
+        }
     }
 }

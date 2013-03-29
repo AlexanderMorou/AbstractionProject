@@ -11,12 +11,12 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -175,13 +175,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public override IGeneralDeclarationUniqueIdentifier UniqueIdentifier
         {
-            get {
-                if (this.uniqueIdentifier == null)
-                    this.uniqueIdentifier = TypeSystemIdentifiers.GetDeclarationIdentifier(this.Name);
-                return this.uniqueIdentifier;
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.uniqueIdentifier == null)
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetDeclarationIdentifier(this.Name);
+                    return this.uniqueIdentifier;
+                }
             }
         }
-
 
         #region IIntermediateNamespaceParent Members
 
@@ -193,7 +196,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                if (this.IsRoot)
+                lock (this.SyncObject)
                 {
                     if (this.namespaces == null)
                         if (this.IsDisposed)
@@ -202,8 +205,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                             this.namespaces = this.InitializeNamespaces();
                     return this.namespaces;
                 }
-                else
-                    return this.GetRoot().Namespaces;
             }
         }
 
@@ -219,12 +220,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                if (this.scopeCoercions == null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                    else
-                        this.scopeCoercions = new ScopeCoercionCollection();
-                return this.scopeCoercions;
+                lock (this.SyncObject)
+                {
+                    if (this.scopeCoercions == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.scopeCoercions = new ScopeCoercionCollection();
+                    return this.scopeCoercions;
+                }
             }
         }
 
@@ -591,89 +595,97 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private void CheckClasses()
         {
-            if (this.classes == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.classes = this.InitializeClasses();
-                SuspendCheck(this.classes, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.classes == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.classes = this.InitializeClasses();
+                    SuspendCheck(this.classes, this.suspendLevel);
+                }
         }
 
         private void CheckDelegates()
         {
-            if (this.delegates == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.delegates = this.InitializeDelegates();
-                SuspendCheck(this.delegates, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.delegates == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.delegates = this.InitializeDelegates();
+                    SuspendCheck(this.delegates, this.suspendLevel);
+                }
         }
 
         private void CheckEnums()
         {
-            if (this.enums == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.enums = this.InitializeEnums();
-                SuspendCheck(this.enums, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.enums == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.enums = this.InitializeEnums();
+                    SuspendCheck(this.enums, this.suspendLevel);
+                }
         }
 
         private void CheckInterfaces()
         {
-            if (this.interfaces == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.interfaces = this.InitializeInterfaces();
-                SuspendCheck(this.interfaces, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.interfaces == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.interfaces = this.InitializeInterfaces();
+                    SuspendCheck(this.interfaces, this.suspendLevel);
+                }
         }
 
         private void CheckStructs()
         {
-            if (this.structs == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.structs = this.InitializeStructs();
-                SuspendCheck(this.structs, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.structs == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.structs = this.InitializeStructs();
+                    SuspendCheck(this.structs, this.suspendLevel);
+                }
         }
 
         private void Check_Types()
         {
-            if (this.types == null)
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.types = this.InitializeTypes();
+            lock (this.SyncObject)
+                if (this.types == null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.types = this.InitializeTypes();
         }
 
         private void CheckFields()
         {
-            if (this.fields == null)
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.fields = this.InitializeFields();
+            lock (this.SyncObject)
+                if (this.fields == null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.fields = this.InitializeFields();
         }
 
         private void CheckMethods()
         {
-            if (this.methods == null)
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                else
-                    this.methods = this.InitializeMethods();
+            lock (this.SyncObject)
+                if (this.methods == null)
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    else
+                        this.methods = this.InitializeMethods();
         }
 
         #endregion
@@ -699,64 +711,67 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 if (disposing)
                 {
-                    this.parent = null;
-                    if (this.methods != null)
+                    lock (this.SyncObject)
                     {
-                        this.methods.Dispose();
-                        this.methods = null;
+                        this.parent = null;
+                        if (this.methods != null)
+                        {
+                            this.methods.Dispose();
+                            this.methods = null;
+                        }
+                        if (this.fields != null)
+                        {
+                            this.fields.Dispose();
+                            this.fields = null;
+                        }
+                        if (this.members != null)
+                        {
+                            if (this.IsRoot)
+                                this.members.Dispose();
+                            else
+                                this.members.ConditionalRemove(this);
+                            this.members = null;
+                        }
+                        if (this.classes != null)
+                        {
+                            this.classes.Dispose();
+                            this.classes = null;
+                        }
+                        if (this.enums != null)
+                        {
+                            this.enums.Dispose();
+                            this.enums = null;
+                        }
+                        if (this.delegates != null)
+                        {
+                            this.delegates.Dispose();
+                            this.delegates = null;
+                        }
+                        if (this.interfaces != null)
+                        {
+                            this.interfaces.Dispose();
+                            this.interfaces = null;
+                        }
+                        if (this.structs != null)
+                        {
+                            this.structs.Dispose();
+                            this.structs = null;
+                        }
+                        if (this.types != null)
+                        {
+                            if (this.IsRoot)
+                                this.types.Dispose();
+                            else
+                                this.types.ConditionalRemove(this);
+                            this.types = null;
+                        }
+                        if (this.namespaces != null)
+                        {
+                            this.namespaces.Dispose();
+                            this.namespaces = null;
+                        }
+                        this.scopeCoercions = null;
                     }
-                    if (this.fields != null)
-                    {
-                        this.fields.Dispose();
-                        this.fields = null;
-                    }
-                    if (this.members != null)
-                    {
-                        if (this.IsRoot)
-                            this.members.Dispose();
-                        else
-                            this.members.ConditionalRemove(this);
-                        this.members = null;
-                    }
-                    if (this.classes != null)
-                    {
-                        this.classes.Dispose();
-                        this.classes = null;
-                    }
-                    if (this.enums != null)
-                    {
-                        this.enums.Dispose();
-                        this.enums = null;
-                    }
-                    if (this.delegates != null)
-                    {
-                        this.delegates.Dispose();
-                        this.delegates = null;
-                    }
-                    if (this.interfaces != null)
-                    {
-                        this.interfaces.Dispose();
-                        this.interfaces = null;
-                    }
-                    if (this.structs != null)
-                    {
-                        this.structs.Dispose();
-                        this.structs = null;
-                    }
-                    if (this.types != null)
-                    {
-                        if (this.IsRoot)
-                            this.types.Dispose();
-                        else
-                            this.types.ConditionalRemove(this);
-                        this.types = null;
-                    }
-                    if (this.namespaces != null)
-                    {
-                        this.namespaces.Dispose();
-                        this.namespaces = null;
-                    }
-                    this.scopeCoercions = null;
                 }
             }
             finally
@@ -787,6 +802,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <see cref="GetNewPartial"/>.</returns>
         protected IIntermediateNamespaceParent ObtainParentPartial()
         {
+
             var sParent = this.Parent as IIntermediateSegmentableDeclaration;
             /* *
              * The point of segmenting a namespace is to enable 
@@ -820,21 +836,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// be invoked prior to resuming the duality.</remarks>
         public void SuspendDualLayout()
         {
-            this.suspendLevel++;
-            if (this.methods != null)
-                this.methods.Suspend();
-            if (this.fields != null)
-                this.fields.Suspend();
-            if (this.classes != null)
-                this.classes.Suspend();
-            if (this.delegates != null)
-                this.delegates.Suspend();
-            if (this.enums != null)
-                this.enums.Suspend();
-            if (this.interfaces != null)
-                this.interfaces.Suspend();
-            if (this.structs != null)
-                this.structs.Suspend();
+            lock (this.SyncObject)
+            {
+                this.suspendLevel++;
+                if (this.methods != null)
+                    this.methods.Suspend();
+                if (this.fields != null)
+                    this.fields.Suspend();
+                if (this.classes != null)
+                    this.classes.Suspend();
+                if (this.delegates != null)
+                    this.delegates.Suspend();
+                if (this.enums != null)
+                    this.enums.Suspend();
+                if (this.interfaces != null)
+                    this.interfaces.Suspend();
+                if (this.structs != null)
+                    this.structs.Suspend();
+            }
         }
 
         /// <summary>
@@ -846,23 +865,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// be invoked prior to resuming the duality.</remarks>
         public void ResumeDualLayout()
         {
-            if (this.suspendLevel == 0)
-                return;
-            this.suspendLevel--;
-            if (this.methods != null)
-                this.methods.Resume();
-            if (this.fields != null)
-                this.fields.Resume();
-            if (this.classes != null)
-                this.classes.Resume();
-            if (this.delegates != null)
-                this.delegates.Resume();
-            if (this.enums != null)
-                this.enums.Resume();
-            if (this.interfaces != null)
-                this.interfaces.Resume();
-            if (this.structs != null)
-                this.structs.Resume();
+            lock (this.SyncObject)
+            {
+                if (this.suspendLevel == 0)
+                    return;
+                this.suspendLevel--;
+                if (this.methods != null)
+                    this.methods.Resume();
+                if (this.fields != null)
+                    this.fields.Resume();
+                if (this.classes != null)
+                    this.classes.Resume();
+                if (this.delegates != null)
+                    this.delegates.Resume();
+                if (this.enums != null)
+                    this.enums.Resume();
+                if (this.interfaces != null)
+                    this.interfaces.Resume();
+                if (this.structs != null)
+                    this.structs.Resume();
+            }
         }
 
         /// <summary>
@@ -891,6 +913,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 this.CheckFields();
                 this.CheckMethods();
+
                 return this._Members;
             }
         }
@@ -899,12 +922,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                if (this.members == null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                    else
-                        this.members = new IntermediateFullMemberDictionary();
-                return this.members;
+                lock (this.SyncObject)
+                {
+                    if (this.members == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.members = new IntermediateFullMemberDictionary();
+                    return this.members;
+                }
             }
         }
 
@@ -922,7 +948,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckFields();
-                return this.fields;
+                lock (this.SyncObject)
+                    return this.fields;
             }
         }
 
@@ -967,7 +994,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 this.CheckMethods();
-                return this.methods;
+                lock (this.SyncObject)
+                    return this.methods;
             }
         }
 
@@ -1021,7 +1049,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public IEnumerable<IType> GetTypes()
         {
-            return this.types.GetTypes().Concat(this.namespaces.GetTypes());
+            lock (this.SyncObject)
+                return this.types.GetTypes().Concat(this.namespaces.GetTypes());
+        }
+
+        protected override void ClearIdentifier()
+        {
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
         }
     }
 }
