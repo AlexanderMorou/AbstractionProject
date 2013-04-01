@@ -59,6 +59,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq
             visitor.Visit(this);
         }
 
+        public TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
         #endregion
 
         #region IMember Members

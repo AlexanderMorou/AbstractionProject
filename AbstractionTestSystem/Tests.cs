@@ -95,7 +95,6 @@ namespace AbstractionTestSystem
             var equatableSingle = equatableType.MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Single));
             Debug.Assert(equatableSingle.IsAssignableFrom(genericClassInstance.GenericParameters[0]));
 
-
             var structuralExampleMethod = targetAssembly.Methods.Add("StructuralExample");
             var tdataset = structuralExampleMethod.TypeParameters.Add("TDataset");
             var tdatabase = structuralExampleMethod.TypeParameters.Add("TDatabase");
@@ -137,19 +136,21 @@ namespace AbstractionTestSystem
             intermediateDelegate.Parameters.AddRange(new TypedName("testParameter1", identityManager.ObtainTypeReference(RuntimeCoreType.UInt32)), new TypedName("testParameter2", identityManager.ObtainTypeReference(RuntimeCoreType.UInt32)));
             Debug.Assert(intermediateDelegate.Parameters.Count == 2);
             var intermediateGenericDelegate = defaultNamespace.Delegates.Add("IntermediateDelegate", new GenericParameterData("TGenericParameter1"));
+            var id = ((IDelegateType)intermediateGenericDelegate);
             var intermediateTypeParameter1 = intermediateGenericDelegate.TypeParameters["TGenericParameter1"];
             var intermediateTypeParameter2 = intermediateGenericDelegate.TypeParameters.Add("TGenericParameter2");
             var intermediateTypeParameter3 = intermediateGenericDelegate.TypeParameters.Add("TGenericParameter3");
             intermediateTypeParameter3.Constraints.Add(((IInterfaceType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IDictionary", 2)))).MakeGenericClosure(intermediateTypeParameter1, intermediateTypeParameter2));
             var param1 = intermediateGenericDelegate.Parameters.Add(new TypedName("param1", ((IDelegateType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "Func", 2)))).MakeGenericClosure(((IInterfaceType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IEnumerable", 1)))).MakeGenericClosure(((IStructType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "KeyValuePair", 2)))).MakeGenericClosure(intermediateTypeParameter1, intermediateTypeParameter2)), intermediateTypeParameter3)));
             var intermediateDelegateClosure = intermediateGenericDelegate.MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), identityManager.ObtainTypeReference(RuntimeCoreType.String), ((IClassType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2)))).MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), identityManager.ObtainTypeReference(RuntimeCoreType.String)));
-
             var delegateClosureParam1 = intermediateDelegateClosure.Parameters.Values[0];
             /* *
              * Ensure that the delegate closure's first parameter is
              * indeed accurate according to the type replacements.
              * */
-            Debug.Assert(delegateClosureParam1.ParameterType == ((IDelegateType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "Func", 2)))).MakeGenericClosure(((IInterfaceType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IEnumerable", 1)))).MakeGenericClosure(((IStructType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "KeyValuePair", 2)))).MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), identityManager.ObtainTypeReference(RuntimeCoreType.String))), ((IClassType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2)))).MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), identityManager.ObtainTypeReference(RuntimeCoreType.String))));
+            param1.ParameterType.ContainsSymbols();
+            var expectedType = ((IDelegateType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "Func", 2)))).MakeGenericClosure(((IInterfaceType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IEnumerable", 1)))).MakeGenericClosure(((IStructType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "KeyValuePair", 2)))).MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), identityManager.ObtainTypeReference(RuntimeCoreType.String))), ((IClassType)(identityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "Dictionary", 2)))).MakeGenericClosure(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), identityManager.ObtainTypeReference(RuntimeCoreType.String)));
+            Debug.Assert(delegateClosureParam1.ParameterType == expectedType);
         }
 
         public void TestIntermediateStructType(IIntermediateAssembly targetAssembly)

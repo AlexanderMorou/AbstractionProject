@@ -89,7 +89,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
         /// receive the <see cref="IIntermediateType"/> as a visitor.</param>
-        TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor);
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        TResult Visit<TResult, TContext>(IIntermediateTypeVisitor<TResult, TContext> visitor, TContext context);
         /// <summary>
         /// Returns whether the <see cref="IIntermediateType"/> is disposed.
         /// </summary>

@@ -25,4 +25,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IIntermediateInclusionVisitor
     {
     }
+    /// <summary>
+    /// Defines properties and methods for working with an
+    /// intermediate code visitor.
+    /// </summary>
+    /// <typeparam name="TResult">The value returned upon visiting the expression.</typeparam>
+    /// <typeparam name="TContext">The type of context passed to the visitor.</typeparam>
+    public interface IIntermediateCodeVisitor<TResult, TContext> :
+        IExpressionVisitor<TResult, TContext>,
+        IStatementVisitor<TResult, TContext>,
+        IIntermediateDeclarationVisitor<TResult, TContext>,
+        IIntermediateTypeVisitor<TResult, TContext>,
+        IIntermediateMemberVisitor<TResult, TContext>,
+        IIntermediateInclusionVisitor<TResult, TContext>
+    {
+    }
 }

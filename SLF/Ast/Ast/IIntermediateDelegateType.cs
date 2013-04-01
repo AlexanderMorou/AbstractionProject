@@ -40,5 +40,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// the <see cref="IIntermediateDelegateType"/> is declared
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateDelegateTypeParameterTypeDictionary"/> which
+        /// denotes the type-parameters of the delegate type.
+        /// </summary>
+        new IIntermediateDelegateTypeParameterTypeDictionary TypeParameters { get; }
     }
 }

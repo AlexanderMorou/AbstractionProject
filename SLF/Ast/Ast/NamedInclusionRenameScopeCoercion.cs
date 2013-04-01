@@ -23,5 +23,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public string NewName { get; set; }
 
         #endregion
+
+        public override TResult Visit<TResult, TContext>(IIntermediateInclusionVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
+
+        public override void Visit(IIntermediateInclusionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
     }
 }

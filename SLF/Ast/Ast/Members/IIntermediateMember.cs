@@ -42,8 +42,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         new TIntermediateParent Parent { get; }
     }
     /// <summary>
-    /// Defines properties and methods for working with a general case 
-    /// intermediate member of a type, namespace or assembly.
+    /// Defines properties and methods for working with a 
+    /// general case intermediate member of a type, namespace
+    /// or assembly.
     /// </summary>
     public interface IIntermediateMember :
         IIntermediateDeclaration,
@@ -59,5 +60,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="visitor">The <see cref="IIntermediateMemberVisitor"/> to
         /// receive the <see cref="IIntermediateMember"/> as a visitor.</param>
         void Visit(IIntermediateMemberVisitor visitor);
+        /// <summary>
+        /// Visits the <paramref name="visitor"/> provided.
+        /// </summary>
+        /// <typeparam name="TResult">The type of value to return for the visitor.</typeparam>
+        /// <typeparam name="TContext">The type of context passed to the visitor.</typeparam>
+        /// <param name="visitor">
+        /// The <see cref="IIntermediateMemberVisitor{TResult, TContext}"/> to
+        /// receive the <see cref="IIntermediateMember"/> as a visitor.
+        /// </param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context);
     }
 }

@@ -1381,6 +1381,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             visitor.Visit(this);
         }
 
+        public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
+
         protected override void Dispose(bool disposing)
         {
             try

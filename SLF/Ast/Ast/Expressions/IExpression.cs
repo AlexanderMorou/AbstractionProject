@@ -35,11 +35,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <summary>
         /// Visits the elements of the <see cref="IExpression"/>.
         /// </summary>
-        /// <param name="visitor">The <see cref="IExpressionVisitor{TResult}"/>
+        /// <param name="visitor">The <see cref="IExpressionVisitor{TResult, TContext}"/>
         /// to which the <see cref="IExpression"/> needs to repay the visit
         /// to.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <typeparam name="TResult">The type returned by the visit.</typeparam>
+        /// <typeparam name="TContext">The type of context passed to the visitor.</typeparam>
         /// <returns>The <typeparamref name="TResult"/> of the 
         /// current implementation.</returns>
-        TResult Visit<TResult>(IExpressionVisitor<TResult> visitor);
+        TResult Visit<TContext, TResult>(IExpressionVisitor<TResult, TContext> visitor, TContext context);
     }
 }

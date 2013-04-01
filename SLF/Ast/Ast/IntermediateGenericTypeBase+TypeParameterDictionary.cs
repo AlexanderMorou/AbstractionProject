@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateGenericType<TTypeIdentifier, TType, TIntermediateType>,
             TType
     {
-        protected partial class TypeParameterDictionary :
+        protected internal partial class TypeParameterDictionary :
             IntermediateGenericParameterDictionary<IGenericTypeParameter<TTypeIdentifier, TType>, IIntermediateGenericTypeParameter<TTypeIdentifier, TType, TIntermediateType>, TType, TIntermediateType>
         {
             protected internal TypeParameterDictionary(IntermediateGenericTypeBase<TTypeIdentifier, TType, TIntermediateType> parent)

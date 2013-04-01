@@ -211,9 +211,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             visitor.Visit(this);
         }
 
-        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        public override TResult Visit<TContext, TResult>(IExpressionVisitor<TResult, TContext> visitor, TContext context)
         {
-            return visitor.Visit(this);
+            return visitor.Visit(this, context);
         }
 
         #region IBinaryOperationExpression Members

@@ -15,5 +15,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         TypeInclusionScopeCoercion,
         IStaticInclusionScopeCoercion
     {
+
+        #region IScopeCoercion Members
+
+        public override void Visit(IIntermediateInclusionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public override TResult Visit<TResult, TContext>(IIntermediateInclusionVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
+
+        #endregion
+
     }
 }

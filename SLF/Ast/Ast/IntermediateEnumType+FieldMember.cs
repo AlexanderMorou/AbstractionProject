@@ -149,6 +149,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 visitor.Visit(this);
             }
 
+            public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
+            {
+                return visitor.Visit(this, context);
+            }
+
             protected override void ClearIdentifier()
             {
                 lock (this.SyncObject)

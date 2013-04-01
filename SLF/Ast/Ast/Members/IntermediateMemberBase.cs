@@ -136,6 +136,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// to observe the proper overload of.</param>
         public abstract void Visit(IIntermediateMemberVisitor visitor);
 
+        public abstract TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context);
+
         #endregion
 
         /// <summary>

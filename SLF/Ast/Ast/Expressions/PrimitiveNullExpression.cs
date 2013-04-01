@@ -106,14 +106,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             visitor.VisitNull();
         }
 
-        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        public override TResult Visit<TContext, TResult>(IExpressionVisitor<TResult, TContext> visitor, TContext context)
         {
-            return visitor.VisitNull();
+            return visitor.VisitNull(context);
         }
 
-        public TResult Visit<TResult>(IPrimitiveVisitor<TResult> visitor)
+        public TResult Visit<TResult, TContext>(IPrimitiveVisitor<TResult, TContext> visitor, TContext context)
         {
-            return visitor.VisitNull();
+            return visitor.VisitNull(context);
         }
 
         public void Visit(IPrimitiveVisitor visitor)

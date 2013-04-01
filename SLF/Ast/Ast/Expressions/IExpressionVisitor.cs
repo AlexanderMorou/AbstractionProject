@@ -330,9 +330,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
     /// visitor.
     /// </summary>
     /// <typeparam name="TResult">The value returned upon visiting the expression.</typeparam>
-    public interface IExpressionVisitor<TResult> :
-        ILinqVisitor<TResult>,
-        IPrimitiveVisitor<TResult>
+    /// <typeparam name="TContext">The type of context passed to the visitor.</typeparam>
+    public interface IExpressionVisitor<TResult, TContext> :
+        ILinqVisitor<TResult, TContext>,
+        IPrimitiveVisitor<TResult, TContext>
     {
         /// <summary>
         /// Visits a binary operation expression.
@@ -343,9 +344,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// binary expression.</typeparam>
         /// <param name="expression">The <see cref="IBinaryOperationExpression{TLeft, TRight}"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression)
+        TResult Visit<TLeft, TRight>(IBinaryOperationExpression<TLeft, TRight> expression, TContext context)
             where TLeft :
                 INaryOperandExpression
             where TRight :
@@ -355,87 +358,111 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IIndexerReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IIndexerReferenceExpression expression);
+        TResult Visit(IIndexerReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits a conditional expression.
         /// </summary>
         /// <param name="expression">The <see cref="IConditionalExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IConditionalExpression expression);
+        TResult Visit(IConditionalExpression expression, TContext context);
         /// <summary>
         /// Visits a unary operation expression.
         /// </summary>
         /// <param name="expression">The <see cref="IUnaryOperationExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IUnaryOperationExpression expression);
+        TResult Visit(IUnaryOperationExpression expression, TContext context);
         /// <summary>
         /// Visits a type cast expression.
         /// </summary>
         /// <param name="expression">The <see cref="ITypeCastExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ITypeCastExpression expression);
+        TResult Visit(ITypeCastExpression expression, TContext context);
         /// <summary>
         /// Visits a type of expression
         /// </summary>
         /// <param name="expression">The <see cref="ITypeOfExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ITypeOfExpression expression);
+        TResult Visit(ITypeOfExpression expression, TContext context);
         /// <summary>
         /// Visits a type reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="ITypeReferenceExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ITypeReferenceExpression expression);
+        TResult Visit(ITypeReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits a variadic type cast expression.
         /// </summary>
         /// <param name="expression">The <see cref="IVariadicTypeCastExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IVariadicTypeCastExpression expression);
+        TResult Visit(IVariadicTypeCastExpression expression, TContext context);
         /// <summary>
         /// Visits a symbol expression.
         /// </summary>
         /// <param name="expression">The <see cref="ISymbolExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ISymbolExpression expression);
+        TResult Visit(ISymbolExpression expression, TContext context);
         /// <summary>
         /// Visits an expression which obtains a member handle through a static
         /// reference.
         /// </summary>
         /// <param name="expression">The <see cref="IStaticGetMemberHandleExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IStaticGetMemberHandleExpression expression);
+        TResult Visit(IStaticGetMemberHandleExpression expression, TContext context);
         /// <summary>
         /// Visits a special reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="ISpecialReferenceExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ISpecialReferenceExpression expression);
+        TResult Visit(ISpecialReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits a property reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPropertyReferenceExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPropertyReferenceExpression expression);
+        TResult Visit(IPropertyReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits a property reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPropertyReferenceExpression{TProperty, TPropertyParent}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression)
+        TResult Visit<TProperty, TPropertyParent>(IPropertyReferenceExpression<TProperty, TPropertyParent> expression, TContext context)
             where TProperty :
                 IPropertyMember<TProperty, TPropertyParent>
             where TPropertyParent :
@@ -444,9 +471,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// Visits a property reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPropertySignatureReferenceExpression{TPropertySignature, TPropertySignatureParent}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression)
+        TResult Visit<TPropertySignature, TPropertySignatureParent>(IPropertySignatureReferenceExpression<TPropertySignature, TPropertySignatureParent> expression, TContext context)
             where TPropertySignature :
                 IPropertySignatureMember<TPropertySignature, TPropertySignatureParent>
             where TPropertySignatureParent :
@@ -456,9 +485,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="expression">The <see cref="IFieldReferenceExpression{TField, TFieldParent}"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression)
+        TResult Visit<TField, TFieldParent>(IFieldReferenceExpression<TField, TFieldParent> expression, TContext context)
             where TField :
                 IFieldMember<TField, TFieldParent>
             where TFieldParent :
@@ -467,269 +498,337 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// Visits a parenthesized expression.
         /// </summary>
         /// <param name="expression">The <see cref="IParenthesizedExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IParenthesizedExpression expression);
+        TResult Visit(IParenthesizedExpression expression, TContext context);
         /// <summary>
         /// Visits a named parameter expression.
         /// </summary>
         /// <param name="expression">The <see cref="INamedParameterExpression"/> which designates
         /// the name and value of a parameter to pass into a method/constructor/indexer.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(INamedParameterExpression expression);
+        TResult Visit(INamedParameterExpression expression, TContext context);
         /// <summary>
         /// Visits a method pointer reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="IMethodPointerReferenceExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IMethodPointerReferenceExpression expression);
+        TResult Visit(IMethodPointerReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits a method invoke expression.
         /// </summary>
         /// <param name="expression">The <see cref="IMethodInvokeExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IMethodInvokeExpression expression);
+        TResult Visit(IMethodInvokeExpression expression, TContext context);
         /// <summary>
         /// Visits a local reference expression.
         /// </summary>
         /// <param name="expression">The <see cref="ILocalReferenceExpression"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILocalReferenceExpression expression);
+        TResult Visit(ILocalReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IFieldReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IFieldReferenceExpression expression);
+        TResult Visit(IFieldReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IExpressionToCommaTypeReferenceFusionExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IExpressionToCommaTypeReferenceFusionExpression expression);
+        TResult Visit(IExpressionToCommaTypeReferenceFusionExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IExpressionToCommaFusionExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IExpressionToCommaFusionExpression expression);
+        TResult Visit(IExpressionToCommaFusionExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IExpressionFusionExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IExpressionFusionExpression expression);
+        TResult Visit(IExpressionFusionExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IEventInvokeExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IEventInvokeExpression expression);
+        TResult Visit(IEventInvokeExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDirectionExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IDirectionExpression expression);
+        TResult Visit(IDirectionExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IDelegateReferenceExpression expression);
+        TResult Visit(IDelegateReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateMethodPointerReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IDelegateMethodPointerReferenceExpression expression);
+        TResult Visit(IDelegateMethodPointerReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateInvokeExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IDelegateInvokeExpression expression);
+        TResult Visit(IDelegateInvokeExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IDelegateHolderReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IDelegateHolderReferenceExpression expression);
+        TResult Visit(IDelegateHolderReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateInstanceMemberAssignment"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ICreateInstanceMemberAssignment expression);
+        TResult Visit(ICreateInstanceMemberAssignment expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateInstanceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ICreateInstanceExpression expression);
+        TResult Visit(ICreateInstanceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ICreateArrayExpression expression);
+        TResult Visit(ICreateArrayExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayNestedDetailExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ICreateArrayNestedDetailExpression expression);
+        TResult Visit(ICreateArrayNestedDetailExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICreateArrayDetailExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ICreateArrayDetailExpression expression);
+        TResult Visit(ICreateArrayDetailExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ICommaExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ICommaExpression expression);
+        TResult Visit(ICommaExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IAnonymousMethodWithParametersExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IAnonymousMethodWithParametersExpression expression);
+        TResult Visit(IAnonymousMethodWithParametersExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IAnonymousMethodExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IAnonymousMethodExpression expression);
+        TResult Visit(IAnonymousMethodExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypedStatementExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILambdaTypedStatementExpression expression);
+        TResult Visit(ILambdaTypedStatementExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypeInferredStatementExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILambdaTypeInferredStatementExpression expression);
+        TResult Visit(ILambdaTypeInferredStatementExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypedSimpleExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILambdaTypedSimpleExpression expression);
+        TResult Visit(ILambdaTypedSimpleExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILambdaTypeInferredSimpleExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILambdaTypeInferredSimpleExpression expression);
+        TResult Visit(ILambdaTypeInferredSimpleExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IParameterReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IParameterReferenceExpression expression);
+        TResult Visit(IParameterReferenceExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IConstructorInvokeExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IConstructorInvokeExpression expression);
+        TResult Visit(IConstructorInvokeExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="ctorPointerReference"/> provided.
         /// </summary>
         /// <param name="ctorPointerReference">The <see cref="IConstructorPointerReferenceExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IConstructorPointerReferenceExpression ctorPointerReference);
+        TResult Visit(IConstructorPointerReferenceExpression ctorPointerReference, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="ILinqExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILinqExpression expression);
+        TResult Visit(ILinqExpression expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IAssignmentExpression"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IAssignmentExpression expression);
+        TResult Visit(IAssignmentExpression expression, TContext context);
         /// <summary>
         /// Visits the range variable of a language integrated query.
         /// </summary>
         /// <param name="expression">The <see cref="ILinqRangeVariableReference"/>
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILinqRangeVariableReference expression);
+        TResult Visit(ILinqRangeVariableReference expression, TContext context);
         /// <summary>
         /// Visits the <paramref name="expression"/> provided.
         /// </summary>
         /// <param name="expression">The <see cref="IEventReferenceExpression"/> 
         /// to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IEventReferenceExpression expression);
+        TResult Visit(IEventReferenceExpression expression, TContext context);
     }
 }
