@@ -433,9 +433,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Visits the <paramref name="visitor"/> provided.
         /// </summary>
+        /// <typeparam name="TResult">The type of value to return for the visitor.</typeparam>
+        /// <typeparam name="TContext">The type of context passed to the visitor.</typeparam>
         /// <param name="visitor">The <see cref="IIntermediateTypeVisitor"/> to
         /// receive the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/> as a visitor.</param>
-        public abstract TResult Visit<TResult>(IIntermediateTypeVisitor<TResult> visitor);
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        public abstract TResult Visit<TResult, TContext>(IIntermediateTypeVisitor<TResult, TContext> visitor, TContext context);
 
         #endregion
 

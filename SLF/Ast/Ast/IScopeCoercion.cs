@@ -19,6 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     public interface IScopeCoercion :
         ISourceElement
     {
-
+        void Visit(IIntermediateInclusionVisitor visitor);
+        TResult Visit<TResult, TContext>(IIntermediateInclusionVisitor<TResult, TContext> visitor, TContext context);
     }
 }

@@ -435,6 +435,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 visitor.Visit(this);
             }
 
+            public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
+            {
+                return visitor.Visit(this, context);
+            }
+
             public sealed class PropertySetMethodMember :
                 PropertyMethodMember,
                 IIntermediatePropertySignatureSetMethodMember

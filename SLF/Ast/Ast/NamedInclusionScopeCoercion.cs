@@ -50,5 +50,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public LineColumnPair? End { get; set; }
 
         #endregion
+
+        #region IScopeCoercion Members
+
+        public virtual void Visit(IIntermediateInclusionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public virtual TResult Visit<TResult, TContext>(IIntermediateInclusionVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
+
+        #endregion
     }
 }

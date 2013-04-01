@@ -97,112 +97,143 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
     /// observes primitive expressions which yield a <typeparamref name="TResult"/>
     /// relative to the implementation of the visitor.
     /// </summary>
-    /// <typeparam name="TResult">The value returned upon visiting the primitives.</typeparam>
-    public interface IPrimitiveVisitor<TResult>
+    /// <typeparam name="TResult">The value returned upon visiting the expression.</typeparam>
+    /// <typeparam name="TContext">The type of context passed to the visitor.</typeparam>
+    public interface IPrimitiveVisitor<TResult, TContext>
     {
         /// <summary>
         /// Visits a boolean primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<bool> expression);
+        TResult Visit(IPrimitiveExpression<bool> expression, TContext context);
         /// <summary>
         /// Visits a character primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<char> expression);
+        TResult Visit(IPrimitiveExpression<char> expression, TContext context);
         /// <summary>
         /// Visits a string primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<string> expression);
+        TResult Visit(IPrimitiveExpression<string> expression, TContext context);
         /// <summary>
         /// Visits a byte primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<byte> expression);
+        TResult Visit(IPrimitiveExpression<byte> expression, TContext context);
         /// <summary>
         /// Visits a sbyte primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<sbyte> expression);
+        TResult Visit(IPrimitiveExpression<sbyte> expression, TContext context);
         /// <summary>
         /// Visits an unsigned 16-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<ushort> expression);
+        TResult Visit(IPrimitiveExpression<ushort> expression, TContext context);
         /// <summary>
         /// Visits a 16-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<short> expression);
+        TResult Visit(IPrimitiveExpression<short> expression, TContext context);
         /// <summary>
         /// Visits an unsigned 32-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<uint> expression);
+        TResult Visit(IPrimitiveExpression<uint> expression, TContext context);
         /// <summary>
         /// Visits a 32-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<int> expression);
+        TResult Visit(IPrimitiveExpression<int> expression, TContext context);
         /// <summary>
         /// Visits an unsigned 64-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<ulong> expression);
+        TResult Visit(IPrimitiveExpression<ulong> expression, TContext context);
         /// <summary>
         /// Visits a 64-bit primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<long> expression);
+        TResult Visit(IPrimitiveExpression<long> expression, TContext context);
         /// <summary>
         /// Visits a single precision floating point primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<float> expression);
+        TResult Visit(IPrimitiveExpression<float> expression, TContext context);
         /// <summary>
         /// Visits a double precision floating point primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<double> expression);
+        TResult Visit(IPrimitiveExpression<double> expression, TContext context);
         /// <summary>
         /// Visits a decimal primitive expression.
         /// </summary>
         /// <param name="expression">The <see cref="IPrimitiveExpression{T}"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(IPrimitiveExpression<decimal> expression);
+        TResult Visit(IPrimitiveExpression<decimal> expression, TContext context);
         /// <summary>
         /// Visits a null primitive expression.
         /// </summary>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult VisitNull();
+        TResult VisitNull(TContext context);
     }
 }

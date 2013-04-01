@@ -225,47 +225,47 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             this.Visit((IPrimitiveVisitor)visitor);
         }
 
-        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        public override TResult Visit<TContext, TResult>(IExpressionVisitor<TResult, TContext> visitor, TContext context)
         {
-            return this.Visit((IPrimitiveVisitor<TResult>)visitor);
+            return this.Visit((IPrimitiveVisitor<TResult, TContext>)visitor, context);
         }
 
         #region IPrimitiveExpression Members
 
-        public TResult Visit<TResult>(IPrimitiveVisitor<TResult> visitor)
+        public TResult Visit<TResult, TContext>(IPrimitiveVisitor<TResult, TContext> visitor, TContext context)
         {
             switch (this.PrimitiveType)
             {
                 case PrimitiveType.Boolean:
-                    return visitor.Visit((IPrimitiveExpression<bool>)this);
+                    return visitor.Visit((IPrimitiveExpression<bool>)this, context);
                 case PrimitiveType.Byte:
-                    return visitor.Visit((IPrimitiveExpression<byte>)this);
+                    return visitor.Visit((IPrimitiveExpression<byte>)this, context);
                 case PrimitiveType.SByte:
-                    return visitor.Visit((IPrimitiveExpression<sbyte>)this);
+                    return visitor.Visit((IPrimitiveExpression<sbyte>)this, context);
                 case PrimitiveType.Int16:
-                    return visitor.Visit((IPrimitiveExpression<short>)this);
+                    return visitor.Visit((IPrimitiveExpression<short>)this, context);
                 case PrimitiveType.UInt16:
-                    return visitor.Visit((IPrimitiveExpression<ushort>)this);
+                    return visitor.Visit((IPrimitiveExpression<ushort>)this, context);
                 case PrimitiveType.Int32:
-                    return visitor.Visit((IPrimitiveExpression<int>)this);
+                    return visitor.Visit((IPrimitiveExpression<int>)this, context);
                 case PrimitiveType.UInt32:
-                    return visitor.Visit((IPrimitiveExpression<uint>)this);
+                    return visitor.Visit((IPrimitiveExpression<uint>)this, context);
                 case PrimitiveType.Int64:
-                    return visitor.Visit((IPrimitiveExpression<long>)this);
+                    return visitor.Visit((IPrimitiveExpression<long>)this, context);
                 case PrimitiveType.UInt64:
-                    return visitor.Visit((IPrimitiveExpression<ulong>)this);
+                    return visitor.Visit((IPrimitiveExpression<ulong>)this, context);
                 case PrimitiveType.Decimal:
-                    return visitor.Visit((IPrimitiveExpression<decimal>)this);
+                    return visitor.Visit((IPrimitiveExpression<decimal>)this, context);
                 case PrimitiveType.Float:
-                    return visitor.Visit((IPrimitiveExpression<float>)this);
+                    return visitor.Visit((IPrimitiveExpression<float>)this, context);
                 case PrimitiveType.Double:
-                    return visitor.Visit((IPrimitiveExpression<double>)this);
+                    return visitor.Visit((IPrimitiveExpression<double>)this, context);
                 case PrimitiveType.Char:
-                    return visitor.Visit((IPrimitiveExpression<char>)this);
+                    return visitor.Visit((IPrimitiveExpression<char>)this, context);
                 case PrimitiveType.String:
-                    return visitor.Visit((IPrimitiveExpression<string>)this);
+                    return visitor.Visit((IPrimitiveExpression<string>)this, context);
                 case PrimitiveType.Null:
-                    return visitor.VisitNull();
+                    return visitor.VisitNull(context);
                 default:
                     return default(TResult);
             }

@@ -68,12 +68,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 visitor.Visit((ISpecialReferenceExpression)this);
         }
 
-        public override TResult Visit<TResult>(IExpressionVisitor<TResult> visitor)
+        public override TResult Visit<TContext, TResult>(IExpressionVisitor<TResult, TContext> visitor, TContext context)
         {
             if (member.IsStatic)
-                return visitor.Visit((ITypeReferenceExpression)this);
+                return visitor.Visit((ITypeReferenceExpression)this, context);
             else
-                return visitor.Visit((ISpecialReferenceExpression)this);
+                return visitor.Visit((ISpecialReferenceExpression)this, context);
         }
 
         #endregion

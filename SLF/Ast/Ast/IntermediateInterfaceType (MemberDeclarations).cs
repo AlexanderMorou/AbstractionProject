@@ -272,6 +272,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 visitor.Visit(this);
             }
 
+            public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
+            {
+                return visitor.Visit(this, context);
+            }
         }
 
         private class IndexerMember :
@@ -579,6 +583,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             public override void Visit(IIntermediateMemberVisitor visitor)
             {
                 visitor.Visit(this);
+            }
+
+            public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
+            {
+                return visitor.Visit(this, context);
             }
         }
 
