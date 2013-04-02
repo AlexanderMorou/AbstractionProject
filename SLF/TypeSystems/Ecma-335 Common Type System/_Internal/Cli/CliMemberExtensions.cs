@@ -48,10 +48,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static IEnumerable<Tuple<CliMemberType, ICliMetadataTableRow>> GetMemberData(this ICliMetadataTypeDefinitionTableRow target)
         {
-            if (target.Name == "TypeSystemIdentifiers")
-            {
-                Console.WriteLine();
-            }
             IEnumerable<Tuple<CliMemberType, uint, ICliMetadataTableRow>> propertyData = null;
             /* *
              * Build our own list of methods tied to semantics,
@@ -334,12 +330,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             bool typeParamCheck = methodDef.MetadataRoot.TableStream.GenericParameterTable != null;
             if (typeParamCheck)
                 return TypeSystemIdentifiers.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
-                                                                                                                    select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
+                                                                                                                            select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
             else
                 return TypeSystemIdentifiers.GetGenericSignatureIdentifier(methodDef.Name, 0, (from p in methodDef.Signature.Parameters
-                                                                                       select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
+                                                                                               select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
         }
-
 
         internal static IMemberUniqueIdentifier GetPropertyIdentifier(ICliMetadataPropertyTableRow propertyDef)
         {

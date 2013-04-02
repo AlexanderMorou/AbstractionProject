@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IDelegateType SignatureType
         {
-            get { return (IDelegateType)this.IdentityManager.ObtainTypeReference(this.MetadataEntry.SignatureType); }
+            get { return (IDelegateType)this.IdentityManager.ObtainTypeReference(this.MetadataEntry.SignatureType, this.ActiveType, null); }
         }
 
         public IType ReturnType
@@ -164,6 +164,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 return this.onAddMethod;
             }
         }
+
+        internal IType ActiveType { get { return this.Parent as IType; } }
 
         protected abstract IMethodSignatureMember InitializeOnAddMethodSignature();
 
