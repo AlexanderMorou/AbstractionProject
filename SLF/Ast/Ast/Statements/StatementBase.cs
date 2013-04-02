@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -26,8 +26,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         {
             this.Parent = parent;
         }
+
         #region IStatement Members
 
+        /// <summary>
+        /// Returns the <see cref="IStatementParent"/> in which the current
+        /// <see cref="StatementBase"/> was declared.
+        /// </summary>
         public IStatementParent Parent { get; internal set; }
 
         /// <summary>
@@ -37,6 +42,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <param name="visitor">The <see cref="IIntermediateCodeVisitor"/> 
         /// to visit.</param>
         public abstract void Visit(IStatementVisitor visitor);
+
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value which denotes where within
+        /// the <see cref="Parent"/> the <see cref="StatementBase"/> is.
+        /// </summary>
+        public int Index
+        {
+            get {
+                return this.Parent.IndexOf(this);
+            }
+        }
 
         #endregion
     }

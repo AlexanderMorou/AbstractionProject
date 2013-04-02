@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -31,5 +31,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
         void Visit(IStatementVisitor visitor);
+        /// <summary>
+        /// Returns the <see cref="Int32"/> value which denotes
+        /// where within the <see cref="Parent"/> the
+        /// <see cref="IStatement"/> is.
+        /// </summary>
+        int Index { get; }
     }
 }

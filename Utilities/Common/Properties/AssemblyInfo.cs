@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AllenCopeland.Abstraction")]
-[assembly: AssemblyCopyright("Copyright © Allen C. Copeland Jr. 2008-2012")]
+[assembly: AssemblyCopyright("Copyright © Allen C. Copeland Jr. 2008-2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: CLSCompliant(false)]

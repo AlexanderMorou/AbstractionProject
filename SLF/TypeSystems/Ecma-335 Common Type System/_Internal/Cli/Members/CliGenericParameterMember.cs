@@ -451,7 +451,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get
             {
                 return (from m in this.Members.Values
-                        select m.Entry.UniqueIdentifier);
+                        select (IGeneralDeclarationUniqueIdentifier)m.Entry.UniqueIdentifier);
             }
         }
 

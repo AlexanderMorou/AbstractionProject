@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -11,8 +11,8 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
-    public interface IMalleableCompilationContext :
-        ICompilationContext
+    public interface IMalleableAssemblyCompilationContext :
+        IAssemblyCompilationContext
     {
         /// <summary>
         /// Returns/sets whether the code should be optimized.
@@ -50,16 +50,16 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         /// </summary>
         new bool ArithmeticOverflowChecks { get; set; }
         /// <summary>
-        /// Returns the immutable <see cref="ICompilationContext"/>
+        /// Returns the immutable <see cref="IAssemblyCompilationContext"/>
         /// associated to the current
-        /// <see cref="IMalleableCompilationContext"/>.
+        /// <see cref="IMalleableAssemblyCompilationContext"/>.
         /// </summary>
         /// <remarks>Typically used by a language's compiler to fix
         /// the details of the resultant assembly such that changes
-        /// to the original <see cref="IMalleableCompilationContext"/>
+        /// to the original <see cref="IMalleableAssemblyCompilationContext"/>
         /// are ignored.</remarks>
-        /// <returns>A <see cref="ICompilationContext"/> whose members
+        /// <returns>A <see cref="IAssemblyCompilationContext"/> whose members
         /// cannot be changed.</returns>
-        ICompilationContext GetImmutableContext();
+        IAssemblyCompilationContext GetImmutableContext();
     }
 }

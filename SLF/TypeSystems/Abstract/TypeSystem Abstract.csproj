@@ -91,9 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
-    <Compile Include="Abstract\AstIdentifier.cs" />
+    <Compile Include="Abstract\TypeSystemIdentifiers.cs" />
     <Compile Include="Abstract\AstIdentifier+IdentifierDefaults.cs">
-      <DependentUpon>AstIdentifier.cs</DependentUpon>
+      <DependentUpon>TypeSystemIdentifiers.cs</DependentUpon>
     </Compile>
     <Compile Include="Abstract\AbstractGateway+BinaryOperatorNames.cs" />
     <Compile Include="Abstract\AbstractGateway+UnaryOperatorNames.cs" />
@@ -332,7 +332,7 @@
     <Compile Include="Abstract\Members\IGenericParameterMethodMember.cs" />
     <Compile Include="Abstract\Members\IGenericParameterMethodMembers.cs" />
     <Compile Include="Abstract\Members\IGenericParameterPropertyMember.cs" />
-    <Compile Include="Abstract\Members\IGenericParameterPropertyMembers.cs" />
+    <Compile Include="Abstract\Members\IGenericParameterPropertyMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IGroupedMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IIndexerMember.cs" />
     <Compile Include="Abstract\Members\IIndexerMemberDictionary.cs" />
@@ -350,7 +350,7 @@
     <Compile Include="Abstract\IMemberParent.cs" />
     <Compile Include="Abstract\Members\IMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IMethodMember.cs" />
-    <Compile Include="Abstract\Members\IMethodMembers.cs" />
+    <Compile Include="Abstract\Members\IMethodMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IMethodParameterMember.cs" />
     <Compile Include="Abstract\Members\IMethodSignatureGenericTypeParameterMember.cs" />
     <Compile Include="Abstract\Members\IMethodSignatureMember.cs" />

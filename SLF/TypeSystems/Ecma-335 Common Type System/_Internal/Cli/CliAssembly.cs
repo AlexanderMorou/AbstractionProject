@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IClassTypeDictionary InitializeClasses()
         {
-            throw new NotImplementedException();
+            return new CliClassTypeDictionary(this, (CliFullTypeDictionary)this.Types);
         }
 
         protected override IMetadataCollection InitializeCustomAttributes()
@@ -75,12 +75,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IDelegateTypeDictionary InitializeDelegates()
         {
-            throw new NotImplementedException();
+            return new CliDelegateTypeDictionary(this, (CliFullTypeDictionary)this.Types);
         }
 
         protected override IEnumTypeDictionary InitializeEnums()
         {
-            throw new NotImplementedException();
+            return new CliEnumTypeDictionary(this, (CliFullTypeDictionary)this.Types);
         }
 
         protected override IFieldMemberDictionary<ITopLevelFieldMember, INamespaceParent> InitializeFields()
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IInterfaceTypeDictionary InitializeInterfaces()
         {
-            throw new NotImplementedException();
+            return new CliInterfaceTypeDictionary(this, (CliFullTypeDictionary)this.Types);
         }
 
         protected override IFullMemberDictionary InitializeMembers()
@@ -115,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IStructTypeDictionary InitializeStructs()
         {
-            throw new NotImplementedException();
+            return new CliStructTypeDictionary(this, (CliFullTypeDictionary)this.Types);
         }
 
         protected override IFullTypeDictionary InitializeTypes()

@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
+using System.Diagnostics;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
+    [DebuggerDisplay("{Count} namespaces")]
     internal class CliNamespaceDictionary :
         CliMetadataDrivenDictionary<IGeneralDeclarationUniqueIdentifier, uint, INamespaceDeclaration>,
         INamespaceDictionary
