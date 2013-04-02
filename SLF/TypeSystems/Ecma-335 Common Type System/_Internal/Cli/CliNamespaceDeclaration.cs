@@ -17,6 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         INamespaceDeclaration,
         _ICliTopLevelTypeParent
     {
+        private object syncObject = new object();
         private CliAssembly owningAssembly;
         CliNamespaceKeyedTreeNode namespaceInfo;
         private INamespaceParent parent;
@@ -27,12 +28,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private CliEnumTypeDictionary enumerations;
         private CliInterfaceTypeDictionary interfaces;
         private CliStructTypeDictionary structs;
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="owningAssembly"></param>
-        /// <param name="parent"></param>
-        /// <param name="namespaceInfo"></param>
+
         public CliNamespaceDeclaration(CliAssembly owningAssembly, INamespaceParent parent, CliNamespaceKeyedTreeNode namespaceInfo)
         {
             this.owningAssembly = owningAssembly;
@@ -98,7 +94,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IFieldMemberDictionary IFieldParent.Fields
         {
-            get { throw new NotImplementedException(); }
+            get { return (IFieldMemberDictionary)this.Fields; }
         }
 
         //#endregion
@@ -116,7 +112,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         IMethodMemberDictionary IMethodParent.Methods
         {
-            get { throw new NotImplementedException(); }
+            get { return (IMethodMemberDictionary)this.Methods; }
         }
 
         //#endregion
@@ -132,9 +128,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.classes == null)
-                    this.classes = new CliClassTypeDictionary(this, (CliFullTypeDictionary)this.Types);
-                return this.classes;
+                lock (this.syncObject)
+                {
+                    CheckClasses();
+                    return this.classes;
+                }
             }
         }
 
@@ -142,9 +140,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.delegates == null)
-                    this.delegates = new CliDelegateTypeDictionary(this, (CliFullTypeDictionary) this.Types);
-                return this.delegates;
+                lock (this.syncObject)
+                {
+                    CheckDelegates();
+                    return this.delegates;
+                }
             }
         }
 
@@ -152,9 +152,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.enumerations == null)
-                    this.enumerations = new CliEnumTypeDictionary(this, (CliFullTypeDictionary) this.Types);
-                return this.enumerations;
+                lock (this.syncObject)
+                {
+                    CheckEnumerations();
+                    return this.enumerations;
+                }
             }
         }
 
@@ -162,9 +164,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.interfaces == null)
-                    this.interfaces = new CliInterfaceTypeDictionary(this, (CliFullTypeDictionary) this.Types);
-                return this.interfaces;
+                lock (this.syncObject)
+                {
+                    CheckInterfaces();
+                    return this.interfaces;
+                }
             }
         }
 
@@ -172,19 +176,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.structs == null)
-                    this.structs = new CliStructTypeDictionary(this, (CliFullTypeDictionary) this.Types);
-                return this.structs;
+                lock (this.syncObject)
+                {
+                    CheckStructs();
+                    return this.structs;
+                }
             }
         }
 
         public IFullTypeDictionary Types
         {
-            get {
-                if (this.types == null)
-                    this.types = new CliFullTypeDictionary(this.namespaceInfo._Types, this);
-                return this.types;
+            get
+            {
+                lock (this.syncObject)
+                {
+                    CheckTypes();
+                    return this.types;
+                }
             }
+        }
+
+        private void CheckTypes()
+        {
+            lock (this.syncObject)
+                if (this.types == null)
+                    this.types = InitializeTypes();
         }
 
         //#endregion
@@ -206,8 +222,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                string fullSpace = this.namespaceInfo.StringsSection[this.namespaceInfo.Value];
-                return fullSpace.Substring(this.namespaceInfo.SubspaceStart, this.namespaceInfo.SubspaceLength);
+                lock (this.syncObject)
+                {
+                    string fullSpace = this.namespaceInfo.StringsSection[this.namespaceInfo.Value];
+                    return fullSpace.Substring(this.namespaceInfo.SubspaceStart, this.namespaceInfo.SubspaceLength);
+                }
             }
         }
 
@@ -217,8 +236,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public void Dispose()
         {
-            this.owningAssembly = null;
-            this.namespaceInfo = null;
+            lock (this.syncObject)
+            {
+                this.owningAssembly = null;
+                this.namespaceInfo = null;
+            }
         }
 
         //#endregion
@@ -227,7 +249,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public _ICliManager IdentityManager
         {
-            get { return (_ICliManager)((_ICliAssembly)this.Assembly).IdentityManager;}
+            get { return (_ICliManager)((_ICliAssembly)this.Assembly).IdentityManager; }
         }
 
         _ICliAssembly __ICliTypeParent.Assembly
@@ -237,7 +259,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IControlledCollection<ICliMetadataTypeDefinitionTableRow> _Types
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                lock (this.syncObject)
+                    return this.namespaceInfo._Types;
+            }
         }
 
         #endregion
@@ -260,5 +286,78 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("namespace {0}", this.UniqueIdentifier);
+        }
+
+        private void CheckClasses()
+        {
+            lock (this.syncObject)
+                if (this.classes == null)
+                    this.classes = InitializeClasses();
+        }
+
+        private void CheckDelegates()
+        {
+            lock (this.syncObject)
+            {
+                if (this.delegates == null)
+                    this.delegates = InitializeDelegates();
+            }
+        }
+
+        private void CheckEnumerations()
+        {
+            lock (this.syncObject)
+                if (this.enumerations == null)
+                    this.enumerations = InitializeEnumerations();
+        }
+
+        private void CheckInterfaces()
+        {
+            lock (this.syncObject)
+                if (this.interfaces == null)
+                    this.interfaces = InitializeInterfaces();
+        }
+
+        private void CheckStructs()
+        {
+            lock (this.syncObject)
+                if (this.structs == null)
+                    this.structs = InitializeStructs();
+        }
+
+        private CliClassTypeDictionary InitializeClasses()
+        {
+            return new CliClassTypeDictionary(this, (CliFullTypeDictionary)this.Types);
+        }
+
+        private CliDelegateTypeDictionary InitializeDelegates()
+        {
+            return new CliDelegateTypeDictionary(this, (CliFullTypeDictionary)this.Types);
+        }
+
+        private CliEnumTypeDictionary InitializeEnumerations()
+        {
+            return new CliEnumTypeDictionary(this, (CliFullTypeDictionary)this.Types);
+        }
+
+        private CliInterfaceTypeDictionary InitializeInterfaces()
+        {
+            return new CliInterfaceTypeDictionary(this, (CliFullTypeDictionary)this.Types);
+        }
+
+        private CliStructTypeDictionary InitializeStructs()
+        {
+            return new CliStructTypeDictionary(this, (CliFullTypeDictionary)this.Types);
+        }
+
+        private CliFullTypeDictionary InitializeTypes()
+        {
+            return new CliFullTypeDictionary(this.namespaceInfo._Types, this);
+        }
+
     }
 }

@@ -231,7 +231,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public bool IsGenericDefinition
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return this.MetadataEntry.TypeParameters.Count > 0;
+            }
         }
 
         public bool IsGenericConstruct

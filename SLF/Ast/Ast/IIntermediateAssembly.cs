@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Linkers;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -90,12 +90,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         new IAssemblyReferenceCollection References { get; }
         /// <summary>
-        /// Returns the <see cref="IMalleableCompilationContext"/> associated to the 
+        /// Returns the <see cref="IMalleableAssemblyCompilationContext"/> associated to the 
         /// <see cref="IIntermediateAssembly"/> which denotes the
         /// output type, target file, and other properties which describe the 
         /// resulted assembly.
         /// </summary>
-        IMalleableCompilationContext CompilationContext { get; }
+        IMalleableAssemblyCompilationContext CompilationContext { get; }
         /// <summary>
         /// Returns the <see cref="ILanguageProvider"/>
         /// which made the assembly and denotes information about the

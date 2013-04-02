@@ -77,6 +77,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return this.Parent; }
         }
 
+        IMemberUniqueIdentifier IMember.UniqueIdentifier
+        {
+            get { return this.UniqueIdentifier; }
+        }
+
         #endregion
 
         #region IDeclaration Members

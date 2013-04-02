@@ -13,6 +13,7 @@ using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     //docsis - DocsDiag
@@ -90,7 +91,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
 
-            public ClassMethodMemberFlags InstanceFlags { get { throw new NotImplementedException(); } }
+            public ClassMethodMemberFlags InstanceFlags { get {
+                ClassMethodMemberFlags flags = ClassMethodMemberFlags.None;
+                if ((MetadataEntry.UsageDetails.VTableFlags & MethodVTableLayoutFlags.NewSlot) == MethodVTableLayoutFlags.NewSlot)
+                    flags |= ClassMethodMemberFlags.HideByName;
+                if ((MetadataEntry.UsageDetails.UsageFlags & MethodUseFlags.Abstract) == MethodUseFlags.Abstract)
+                    flags |= ClassMethodMemberFlags.Abstract;
+
+                if ((MetadataEntry.UsageDetails.UsageFlags & MethodUseFlags.Final) == MethodUseFlags.Final)
+                    flags |= ClassMethodMemberFlags.Final;
+                if ((MetadataEntry.UsageDetails.UsageFlags & MethodUseFlags.Static) == MethodUseFlags.Static)
+                    flags |= ClassMethodMemberFlags.Static;
+                if ((MetadataEntry.UsageDetails.UsageFlags & MethodUseFlags.Virtual) == MethodUseFlags.Virtual)
+                    flags |= ClassMethodMemberFlags.Virtual;
+                if (MetadataEntry.UsageDetails.VTableFlags == MethodVTableLayoutFlags.ReuseSlot)
+                    flags |= ClassMethodMemberFlags.Override;
+
+                return flags;
+
+            } }
 
             ExtendedMethodMemberFlags IExtendedMethodMember.InstanceFlags { get { return ((ExtendedMethodMemberFlags)this.InstanceFlags) & ExtendedMethodMemberFlags.FlagsMask; } }
 

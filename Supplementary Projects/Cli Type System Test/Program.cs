@@ -35,8 +35,27 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         static void Main()
         {
-            ReflectionTest();
-            CliTypeSystemTest();
+            var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
+            var m = (IClassType)identityManager.ObtainTypeReference(typeof(IntermediateAssembly<,,,,,>));
+            var query = from IScopedDeclaration member in m.GetAvailableMembersFor(AccessLevelModifiers.Internal)
+                        orderby member.AccessLevel ascending,
+                                member.Name ascending
+                        select member;
+            foreach (IScopedDeclaration decl in query)
+                Console.WriteLine("{0} {1}", decl.AccessLevel, decl);
+
+        }
+
+
+        [AttributeUsage(AttributeTargets.All)]
+        [A(typeof(Tuple<int, decimal, Func<int>, Action<Tuple<AAttribute>>>))]
+        internal class AAttribute : Attribute
+        {
+            Type t;
+            public AAttribute(Type t)
+            {
+                this.t = t;
+            }
         }
 
         private static void TypeParamTest()
@@ -44,11 +63,11 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
             var signature = new[] { identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.Int32), (IType)identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.String).MakeArray() };
             var program = (IClassType)identityManager.ObtainTypeReference(typeof(Program));
-            var methodIdentifier = AstIdentifier.GetGenericSignatureIdentifier("Test", signature);
+            var methodIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier("Test", signature);
             var method = program.Methods[methodIdentifier];
             Console.WriteLine(method.IsDefined(identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.ExtensionMetadatum)));
             var iit = (IInterfaceType)identityManager.ObtainTypeReference(typeof(IIntermediateInstantiableType<,,,,,,,,,,,,,,>));
-            var itp = iit.TypeParameters[AstIdentifier.GetGenericParameterIdentifier(14, true)];
+            var itp = iit.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(14, true)];
             
             var constraints = itp.Constraints;
             Console.WriteLine(constraints[0].Equals(iit));
@@ -138,7 +157,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 
         }
 
-        private static void CliTypeSystemTest()
+        internal static void CliTypeSystemTest()
         {
             var identityManager = IntermediateGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
             var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox) }

@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Ast;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2012 Allen Copeland Jr.                             |
+| Copyright © 2008-2013 Allen Copeland Jr.                             |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -16,10 +16,10 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
     /// <summary>
     /// Provides a base class for compiler options.
     /// </summary>
-    public class MalleableCompilationContext :
-        IMalleableCompilationContext
+    public class MalleableAssemblyCompilationContext :
+        IMalleableAssemblyCompilationContext
     {
-        #region ICompilationContext Members
+        #region IAssemblyCompilationContext Members
 
         /// <summary>
         /// Returns/sets whether the code should be optimized.
@@ -64,33 +64,33 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
         #endregion
 
         /// <summary>
-        /// Returns the immutable <see cref="ICompilationContext"/> associated to the
-        /// current <see cref="MalleableCompilationContext"/>.
+        /// Returns the immutable <see cref="IAssemblyCompilationContext"/> associated to the
+        /// current <see cref="MalleableAssemblyCompilationContext"/>.
         /// </summary>
         /// <remarks>Typically used by a language's compiler to fix
         /// the details of the resultant assembly such that changes 
         /// to the original 
-        /// <see cref="MalleableCompilationContext"/>
+        /// <see cref="MalleableAssemblyCompilationContext"/>
         /// are ignored.</remarks>
-        /// <returns>A <see cref="ICompilationContext"/>
+        /// <returns>A <see cref="IAssemblyCompilationContext"/>
         /// whose members cannot be changed.</returns>
-        public ICompilationContext GetImmutableContext()
+        public IAssemblyCompilationContext GetImmutableContext()
         {
-            return new FixedContext(this);
+            return new ImmutableContext(this);
         }
 
         /// <summary>
-        /// Creates a new <see cref="MalleableCompilationContext"/> initialized to its default state.
+        /// Creates a new <see cref="MalleableAssemblyCompilationContext"/> initialized to its default state.
         /// </summary>
-        public MalleableCompilationContext()
+        public MalleableAssemblyCompilationContext()
         {
         }
 
-        private class FixedContext :
-            ICompilationContext
+        private class ImmutableContext :
+            IAssemblyCompilationContext
         {
 
-            internal FixedContext(MalleableCompilationContext context)
+            internal ImmutableContext(MalleableAssemblyCompilationContext context)
             {
                 this.Optimize = context.Optimize;
                 this.COMVisible = context.COMVisible;
@@ -102,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf.Compilers
                 this.ArithmeticOverflowChecks = context.ArithmeticOverflowChecks;
             }
 
-            #region ICompilationContext Members
+            #region IAssemblyCompilationContext Members
 
             public bool Optimize { get; private set; }
 

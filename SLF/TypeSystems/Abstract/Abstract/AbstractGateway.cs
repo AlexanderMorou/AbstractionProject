@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Utilities;
 using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
@@ -39,7 +40,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             switch (modifiers)
             {
                 case AccessLevelModifiers.ProtectedAndInternal:
-                    if (compare == AccessLevelModifiers.Private)
+                    if (compare == AccessLevelModifiers.Private || compare == AccessLevelModifiers.PrivateScope)
                         return 1;
                     else if (compare == AccessLevelModifiers.ProtectedAndInternal)
                         return 0;
@@ -50,6 +51,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     {
                         case AccessLevelModifiers.ProtectedAndInternal:
                         case AccessLevelModifiers.Private:
+                        case AccessLevelModifiers.PrivateScope:
                             return 1;
                         case AccessLevelModifiers.Protected:
                         case AccessLevelModifiers.ProtectedOrInternal:
@@ -60,7 +62,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                             return 0;
                     }
                 case AccessLevelModifiers.Private:
-                    if (compare == AccessLevelModifiers.Private)
+                    if (compare == AccessLevelModifiers.PrivateScope)
+                        return 1;
+                    else if (compare == AccessLevelModifiers.Private)
                         return 0;
                     else
                         return -1;
@@ -68,6 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     switch (compare)
                     {
                         case AccessLevelModifiers.ProtectedAndInternal:
+                        case AccessLevelModifiers.PrivateScope:
                         case AccessLevelModifiers.Internal:
                         case AccessLevelModifiers.Private:
                             return 1;
@@ -105,20 +110,20 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public static IStrongNamePrivateKeyInfo GetStrongNameKeyPair(string filename)
         {
-            return (IStrongNamePrivateKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(filename);
+            return (IStrongNamePrivateKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(filename);
         }
         public static IStrongNamePublicKeyInfo GetStrongNamePublicKey(string filename)
         {
-            return (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(filename, false);
+            return (IStrongNamePublicKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(filename, false);
         }
         public static IStrongNamePrivateKeyInfo GetStrongNameKeyPair(byte[] data)
         {
-            return (IStrongNamePrivateKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(data);
+            return (IStrongNamePrivateKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(data);
         }
 
         public static IStrongNamePublicKeyInfo GetStrongNamePublicKey(byte[] data)
         {
-            return (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(data, false);
+            return (IStrongNamePublicKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(data, false);
         }
 
         public static string GetFullName(this INamespaceDeclaration declaration)
@@ -144,5 +149,183 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
             return result.ToString();
         }
+
+        public static bool IsAtLeast(AccessLevelModifiers source, AccessLevelModifiers target)
+        {
+            switch (source)
+            {
+                case AccessLevelModifiers.ProtectedAndInternal:
+                    switch (target)
+                    {
+                        case AccessLevelModifiers.ProtectedAndInternal:
+                        case AccessLevelModifiers.Private:
+                        case AccessLevelModifiers.PrivateScope:
+                            return true;
+                        default:
+                            return false;
+                    }
+                case AccessLevelModifiers.Internal:
+                    switch (target)
+                    {
+                        case AccessLevelModifiers.ProtectedAndInternal:
+                        case AccessLevelModifiers.Internal:
+                        case AccessLevelModifiers.Private:
+                        case AccessLevelModifiers.PrivateScope:
+                        case AccessLevelModifiers.ProtectedOrInternal:
+                            return true;
+                        default:
+                            return false;
+                    }
+                case AccessLevelModifiers.Private:
+                    switch (target)
+                    {
+                        case AccessLevelModifiers.Private:
+                        case AccessLevelModifiers.PrivateScope:
+                            return true;
+                        default:
+                            return false;
+                    }
+                case AccessLevelModifiers.PrivateScope:
+                    switch (target)
+                    {
+                        case AccessLevelModifiers.PrivateScope:
+                            return true;
+                        default:
+                            return false;
+                    }
+                case AccessLevelModifiers.Public:
+                    return true;
+                case AccessLevelModifiers.Protected:
+                    switch (target)
+                    {
+                        case AccessLevelModifiers.Public:
+                        case AccessLevelModifiers.Internal:
+                            return false;
+                        default:
+                            return true;
+                    }
+                case AccessLevelModifiers.ProtectedOrInternal:
+                    switch (target)
+                    {
+                        case AccessLevelModifiers.Public:
+                            return false;
+                        default:
+                            return true;
+                    }
+            }
+            return false;
+        }
+
+        public static IEnumerable<TSignature> Filter<TSignatureParameter, TSignature, TSignatureParent>(this IMethodSignatureMemberDictionary<TSignatureParameter, TSignature, TSignatureParent> target, string name)
+            where TSignatureParameter :
+                IMethodSignatureParameterMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignature :
+                IMethodSignatureMember<TSignatureParameter, TSignature, TSignatureParent>
+            where TSignatureParent :
+                ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TSignatureParent>
+        {
+            return from m in target.Values
+                   where m.Name == name
+                   select m;
+        }
+
+        public static IEnumerable<IClassMethodMember> Filter(this IMethodSignatureMemberDictionary<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType> target, AccessLevelModifiers lowestAccessLevel)
+        {
+            return from m in target.Values
+                   where IsAtLeast(m.AccessLevel, lowestAccessLevel)
+                   select m;
+        }
+
+        public static IEnumerable<IClassMethodMember> Filter(this IMethodSignatureMemberDictionary<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType> target, string name, AccessLevelModifiers lowestAccessLevel = AccessLevelModifiers.Public)
+        {
+            return from m in target.Values
+                   where m.Name == name
+                   where IsAtLeast(m.AccessLevel, lowestAccessLevel)
+                   select m;
+        }
+
+        public static IEnumerable<IClassMethodMember> GetAvailableMethodsFor(this IClassType targetClass, string name, AccessLevelModifiers lowestAccessLevel = AccessLevelModifiers.Public)
+        {
+            return targetClass.GetAvailableMethodsFor(m => m.Name == name && IsAtLeast(m.AccessLevel, lowestAccessLevel));
+        }
+
+        public static IEnumerable<IClassMethodMember> GetAvailableMethodsFor(this IClassType targetClass, AccessLevelModifiers lowestAccessLevel, Predicate<IClassMethodMember> predicate = null)
+        {
+            return targetClass.GetAvailableMethodsFor(predicate.And(k => IsAtLeast(k.AccessLevel, lowestAccessLevel)));
+        }
+
+        public static IEnumerable<IClassMethodMember> GetAvailableMethodsFor(this IClassType targetClass, Predicate<IClassMethodMember> predicate)
+        {
+            IClassType current = targetClass;
+            var currentYield = new Dictionary<IGenericSignatureMemberUniqueIdentifier, IMethodMember>();
+        CheckAgain:
+            foreach (var method in current.Methods.Values)
+                if (predicate(method))
+                    if (!currentYield.ContainsKey(method.UniqueIdentifier))
+                    {
+                        currentYield.Add(method.UniqueIdentifier, method);
+                        yield return method;
+                    }
+            if (current.BaseType == null)
+                yield break;
+            else
+            {
+                current = current.BaseType;
+                goto CheckAgain;
+            }
+        }
+
+        public static IEnumerable<IMember> GetAvailableMembersFor(this IClassType targetClass, AccessLevelModifiers lowestAccessLevel, Predicate<IMember> predicate = null)
+        {
+            return targetClass.GetAvailableMembersFor(predicate.And(k => 
+            {
+                if (k is IScopedDeclaration)
+                {
+                    var scopedMember = (IScopedDeclaration)k;
+                    return IsAtLeast(scopedMember.AccessLevel, lowestAccessLevel);
+                }
+                return false;
+            }));
+        }
+
+        public static IEnumerable<IMember> GetAvailableMembersFor(this IClassType targetClass, string name, AccessLevelModifiers lowestAccessLevel)
+        {
+            return targetClass.GetAvailableMembersFor(k =>
+            {
+                if (k.Name != name)
+                    return false;
+                if (k is IScopedDeclaration)
+                {
+                    var scopedMember = (IScopedDeclaration)k;
+                    return IsAtLeast(scopedMember.AccessLevel, lowestAccessLevel);
+                }
+                return false;
+            });
+        }
+        public static IEnumerable<IMember> GetAvailableMembersFor(this IClassType targetClass, Predicate<IMember> predicate)
+        {
+            IClassType current = targetClass;
+            var currentYield = new Dictionary<IMemberUniqueIdentifier, IMember>();
+        CheckAgain:
+            foreach (var memberEntry in current.Members.Values)
+            {
+                var member = memberEntry.Entry;
+                if (predicate(member))
+                    if (!currentYield.ContainsKey(member.UniqueIdentifier))
+                    {
+                        currentYield.Add(member.UniqueIdentifier, member);
+                        yield return member;
+                    }
+            }
+            if (current.BaseType == null)
+                yield break;
+            else
+            {
+                current = current.BaseType;
+                goto CheckAgain;
+            }
+        }
+
+
     }
 }

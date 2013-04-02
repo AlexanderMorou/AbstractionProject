@@ -3,6 +3,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
+using AllenCopeland.Abstraction.Slf.Compilers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,9 +73,18 @@ namespace AllenCopeland.Abstraction.Slf.Transformation
 
     }
 
+    /// <summary>
+    /// Defines properties and methods for working with 
+    /// a transformation context which denotes the context-relative
+    /// assemblies
+    /// </summary>
     public interface ITransformationContext
     {
-
+        /// <summary>
+        /// Returns the compilation context for the assemblies pertinent to the
+        /// transformation.
+        /// </summary>
+        ICompilationContext CompilationContext { get; }
     }
     public interface IExpressionTransformer :
         IPrimitiveTransformer,

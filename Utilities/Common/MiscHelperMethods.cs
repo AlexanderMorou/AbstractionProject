@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2012 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -280,6 +280,24 @@ namespace AllenCopeland.Abstraction.Utilities
             TResult result = func(arg);
             sw.Stop();
             return Tuple.Create(sw.Elapsed, result);
+        }
+
+        public static Predicate<T> And<T>(this Predicate<T> first, Predicate<T> second)
+        {
+            if (second == null)
+                return first;
+            else if (first == null && second != null)
+                return second;
+            return k => first(k) && second(k);
+        }
+
+        public static Predicate<T> Or<T>(this Predicate<T> first, Predicate<T> second)
+        {
+            if (second == null)
+                return first;
+            else if (first == null && second != null)
+                return second;
+            return k => first(k) || second(k);
         }
     }
 }

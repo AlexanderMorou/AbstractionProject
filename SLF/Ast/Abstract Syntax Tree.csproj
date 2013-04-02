@@ -120,12 +120,13 @@
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
     <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
+    <Compile Include="Compilers\IAssemblyCompilationContext.cs" />
     <Compile Include="Compilers\ICompilationContext.cs" />
-    <Compile Include="Compilers\IMalleableCompilationContext.cs">
+    <Compile Include="Compilers\IMalleableAssemblyCompilationContext.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Compilers\IntermediateCompilerBase.cs" />
-    <Compile Include="Compilers\MalleableCompilationContext.cs" />
+    <Compile Include="Compilers\MalleableAssemblyCompilationContext.cs" />
     <Compile Include="Compilers\PrimitiveTypeSizes.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Ast\DeclarationIdentifierChangeEventArgs.cs" />
@@ -169,6 +170,7 @@
     </Compile>
     <Compile Include="Transformation\IIntermediateCodeTransformer.cs" />
     <Compile Include="Transformation\LiteralLifterTransformer.cs" />
+    <Compile Include="Transformation\PathStacks.cs" />
     <Compile Include="_Internal\Ast\IntermediateCliManager.cs" />
     <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection+Enumerator.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />

@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         protected override ITypeParent OnGetParent()
         {
             if (this.MetadataEntry.DeclaringType == null)
-                return null;
+                return this.Namespace;
             else
                 return (ITypeParent)this.assembly.IdentityManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
         }
