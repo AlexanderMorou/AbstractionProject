@@ -35,15 +35,33 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         static void Main()
         {
-            var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
-            var m = (IClassType)identityManager.ObtainTypeReference(typeof(IntermediateAssembly<,,,,,>));
-            var query = from IScopedDeclaration member in m.GetAvailableMembersFor(AccessLevelModifiers.Internal)
-                        orderby member.AccessLevel ascending,
-                                member.Name ascending
-                        select member;
-            foreach (IScopedDeclaration decl in query)
-                Console.WriteLine("{0} {1}", decl.AccessLevel, decl);
+            //MemberTest();
+            ReflectionTest();
+            CliTypeSystemTest();
+        }
 
+        private static void MemberTest()
+        {
+            var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
+            var m = (IClassType)identityManager.ObtainTypeReference(typeof(IntermediateClassType));
+            Console.WriteLine(m.Members.Count);
+            var gmTF = MiscHelperMethods.CreateFunctionOfTime<IClassType, IScopedDeclaration[]>(GetMembers);
+            var first = gmTF(m);
+            var second = gmTF(m);
+            foreach (IScopedDeclaration decl in first.Item2)
+                Console.WriteLine("{0} {1}\n", decl.AccessLevel, decl);
+
+            Console.WriteLine("Pre JIT-retrieval: {0}ms", first.Item1.TotalMilliseconds);
+            Console.WriteLine("Post JIT-retrieval: {0}ms", second.Item1.TotalMilliseconds);
+        }
+
+        private static IScopedDeclaration[] GetMembers(IClassType m)
+        {
+            var query = (from IScopedDeclaration member in m.GetAvailableMembersFor(AccessLevelModifiers.ProtectedAndInternal)
+                         orderby member.AccessLevel ascending
+                         //        member.Name ascending
+                         select member).ToArray();
+            return query;
         }
 
 
@@ -119,13 +137,16 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             }
         }
 
-
         private static void ReflectionTest()
         {
+            /* *
+             * Don't try to beat reflection on the assemblies it has loaded already:
+             * the default libraries are likely loaded upon runtime load.
+             * */
             var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox)}
                               select t.Assembly).ToArray();
             var typesQuery = (from a in assemblies
-                              from t in a.GetTypes()
+                              from t in a.GetTypes().AsParallel()
                               from m in t.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly)
                               select m);
             Stopwatch sw = Stopwatch.StartNew();
@@ -163,10 +184,10 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox) }
                               select identityManager.ObtainAssemblyReference(t.Assembly)).ToArray();
 
-            foreach (var table in from ICliAssembly a in assemblies
-                                  from t in a.MetadataRoot.TableStream.Values
-                                  select t)
-                table.Read();
+            //foreach (var table in from ICliAssembly a in assemblies
+            //                      from t in a.MetadataRoot.TableStream.Values
+            //                      select t)
+            //    table.Read();
 
             var typesQuery = (from a in assemblies
                               from t in a.GetTypes()

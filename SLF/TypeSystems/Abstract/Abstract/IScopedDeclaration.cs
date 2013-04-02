@@ -47,7 +47,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// class only that class (and the local scope it was defined in)
     /// has access to it.</para>
     /// <para>Not all combinations are allowed, for more information
-    /// as to why see <a href="http://www.codeproject.com/KB/recipes/spc_bits.aspx">SPC Bits</a>.</para>
+    /// as to why see <a href="http://www.codeproject.com/Articles/27916/Simple-Programming-Challenges-Enumerator-Bits">SPC Bits</a>.</para>
     /// </remarks>
     /* *
      * Added suppression for CA2217:DoNotMarkEnumsWithFlags.

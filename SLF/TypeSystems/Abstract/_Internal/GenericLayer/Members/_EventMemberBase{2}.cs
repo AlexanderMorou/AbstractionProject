@@ -155,5 +155,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #endregion
 
+        public override string ToString()
+        {
+            return string.Format("event {0}", this.UniqueIdentifier.ToString(this.Parent.ToString()));
+        }
+
     }
 }
