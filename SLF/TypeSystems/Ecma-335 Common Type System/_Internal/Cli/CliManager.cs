@@ -37,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
         private Dictionary<IAssemblyUniqueIdentifier, object> assemblyIdSyncs = new Dictionary<IAssemblyUniqueIdentifier, object>();
-        private Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataRoot, string>>();
+        private Dictionary<string, Tuple<PEImage, CliMetadataFixedRoot, string>> loadedModules = new Dictionary<string, Tuple<PEImage, CliMetadataFixedRoot, string>>();
         private MultikeyedDictionary<CliAssembly, string, CliModule> moduleAssemblyIdentities = new MultikeyedDictionary<CliAssembly, string, CliModule>();
         private Dictionary<Type, IType> systemTypeCache = new Dictionary<Type, IType>();
         private IDictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType> baseTypeKinds = new Dictionary<ICliMetadataTypeDefinitionTableRow, BaseKindCacheType>();
@@ -426,7 +426,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (toCheck == null)
                     throw new BadImageFormatException("There is no file entry in the metadata for the module.");
-                Tuple<PEImage, CliMetadataRoot, string> valid = null;
+                Tuple<PEImage, CliMetadataFixedRoot, string> valid = null;
 
                 foreach (var path in (from dirInfo in this.RuntimeEnvironment.ResolutionPaths
                                       select dirInfo.FullName).Concat<string>(new string[] { Path.GetDirectoryName(relativeAssembly.Location) }).Distinct().ToArray())
@@ -705,7 +705,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (!contains)
                 {
                     var baseName = assemblyIdentity.Name;
-                    Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
+                    Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
                     /* *
                      * Resolution method:
                      * Runtime folder, GAC Cache
@@ -911,7 +911,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 string relativePath = Path.GetDirectoryName(assemblyIdentity.MetadataRoot.SourceImage.Filename);
                 var baseName = identity.Item2.Name;
-                Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
+                Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string> validResult = null;
                 var check = CliCommon.CheckFilename(relativePath, baseName, "exe");
                 if (check != null && check.Item1.Equals(assemblyIdentity))
                     validResult = check;

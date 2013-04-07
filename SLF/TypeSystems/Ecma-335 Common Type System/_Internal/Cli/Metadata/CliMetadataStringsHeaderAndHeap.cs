@@ -15,7 +15,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
     internal class CliMetadataStringsHeaderAndHeap :
         CliMetadataStreamHeader,
-        IEnumerable<Tuple<int, string>>,
         ICliMetadataStringsHeaderAndHeap,
         IDisposable
     {
@@ -85,21 +84,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
                 for (int i = 0; i < size; i++)
                     result[i] = reader.ReadByte();
-                var convertResult = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, result);
-                char[] resultChars = new char[convertResult.Length >> 1];
-                fixed (byte* convertedBytes = convertResult)
-                {
-                    fixed (char* convertChars = resultChars)
-                    {
-                        char* sourcePtr = (char*) convertedBytes;
-                        char* convertCharsPtr = convertChars;
-                        for (int i = 0; i < resultChars.Length; i++)
-                            *convertCharsPtr++ = *sourcePtr++;
-                    }
-                }
-                this.AddSubstring(new string(resultChars, 0, resultChars.Length), index);
+                this.AddSubstring(ConvertUTF8ByteArray(result), index);
                 return loc < base.Size;
             }
+        }
+
+        unsafe public static string ConvertUTF8ByteArray(byte[] result)
+        {
+            var convertResult = Encoding.Convert(Encoding.UTF8, Encoding.Unicode, result);
+            char[] resultChars = new char[convertResult.Length >> 1];
+            fixed (byte* convertedBytes = convertResult)
+            {
+                fixed (char* convertChars = resultChars)
+                {
+                    char* sourcePtr = (char*)convertedBytes;
+                    char* convertCharsPtr = convertChars;
+                    for (int i = 0; i < resultChars.Length; i++)
+                        *convertCharsPtr++ = *sourcePtr++;
+                }
+            }
+            return new string(resultChars, 0, resultChars.Length);
         }
 
         internal void Read(EndianAwareBinaryReader reader)
@@ -107,36 +111,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             var newStream = new Substream(reader.BaseStream, reader.BaseStream.Position, base.Size);
             this.reader = new EndianAwareBinaryReader(newStream, Endianness.LittleEndian, false);
         }
-
-        //#region IEnumerable<string> Members
-
-        private IEnumerable<Tuple<int, string>> _Enumerator
-        {
-            get
-            {
-                return (from kvp in this.positionToIndexTable
-                        select new Tuple<int, string>((int) kvp.Key, this.data[kvp.Value]));
-            }
-        }
-
-        public IEnumerator<Tuple<int, string>> GetEnumerator()
-        {
-            return (from _ in _Enumerator
-                    orderby _.Item2,
-                            _.Item1
-                    select _).GetEnumerator();
-        }
-
-        //#endregion
-
-        //#region IEnumerable Members
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
-        }
-
-        //#endregion
 
         internal uint ReadIndex(EndianAwareBinaryReader reader)
         {

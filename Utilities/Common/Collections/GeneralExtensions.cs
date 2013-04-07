@@ -19,7 +19,7 @@ using AllenCopeland.Abstraction.Utilities.Arrays;
 namespace AllenCopeland.Abstraction.Utilities.Collections
 {
     [EditorBrowsable(EditorBrowsableState.Never)]
-    public static class GeneralExtensions
+    public static partial class GeneralExtensions
     {
         private static readonly Random shuffleRandom = new Random();
         private static readonly Random shuffleRandomSecond = GetSecondRandom();
@@ -430,5 +430,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
             else
                 return new ConcatenatedArrayReadOnlyCollection<T>(first.InternalArray, second.InternalArray);
         }
+
+        
     }
 }

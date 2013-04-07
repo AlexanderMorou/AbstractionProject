@@ -65,6 +65,17 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         /// used as a function pointer.
         /// </summary>
         StandaloneSignature,
-        MemberRefSig
+        MemberRefSig,
+        ArrayType,
+        CustomAttribute,
+        TypeWithElementType,
+        ModifiedTypeWithElementType,
+        FunctionPointerType,
+        GenericTypeInstance,
+        GenericParameter,
+        NativeType,
+        ReturnTypeSignature,
+        ClassOrValueType,
+        VariableArgumentParameter
     }
 }

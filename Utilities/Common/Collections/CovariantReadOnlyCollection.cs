@@ -62,9 +62,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         public int IndexOf(TLower element)
         {
             if (element is THigher)
-            {
                 return this.covariantSource.IndexOf((THigher)element);
-            }
             return -1;
         }
 

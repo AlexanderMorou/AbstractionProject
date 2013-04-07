@@ -19,6 +19,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 namespace CliMetadataReader
 {
@@ -64,7 +65,7 @@ namespace CliMetadataReader
                 var field = targetTable.DeclaredTableClass.Fields.AddNew(new TypedName(string.Format("__COR_{0}_CALC_SIZE_{1}__", targetTable.ShortName.ToUpper(), stateSizes.Count + 1), typeof(int)));
                 field.AccessLevel = DeclarationAccessLevel.Internal;
                 field.InitializationExpression = new PrimitiveExpression(calculatedSize);
-                field.Summary = string.Format("Size constant used when the total size of the @s:{0}; is {1} bytes long.", targetTable.DeclaredTableRowClass.Name, calculatedSize);
+                field.Summary = string.Format("Size constant used when the total size of the @s:{0}; is {1} bytes long.", targetTable.DeclaredLockedTableRowClass.Name, calculatedSize);
                 field.IsConstant = true;
                 stateSizes.Add(calculatedSize, field);
                 result = field;
@@ -134,7 +135,7 @@ namespace CliMetadataReader
                 stateField = table.DeclaredTableClass.Fields.AddNew(new TypedName("state", typeof(byte)));
 
                 stateField.AccessLevel = DeclarationAccessLevel.Private;
-                rowStateField = table.DeclaredTableRowClass.Fields.AddNew(new TypedName("state", typeof(byte)));
+                rowStateField = table.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName("state", typeof(byte)));
                 rowStateField.Summary = string.Format("Data member which denotes the state of the row, used to calculate the size of the\r\n@s:{0};", table.DeclaredTableClass);
             }
             IMethodMember initializeMethod = table.DeclaredTableClass.Methods.AddNew(new TypedName("Initialize", typeof(void)));
@@ -181,7 +182,7 @@ namespace CliMetadataReader
 
 
 
-            IMethodMember readElementAtMethod = table.DeclaredTableClass.Methods.AddNew(new TypedName("ReadElementAt", table.DeclaredTableRowInterface));
+            IMethodMember readElementAtMethod = table.DeclaredTableClass.Methods.AddNew(new TypedName("ReadElementAt", table.DeclaredLockedTableRowInterface));
             var readElementAtGotLock = readElementAtMethod.Locals.AddNew(new TypedName("gotLock", typeof(bool)));
             readElementAtGotLock.InitializationExpression = PrimitiveExpression.FalseValue;
             var monitorRef = typeof(Monitor).GetTypeReferenceExpression();
@@ -222,8 +223,8 @@ namespace CliMetadataReader
             else
                 offsetExpression = new BinaryOperationExpression(offsetLeft, CodeBinaryOperatorType.Multiply, stateSizeFields[0].GetReference());
             readElementAtMethod.CallMethod(table.StreamField.GetReference().GetMethod("Seek").Invoke(new BinaryOperationExpression(offsetField.GetReference(), CodeBinaryOperatorType.Add, offsetExpression), typeof(SeekOrigin).GetTypeReferenceExpression().GetField("Begin")));
-            ICreateNewObjectExpression createNewRow = new CreateNewObjectExpression(table.DeclaredTableRowClass.GetTypeReference());
-            var rowSizeProperty = table.DeclaredTableRowClass.Properties.AddNew(new TypedName("Size", typeof(int)), true, false);
+            ICreateNewObjectExpression createNewRow = new CreateNewObjectExpression(table.DeclaredLockedTableRowClass.GetTypeReference());
+            var rowSizeProperty = table.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName("Size", typeof(int)), true, false);
             rowSizeProperty.AccessLevel = DeclarationAccessLevel.Public;
             var staticReference = (from r in referencesTo
                                    where r.Key == table
@@ -238,10 +239,10 @@ namespace CliMetadataReader
             if (this.Count > 0)
             {
                 createNewRow.Arguments.Add(stateField.GetReference());
-                createNewRow.Arguments.Add(table.MetadataRootField.GetReference());
+                createNewRow.Arguments.Add(table.LockedMetadataRootField.GetReference());
                 var ctorStateParameter = table.DeclaredTableRowCtor.Parameters.AddNew(new TypedName("state", typeof(byte)));
                 var ctorMetadataRootParameter = table.DeclaredTableRowCtor.Parameters.AddNew(new TypedName("metadataRoot", metadataRoot.GetTypeReference()));
-                table.DeclaredTableRowCtor.Statements.Assign(table.RowMetadataRootField.GetReference(), ctorMetadataRootParameter.GetReference());
+                table.DeclaredTableRowCtor.Statements.Assign(table.RowLockedMetadataRootField.GetReference(), ctorMetadataRootParameter.GetReference());
                 table.DeclaredTableRowCtor.Statements.Assign(rowStateField.GetReference(), ctorStateParameter.GetReference());
                 var sizeSwitch = rowSizeProperty.GetPart.SelectCase(rowStateField.GetReference());
                 foreach (var state in stateSizeQuery)
@@ -257,8 +258,8 @@ namespace CliMetadataReader
             }
             else
             {
-                table.RowMetadataRootProperty.ParentTarget.Properties.Remove(table.RowMetadataRootProperty);
-                table.RowMetadataRootField.ParentTarget.Fields.Remove(table.RowMetadataRootField);
+                table.RowLockedMetadataRootProperty.ParentTarget.Properties.Remove(table.RowLockedMetadataRootProperty);
+                table.RowLockedMetadataRootField.ParentTarget.Fields.Remove(table.RowLockedMetadataRootField);
             }
 
             foreach (var list in fieldsTargetingThis)
@@ -271,7 +272,6 @@ namespace CliMetadataReader
                 else if (list.SourceType == MetadataTableFieldListSource.SourceTableRow)
                     dictionarySourceTable = list.Table;
                 var dictionaryContainerTable = table;
-                ITypeReference altType = null;
                 string listName = field.ImportName;
                 string targetListElementName = null;
                 string indexName = null;
@@ -362,7 +362,6 @@ namespace CliMetadataReader
                 var field = sequentialSeriesData.Field;
                 var dictionarySourceTable = sequentialSeriesData.TargetTable;
                 var dictionaryContainerTable = table;
-                string indexName = "Index";
 
                 //var groupDictionary = CreateGroupDictionary(dictionarySourceTable, dictionaryContainerTable, field.ImportName, sequentialSeriesData.TargetTable.ShortName, table.ShortName, indexName, field.ImportType);
 
@@ -374,15 +373,15 @@ namespace CliMetadataReader
                 var importTable = import.DataType as MetadataTable;
                 if (importTable != null)
                 {
-                    var importTableLookedUp = importTable.DeclaredTableRowClass.Fields.AddNew(new TypedName(string.Format("checked{0}", import.ImportName), typeof(bool)));
+                    var importTableLookedUp = importTable.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName(string.Format("checked{0}", import.ImportName), typeof(bool)));
                     var importAltTarget = import.TargetField;
                     MetadataTable targetType = null;
                     if (importAltTarget != null)
                         targetType = import.TargetField.DataType as MetadataTable;
                     else
                         targetType = table;
-                    var importTableField = importTable.DeclaredTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(import.ImportName), targetType.DeclaredTableRowInterface.GetTypeReference()));
-                    var importTableProperty = importTable.DeclaredTableRowClass.Properties.AddNew(new TypedName(import.ImportName, targetType.DeclaredTableRowInterface.GetTypeReference()), true, false);
+                    var importTableField = importTable.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(import.ImportName), targetType.DeclaredLockedTableRowInterface.GetTypeReference()));
+                    var importTableProperty = importTable.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName(import.ImportName, targetType.DeclaredLockedTableRowInterface.GetTypeReference()), true, false);
                     importTableField.Summary = string.Format("Data member for @s:{0};", importTableProperty.Name);
                     importTableProperty.Summary = import.ImportSummary;
                     importTableProperty.Remarks = import.ImportRemarks;
@@ -390,13 +389,13 @@ namespace CliMetadataReader
                     importTableProperty.AccessLevel = DeclarationAccessLevel.Public;
                     var importCheck = importTableProperty.GetPart.IfThen(new BinaryOperationExpression(importTableLookedUp.GetReference().LogicalNot(), CodeBinaryOperatorType.BooleanAnd, new BinaryOperationExpression(importTableField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue)));
 
-                    var importCheckTable = importCheck.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(table.Name)), table.DeclaredTableInterface.GetTypeReference()));
+                    var importCheckTable = importCheck.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(table.Name)), table.DeclaredLockedTableInterface.GetTypeReference()));
                     importCheckTable.AutoDeclare = false;
                     importCheck.Add(importCheckTable.GetDeclarationStatement());
                     //importCheckTable.InitializationExpression = ;
-                    importCheckTable.InitializationExpression = table.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream"));
+                    importCheckTable.InitializationExpression = table.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"));
                     var importTableNullCheck = importCheck.IfThen(new BinaryOperationExpression(importCheckTable.GetReference(), CodeBinaryOperatorType.IdentityInequality, PrimitiveExpression.NullValue));
-                    var iteration = importTableNullCheck.Enumerate(importCheckTable.GetReference(), table.DeclaredTableRowInterface.GetTypeReference());
+                    var iteration = importTableNullCheck.Enumerate(importCheckTable.GetReference(), table.DeclaredLockedTableRowInterface.GetTypeReference());
                     iteration.CurrentMember.Name = Program.lowerFirst(import.ImportName);
                     var iterationIndexCheck = iteration.IfThen(new BinaryOperationExpression(import.PropertyIndexReference.GetReference(iteration.CurrentMember.GetReference()), CodeBinaryOperatorType.IdentityEquality, new ThisReferenceExpression().GetProperty("Index")));
                     if (importAltTarget != null)
@@ -408,7 +407,7 @@ namespace CliMetadataReader
                     iteration.BreakLocal.AutoDeclare = false;
                     iteration.ExitLabel.Skip = true;
                     importCheck.Assign(importTableLookedUp.GetReference(), PrimitiveExpression.TrueValue);
-                    table.DeclaredTableRowClass.Properties.Remove(import.PropertyReference);
+                    table.DeclaredLockedTableRowClass.Properties.Remove(import.PropertyReference);
                     //import.PropertyIndexReference.AccessLevel = DeclarationAccessLevel.Internal;
                     importTableProperty.GetPart.Return(importTableField.GetReference());
                 }
@@ -590,114 +589,132 @@ namespace CliMetadataReader
 
         private static void CreateOneToManyProperty(MetadataTable table, MetadataTableField field, MetadataTable listTable, MetadataTable dictionarySourceTable)
         {
-            var listField = table.DeclaredTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(field.ImportName), typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference()))));
+            var cov = typeof(CovariantReadOnlyCollection<,>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference(), dictionarySourceTable.DeclaredMutableTableRowInterface.GetTypeReference()));
+            var listLockedField = table.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(field.ImportName), typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()))));
+            var listMutableField = table.DeclaredMutableTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(field.ImportName), typeof(Collection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredMutableTableRowInterface.GetTypeReference()))));
+            var listMutableLockedField = table.DeclaredMutableTableRowClass.Fields.AddNew(new TypedName(string.Format("_{0}", Program.lowerFirst(field.ImportName)), cov));
+            var listLockedProperty = table.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName(field.ImportName, listLockedField.FieldType), true, false);
+            var listMutableProperty = table.DeclaredMutableTableRowClass.Properties.AddNew(new TypedName(field.ImportName, listMutableField.FieldType), true, false);
+            var listMutableLockedProperty = table.DeclaredMutableTableRowClass.Properties.AddNew(new TypedName(field.ImportName + "{", listLockedField.FieldType), true, false);
+            listMutableLockedProperty.PrivateImplementationTarget = table.DeclaredLockedTableRowInterface.GetTypeReference();
+            listMutableLockedProperty.Name = field.ImportName;
+            var lockedMutablePropCheck = listMutableLockedProperty.GetPart.IfThen(new BinaryOperationExpression(listMutableLockedField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
+            lockedMutablePropCheck.Assign(listMutableLockedField.GetReference(), cov.GetNewExpression(new ExpressionCollection(typeof(ControlledCollection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredMutableTableRowInterface.GetTypeReference())).GetNewExpression(new ExpressionCollection(listMutableProperty.GetReference())))));
+            listMutableLockedProperty.GetPart.Return(listMutableLockedField.GetReference());
 
-            var listProperty = table.DeclaredTableRowClass.Properties.AddNew(new TypedName(field.ImportName, listField.FieldType), true, false);
-            listProperty.Summary = field.ImportSummary;
-            listProperty.Remarks = field.ListRemarks;
-            listProperty.AccessLevel = DeclarationAccessLevel.Public;
-            listProperty.Summary = string.Format("Returns {0}", Program.lowerFirst(field.ImportSummary == null ? field.Summary : field.ImportSummary));
-            field.PropertyIndexReference.Summary = string.Format("Returns the @s:UInt32; value which determines the index of the first @s:{0}; within @s:{1};", field.PropertyReference.PropertyType.ToString(new IntermediateCodeTranslatorOptions(true)), listProperty.Name);
-            listField.Summary = string.Format("Data member for @s:{0};", listProperty.Name);
-            var listNullCheck = listProperty.GetPart.IfThen(new BinaryOperationExpression(listField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
+            var mutablePropCheck = listMutableProperty.GetPart.IfThen(new BinaryOperationExpression(listMutableField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
+            mutablePropCheck.Assign(listMutableField.GetReference(), listMutableField.FieldType.GetNewExpression(new ExpressionCollection()));
+            listMutableProperty.GetPart.Return(listMutableField.GetReference());
+            listMutableProperty.Summary = field.ImportSummary;
+            listMutableProperty.Remarks = field.ListRemarks;
+            listMutableProperty.AccessLevel = DeclarationAccessLevel.Public;
+            listMutableProperty.Summary = string.Format("Returns {0}", Program.lowerFirst(field.ImportSummary == null ? field.Summary : field.ImportSummary));
+
+            listLockedProperty.Summary = field.ImportSummary;
+            listLockedProperty.Remarks = field.ListRemarks;
+            listLockedProperty.AccessLevel = DeclarationAccessLevel.Public;
+            listLockedProperty.Summary = string.Format("Returns {0}", Program.lowerFirst(field.ImportSummary == null ? field.Summary : field.ImportSummary));
+            field.PropertyIndexReference.Summary = string.Format("Returns the @s:UInt32; value which determines the index of the first @s:{0}; within @s:{1};", field.PropertyReference.PropertyType.ToString(new IntermediateCodeTranslatorOptions(true)), listLockedProperty.Name);
+            listLockedField.Summary = string.Format("Data member for @s:{0};", listLockedProperty.Name);
+            var listNullCheck = listLockedProperty.GetPart.IfThen(new BinaryOperationExpression(listLockedField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
             if (field.TargetField != null)
                 field.TargetField.PropertyReference.ParentTarget.Properties.Remove(field.TargetField.PropertyReference);
             if (field.ImportType == MetadataTableFieldImportKind.OneToSequentialManyImported)
             {
-                var currentEntry = listNullCheck.Locals.AddNew(new TypedName(string.Format("current{0}", listTable.ShortName), listTable.DeclaredTableRowInterface.GetTypeReference()));
+                var currentEntry = listNullCheck.Locals.AddNew(new TypedName(string.Format("current{0}", listTable.ShortName), listTable.DeclaredLockedTableRowInterface.GetTypeReference()));
                 currentEntry.AutoDeclare = false;
                 currentEntry.InitializationExpression = PrimitiveExpression.NullValue;
                 listNullCheck.Add(currentEntry.GetDeclarationStatement());
-                var tableRef = listNullCheck.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(listTable.ShortName)), listTable.DeclaredTableInterface.GetTypeReference()));
+                var tableRef = listNullCheck.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(listTable.ShortName)), listTable.DeclaredLockedTableInterface.GetTypeReference()));
                 tableRef.AutoDeclare = false;
-                tableRef.InitializationExpression = listTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream"));
+                tableRef.InitializationExpression = listTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"));
                 listNullCheck.Add(tableRef.GetDeclarationStatement());
                 var tableNullCheck = listNullCheck.IfThen(new BinaryOperationExpression(tableRef.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
                 tableNullCheck.Return(PrimitiveExpression.NullValue);
-                var importSetEnumeration = listNullCheck.Enumerate(tableRef.GetReference(), listTable.DeclaredTableRowInterface.GetTypeReference());
+                var importSetEnumeration = listNullCheck.Enumerate(tableRef.GetReference(), listTable.DeclaredLockedTableRowInterface.GetTypeReference());
                 importSetEnumeration.CurrentMember.Name = string.Format(Program.lowerFirst(listTable.ShortName));
                 var importFind = importSetEnumeration.IfThen(new BinaryOperationExpression(new ThisReferenceExpression().GetProperty("Index"), CodeBinaryOperatorType.IdentityEquality, field.PropertyIndexReference.GetReference(importSetEnumeration.CurrentMember.GetReference())));
                 importFind.Assign(currentEntry.GetReference(), importSetEnumeration.CurrentMember.GetReference());
                 importFind.Break();
                 importSetEnumeration.ExitLabel.Skip = true;
                 importSetEnumeration.BreakLocal.AutoDeclare = false;
-                var dictType = typeof(CliMetadataLazySequentialSet<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference()));
+                var dictType = typeof(CliMetadataLazySequentialSet<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()));
 
                 var currentNullCheck = listNullCheck.IfThen(new BinaryOperationExpression(currentEntry.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
-                currentNullCheck.Assign(listField.GetReference(), new CreateNewObjectExpression(dictType, PrimitiveExpression.NumberZero, PrimitiveExpression.NumberZero, dictionarySourceTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream"))));
+                currentNullCheck.Assign(listLockedField.GetReference(), new CreateNewObjectExpression(dictType, PrimitiveExpression.NumberZero, PrimitiveExpression.NumberZero, dictionarySourceTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"))));
                 var currentBlock = currentNullCheck.FalseBlock;
                 string listSingleItem = (field.ResultedListElementName != null) ? field.ResultedListElementName : field.PropertyReference.Name;
 
-                var nextEntry = currentBlock.Locals.AddNew(new TypedName(string.Format("next{0}", listTable.ShortName), listTable.DeclaredTableRowInterface.GetTypeReference()));
+                var nextEntry = currentBlock.Locals.AddNew(new TypedName(string.Format("next{0}", listTable.ShortName), listTable.DeclaredLockedTableRowInterface.GetTypeReference()));
                 nextEntry.AutoDeclare = false;
                 currentBlock.Add(nextEntry.GetDeclarationStatement());
-                //dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference()
-                nextEntry.InitializationExpression = listTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(new BinaryOperationExpression(currentEntry.GetReference().GetProperty("Index"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(int)));
+                //dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()
+                nextEntry.InitializationExpression = listTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(new BinaryOperationExpression(currentEntry.GetReference().GetProperty("Index"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(int)));
                 var lastItemIndex = currentBlock.Locals.AddNew(new TypedName(string.Format("last{0}Index", listSingleItem), typeof(uint)));
                 lastItemIndex.AutoDeclare = false;
                 currentBlock.Add(lastItemIndex.GetDeclarationStatement());
                 var nextNullCheck = currentBlock.IfThen(new BinaryOperationExpression(nextEntry.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
-                nextNullCheck.Assign(lastItemIndex.GetReference(), new BinaryOperationExpression(dictionarySourceTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream")).GetProperty("Count"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(uint).GetTypeReference()));
+                nextNullCheck.Assign(lastItemIndex.GetReference(), new BinaryOperationExpression(dictionarySourceTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream")).GetProperty("Count"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(uint).GetTypeReference()));
                 //nextNullCheck.Assign(lastItemIndex.GetReference(), field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference()));
                 nextNullCheck.FalseBlock.Assign(lastItemIndex.GetReference(), field.TargetField.PropertyIndexReference.GetReference(nextEntry.GetReference()));
-                currentBlock.Assign(listField.GetReference(), new CreateNewObjectExpression(dictType, field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference()), lastItemIndex.GetReference(), dictionarySourceTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream"))));
-                //currentBlock.Assign(listField.GetReference(), new CreateNewObjectExpression(groupDictionary.GetTypeReference(), new ThisReferenceExpression(), field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference()), new BinaryOperationExpression(lastItemIndex.GetReference(), CodeBinaryOperatorType.Subtract, field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference())).Cast(typeof(int))));
-                listProperty.GetPart.Return(listField.GetReference());
+                currentBlock.Assign(listLockedField.GetReference(), new CreateNewObjectExpression(dictType, field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference()), lastItemIndex.GetReference(), dictionarySourceTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"))));
+                //currentBlock.Assign(listLockedField.GetReference(), new CreateNewObjectExpression(groupDictionary.GetTypeReference(), new ThisReferenceExpression(), field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference()), new BinaryOperationExpression(lastItemIndex.GetReference(), CodeBinaryOperatorType.Subtract, field.TargetField.PropertyIndexReference.GetReference(currentEntry.GetReference())).Cast(typeof(int))));
+                listLockedProperty.GetPart.Return(listLockedField.GetReference());
             }
             else
             {
-                var nextEntry = listNullCheck.Locals.AddNew(new TypedName(string.Format("next{0}", listTable.ShortName), table.DeclaredTableRowInterface.GetTypeReference()));
+                var nextEntry = listNullCheck.Locals.AddNew(new TypedName(string.Format("next{0}", listTable.ShortName), table.DeclaredLockedTableRowInterface.GetTypeReference()));
                 nextEntry.AutoDeclare = false;
                 listNullCheck.Add(nextEntry.GetDeclarationStatement());
                 var lastItemIndex = listNullCheck.Locals.AddNew(new TypedName(string.Format("last{0}", (field.ResultedListElementName != null) ? field.ResultedListElementName : field.PropertyIndexReference.Name), typeof(uint)));
                 lastItemIndex.AutoDeclare = false;
                 listNullCheck.Add(lastItemIndex.GetDeclarationStatement());
 
-                nextEntry.InitializationExpression = table.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(new BinaryOperationExpression(new ThisReferenceExpression().GetProperty("Index"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(int)));
-                var tableRef = listNullCheck.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredTableInterface.GetTypeReference()));
+                nextEntry.InitializationExpression = table.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(new BinaryOperationExpression(new ThisReferenceExpression().GetProperty("Index"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(int)));
+                var tableRef = listNullCheck.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredLockedTableInterface.GetTypeReference()));
                 tableRef.AutoDeclare = false;
                 listNullCheck.Add(tableRef.GetDeclarationStatement());
                 var nextNullCheck = listNullCheck.IfThen(new BinaryOperationExpression(nextEntry.GetReference(), CodeBinaryOperatorType.IdentityInequality, PrimitiveExpression.NullValue));
                 nextNullCheck.Assign(lastItemIndex.GetReference(), field.PropertyIndexReference.GetReference(nextEntry.GetReference()));
-                tableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream"));
+                tableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"));
                 var tableNullCheck = nextNullCheck.FalseBlock.IfThen(new BinaryOperationExpression(tableRef.GetReference(), CodeBinaryOperatorType.IdentityInequality, PrimitiveExpression.NullValue));
                 tableNullCheck.Assign(lastItemIndex.GetReference(), new BinaryOperationExpression(tableRef.GetReference().GetProperty("Count"), CodeBinaryOperatorType.Add, PrimitiveExpression.NumberOne).Cast(typeof(uint)));
                 tableNullCheck.FalseBlock.Assign(lastItemIndex.GetReference(), field.PropertyIndexReference.GetReference());
-                var dictType = typeof(CliMetadataLazySequentialSet<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference()));
+                var dictType = typeof(CliMetadataLazySequentialSet<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()));
 
-                listNullCheck.Assign(listField.GetReference(), new CreateNewObjectExpression(dictType, field.PropertyIndexReference.GetReference(), lastItemIndex.GetReference(), tableRef.GetReference()));
-                //listNullCheck.Assign(listField.GetReference(), new CreateNewObjectExpression(dictType, field.PropertyIndexReference.GetReference(), new BinaryOperationExpression(lastItemIndex.GetReference(), CodeBinaryOperatorType.Subtract, field.PropertyIndexReference.GetReference()).Cast(typeof(int))));
-                listProperty.GetPart.Return(listField.GetReference());
+                listNullCheck.Assign(listLockedField.GetReference(), new CreateNewObjectExpression(dictType, field.PropertyIndexReference.GetReference(), lastItemIndex.GetReference(), tableRef.GetReference()));
+                //listNullCheck.Assign(listLockedField.GetReference(), new CreateNewObjectExpression(dictType, field.PropertyIndexReference.GetReference(), new BinaryOperationExpression(lastItemIndex.GetReference(), CodeBinaryOperatorType.Subtract, field.PropertyIndexReference.GetReference()).Cast(typeof(int))));
+                listLockedProperty.GetPart.Return(listLockedField.GetReference());
             }
-            listTable.DeclaredTableRowClass.Properties.Remove(field.PropertyReference);
+            listTable.DeclaredLockedTableRowClass.Properties.Remove(field.PropertyReference);
         }
 
         private static void CreateOneToManyProperty(MetadataTableField field, MetadataTable dictionarySourceTable, MetadataTable dictionaryContainerTable, string listName, string targetListElementName, string indexName, MetadataTable listTable)
         {
 
-            var dictType = typeof(CliMetadataLazySet<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference()));
-            var fieldType = typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference()));
-            var d = dictType.ToString();
-            var currentListHolderField = dictionaryContainerTable.DeclaredTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(listName), fieldType));
+            var dictType = typeof(CliMetadataLazySet<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()));
+            var lockedFieldType = typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()));
+            var mutableFieldType = typeof(Collection<>).GetTypeReference(new TypeReferenceCollection(dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference()));
+            var currentListHolderField = dictionaryContainerTable.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName(Program.lowerFirst(listName), lockedFieldType));
 
-            var currentListHolderProperty = dictionaryContainerTable.DeclaredTableRowClass.Properties.AddNew(new TypedName(listName, fieldType), true, false);
+            var currentListHolderProperty = dictionaryContainerTable.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName(listName, lockedFieldType), true, false);
             currentListHolderField.Summary = string.Format("Data member for @s:{0};.", currentListHolderProperty.Name);
             if (string.IsNullOrEmpty(field.ImportSummary))
-                currentListHolderProperty.Summary = string.Format("Returns a set of @s:{0}; which are associated to the @s:{1};.", dictionarySourceTable.DeclaredTableRowInterface.Name, dictionaryContainerTable.DeclaredTableRowClass.Name);
+                currentListHolderProperty.Summary = string.Format("Returns a set of @s:{0}; which are associated to the @s:{1};.", dictionarySourceTable.DeclaredLockedTableRowInterface.Name, dictionaryContainerTable.DeclaredLockedTableRowClass.Name);
             else
                 currentListHolderProperty.Summary = field.ImportSummary;
-            currentListHolderProperty.Remarks = string.Format("Created through references from the @s:{0};.", listTable.DeclaredTableInterface.Name);
+            currentListHolderProperty.Remarks = string.Format("Created through references from the @s:{0};.", listTable.DeclaredLockedTableInterface.Name);
             currentListHolderProperty.AccessLevel = DeclarationAccessLevel.Public;
             var currentListHolderNullCondition = currentListHolderProperty.GetPart.IfThen(new BinaryOperationExpression(currentListHolderField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
             var currentListHolderLocalList = currentListHolderNullCondition.Locals.AddNew(new TypedName(Program.lowerFirst(listName), typeof(List<uint>).GetTypeReference()));
             currentListHolderLocalList.InitializationExpression = new CreateNewObjectExpression(currentListHolderLocalList.LocalType);
             currentListHolderLocalList.AutoDeclare = false;
-            var currentListHolderTableRef = currentListHolderNullCondition.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(listName)), listTable.DeclaredTableInterface.GetTypeReference()));
-            currentListHolderTableRef.InitializationExpression = listTable.MetadataProperty.GetReference(dictionaryContainerTable.RowMetadataRootField.GetReference().GetProperty("TableStream"));
+            var currentListHolderTableRef = currentListHolderNullCondition.Locals.AddNew(new TypedName(string.Format("{0}Table", Program.lowerFirst(listName)), listTable.DeclaredLockedTableInterface.GetTypeReference()));
+            currentListHolderTableRef.InitializationExpression = listTable.MetadataProperty.GetReference(dictionaryContainerTable.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"));
             var holderTableRefNullCheck = currentListHolderNullCondition.IfThen(new BinaryOperationExpression(currentListHolderTableRef.GetReference(), CodeBinaryOperatorType.IdentityInequality, PrimitiveExpression.NullValue));
             holderTableRefNullCheck.Add(currentListHolderLocalList.GetDeclarationStatement());
 
-            var enumeration = holderTableRefNullCheck.Enumerate(currentListHolderTableRef.GetReference(), listTable.DeclaredTableRowInterface.GetTypeReference());
+            var enumeration = holderTableRefNullCheck.Enumerate(currentListHolderTableRef.GetReference(), listTable.DeclaredLockedTableRowInterface.GetTypeReference());
             enumeration.CurrentMember.Name = Program.lowerFirst(targetListElementName);
             IConditionStatement enumerationReferenceCheck;
             if (field.DataType.DataKind == FieldDataKind.Encoding)
@@ -711,7 +728,7 @@ namespace CliMetadataReader
                 enumerationReferenceCheck = enumeration.IfThen(new BinaryOperationExpression(new BinaryOperationExpression(encodedField.EncodingProperty.GetReference(enumeration.CurrentMember.GetReference()), CodeBinaryOperatorType.IdentityEquality, encodingSelection), CodeBinaryOperatorType.BooleanAnd, new BinaryOperationExpression(field.PropertyIndexReference.GetReference(enumeration.CurrentMember.GetReference()), CodeBinaryOperatorType.IdentityEquality, new ThisReferenceExpression().GetProperty("Index"))));
                 if (field.PropertyIndexReference != null)
                     field.PropertyIndexReference.Summary = string.Format("Returns the decoded index of the {0} relative to the appropriate table.", field.PropertyReference.Name);
-                dictionarySourceTable.DeclaredTableRowClass.Properties.Remove(field.PropertyReference);
+                dictionarySourceTable.DeclaredLockedTableRowClass.Properties.Remove(field.PropertyReference);
             }
             else
             {
@@ -719,21 +736,21 @@ namespace CliMetadataReader
             }
             enumerationReferenceCheck.CallMethod(currentListHolderLocalList.GetReference().GetMethod("Add").Invoke(enumeration.CurrentMember.GetReference().GetProperty(indexName)));
 
-            holderTableRefNullCheck.Assign(currentListHolderField.GetReference(), new CreateNewObjectExpression(dictType, currentListHolderLocalList.GetReference().GetMethod("ToArray").Invoke(), dictionarySourceTable.MetadataProperty.GetReference(dictionaryContainerTable.RowMetadataRootField.GetReference().GetProperty("TableStream"))));
+            holderTableRefNullCheck.Assign(currentListHolderField.GetReference(), new CreateNewObjectExpression(dictType, currentListHolderLocalList.GetReference().GetMethod("ToArray").Invoke(), dictionarySourceTable.MetadataProperty.GetReference(dictionaryContainerTable.RowLockedMetadataRootField.GetReference().GetProperty("TableStream"))));
             //currentListHolderNullCondition.Assign(currentListHolderCheck.GetReference(), PrimitiveExpression.TrueValue);
             currentListHolderProperty.GetPart.Return(currentListHolderField.GetReference());
         }
         /*
         private static IClassType CreateGroupDictionary(MetadataTable dictionarySourceTable, MetadataTable dictionaryContainerTable, string listName, string elementName, string containerName, string indexName, MetadataTableFieldImportKind listKind = MetadataTableFieldImportKind.ManyToOneImport)
         {
-            ITypeReference listType = dictionarySourceTable.DeclaredTableRowInterface.GetTypeReference();
-            var groupDictionary = dictionaryContainerTable.DeclaredTableRowClass.Partials.AddNew().Classes.AddNew(string.Format("Lazy{0}", listName));
+            ITypeReference listType = dictionarySourceTable.DeclaredLockedTableRowInterface.GetTypeReference();
+            var groupDictionary = dictionaryContainerTable.DeclaredLockedTableRowClass.Partials.AddNew().Classes.AddNew(string.Format("Lazy{0}", listName));
             groupDictionary.ImplementsList.Add(typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(listType)));
             groupDictionary.ImplementsList.Add(typeof(IControlledCollection).GetTypeReference());
 
             var groupCtor = groupDictionary.Constructors.AddNew();
             groupCtor.AccessLevel = DeclarationAccessLevel.Internal;
-            var groupCtorOwnerParameter = groupCtor.Parameters.AddNew(new TypedName(Program.lowerFirst(containerName), dictionaryContainerTable.DeclaredTableRowClass.GetTypeReference()));
+            var groupCtorOwnerParameter = groupCtor.Parameters.AddNew(new TypedName(Program.lowerFirst(containerName), dictionaryContainerTable.DeclaredLockedTableRowClass.GetTypeReference()));
             var groupOwnerRef = groupDictionary.Fields.AddNew(new TypedName(groupCtorOwnerParameter.Name, groupCtorOwnerParameter.ParameterType));
             groupCtor.Statements.Assign(groupOwnerRef.GetReference(), groupCtorOwnerParameter.GetReference());
 
@@ -785,9 +802,9 @@ namespace CliMetadataReader
             gircCopyToMethodArray = gircCopyToMethod.Parameters.AddNew(new TypedName("array", listType.MakeArray(1)));
             gircCopyToMethodArrayIndex = gircCopyToMethod.Parameters.AddNew(new TypedName("arrayIndex", typeof(int)));
 
-            var tableStreamTableRef = gircCopyToMethod.Locals.AddNew(new TypedName(Program.lowerFirst(string.Format("{0}Table", dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredTableInterface.GetTypeReference()));
+            var tableStreamTableRef = gircCopyToMethod.Locals.AddNew(new TypedName(Program.lowerFirst(string.Format("{0}Table", dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredLockedTableInterface.GetTypeReference()));
 
-            tableStreamTableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(dictionarySourceTable.RowMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream"));
+            tableStreamTableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(dictionarySourceTable.RowLockedMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream"));
             tableStreamTableRef.AutoDeclare = false;
             IConditionStatement gircCopyToLengthCheck = null;
             switch (listKind)
@@ -860,9 +877,9 @@ namespace CliMetadataReader
             var ircCopyToMethodArray = ircCopyToMethod.Parameters.AddNew(new TypedName("array", typeof(Array)));
             var ircCopyToMethodArrayIndex = ircCopyToMethod.Parameters.AddNew(new TypedName("arrayIndex", typeof(int)));
 
-            currentListHolderTableRef = ircCopyToMethod.Locals.AddNew(new TypedName(Program.lowerFirst(string.Format("{0}Table", dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredTableInterface.GetTypeReference()));
+            currentListHolderTableRef = ircCopyToMethod.Locals.AddNew(new TypedName(Program.lowerFirst(string.Format("{0}Table", dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredLockedTableInterface.GetTypeReference()));
 
-            currentListHolderTableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(dictionaryContainerTable.MetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream"));
+            currentListHolderTableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(dictionaryContainerTable.LockedMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream"));
             currentListHolderTableRef.AutoDeclare = false;
             IConditionStatement ircCopyToLengthCheck = null;
             
@@ -976,21 +993,21 @@ namespace CliMetadataReader
                 case MetadataTableFieldImportKind.OneToSequentialManyImported:
                     gircThisRangeCheck = gircThis.GetPart.IfThen(new BinaryOperationExpression(new BinaryOperationExpression(gircThisIndex.GetReference(), CodeBinaryOperatorType.LessThan, PrimitiveExpression.NumberZero), CodeBinaryOperatorType.BooleanOr, new BinaryOperationExpression(gircThisIndex.GetReference(), CodeBinaryOperatorType.GreaterThanOrEqual, itemCount.GetReference())));
                     gircThisRangeCheck.Add(new ThrowStatement(new CreateNewObjectExpression(typeof(ArgumentOutOfRangeException).GetTypeReference(), new ExpressionCollection(new PrimitiveExpression(gircThisIndex.Name)))));
-                    gircThis.GetPart.Return(dictionarySourceTable.MetadataProperty.GetReference(dictionarySourceTable.RowMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream")).GetIndex(new BinaryOperationExpression(startIndex.GetReference(), CodeBinaryOperatorType.Add, gircThisIndex.GetReference()).Cast(typeof(int))));
+                    gircThis.GetPart.Return(dictionarySourceTable.MetadataProperty.GetReference(dictionarySourceTable.RowLockedMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream")).GetIndex(new BinaryOperationExpression(startIndex.GetReference(), CodeBinaryOperatorType.Add, gircThisIndex.GetReference()).Cast(typeof(int))));
                     break;
                 case MetadataTableFieldImportKind.ManyToOneImport:
                     gircThisRangeCheck = gircThis.GetPart.IfThen(new BinaryOperationExpression(new BinaryOperationExpression(gircThisIndex.GetReference(), CodeBinaryOperatorType.LessThan, PrimitiveExpression.NumberZero), CodeBinaryOperatorType.BooleanOr, new BinaryOperationExpression(gircThisIndex.GetReference(), CodeBinaryOperatorType.GreaterThanOrEqual, groupSetField.GetReference().GetProperty("Length"))));
                     gircThisRangeCheck.Add(new ThrowStatement(new CreateNewObjectExpression(typeof(ArgumentOutOfRangeException).GetTypeReference(), new ExpressionCollection(new PrimitiveExpression(gircThisIndex.Name)))));
-                    gircThis.GetPart.Return(dictionarySourceTable.MetadataProperty.GetReference(dictionarySourceTable.RowMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream")).GetIndex(groupSetField.GetReference().GetIndex(gircThisIndex.GetReference()).Cast(typeof(int))));
+                    gircThis.GetPart.Return(dictionarySourceTable.MetadataProperty.GetReference(dictionarySourceTable.RowLockedMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream")).GetIndex(groupSetField.GetReference().GetIndex(gircThisIndex.GetReference()).Cast(typeof(int))));
                     break;
             }
 
             var gircEnumeration = groupDictionary.Methods.AddNew(new TypedName("GetEnumerator", typeof(IEnumerator<>).GetTypeReference(new TypeReferenceCollection(gircThis.PropertyType))));
             gircEnumeration.AccessLevel = DeclarationAccessLevel.Public;
-            tableStreamTableRef = gircEnumeration.Locals.AddNew(new TypedName(Program.lowerFirst(string.Format("{0}Table", dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredTableInterface.GetTypeReference()));
+            tableStreamTableRef = gircEnumeration.Locals.AddNew(new TypedName(Program.lowerFirst(string.Format("{0}Table", dictionarySourceTable.ShortName)), dictionarySourceTable.DeclaredLockedTableInterface.GetTypeReference()));
 
             
-            tableStreamTableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(dictionaryContainerTable.MetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream"));
+            tableStreamTableRef.InitializationExpression = dictionarySourceTable.MetadataProperty.GetReference(dictionaryContainerTable.LockedMetadataRootField.GetReference(groupOwnerRef.GetReference()).GetProperty("TableStream"));
             var nullCheck = gircEnumeration.IfThen(new BinaryOperationExpression(tableStreamTableRef.GetReference(), CodeBinaryOperatorType.IdentityInequality, PrimitiveExpression.NullValue));
             iterationIndex = nullCheck.Locals.AddNew(new TypedName("localIndex", typeof(int)));
             iterationIndex.InitializationExpression = PrimitiveExpression.NumberZero;
@@ -1062,7 +1079,7 @@ namespace CliMetadataReader
                     return new TypedName(string.Format("{0}Size", Program.lowerFirst(heapType.Heap.ToString())), typeof(CliMetadataReferenceIndexSize));
                 case FieldDataKind.TableReference:
                     var table = dataType.DataType as MetadataTable;
-                    documentationComment = string.Format("The @s:{1}; used to denote the word size of the @s:{0};.", table.DeclaredTableInterface.Name, typeof(CliMetadataReferenceIndexSize).GetTypeReference().TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true)));
+                    documentationComment = string.Format("The @s:{1}; used to denote the word size of the @s:{0};.", table.DeclaredLockedTableInterface.Name, typeof(CliMetadataReferenceIndexSize).GetTypeReference().TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true)));
                     return new TypedName(string.Format("{0}Size", Program.lowerFirst(table.ShortName)), typeof(CliMetadataReferenceIndexSize).GetTypeReference());
             }
             throw new ArgumentOutOfRangeException("dataType.DataType");

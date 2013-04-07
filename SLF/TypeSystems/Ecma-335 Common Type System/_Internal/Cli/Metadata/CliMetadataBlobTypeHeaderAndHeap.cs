@@ -150,7 +150,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             byte[] currentData = null;
             int currentDataCount = 0;
 
-            currentDataCount = CliMetadataRoot.ReadCompressedUnsignedInt(reader, out compressedIntBytes);
+            currentDataCount = CliMetadataFixedRoot.ReadCompressedUnsignedInt(reader, out compressedIntBytes);
             if (tailLength + compressedIntBytes >= this.Size)
             {
                 reader.BaseStream.Seek(-(tailLength + compressedIntBytes - this.Size), SeekOrigin.Current);

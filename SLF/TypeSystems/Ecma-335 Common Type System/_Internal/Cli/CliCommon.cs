@@ -42,12 +42,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal const string ConstructorName = ".ctor";
         internal const string ConstructorStaticName = ".cctor";
 
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1   = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2   = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
 
-        internal static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(string filename)
+        internal static Tuple<PEImage, CliMetadataFixedRoot> LoadAssemblyMetadata(string filename)
         {
             FileStream peStream;
             var image = PEImage.LoadImage(filename, out peStream, true);
@@ -68,7 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return ObtainTypeIdentifier(typeDefinition.DeclaringType, aId).GetNestedIdentifier(typeDefinition.Name, uniqueTCount, TypeSystemIdentifiers.GetDeclarationIdentifier(typeDefinition.Namespace));
             else
                 if (typeDefinition.NamespaceIndex == 0)
-                    return aId.GetTypeIdentifier((string) null, typeDefinition.Name, uniqueTCount);
+                    return aId.GetTypeIdentifier((string)null, typeDefinition.Name, uniqueTCount);
                 else
                     return aId.GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(typeDefinition.Namespace), typeDefinition.Name, uniqueTCount);
         }
@@ -78,7 +78,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        unsafe private static Tuple<PEImage, CliMetadataRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
+        unsafe private static Tuple<PEImage, CliMetadataFixedRoot> LoadAssemblyMetadata(FileStream peStream, PEImage image)
         {
             /* *
              * Resolve the virtual address of the CliHeader, which yields
@@ -96,15 +96,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             headerSection.SectionData.Seek(headerSectionScan.Offset, SeekOrigin.Begin);
             headerSection.SectionData.Read(headerBytes, 0, headerBytes.Length);
             fixed (byte* sectionData = headerBytes)
-                header = *(CliHeader*) sectionData;
+                header = *(CliHeader*)sectionData;
             var metadataSectionScan = image.ResolveRelativeVirtualAddress(header.Metadata.RelativeVirtualAddress);
             if (!metadataSectionScan.Resolved)
                 throw new BadImageFormatException("Metadata Root not found within image.");
             var metadataSection = metadataSectionScan.Section;
             metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
-            var metadataRoot = new CliMetadataRoot();
+            var metadataRoot = new CliMetadataFixedRoot();
             metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
-            return new Tuple<PEImage, CliMetadataRoot>(image, metadataRoot);
+            return new Tuple<PEImage, CliMetadataFixedRoot>(image, metadataRoot);
         }
 
         internal static string MinimizeFilename(string filename)
@@ -130,7 +130,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                    select new TypeModification(manager.ObtainTypeReference(modifier.ModifierType), modifier.Required);
         }
 
-        internal static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
+        internal static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
         {
             string resultedFilename = MinimizeFilename(string.Format("{0}.{1}", Path.Combine(directory, filename), extension));
             if (!File.Exists(resultedFilename))
@@ -138,11 +138,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return CheckFilename(resultedFilename);
         }
 
-        internal unsafe static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string resultedFilename, bool loadAssemblyInfo = true)
+        internal unsafe static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string resultedFilename, bool loadAssemblyInfo = true)
         {
             FileStream peStream = null;
             PEImage image = null;
-            CliMetadataRoot metadataRoot = null;
+            CliMetadataFixedRoot metadataRoot = null;
             try
             {
                 image = PEImage.LoadImage(resultedFilename, out peStream, true);
@@ -161,13 +161,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 headerSection.SectionData.Seek(headerSectionScan.Offset, SeekOrigin.Begin);
                 headerSection.SectionData.Read(headerBytes, 0, headerBytes.Length);
                 fixed (byte* sectionData = headerBytes)
-                    header = *(CliHeader*) sectionData;
+                    header = *(CliHeader*)sectionData;
                 var metadataSectionScan = image.ResolveRelativeVirtualAddress(header.Metadata.RelativeVirtualAddress);
                 if (!metadataSectionScan.Resolved)
                     return null;
                 var metadataSection = metadataSectionScan.Section;
                 metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
-                metadataRoot = new CliMetadataRoot();
+                metadataRoot = new CliMetadataFixedRoot();
                 metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
                 if (loadAssemblyInfo)
                 {
@@ -176,10 +176,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var loadedUniqueId = GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(image, metadataRoot));
                     if (loadedUniqueId == null)
                         return null;
-                    return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string>(loadedUniqueId.Item2, loadedUniqueId.Item1, image, metadataRoot, loadedUniqueId.Item3, resultedFilename);
+                    return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string>(loadedUniqueId.Item2, loadedUniqueId.Item1, image, metadataRoot, loadedUniqueId.Item3, resultedFilename);
                 }
                 else
-                    return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataRoot, ICliMetadataAssemblyTableRow, string>(null, null, image, metadataRoot, null, resultedFilename);
+                    return new Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string>(null, null, image, metadataRoot, null, resultedFilename);
             }
             catch (BadImageFormatException)
             {
@@ -198,7 +198,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static Tuple<IStrongNamePublicKeyInfo, IAssemblyUniqueIdentifier, ICliMetadataAssemblyTableRow> GetAssemblyUniqueIdentifier(Tuple<PEImage, ICliMetadataRoot> peAndMetadata)
         {
-            var assemblyTable = (CliMetadataAssemblyTable) peAndMetadata.Item2.TableStream[CliMetadataTableKinds.Assembly];
+            var assemblyTable = (CliMetadataAssemblyTableReader)peAndMetadata.Item2.TableStream[CliMetadataTableKinds.Assembly];
             if (assemblyTable.Count == 0)
                 return null;
             var firstAssemblyRow = assemblyTable.First();
@@ -215,7 +215,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (firstAssemblyRow.PublicKey.Length == 0)
                 publicKeyInfo = null;
             else
-                publicKeyInfo = (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(firstAssemblyRow.PublicKey, false);
+                publicKeyInfo = (IStrongNamePublicKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(firstAssemblyRow.PublicKey, false);
             var culture = firstAssemblyRow.Culture;
             ICultureIdentifier cultureId;
             if (culture == string.Empty)
@@ -235,7 +235,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if ((entry.Flags & CliMetadataAssemblyFlags.PublicKey) != CliMetadataAssemblyFlags.PublicKey)
                 publicKeyInfo = null;
             else
-                publicKeyInfo = (IStrongNamePublicKeyInfo) StrongNameKeyPairHelper.LoadStrongNameKeyData(entry.PublicKeyOrToken, false);
+                publicKeyInfo = (IStrongNamePublicKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(entry.PublicKeyOrToken, false);
             var culture = entry.Culture;
 
             ICultureIdentifier cultureId;
@@ -265,7 +265,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 case CliMetadataTypeDefOrRefTag.TypeDefinition:
                     {
-                        var typeDef = (ICliMetadataTypeDefinitionTableRow) typeIdentity;
+                        var typeDef = (ICliMetadataTypeDefinitionTableRow)typeIdentity;
                         if ((selectionPredicate == null || selectionPredicate(manager, typeDef)))
                             return typeDef;
                     }
@@ -297,7 +297,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                     var identifier = CliCommon.GetAssemblyUniqueIdentifier(new Tuple<PEImage, ICliMetadataRoot>(typeRef.MetadataRoot.SourceImage, typeRef.MetadataRoot));
                                     if (identifier == null)
                                     {
-                                        var loadedModule = manager.LoadModule((ICliMetadataModuleReferenceTableRow) typeRef.Source);
+                                        var loadedModule = manager.LoadModule((ICliMetadataModuleReferenceTableRow)typeRef.Source);
                                         if (loadedModule == null)
                                             return null;
 
@@ -384,17 +384,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             var specSignature = spec.Signature;
                             if (specSignature is ICliMetadataGenericInstanceTypeSignature)
                             {
-                                var genericSig = (ICliMetadataGenericInstanceTypeSignature) specSignature;
+                                var genericSig = (ICliMetadataGenericInstanceTypeSignature)specSignature;
                                 return ResolveScope(genericSig.Target, manager, selectionPredicate, typeSpec);
                             }
                             else if (specSignature is ICliMetadataVectorArrayTypeSignature)
                             {
-                                var vectorSig = (ICliMetadataVectorArrayTypeSignature) specSignature;
+                                var vectorSig = (ICliMetadataVectorArrayTypeSignature)specSignature;
                                 return ResolveScope(vectorSig.ElementType, manager, selectionPredicate, typeSpec);
                             }
                             else if (specSignature is ICliMetadataArrayTypeSignature)
                             {
-                                var arraySig = (ICliMetadataArrayTypeSignature) specSignature;
+                                var arraySig = (ICliMetadataArrayTypeSignature)specSignature;
                                 return ResolveScope(arraySig.ElementType, manager, selectionPredicate, typeSpec);
                             }
                         }
@@ -654,7 +654,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static IGeneralTypeUniqueIdentifier GetUniqueIdentifier(ICliMetadataTypeDefinitionTableRow typeMetadata, _ICliManager manager, _ICliAssembly assembly = null)
         {
             if (assembly == null)
-                assembly = (_ICliAssembly) manager.GetRelativeAssembly(typeMetadata.MetadataRoot);
+                assembly = (_ICliAssembly)manager.GetRelativeAssembly(typeMetadata.MetadataRoot);
             if (CliCommon.IsEnum(manager, typeMetadata))
                 return assembly.UniqueIdentifier.GetTypeIdentifier(typeMetadata.Namespace, typeMetadata.Name);
             else
@@ -728,7 +728,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 var genericUniqueId = uniqueIdentifier as IGenericTypeUniqueIdentifier;
                 if (genericUniqueId.TypeParameters > 0)
-                    return FindTypeImplementation(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier) (uniqueIdentifier)).TypeParameters), topLevel);
+                    return FindTypeImplementation(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier)(uniqueIdentifier)).TypeParameters), topLevel);
             }
             return FindTypeImplementation(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
         }
@@ -750,7 +750,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (next != -1)
             {
                 string current = ns.Substring(lastIndex, next - lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
+                uint currentHash = (uint)current.GetHashCode();
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
@@ -761,7 +761,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else
             {
                 string current = ns.Substring(lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
+                uint currentHash = (uint)current.GetHashCode();
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
@@ -788,7 +788,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (next != -1)
             {
                 string current = ns.Substring(lastIndex, next - lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
+                uint currentHash = (uint)current.GetHashCode();
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
@@ -799,13 +799,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else
             {
                 string current = ns.Substring(lastIndex);
-                uint currentHash = (uint) current.GetHashCode();
+                uint currentHash = (uint)current.GetHashCode();
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
                     return null;
             }
-            typeSearch:
+        typeSearch:
             if (topLevel != null && topLevel._Types != null)
             {
                 var currentTypes = topLevel._Types;
@@ -818,7 +818,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public static IBinaryOperatorUniqueIdentifier GetBinaryOperatorUniqueIdentifier(ICliMetadataTypeDefinitionTableRow owner, ICliMetadataMethodDefinitionTableRow metadata)
         {
-            CoercibleBinaryOperators op = (CoercibleBinaryOperators) (-1);
+            CoercibleBinaryOperators op = (CoercibleBinaryOperators)(-1);
             switch (metadata.Name)
             {
                 case BinaryOperatorNames.Addition:
@@ -878,7 +878,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             var lParamType = metadata.Signature.Parameters[0].ParameterType;
             var rParamType = metadata.Signature.Parameters[1].ParameterType;
-            
+
             throw new NotImplementedException();
         }
 
@@ -918,7 +918,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static int GetDepth(this IGeneralTypeUniqueIdentifier identifier)
         {
             int depth = 0;
-            var id = (IGeneralTypeUniqueIdentifier) identifier;
+            var id = (IGeneralTypeUniqueIdentifier)identifier;
             while (id != null)
             {
                 depth++;
@@ -930,7 +930,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static Stack<IGeneralTypeUniqueIdentifier> GetNestingHierarchy(this IGeneralTypeUniqueIdentifier identifier)
         {
             var nestingHierarchy = new Stack<IGeneralTypeUniqueIdentifier>();
-            var id = (IGeneralTypeUniqueIdentifier) identifier;
+            var id = (IGeneralTypeUniqueIdentifier)identifier;
             while (id != null)
             {
                 nestingHierarchy.Push(id);
@@ -1002,6 +1002,44 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static void GetCustomAttributeData(this ICliMetadataCustomAttributeTableRow target)
         {
 
+        }
+
+        public static EnumerationBaseType GetEnumBaseType(this ICliMetadataTypeDefinitionTableRow target)
+        {
+            foreach (var field in target.Fields)
+            {
+                if ((field.FieldAttributes & FieldAttributes.Static) != FieldAttributes.Static)
+                {
+                    if (field.FieldType.Type.TypeSignatureKind == CliMetadataTypeSignatureKind.NativeType)
+                    {
+                        var nativeType = (ICliMetadataNativeTypeSignature)field.FieldType.Type;
+                        switch (nativeType.TypeKind)
+                        {
+                            case CliMetadataNativeTypes.SByte:
+                                return EnumerationBaseType.SByte;
+                            case CliMetadataNativeTypes.Byte:
+                                return EnumerationBaseType.Byte;
+                            case CliMetadataNativeTypes.Int16:
+                                return EnumerationBaseType.Int16;
+                            case CliMetadataNativeTypes.UInt16:
+                                return EnumerationBaseType.UInt16;
+                            case CliMetadataNativeTypes.Int32:
+                                return EnumerationBaseType.Int32;
+                            case CliMetadataNativeTypes.UInt32:
+                                return EnumerationBaseType.UInt32;
+                            case CliMetadataNativeTypes.Int64:
+                                return EnumerationBaseType.Int64;
+                            case CliMetadataNativeTypes.UInt64:
+                                return EnumerationBaseType.UInt64;
+                            case CliMetadataNativeTypes.NativeInteger:
+                                return EnumerationBaseType.NativeInteger;
+                            case CliMetadataNativeTypes.NativeUnsignedInteger:
+                                return EnumerationBaseType.NativeUnsignedInteger;
+                        }
+                    }
+                }
+            }
+            throw new BadImageFormatException("Not a proper enum type.");
         }
     }
 }

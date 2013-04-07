@@ -31,5 +31,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             return string.Format("{0}{1}{2}", string.Join<ICliMetadataCustomModifierSignature>(" ", CustomModifiers), CustomModifiers.Count == 0 ? string.Empty : " ", ParameterType);
         }
+
+        #region ICliMetadataSignature Members
+
+        public SignatureKinds SignatureKind
+        {
+            get { return SignatureKinds.Param; }
+        }
+
+        #endregion
     }
 }

@@ -40,6 +40,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 {
                     get { return CliMetadataMethodSigFlags.HasThis; }
                 }
+
+                #region ICliMetadataSignature Members
+
+                public SignatureKinds SignatureKind
+                {
+                    get { return SignatureKinds.MethodDefSig; }
+                }
+
+                #endregion
             }
             public uint RVA
             {

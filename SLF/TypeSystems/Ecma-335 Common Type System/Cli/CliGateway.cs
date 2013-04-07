@@ -86,7 +86,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         {
             FileStream peStream = null;
             PEImage image = null;
-            CliMetadataRoot metadataRoot = null;
+            CliMetadataFixedRoot metadataRoot = null;
             try
             {
                 image = PEImage.LoadImage(filename, out peStream, false);
@@ -111,7 +111,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                     return false;
                 var metadataSection = metadataSectionScan.Section;
                 metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
-                metadataRoot = new CliMetadataRoot();
+                metadataRoot = new CliMetadataFixedRoot();
                 metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
                 if (metadataRoot.TableStream.AssemblyTable == null)
                     return false;

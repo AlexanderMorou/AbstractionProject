@@ -30,5 +30,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         public new IControlledCollection<ICliMetadataParamSignature> Parameters { get; private set; }
 
         //#endregion
+
+        #region ICliMetadataSignature Members
+
+        public override SignatureKinds SignatureKind
+        {
+            get { return SignatureKinds.MethodDefSig; }
+        }
+
+        #endregion
     }
 }

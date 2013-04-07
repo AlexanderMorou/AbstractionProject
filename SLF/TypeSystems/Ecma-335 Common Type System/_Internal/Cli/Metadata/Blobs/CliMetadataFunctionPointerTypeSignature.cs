@@ -33,5 +33,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         {
             return string.Format("({0})*", this.Signature);
         }
+
+        #region ICliMetadataSignature Members
+
+        public SignatureKinds SignatureKind
+        {
+            get { return SignatureKinds.FunctionPointerType; }
+        }
+
+        #endregion
     }
 }

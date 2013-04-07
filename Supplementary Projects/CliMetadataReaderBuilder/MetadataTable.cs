@@ -58,7 +58,9 @@ namespace CliMetadataReader
 
         public IClassType DeclaredTableClass { get; set; }
 
-        public IClassType DeclaredTableRowClass { get; set; }
+        public IClassType DeclaredLockedTableRowClass { get; set; }
+
+        public IClassType DeclaredMutableTableRowClass { get; set; }
 
         public IConstructorMember DeclaredTableClassCtor { get; set; }
 
@@ -90,7 +92,7 @@ namespace CliMetadataReader
 
         public IFieldMember ReaderField { get; set; }
 
-        public IFieldMember MetadataRootField { get; set; }
+        public IFieldMember LockedMetadataRootField { get; set; }
 
         public IMethodMember InitializeMethod { get; set; }
 
@@ -100,20 +102,29 @@ namespace CliMetadataReader
         /// </summary>
         public IPropertyMember MetadataProperty { get; set; }
 
-        public IFieldMember RowMetadataRootField { get; set; }
+        public IFieldMember RowLockedMetadataRootField { get; set; }
 
         public IPropertyMember LengthProperty { get; set; }
 
-        public IInterfaceType DeclaredTableInterface { get; set; }
+        public IInterfaceType DeclaredLockedTableInterface { get; set; }
 
-        public IInterfaceType DeclaredTableRowInterface { get; set; }
+        public IInterfaceType DeclaredLockedTableRowInterface { get; set; }
 
         public bool NeedsIndex { get; set; }
 
-        public IPropertyMember RowMetadataRootProperty { get; set; }
+        public IPropertyMember RowLockedMetadataRootProperty { get; set; }
+        public IPropertyMember RowMutableMetadataRootProperty { get; set; }
 
         public IFieldMember StreamField { get; set; }
 
         public IFieldMember SyncField { get; set; }
+
+        public IInterfaceType DeclaredMutableTableRowInterface { get; set; }
+
+        public IInterfaceType DeclaredMutableTableInterface { get; set; }
+
+        public IFieldMember MutableMetadataRootField { get; set; }
+
+        public IFieldMember RowMutableMetadataRootField { get; set; }
     }
 }

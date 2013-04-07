@@ -45,5 +45,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 return this._parameters;
             }
         }
+
+        #region ICliMetadataSignature Members
+
+        public override SignatureKinds SignatureKind
+        {
+            get { return SignatureKinds.MethodRefSig; }
+        }
+
+        #endregion
     }
 }

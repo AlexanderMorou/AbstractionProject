@@ -22,5 +22,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 this.GenericParameters = new ArrayReadOnlyCollection<ICliMetadataTypeSignature>(genericParameters);
         }
 
-}
+
+        #region ICliMetadataSignature Members
+
+        public SignatureKinds SignatureKind
+        {
+            get { return SignatureKinds.MethodSpec; }
+        }
+
+        #endregion
+    }
 }

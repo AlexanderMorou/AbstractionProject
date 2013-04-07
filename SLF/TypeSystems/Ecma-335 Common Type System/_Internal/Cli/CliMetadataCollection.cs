@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IMetadatum CreateMetadatum(ICliMetadataCustomAttributeTableRow metadataEntry)
         {
-            return new CliMetadatum(metadataEntry, this.identityManager);
+            return new CliMetadatum(metadataEntry, this.identityManager, this.declarationPoint);
         }
 
         public bool Contains(IType metadatumType)
