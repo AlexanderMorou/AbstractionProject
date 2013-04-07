@@ -42,5 +42,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             return string.Format("{0} ({1})", this.ReturnType, string.Join<ICliMetadataParamSignature>(", ", this.Parameters));
         }
 
+
+        #region ICliMetadataSignature Members
+
+        public abstract SignatureKinds SignatureKind { get; }
+
+        #endregion
     }
 }

@@ -22,5 +22,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         public bool IsVariableArgument { get; private set; }
 
         //#endregion
+
+        #region ICliMetadataSignature Members
+
+        SignatureKinds ICliMetadataSignature.SignatureKind
+        {
+            get { return SignatureKinds.VariableArgumentParameter; }
+        }
+
+        #endregion
     }
 }

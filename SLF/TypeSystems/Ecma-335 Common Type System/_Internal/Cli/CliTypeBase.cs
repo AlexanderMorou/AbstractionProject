@@ -124,7 +124,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IMetadataCollection InitializeCustomAttributes()
         {
-            throw new NotImplementedException();
+            return new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
         }
 
 

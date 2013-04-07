@@ -16,5 +16,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             : base(localVariables)
         {
         }
+
+        #region ICliMetadataSignature Members
+
+        public SignatureKinds SignatureKind
+        {
+            get { return SignatureKinds.StandaloneLocalVarSig; }
+        }
+
+        #endregion
     }
 }

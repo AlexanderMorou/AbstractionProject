@@ -11,6 +11,8 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 {
@@ -21,13 +23,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
     {
         private MemoryStream blobStream;
         private EndianAwareBinaryReader reader;
-        private CliMetadataRoot metadataRoot;
+        private CliMetadataFixedRoot metadataRoot;
         private object syncObject;
         private Dictionary<uint, SmallBlobEntry> smallEntries = new Dictionary<uint, SmallBlobEntry>();
         private Dictionary<uint, MediumBlobEntry> mediumEntries = new Dictionary<uint, MediumBlobEntry>();
         private Dictionary<uint, LargeBlobEntry> largEntries = new Dictionary<uint, LargeBlobEntry>();
 
-        public CliMetadataBlobHeaderAndHeap(CliMetadataStreamHeader originalHeader, CliMetadataRoot metadataRoot)
+        public CliMetadataBlobHeaderAndHeap(CliMetadataStreamHeader originalHeader, CliMetadataFixedRoot metadataRoot)
             : base(originalHeader)
         {
             this.metadataRoot = metadataRoot;
@@ -221,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 long currentPosition = 1;
                 while (currentPosition < this.Size)
                 {
-                    int currentLength = CliMetadataRoot.ReadCompressedUnsignedInt(this.reader, out currentItemLengthWidth);
+                    int currentLength = CliMetadataFixedRoot.ReadCompressedUnsignedInt(this.reader, out currentItemLengthWidth);
                     if (currentItemLengthWidth == 1)
                         this.smallEntries.Add((uint)currentPosition, new SmallBlobEntry((sbyte)currentLength));
                     else if (currentItemLengthWidth == 2)
@@ -279,6 +281,56 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             }
         }
 
+        #region ICliMetadataBlobHeaderAndHeap Members
 
+        private ICliMetadataCustomAttribute GetCustomAttribute(_ICliManager identityManager, ICliMetadataCustomAttributeTableRow target, _ICliMetadataBlobEntry entry)
+        {
+            uint offset = target.ValueIndex + entry.LengthByteCount;
+
+            this.reader.BaseStream.Seek(offset, SeekOrigin.Begin);
+            return (ICliMetadataCustomAttribute)(entry.Signature = SignatureParser.ParseCustomAttribute(reader, metadataRoot, identityManager, target, (uint)entry.Length));
+        }
+
+        public ICliMetadataCustomAttribute GetCustomAttribute(ICliManager identityManager, ICliMetadataCustomAttributeTableRow target)
+        {
+            if (identityManager is _ICliManager)
+                return _GetCustomAttribute((_ICliManager)identityManager, target);
+            throw new ArgumentException(string.Format("identityManager must implement {0}", typeof(_ICliManager).FullName));
+        }
+
+        public ICliMetadataCustomAttribute _GetCustomAttribute(_ICliManager identityManager, ICliMetadataCustomAttributeTableRow target)
+        {
+            uint heapIndex = target.ValueIndex;
+            if (heapIndex >= this.Size)
+                throw new ArgumentOutOfRangeException("heapIndex");
+            SmallBlobEntry smallResult;
+            MediumBlobEntry mediumResult;
+            LargeBlobEntry largeResult;
+            lock (this.syncObject)
+            {
+                if (smallEntries.TryGetValue(heapIndex, out smallResult))
+                {
+                    if (smallResult.Signature == null)
+                        GetCustomAttribute(identityManager, target, smallResult);
+                    return (ICliMetadataCustomAttribute)smallResult.Signature;
+                }
+                else if (mediumEntries.TryGetValue(heapIndex, out mediumResult))
+                {
+                    if (mediumResult.Signature == null)
+                        GetCustomAttribute(identityManager, target, mediumResult);
+                    return (ICliMetadataCustomAttribute)mediumResult.Signature;
+                }
+                else if (!largEntries.TryGetValue(heapIndex, out largeResult))
+                    throw new IndexOutOfRangeException("heapIndex");
+                else
+                {
+                    if (largeResult.Signature == null)
+                        GetCustomAttribute(identityManager, target, largeResult);
+                    return (ICliMetadataCustomAttribute)largeResult.Signature;
+                }
+            }
+            throw new ArgumentOutOfRangeException("heapIndex");
+        }
+        #endregion
     }
 }

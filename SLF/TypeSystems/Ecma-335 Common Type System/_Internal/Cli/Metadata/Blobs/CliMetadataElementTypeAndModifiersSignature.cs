@@ -41,5 +41,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
         }
 
         #endregion
+
+        public override SignatureKinds SignatureKind
+        {
+            get
+            {
+                return SignatureKinds.ModifiedTypeWithElementType;
+            }
+        }
+
     }
 }

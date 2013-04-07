@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
-    public interface ICliMetadataCustomAttribute
+    public interface ICliMetadataCustomAttribute :
+        ICliMetadataSignature
     {
         IControlledCollection<ICliMetadataCustomAttributeParameter> FixedParameters { get; }
         IControlledCollection<ICliMetadataCustomAttributeNamedParameter> NamedParameters { get; }

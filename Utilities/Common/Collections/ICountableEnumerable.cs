@@ -18,7 +18,7 @@ namespace AllenCopeland.Abstraction.Utilities.Collections
         int Count { get; }
     }
 
-    public interface ICountableEnumerable<T> :
+    public interface ICountableEnumerable<out T> :
         IEnumerable<T>,
         ICountableEnumerable
     {

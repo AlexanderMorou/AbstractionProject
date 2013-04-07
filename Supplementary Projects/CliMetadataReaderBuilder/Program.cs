@@ -37,6 +37,10 @@ namespace CliMetadataReader
     {
         static void Main(string[] args)
         {
+            /* *
+             * Classic example of 'Get it done'.  I hate this style of programming
+             * but it's very effective for program generators.
+             * */
             var uintDataType = new MetadataTableTypeDataType(typeof(uint).GetTypeReference());
             var ushortDataType = new MetadataTableTypeDataType(typeof(ushort).GetTypeReference());
             var typeAttributes = new MetadataTableTypeDataType(typeof(TypeAttributes).GetTypeReference(), typeof(uint).GetTypeReference());
@@ -89,6 +93,13 @@ namespace CliMetadataReader
             const string defaultNamespaceName = "AllenCopeland.Abstraction.Slf.Cli.Metadata";
             const string defaultInternalNamespaceName = "AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata";
             const string depreciatedMetadata = "This record should not be emitted into any PE image; however if present, it should be treated as if all its fields were zero. Supported to ensure proper reading of the metadata.";
+            /* *
+             * A few rules:
+             * @s:Target; is the code generator's '<see cref="Target"/>' shortcut,
+             * this is to ensure that you can embed '<' and '>' into comments while escaping them
+             * properly.  Since it can't know the difference between when you want to escape and when you
+             * don't, a secondary format was used.
+             * */
             Dictionary<CliMetadataTableKinds, MetadataTable> tableLookup = new Dictionary<CliMetadataTableKinds, MetadataTable>();
             List<MetadataTable> tables = new List<MetadataTable>()
             {
@@ -567,7 +578,8 @@ namespace CliMetadataReader
              *      typeof(CliMetadataRoot), typeof(CliMetadataTableStreamAndHeader), typeof(CliMetadataStringsHeaderAndHeap),
              *      typeof(CliMetadataBlobHeaderAndHeap), typeof(CliMetadataUserStringsHeaderAndHeap), typeof(CliMetadataGuidHeaderAndHeap));
              * */
-            var constructOverrides = new Dictionary<Type, IType>() { { typeof(CliMetadataRoot), typeof(ICliMetadataRoot).GetTypeReference().TypeInstance } };
+            var metadataRoot = typeof(ICliMetadataRoot).GetTypeReference().TypeInstance;
+            var mutableMetadataRoot = typeof(ICliMetadataMutableRoot).GetTypeReference().TypeInstance;
             var tablesStream = defaultInternalNamespace.Partials.AddNew().Classes.AddNew("CliMetadataTableStreamAndHeader");
             tablesStream.Partials.AddNew();
             tablesStream.BaseType = typeof(ControlledDictionary<CliMetadataTableKinds, ICliMetadataTable>).GetTypeReference();
@@ -583,7 +595,7 @@ namespace CliMetadataReader
             var tablesStreamReadMethod = tablesStream.Methods.AddNew(new TypedName("Read", typeof(void)));
             tablesStreamReadMethod.AccessLevel = DeclarationAccessLevel.Internal;
             var tablesStreamReadMethod_reader = tablesStreamReadMethod.Parameters.AddNew(new TypedName("reader", typeof(EndianAwareBinaryReader)));
-            var tablesStreamReadMethod_metadataRoot = tablesStreamReadMethod.Parameters.AddNew(new TypedName("metadataRoot", constructOverrides[typeof(CliMetadataRoot)]));
+            var tablesStreamReadMethod_metadataRoot = tablesStreamReadMethod.Parameters.AddNew(new TypedName("metadataRoot", metadataRoot));
             //var tableSubstream = tablesStreamReadMethod.Locals.AddNew(new TypedName("tableSubstream", typeof(Substream)));
             //tableSubstream.InitializationExpression = new CreateNewObjectExpression(tableSubstream.LocalType, tablesStreamReadMethod_reader.GetReference().GetProperty("BaseStream"), PrimitiveExpression.NumberZero, PrimitiveExpression.NumberZero, PrimitiveExpression.FalseValue);
 
@@ -727,14 +739,16 @@ namespace CliMetadataReader
                 var encodingReference = (from e in encodings
                                          where e.Contains(table)
                                          select e).Count() > 0;
-                var currentTableClass = internalTableNamespace.Partials.AddNew().Classes.AddNew(string.Format("CliMetadata{0}Table", table.ShortName));
+                var currentTableClass = internalTableNamespace.Partials.AddNew().Classes.AddNew(string.Format("CliMetadata{0}TableReader", table.ShortName));
+                var currentMutableTableClass = internalTableNamespace.Partials.AddNew().Classes.AddNew(string.Format("CliMetadata{0}MutableTable", table.ShortName));
                 currentTableClass.AccessLevel = DeclarationAccessLevel.Internal;
                 currentTableClass.Remarks = table.Remarks;
-                var currentTableInterface = tableNamespace.Partials.AddNew().Interfaces.AddNew(string.Format("ICliMetadata{0}Table", table.ShortName));
+                var currentTableLockedInterface = tableNamespace.Partials.AddNew().Interfaces.AddNew(string.Format("ICliMetadata{0}Table", table.ShortName));
+                var currentTableMutableInterface = internalTableNamespace.Partials.AddNew().Interfaces.AddNew(string.Format("ICliMetadata{0}MutableTable", table.ShortName));
                 if (!string.IsNullOrEmpty(table.Summary))
                 {
                     currentTableClass.Summary = string.Format("Provides a table which {0}", lowerFirst(table.Summary));
-                    currentTableInterface.Summary = string.Format("Defines properties and methods for a table which {0}", lowerFirst(table.Summary));
+                    currentTableLockedInterface.Summary = string.Format("Defines properties and methods for a table which {0}", lowerFirst(table.Summary));
                 }
                 var currentTableClassCtor = currentTableClass.Constructors.AddNew();
                 currentTableClassCtor.AccessLevel = DeclarationAccessLevel.Public;
@@ -743,20 +757,21 @@ namespace CliMetadataReader
                 kindProperty.Overrides = true;
                 kindProperty.GetPart.Return(table.TableKindExpression);
                 kindProperty.AccessLevel = DeclarationAccessLevel.Public;
-                var currentMetadataRoot = currentTableClass.Fields.AddNew(new TypedName("metadataRoot", constructOverrides[typeof(CliMetadataRoot)]));
+                var currentLockedMetadataRoot = currentTableClass.Fields.AddNew(new TypedName("metadataRoot", metadataRoot));
+                var currentMutableMetadataRoot = currentMutableTableClass.Fields.AddNew(new TypedName("metadataRoot", mutableMetadataRoot));
                 var currentReader = currentTableClass.Fields.AddNew(new TypedName("reader", typeof(EndianAwareBinaryReader)));
                 var currentSync = currentTableClass.Fields.AddNew(new TypedName("syncObject", typeof(object)));
                 var currentStream = currentTableClass.Fields.AddNew(new TypedName("fStream", typeof(FileStream)));
                 var currentRowCount = currentTableClass.Fields.AddNew(new TypedName("rowCount", typeof(uint)));
                 table.RowCountField = currentRowCount;
-                var currentTableClassCtor_metadataRoot = currentTableClassCtor.Parameters.AddNew(new TypedName("metadataRoot", constructOverrides[typeof(CliMetadataRoot)]));
+                var currentTableClassCtor_metadataRoot = currentTableClassCtor.Parameters.AddNew(new TypedName("metadataRoot", metadataRoot));
                 var currentTableClassCtor_readerTriplet = currentTableClassCtor.Parameters.AddNew(new TypedName("readerInfo", typeof(Tuple<object, FileStream, EndianAwareBinaryReader>)));
                 //var currentTableClassCtor_reader = currentTableClassCtor.Parameters.AddNew(new TypedName("reader", typeof(EndianAwareBinaryReader)));
                 var currentTableClassCtor_rowCount = currentTableClassCtor.Parameters.AddNew(new TypedName("rowCount", typeof(uint)));
                 currentTableClassCtor.CascadeExpressionsTarget = ConstructorCascadeTarget.Base;
                 currentTableClassCtor.CascadeMembers.Add(currentTableClassCtor_metadataRoot.GetReference());
                 currentTableClassCtor.CascadeMembers.Add(currentTableClassCtor_rowCount.GetReference());
-                currentTableClassCtor.Statements.Assign(currentMetadataRoot.GetReference(), currentTableClassCtor_metadataRoot.GetReference());
+                currentTableClassCtor.Statements.Assign(currentLockedMetadataRoot.GetReference(), currentTableClassCtor_metadataRoot.GetReference());
                 currentTableClassCtor.Statements.Assign(currentSync.GetReference(), currentTableClassCtor_readerTriplet.GetReference().GetProperty("Item1"));
                 currentTableClassCtor.Statements.Assign(currentStream.GetReference(), currentTableClassCtor_readerTriplet.GetReference().GetProperty("Item2"));
                 currentTableClassCtor.Statements.Assign(currentReader.GetReference(), currentTableClassCtor_readerTriplet.GetReference().GetProperty("Item3"));
@@ -764,33 +779,51 @@ namespace CliMetadataReader
                 table.SyncField = currentSync;
                 table.StreamField = currentStream;
                 table.ReaderField = currentReader;
-                currentTableInterface.AccessLevel = DeclarationAccessLevel.Public;
+                currentTableLockedInterface.AccessLevel = DeclarationAccessLevel.Public;
 
-                table.MetadataRootField = currentMetadataRoot;
-                var currentTableRowClass = internalTableNamespace.Partials.AddNew().Classes.AddNew(string.Format("{0}Row", currentTableClass.Name));
-                var currentTableRowInterface = tableNamespace.Partials.AddNew().Interfaces.AddNew(string.Format("{0}Row", currentTableInterface.Name));
-                currentTableRowInterface.AccessLevel = DeclarationAccessLevel.Public;
-                table.DeclaredTableRowInterface = currentTableRowInterface;
-                table.DeclaredTableInterface = currentTableInterface;
-                table.DeclaredTableRowClass = currentTableRowClass;
-                //table.DeclaredTableInterface.ImplementsList.Add(typeof(ICliMetadataTable).GetTypeReference());
-                table.DeclaredTableRowClass.ImplementsList.Add(table.DeclaredTableRowInterface.GetTypeReference());
-                table.DeclaredTableInterface.ImplementsList.Add(typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(table.DeclaredTableRowInterface.GetTypeReference())));
-                table.DeclaredTableRowInterface.ImplementsList.Add(typeof(ICliMetadataTableRow));
-                currentTableClass.BaseType = typeof(CliMetadataLazyTable<>).GetTypeReference(new TypeReferenceCollection(currentTableRowInterface.GetTypeReference()));
-                currentTableRowClass.AccessLevel = DeclarationAccessLevel.Internal;
+                table.LockedMetadataRootField = currentLockedMetadataRoot;
+                table.MutableMetadataRootField = currentMutableMetadataRoot;
+                var currentLockedTableRowClass = internalTableNamespace.Partials.AddNew().Classes.AddNew(string.Format("CliMetadata{0}LockedTableRow", table.ShortName));
+                var currentMutableTableRowClass = internalTableNamespace.Partials.AddNew().Classes.AddNew(string.Format("CliMetadata{0}MutableTableRow", table.ShortName));
+                var currentTableLockedRowInterface = tableNamespace.Partials.AddNew().Interfaces.AddNew(string.Format("{0}Row", currentTableLockedInterface.Name));
+                var currentTableMutableRowInterface = internalTableNamespace.Partials.AddNew().Interfaces.AddNew(string.Format("{0}Row", currentTableMutableInterface.Name));
+                currentTableMutableRowInterface.ImplementsList.Add(currentTableLockedRowInterface.GetTypeReference());
+                currentTableLockedRowInterface.AccessLevel = DeclarationAccessLevel.Public;
+                table.DeclaredLockedTableRowInterface = currentTableLockedRowInterface;
+                table.DeclaredMutableTableRowInterface = currentTableMutableRowInterface;
+
+                table.DeclaredLockedTableInterface = currentTableLockedInterface;
+                table.DeclaredMutableTableInterface = currentTableMutableInterface;
+
+                table.DeclaredLockedTableRowClass = currentLockedTableRowClass;
+                table.DeclaredMutableTableRowClass = currentMutableTableRowClass;
+
+                table.DeclaredLockedTableRowClass.ImplementsList.Add(table.DeclaredLockedTableRowInterface.GetTypeReference());
+                table.DeclaredLockedTableInterface.ImplementsList.Add(typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(table.DeclaredLockedTableRowInterface.GetTypeReference())));
+                table.DeclaredMutableTableInterface.ImplementsList.Add(typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(table.DeclaredMutableTableRowInterface.GetTypeReference())));
+
+                var mutableTableAddMethod = table.DeclaredMutableTableInterface.Methods.AddNew(new TypedName("Add", typeof(void)), new TypedName(string.Format("{0}ToAdd", lowerFirst(table.ShortName)), table.DeclaredMutableTableRowInterface.GetTypeReference()));
+                var mutableTableRemoveMethod = table.DeclaredMutableTableInterface.Methods.AddNew(new TypedName("Remove", typeof(void)), new TypedName(string.Format("{0}ToRemove", lowerFirst(table.ShortName)), table.DeclaredMutableTableRowInterface.GetTypeReference()));
+
+
+                table.DeclaredLockedTableRowInterface.ImplementsList.Add(typeof(ICliMetadataTableRow));
+                currentTableClass.BaseType = typeof(CliMetadataLazyTable<>).GetTypeReference(new TypeReferenceCollection(currentTableLockedRowInterface.GetTypeReference()));
+                currentLockedTableRowClass.AccessLevel = DeclarationAccessLevel.Internal;
                 if (!string.IsNullOrEmpty(table.Summary))
                 {
-                    currentTableRowClass.Summary = string.Format("Provides a row class for a table which {0}", lowerFirst(table.Summary));
-                    currentTableRowInterface.Summary = string.Format("Defines properties and methods for row in a table which {0}", lowerFirst(table.Summary));
+                    currentLockedTableRowClass.Summary = string.Format("Provides a locked row class for a locked table which {0}", lowerFirst(table.Summary));
+                    currentTableLockedRowInterface.Summary = string.Format("Defines properties and methods for a locked row in a table which {0}", lowerFirst(table.Summary));
+
+                    currentMutableTableRowClass.Summary = string.Format("Provides a mutable row class for a mutable table which {0}", lowerFirst(table.Summary));
+                    currentTableMutableRowInterface.Summary = string.Format("Defines properties and methods for a mutable row in a table which {0}", lowerFirst(table.Summary));
                 }
-                var currentTableRowCtor = currentTableRowClass.Constructors.AddNew();
+                var currentTableRowCtor = currentLockedTableRowClass.Constructors.AddNew();
                 table.DeclaredTableRowCtor = currentTableRowCtor;
                 table.DeclaredTableRowCtor.AccessLevel = DeclarationAccessLevel.Internal;
                 table.DeclaredTableClassCtor = currentTableClassCtor;
                 table.DeclaredTableClass = currentTableClass;
                 table.DeclaredTableClass.ImplementsList.Add(typeof(ICliMetadataTable).GetTypeReference());
-                table.DeclaredTableClass.ImplementsList.Add(table.DeclaredTableInterface.GetTypeReference());
+                table.DeclaredTableClass.ImplementsList.Add(table.DeclaredLockedTableInterface.GetTypeReference());
 
                 if (staticReference || encodingReference || table.NeedsIndex)
                 {
@@ -800,10 +833,11 @@ namespace CliMetadataReader
                         currentWordSizeLocal.AutoDeclare = false;
                         currentWordSizeLocal.InitializationExpression = typeof(CliMetadataReferenceIndexSize).GetTypeReferenceExpression().GetField("Word");
                     }
-                    var currentTableIndexField = table.DeclaredTableRowClass.Fields.AddNew(new TypedName("index", typeof(uint)));
-                    var currentTableIndexProperty = table.DeclaredTableRowClass.Properties.AddNew(new TypedName("Index", typeof(uint)), true, false);
+                    var currentTableIndexField = table.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName("index", typeof(uint)));
+                    var currentTableIndexProperty = table.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName("Index", typeof(uint)), true, false);
                     currentTableIndexProperty.AccessLevel = DeclarationAccessLevel.Public;
                     currentTableIndexProperty.Summary = string.Format("Returns the index of the row within the @s:{0}; since the rows from the containing table are referenced by other tables.", table.DeclaredTableClass.Name);
+                    currentTableIndexField.Summary = string.Format("Data member for @s:{0};.", currentTableIndexProperty.Name);
                     currentTableIndexProperty.GetPart.Return(currentTableIndexField.GetReference());
                     var indexParam = table.DeclaredTableRowCtor.Parameters.AddNew(new TypedName("index", typeof(uint)));
                     table.DeclaredTableRowCtor.Statements.Assign(currentTableIndexField.GetReference(), indexParam.GetReference());
@@ -814,7 +848,7 @@ namespace CliMetadataReader
             foreach (var table in tableLookup.Values)
             {
                 var currentClass = table.DeclaredTableClass;
-                var currentInterface = table.DeclaredTableInterface;
+                var currentInterface = table.DeclaredLockedTableInterface;
                 var tableRefField = tablesStream.Fields.AddNew(new TypedName(string.Format("{0}Table", lowerFirst(table.ShortName)), currentClass.GetTypeReference()));
                 var tableRefProperty = tablesStream.Properties.AddNew(new TypedName(string.Format("{0}Table", table.ShortName), currentInterface.GetTypeReference()), true, false);
                 var tableRefNullCheck = tableRefProperty.GetPart.IfThen(new BinaryOperationExpression(tableRefField.GetReference(), CodeBinaryOperatorType.IdentityEquality, PrimitiveExpression.NullValue));
@@ -827,19 +861,27 @@ namespace CliMetadataReader
                 tableRefProperty.GetPart.Return(tableRefField.GetReference());
                 tableRefProperty.AccessLevel = DeclarationAccessLevel.Public;
                 table.MetadataProperty = tableRefProperty;
-                var metadataRootField = table.DeclaredTableRowClass.Fields.AddNew(new TypedName("metadataRoot", constructOverrides[typeof(CliMetadataRoot)]));
-                table.RowMetadataRootField = metadataRootField;
-                metadataRootField.AccessLevel = DeclarationAccessLevel.Private;
-                var metadataRootProperty = table.DeclaredTableRowClass.Properties.AddNew(new TypedName("MetadataRoot", constructOverrides[typeof(CliMetadataRoot)]), true, false);
-                metadataRootProperty.AccessLevel = DeclarationAccessLevel.Public;
-                metadataRootProperty.Summary = string.Format("Returns the root of the metadata from which the current @s:{0}; was derived.", table.DeclaredTableRowClass.Name);
-                metadataRootProperty.GetPart.Return(metadataRootField.GetReference());
-                table.RowMetadataRootProperty = metadataRootProperty;
+                var lockedMetadataRootField = table.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName("metadataRoot", metadataRoot));
+                var mutableMetadataRootField = table.DeclaredMutableTableRowClass.Fields.AddNew(new TypedName("metadataRoot", mutableMetadataRoot));
+                table.RowLockedMetadataRootField = lockedMetadataRootField;
+                table.RowMutableMetadataRootField = mutableMetadataRootField;
+
+                lockedMetadataRootField.AccessLevel = DeclarationAccessLevel.Private;
+                var lockedMetadataRootProperty = table.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName("MetadataRoot", metadataRoot), true, false);
+                lockedMetadataRootProperty.AccessLevel = DeclarationAccessLevel.Public;
+                lockedMetadataRootProperty.Summary = string.Format("Returns the root of the metadata from which the current @s:{0}; was derived.", table.DeclaredLockedTableRowClass.Name);
+                lockedMetadataRootProperty.GetPart.Return(lockedMetadataRootField.GetReference());
+                var mutableMetadataRootProperty = table.DeclaredMutableTableRowClass.Properties.AddNew(new TypedName("MetadataRoot", mutableMetadataRoot), true, false);
+                mutableMetadataRootProperty.AccessLevel = DeclarationAccessLevel.Public;
+                mutableMetadataRootProperty.Summary = string.Format("Returns the root of the metadata from which the current @s:{0}; was derived.", table.DeclaredLockedTableRowClass.Name);
+                mutableMetadataRootProperty.GetPart.Return(mutableMetadataRootField.GetReference());
+                table.RowLockedMetadataRootProperty = lockedMetadataRootProperty;
+                table.RowMutableMetadataRootProperty = mutableMetadataRootProperty;
             }
 
             foreach (var table in tableLookup.Values)
             {
-                var toStringMethod = table.DeclaredTableRowClass.Methods.AddNew(new TypedName("ToString", typeof(string)));
+                var toStringMethod = table.DeclaredLockedTableRowClass.Methods.AddNew(new TypedName("ToString", typeof(string)));
                 toStringMethod.AccessLevel = DeclarationAccessLevel.Public;
                 toStringMethod.Overrides = true;
                 toStringMethod.IsFinal = false;
@@ -847,7 +889,7 @@ namespace CliMetadataReader
                 formatStringBuilder.AppendFormat("{0}: ", table.ShortName);
                 IExpressionCollection formatArgs = new ExpressionCollection();
                 int formatIndex = 0;
-                var currentTableRowClass = table.DeclaredTableRowClass;
+                var currentTableRowClass = table.DeclaredLockedTableRowClass;
                 var primitiveFormat = new PrimitiveExpression(string.Empty);
                 formatArgs.Add(primitiveFormat);
                 foreach (var field in table.Values)
@@ -878,7 +920,7 @@ namespace CliMetadataReader
                                     continue;
                                 var currentCase = kindSwitch.Cases.AddNew(target.Item1);
 
-                                currentCase.Return(target.Item2.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(field.FieldReference.GetReference().Cast(typeof(int))));
+                                currentCase.Return(target.Item2.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(field.FieldReference.GetReference().Cast(typeof(int))));
                             }
                             string encodingTypeString = encodingType.EncodingType.TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true));
                             encodedField.EncodingProperty.Summary = string.Format("Returns the @s:{0}; which determines the table that @s:{1}; refers to.", encodingTypeString, field.PropertyIndexReference.Name);
@@ -958,14 +1000,14 @@ namespace CliMetadataReader
                             break;
                         case FieldDataKind.TableReference:
                             var fieldTable = ((MetadataTable)field.DataType);
-                            var fieldType = tableLookup[fieldTable.TableKind].DeclaredTableRowInterface;
+                            var fieldType = tableLookup[fieldTable.TableKind].DeclaredLockedTableRowInterface;
                             field.FieldReference = currentTableRowClass.Fields.AddNew(new TypedName(string.Format("{0}Index", lowerFirst(field.FieldName)), typeof(uint).GetTypeReference()));
                             field.PropertyIndexReference = currentTableRowClass.Properties.AddNew(new TypedName(string.Format("{0}Index", field.FieldName), typeof(uint)), true, false);
                             field.PropertyIndexReference.Summary = field.IndexSummary;
                             field.PropertyReference = currentTableRowClass.Properties.AddNew(new TypedName(field.FieldName, fieldType), true, false);
                             field.PropertyReference.AccessLevel = DeclarationAccessLevel.Public;
 
-                            field.PropertyReference.GetPart.Return(fieldTable.MetadataProperty.GetReference(table.RowMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(field.FieldReference.GetReference().Cast(typeof(int))));
+                            field.PropertyReference.GetPart.Return(fieldTable.MetadataProperty.GetReference(table.RowLockedMetadataRootField.GetReference().GetProperty("TableStream")).GetIndex(field.FieldReference.GetReference().Cast(typeof(int))));
                             field.FieldReference.AccessLevel = DeclarationAccessLevel.Private;
                             break;
                         default:
@@ -999,7 +1041,7 @@ namespace CliMetadataReader
                     from e in encodings
                     where e.Contains(t)
                     select e
-                select new { Table = t, TableKind = t.TableKindExpression, StateMachine = t.StateMachine, ShortName = t.ShortName, WordSizeLocal = t.WordSizeLocal, Encodings = encodingQuery.ToArray(), RowClass = t.DeclaredTableRowClass, RowInterface = t.DeclaredTableRowInterface, Constructor = (CreateConstructorDelegate)t.DeclaredTableClass.GetTypeReference().CreateNew };
+                select new { Table = t, TableKind = t.TableKindExpression, StateMachine = t.StateMachine, ShortName = t.ShortName, WordSizeLocal = t.WordSizeLocal, Encodings = encodingQuery.ToArray(), RowClass = t.DeclaredLockedTableRowClass, RowInterface = t.DeclaredLockedTableRowInterface, Constructor = (CreateConstructorDelegate)t.DeclaredTableClass.GetTypeReference().CreateNew };
 
             //tablesStreamReadMethod.Assign(readCounter.GetReference(), PrimitiveExpression.NumberZero);
             bool firstNoEncode = true,
@@ -1087,7 +1129,7 @@ namespace CliMetadataReader
                     tablePresenceCheck.CallMethod(new ThisReferenceExpression().GetMethod("_Add").Invoke(tableInfo.TableKind, tableInfo.Constructor(tablesStreamReadMethod_metadataRoot.GetReference(), tablesStreamReadMethod_metadataRoot.GetReference().GetProperty("SourceImage").GetMethod("SecureReader").Invoke(), tablesStreamReadMethod_reader.GetReference().GetMethod("ReadUInt32").Invoke())));
 
                 if (tableInfo.StateMachine != null)
-                    tableInfo.StateMachine.CreateStateMachine(encodings, constructOverrides[typeof(CliMetadataRoot)]);
+                    tableInfo.StateMachine.CreateStateMachine(encodings, metadataRoot);
 
             }
             var specialDataTypeTargets =
@@ -1156,49 +1198,49 @@ namespace CliMetadataReader
 
             //tablesStreamReadMethod.Assign(tableSubstream.GetReference().GetProperty("Offset"), new BinaryOperationExpression(tableSubstream.GetReference().GetProperty("Offset"), CodeBinaryOperatorType.Add, tablesStreamReadMethod_reader.GetReference().GetProperty("BaseStream").GetProperty("Position")));
             //tablesStreamReadMethod.CallMethod(tableSubstream.GetReference().GetMethod("SetLength").Invoke(offsetLocal.GetReference()));
-            string memberName = "GetMethod";
+            
             ITypeReferenceExpression semanticsExpression = typeof(MethodSemanticsAttributes).GetTypeReferenceExpression();
             IExpression propertySemanticsMask = new BinaryOperationExpression(new BinaryOperationExpression(semanticsExpression.GetField("Getter"), CodeBinaryOperatorType.BitwiseOr, semanticsExpression.GetField("Setter")), CodeBinaryOperatorType.BitwiseOr, semanticsExpression.GetField("Other"));
             IExpression eventSemanticsMask = new BinaryOperationExpression(new BinaryOperationExpression(new BinaryOperationExpression(semanticsExpression.GetField("AddOn"), CodeBinaryOperatorType.BitwiseOr, semanticsExpression.GetField("RemoveOn")), CodeBinaryOperatorType.BitwiseOr, semanticsExpression.GetField("Fire")), CodeBinaryOperatorType.BitwiseOr, semanticsExpression.GetField("Other"));
             IExpression semanticsMask = propertySemanticsMask;
             IExpression semanticsTarget = semanticsExpression.GetField("Getter");
-            var methodSemanticsInterface = tableLookup[CliMetadataTableKinds.MethodSemantics].DeclaredTableRowInterface;
-            var methodRowInterface = tableLookup[CliMetadataTableKinds.MethodDefinition].DeclaredTableRowInterface;
-            var propertyClass = tableLookup[CliMetadataTableKinds.Property].DeclaredTableRowClass;
-            var eventClass = tableLookup[CliMetadataTableKinds.Event].DeclaredTableRowClass;
-            CreateSemanticsMethodProperty(propertyClass, methodRowInterface, methodSemanticsInterface, "GetMethod", propertySemanticsMask, semanticsExpression.GetField("Getter"), tableLookup[CliMetadataTableKinds.Property].DeclaredTableRowClass.Properties["Methods"].GetReference());
-            CreateSemanticsMethodProperty(propertyClass, methodRowInterface, methodSemanticsInterface, "SetMethod", propertySemanticsMask, semanticsExpression.GetField("Setter"), tableLookup[CliMetadataTableKinds.Property].DeclaredTableRowClass.Properties["Methods"].GetReference());
-            CreateSemanticsMethodProperty(eventClass, methodRowInterface, methodSemanticsInterface, "OnAdd", eventSemanticsMask, semanticsExpression.GetField("AddOn"), tableLookup[CliMetadataTableKinds.Event].DeclaredTableRowClass.Properties["Methods"].GetReference());
-            CreateSemanticsMethodProperty(eventClass, methodRowInterface, methodSemanticsInterface, "OnRemove", eventSemanticsMask, semanticsExpression.GetField("RemoveOn"), tableLookup[CliMetadataTableKinds.Property].DeclaredTableRowClass.Properties["Methods"].GetReference());
-            CreateSemanticsMethodProperty(eventClass, methodRowInterface, methodSemanticsInterface, "OnFire", eventSemanticsMask, semanticsExpression.GetField("Fire"), tableLookup[CliMetadataTableKinds.Property].DeclaredTableRowClass.Properties["Methods"].GetReference());
+            var methodSemanticsInterface = tableLookup[CliMetadataTableKinds.MethodSemantics].DeclaredLockedTableRowInterface;
+            var methodRowInterface = tableLookup[CliMetadataTableKinds.MethodDefinition].DeclaredLockedTableRowInterface;
+            var propertyClass = tableLookup[CliMetadataTableKinds.Property].DeclaredLockedTableRowClass;
+            var eventClass = tableLookup[CliMetadataTableKinds.Event].DeclaredLockedTableRowClass;
+            CreateSemanticsMethodProperty(propertyClass, methodRowInterface, methodSemanticsInterface, "GetMethod", propertySemanticsMask, semanticsExpression.GetField("Getter"), tableLookup[CliMetadataTableKinds.Property].DeclaredLockedTableRowClass.Properties["Methods"].GetReference());
+            CreateSemanticsMethodProperty(propertyClass, methodRowInterface, methodSemanticsInterface, "SetMethod", propertySemanticsMask, semanticsExpression.GetField("Setter"), tableLookup[CliMetadataTableKinds.Property].DeclaredLockedTableRowClass.Properties["Methods"].GetReference());
+            CreateSemanticsMethodProperty(eventClass, methodRowInterface, methodSemanticsInterface, "OnAdd", eventSemanticsMask, semanticsExpression.GetField("AddOn"), tableLookup[CliMetadataTableKinds.Event].DeclaredLockedTableRowClass.Properties["Methods"].GetReference());
+            CreateSemanticsMethodProperty(eventClass, methodRowInterface, methodSemanticsInterface, "OnRemove", eventSemanticsMask, semanticsExpression.GetField("RemoveOn"), tableLookup[CliMetadataTableKinds.Property].DeclaredLockedTableRowClass.Properties["Methods"].GetReference());
+            CreateSemanticsMethodProperty(eventClass, methodRowInterface, methodSemanticsInterface, "OnFire", eventSemanticsMask, semanticsExpression.GetField("Fire"), tableLookup[CliMetadataTableKinds.Property].DeclaredLockedTableRowClass.Properties["Methods"].GetReference());
 
             var methodDefinition = tableLookup[CliMetadataTableKinds.MethodDefinition];
             var rvaField = methodDefinition["RVA"].FieldReference;
 
-            var bodyProp = methodDefinition.DeclaredTableRowClass.Properties.AddNew(new TypedName("Body", typeof(ICliMetadataMethodBody)), true, false);
-            var bodyPropField = methodDefinition.DeclaredTableRowClass.Fields.AddNew(new TypedName("body", typeof(ICliMetadataMethodBody)));
-            var bodyPropCheck = methodDefinition.DeclaredTableRowClass.Fields.AddNew(new TypedName("checkedBody", typeof(bool)));
-            var typeDefRow = tableLookup[CliMetadataTableKinds.TypeDefinition].DeclaredTableRowClass;
+            var bodyProp = methodDefinition.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName("Body", typeof(ICliMetadataMethodBody)), true, false);
+            var bodyPropField = methodDefinition.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName("body", typeof(ICliMetadataMethodBody)));
+            var bodyPropCheck = methodDefinition.DeclaredLockedTableRowClass.Fields.AddNew(new TypedName("checkedBody", typeof(bool)));
+            var typeDefRow = tableLookup[CliMetadataTableKinds.TypeDefinition].DeclaredLockedTableRowClass;
 
             typeDefRow.ImplementsList.Add(typeof(_ICliTypeParent));
             bodyProp.AccessLevel = DeclarationAccessLevel.Public;
             var bodyCheckedCondition = bodyProp.GetPart.IfThen(bodyPropCheck.GetReference().LogicalNot());
             var rvaValidCondition = bodyCheckedCondition.IfThen(new BinaryOperationExpression(rvaField.GetReference(), CodeBinaryOperatorType.IdentityInequality, PrimitiveExpression.NumberZero));
-            rvaValidCondition.Assign(bodyPropField.GetReference(), new CreateNewObjectExpression(typeof(CliMetadataMethodBody).GetTypeReference(), methodDefinition.RowMetadataRootField.GetReference(), rvaField.GetReference()));
+            rvaValidCondition.Assign(bodyPropField.GetReference(), new CreateNewObjectExpression(typeof(CliMetadataMethodBody).GetTypeReference(), methodDefinition.RowLockedMetadataRootField.GetReference(), rvaField.GetReference()));
             bodyCheckedCondition.Assign(bodyPropCheck.GetReference(), PrimitiveExpression.TrueValue);
             bodyProp.GetPart.Return(bodyPropField.GetReference());
 
             foreach (var table in tables)
             {
-                DuplicateMembers(table.DeclaredTableRowClass, table.DeclaredTableRowInterface, table.DeclaredTableClass, table.DeclaredTableInterface);
-                if (table.DeclaredTableRowInterface.Properties.ContainsKey("Index"))
+                DuplicateMembers(table.DeclaredLockedTableRowClass, table.DeclaredLockedTableRowInterface, table.DeclaredTableClass, table.DeclaredLockedTableInterface);
+                if (table.DeclaredLockedTableRowInterface.Properties.ContainsKey("Index"))
                 {
-                    table.DeclaredTableRowInterface.Properties.Remove("Index");
-                    table.DeclaredTableRowInterface.ImplementsList.Add(typeof(ICliMetadataIndexedRow));
+                    table.DeclaredLockedTableRowInterface.Properties.Remove("Index");
+                    table.DeclaredLockedTableRowInterface.ImplementsList.Add(typeof(ICliMetadataIndexedRow));
                 }
-                DuplicateMembers(table.DeclaredTableClass, table.DeclaredTableInterface, table.DeclaredTableRowClass, table.DeclaredTableRowInterface);
-                table.DeclaredTableRowInterface.Properties.Remove(table.DeclaredTableRowInterface.Properties["Size"]);
-                table.DeclaredTableInterface.Properties.Remove(table.DeclaredTableInterface.Properties["Kind"]);
+                DuplicateMembers(table.DeclaredTableClass, table.DeclaredLockedTableInterface, table.DeclaredLockedTableRowClass, table.DeclaredLockedTableRowInterface);
+                table.DeclaredLockedTableRowInterface.Properties.Remove(table.DeclaredLockedTableRowInterface.Properties["Size"]);
+                table.DeclaredLockedTableInterface.Properties.Remove(table.DeclaredLockedTableInterface.Properties["Kind"]);
             }
             //var oldTableStreamAndHeader = (IInterfaceType) constructOverrides[typeof(CliMetadataTableStreamAndHeader)];
             //oldTableStreamAndHeader.ParentTarget.Interfaces.Remove(oldTableStreamAndHeader);
@@ -1206,17 +1248,26 @@ namespace CliMetadataReader
             //DuplicateMembers(tablesStream, newTableStreamAndHeader, tablesStream, newTableStreamAndHeader);
             //tablesStream.ImplementsList.Add(newTableStreamAndHeader);
             //newTableStreamAndHeader.AccessLevel = DeclarationAccessLevel.Public;
+
+            /* *
+             * Time for some post-construct analysis on the resulted types.
+             * *
+             * On encoded table rows which share a common encoding type, let's find the points
+             * where they contain identical properties, when every type in the encoding set
+             * contains the property, lift it into the encoding interface and remove it
+             * from the original interface.
+             * */
             var encodingOverlapQuery =
                 (from encoding in encodings
                  let leftTable = ((from leftExpTable in encoding.Values
                                    where leftExpTable.Item2 != null
                                    select leftExpTable).First()).Item2
                  where leftTable != null
-                 from leftProperty in leftTable.DeclaredTableRowInterface.Properties.Values
+                 from leftProperty in leftTable.DeclaredLockedTableRowInterface.Properties.Values
                  let otherQuery = (from rightExpTable in encoding.Values
                                    let rightTable = rightExpTable.Item2
                                    where rightTable != null && leftTable != rightTable
-                                   from rightProperty in rightTable.DeclaredTableRowInterface.Properties.Values
+                                   from rightProperty in rightTable.DeclaredLockedTableRowInterface.Properties.Values
                                    where leftProperty.Name == rightProperty.Name &&
                                          leftProperty.PropertyType.Equals(rightProperty.PropertyType)
                                    select rightProperty).ToArray()
@@ -1232,6 +1283,11 @@ namespace CliMetadataReader
                 commonProperty.Summary = string.Format("Returns the @s:{0};{3} {2} associated to the row encoded with @s:{1};.", currentProperty.PropertyType.TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true), true), currentEncoding.EncodingType.TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true)), lowerFirst(currentProperty.Name), isList ? " of" : string.Empty);
                 foreach (var item in encodingAndProperty.Set.Concat(new[] { encodingAndProperty.Property }))
                 {
+                    /* *
+                     * A little 'Ambiguity' check, if multiple encodings lifted
+                     * the same property out, we re-add it to rows which had it removed
+                     * to avoid an ambiguity when the property is accessed in code.
+                     * */
                     if (!removedSet.Contains(item))
                     {
                         item.ParentTarget.Properties.Remove(item);
@@ -1255,7 +1311,7 @@ namespace CliMetadataReader
                 {
                     if (expTable.Item2 == null)
                         continue;
-                    var currentTableProperty = expTable.Item2.DeclaredTableRowClass.Properties.AddNew(new TypedName(currentEncodingProperty.Name, currentEncodingProperty.PropertyType), true, false);
+                    var currentTableProperty = expTable.Item2.DeclaredLockedTableRowClass.Properties.AddNew(new TypedName(currentEncodingProperty.Name, currentEncodingProperty.PropertyType), true, false);
                     currentTableProperty.GetPart.Return(expTable.Item1);
                     currentTableProperty.PrivateImplementationTarget = encoding.EncodingCommonType.GetTypeReference();
                 }
@@ -1263,10 +1319,17 @@ namespace CliMetadataReader
             /* *
              * Hard-coded requirement.
              * */
-            var _typesProp = typeDefRow.Properties.AddNew(new TypedName("_Types", typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(tableLookup[CliMetadataTableKinds.TypeDefinition].DeclaredTableRowInterface.GetTypeReference()))), true, false);
+            var _typesProp = typeDefRow.Properties.AddNew(new TypedName("_Types", typeof(IControlledCollection<>).GetTypeReference(new TypeReferenceCollection(tableLookup[CliMetadataTableKinds.TypeDefinition].DeclaredLockedTableRowInterface.GetTypeReference()))), true, false);
             _typesProp.GetPart.Return(new ThisReferenceExpression().GetProperty("NestedClasses"));
             _typesProp.PrivateImplementationTarget = typeof(_ICliTypeParent).GetTypeReference();
             resultedProject.GetRootDeclaration().DefaultNameSpace = resultedProject.NameSpaces.AddNew("AllenCopeland.Abstraction.Slf");
+
+            /* *
+             * In debug mode, write to HTML, otherwise write to CSharp files.
+             * *
+             * HTML made my development easier so I didn't have to copy the files into the project
+             * to notice errors or browse internal member definitions.
+             * */
 
 #if CS
             WriteProject(resultedProject, Path.GetDirectoryName(GetTypeAssemblyCodeBase(typeof(Program))));

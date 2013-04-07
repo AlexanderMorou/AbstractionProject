@@ -247,7 +247,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return;
             HashSet<Tuple<int, uint>> namespaceIndices = new HashSet<Tuple<int, uint>>();
 
-            Dictionary<uint, CliMetadataTypeDefinitionTableRow[]> nonNestedTypes = new Dictionary<uint, CliMetadataTypeDefinitionTableRow[]>();
+            Dictionary<uint, CliMetadataTypeDefinitionLockedTableRow[]> nonNestedTypes = new Dictionary<uint, CliMetadataTypeDefinitionLockedTableRow[]>();
             Dictionary<uint, int> nonNestedCounts = new Dictionary<uint, int>();
             /* *
              * Breakdown the types by their namespace index, and
@@ -278,22 +278,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 {
                     uint nsIndex = typeRow.NamespaceIndex;
                     namespaceIndices.Add(Tuple.Create(moduleIndex, nsIndex));
-                    CliMetadataTypeDefinitionTableRow[] currentRows;
+                    CliMetadataTypeDefinitionLockedTableRow[] currentRows;
                     if (!nonNestedTypes.TryGetValue(nsIndex, out currentRows))
                     {
-                        nonNestedTypes.Add(nsIndex, currentRows = new CliMetadataTypeDefinitionTableRow[4]);
+                        nonNestedTypes.Add(nsIndex, currentRows = new CliMetadataTypeDefinitionLockedTableRow[4]);
                         nonNestedCounts.Add(nsIndex, 0);
                     }
-                    CliMetadataTypeDefinitionTableRow[] spaceAvailableRows = currentRows.EnsureSpaceExists(nonNestedCounts[nsIndex], 1);
+                    CliMetadataTypeDefinitionLockedTableRow[] spaceAvailableRows = currentRows.EnsureSpaceExists(nonNestedCounts[nsIndex], 1);
                     if (spaceAvailableRows != currentRows)
                         nonNestedTypes[nsIndex] = currentRows = spaceAvailableRows;
-                    currentRows[nonNestedCounts[nsIndex]++] = typeRow as CliMetadataTypeDefinitionTableRow;
+                    currentRows[nonNestedCounts[nsIndex]++] = typeRow as CliMetadataTypeDefinitionLockedTableRow;
                 }
             }
 
             var namespaceIndicesArray = namespaceIndices.ToArray();
 
-            CliMetadataTypeDefinitionTableRow[] topLevelRows;
+            CliMetadataTypeDefinitionLockedTableRow[] topLevelRows;
             if (nonNestedTypes.TryGetValue(0, out topLevelRows))
             {
                 int topLevelCount = nonNestedCounts[0];
@@ -304,7 +304,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
                 if (topLevelRows.Length != noModuleCount)
                 {
-                    CliMetadataTypeDefinitionTableRow[] topLevelRowsActual = new CliMetadataTypeDefinitionTableRow[noModuleCount];
+                    CliMetadataTypeDefinitionLockedTableRow[] topLevelRowsActual = new CliMetadataTypeDefinitionLockedTableRow[noModuleCount];
                     /* *
                      * Filter the entries based off of their index.  The special <Module> type
                      * is the global fields and methods.  There's no need to include them and 
@@ -321,7 +321,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     Array.Sort(topLevelRows, _CompareTo_);
             }
             else
-                topLevelRows = new CliMetadataTypeDefinitionTableRow[0];
+                topLevelRows = new CliMetadataTypeDefinitionLockedTableRow[0];
 
             CliNamespaceKeyedTree partialOrFullNamespaces = new CliNamespaceKeyedTree(topLevelRows);
             Dictionary<string, uint> partIndex = new Dictionary<string, uint>();
@@ -341,7 +341,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                  * */
                 if (currentRows.Length != currentCount)
                 {
-                    var currentRowsCopy = new CliMetadataTypeDefinitionTableRow[currentCount];
+                    var currentRowsCopy = new CliMetadataTypeDefinitionLockedTableRow[currentCount];
                     Array.ConstrainedCopy(currentRows, 0, currentRowsCopy, 0, currentCount);
                     Array.Sort(currentRowsCopy, _CompareTo_);
                     currentRows = currentRowsCopy;

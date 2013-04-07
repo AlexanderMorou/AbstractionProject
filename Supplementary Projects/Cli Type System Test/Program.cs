@@ -1,7 +1,9 @@
-﻿using AllenCopeland.Abstraction.Numerics;
+﻿using AllenCopeland.Abstraction.Globalization;
+using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.OwnerDrawnControls;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Abstract;
@@ -10,6 +12,8 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Languages;
@@ -35,9 +39,23 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
     {
         static void Main()
         {
+            //var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
+            //var targetType = (IClassType)typeof(lo3.Program.AAttribute).GetTypeReference(identityManager);
+            //var metadataTarget = targetType;
+            //var attribute = metadataTarget.Metadata[0];
+            //Console.WriteLine(attribute.Parameters.First());
+            var m = typeof(CultureIdentifiers.CultureCodes);
+            StringBuilder sb = new StringBuilder();
+            foreach (var field in (from f in m.GetFields()
+                                   where f.FieldType == typeof(string)
+                                   select new { Name = f.Name, Value = (string)f.GetValue(null) }))
+            {
+                sb.AppendFormat("\t{1}:{0}; |\n", field.Name, field.Value.EscapeStringOrCharCILAndCS(true));
+            }
+            Console.Write(sb);
             //MemberTest();
-            ReflectionTest();
-            CliTypeSystemTest();
+            //ReflectionTest();
+            //CliTypeSystemTest();
         }
 
         private static void MemberTest()
@@ -65,14 +83,20 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
         }
 
 
-        [AttributeUsage(AttributeTargets.All)]
-        [A(typeof(Tuple<int, decimal, Func<int>, Action<Tuple<AAttribute>>>))]
+        [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
+        [A(typeof(Tuple<int, decimal, Func<int>, Action<Tuple<AAttribute>>>)), A(0, 1, 2, 3)]
         internal class AAttribute : Attribute
         {
             Type t;
             public AAttribute(Type t)
             {
                 this.t = t;
+            }
+            public AAttribute(params byte[] d)
+            {
+            }
+            public AAttribute(params byte[][] d)
+            {
             }
         }
 
@@ -86,7 +110,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             Console.WriteLine(method.IsDefined(identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.ExtensionMetadatum)));
             var iit = (IInterfaceType)identityManager.ObtainTypeReference(typeof(IIntermediateInstantiableType<,,,,,,,,,,,,,,>));
             var itp = iit.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(14, true)];
-            
+
             var constraints = itp.Constraints;
             Console.WriteLine(constraints[0].Equals(iit));
         }
@@ -94,7 +118,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
         private static void TypeParamsQuery()
         {
             var identityManager = IntermediateGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
-            var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection)}
+            var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection) }
                               select identityManager.ObtainAssemblyReference(t.Assembly)).ToArray();
 
             var typesQuery = (from a in assemblies
@@ -143,7 +167,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
              * Don't try to beat reflection on the assemblies it has loaded already:
              * the default libraries are likely loaded upon runtime load.
              * */
-            var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox)}
+            var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox) }
                               select t.Assembly).ToArray();
             var typesQuery = (from a in assemblies
                               from t in a.GetTypes().AsParallel()

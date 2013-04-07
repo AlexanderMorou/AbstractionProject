@@ -8,8 +8,9 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 {
     public enum NamedParameterTargetType
     {
-        Property,
-        Field,
+        NotSet = 0,
+        Property = 1,
+        Field = 2,
     }
 
     public enum CustomAttributeParameterValueType
@@ -22,15 +23,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
         VectorArray,
     }
 
-    public enum VectorArrayType
-    {
-        String,
-        BoxedNativeType,
-        NativeType,
-        EnumValue,
-        Type,
-    }
-
     public interface ICliMetadataVectorArray
     {
         /// <summary>
@@ -41,7 +33,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
 
     public interface ICliMetadataCustomAttributeParameter
     {
-
+        /// <summary>
+        /// Returns the <see cref="CustomAttributeParameterValueType"/> which denotes the type of
+        /// information stored within a custom attribute's argument.
+        /// </summary>
+        CustomAttributeParameterValueType ValueType { get; }
+        /// <summary>
+        /// Returns the <see cref="Object"/> value that was serialized.
+        /// </summary>
+        object Value { get; }
     }
 
     /// <summary>
@@ -51,21 +51,16 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs
     public interface ICliMetadataCustomAttributeNamedParameter :
         ICliMetadataCustomAttributeParameter
     {
+        
         /// <summary>
         /// Returns the <see cref="Name"/> targeted by the <see cref="ICliMetadataCustomAttributeNamedParameter"/>.
         /// </summary>
         string Name { get; }
-
         /// <summary>
         /// Returns the <see cref="NamedParameterTargetType"/> which denotes
         /// whether the argument targets a <see cref="NamedParameterTargetType.Field"/>
         /// or a <see cref="NamedParameterTargetType.Property"/>.
         /// </summary>
         NamedParameterTargetType ParameterTarget { get; }
-        /// <summary>
-        /// Returns the <see cref="CustomAttributeParameterValueType"/> which denotes the type of
-        /// information stored within a custom attribute's argument.
-        /// </summary>
-        CustomAttributeParameterValueType ValueType { get; }
     }
 }

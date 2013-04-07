@@ -123,5 +123,6 @@ namespace AllenCopeland.Abstraction.IO
             this.BaseStream.Position = position;
             return result;
         }
+
     }
 }

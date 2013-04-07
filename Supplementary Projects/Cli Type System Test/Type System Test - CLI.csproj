@@ -75,6 +75,9 @@
     <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="lo3">
+      <HintPath>..\..\..\..\..\..\Users\Allen Copeland\Desktop\TestIL\lo3.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
