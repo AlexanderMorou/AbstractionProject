@@ -110,7 +110,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get
             {
                 if (this.genericParameters == null)
-                    this.genericParameters = new LockedTypeCollection(this.TypeParameters.Values);
+                {
+                    if (this.Parent is IGenericType)
+                    {
+                        var genericParent = (IGenericType)this.Parent;
+                        if (genericParent.IsGenericConstruct)
+                            this.genericParameters = new LockedTypeCollection(genericParent.GenericParameters.Concat(this.TypeParameters.Values));
+                        else
+                            this.genericParameters = new LockedTypeCollection(this.TypeParameters.Values);
+                    }
+                    else
+                        this.genericParameters = new LockedTypeCollection(this.TypeParameters.Values);
+                }
                 return this.genericParameters;
             }
         }

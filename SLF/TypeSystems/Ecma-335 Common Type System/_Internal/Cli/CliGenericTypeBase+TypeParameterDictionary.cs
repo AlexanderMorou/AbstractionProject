@@ -28,7 +28,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (owner.MetadataEntry.TypeParameters == null)
                     this.Initialize(new ICliMetadataGenericParameterTableRow[0]);
                 else
-                    this.Initialize(owner.MetadataEntry.TypeParameters);
+                {
+                    if (owner.Parent is IGenericType)
+                    {
+                        var parentGeneric = (IGenericType)owner.Parent;
+                        if (parentGeneric.IsGenericConstruct)
+                            this.Initialize(owner.MetadataEntry.TypeParameters.Skip(parentGeneric.GenericParameters.Count).ToArray());
+                        else
+                            this.Initialize(owner.MetadataEntry.TypeParameters);
+                    }
+                    else
+                        this.Initialize(owner.MetadataEntry.TypeParameters);
+                }
                 this.owner = owner;
             }
 

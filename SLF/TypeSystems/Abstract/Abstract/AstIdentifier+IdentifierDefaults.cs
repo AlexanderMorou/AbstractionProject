@@ -205,10 +205,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         sb.Append(this.ParentIdentifier.FullName);
                         sb.Append('+');
                     }
-                    if (this.Namespace != null && string.IsNullOrEmpty(this.Namespace.Name))
+                    if (this.Namespace != null && !string.IsNullOrEmpty(this.Namespace.Name))
                     {
-                        sb.Append('.');
                         sb.Append(this.Namespace);
+                        sb.Append('.');
                     }
                     sb.Append(this.Name ?? "<unknown>");
                     if (this.TypeParameters > 0 && !this.UsesNonstandardGraveAccentElement)
@@ -252,6 +252,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name)
             {
+                if (name.Contains('`'))
+                {
+                    var lastGrave = name.LastIndexOf('`');
+                    var typeParams = name.Substring(lastGrave + 1);
+                    int typeParamCount;
+                    if (int.TryParse(typeParams, out typeParamCount))
+                        return GetNestedIdentifier(name, typeParamCount);
+                }
                 return new DefaultTypeUniqueIdentifier(name, this);
             }
 
@@ -262,6 +270,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name, IGeneralDeclarationUniqueIdentifier @namespace)
             {
+                if (name.Contains('`'))
+                {
+                    var lastGrave = name.LastIndexOf('`');
+                    var typeParams = name.Substring(lastGrave + 1);
+                    int typeParamCount;
+                    if (int.TryParse(typeParams, out typeParamCount))
+                        return GetNestedIdentifier(name, typeParamCount, @namespace);
+                }
                 return new DefaultTypeUniqueIdentifier(name, this, @namespace);
             }
 
@@ -387,6 +403,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name)
             {
+                if (name.Contains('`'))
+                {
+                    var lastGrave = name.LastIndexOf('`');
+                    var typeParams = name.Substring(lastGrave + 1);
+                    int typeParamCount;
+                    if (int.TryParse(typeParams, out typeParamCount))
+                        return GetNestedIdentifier(name, typeParamCount);
+                }
                 return new DefaultTypeUniqueIdentifier(name, this);
             }
 
@@ -397,6 +421,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             public IGeneralTypeUniqueIdentifier GetNestedIdentifier(string name, IGeneralDeclarationUniqueIdentifier @namespace)
             {
+                if (name.Contains('`'))
+                {
+                    var lastGrave = name.LastIndexOf('`');
+                    var typeParams = name.Substring(lastGrave + 1);
+                    int typeParamCount;
+                    if (int.TryParse(typeParams, out typeParamCount))
+                        return GetNestedIdentifier(name, typeParamCount, @namespace);
+                }
                 return new DefaultTypeUniqueIdentifier(name, this, @namespace);
             }
 
@@ -1421,6 +1453,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             public IGeneralTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name)
             {
+                if (name.Contains('`'))
+                {
+                    var lastGrave = name.LastIndexOf('`');
+                    var typeParams = name.Substring(lastGrave + 1);
+                    int typeParamCount;
+                    if (int.TryParse(typeParams, out typeParamCount))
+                        return GetTypeIdentifier(@namespace, name, typeParamCount);
+                }
                 return new DefaultTypeUniqueIdentifier(name, this, @namespace);
             }
 

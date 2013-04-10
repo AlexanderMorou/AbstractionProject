@@ -10,6 +10,8 @@ using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Numerics;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Collections;
+using System.Diagnostics;
+using System.ComponentModel;
 /*---------------------------------------------------------------------\
 | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
@@ -19,6 +21,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
+    [DebuggerDisplay("Name = {UniqueIdentifierString}, FullName = {FullName}")]
     internal sealed class ArrayType :
         IArrayType,
         _IType
@@ -475,8 +478,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     result |= ArrayFlags.Multidimensional | ArrayFlags.DimensionLengths;
                 if (this.lowerBounds != null && this.lowerBounds.Count > 0)
                     result |= ArrayFlags.Multidimensional | ArrayFlags.DimensionLowerBounds;
+                else if (this.rank > 1)
+                    result |= ArrayFlags.Multidimensional;
                 return result;
             }
         }
+
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public string UniqueIdentifierString
+        {
+            get
+            {
+                return this.UniqueIdentifier.ToString();
+            }
+        }
+
     }
 }

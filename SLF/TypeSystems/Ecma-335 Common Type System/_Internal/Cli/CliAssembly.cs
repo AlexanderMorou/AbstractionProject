@@ -517,8 +517,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 else
                 {
                     bool found = false;
+                    string name = current.Name;
+                    if (current is IGenericTypeUniqueIdentifier)
+                    {
+                        var genericCurrent = ((IGenericTypeUniqueIdentifier)current);
+                        if (!genericCurrent.UsesNonstandardGraveAccentElement)
+                            name = string.Format("{0}`{1}", name, genericCurrent.TypeParameters);
+                    }
                     foreach (var nestedType in typeDefinition.NestedClasses)
-                        if (nestedType.Name == current.Name &&
+                    {
+                        if (nestedType.Name == name &&
                             current.Namespace == null && string.IsNullOrEmpty(nestedType.Namespace) ||
                             (current.Namespace != null && nestedType.Namespace == current.Namespace.Name))
                         {
@@ -526,6 +534,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             found = true;
                             break;
                         }
+                    }
                     if (!found)
                         return null;
                 }

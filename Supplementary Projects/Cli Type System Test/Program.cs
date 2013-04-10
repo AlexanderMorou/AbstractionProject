@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
@@ -32,27 +33,50 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using SerializationError;
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 {
-    static class Program
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    internal sealed class TestAttribute : Attribute
+    {
+        private Type[] ts;
+        private AttributeTargets[] targetSets;
+        public TestAttribute() { }
+        public TestAttribute(params AttributeTargets[] targetSets) 
+        {
+            this.targetSets = targetSets;
+        }
+        public TestAttribute (params Type[] types) 
+        {
+            this.ts = types;
+        }
+
+        public AttributeTargets[] Test { get; set; }
+   
+    }
+
+    internal class Test<A, B, C>
+    {
+        internal class Test2<D, E, F>
+        {
+            internal class DE<G, H, I, J>
+            {
+            }
+        }
+    }
+    [TestAttribute(Test = new AttributeTargets[]{ AttributeTargets.Class, AttributeTargets.Assembly, AttributeTargets.Event })]
+    class Program
     {
         static void Main()
         {
-            //var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
-            //var targetType = (IClassType)typeof(lo3.Program.AAttribute).GetTypeReference(identityManager);
-            //var metadataTarget = targetType;
-            //var attribute = metadataTarget.Metadata[0];
-            //Console.WriteLine(attribute.Parameters.First());
-            var m = typeof(CultureIdentifiers.CultureCodes);
-            StringBuilder sb = new StringBuilder();
-            foreach (var field in (from f in m.GetFields()
-                                   where f.FieldType == typeof(string)
-                                   select new { Name = f.Name, Value = (string)f.GetValue(null) }))
-            {
-                sb.AppendFormat("\t{1}:{0}; |\n", field.Name, field.Value.EscapeStringOrCharCILAndCS(true));
-            }
-            Console.Write(sb);
+            var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
+            var targetType = (IClassType)typeof(SerializationTestProgram).GetTypeReference(identityManager);
+            var metadataTarget = targetType;
+            var attribute = metadataTarget.Metadata[0];
+            Console.WriteLine(attribute.Parameters.First());
+            //typeof(Program).GetTypeReference();
+            //var typeId = TIFlatDFARules.QualifiedTypeNamePointer();
+            //Console.Write(sb);
             //MemberTest();
             //ReflectionTest();
             //CliTypeSystemTest();
@@ -197,11 +221,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             Console.WriteLine("{0} at {1}ms", types.Length, sw.Elapsed.TotalMilliseconds);
             Console.WriteLine("Reflection took {0}ms to process query a second time.", MiscHelperMethods.CreateFunctionOfTime(typesQuery.Count)().Item1.TotalMilliseconds);
         }
-        private static void Test(this int t, params string[] test)
-        {
-
-        }
-
         internal static void CliTypeSystemTest()
         {
             var identityManager = IntermediateGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);

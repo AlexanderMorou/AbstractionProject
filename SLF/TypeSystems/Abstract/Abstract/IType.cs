@@ -147,7 +147,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the namespace in which the <see cref="IType"/> is declared.
         /// </summary>
-        [DebuggerDisplay("{NamespaceName}")]
+        [DebuggerDisplay("{NamespaceName,nq}")]
         INamespaceDeclaration Namespace { get; }
 
         /// <summary>
