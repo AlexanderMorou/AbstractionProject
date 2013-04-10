@@ -23,6 +23,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 #if x86
 using SlotType = System.UInt32;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
 #elif x64
 using SlotType = System.UInt64;
 #endif
@@ -1040,6 +1041,75 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
             }
             throw new BadImageFormatException("Not a proper enum type.");
+        }
+
+
+        public static string UnescapeName(string assemblyName)
+        {
+            if (!assemblyName.Contains('\\'))
+                return assemblyName;
+            StringBuilder sb = new StringBuilder();
+            bool lastEscaped = false;
+            for (int i = 0; i < assemblyName.Length - 1; i++)
+            {
+                if (assemblyName[i] == '\\')
+                {
+                    sb.Append(assemblyName[++i]);
+                    lastEscaped = true;
+                }
+                else
+                {
+                    sb.Append(assemblyName[i]);
+                    lastEscaped = false;
+                }
+            }
+            if (!lastEscaped)
+                sb.Append(assemblyName[assemblyName.Length - 1]);
+            return sb.ToString();
+        }
+
+        public static IType DecodeParsedType(this ITIQualifiedTypeNameRule typeName, _ICliManager identityManager)
+        {
+            IType currentType;
+            var typeId = typeName.TypeIdentifier;
+            var assemblyId = typeName.AssemblyIdentifier;
+            IGeneralTypeUniqueIdentifier currentTypeId = null;
+            if (typeName.AssemblyIdentifier == null)
+                currentTypeId = TypeSystemIdentifiers.GetTypeIdentifier(UnescapeName(typeId.Namespace), UnescapeName(typeId.Names.First()));
+            else
+                currentTypeId = TypeSystemIdentifiers.GetAssemblyIdentifier(UnescapeName(assemblyId.Name), assemblyId.Version, assemblyId.CultureIdentifier, assemblyId.PublicKeyToken).GetTypeIdentifier(typeId.Namespace, UnescapeName(typeId.Names.First()));
+            if (typeId.Names.Count() > 1)
+                foreach (var name in typeId.Names.Skip(1))
+                    currentTypeId = currentTypeId.GetNestedIdentifier(UnescapeName(name));
+            currentType = identityManager.ObtainTypeReference(currentTypeId);
+            if (typeId.HasTypeReplacements)
+            {
+                if (currentType is IGenericType)
+                {
+                    var genericCurrent = (IGenericType)currentType;
+                    currentType = genericCurrent.MakeGenericClosure((from replacement in typeId.TypeReplacements
+                                                                     select DecodeParsedType(replacement.TypeIdentity, identityManager)).ToArray());
+                }
+            }
+            if (typeId.HasElementClassifications)
+            {
+                foreach (var classification in typeId.ElementClassifications)
+                {
+                    switch (classification.Classification)
+                    {
+                        case TypeElementClassification.Array:
+                            currentType = currentType.MakeArray(classification.Rank);
+                            break;
+                        case TypeElementClassification.Pointer:
+                            currentType = currentType.MakePointer();
+                            break;
+                        case TypeElementClassification.Reference:
+                            currentType = currentType.MakeByReference();
+                            break;
+                    }
+                }
+            }
+            return currentType;
         }
     }
 }

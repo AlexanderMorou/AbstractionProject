@@ -201,6 +201,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public static IGeneralTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name)
         {
+            if (name.Contains('`'))
+            {
+                var lastGrave = name.LastIndexOf('`');
+                var typeParams = name.Substring(lastGrave + 1);
+                int typeParamCount;
+                if (int.TryParse(typeParams, out typeParamCount))
+                    return GetTypeIdentifier(@namespace, name, typeParamCount);
+            }
             return new DefaultTypeUniqueIdentifier(name, assembly: null, @namespace: @namespace);
         }
 
