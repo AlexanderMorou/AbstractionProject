@@ -12,6 +12,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// </summary>
     public enum MetadatumTargets
     {
+        None                = 0x00000000,
         /// <summary>
         /// The metadatum targets assemblies.
         /// </summary>
@@ -73,9 +74,13 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// </summary>
         ReturnValue         = 0x00004000,
         /// <summary>
+        /// The metadatum targets a module.
+        /// </summary>
+        Module              = 0x00008000,
+        /// <summary>
         /// The metadatum targets all classifications.
         /// </summary>
-        All                 = 0x00007FFF,
+        All                 = 0x0000FFFF,
     }
     /// <summary>
     /// Defines properties and methods for working with a metadatum marshalling service.

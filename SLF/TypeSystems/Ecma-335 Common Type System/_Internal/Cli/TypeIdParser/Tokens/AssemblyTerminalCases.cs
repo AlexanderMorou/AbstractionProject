@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
     
     // Module: RootModule
     [FlagsAttribute()]
-    public enum AssemblyTerminalCases
+    internal enum AssemblyTerminalCases
     {
         /// <summary>
         /// Represents a case where no elements in the current set are selected.

@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
 {
     // Module: RootModule
-    public partial class TypeIdParserScanData :
+    internal partial class TypeIdParserScanData :
         List<TypeIdParserScanData.Entry>
     {
         #region TypeIdParserScanData methods

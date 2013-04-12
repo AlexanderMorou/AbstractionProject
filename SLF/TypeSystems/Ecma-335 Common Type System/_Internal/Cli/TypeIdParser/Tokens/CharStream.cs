@@ -11,7 +11,7 @@
  \----------------------------------------------------------- */
 using System;
 
-namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.TypeIdParser
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
 {
     // Module: RootModule
     internal class CharStream

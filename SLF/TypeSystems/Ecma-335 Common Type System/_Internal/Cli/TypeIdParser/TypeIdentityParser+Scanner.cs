@@ -13,7 +13,7 @@ using System;
 using System.IO;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens;
-using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.TypeIdParser;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser
 {

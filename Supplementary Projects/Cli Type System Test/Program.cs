@@ -33,51 +33,43 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using SerializationError;
+//using SerializationError;
 namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
 {
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    internal sealed class TestAttribute : Attribute
+    [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = false)]
+    public class TestAttribute :
+        Attribute
     {
-        private Type[] ts;
-        private AttributeTargets[] targetSets;
-        public TestAttribute() { }
-        public TestAttribute(params AttributeTargets[] targetSets) 
+        private AccessLevelModifiers[] modifiers;
+        public TestAttribute(params AccessLevelModifiers[] modifiers)
         {
-            this.targetSets = targetSets;
-        }
-        public TestAttribute (params Type[] types) 
-        {
-            this.ts = types;
+            this.modifiers = modifiers;
         }
 
-        public AttributeTargets[] Test { get; set; }
-   
+        public Type[] TestAttributeValue { get; set; }
     }
-
-    internal class Test<A, B, C>
-    {
-        internal class Test2<D, E, F>
-        {
-            internal class DE<G, H, I, J>
-            {
-            }
-        }
-    }
-    [TestAttribute(Test = new AttributeTargets[]{ AttributeTargets.Class, AttributeTargets.Assembly, AttributeTargets.Event })]
+    [Test(AccessLevelModifiers.Public, AccessLevelModifiers.ProtectedOrInternal, TestAttributeValue = new Type[] { typeof(int), typeof(___3.___3), typeof(double[]) })]
     class Program
     {
         static void Main()
         {
+
             var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
-            var targetType = (IClassType)typeof(SerializationTestProgram).GetTypeReference(identityManager);
+            var targetType = (IClassType)typeof(Program).GetTypeReference(identityManager);
             var metadataTarget = targetType;
             var attribute = metadataTarget.Metadata[0];
-            Console.WriteLine(attribute.Parameters.First());
+            var metadataUsage = identityManager.MetadatumHandler.GetMetadatumInfo(attribute.Type);
+            var namedParamM = (from m in attribute.NamedParameters
+                               where m.Item2 == "TestAttributeValue"
+                               select m).FirstOrDefault();
+            Console.WriteLine(((IType[])namedParamM.Item3)[1].Assembly.UniqueIdentifier);
             //typeof(Program).GetTypeReference();
             //var typeId = TIFlatDFARules.QualifiedTypeNamePointer();
             //Console.Write(sb);
             //MemberTest();
+            //Console.WriteLine("Eliminating JIT overhead");
+            //CliTypeSystemTest();
+            //Console.Clear();
             //ReflectionTest();
             //CliTypeSystemTest();
         }
@@ -104,39 +96,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
                          //        member.Name ascending
                          select member).ToArray();
             return query;
-        }
-
-
-        [AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
-        [A(typeof(Tuple<int, decimal, Func<int>, Action<Tuple<AAttribute>>>)), A(0, 1, 2, 3)]
-        internal class AAttribute : Attribute
-        {
-            Type t;
-            public AAttribute(Type t)
-            {
-                this.t = t;
-            }
-            public AAttribute(params byte[] d)
-            {
-            }
-            public AAttribute(params byte[][] d)
-            {
-            }
-        }
-
-        private static void TypeParamTest()
-        {
-            var identityManager = CliGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
-            var signature = new[] { identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.Int32), (IType)identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.String).MakeArray() };
-            var program = (IClassType)identityManager.ObtainTypeReference(typeof(Program));
-            var methodIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier("Test", signature);
-            var method = program.Methods[methodIdentifier];
-            Console.WriteLine(method.IsDefined(identityManager.ObtainTypeReference(identityManager.RuntimeEnvironment.ExtensionMetadatum)));
-            var iit = (IInterfaceType)identityManager.ObtainTypeReference(typeof(IIntermediateInstantiableType<,,,,,,,,,,,,,,>));
-            var itp = iit.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(14, true)];
-
-            var constraints = itp.Constraints;
-            Console.WriteLine(constraints[0].Equals(iit));
         }
 
         private static void TypeParamsQuery()
@@ -194,7 +153,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
             var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox) }
                               select t.Assembly).ToArray();
             var typesQuery = (from a in assemblies
-                              from t in a.GetTypes().AsParallel()
+                              from t in a.GetTypes()
                               from m in t.GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly)
                               select m);
             Stopwatch sw = Stopwatch.StartNew();
@@ -223,6 +182,7 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
         }
         internal static void CliTypeSystemTest()
         {
+            Stopwatch sw = Stopwatch.StartNew();
             var identityManager = IntermediateGateway.CreateIdentityManager(CliGateway.CurrentPlatform, CliGateway.CurrentVersion);
             var assemblies = (from t in new[] { typeof(IType), typeof(ICliType), typeof(IIntermediateAssembly), typeof(IControlledCollection), typeof(ImageComboBox) }
                               select identityManager.ObtainAssemblyReference(t.Assembly)).ToArray();
@@ -236,7 +196,6 @@ namespace AllenCopeland.Abstraction.Slf.SupplementaryProjects.TestCli
                               from t in a.GetTypes()
                               from m in t.Members.Values
                               select m.Entry);
-            Stopwatch sw = Stopwatch.StartNew();
             var types = typesQuery.ToArray();
             sw.Stop();
 

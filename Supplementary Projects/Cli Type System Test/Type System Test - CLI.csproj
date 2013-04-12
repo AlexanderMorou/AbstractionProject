@@ -75,8 +75,8 @@
     <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="SerializationError">
-      <HintPath>..\..\..\..\..\..\Users\Allen Copeland\Documents\Reflector\Disassembler\SerializationError\SerializationError\SerializationError.exe</HintPath>
+    <Reference Include="Name with a comma[,]+-&amp; ">
+      <HintPath>..\..\..\..\..\..\Users\Allen Copeland\Desktop\TestIL\Name with a comma[,]+-&amp; .exe</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -86,9 +86,6 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="_abs.odcs">
-      <HintPath>..\..\UI\Ownerdrawn Controls\obj\x86\Debug\_abs.odcs.dll</HintPath>
-    </Reference>
     <!--x86 Platform-->
     <!--Release-->
     <!--Debug-->
@@ -133,6 +130,10 @@
     <ProjectReference Include="..\..\SLF\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj">
       <Project>{D455D4FF-54FD-431E-BD27-43DA130A0FAA}</Project>
       <Name>Ecma-335 Common Type System</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UI\Ownerdrawn Controls\Ownerdrawn Controls.csproj">
+      <Project>{c39fcbdc-eded-4327-95ba-3b494fa59a8e}</Project>
+      <Name>Ownerdrawn Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
