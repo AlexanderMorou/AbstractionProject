@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Slf.Languages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,9 +63,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     }
     public struct MetadatumInfo
     {
+        public MetadatumInfo(TypeIsMetadata isMetadatum, bool repeatable, bool inheritable, MetadatumTargets targets)
+            : this()
+        {
+            this.IsMetadatum = isMetadatum;
+            this.Repeatable = repeatable;
+            this.Inheritable = inheritable;
+            this.Targets = targets;
+        }
+
         public TypeIsMetadata IsMetadatum { get; private set; }
         public bool Repeatable { get; private set; }
         public bool Inheritable { get; private set; }
+        public MetadatumTargets Targets { get; private set; }
     }
     public enum TypeIsMetadata
     {

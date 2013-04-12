@@ -21,9 +21,9 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Cli.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
 #if x86
 using SlotType = System.UInt32;
-using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
 #elif x64
 using SlotType = System.UInt64;
 #endif

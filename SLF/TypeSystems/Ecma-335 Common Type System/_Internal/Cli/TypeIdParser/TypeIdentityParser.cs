@@ -4,7 +4,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser;
 using System.IO;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
-using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.TypeIdParser;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens;
 using System.Data;
 using AllenCopeland.Abstraction.Globalization;

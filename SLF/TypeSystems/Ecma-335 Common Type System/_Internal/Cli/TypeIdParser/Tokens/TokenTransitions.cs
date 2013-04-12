@@ -9,7 +9,7 @@
  |  Sub-tool Name: Oilexer.CSharpCodeTranslator                |
  |  Sub-tool Version: 1.0.0.0                                  |
  \----------------------------------------------------------- */
-namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.TypeIdParser
+namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
 {
     // Module: RootModule
     internal static partial class TokenTransitions

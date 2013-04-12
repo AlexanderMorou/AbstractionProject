@@ -23,12 +23,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IMetadataEntity declarationPoint;
         private _ICliManager identityManager;
         private IType sourceType;
+        private Lazy<IEnumerable<Tuple<IType, object>>> parameters;
+        private Lazy<IEnumerable<Tuple<IType, string, object>>> namedParameters;
 
         public CliMetadatum(ICliMetadataCustomAttributeTableRow metadataEntry, _ICliManager identityManager, IMetadataEntity declarationPoint)
         {
             this.declarationPoint = declarationPoint;
             this.metadataEntry = metadataEntry;
             this.identityManager = identityManager;
+            this.parameters = new Lazy<IEnumerable<Tuple<IType, object>>>(() => this.GetParameters().SinglePass(), true);
+            this.namedParameters = new Lazy<IEnumerable<Tuple<IType, string, object>>>(() => this.GetNamedParameters().SinglePass(), true); ;
         }
         public IType Type
         {
@@ -52,6 +56,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 case CliMetadataCustomAttributeTypeTag.MethodDefinition:
                     ICliMetadataMethodDefinitionTableRow methodDefinition = (ICliMetadataMethodDefinitionTableRow)metadataEntryCtor;
+                    var tdTable = metadataEntry.MetadataRoot.TableStream.TypeDefinitionTable;
+                    for (int i = 1, c = tdTable.Count; i <= c; i++)
+                    {
+                        if (i == c)
+                        {
+                            typeDef = tdTable[i];
+                            break;
+                        }
+                        else
+                        {
+                            var current = tdTable[i];
+                            var next = tdTable[i + 1];
+                            if (methodDefinition.Index >= current.MethodStartIndex && methodDefinition.Index < next.MethodStartIndex)
+                            {
+                                typeDef = current;
+                                break;
+                            }
+                        }
+                    }
                     break;
                 case CliMetadataCustomAttributeTypeTag.MemberReference:
                     ICliMetadataMemberReferenceTableRow reference = (ICliMetadataMemberReferenceTableRow)metadataEntryCtor;
@@ -97,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IEnumerable<Tuple<IType, object>> Parameters
         {
             get {
-                return this.GetParameters().SinglePass();
+                return this.parameters.Value;
             }
         }
 
@@ -114,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         break;
                     case CustomAttributeParameterValueType.EnumValue:
                         {
-                            yield return Tuple.Create((IType)fixedParameter.Value.GetType().GetProperty("Item1").GetGetMethod().Invoke(fixedParameter.Value, null), fixedParameter.Value);
+                            yield return Tuple.Create((IType)fixedParameter.Value.GetType().GetProperty("Item1").GetGetMethod().Invoke(fixedParameter.Value, null), fixedParameter.Value.GetType().GetProperty("Item2").GetGetMethod().Invoke(fixedParameter.Value, null));
                             break;
                         }
                     case CustomAttributeParameterValueType.NativeType:
@@ -124,6 +147,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), fixedParameter.Value);
                             else if (t == typeof(uint))
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt32), fixedParameter.Value);
+                            else if (t == typeof(string))
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String), fixedParameter.Value);
+                            else if (t == typeof(bool))
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Boolean), fixedParameter.Value);
                             else if (t == typeof(short))
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int16), fixedParameter.Value);
                             else if (t == typeof(ushort))
@@ -166,10 +193,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 arrayLevel++;
                             }
                             IType rootType = null;
+                            bool genericAlready = false;
                             if (t == typeof(int))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int32);
                             else if (t == typeof(uint))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt32);
+                            else if (t == typeof(bool))
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Boolean);
+                            else if (t == typeof(string))
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.String);
                             else if (t == typeof(short))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int16);
                             else if (t == typeof(ushort))
@@ -190,7 +222,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.RootType);
                             else if (t == typeof(IType))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Type);
-
+                            else if (t.IsGenericType)
+                            {
+                                rootType = (IType)t.GetProperty("Item1").GetMethod.Invoke(fixedParameter.Value, null);
+                                var value = t.GetProperty("Item2").GetMethod.Invoke(fixedParameter.Value, null);
+                                t = value.GetType();
+                                while (t.IsArray)
+                                {
+                                    t = t.GetElementType();
+                                    rootType = rootType.MakeArray();
+                                }
+                                yield return Tuple.Create(rootType, value);
+                                continue;
+                            }
 
                             for (int i = 0; i < arrayLevel; i++)
                                 rootType = rootType.MakeArray();
@@ -205,7 +249,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         public IEnumerable<Tuple<IType, string, object>> NamedParameters
         {
             get {
-                return this.GetNamedParameters().SinglePass();
+                return this.namedParameters.Value;
             }
         }
 
@@ -248,6 +292,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Single), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(double))
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Double), namedParameter.Name, namedParameter.Value);
+                            else if (t == typeof(string))
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String), namedParameter.Name, namedParameter.Value);
+                            else if (t == typeof(bool))
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Boolean), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(object))
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType), namedParameter.Name, namedParameter.Value);
                             else if (t.IsGenericType)
@@ -274,6 +322,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int32);
                             else if (t == typeof(uint))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt32);
+                            else if (t == typeof(string))
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.String);
+                            else if (t == typeof(bool))
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Boolean);
                             else if (t == typeof(short))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int16);
                             else if (t == typeof(ushort))
@@ -295,13 +347,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             else if (t == typeof(IType))
                                 rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Type);
                             else if (t.IsGenericType)
-                                rootType = (IType)t.GetProperty("Item1").GetGetMethod().Invoke(namedParameter.Value, null);
+                            {
+                                rootType = (IType)t.GetProperty("Item1").GetMethod.Invoke(namedParameter.Value, null);
+                                var value = t.GetProperty("Item2").GetMethod.Invoke(namedParameter.Value, null);
+                                t = value.GetType();
+                                while (t.IsArray)
+                                {
+                                    t = t.GetElementType();
+                                    rootType = rootType.MakeArray();
+                                }
+                                yield return Tuple.Create(rootType, namedParameter.Name, value);
+                                continue;
+                            }
                             for (int i = 0; i < arrayLevel; i++)
                                 rootType = rootType.MakeArray();
-                            if (t.IsGenericType)
-                                yield return Tuple.Create(rootType, namedParameter.Name, t.GetProperty("Item2").GetGetMethod().Invoke(namedParameter.Value, null));
-                            else
-                                yield return Tuple.Create(rootType, namedParameter.Name, namedParameter.Value);
+                            yield return Tuple.Create(rootType, namedParameter.Name, namedParameter.Value);
                         }
                         break;
                     default:

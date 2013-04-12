@@ -10,8 +10,6 @@
  |  Sub-tool Version: 1.0.0.0                                  |
  \----------------------------------------------------------- */
 using System;
-using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens;
-using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.TypeIdParser;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
 {

@@ -20,8 +20,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
         
         public enum SubsetField
         {
-            AssemblyTerminalCases, 
-            
+            /// <summary>
+            /// The subset value refers to a value within the
+            /// <see cref="Tokens.AssemblyTerminalCases"/>.
+            /// </summary>
+            AssemblyTerminalCases,
+
+            /// <summary>
+            /// The subset value refers to a value within the
+            /// <see cref="Tokens.CommonSymbolCases"/>.
+            /// </summary>
             CommonSymbolCases
         }
         #endregion // TypeIdParserScanData nested types

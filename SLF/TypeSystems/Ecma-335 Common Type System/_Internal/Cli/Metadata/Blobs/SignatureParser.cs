@@ -745,9 +745,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             int numNamed = reader.ReadUInt16();
             var namedParameters = new ICliMetadataCustomAttributeNamedParameter[numNamed];
             for (int i = 0; i < numNamed; i++)
-            {
                 namedParameters[i] = ParseCustomAttributeNamedParameter(reader, metadataRoot, identityManager, startIndex, dataLength);
-            }
             return new CliMetadataCustomAttribute(parameters, namedParameters);
 
         }
@@ -875,6 +873,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             Type t = null;
             ICliMetadataNativeTypeSignature nativeType = null;
             _ICliAssembly relAssem = null;
+            IEnumType targetEnum = null;
+            bool isEnum = false;
             if (currentType.TypeSignatureKind == CliMetadataTypeSignatureKind.ValueOrClassType)
             {
                 ICliMetadataValueOrClassTypeSignature targetSig = (ICliMetadataValueOrClassTypeSignature)currentType;
@@ -886,7 +886,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     if (!CliCommon.IsEnum(identityManager, targetType))
                         throw new BadImageFormatException("Bad custom attribute format.");
                     var enumType = targetType.GetEnumBaseType();
-                    IEnumType targetEnum = (IEnumType)identityManager.ObtainTypeReference(targetType);
+                    targetEnum = (IEnumType)identityManager.ObtainTypeReference(targetType);
                     reader.BaseStream.Position = pos;
                     switch (enumType)
                     {
@@ -946,6 +946,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                         default:
                             throw new BadImageFormatException("Bad custom attribute format.");
                     }
+                    isEnum = true;
                     goto parseArray;
                 }
                 else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type))
@@ -1001,7 +1002,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     t = typeof(double);
                     break;
                 case CliMetadataNativeTypes.Type:
-                    t = typeof(Type);
+                    t = typeof(IType);
                     break;
                 case CliMetadataNativeTypes.String:
                     t = typeof(String);
@@ -1064,7 +1065,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                                 currentArray.SetValue(ReadSerializedString(reader), i);
                                 break;
                             case CliMetadataNativeTypes.Type:
-                                throw new NotImplementedException();
+                                currentArray.SetValue(DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot)), i);
+                                break;
                             case CliMetadataNativeTypes.Object:
                                 CliMetadataNativeTypes elementKind = (CliMetadataNativeTypes)reader.ReadByte();
                                 switch (elementKind)
@@ -1128,13 +1130,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 else
                     currentArray.SetValue(ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, currentType, arrayLevel - 1, start, dataLength, false), i);
             }
+            if (topLevel && isEnum)
+                return Tuple.Create((IType)targetEnum, currentArray);
             return currentArray;
         }
 
         private static IType DeserializeType(EndianAwareBinaryReader reader, _ICliManager identityManager, _ICliAssembly relAssem)
         {
             var relAssemId = relAssem.UniqueIdentifier;
-            var parser = new TypeIdentityParser(ReadSerializedString(reader), new TIAssemblyIdentityRule(relAssemId.Name, new TIVersionRule(relAssemId.Version.Major, relAssemId.Version.Minor, relAssemId.Version.Build, relAssemId.Version.Revision), relAssemId.Culture, relAssemId.PublicKeyToken));
+            var serializedTypeName = ReadSerializedString(reader);
+            if (serializedTypeName == null)
+                return null;
+            var parser = new TypeIdentityParser(serializedTypeName, new TIAssemblyIdentityRule(relAssemId.Name, new TIVersionRule(relAssemId.Version.Major, relAssemId.Version.Minor, relAssemId.Version.Build, relAssemId.Version.Revision), relAssemId.Culture, relAssemId.PublicKeyToken));
             var typeIdentity = parser.ParseQualifiedTypeName();
             var pos = reader.BaseStream.Position;
             var decodedType = typeIdentity.DecodeParsedType(identityManager);
@@ -1321,7 +1328,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     break;
                 default:
                     throw new BadImageFormatException("Bad custom attribute format.");
-                    break;
             }
 
             return new CliMetadataCustomAttributeNamedParameter(name, target, parameterType, value);
@@ -1329,6 +1335,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static string ReadSerializedString(EndianAwareBinaryReader reader)
         {
+            if (reader.PeekByte() == 0xFF)
+            {
+                reader.ReadByte();
+                return null;
+            }
             var numBytes = CliMetadataFixedRoot.ReadCompressedUnsignedInt(reader);
             var stringBytes = reader.ReadBytes(numBytes);
             return CliMetadataStringsHeaderAndHeap.ConvertUTF8ByteArray(stringBytes);

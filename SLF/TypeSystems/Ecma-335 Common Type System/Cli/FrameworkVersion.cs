@@ -14,17 +14,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
     /// view of .NET Versioning.  The primary implementation of .NET is the 
     /// Microsoft .NET CLR; as such, it's this author's opinion that the average
     /// programmer will associate with these values.</para></remarks>
+    [Flags]
     public enum CliFrameworkVersion
     {
-        v1_0_3705     = 1 << 8,
-        v1_1_4322     = 2 << 8,
-        v2_0_50727    = 3 << 8,
-        v3_0          = 4 << 8,
-        v3_5          = 5 << 8,
-        v4_0_30319    = 6 << 8,
-        v4_5          = 7 << 8,
-        VersionMask   = 7 << 8,
-        ClientProfile = 1,
+        v1_0_3705      = 1 << 8,
+        v1_1_4322      = 2 << 8,
+        v2_0_50727     = 3 << 8,
+        v3_0           = 4 << 8,
+        v3_5           = 5 << 8,
+        v4_0_30319     = 6 << 8,
+        v4_5           = 7 << 8,
+        VersionMask    = 7 << 8,
+        CurrentVersion = v4_5,
+        ClientProfile  = 1,
     }
 }
 

@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
 {
     
     // Module: RootModule
-    public enum TypeIdParserTokens
+    internal enum TypeIdParserTokens
     {
         None = 0, 
         

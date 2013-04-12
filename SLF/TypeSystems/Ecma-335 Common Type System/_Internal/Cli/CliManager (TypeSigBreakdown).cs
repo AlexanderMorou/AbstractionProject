@@ -168,7 +168,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var cliCoreLibrary = (ICliAssembly)coreLibrary;
                     var type = cliCoreLibrary.GetType(typeIdentity);
                     if (type != null)
-                        return this.ObtainTypeReference(type);
+                        return type;
                 }
                 if (originatingAssembly != null)
                 {
