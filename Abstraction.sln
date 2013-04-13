@@ -44,9 +44,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeGeneration", "Supplemen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECMA 335 - Metadata Reader Builder", "Supplementary Projects\CliMetadataReaderBuilder\ECMA 335 - Metadata Reader Builder.csproj", "{721D01C1-9370-452B-9409-1E19100C3E5E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StructuralTypingBuilder", "Supplementary Projects\StructuralTypingBuilder\StructuralTypingBuilder.csproj", "{2C83AA13-1441-41CD-9699-926F003EFB1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toy++", "SLF\Languages\Toy++\Toy++.csproj", "{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 14
+		SccNumberOfProjects = 16
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs12
 		SccLocalPath0 = .
@@ -102,6 +106,14 @@ Global
 		SccProjectTopLevelParentUniqueName13 = Abstraction.sln
 		SccProjectName13 = Supplementary\u0020Projects/CliMetadataReaderBuilder
 		SccLocalPath13 = Supplementary\u0020Projects\\CliMetadataReaderBuilder
+		SccProjectUniqueName14 = Supplementary\u0020Projects\\StructuralTypingBuilder\\StructuralTypingBuilder.csproj
+		SccProjectTopLevelParentUniqueName14 = Abstraction.sln
+		SccProjectName14 = Supplementary\u0020Projects/StructuralTypingBuilder
+		SccLocalPath14 = Supplementary\u0020Projects\\StructuralTypingBuilder
+		SccProjectUniqueName15 = SLF\\Languages\\Toy++\\Toy++.csproj
+		SccProjectTopLevelParentUniqueName15 = Abstraction.sln
+		SccProjectName15 = SLF/Languages/Toy++
+		SccLocalPath15 = SLF\\Languages\\Toy++
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -215,6 +227,22 @@ Global
 		{721D01C1-9370-452B-9409-1E19100C3E5E}.Release|x64.Build.0 = Release|x64
 		{721D01C1-9370-452B-9409-1E19100C3E5E}.Release|x86.ActiveCfg = Release|x86
 		{721D01C1-9370-452B-9409-1E19100C3E5E}.Release|x86.Build.0 = Release|x86
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Debug|x64.ActiveCfg = Debug|x64
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Debug|x64.Build.0 = Debug|x64
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Debug|x86.ActiveCfg = Debug|x86
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Debug|x86.Build.0 = Debug|x86
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Release|x64.ActiveCfg = Release|x64
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Release|x64.Build.0 = Release|x64
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Release|x86.ActiveCfg = Release|x86
+		{2C83AA13-1441-41CD-9699-926F003EFB1A}.Release|x86.Build.0 = Release|x86
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Debug|x64.ActiveCfg = Debug|x64
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Debug|x64.Build.0 = Debug|x64
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Debug|x86.ActiveCfg = Debug|x86
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Debug|x86.Build.0 = Debug|x86
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Release|x64.ActiveCfg = Release|x64
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Release|x64.Build.0 = Release|x64
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Release|x86.ActiveCfg = Release|x86
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -230,12 +258,14 @@ Global
 		{02607DC2-E98B-43AE-B906-FE151A70A68D} = {460F9AF5-9236-4661-B1AD-42E5CB44CABD}
 		{A5E27B08-E854-40D5-B88B-0F10D1CA64AF} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{9C89419D-F2A1-4882-8408-6708A038E025} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
+		{1B7FA174-1829-4AE4-B935-D2E47AC3F4FB} = {C125AC66-5C9E-4B81-80B2-C9D2D72F9DB7}
 		{C39FCBDC-EDED-4327-95BA-3B494FA59A8E} = {FBCCA75F-27CA-47E3-ADCD-056E0ECF9DFE}
 		{B449E1F5-149C-4F47-BBFC-A82EEE96471A} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3} = {A41A6D9F-4200-493E-9F33-6E7BF4CD7A01}
 		{54398E20-2E0F-4E98-8670-69C89B346CB0} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{886B34E8-755F-420C-8725-767EADD92996} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{721D01C1-9370-452B-9409-1E19100C3E5E} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
+		{2C83AA13-1441-41CD-9699-926F003EFB1A} = {68E33B8D-8D5C-436B-881C-4EC52CC7723D}
 		{A94A88DA-2500-4372-A433-A07AC3BFA05F} = {AC68F9CE-24E8-450C-B1DA-FF94F41B3C87}
 		{DF6044A9-AE48-4AC2-A170-EB839BB0058C} = {B16F1D40-CD01-4A5F-ACB3-ED372A1358CD}
 	EndGlobalSection

@@ -88,6 +88,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 : base(parent, metadataEntry)
             {
             }
+
             private sealed class Method :
                 CliInterfaceType.Method,
                 IPropertySignatureMethodMember
@@ -106,6 +107,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             }
 
+            internal override _ICliManager IdentityManager { get { return (_ICliManager)this.Parent.IdentityManager; } }
+
             protected override IPropertySignatureMethodMember GetPropertyMethod(PropertyMethodType propertyMethodType)
             {
                 switch (propertyMethodType)
@@ -118,8 +121,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         throw new NotSupportedException();
                 }
             }
-
-            protected _ICliManager IdentityManager { get { return (_ICliManager)this.Parent.IdentityManager; } }
 
             protected override IType OnGetPropertyType()
             {

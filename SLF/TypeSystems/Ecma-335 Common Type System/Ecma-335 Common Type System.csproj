@@ -156,6 +156,8 @@
     <Compile Include="_Internal\Cli\Metadata\Instructions\CliFlowInstruction.cs" />
     <Compile Include="_Internal\Cli\Metadata\Instructions\CilInstructionManager.cs" />
     <Compile Include="_Internal\Cli\Metadata\Instructions\CilOpcodeInstruction.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeTableReader %28LookupAid%29.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeTableReader+TaggedEntryCollection.cs" />
     <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody %28Instruction Visitor%29.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -111,6 +111,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         private TMethodSignature addMethod;
         private TMethodSignature removeMethod;
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection metadataBack;
         /// <summary>
         /// Creates a new <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}"/>
         /// instance with the <paramref name="parent"/> provided.
@@ -253,6 +255,42 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
+        IMetadataCollection IMetadataEntity.Metadata
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadataBack != null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                    return this.metadataBack;
+                }
+            }
+        }
+
+        public IMetadataDefinitionCollection Metadata
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadata = new MetadataDefinitionCollection(this, this.Parent.IdentityManager);
+                    return this.metadata;
+                }
+            }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
+        }
         protected override void ClearIdentifier()
         {
             lock (this.SyncObject) 

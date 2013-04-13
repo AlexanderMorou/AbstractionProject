@@ -410,7 +410,6 @@
     <Compile Include="_Internal\Abstract\EmptyFullMemberDictionary.cs" />
     <Compile Include="_Internal\Abstract\GenericTypeCache.cs" />
     <Compile Include="_Internal\Abstract\ITypeModificationEntry.cs" />
-    <Compile Include="_Internal\Abstract\Members\BinaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase{TCtor, TCtorParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMembers`2.cs" />
     <Compile Include="_Internal\Abstract\Members\FieldMemberBase{TField, TFieldParent}.cs" />
@@ -436,9 +435,7 @@
     <Compile Include="_Internal\Abstract\Members\PropertySignatureMemberBase.cs" />
     <Compile Include="_Internal\Abstract\Members\SignatureMemberBase{3}.cs" />
     <Compile Include="_Internal\Abstract\Members\SignatureMembersBase{TSignature, TSignatureParameter, TSignatureParent}.cs" />
-    <Compile Include="_Internal\Abstract\Members\TypeCoercionMemberBase`1.cs" />
     <Compile Include="_Internal\Abstract\Members\TypeCoercionMembers`1.cs" />
-    <Compile Include="_Internal\Abstract\Members\UnaryOperatorCoercionMemberBase{TCoercionParent}.cs" />
     <Compile Include="_Internal\Abstract\StrongNameKeyPairHelper.cs" />
     <Compile Include="_Internal\Abstract\TypeArrayCache.cs" />
     <Compile Include="_Internal\Abstract\TypeModificationEntry.cs" />

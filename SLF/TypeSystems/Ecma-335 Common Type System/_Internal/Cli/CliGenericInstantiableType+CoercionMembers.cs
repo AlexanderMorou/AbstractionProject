@@ -41,6 +41,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IBinaryOperatorCoercionMember<TType>
         {
             private IBinaryOperatorUniqueIdentifier uniqueIdentifier;
+            private CliMetadataCollection metadata;
 
             internal BinaryOperatorMember(IBinaryOperatorUniqueIdentifier uniqueIdentifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
                 : base(parent, metadataEntry)
@@ -174,6 +175,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null); }
             }
+
+            #region IMetadataEntity Members
+
+            public IMetadataCollection Metadata
+            {
+                get
+                {
+                    if (this.metadata == null)
+                        this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
+                    return this.metadata;
+                }
+            }
+
+            public bool IsDefined(IType metadatumType)
+            {
+                return this.Metadata.Contains(metadatumType);
+            }
+
+            #endregion
         }
 
         private class TypeCoercionMember :
@@ -181,6 +201,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ITypeCoercionMember<TType>
         {
             private ITypeCoercionUniqueIdentifier uniqueIdentifier;
+            private CliMetadataCollection metadata;
 
             internal TypeCoercionMember(ITypeCoercionUniqueIdentifier uniqueIdentifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
                 : base(parent, metadataEntry)
@@ -237,6 +258,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return string.Format("typeCoercion {0}::{1}", this.Parent, this.UniqueIdentifier);
             }
 
+            private _ICliManager IdentityManager { get { return (_ICliManager)this.Parent.IdentityManager; } }
+
+            #region IMetadataEntity Members
+
+            public IMetadataCollection Metadata
+            {
+                get
+                {
+                    if (this.metadata == null)
+                        this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
+                    return this.metadata;
+                }
+            }
+
+            public bool IsDefined(IType metadatumType)
+            {
+                return this.Metadata.Contains(metadatumType);
+            }
+
+            #endregion
+
         }
 
         private class UnaryOperatorMember :
@@ -244,6 +286,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             IUnaryOperatorCoercionMember<TType>
         {
             private IUnaryOperatorUniqueIdentifier uniqueIdentifier;
+            private CliMetadataCollection metadata;
 
             internal UnaryOperatorMember(IUnaryOperatorUniqueIdentifier uniqueIdentifier, ICliMetadataMethodDefinitionTableRow metadataEntry, TType parent)
                 : base(parent, metadataEntry)
@@ -314,6 +357,27 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get { return this._IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null); }
             }
+
+
+            #region IMetadataEntity Members
+
+            public IMetadataCollection Metadata
+            {
+                get
+                {
+                    if (this.metadata == null)
+                        this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this._IdentityManager);
+                    return this.metadata;
+                }
+            }
+
+            public bool IsDefined(IType metadatumType)
+            {
+                return this.Metadata.Contains(metadatumType);
+            }
+
+            #endregion
+
         }
     }
 }

@@ -39,6 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// target's evaluation in an expression.
     /// </summary>
     public interface ICoercionMember :
+        IMetadataEntity,
         IMember,
         IScopedDeclaration
     {

@@ -1111,5 +1111,45 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             return currentType;
         }
+
+
+        internal static IControlledCollection<ICliMetadataParamSignature> GetParameterCollection(this ICliMetadataCustomAttributeTableRow target)
+        {
+            IControlledCollection<ICliMetadataParamSignature> caParams = null;
+            switch (target.Ctor.CustomAttributeTypeEncoding)
+            {
+                case CliMetadataCustomAttributeTypeTag.MethodDefinition:
+                    {
+                        var mRef = (ICliMetadataMethodDefinitionTableRow)target.Ctor;
+                        /* *
+                         * Use the signature, instead of the method's properties, due
+                         * to the whole metadata association to the parameter at sequence 0.
+                         * */
+                        caParams = mRef.Signature.Parameters;
+                    }
+                    break;
+                case CliMetadataCustomAttributeTypeTag.MemberReference:
+                    {
+                        var mRef = (ICliMetadataMemberReferenceTableRow)target.Ctor;
+                        switch (mRef.Signature.SignatureKind)
+                        {
+                            case SignatureKinds.MethodDefSig:
+                            case SignatureKinds.MethodRefSig:
+                            case SignatureKinds.StandaloneMethodSig:
+                                ICliMetadataMethodSignature signature = (ICliMetadataMethodSignature)mRef.Signature;
+                                caParams = signature.Parameters;
+                                break;
+                            default:
+                                throw new BadImageFormatException("Bad custom attribute format.");
+                        }
+                    }
+                    break;
+                default:
+                    throw new BadImageFormatException("Bad custom attribute format.");
+            }
+            return caParams;
+        }
+
+
     }
 }

@@ -74,6 +74,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private IParameterMemberDictionary<TEvent, TEventParameter> parameters;
         private IMethodSignatureMember onAddMethod;
         private IMethodSignatureMember onRemoveMethod;
+        private CliMetadataCollection metadata;
         protected CliEventSignatureMember(TEventParent parent, ICliMetadataEventTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
             : base(parent, metadataEntry)
         {
@@ -175,5 +176,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return string.Format("event {0}::{1}", this.Parent, this.UniqueIdentifier);
         }
+    
+        #region IMetadataEntity Members
+
+        public IMetadataCollection Metadata
+        {
+            get {
+                if (this.metadata == null)
+                    this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
+                return this.metadata;
+            }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
+        }
+
+        #endregion
     }
 }
