@@ -276,7 +276,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 throw new ArgumentOutOfRangeException("methodType");
             }
 
-            internal _ICliManager IdentityManager { get { return (_ICliManager)this.Parent.IdentityManager; } }
+            internal override _ICliManager IdentityManager { get { return (_ICliManager)this.Parent.IdentityManager; } }
 
             protected override IType OnGetPropertyType()
             {

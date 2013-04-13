@@ -175,5 +175,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         }
 
         #endregion
+
+        #region IMetadataEntity Members
+
+        public IMetadataCollection Metadata
+        {
+            get { return this.Original.Metadata; }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Original.IsDefined(metadatumType);
+        }
+
+        #endregion
     }
 }

@@ -1044,7 +1044,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IType ObtainTypeReference(ICliMetadataNativeTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
         {
             RuntimeCoreType coreType = RuntimeCoreType.None;
-            ICliAssembly assembly = activeType.Assembly as ICliAssembly;
+            ICliAssembly assembly = null;
+            if (activeType != null)
+                assembly = activeType.Assembly as ICliAssembly;
             switch (typeIdentity.TypeKind)
             {
                 case CliMetadataNativeTypes.Void:

@@ -700,39 +700,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 throw new BadImageFormatException("Bad custom attribute format.");
             ICliMetadataCustomAttributeParameter[] parameters = null;
             long rIndex = reader.BaseStream.Position;
-            IControlledCollection<ICliMetadataParamSignature> caParams = null;
-            switch (target.Ctor.CustomAttributeTypeEncoding)
-            {
-                case CliMetadataCustomAttributeTypeTag.MethodDefinition:
-                    {
-                        var mRef = (ICliMetadataMethodDefinitionTableRow)target.Ctor;
-                        /* *
-                         * Use the signature, instead of the method's properties, due
-                         * to the whole metadata association to the parameter at sequence 0.
-                         * */
-                        caParams = mRef.Signature.Parameters;
-                    }
-                    break;
-                case CliMetadataCustomAttributeTypeTag.MemberReference:
-                    {
-                        var mRef = (ICliMetadataMemberReferenceTableRow)target.Ctor;
-                        switch (mRef.Signature.SignatureKind)
-                        {
-                            case SignatureKinds.MethodDefSig:
-                            case SignatureKinds.MethodRefSig:
-                            case SignatureKinds.StandaloneMethodSig:
-                                ICliMetadataMethodSignature signature = (ICliMetadataMethodSignature)mRef.Signature;
-                                parameters = new ICliMetadataCustomAttributeParameter[signature.Parameters.Count];
-                                caParams = signature.Parameters;
-                                break;
-                            default:
-                                throw new BadImageFormatException("Bad custom attribute format.");
-                        }
-                    }
-                    break;
-                default:
-                    throw new BadImageFormatException("Bad custom attribute format.");
-            }
+            var caParams = target.GetParameterCollection();
             parameters = new ICliMetadataCustomAttributeParameter[caParams.Count];
             reader.BaseStream.Position = rIndex;
             for (int i = 0; i < parameters.Length; i++)
@@ -747,10 +715,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             for (int i = 0; i < numNamed; i++)
                 namedParameters[i] = ParseCustomAttributeNamedParameter(reader, metadataRoot, identityManager, startIndex, dataLength);
             return new CliMetadataCustomAttribute(parameters, namedParameters);
-
         }
-
-
 
         internal static ICliMetadataCustomAttributeParameter ParseCustomAttributeParameter(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliMetadataTypeSignature type, long start, uint dataLength)
         {
@@ -760,379 +725,357 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     var nativeType = (ICliMetadataNativeTypeSignature)type;
                     switch (nativeType.TypeKind)
                     {
+                        case CliMetadataNativeTypes.Object:
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.BoxedNativeType, ParseCustomAttributeBoxedType(reader, metadataRoot, identityManager, false));
                         case CliMetadataNativeTypes.Boolean:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadByte() == 1);
                         case CliMetadataNativeTypes.Char:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadChar());
                         case CliMetadataNativeTypes.SByte:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadSByte());
                         case CliMetadataNativeTypes.Byte:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadByte());
                         case CliMetadataNativeTypes.Int16:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadInt16());
                         case CliMetadataNativeTypes.UInt16:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadUInt16());
                         case CliMetadataNativeTypes.Int32:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadInt32());
                         case CliMetadataNativeTypes.UInt32:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadUInt32());
                         case CliMetadataNativeTypes.Int64:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadInt64());
                         case CliMetadataNativeTypes.UInt64:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadUInt64());
                         case CliMetadataNativeTypes.Single:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadSingle());
                         case CliMetadataNativeTypes.Double:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, reader.ReadDouble());
                         case CliMetadataNativeTypes.String:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, ReadSerializedString(reader));
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, ParseCustomAttributeNativeValue(reader, nativeType.TypeKind, metadataRoot, identityManager));
                         case CliMetadataNativeTypes.Type:
                             return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.Type, DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot)));
                         default:
                             throw new BadImageFormatException("Bad custom attribute format.");
                     }
-                    break;
                 case CliMetadataTypeSignatureKind.ValueOrClassType:
-                    ICliMetadataValueOrClassTypeSignature targetSig = (ICliMetadataValueOrClassTypeSignature)type;
-                    if (targetSig.IsValueType)
                     {
-                        var pos = reader.BaseStream.Position;
-                        ICliMetadataTypeDefOrRefRow rowData = targetSig.Target;
-                        var targetType = identityManager.ResolveScope(rowData);
-                        if (!CliCommon.IsEnum(identityManager, targetType))
-                            throw new BadImageFormatException("Bad custom attribute format.");
-                        var enumType = targetType.GetEnumBaseType();
-                        IEnumType targetEnum = (IEnumType)identityManager.ObtainTypeReference(targetType);
-                        reader.BaseStream.Position = pos;
-                        switch (enumType)
+                        ICliMetadataValueOrClassTypeSignature targetSig = (ICliMetadataValueOrClassTypeSignature)type;
+                        if (targetSig.IsValueType)
                         {
-                            case EnumerationBaseType.Default:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadInt32()));
-                            case EnumerationBaseType.SByte:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadSByte()));
-                            case EnumerationBaseType.Byte:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadByte()));
-                            case EnumerationBaseType.Int16:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadInt16()));
-                            case EnumerationBaseType.UInt16:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadUInt16()));
-                            case EnumerationBaseType.Int32:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadInt32()));
-                            case EnumerationBaseType.UInt32:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadUInt32()));
-                            case EnumerationBaseType.Int64:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadInt64()));
-                            case EnumerationBaseType.UInt64:
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadUInt64()));
-                            case EnumerationBaseType.NativeInteger:
-                            case EnumerationBaseType.NativeUnsignedInteger:
-#if x86
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadUInt32()));
-#elif x64
-                                return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, Tuple.Create(targetEnum, reader.ReadUInt64()));
-#endif
-                            default:
+                            var pos = reader.BaseStream.Position;
+                            ICliMetadataTypeDefOrRefRow rowData = targetSig.Target;
+                            var targetType = identityManager.ResolveScope(rowData);
+                            if (!CliCommon.IsEnum(identityManager, targetType))
                                 throw new BadImageFormatException("Bad custom attribute format.");
+                            var enumType = targetType.GetEnumBaseType();
+                            reader.BaseStream.Position = pos;
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, ReadEnumValue(reader, enumType));
                         }
+                        else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type))
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.Type, DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot)));
+                        throw new BadImageFormatException("Bad custom attribute format.");
                     }
-                    else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type))
-                    {
-                        /* *
-                         * Parsing a type from a custom attribute.
-                         * */
-                        var relAssem = identityManager.GetRelativeAssembly(targetSig.Target.MetadataRoot);
-                        var relAssemId = relAssem.UniqueIdentifier;
-                        var parser = new TypeIdentityParser(ReadSerializedString(reader), new TIAssemblyIdentityRule(relAssemId.Name, new TIVersionRule(relAssemId.Version.Major, relAssemId.Version.Minor, relAssemId.Version.Build, relAssemId.Version.Revision), relAssemId.Culture, relAssemId.PublicKeyToken));
-                        var typeIdentity = parser.ParseQualifiedTypeName();
-                        return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.Type, typeIdentity.DecodeParsedType(identityManager));
-                    }
-                    throw new BadImageFormatException("Bad custom attribute format.");
                 case CliMetadataTypeSignatureKind.VectorArrayType:
-                    int arrayLevel = 0;
-                    ICliMetadataTypeSignature currentType = type;
-                    while (currentType.TypeSignatureKind == CliMetadataTypeSignatureKind.VectorArrayType)
                     {
-                        arrayLevel++;
-                        currentType = ((ICliMetadataVectorArrayTypeSignature)(currentType)).ElementType;
+                        int arrayLevel = 0;
+                        ICliMetadataTypeSignature currentType = type;
+                        while (currentType.TypeSignatureKind == CliMetadataTypeSignatureKind.VectorArrayType)
+                        {
+                            arrayLevel++;
+                            currentType = ((ICliMetadataVectorArrayTypeSignature)(currentType)).ElementType;
+                        }
+                        CliMetadataNativeTypes nativeTypeKind = CliMetadataNativeTypes.ListEnd;
+                        if (currentType.TypeSignatureKind == CliMetadataTypeSignatureKind.ValueOrClassType)
+                        {
+                            ICliMetadataValueOrClassTypeSignature targetSig = (ICliMetadataValueOrClassTypeSignature)currentType;
+                            if (targetSig.IsValueType)
+                            {
+                                var pos = reader.BaseStream.Position;
+
+                                ICliMetadataTypeDefOrRefRow rowData = targetSig.Target;
+                                var targetType = identityManager.ResolveScope(rowData);
+                                if (!CliCommon.IsEnum(identityManager, targetType))
+                                    throw new BadImageFormatException("Bad custom attribute format.");
+                                nativeTypeKind = GetEnumNativeType(targetType.GetEnumBaseType());
+                                reader.BaseStream.Position = pos;
+                            }
+                            else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type))
+                                nativeTypeKind = CliMetadataNativeTypes.Type;
+                            else
+                                throw new BadImageFormatException("Bad custom attribute format.");
+
+                        }
+                        return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.VectorArray, ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeTypeKind, arrayLevel));
                     }
-                    return ParseCustomAttributeArrayType(reader, metadataRoot, identityManager, currentType, arrayLevel, start, dataLength);
                 default:
                     throw new BadImageFormatException("Bad custom attribute format.");
             }
             throw new NotImplementedException();
         }
 
-        private static ICliMetadataCustomAttributeParameter ParseCustomAttributeArrayType(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliMetadataTypeSignature currentType, int arrayLevel, long start, uint dataLength)
+        private static CliMetadataNativeTypes GetEnumNativeType(EnumerationBaseType enumBaseType)
         {
-            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.VectorArray, ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, currentType, arrayLevel, start, dataLength, true));
+            switch (enumBaseType)
+            {
+                case EnumerationBaseType.SByte:
+                    return CliMetadataNativeTypes.SByte;
+                case EnumerationBaseType.Byte:
+                    return CliMetadataNativeTypes.Byte;
+                case EnumerationBaseType.Int16:
+                    return CliMetadataNativeTypes.Int16;
+                case EnumerationBaseType.UInt16:
+                    return CliMetadataNativeTypes.UInt16;
+                case EnumerationBaseType.Default:
+                case EnumerationBaseType.Int32:
+                    return CliMetadataNativeTypes.Int32;
+                case EnumerationBaseType.UInt32:
+                    return CliMetadataNativeTypes.UInt32;
+                case EnumerationBaseType.Int64:
+                    return CliMetadataNativeTypes.Int64;
+                case EnumerationBaseType.UInt64:
+                    return CliMetadataNativeTypes.UInt64;
+                case EnumerationBaseType.NativeInteger:
+#if x86
+                    return CliMetadataNativeTypes.Int32;
+#elif x64
+                    return CliMetadataNativeTypes.Int64;
+#endif
+                case EnumerationBaseType.NativeUnsignedInteger:
+#if x86
+                    return CliMetadataNativeTypes.UInt32;
+#elif x64
+                    return CliMetadataNativeTypes.UInt64;
+#endif
+                default:
+                    throw new ArgumentOutOfRangeException("enumBaseType");
+            }
         }
 
-        private static object ParseCustomAttributeArrayValue(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliMetadataTypeSignature currentType, int arrayLevel, long start, uint dataLength, bool topLevel)
+        private static object ReadEnumValue(EndianAwareBinaryReader reader, EnumerationBaseType enumType)
+        {
+            switch (enumType)
+            {
+                case EnumerationBaseType.Default:
+                    return reader.ReadInt32();
+                case EnumerationBaseType.SByte:
+                    return reader.ReadSByte();
+                case EnumerationBaseType.Byte:
+                    return reader.ReadByte();
+                case EnumerationBaseType.Int16:
+                    return reader.ReadInt16();
+                case EnumerationBaseType.UInt16:
+                    return reader.ReadUInt16();
+                case EnumerationBaseType.Int32:
+                    return reader.ReadInt32();
+                case EnumerationBaseType.UInt32:
+                    return reader.ReadUInt32();
+                case EnumerationBaseType.Int64:
+                    return reader.ReadInt64();
+                case EnumerationBaseType.UInt64:
+                    return reader.ReadUInt64();
+                case EnumerationBaseType.NativeInteger:
+                case EnumerationBaseType.NativeUnsignedInteger:
+#if x86
+                    return reader.ReadUInt32();
+#elif x64
+                    return reader.ReadUInt64();
+#endif
+                default:
+                    throw new BadImageFormatException("Bad custom attribute format.");
+            }
+        }
+
+        private static object ParseCustomAttributeArrayValue(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, CliMetadataNativeTypes nativeType, int arrayLevel)
         {
             var numCases = reader.ReadInt32();
-            Type t = null;
-            ICliMetadataNativeTypeSignature nativeType = null;
-            _ICliAssembly relAssem = null;
-            IEnumType targetEnum = null;
-            bool isEnum = false;
-            if (currentType.TypeSignatureKind == CliMetadataTypeSignatureKind.ValueOrClassType)
-            {
-                ICliMetadataValueOrClassTypeSignature targetSig = (ICliMetadataValueOrClassTypeSignature)currentType;
-                if (targetSig.IsValueType)
-                {
-                    var pos = reader.BaseStream.Position;
-                    ICliMetadataTypeDefOrRefRow rowData = targetSig.Target;
-                    var targetType = identityManager.ResolveScope(rowData);
-                    if (!CliCommon.IsEnum(identityManager, targetType))
-                        throw new BadImageFormatException("Bad custom attribute format.");
-                    var enumType = targetType.GetEnumBaseType();
-                    targetEnum = (IEnumType)identityManager.ObtainTypeReference(targetType);
-                    reader.BaseStream.Position = pos;
-                    switch (enumType)
-                    {
-                        case EnumerationBaseType.Default:
-                        case EnumerationBaseType.Int32:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int32);
-                            t = typeof(int);
-                            break;
-                        case EnumerationBaseType.SByte:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.SByte);
-                            t = typeof(sbyte);
-                            break;
-                        case EnumerationBaseType.Byte:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Byte);
-                            t = typeof(byte);
-                            break;
-                        case EnumerationBaseType.Int16:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int16);
-                            t = typeof(short);
-                            break;
-                        case EnumerationBaseType.UInt16:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt16);
-                            t = typeof(ushort);
-                            break;
-                        case EnumerationBaseType.UInt32:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt32);
-                            t = typeof(uint);
-                            break;
-                        case EnumerationBaseType.Int64:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int64);
-                            t = typeof(long);
-                            break;
-                        case EnumerationBaseType.UInt64:
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt64);
-                            t = typeof(ulong);
-                            break;
-                        case EnumerationBaseType.NativeInteger:
-#if x86
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int32);
-                            t = typeof(int);
-                            break;
-#elif x64
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int64);
-                            t = typeof(long);
-                            break;
-#endif
-                        case EnumerationBaseType.NativeUnsignedInteger:
-#if x86
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt32);
-                            t = typeof(uint);
-                            break;
-#elif x64
-                            nativeType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt64);
-                            t = typeof(ulong);
-                            break;
-#endif
-                        default:
-                            throw new BadImageFormatException("Bad custom attribute format.");
-                    }
-                    isEnum = true;
-                    goto parseArray;
-                }
-                else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type))
-                {
-                    relAssem = identityManager.GetRelativeAssembly(targetSig.Target.MetadataRoot);
-                    /* *
-                     * Parsing a type from a custom attribute.
-                     * */
-                    t = typeof(IType);
-                    goto parseArray;
-                }
-                throw new BadImageFormatException("Bad custom attribute format.");
-            }
-            else if (currentType.TypeSignatureKind != CliMetadataTypeSignatureKind.NativeType)
-                throw new BadImageFormatException("Bad custom attribute format.");
-            nativeType = (ICliMetadataNativeTypeSignature)currentType;
-            switch (nativeType.TypeKind)
+            Type arrayElementType;
+            switch (nativeType)
             {
                 case CliMetadataNativeTypes.Boolean:
-                    t = typeof(bool);
+                    arrayElementType = typeof(bool);
                     break;
                 case CliMetadataNativeTypes.Char:
-                    t = typeof(char);
+                    arrayElementType = typeof(char);
                     break;
                 case CliMetadataNativeTypes.SByte:
-                    t = typeof(sbyte);
+                    arrayElementType = typeof(sbyte);
                     break;
                 case CliMetadataNativeTypes.Byte:
-                    t = typeof(byte);
+                    arrayElementType = typeof(byte);
                     break;
                 case CliMetadataNativeTypes.Int16:
-                    t = typeof(short);
+                    arrayElementType = typeof(short);
                     break;
                 case CliMetadataNativeTypes.UInt16:
-                    t = typeof(ushort);
+                    arrayElementType = typeof(ushort);
                     break;
                 case CliMetadataNativeTypes.Int32:
-                    t = typeof(int);
+                    arrayElementType = typeof(int);
                     break;
                 case CliMetadataNativeTypes.UInt32:
-                    t = typeof(uint);
+                    arrayElementType = typeof(uint);
                     break;
                 case CliMetadataNativeTypes.Int64:
-                    t = typeof(long);
+                    arrayElementType = typeof(long);
                     break;
                 case CliMetadataNativeTypes.UInt64:
-                    t = typeof(ulong);
+                    arrayElementType = typeof(ulong);
                     break;
                 case CliMetadataNativeTypes.Single:
-                    t = typeof(float);
+                    arrayElementType = typeof(float);
                     break;
                 case CliMetadataNativeTypes.Double:
-                    t = typeof(double);
+                    arrayElementType = typeof(double);
                     break;
                 case CliMetadataNativeTypes.Type:
-                    t = typeof(IType);
+                    arrayElementType = typeof(IType);
                     break;
                 case CliMetadataNativeTypes.String:
-                    t = typeof(String);
+                    arrayElementType = typeof(String);
                     break;
                 case CliMetadataNativeTypes.Object:
-                    t = typeof(object);
+                    arrayElementType = typeof(object);
                     break;
                 default:
                     throw new BadImageFormatException("Bad custom attribute format.");
             }
-        parseArray:
             for (int depth = 0; depth < arrayLevel - 1; depth++)
-                t = t.MakeArrayType();
-            var currentArray = Array.CreateInstance(t, numCases);
+                arrayElementType = arrayElementType.MakeArrayType();
+            var currentArray = Array.CreateInstance(arrayElementType, numCases);
             for (int i = 0; i < numCases; i++)
             {
                 if (arrayLevel == 1)
-                {
-                    if (nativeType != null)
+                    currentArray.SetValue(ParseCustomAttributeNativeValue(reader, nativeType, metadataRoot, identityManager), i);
+                else
+                    currentArray.SetValue(ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeType, arrayLevel - 1), i);
+            }
+            return currentArray;
+        }
+
+        private static object ParseCustomAttributeNativeValue(EndianAwareBinaryReader reader, CliMetadataNativeTypes nativeType, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, bool encapsulateEnum = true, Action beforeParseValue = null)
+        {
+            switch (nativeType)
+            {
+                case CliMetadataNativeTypes.Boolean:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadByte() == 1;
+                case CliMetadataNativeTypes.Char:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadChar();
+                case CliMetadataNativeTypes.SByte:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadSByte();
+                case CliMetadataNativeTypes.Byte:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadByte();
+                case CliMetadataNativeTypes.Int16:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadInt16();
+                case CliMetadataNativeTypes.UInt16:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadUInt16();
+                case CliMetadataNativeTypes.Int32:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadInt32();
+                case CliMetadataNativeTypes.UInt32:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadUInt32();
+                case CliMetadataNativeTypes.Int64:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadInt64();
+                case CliMetadataNativeTypes.UInt64:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadUInt64();
+                case CliMetadataNativeTypes.Single:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadSingle();
+                case CliMetadataNativeTypes.Double:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return reader.ReadDouble();
+                case CliMetadataNativeTypes.String:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return ReadSerializedString(reader);
+                case CliMetadataNativeTypes.Type:
+                    if (beforeParseValue != null)
+                        beforeParseValue();
+                    return DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
+                case CliMetadataNativeTypes.Object:
+                case CliMetadataNativeTypes.Boxed:
+                    return ParseCustomAttributeBoxedType(reader, metadataRoot, identityManager, encapsulateEnum, beforeParseValue);
+                case CliMetadataNativeTypes.VectorArray:
                     {
-                        switch (nativeType.TypeKind)
+                        byte current = (byte)nativeType;
+                        bool isEnum = false;
+                        int arrayLevel = 0;
+                        while (current == (byte)CliMetadataNativeTypes.VectorArray)
+                        {
+                            arrayLevel++;
+                            current = reader.ReadByte();
+                        }
+                        ICliMetadataTypeSignature arrayBaseType = null;
+                        IEnumType targetEnum = null;
+                        if (current == (byte)CliMetadataNativeTypes.Boxed)
+                            current = (byte)CliMetadataNativeTypes.Object;
+                        var nativeTypeKind = ((CliMetadataNativeTypes)(current));
+                        switch (((CliMetadataNativeTypes)(current)))
                         {
                             case CliMetadataNativeTypes.Boolean:
-                                currentArray.SetValue(reader.ReadByte() == 1, i);
-                                break;
                             case CliMetadataNativeTypes.Char:
-                                currentArray.SetValue(reader.ReadChar(), i);
-                                break;
                             case CliMetadataNativeTypes.SByte:
-                                currentArray.SetValue(reader.ReadSByte(), i);
-                                break;
                             case CliMetadataNativeTypes.Byte:
-                                currentArray.SetValue(reader.ReadByte(), i);
-                                break;
                             case CliMetadataNativeTypes.Int16:
-                                currentArray.SetValue(reader.ReadInt16(), i);
-                                break;
                             case CliMetadataNativeTypes.UInt16:
-                                currentArray.SetValue(reader.ReadUInt16(), i);
-                                break;
                             case CliMetadataNativeTypes.Int32:
-                                currentArray.SetValue(reader.ReadInt32(), i);
-                                break;
                             case CliMetadataNativeTypes.UInt32:
-                                currentArray.SetValue(reader.ReadUInt32(), i);
-                                break;
                             case CliMetadataNativeTypes.Int64:
-                                currentArray.SetValue(reader.ReadInt64(), i);
-                                break;
                             case CliMetadataNativeTypes.UInt64:
-                                currentArray.SetValue(reader.ReadUInt64(), i);
-                                break;
                             case CliMetadataNativeTypes.Single:
-                                currentArray.SetValue(reader.ReadSingle(), i);
-                                break;
                             case CliMetadataNativeTypes.Double:
-                                currentArray.SetValue(reader.ReadDouble(), i);
-                                break;
                             case CliMetadataNativeTypes.String:
-                                currentArray.SetValue(ReadSerializedString(reader), i);
-                                break;
-                            case CliMetadataNativeTypes.Type:
-                                currentArray.SetValue(DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot)), i);
-                                break;
                             case CliMetadataNativeTypes.Object:
-                                CliMetadataNativeTypes elementKind = (CliMetadataNativeTypes)reader.ReadByte();
-                                switch (elementKind)
-                                {
-                                    case CliMetadataNativeTypes.Boolean:
-                                        currentArray.SetValue(reader.ReadByte() == 1, i);
-                                        break;
-                                    case CliMetadataNativeTypes.Char:
-                                        currentArray.SetValue(reader.ReadChar(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.SByte:
-                                        currentArray.SetValue(reader.ReadSByte(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Byte:
-                                        currentArray.SetValue(reader.ReadByte(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Int16:
-                                        currentArray.SetValue(reader.ReadInt16(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.UInt16:
-                                        currentArray.SetValue(reader.ReadUInt16(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Int32:
-                                        currentArray.SetValue(reader.ReadInt32(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.UInt32:
-                                        currentArray.SetValue(reader.ReadUInt32(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Int64:
-                                        currentArray.SetValue(reader.ReadInt64(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.UInt64:
-                                        currentArray.SetValue(reader.ReadUInt64(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Single:
-                                        currentArray.SetValue(reader.ReadSingle(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Double:
-                                        currentArray.SetValue(reader.ReadDouble(), i);
-                                        break;
-                                    case CliMetadataNativeTypes.String:
-                                        currentArray.SetValue(ReadSerializedString(reader), i);
-                                        break;
-                                    case CliMetadataNativeTypes.Type:
-                                        throw new NotImplementedException();
-                                        break;
-                                    case CliMetadataNativeTypes.EnumSignal:
-                                        break;
-                                    default:
-                                        break;
-                                }
+                            case CliMetadataNativeTypes.Type:
+                                break;
+                            case CliMetadataNativeTypes.EnumSignal:
+                                var enumType = DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
+                                isEnum = true;
+                                targetEnum = (IEnumType)enumType;
+                                var position = reader.BaseStream.Position;
+                                nativeTypeKind = GetEnumNativeType(targetEnum.ValueType);
+                                reader.BaseStream.Position = position;
+                                break;
+                            default:
                                 break;
                         }
+                        if (beforeParseValue != null)
+                            beforeParseValue();
+                        var result = ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeTypeKind, arrayLevel);
+                        if (isEnum && encapsulateEnum)
+                            return Tuple.Create((IType)targetEnum, result);
+                        else
+                            return result;
                     }
-                    else
+                case CliMetadataNativeTypes.EnumSignal:
                     {
-                        var decodedType = DeserializeType(reader, identityManager, relAssem);
-                        currentArray.SetValue(decodedType, i);
+                        var enumType = DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
+                        IEnumType targetEnum = (IEnumType)enumType;
+                        var position = reader.BaseStream.Position;
+                        var valueType = targetEnum.ValueType;
+                        reader.BaseStream.Position = position;
+                        if (beforeParseValue != null)
+                            beforeParseValue();
+                        var value = ParseCustomAttributeNativeValue(reader, GetEnumNativeType(valueType), metadataRoot, identityManager);
+                        if (encapsulateEnum)
+                            return Tuple.Create(targetEnum, value);
+                        else
+                            return value;
                     }
-                }
-                else
-                    currentArray.SetValue(ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, currentType, arrayLevel - 1, start, dataLength, false), i);
+                default:
+                    throw new BadImageFormatException("Bad custom attribute format.");
+
             }
-            if (topLevel && isEnum)
-                return Tuple.Create((IType)targetEnum, currentArray);
-            return currentArray;
+                throw new BadImageFormatException("Bad custom attribute format.");
         }
 
         private static IType DeserializeType(EndianAwareBinaryReader reader, _ICliManager identityManager, _ICliAssembly relAssem)
@@ -1160,170 +1103,40 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 throw new BadImageFormatException("Bad custom attribute format.");
             var propType = (CliMetadataNativeTypes)reader.ReadByte();
             object value = null;
-            string name;
+            string name = null;
             CustomAttributeParameterValueType parameterType;
+
+            value = ParseCustomAttributeNativeValue(reader, propType, metadataRoot, identityManager, true, () => name = ReadSerializedString(reader));
             switch (propType)
             {
                 case CliMetadataNativeTypes.Boolean:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadByte() == 1;
-                    break;
                 case CliMetadataNativeTypes.Char:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadChar();
-                    break;
                 case CliMetadataNativeTypes.SByte:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadSByte();
-                    break;
                 case CliMetadataNativeTypes.Byte:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadByte();
-                    break;
                 case CliMetadataNativeTypes.Int16:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadInt16();
-                    break;
                 case CliMetadataNativeTypes.UInt16:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadUInt16();
-                    break;
                 case CliMetadataNativeTypes.Int32:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadInt32();
-                    break;
                 case CliMetadataNativeTypes.UInt32:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadUInt32();
-                    break;
                 case CliMetadataNativeTypes.Int64:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadInt64();
-                    break;
                 case CliMetadataNativeTypes.UInt64:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadUInt64();
-                    break;
                 case CliMetadataNativeTypes.Single:
-                    name = ReadSerializedString(reader);
-                    parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadSingle();
-                    break;
                 case CliMetadataNativeTypes.Double:
-                    name = ReadSerializedString(reader);
                     parameterType = CustomAttributeParameterValueType.NativeType;
-                    value = reader.ReadDouble();
                     break;
                 case CliMetadataNativeTypes.String:
-                    name = ReadSerializedString(reader);
                     parameterType = CustomAttributeParameterValueType.String;
-                    value = ReadSerializedString(reader);
                     break;
                 case CliMetadataNativeTypes.Object:
-                    name = ReadSerializedString(reader);
+                case CliMetadataNativeTypes.Boxed:
                     parameterType = CustomAttributeParameterValueType.BoxedNativeType;
                     break;
                 case CliMetadataNativeTypes.VectorArray:
-                    byte current = (byte)propType;
-                    int arrayLevel = 0;
-                    while (current == (byte)CliMetadataNativeTypes.VectorArray)
-                    {
-                        arrayLevel++;
-                        current = reader.ReadByte();
-                    }
-                    ICliMetadataTypeSignature arrayBaseType = null;
-                    switch (((CliMetadataNativeTypes)(current)))
-                    {
-                        case CliMetadataNativeTypes.Boolean:
-                        case CliMetadataNativeTypes.Char:
-                        case CliMetadataNativeTypes.SByte:
-                        case CliMetadataNativeTypes.Byte:
-                        case CliMetadataNativeTypes.Int16:
-                        case CliMetadataNativeTypes.UInt16:
-                        case CliMetadataNativeTypes.Int32:
-                        case CliMetadataNativeTypes.UInt32:
-                        case CliMetadataNativeTypes.Int64:
-                        case CliMetadataNativeTypes.UInt64:
-                        case CliMetadataNativeTypes.Single:
-                        case CliMetadataNativeTypes.Double:
-                        case CliMetadataNativeTypes.String:
-                        case CliMetadataNativeTypes.Object:
-                        case CliMetadataNativeTypes.Type:
-                            arrayBaseType = new CliMetadataNativeTypeSignature((CliMetadataNativeTypes)current);
-                            break;
-                        case CliMetadataNativeTypes.EnumSignal:
-                            var enumType = DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
-                            IEnumType targetEnum = (IEnumType)enumType;
-                            switch (targetEnum.ValueType)
-                            {
-                                case EnumerationBaseType.Default:
-                                case EnumerationBaseType.Int32:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int32);
-                                    break;
-                                case EnumerationBaseType.SByte:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.SByte);
-                                    break;
-                                case EnumerationBaseType.Byte:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Byte);
-                                    break;
-                                case EnumerationBaseType.Int16:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int16);
-                                    break;
-                                case EnumerationBaseType.UInt16:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt16);
-                                    break;
-                                case EnumerationBaseType.UInt32:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt32);
-                                    break;
-                                case EnumerationBaseType.Int64:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int64);
-                                    break;
-                                case EnumerationBaseType.UInt64:
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt64);
-                                    break;
-                                case EnumerationBaseType.NativeInteger:
-#if x86
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int32);
-                                    break;
-#elif x64
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.Int64);
-                                    break;
-#endif
-                                case EnumerationBaseType.NativeUnsignedInteger:
-#if x86
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt32);
-                                    break;
-#elif x64
-                                    arrayBaseType = new CliMetadataNativeTypeSignature(CliMetadataNativeTypes.UInt64);
-                                    break;
-#endif
-                                default:
-                                    throw new BadImageFormatException("Bad custom attribute format.");
-                            }
-                            break;
-                        default:
-                            break;
-                    }
                     parameterType = CustomAttributeParameterValueType.VectorArray;
-                    name = ReadSerializedString(reader);
-                    value = ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, arrayBaseType, arrayLevel, start, dataLength, true);
                     break;
                 case CliMetadataNativeTypes.Type:
-                    name = ReadSerializedString(reader);
                     parameterType = CustomAttributeParameterValueType.Type;
                     break;
                 case CliMetadataNativeTypes.EnumSignal:
-                    name = ReadSerializedString(reader);
                     parameterType = CustomAttributeParameterValueType.EnumValue;
                     break;
                 default:
@@ -1331,6 +1144,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
 
             return new CliMetadataCustomAttributeNamedParameter(name, target, parameterType, value);
+        }
+
+        private static object ParseCustomAttributeBoxedType(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, bool encapsulateEnum, Action beforeParseValue = null)
+        {
+            CliMetadataNativeTypes elementKind = (CliMetadataNativeTypes)reader.ReadByte();
+            return ParseCustomAttributeNativeValue(reader, elementKind, metadataRoot, identityManager, encapsulateEnum, beforeParseValue);
         }
 
         internal static string ReadSerializedString(EndianAwareBinaryReader reader)

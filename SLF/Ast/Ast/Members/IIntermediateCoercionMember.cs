@@ -52,6 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// the target's evaluation in an expression.
     /// </summary>
     public interface IIntermediateCoercionMember :
+        IIntermediateMetadataEntity,
         IIntermediateMember,
         IIntermediateScopedDeclaration,
         ICoercionMember

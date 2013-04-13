@@ -75,7 +75,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public int Count
         {
-            get { return this.sourceData.Count; }
+            get
+            {
+                lock (this.syncObject)
+                {
+                    if (this.sourceData == null)
+                        return 0;
+                    return this.sourceData.Count;
+                }
+            }
         }
 
         public bool Contains(IMetadatum item)

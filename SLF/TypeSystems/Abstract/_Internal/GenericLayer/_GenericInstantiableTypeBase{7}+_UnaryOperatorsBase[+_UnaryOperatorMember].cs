@@ -115,6 +115,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                         return TypeSystemIdentifiers.GetUnaryOperatorIdentifier(this.Operator);
                     }
                 }
+
+                #region IMetadataEntity Members
+
+                public IMetadataCollection Metadata
+                {
+                    get { return this.Original.Metadata; }
+                }
+
+                public bool IsDefined(IType metadatumType)
+                {
+                    return this.Original.IsDefined(metadatumType);
+                }
+
+                #endregion
+
                 #region ICoercionMember Members
 
                 ICoercibleType ICoercionMember.Parent

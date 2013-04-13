@@ -1,6 +1,7 @@
 ﻿using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
@@ -9,6 +10,7 @@ using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -124,126 +126,34 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
+        internal IType ActiveType
+        {
+            get
+            {
+                if (this.DeclarationPoint is IType)
+                {
+                    return (IType)this.DeclarationPoint;
+                }
+                else if (this.DeclarationPoint is IMember)
+                {
+                    var member = (IMember)this.DeclarationPoint;
+                    if (member.Parent is IType)
+                        return (IType)member.Parent;
+                }
+                return null;
+            }
+        }
+
         private IEnumerable<Tuple<IType, object>> GetParameters()
         {
-            foreach (var fixedParameter in this.MetadataBlob.FixedParameters)
-                switch (fixedParameter.ValueType)
-                {
-                    case CustomAttributeParameterValueType.String:
-                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String), fixedParameter.Value);
-                        break;
-                    case CustomAttributeParameterValueType.BoxedNativeType:
-                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType), fixedParameter.Value);
-                        break;
-                    case CustomAttributeParameterValueType.EnumValue:
-                        {
-                            yield return Tuple.Create((IType)fixedParameter.Value.GetType().GetProperty("Item1").GetGetMethod().Invoke(fixedParameter.Value, null), fixedParameter.Value.GetType().GetProperty("Item2").GetGetMethod().Invoke(fixedParameter.Value, null));
-                            break;
-                        }
-                    case CustomAttributeParameterValueType.NativeType:
-                        {
-                            Type t = fixedParameter.Value.GetType();
-                            if (t == typeof(int))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), fixedParameter.Value);
-                            else if (t == typeof(uint))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt32), fixedParameter.Value);
-                            else if (t == typeof(string))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String), fixedParameter.Value);
-                            else if (t == typeof(bool))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Boolean), fixedParameter.Value);
-                            else if (t == typeof(short))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int16), fixedParameter.Value);
-                            else if (t == typeof(ushort))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt16), fixedParameter.Value);
-                            else if (t == typeof(byte))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Byte), fixedParameter.Value);
-                            else if (t == typeof(sbyte))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.SByte), fixedParameter.Value);
-                            else if (t == typeof(long))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int64), fixedParameter.Value);
-                            else if (t == typeof(ulong))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt64), fixedParameter.Value);
-                            else if (t == typeof(float))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Single), fixedParameter.Value);
-                            else if (t == typeof(double))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Double), fixedParameter.Value);
-                            else if (t == typeof(object))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType), fixedParameter.Value);
-                            else if (t.IsGenericType)
-                            {
-                                yield return Tuple.Create((IType)t.GetProperty("Item1").GetMethod.Invoke(fixedParameter.Value, null), t.GetProperty("Item2").GetMethod.Invoke(fixedParameter.Value, null));
-                            }
-                        }
-                        break;
-                    case CustomAttributeParameterValueType.Type:
-                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Type), fixedParameter.Value);
-                        break;
-                    case CustomAttributeParameterValueType.VectorArray:
-                        {
-                            Type t = fixedParameter.Value.GetType();
-                            /* *
-                             * The actual type of t can't be used because
-                             * they could be looking at a different version of the
-                             * runtime.
-                             * */
-                            int arrayLevel = 0;
-                            while (t.IsArray)
-                            {
-                                t = t.GetElementType();
-                                arrayLevel++;
-                            }
-                            IType rootType = null;
-                            bool genericAlready = false;
-                            if (t == typeof(int))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int32);
-                            else if (t == typeof(uint))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt32);
-                            else if (t == typeof(bool))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Boolean);
-                            else if (t == typeof(string))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.String);
-                            else if (t == typeof(short))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int16);
-                            else if (t == typeof(ushort))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt16);
-                            else if (t == typeof(byte))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Byte);
-                            else if (t == typeof(sbyte))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.SByte);
-                            else if (t == typeof(long))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int64);
-                            else if (t == typeof(ulong))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt64);
-                            else if (t == typeof(float))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Single);
-                            else if (t == typeof(double))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Double);
-                            else if (t == typeof(object))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.RootType);
-                            else if (t == typeof(IType))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Type);
-                            else if (t.IsGenericType)
-                            {
-                                rootType = (IType)t.GetProperty("Item1").GetMethod.Invoke(fixedParameter.Value, null);
-                                var value = t.GetProperty("Item2").GetMethod.Invoke(fixedParameter.Value, null);
-                                t = value.GetType();
-                                while (t.IsArray)
-                                {
-                                    t = t.GetElementType();
-                                    rootType = rootType.MakeArray();
-                                }
-                                yield return Tuple.Create(rootType, value);
-                                continue;
-                            }
-
-                            for (int i = 0; i < arrayLevel; i++)
-                                rootType = rootType.MakeArray();
-                            yield return Tuple.Create(rootType, fixedParameter.Value);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+            var fixedParameterValues = this.MetadataBlob.FixedParameters.ToArray();
+            var fixedParameters = this.metadataEntry.GetParameterCollection();
+            for (int i = 0; i < fixedParameterValues.Length; i++)
+            {
+                var fixedParameterValue = fixedParameterValues[i];
+                var fixedParameter = fixedParameters[i];
+                yield return Tuple.Create(identityManager.ObtainTypeReference(fixedParameter.ParameterType, this.ActiveType, null), fixedParameterValue.Value);
+            }
         }
 
         public IEnumerable<Tuple<IType, string, object>> NamedParameters
@@ -300,8 +210,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType), namedParameter.Name, namedParameter.Value);
                             else if (t.IsGenericType)
                             {
-                                var item1 = (IType)t.GetProperty("Item1").GetGetMethod().Invoke(namedParameter.Value, null);
-                                yield return Tuple.Create(item1, namedParameter.Name, namedParameter.Value);
+                                var tupleValue = (Tuple<IType, object>)namedParameter.Value;
+                                yield return Tuple.Create(tupleValue.Item1, namedParameter.Name, tupleValue.Item2);
                             }
                         }
                         break;
@@ -369,10 +279,56 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
         }
 
+        public override string ToString()
+        {
+            if (this.MetadataBlob.FixedParameters.Count == 0)
+                if (this.MetadataBlob.NamedParameters.Count == 0)
+                    return string.Format("{0}()", Type);
+                else
+                    return string.Format("{0}({1})", Type, NamedParametersString);
+            else if (this.MetadataBlob.NamedParameters.Count == 0)
+                return string.Format("{0}({1})", Type, ParametersString);
+            return string.Format("{0}({1}, {2})", Type, ParametersString, NamedParametersString);
+        }
+
         public void Dispose()
         {
             this.metadataEntry = null;
             this.declarationPoint = null;
+        }
+        internal string ParametersString
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+                bool first = true;
+                foreach (var parameter in this.Parameters)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        result.Append(", ");
+                    result.AppendFormat("({0}){1}", parameter.Item1, parameter.Item2);
+                }
+                return result.ToString();
+            }
+        }
+        internal string NamedParametersString
+        {
+            get
+            {
+                StringBuilder result = new StringBuilder();
+                bool first = true;
+                foreach (var parameter in this.NamedParameters)
+                {
+                    if (first)
+                        first = false;
+                    else
+                        result.Append(", ");
+                    result.AppendFormat("{0}=({1}){2}", parameter.Item2, parameter.Item1, parameter.Item3);
+                }
+                return result.ToString();
+            }
         }
     }
 }

@@ -49,6 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.CSharp
         /// </summary>
         CurrentVersion = Version5,
     }
+
     internal class CSharpLanguage :
         ICSharpLanguage
     {

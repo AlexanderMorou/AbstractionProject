@@ -174,6 +174,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata
         /// Original name: ELEMENT_TYPE_TYPE
         /// </remarks>
         Type                   = 0x50, // ELEMENT_TYPE_TYPE
+        Boxed                  = 0x51, 
         /// <remarks>
         /// Original name: ELEMENT_TYPE_SIGNAL_FIELD
         /// </remarks>

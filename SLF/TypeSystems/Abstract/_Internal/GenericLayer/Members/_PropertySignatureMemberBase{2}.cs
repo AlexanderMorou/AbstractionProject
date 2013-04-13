@@ -161,16 +161,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             get { return this.Original.CanWrite; }
         }
 
-        public IMetadataCollection Metadata
-        {
-            get { return this.Original.Metadata; }
-        }
-
         #endregion
 
         public override IGeneralMemberUniqueIdentifier UniqueIdentifier
         {
             get { return this.Original.UniqueIdentifier; }
+        }
+
+        public IMetadataCollection Metadata
+        {
+            get { return this.Original.Metadata; }
         }
 
         public bool IsDefined(IType metadatumType)

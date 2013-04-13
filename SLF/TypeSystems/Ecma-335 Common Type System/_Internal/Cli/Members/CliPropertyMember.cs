@@ -20,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
     {
         private IPropertyMethodMember getMethod;
         private IPropertyMethodMember setMethod;
+        private IMetadataCollection metadata;
         protected CliPropertyMember(TPropertyParent parent, ICliMetadataPropertyTableRow metadataEntry)
             : base(parent, metadataEntry)
         {
@@ -83,9 +84,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get { return this.SetMethod; }
         }
 
+        internal abstract _ICliManager IdentityManager { get; }
+
         public IMetadataCollection Metadata
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
+                return this.metadata;
+            }
         }
 
         public bool IsDefined(IType metadatumType)

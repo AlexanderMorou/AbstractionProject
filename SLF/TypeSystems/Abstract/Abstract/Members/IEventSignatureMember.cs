@@ -57,7 +57,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// the signature of an event.
     /// </summary>
     public interface IEventSignatureMember :
-        ISignatureMember
+        ISignatureMember,
+        IMetadataEntity
     {
         /// <summary>
         /// Returns the <see cref="EventSignatureSource"/> which

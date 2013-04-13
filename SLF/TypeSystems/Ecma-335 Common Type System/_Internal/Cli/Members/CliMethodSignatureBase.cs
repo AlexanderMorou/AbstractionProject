@@ -189,10 +189,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                if (this.returnTypeMetadata == null && 
-                    this.MetadataEntry.Signature.Parameters.Count > 0 &&
+                if (this.returnTypeMetadata == null)
+                    if (this.MetadataEntry.Signature.Parameters.Count > 0 &&
                     this.MetadataEntry.Parameters[0].Sequence == 0)
-                    this.returnTypeMetadata = new CliMetadataCollection(this.MetadataEntry.Parameters[0].CustomAttributes, this, this.IdentityManager);
+                        this.returnTypeMetadata = new CliMetadataCollection(this.MetadataEntry.Parameters[0].CustomAttributes, this, this.IdentityManager);
+                    else
+                        this.returnTypeMetadata = new CliMetadataCollection(null, this, this.IdentityManager);
                 return this.returnTypeMetadata;
             }
         }

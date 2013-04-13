@@ -33,6 +33,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateCoercibleType<TCoercionIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent>,
             TCoercionParent
     {
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection metadataBack;
         /// <summary>
         /// Creates a new <see cref="IntermediateCoercionMemberBase{TCoercionIdentifier, TCoercion, TIntermediateCoercion, TCoercionParent, TIntermediateCoercionParent}"/>
         /// with the <paramref name="parent"/> provided.
@@ -1361,6 +1363,43 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         #endregion
 
         public ITypeIdentityManager IdentityManager { get { return this.Parent.IdentityManager; } }
+
+        IMetadataCollection IMetadataEntity.Metadata
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadataBack != null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                    return this.metadataBack;
+                }
+            }
+        }
+
+        public IMetadataDefinitionCollection Metadata
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadata = new MetadataDefinitionCollection(this, this.Parent.IdentityManager);
+                    return this.metadata;
+                }
+            }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
+        }
 
     }
 }

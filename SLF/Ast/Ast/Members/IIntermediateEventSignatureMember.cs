@@ -82,6 +82,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// </summary>
     public interface IIntermediateEventSignatureMember :
         IIntermediateSignatureMember,
+        IIntermediateMetadataEntity,
         IEventSignatureMember
     {
         /// <summary>
