@@ -99,14 +99,22 @@
     <Compile Include="Languages\VisualBasic\MyVisualBasicProvider+ClassService.cs" />
     <Compile Include="Languages\VisualBasic\MyVisualBasicProvider.cs" />
     <Compile Include="Languages\VisualBasic\My\IMyApplicationClass.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMyComputerClass.cs" />
     <Compile Include="Languages\VisualBasic\My\IMyNamespaceDeclaration.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMyProjectClass.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMySettingMember.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMySettingMemberDictionary.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMySettingsClass.cs" />
+    <Compile Include="Languages\VisualBasic\My\IMyWebservicesClass.cs" />
     <Compile Include="Languages\VisualBasic\My\MyApplicationClass.cs" />
+    <Compile Include="Languages\VisualBasic\My\MyComputerClass.cs" />
     <Compile Include="Languages\VisualBasic\My\MyNamespaceDeclaration.cs" />
+    <Compile Include="Languages\VisualBasic\My\MyProjectClass.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicAssembly.cs" />
     <Compile Include="Languages\VisualBasic\MyVisualBasicClass.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicGateway.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicLanguage.cs" />
     <Compile Include="Languages\VisualBasic\VisualBasicVendorProvider.cs" />
-    <Compile Include="Languages\VisualBasic\VisualBasicVersion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,14 +124,22 @@
     <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
       <Project>{b449e1f5-149c-4f47-bbfc-a82eee96471a}</Project>
       <Name>Common Utilities</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Ast\Abstract Syntax Tree.csproj">
-      <Project>{02607dc2-e98b-43ae-b906-fe151a70a68d}</Project>
+      <Project>{02607DC2-E98B-43AE-B906-FE151A70A68D}</Project>
       <Name>Abstract Syntax Tree</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
       <Project>{df6044a9-ae48-4ac2-a170-eb839bb0058c}</Project>
       <Name>Abstraction Compiler Services</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Ecma-335 Abstract Syntax Tree\Ecma-335 Abstract Syntax Tree.csproj">
+      <Project>{961977fe-07e8-40dd-a738-db8dce6cc482}</Project>
+      <Name>Ecma-335 Abstract Syntax Tree</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
       <Project>{a94a88da-2500-4372-a433-a07ac3bfa05f}</Project>
@@ -132,10 +148,12 @@
     <ProjectReference Include="..\..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161eaa8c-20c6-4b82-925a-4b8b112910ab}</Project>
       <Name>TypeSystem Abstract</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj">
       <Project>{d455d4ff-54fd-431e-bd27-43da130a0faa}</Project>
       <Name>Ecma-335 Common Type System</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

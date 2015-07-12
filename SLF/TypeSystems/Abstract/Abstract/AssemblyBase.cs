@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -687,7 +687,15 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get { return this.UniqueIdentifier; }
         }
 
-        public abstract IAssemblyUniqueIdentifier UniqueIdentifier { get; }
+        public IAssemblyUniqueIdentifier UniqueIdentifier
+        {
+            get
+            {
+                return this.OnGetUniqueIdentifier();
+            }
+        }
+
+        protected abstract IAssemblyUniqueIdentifier OnGetUniqueIdentifier();
 
         /// <summary>
         /// Occurs when the <see cref="AssemblyBase"/> is disposed.
@@ -710,6 +718,14 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         IAssembly ITypeParent.Assembly
+        {
+            get
+            {
+                return this;
+            }
+        }
+
+        IAssembly IAssembly.Assembly
         {
             get
             {
@@ -979,5 +995,13 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>An <see cref="IEnumerable{IType}"/> which steps through the types
         /// within the assembly.</returns>
         public abstract IEnumerable<IType> GetTypes();
+
+
+        public IIdentityManager IdentityManager
+        {
+            get { return this.OnGetIdentityManager(); }
+        }
+
+        protected abstract IIdentityManager OnGetIdentityManager();
     }
 }

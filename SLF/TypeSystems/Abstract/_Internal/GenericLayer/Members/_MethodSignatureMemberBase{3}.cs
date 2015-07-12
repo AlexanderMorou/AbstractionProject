@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -32,7 +32,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// <summary>
         /// For when the signature is a generic itself...
         /// </summary>
-        private ILockedTypeCollection genericReplacements;
+        internal ILockedTypeCollection genericReplacements;
         private ILockedTypeCollection typeParameters;
 
         /// <summary>
@@ -47,6 +47,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         public _MethodSignatureMemberBase(TSignatureParent parent, TSignature original)
             : base(parent)
         {
+            if (original is _IGenericMethodSignatureRegistrar && parent is IMethodSignatureParent)
+                ((_IGenericMethodSignatureRegistrar)(original)).RegisterGenericChild((IMethodSignatureParent)parent, (IMethodSignatureMember)(this));
+            else if (original is _IGenericMethodRegistrar && parent is IMethodParent)
+                ((_IGenericMethodRegistrar)(original)).RegisterGenericChild((IMethodParent)parent, (IMethodMember)(this));
             this.original = original;
         }
 
@@ -59,16 +63,16 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             if (!(genericReplacements is ILockedTypeCollection))
                 genericReplacements = new LockedTypeCollection(genericReplacements);
             if (original is _IGenericMethodSignatureRegistrar)
-                ((_IGenericMethodSignatureRegistrar) (original)).RegisterGenericMethodSignature((IMethodSignatureMember) (this), genericReplacements);
-            if (original is _IGenericMethodRegistrar)
+                ((_IGenericMethodSignatureRegistrar) (original)).RegisterGenericMethod((IMethodSignatureMember) (this), genericReplacements);
+            else if (original is _IGenericMethodRegistrar)
                 ((_IGenericMethodRegistrar) (original)).RegisterGenericMethod((IMethodMember) (this), genericReplacements);
-            this.genericReplacements = (ILockedTypeCollection) genericReplacements;
+            this.GenericReplacementsImpl = (ILockedTypeCollection) genericReplacements;
             this.original = original;
         }
 
         protected override IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember, IMethodSignatureMember> InitializeTypeParameters()
         {
-            if (this.genericReplacements != null)
+            if (this.GenericReplacementsImpl != null)
                 /* *
                  * Generic method instances
                  * don't have malleable type-parameters
@@ -81,15 +85,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             return original.TypeParameters;
         }
 
+        internal ILockedTypeCollection GenericReplacementsImpl
+        {
+            get
+            {
+                return this.genericReplacements;
+            }
+            set
+            {
+                this.typeParameters = null;
+                this.genericParameters = null;
+                this.genericReplacements = value;
+            }
+        }
 
         protected override ILockedTypeCollection OnGetGenericParameters()
         {
             if (this.typeParameters == null)
             {
-                if (this.genericReplacements == null)
+                if (this.GenericReplacementsImpl == null)
                     this.typeParameters = this.TypeParameters.Values.ToLockedCollection();
                 else
-                    this.typeParameters = this.genericReplacements;
+                    this.typeParameters = this.GenericReplacementsImpl;
             }
             return this.typeParameters;
         }
@@ -98,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             get
             {
-                return this.original.IsGenericConstruct;
+                return this.Original.IsGenericConstruct;
             }
         }
 
@@ -114,7 +131,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             get
             {
-                return true;
+                return false;
             }
         }
 
@@ -125,23 +142,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         /// </summary>
         protected override IType OnGetReturnType()
         {
+            return ResolveType(this.original.ReturnType);
+        }
+
+        protected IType ResolveType(IType targetType)
+        {
             if (Parent is IGenericType)
             {
-                IGenericType parent = ((IGenericType) (this.Parent));
+                IGenericType parent = ((IGenericType)(this.Parent));
                 if (parent.IsGenericConstruct)
                 {
                     if (!parent.IsGenericDefinition)
-                        if (this.IsGenericConstruct && this.genericReplacements != null)
-                            return this.original.ReturnType.Disambiguify(parent.GenericParameters, this.genericReplacements, TypeParameterSources.Both);
+                        if (this.IsGenericConstruct && this.GenericReplacementsImpl != null)
+                            return targetType.Disambiguify(parent.GenericParameters, this.GenericReplacementsImpl, TypeParameterSources.Both);
                         else
-                            return this.original.ReturnType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
+                            return targetType.Disambiguify(parent.GenericParameters, null, TypeParameterSources.Type);
                 }
-                else if (this.IsGenericConstruct && this.genericReplacements != null)
-                    return this.original.ReturnType.Disambiguify(null, this.genericReplacements, TypeParameterSources.Method);
+                else if (this.IsGenericConstruct && this.GenericReplacementsImpl != null)
+                    return targetType.Disambiguify(null, this.GenericReplacementsImpl, TypeParameterSources.Method);
             }
-            else if (this.IsGenericConstruct && this.genericReplacements != null)
-                return this.original.ReturnType.Disambiguify(null, this.genericReplacements, TypeParameterSources.Method);
-            return this.original.ReturnType;
+            else if (this.IsGenericConstruct && this.GenericReplacementsImpl != null)
+                return targetType.Disambiguify(null, this.GenericReplacementsImpl, TypeParameterSources.Method);
+            return targetType;
         }
 
         protected override bool LastIsParamsImpl
@@ -164,10 +186,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
                 this.typeParameters.Dispose();
                 this.typeParameters = null;
             }
-            if (this.genericReplacements != null)
+            if (this.GenericReplacementsImpl != null)
             {
-                this.genericReplacements.Dispose();
-                this.genericReplacements = null;
+                this.GenericReplacementsImpl.Dispose();
+                this.GenericReplacementsImpl = null;
             }
             base.Dispose();
         }
@@ -189,7 +211,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         protected sealed override TSignature OnGetGenericDefinition()
         {
-            if (this.genericReplacements != null)
+            if (this.GenericReplacementsImpl != null)
                 return this.Original;
             else
                 return default(TSignature);

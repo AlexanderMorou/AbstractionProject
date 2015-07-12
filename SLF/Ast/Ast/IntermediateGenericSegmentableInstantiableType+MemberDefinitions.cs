@@ -11,12 +11,12 @@ using AllenCopeland.Abstraction.Slf.Ast.Properties;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -92,11 +92,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IntermediateCoercionMemberBase<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TType>, IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>, TType, TIntermediateType>,
             IIntermediateBinaryOperatorCoercionMember<TType, TIntermediateType>
         {
+            
             private BinaryOpCoercionContainingSide containingSide;
             private CoercibleBinaryOperators _operator;
             private IType returnType;
             private IType otherSide;
             private IBinaryOperatorUniqueIdentifier uniqueIdentifier;
+            private ILocalMember leftSide;
+            private ILocalMember rightSide;
+
             internal BinaryOperatorMember(IntermediateGenericSegmentableInstantiableType<TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TIntermediateEventMethod, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TIntermediateIndexerMethod, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TIntermediatePropertyMethod, TType, TIntermediateType, TInstanceIntermediateType> parent)
                 : base(((TIntermediateType)(((object)(parent)))))
             {
@@ -146,6 +150,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         return ">=";
                     default:
                         return null;
+                }
+            }
+
+            TType IBinaryOperatorCoercionMember<TType>.Parent
+            {
+                get
+                {
+                    return this.Parent;
                 }
             }
 
@@ -257,7 +269,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public override IBinaryOperatorUniqueIdentifier UniqueIdentifier
             {
-                get {
+                get
+                {
                     if (this.uniqueIdentifier == null)
                         this.uniqueIdentifier = TypeSystemIdentifiers.GetBinaryOperatorIdentifier(this.Operator, this.ContainingSide, this.OtherSide);
                     return this.uniqueIdentifier;
@@ -278,7 +291,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 visitor.Visit(this);
             }
-        
+
             public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
             {
                 return visitor.Visit(this, context);
@@ -289,6 +302,37 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 lock (this.SyncObject)
                     if (this.uniqueIdentifier != null)
                         this.uniqueIdentifier = null;
+            }
+
+
+            public ILocalMember LeftSide
+            {
+                get
+                {
+                    if (this.leftSide == null)
+                    {
+                        IType targetType = (this.ContainingSide == BinaryOpCoercionContainingSide.LeftSide || this.ContainingSide == BinaryOpCoercionContainingSide.Both) ?
+                            ((IType)this.Parent) : this.OtherSide;
+                        this.leftSide = this.Locals.Add(new TypedName("__leftSide", targetType));
+                        this.leftSide.AutoDeclare = false;
+                    }
+                    return this.leftSide;
+                }
+            }
+
+            public ILocalMember RightSide
+            {
+                get
+                {
+                    if (this.rightSide == null)
+                    {
+                        IType targetType = (this.ContainingSide == BinaryOpCoercionContainingSide.RightSide || this.ContainingSide == BinaryOpCoercionContainingSide.Both) ?
+                            ((IType)this.Parent) : this.OtherSide;
+                        this.rightSide = this.Locals.Add(new TypedName("__rightSide", targetType));
+                        rightSide.AutoDeclare = false;
+                    }
+                    return this.rightSide;
+                }
             }
         }
 
@@ -303,6 +347,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 : base(((TIntermediateType)(((object)(parent)))), typeInitializer)
             {
             }
+            
         }
 
         /// <summary>
@@ -326,11 +371,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IntermediateMethodMemberBase<TMethod, TIntermediateMethod, TType, TIntermediateType>
         {
             public MethodMember(TInstanceIntermediateType parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
             }
             public MethodMember(string name, TInstanceIntermediateType parent)
-                : base(name, parent, parent.IdentityManager)
+                : base(name, parent, parent.Assembly)
             {
             }
 
@@ -353,6 +398,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             private IType coercionType;
 
             private ITypeCoercionUniqueIdentifier uniqueIdentifier;
+            private ILocalMember _incoming;
             internal TypeCoercionMember(TInstanceIntermediateType parent)
                 : base(parent)
             {
@@ -458,15 +504,37 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         this.uniqueIdentifier = null;
             }
 
+            TType ITypeCoercionMember<TType>.Parent
+            {
+                get
+                {
+                    return this.Parent;
+                }
+            }
 
             public override ITypeCoercionUniqueIdentifier UniqueIdentifier
             {
-                get {
+                get
+                {
                     if (this.uniqueIdentifier == null)
                         this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeOperatorIdentifier(this.Requirement, this.Direction, this.CoercionType);
                     return this.uniqueIdentifier;
                 }
             }
+
+            public ILocalMember Incoming
+            {
+                get
+                {
+                    if (this._incoming == null)
+                    {
+                        this._incoming = this.Locals.Add(new TypedName("___incoming", CoercionType));
+                        _incoming.AutoDeclare = false;
+                    }
+                    return this._incoming;
+                }
+            }
+
         }
 
         /// <summary>
@@ -521,6 +589,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return string.Format("unary operator {0}", p);
             }
 
+            TType IUnaryOperatorCoercionMember<TType>.Parent
+            {
+                get
+                {
+                    return this.Parent;
+                }
+            }
             #region IIntermediateUnaryOperatorCoercionMember Members
 
             /// <summary>
@@ -584,7 +659,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public override IUnaryOperatorUniqueIdentifier UniqueIdentifier
             {
-                get {
+                get
+                {
                     if (this.uniqueIdentifier == null)
                         this.uniqueIdentifier = TypeSystemIdentifiers.GetUnaryOperatorIdentifier(this.Operator);
                     return this.uniqueIdentifier;
@@ -620,12 +696,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IntermediatePropertyMember<TProperty, TIntermediateProperty, TType, TIntermediateType, TIntermediatePropertyMethod>
         {
             protected PropertyMember(string name, TInstanceIntermediateType parent)
-                : base(name, parent, parent.IdentityManager)
+                : base(name, parent, parent.Assembly)
             {
 
             }
             protected PropertyMember(TInstanceIntermediateType parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
 
             }
@@ -638,7 +714,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public abstract class IndexerMember :
             IntermediateIndexerMember<TIndexer, TIntermediateIndexer, TType, TIntermediateType, TIntermediateIndexerMethod>
         {
-            
+
             /// <summary>
             /// Creates a new <see cref="IndexerMember"/> with the <paramref name="parent"/>
             /// provided.
@@ -646,9 +722,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             /// <param name="parent">The <typeparamref name="TInstanceIntermediateType"/>
             /// which contains the <see cref="IndexerMember"/>.</param>
             protected IndexerMember(TInstanceIntermediateType parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
-                
+
             }
 
             /// <summary>
@@ -661,9 +737,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             /// <param name="parent">The <typeparamref name="TInstanceIntermediateType"/>
             /// which contains the <see cref="IndexerMember"/>.</param>
             protected IndexerMember(string name, TInstanceIntermediateType parent)
-                : base(name, parent, parent.IdentityManager)
+                : base(name, parent, parent.Assembly)
             {
-                
+
             }
 
         }
@@ -674,7 +750,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateInstanceMember,
             IIntermediateScopedDeclaration
         {
-            private InstanceMemberFlags instanceFlags;
+            private InstanceMemberAttributes instanceFlags;
 
             protected FieldMember(string name, TInstanceIntermediateType parent)
                 : base(name, parent)
@@ -692,16 +768,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get
                 {
-                    return ((this.instanceFlags & InstanceMemberFlags.HideBySignature) == InstanceMemberFlags.HideBySignature);
+                    return ((this.instanceFlags & InstanceMemberAttributes.HideBySignature) == InstanceMemberAttributes.HideBySignature);
                 }
                 set
                 {
                     if (this.IsHideBySignature == value)
                         return;
                     if (value)
-                        this.instanceFlags |= InstanceMemberFlags.HideBySignature;
+                        this.instanceFlags |= InstanceMemberAttributes.HideBySignature;
                     else
-                        this.instanceFlags &= ~InstanceMemberFlags.HideBySignature;
+                        this.instanceFlags &= ~InstanceMemberAttributes.HideBySignature;
                 }
             }
 
@@ -716,7 +792,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     if (Parent is IIntermediateClassType)
                     {
                         var intermediateParent = Parent as IIntermediateClassType;
-                        if (intermediateParent.SpecialModifier != SpecialClassModifier.None)
+                        var specialModifier = intermediateParent.SpecialModifier;
+                        if ((specialModifier & SpecialClassModifier.Static) == SpecialClassModifier.Static ||
+                            (specialModifier & SpecialClassModifier.Module) == SpecialClassModifier.Module)
                             return true;
                     }
                     return IsExplicitStatic;
@@ -725,10 +803,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     if (value)
                     {
-                        this.instanceFlags |= InstanceMemberFlags.Static;
+                        this.instanceFlags |= InstanceMemberAttributes.Static;
                     }
                     else
-                        this.instanceFlags &= ~InstanceMemberFlags.Static;
+                        this.instanceFlags &= ~InstanceMemberAttributes.Static;
                 }
             }
 
@@ -736,7 +814,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 get
                 {
-                    return ((this.instanceFlags & InstanceMemberFlags.Static) == InstanceMemberFlags.Static);
+                    return ((this.instanceFlags & InstanceMemberAttributes.Static) == InstanceMemberAttributes.Static);
                 }
             }
 
@@ -744,7 +822,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             #region IInstanceMember Members
 
-            public InstanceMemberFlags InstanceFlags
+            public new InstanceMemberAttributes Attributes
             {
                 get { return this.instanceFlags; }
             }
@@ -757,6 +835,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             public AccessLevelModifiers AccessLevel { get; set; }
 
             #endregion
+
+            protected override IIntermediateIdentityManager IdentityManager
+            {
+                get { return this.Parent.IdentityManager; }
+            }
+
+            protected override IIntermediateAssembly Assembly
+            {
+                get
+                {
+                    return this.Parent.Assembly;
+                }
+            }
         }
     }
 }

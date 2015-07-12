@@ -8,8 +8,9 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Utilities.Properties;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -42,6 +43,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private bool typeInitializer;
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection metadataBack;
+
         /// <summary>
         /// Creates a new <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// with the <paramref name="parent"/> provdied.
@@ -49,17 +53,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="parent">The <typeparamref name="TIntermediateType"/>
         /// which the <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
         /// belongs to.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the intermediate signature member and contains context relative
+        /// to disambiguating type identities.</param>
         /// <param name="typeInitializer">Whether the <see cref="IntermediateConstructorSignatureMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> 
         /// is a type initializer</param>
-        internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, ITypeIdentityManager identityManager, bool typeInitializer = false)
-            : base(parent, identityManager)
+        internal IntermediateConstructorSignatureMemberBase(TIntermediateType parent, IIntermediateAssembly assembly, bool typeInitializer = false)
+            : base(parent, assembly)
         {
             this.typeInitializer = typeInitializer;
             this.AssignName(typeInitializer ? ".cctor" : ".ctor");
         }
+        public bool IsStaticConstructor { get { return this.typeInitializer; } }
 
         #region IIntermediateScopedDeclaration Members
 
@@ -110,5 +115,43 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             return visitor.Visit(this, context);
         }
+
+        IMetadataCollection IMetadataEntity.Metadata
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadataBack != null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                    return this.metadataBack;
+                }
+            }
+        }
+
+        public IMetadataDefinitionCollection Metadata
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadata = new MetadataDefinitionCollection(this, this.Parent.Assembly);
+                    return this.metadata;
+                }
+            }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
+        }
+
     }
 }

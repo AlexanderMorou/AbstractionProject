@@ -272,17 +272,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
         {
-            return CliCommon.FindTypeImplementation(@namespace, name, this.namespaceInfo);
+            return CliCommon.FindTypeImplementation(this.IdentityManager, this.Assembly, @namespace, name, this.namespaceInfo);
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName)
         {
-            return CliCommon.FindTypeImplementation(@namespace, name, moduleName, this.namespaceInfo, this.Assembly.Modules);
+            return CliCommon.FindTypeImplementation(this.IdentityManager, this.Assembly, @namespace, name, moduleName, this.namespaceInfo, this.Assembly.Modules);
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
         {
-            return CliCommon.FindTypeImplementation(uniqueIdentifier, this.namespaceInfo);
+            return CliCommon.FindTypeImplementation(this.IdentityManager, this.Assembly, uniqueIdentifier, this.namespaceInfo);
         }
 
         #endregion

@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -26,7 +26,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
 
     }
 
-    public interface IParameterReferenceExpression<TParameterParent, TIntermediateParameterParent,TParameter, TIntermediateParameter> :
+    /// <typeparam name="TParameterParent">The type which parents the <typeparamref name="TParameter"/> 
+    /// in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateParameterParent">The type which parents the <typeparamref name="TIntermediateParameter"/>
+    /// in the intermediate abstract syntax tree.</typeparam>
+    /// <typeparam name="TParameter">The type of parameter in the abstract type system.</typeparam>
+    /// <typeparam name="TIntermediateParameter">The type of parameter in the intermediate
+    /// abstract syntax tree.</typeparam>
+    public interface IParameterReferenceExpression<TParameterParent, TIntermediateParameterParent, TParameter, TIntermediateParameter> :
         IParameterReferenceExpression
         where TParameter :
             IParameterMember<TParameterParent>

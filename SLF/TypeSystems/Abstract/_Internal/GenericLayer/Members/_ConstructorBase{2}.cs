@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Utilities;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -101,6 +101,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             return string.Format("constructor {0}::{1}", this.Parent, this.UniqueIdentifier);
         }
+        #region IMetadataEntity Members
+
+        public IMetadataCollection Metadata
+        {
+            get { return this.Original.Metadata; }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Original.IsDefined(metadatumType);
+        }
+
+        #endregion
 
     }
 }

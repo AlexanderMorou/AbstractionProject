@@ -75,9 +75,6 @@
     <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>Allen Copeland.pfx</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -89,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultData.cs" />
     <Compile Include="ImageCheckedListBoxItemCheckedArgs.cs" />
     <Compile Include="ImageMenuItem.MDIListHandler.cs">
       <SubType>Component</SubType>

@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Ast;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -12,6 +12,10 @@ using AllenCopeland.Abstraction.Slf.Ast;
 
 namespace AllenCopeland.Abstraction.Slf.Compilers
 {
+    /// <summary>
+    /// Defines properties and methods for working with an assembly
+    /// compilation context.
+    /// </summary>
     public interface IAssemblyCompilationContext
     {
         /// <summary>

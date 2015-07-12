@@ -1,8 +1,9 @@
+using AllenCopeland.Abstraction.Slf.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -30,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <remarks>
         /// <para>C&#9839;: N/A</para>
         /// <para>VB: MyClass</para>
-        /// <para>CIL: call [instance]</para>
+        /// <para>CIL: call [instance]  //With semantics to denote the active type.</para>
         /// </remarks>
         Self,
         /// <summary>
@@ -39,7 +40,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <remarks>
         /// <para>C&#9839;: base</para>
-        /// <para>VB: MyBase</para></remarks>
+        /// <para>VB: MyBase</para>
+        /// <para>CIL: call [instance] //With semantics to denote the base type.</para></remarks>
         Base,
         /// <summary>
         /// The special reference refers to the object itself
@@ -47,7 +49,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <remarks>
         /// <para>C&#9839;: this</para>
-        /// <para>VB: Me</para></remarks>
+        /// <para>VB: Me</para>
+        /// <para>CIL: callvirt [instance] //With semantics to denote the current type.</para></remarks>
         This,
     }
 

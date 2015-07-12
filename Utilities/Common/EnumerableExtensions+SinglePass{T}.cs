@@ -10,7 +10,8 @@ namespace AllenCopeland.Abstraction.Utilities
     {
         private class SinglePassEnumerable<T> :
             IEnumerable<T>,
-            IEnumerator<T>
+            IEnumerator<T>,
+            IDisposable
         {
             private T _current;
             private IEnumerable<T> original;
@@ -21,7 +22,9 @@ namespace AllenCopeland.Abstraction.Utilities
             private const int StateInitial = 0;
             private const int StateEnumerator = 1;
             private const int StateFinished = 2;
-            public SinglePassEnumerable(IEnumerable<T> target)
+            private const int StateDisposed = 3;
+            private SinglePassEnumerable<T> originalInst;
+            public SinglePassEnumerable(IEnumerable<T> target, SinglePassEnumerable<T> originalInst = null)
             {
                 var singlePassTarget = target as SinglePassEnumerable<T>;
                 if (singlePassTarget != null)
@@ -34,6 +37,7 @@ namespace AllenCopeland.Abstraction.Utilities
                         this.original = singlePassTarget.original;
                 else
                     this.original = target;
+                this.originalInst = originalInst ?? this;
             }
 
             #region IEnumerable<T> Members
@@ -43,12 +47,14 @@ namespace AllenCopeland.Abstraction.Utilities
                 switch (this.state)
                 {
                     case StateInitial:
+                        if (this.originalInst == this)
+                            goto case StateEnumerator;
                         this.itemCopy = new List<T>();
                         this.state = StateEnumerator;
                         this.enumerator = this.original.GetEnumerator();
                         return this;
                     case StateEnumerator:
-                        return new SinglePassEnumerable<T>(this.original).GetEnumerator();
+                        return new SinglePassEnumerable<T>(this.original, this.originalInst).GetEnumerator();
                     case StateFinished:
                         return this.finished.GetEnumerator();
                 }
@@ -79,18 +85,21 @@ namespace AllenCopeland.Abstraction.Utilities
 
             public void Dispose()
             {
-                if (this.state == StateFinished)
+                DisposeInternal();
+            }
+
+            private void DisposeInternal()
+            {
+                this.original = null;
+                if (this.enumerator != null)
                 {
-                    this.original = null;
-                    if (this.enumerator != null)
-                    {
-                        this.enumerator.Dispose();
-                        this.enumerator = null;
-                    }
-                    this._current = default(T);
+                    this.enumerator.Dispose();
+                    this.enumerator = null;
                 }
-                else
-                    this.Reset();
+                this._current = default(T);
+                this.itemCopy = null;
+                this.finished = null;
+                this.state = StateDisposed;
             }
 
             #endregion
@@ -116,6 +125,14 @@ namespace AllenCopeland.Abstraction.Utilities
                 {
                     this.state = StateFinished;
                     this.finished = itemCopy;
+                    if (this.originalInst != null &&
+                        this.originalInst != this && 
+                        this.originalInst.state != StateFinished &&
+                        this.originalInst.state != StateDisposed)
+                    {
+                        this.originalInst.state = StateFinished;
+                        this.originalInst.finished = this.finished;
+                    }
                 }
                 return b;
             }
@@ -127,9 +144,11 @@ namespace AllenCopeland.Abstraction.Utilities
                     case StateEnumerator:
                         this.itemCopy.Clear();
                         this.enumerator = this.original.GetEnumerator();
+                        this._current = default(T);
                         break;
                     case StateFinished:
                         this.enumerator = this.original.GetEnumerator();
+                        this._current = default(T);
                         break;
                 }
             }

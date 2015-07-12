@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -23,7 +23,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Data member for <see cref="Parent"/>.
         /// </summary>
-        private IMetadataDefinitionCollection parent;
+        private MetadataDefinitionCollection parent;
         /// <summary>
         /// Creates a new <see cref="MetadataDefinition"/> with the
         /// <paramref name="IMetadataDefinitionCollection"/> which contains the sets
@@ -31,7 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <param name="parent">The <see cref="IMetadataDefinitionCollection"/>
         /// which contains the <see cref="MetadataDefinition"/>.</param>
-        public MetadataDefinition(IMetadataDefinitionCollection parent)
+        public MetadataDefinition(MetadataDefinitionCollection parent)
         {
             this.parent = parent;
         }
@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <exception cref="System.ArgumentNullException"><paramref name="values"/>' <see cref="MetadatumDefinitionParameterValueCollection.MetadatumType"/> is null.</exception>
         public IMetadatumDefinition Add(MetadatumDefinitionParameterValueCollection values)
         {
-            MetadatumDefinition definition = new MetadatumDefinition(this.parent.Parent, values, this.parent.IdentityManager);
+            MetadatumDefinition definition = new MetadatumDefinition(this, values);
             this.baseList.Add(definition);
             return definition;
         }
@@ -138,5 +138,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return builder.ToString();
         }
 
+        public IIntermediateAssembly OwningAssembly
+        {
+            get
+            {
+                return this.parent.OwningAssembly;
+            }
+        }
     }
 }

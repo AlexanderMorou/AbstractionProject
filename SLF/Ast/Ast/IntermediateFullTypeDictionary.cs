@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Linq;
 using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -121,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateClassType> classService;
                             if (assembly.Provider.TryGetService(LanguageGuids.Services.ClassServices.ClassCreatorService, out classService))
-                                insertionElement = classService.GetNew(name, this.Parent);
+                                insertionElement = classService.New(name, this.Parent);
                         }
                         if (insertionElement == null)
                             insertionElement = new IntermediateClassType(name, this.Parent);
@@ -138,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> delegateService;
                             if (assembly.Provider.TryGetService(LanguageGuids.Services.IntermediateDelegateCreatorService, out delegateService))
-                                insertionElement = delegateService.GetNew(name, this.Parent);
+                                insertionElement = delegateService.New(name, this.Parent);
                         }
                         if (insertionElement == null)
                             insertionElement = new IntermediateDelegateType(name, this.Parent);
@@ -155,7 +155,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType> interfaceService;
                             if (assembly.Provider.TryGetService(LanguageGuids.Services.InterfaceServices.InterfaceCreatorService, out interfaceService))
-                                insertionElement = interfaceService.GetNew(name, this.Parent);
+                                insertionElement = interfaceService.New(name, this.Parent);
                         }
                         if (insertionElement == null)
                             insertionElement = new IntermediateInterfaceType(name, this.Parent);
@@ -172,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         {
                             IIntermediateTypeCtorLanguageService<IIntermediateStructType> structService;
                             if (assembly.Provider.TryGetService(LanguageGuids.Services.StructServices.StructCreatorService, out structService))
-                                insertionElement = structService.GetNew(name, this.Parent);
+                                insertionElement = structService.New(name, this.Parent);
                         }
                         if (insertionElement == null)
                             insertionElement = new IntermediateStructType(name, this.Parent);
@@ -220,5 +220,40 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                             where intermediateItem != null && intermediateItem.Parent == parent
                             select element.Key);
         }
+
+        public int GetCountFor(IIntermediateTypeParent parent)
+        {
+            int result = 0;
+            foreach (var element in this.Values)
+                if (element.Entry.Parent == parent)
+                    result++;
+                else if (element.Entry is IIntermediateSegmentableType)
+                {
+                    IIntermediateSegmentableType segType = (IIntermediateSegmentableType)element.Entry;
+                    foreach (IIntermediateType part in segType.Parts)
+                        if (part.Parent == parent)
+                            result++;
+                }
+            return result;
+        }
+
+
+
+        public IEnumerable<KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IIntermediateType>>> ExclusivelyOnParent()
+        {
+            foreach (var type in this)
+            {
+                if (type.Value.Entry.Parent == this.Parent)
+                    yield return type;
+                else if (type.Value.Entry is IIntermediateSegmentableDeclaration)
+                {
+                    var segType = (IIntermediateSegmentableDeclaration)type.Value.Entry;
+                    foreach (IIntermediateType current in segType.Parts)
+                        if (current.Parent == this.Parent)
+                            yield return new KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IIntermediateType>>(type.Key, new MasterDictionaryEntry<IIntermediateType>(type.Value.Subordinate, current));
+                }
+            }
+        }
+
     }
 }

@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -71,6 +71,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <returns>true, if there exists an element within the <see cref="IIntermediateDeclarationDictionary{TIdentifier, TDeclaration, TIntermediateDeclaration}"/>
         /// that has the <paramref name="name"/> provided; false, otherwise.</returns>
         bool ContainsName(string name);
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning context, if applicable.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning context, if applicable.</returns>
+        /// <remarks>If not applicable, all members are returned.</remarks>
+        IEnumerable<KeyValuePair<TIdentifier, TIntermediateDeclaration>> ExclusivelyOnParent();
     }
     /// <summary>
     /// Defines properties and methods for working with 

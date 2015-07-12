@@ -12,7 +12,7 @@
     <AssemblyName>_abs.slf.ast</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly Condition="'$(Configuration)' == 'Release'">true</SignAssembly>
     <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -55,7 +55,8 @@
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\Build\x86\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;TYPESYSTEM_CLI, x86</DefineConstants>
-    <DocumentationFile>..\..\Build\x86\Debug\_abs.slf.ast.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -106,9 +107,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ast\Expressions\CommentExpression.cs" />
+    <Compile Include="Ast\Expressions\DecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\DecorationExpression.cs" />
+    <Compile Include="Ast\Expressions\DefaultValueExpression.cs" />
+    <Compile Include="Ast\Expressions\DirectionExpression.cs" />
+    <Compile Include="Ast\Expressions\ICommentExpression.cs" />
+    <Compile Include="Ast\Expressions\IDecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\IDecorationExpression.cs" />
+    <Compile Include="Ast\Expressions\IDefaultValueExpression.cs" />
+    <Compile Include="Ast\Expressions\IMemberParentReferenceDecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\INewLineExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\LambdaTypedExpression.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqExpressionRewriter.cs" />
+    <Compile Include="Ast\Expressions\MemberParentReferenceDecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\NewLineExpression.cs" />
+    <Compile Include="Ast\IIntermediateClassImplementedInterfaces.cs" />
+    <Compile Include="Ast\IIntermediateClassInterfaceMapping.cs" />
+    <Compile Include="Ast\IIntermediateIdentityManager.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionExpressionParameter.cs" />
+    <Compile Include="Ast\IntermediateClassType+ImplementedInterfacesDictionary+Map.cs" />
+    <Compile Include="Ast\IntermediateClassType+ImplementedInterfacesDictionary.cs" />
     <Compile Include="Ast\Expressions\ArrayExpressionExtensions.cs" />
     <Compile Include="Ast\Expressions\CreateArrayByteStream.cs" />
-    <Compile Include="Ast\IIntermediateCliManager.cs" />
     <Compile Include="Ast\IIntermediateDelegateTypeParameterDictionary.cs" />
     <Compile Include="Ast\IIntermediateVersion.cs" />
     <Compile Include="Ast\IntermediateAssembly.cs" />
@@ -119,6 +140,23 @@
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary+ParameterMember.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
     <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
+    <Compile Include="Ast\MetadatumDefinitionExpressionParameter.cs" />
+    <Compile Include="Ast\Statements\BlockStatement.cs" />
+    <Compile Include="Ast\Statements\GoToCaseStatement.cs" />
+    <Compile Include="Ast\Statements\IGoToCaseStatement.cs" />
+    <Compile Include="Ast\Statements\ILockStatement.cs" />
+    <Compile Include="Ast\Statements\IThrowStatement.cs" />
+    <Compile Include="Ast\Statements\IUsingStatement.cs" />
+    <Compile Include="Ast\Statements\IWhileStatement.cs" />
+    <Compile Include="Ast\Statements\IYieldBreakStatement.cs" />
+    <Compile Include="Ast\Statements\IYieldReturnStatement.cs" />
+    <Compile Include="Ast\Statements\LockStatement.cs" />
+    <Compile Include="Ast\Statements\StatementExtensions.cs" />
+    <Compile Include="Ast\Statements\ThrowStatement.cs" />
+    <Compile Include="Ast\Statements\UsingStatement.cs" />
+    <Compile Include="Ast\Statements\WhileStatement.cs" />
+    <Compile Include="Ast\Statements\YieldBreakStatement.cs" />
+    <Compile Include="Ast\Statements\YieldReturnStatement.cs" />
     <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
     <Compile Include="Compilers\IAssemblyCompilationContext.cs" />
     <Compile Include="Compilers\ICompilationContext.cs" />
@@ -141,11 +179,15 @@
     <Compile Include="Ast\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Ast\Statements\IBoundChangeEventSignatureHandlerStatement.cs" />
     <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
+    <Compile Include="Languages\CSharp\CSharpLanguageVersion.cs" />
     <Compile Include="Languages\DefaultLanguageServices.cs" />
     <Compile Include="Languages\IAllenCopelandLanguageVendor.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Languages\IIntermediateAssemblyCtorLanguageService.cs" />
+    <Compile Include="Languages\IIntermediateCoercionMemberCtorLanguageService.cs" />
+    <Compile Include="Languages\IIntermediateFieldMemberCtorSesrvice.cs" />
+    <Compile Include="Languages\IIntermediateMemberCtorLanguageService.cs" />
     <Compile Include="Languages\IIntermediateTypeCtorLanguageService.cs" />
     <Compile Include="Languages\ILanguageASTTranslator.cs" />
     <Compile Include="Languages\ILanguageAsynchronousQueryService.cs">
@@ -156,22 +198,39 @@
     <Compile Include="Languages\IMicrosoftLanguageVendor.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Languages\IntermediateMetadatumMarshalService.cs" />
     <Compile Include="Languages\LanguageGuids.cs" />
     <Compile Include="Languages\LanguageProvider.cs" />
     <Compile Include="Languages\LanguageVendorBase.cs" />
     <Compile Include="Languages\LanguageVendors.cs" />
+    <Compile Include="Languages\MicrosoftLanguageVendor+StandardLibraryIdentifiers.cs" />
     <Compile Include="Languages\MicrosoftLanguageVendor.cs" />
+    <Compile Include="Languages\ToySharp\ToySharpLanguageVersion.cs" />
     <Compile Include="Languages\VersionedHighLevelLanguageProvider.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicVersion.cs" />
+    <Compile Include="Parsers\IntermediateParserOptions.cs" />
+    <Compile Include="Parsers\IParserSyntaxMessage.cs" />
+    <Compile Include="Parsers\IParserSyntaxWarning.cs" />
+    <Compile Include="Parsers\INamedStreamInfo.cs" />
+    <Compile Include="Parsers\ParserSyntaxWarning.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Transformation\IIntermediateCodeLinker.cs" />
     <Compile Include="Transformation\IIntermediateCodeTransformer.cs" />
+    <Compile Include="Transformation\IntermediateCodeLinker.cs" />
     <Compile Include="Transformation\LiteralLifterTransformer.cs" />
     <Compile Include="Transformation\PathStacks.cs" />
-    <Compile Include="_Internal\Ast\IntermediateCliManager.cs" />
+    <Compile Include="Translation\DefaultCodeTranslatorFormatterProvider.cs" />
+    <Compile Include="Translation\HtmlCodeFormatterProvider.cs" />
+    <Compile Include="Translation\IIntermediateCodeNameProvider.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslatorFormatter.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslatorFormatterProvider.cs" />
+    <Compile Include="Translation\IIntermediateDeclarationReferenceHandler.cs" />
+    <Compile Include="Translation\IntermediateCodeTranslatorOptions.cs" />
+    <Compile Include="Translation\IntermediateNameRequestDetails.cs" />
+    <Compile Include="Translation\IntermediateTypeReferenceGatherer.cs" />
     <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection+Enumerator.cs" />
     <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
     <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
@@ -227,21 +286,21 @@
     <Compile Include="Linkers\IScopeAggregate.cs" />
     <Compile Include="Linkers\ISubScopeAggregate.cs" />
     <Compile Include="Linkers\ISymbolLookupTable.cs" />
-    <Compile Include="Ast\_ICustomAttributeDefinitionParameterCollection.cs" />
+    <Compile Include="Ast\_IMetadatumDefinitionParameterCollection.cs" />
     <Compile Include="Ast\AnonymousType.cs" />
     <Compile Include="Ast\MetadatumDefinition.cs" />
-    <Compile Include="Ast\CustomAttributeDefinition+AttributeWrapper.cs">
+    <Compile Include="Ast\MetadatumDefinition+AttributeWrapper.cs">
       <DependentUpon>MetadatumDefinition.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ast\CustomAttributeDefinition+AttributeWrapper+AttributeCollection.cs">
+    <Compile Include="Ast\MetadatumDefinition+AttributeWrapper+AttributeCollection.cs">
       <DependentUpon>CustomAttributeDefinition+AttributeWrapper.cs</DependentUpon>
     </Compile>
-    <Compile Include="Ast\CustomAttributeDefinition+ParameterValueCollection.cs">
+    <Compile Include="Ast\MetadatumDefinition+ParameterValueCollection.cs">
       <DependentUpon>MetadatumDefinition.cs</DependentUpon>
     </Compile>
     <Compile Include="Ast\MetadataDefinition.cs" />
     <Compile Include="Ast\MetadataDefinitionCollection.cs" />
-    <Compile Include="Ast\CustomAttributeDefinitionCollectionSeries+Wrapper.cs">
+    <Compile Include="Ast\MetadatumDefinitionCollectionSeries+Wrapper.cs">
       <DependentUpon>MetadataDefinitionCollection.cs</DependentUpon>
     </Compile>
     <Compile Include="Ast\MetadatumDefinitionNamedParameter{T}.cs" />
@@ -872,7 +931,7 @@
     <Compile Include="Ast\Statements\ChangeEventHandlerStatement.cs" />
     <Compile Include="Ast\Statements\CommentStatement.cs" />
     <Compile Include="Ast\Statements\ConditionContinuationStatement.cs" />
-    <Compile Include="Ast\Statements\ConditionStatement.cs" />
+    <Compile Include="Ast\Statements\ConditionBlockStatement.cs" />
     <Compile Include="Ast\Statements\EnumerateSetBreakableBlockStatement.cs" />
     <Compile Include="Ast\Statements\ExpressionStatement.cs" />
     <Compile Include="Ast\Statements\GoToStatement.cs" />
@@ -927,15 +986,13 @@
     <Compile Include="Ast\StaticInclusionScopeCoercion.cs" />
     <Compile Include="Ast\TypeInclusionRenameScopeCoercion.cs" />
     <Compile Include="Ast\TypeInclusionScopeCoercion.cs" />
-    <Compile Include="Parsers\ICSharpParser.cs" />
     <Compile Include="Parsers\IParserResults{T}.cs" />
     <Compile Include="Parsers\IParserSyntaxError.cs" />
-    <Compile Include="Parsers\IParserSyntaxErrorCollection.cs" />
+    <Compile Include="Parsers\IParserSyntaxMessageCollection.cs" />
     <Compile Include="Parsers\ParserResults.cs" />
     <Compile Include="Parsers\ParserSyntaxError.cs" />
     <Compile Include="Parsers\ParserSyntaxErrorCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Translation\CSharpCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
     <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
     <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
@@ -995,6 +1052,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="_Internal\Ast\Documentation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

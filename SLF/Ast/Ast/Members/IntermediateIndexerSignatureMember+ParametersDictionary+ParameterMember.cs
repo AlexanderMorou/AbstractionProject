@@ -28,12 +28,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 IntermediateParameterMemberBase<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>>,
                 IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>
             {
-                public ParameterMember(TIntermediateIndexer parent, ITypeIdentityManager identityManager)
-                    : base(parent, identityManager)
+                public ParameterMember(TIntermediateIndexer parent, IIntermediateAssembly assembly)
+                    : base(parent, assembly)
                 {
                 }
-                public ParameterMember(string name, TIntermediateIndexer parent, ITypeIdentityManager identityManager)
-                    : base(parent, identityManager)
+                public ParameterMember(string name, TIntermediateIndexer parent, IIntermediateAssembly assembly)
+                    : base(parent, assembly)
                 {
                     this.AssignName(name);
                 }

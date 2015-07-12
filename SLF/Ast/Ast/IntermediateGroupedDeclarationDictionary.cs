@@ -9,7 +9,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -520,5 +520,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         #endregion
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning context, if applicable.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning context, if applicable.</returns>
+        /// <remarks>If not applicable, all members are returned.</remarks>
+        public abstract IEnumerable<KeyValuePair<TDeclarationIdentifier, TIntermediateDeclaration>> ExclusivelyOnParent();
     }
 }

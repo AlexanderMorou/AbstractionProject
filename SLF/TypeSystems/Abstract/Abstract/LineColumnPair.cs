@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Numerics;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -15,7 +16,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// Provides source element with a line/column pairing for 
     /// localization within a source file.
     /// </summary>
-    public struct LineColumnPair
+    public struct LineColumnPair :
+        IEquatable<LineColumnPair>
     {
         public static LineColumnPair Zero = new LineColumnPair();
         /// <summary>
@@ -52,6 +54,38 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         public override string ToString()
         {
             return string.Format("{0}, {1}", this.Line, this.Column);
+        }
+
+        #region IEquatable<LineColumnPair> Members
+
+        public bool Equals(LineColumnPair other)
+        {
+            return this.Column == other.Column &&
+                   this.Line == other.Line;
+        }
+
+        #endregion
+
+        public override int GetHashCode()
+        {
+            return this.Line.GetHashCode() ^ (this.Column.GetHashCode().RotL(20));
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is LineColumnPair)
+                return this.Equals((LineColumnPair)obj);
+            return false;
+        }
+
+        public static bool operator ==(LineColumnPair left, LineColumnPair right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(LineColumnPair left, LineColumnPair right)
+        {
+            return !left.Equals(right);
         }
     }
 }

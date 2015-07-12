@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns/sets the filename associated to the <see cref="ISourceElement"/>.
         /// </summary>
-        string FileName { get; set; }
+        Uri Location { get; set; }
         /// <summary>
         /// The <see cref="LineColumnPair"/> which denotes
         /// the start point of the <see cref="ISourceElement"/>.

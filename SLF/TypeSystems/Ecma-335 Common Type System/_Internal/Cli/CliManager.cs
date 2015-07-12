@@ -34,6 +34,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private TypeCache typeCache;
         private object assemblyIdSyncLock = new object();
         private object loadedAssemblyLock = new object();
+        //private MultikeyedDictionary<string, CliFrameworkVersion, IAssemblyUniqueIdentifier> fileIdentifiers = new MultikeyedDictionary<string, CliFrameworkVersion, IAssemblyUniqueIdentifier>();
         private Dictionary<string, IAssemblyUniqueIdentifier> fileIdentifiers = new Dictionary<string, IAssemblyUniqueIdentifier>();
         private Dictionary<IAssemblyUniqueIdentifier, CliAssembly> loadedAssemblies = new Dictionary<IAssemblyUniqueIdentifier, CliAssembly>();
         private Dictionary<IAssemblyUniqueIdentifier, object> assemblyIdSyncs = new Dictionary<IAssemblyUniqueIdentifier, object>();
@@ -44,9 +45,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IDictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType> refBaseTypeKinds = new Dictionary<ICliMetadataTypeDefOrRefRow, BaseKindCacheType>();
         private object cacheLock = new object();
         private object cacheClearLock = new object();
-        private MetadataService metadataService;
         //"System.Double, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-
+        /// <summary>
+        /// Data member for supported services beyond the default services.
+        /// </summary>
+        private Dictionary<Guid, IIdentityService> supportedServices;
+        /// <summary>
+        /// Data member used to cache services of various types.
+        /// </summary>
+        private MultikeyedDictionary<Guid, Type, IIdentityService> cachedServices;
+        /// <summary>
+        /// Data member for the runtime environment.
+        /// </summary>
         private ICliRuntimeEnvironmentInfo runtimeEnvironment;
         /// <summary>
         /// Creates a new <see cref="CliManager"/> with the 
@@ -56,8 +66,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// which the <see cref="CliManager"/> targets.</param>
         public CliManager(ICliRuntimeEnvironmentInfo runtimeEnvironment)
         {
+            this.cachedServices = new MultikeyedDictionary<Guid, Type, IIdentityService>();
+            this.supportedServices = new Dictionary<Guid, IIdentityService>();
             this.typeCache = new TypeCache(this);
             this.runtimeEnvironment = runtimeEnvironment;
+            this.RegisterService<IIdentityMetadataService>(IdentityServiceGuids.MetadatumService, new MetadataService(this));
+            this.RegisterService<ITypeNameBuilderService>(IdentityServiceGuids.TypeNameBuilderService, new TypeNameService(this));
         }
 
         //#region ITypeIdentityManager<Type> Members
@@ -331,7 +345,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (cacheLock)
                 if (!systemTypeCache.ContainsKey(t))
                 {
-#if DEBUG
+#if DEBUG && TRACE_CACHE
                     if (!t.HasElementType)
                         Debug.WriteLine("Cached {0}.", t);
 #endif
@@ -347,7 +361,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             else if (typeIdentity is Type)
                 return ObtainTypeReference((Type)typeIdentity);
             else if (typeIdentity is PrimitiveType)
-                return ObtainTypeReference((PrimitiveType)typeIdentity);
+                switch ((PrimitiveType)typeIdentity)
+                {
+                    case PrimitiveType.Boolean:
+                        return ObtainTypeReference(RuntimeCoreType.Boolean);
+                    case PrimitiveType.Byte:
+                        return ObtainTypeReference(RuntimeCoreType.Byte);
+                    case PrimitiveType.SByte:
+                        return ObtainTypeReference(RuntimeCoreType.SByte);
+                    case PrimitiveType.Int16:
+                        return ObtainTypeReference(RuntimeCoreType.Int16);
+                    case PrimitiveType.UInt16:
+                        return ObtainTypeReference(RuntimeCoreType.UInt16);
+                    case PrimitiveType.Int32:
+                        return ObtainTypeReference(RuntimeCoreType.Int32);
+                    case PrimitiveType.UInt32:
+                        return ObtainTypeReference(RuntimeCoreType.UInt32);
+                    case PrimitiveType.Int64:
+                        return ObtainTypeReference(RuntimeCoreType.Int64);
+                    case PrimitiveType.UInt64:
+                        return ObtainTypeReference(RuntimeCoreType.UInt64);
+                    case PrimitiveType.Decimal:
+                        return ObtainTypeReference(RuntimeCoreType.Decimal);
+                    case PrimitiveType.Float:
+                        return ObtainTypeReference(RuntimeCoreType.Single);
+                    case PrimitiveType.Double:
+                        return ObtainTypeReference(RuntimeCoreType.Double);
+                    case PrimitiveType.Char:
+                        return ObtainTypeReference(RuntimeCoreType.Char);
+                    case PrimitiveType.String:
+                        return ObtainTypeReference(RuntimeCoreType.String);
+                }
             else if (typeIdentity is ICliMetadataTypeDefOrRefRow)
                 return this.ObtainTypeReference((ICliMetadataTypeDefOrRefRow)typeIdentity);
             else if (typeIdentity is IGeneralTypeUniqueIdentifier)
@@ -367,7 +411,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             lock (this.assemblyIdSyncLock)
             {
-
                 foreach (var assembly in this.loadedAssemblies.Values)
                     lock (this.assemblyIdSyncs[assembly.UniqueIdentifier])
                         assembly.Dispose();
@@ -375,6 +418,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     this.loadedAssemblies.Clear();
                 this.assemblyIdSyncs.Clear();
                 this.fileIdentifiers.Clear();
+            }
+            this.OnDisposed();
+        }
+
+        protected virtual void OnDisposed()
+        {
+            lock (this.assemblyIdSyncLock)
+            {
+                var disposed = this.Disposed;
+                if (disposed != null)
+                    disposed(this, EventArgs.Empty);
             }
         }
 
@@ -394,11 +448,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         //#endregion
 
         //#region ICliManager Members
+
+        public event EventHandler Disposed;
+
+
+        public IType ObtainTypeReference(CliRuntimeCoreType coreType, IAssembly relativeSource)
+        {
+            return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType, relativeSource), relativeSource);
+        }
+
         public ICliRuntimeEnvironmentInfo RuntimeEnvironment
         {
             get { return this.runtimeEnvironment; }
         }
-
 
         public ICliMetadataModuleTableRow LoadModule(ICliMetadataModuleReferenceTableRow metadata)
         {
@@ -464,6 +526,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         }
 
 
+
         internal CliAssembly GetRelativeAssembly(ICliMetadataRoot root)
         {
             if (root != null)
@@ -523,7 +586,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.ObtainTypeReference(typeIdentity, null, null);
         }
 
-        public IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        public IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             switch (typeIdentity.TypeDefOrRefEncoding)
             {
@@ -538,7 +601,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     throw new NotSupportedException();
                 case CliMetadataTypeDefOrRefTag.TypeSpecification:
                     if (typeIdentity is ICliMetadataTypeSpecificationTableRow)
-                        return this.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow)typeIdentity, activeType, activeMethod);
+                        return this.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow)typeIdentity, activeType, activeMethod, activeAssembly);
                     throw new ArgumentException(string.Format("Type identity not of required type '{0}'.", typeof(ICliMetadataTypeSpecificationTableRow)), "typeIdentity");
                 default:
                     throw new ArgumentOutOfRangeException("typeIdentity");
@@ -591,8 +654,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             }
                             else
                             {
-                                CliAssembly identitySource;
-                                this.loadedAssemblies.Add(identifier.Item2, identitySource = new CliAssembly(this, identifier.Item3, identifier.Item2, identifier.Item1));
+                                CliAssembly identitySource = new CliAssembly(this, identifier.Item3, identifier.Item2, identifier.Item1);
+                                this.loadedAssemblies.Add(identitySource.UniqueIdentifier, identitySource);
                                 var localizedType = identitySource.FindType(typeIdentity.Namespace, typeIdentity.Name);
                                 if (localizedType == null)
                                     throw new TypeLoadException(string.Format("Cannot find type \"{0}.{1}, {2}\"", typeIdentity.Namespace, typeIdentity.Name, identitySource.UniqueIdentifier));
@@ -751,9 +814,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     {
                         lock (loadedAssemblyLock)
                         {
-                            this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
+                            result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2);
+                            this.loadedAssemblies.Add(result.UniqueIdentifier, result);
                             //result.InitializeCommon();
-                            this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
+                            this.fileIdentifiers.Add(validResult.Item6, result.UniqueIdentifier);
+                            this.OnAssemblyLoaded(new CliAssemblyLoadedEventArgs() { AssemblyIdentifier = result.UniqueIdentifier, AssemblyLocation = validResult.Item6, LoadedAssembly = result });
                         }
                         if (gacAssembly)
                             result.IsFromGlobalAssemblyCache = true;
@@ -827,14 +892,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     }
                     else if (this.runtimeEnvironment.Platform == CliFrameworkPlatform.AnyPlatform)
                     {
+                        supportedOnPlatform = true;
+                        /*
                         CliHeader header = metadataRoot.Header;
                         if (imageKind == PEImageKind.x64Image &&
                             ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly))
                             supportedOnPlatform = true;
                         else if (imageKind == PEImageKind.x86Image &&
-                            ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
+                         // ((header.Flags & CliRuntimeFlags.IntermediateLanguageOnly) == CliRuntimeFlags.IntermediateLanguageOnly) &&
                             (header.Flags & CliRuntimeFlags.Requires32BitProcess) != CliRuntimeFlags.Requires32BitProcess)
                             supportedOnPlatform = true;
+                        //*/
                     }
                     if (supportedOnPlatform)
                     {
@@ -855,17 +923,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             }
                             lock (syncLock)
                             {
-                                if (this.loadedAssemblies.ContainsKey(assemblyUniqueIdentifier))
+                                if (this.loadedAssemblies.TryGetValue(assemblyUniqueIdentifier, out result))
                                 {
-                                    this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
+                                    this.fileIdentifiers.Add(filename, result.UniqueIdentifier);
                                     peImage.Dispose();
                                     metadataRoot.Dispose();
                                     return this.loadedAssemblies[assemblyUniqueIdentifier];
                                 }
                             }
-                            loadedAssemblies.Add(assemblyUniqueIdentifier, result = new CliAssembly(this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo));
+                            result = new CliAssembly(this, firstAssemblyRow, assemblyUniqueIdentifier, publicKeyInfo);
+                            loadedAssemblies.Add(result.UniqueIdentifier, result);
                             //result.InitializeCommon();
-                            this.fileIdentifiers.Add(filename, assemblyUniqueIdentifier);
+                            this.fileIdentifiers.Add(filename, result.UniqueIdentifier);
+                            this.OnAssemblyLoaded(new CliAssemblyLoadedEventArgs() { AssemblyIdentifier = assemblyUniqueIdentifier, AssemblyLocation = filename, LoadedAssembly = result });
                             return result;
                         }
                     }
@@ -894,7 +964,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (!this.loadedAssemblies.TryGetValue(identity.Item2, out result))
             {
                 result = new CliAssembly(this, assemblyIdentity, identity.Item2, identity.Item1);
-                this.loadedAssemblies.Add(identity.Item2, result);
+                this.loadedAssemblies.Add(result.UniqueIdentifier, result);
             }
             return this.loadedAssemblies[identity.Item2];
         }
@@ -923,8 +993,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (validResult != null)
                 {
-                    this.loadedAssemblies.Add(validResult.Item1, result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2));
-                    this.fileIdentifiers.Add(validResult.Item6, validResult.Item1);
+                    result = new CliAssembly(this, validResult.Item5, validResult.Item1, validResult.Item2);
+                    this.loadedAssemblies.Add(result.UniqueIdentifier, result);
+                    this.fileIdentifiers.Add(validResult.Item6, result.UniqueIdentifier);
+                    this.OnAssemblyLoaded(new CliAssemblyLoadedEventArgs() { AssemblyIdentifier = result.UniqueIdentifier, AssemblyLocation = validResult.Item6, LoadedAssembly = result });
                 }
                 else
                     return this.ObtainAssemblyReference(identity.Item2, this.GetRelativeAssembly(assemblyIdentity.MetadataRoot));
@@ -937,43 +1009,43 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         #region ITypeIdentityManager<ICliMetadataTypeSignature> Members
 
-        public IType ObtainTypeReference(ICliMetadataParamSignature signature, IType activeType, IMethodSignatureMember activeMethod)
+        public IType ObtainTypeReference(ICliMetadataParamSignature signature, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
-            return this.ObtainTypeReference(signature, signature.ParameterType, activeType, activeMethod);
+            return this.ObtainTypeReference(signature, signature.ParameterType, activeType, activeMethod, activeAssembly: activeAssembly);
         }
 
-        public IType ObtainTypeReference(ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        public IType ObtainTypeReference(ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             switch (typeIdentity.TypeSignatureKind)
             {
                 case CliMetadataTypeSignatureKind.ArrayType:
-                    return ObtainTypeReference((ICliMetadataArrayTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataArrayTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.ElementType:
-                    return ObtainTypeReference((ICliMetadataElementTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataElementTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.ElementTypeAndModifiers:
-                    return ObtainTypeReference((ICliMetadataElementTypeAndModifiersSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataElementTypeAndModifiersSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.GenericParameter:
-                    return ObtainTypeReference((ICliMetadataGenericParameterTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataGenericParameterTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.FunctionPointerType:
-                    return ObtainTypeReference((ICliMetadataFunctionPointerTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataFunctionPointerTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.NativeType:
-                    return ObtainTypeReference((ICliMetadataNativeTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataNativeTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.ReturnType:
-                    return ObtainTypeReference((ICliMetadataReturnTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataReturnTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.ValueOrClassType:
-                    return ObtainTypeReference((ICliMetadataValueOrClassTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataValueOrClassTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.GenericInstType:
-                    return ObtainTypeReference((ICliMetadataGenericInstanceTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataGenericInstanceTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 case CliMetadataTypeSignatureKind.VectorArrayType:
-                    return ObtainTypeReference((ICliMetadataVectorArrayTypeSignature)typeIdentity, activeType, activeMethod);
+                    return ObtainTypeReference((ICliMetadataVectorArrayTypeSignature)typeIdentity, activeType, activeMethod, activeAssembly);
                 default:
                     throw new NotSupportedException();
             }
         }
 
-        private IType ObtainTypeReference(ICliMetadataArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
-            var elementType = this.ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod);
+            var elementType = this.ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod, activeAssembly);
             var shape = typeIdentity.Shape;
             int[] lowerBounds;
             if (shape.LowerBounds.Count < shape.Rank)
@@ -987,22 +1059,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return elementType.MakeArray(lowerBounds);
         }
 
-        private IType ObtainTypeReference(ICliMetadataElementTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataElementTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             switch (typeIdentity.Classification)
             {
                 case TypeElementClassification.Nullable:
-                    return ObtainTypeReference(typeIdentity.ElementType).MakeNullable();
+                    return ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod, activeAssembly).MakeNullable();
                 case TypeElementClassification.Pointer:
-                    return ObtainTypeReference(typeIdentity.ElementType).MakePointer();
+                    return ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod, activeAssembly).MakePointer();
                 case TypeElementClassification.Reference:
-                    return ObtainTypeReference(typeIdentity.ElementType).MakeByReference();
+                    return ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod, activeAssembly).MakeByReference();
                 default:
                     throw new NotSupportedException();
             }
         }
 
-        private IType ObtainTypeReference(ICliMetadataElementTypeAndModifiersSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataElementTypeAndModifiersSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             return this.ObtainTypeReference(typeIdentity, typeIdentity.ElementType, activeType, activeMethod,
                 target =>
@@ -1018,35 +1090,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         default:
                             throw new NotSupportedException();
                     }
-                });
+                }, activeAssembly);
         }
 
-        private IType ObtainTypeReference(ICliMetadataGenericParameterTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataGenericParameterTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
+
             switch (typeIdentity.Parent)
             {
                 case CliMetadataGenericParameterParent.Type:
-                    if (activeType is IGenericType)
+                    if (activeType != null && activeType is IGenericType)
                         return ((IGenericType)(activeType)).GenericParameters[(int)typeIdentity.Position];
                     throw new ArgumentException("activeType");
                 case CliMetadataGenericParameterParent.Method:
+                    if (activeMethod == null)
+                        throw new ArgumentNullException("activeMethod");
                     return activeMethod.GenericParameters[(int)typeIdentity.Position];
                 default:
                     throw new ArgumentException("typeIdentity references a generic type of an unknown kind.", "typeIdentity");
             }
         }
 
-        private IType ObtainTypeReference(ICliMetadataFunctionPointerTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataFunctionPointerTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             throw new NotImplementedException();
         }
 
-        private IType ObtainTypeReference(ICliMetadataNativeTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataNativeTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             RuntimeCoreType coreType = RuntimeCoreType.None;
-            ICliAssembly assembly = null;
-            if (activeType != null)
-                assembly = activeType.Assembly as ICliAssembly;
+            var assembly = activeAssembly as ICliAssembly;
+            ICliRuntimeEnvironmentInfo runtimeEnvironment = assembly == null ? this.RuntimeEnvironment : assembly.RuntimeEnvironment;
             switch (typeIdentity.TypeKind)
             {
                 case CliMetadataNativeTypes.Void:
@@ -1092,11 +1166,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     coreType = RuntimeCoreType.String;
                     break;
                 case CliMetadataNativeTypes.TypedByReference:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"), assembly);
+                    if (runtimeEnvironment.UseCoreLibrary)
+                        return this.ObtainTypeReference(runtimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"), assembly);
+                    else
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "TypedReference"), assembly);
                 case CliMetadataNativeTypes.NativeInteger:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"), assembly);
+                    if (runtimeEnvironment.UseCoreLibrary)
+                        return this.ObtainTypeReference(runtimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"), assembly);
+                    else
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IntPtr"), assembly);
                 case CliMetadataNativeTypes.NativeUnsignedInteger:
-                    return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"), assembly);
+                    if (runtimeEnvironment.UseCoreLibrary)
+                        return this.ObtainTypeReference(runtimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"), assembly);
+                    else
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "UIntPtr"), assembly);
                 case CliMetadataNativeTypes.Object:
                     coreType = RuntimeCoreType.RootType;
                     break;
@@ -1109,46 +1192,47 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.ObtainTypeReference(coreType, assembly);
         }
 
-        private IType ObtainTypeReference(ICliMetadataReturnTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataReturnTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
-            return ObtainTypeReference(typeIdentity, typeIdentity.ReturnType, activeType, activeMethod);
+            return ObtainTypeReference(typeIdentity, typeIdentity.ReturnType, activeType, activeMethod, activeAssembly: activeAssembly);
         }
 
-        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customModifierHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, Func<IType, IType> preModifier = null)
+        internal IType ObtainTypeReference(ICliMetadataCustomModifierTypeSignature customModifierHolder, ICliMetadataTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, Func<IType, IType> preModifier = null, IAssembly activeAssembly = null)
         {
             if (preModifier == null)
                 if (customModifierHolder.CustomModifiers.Count == 0)
-                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod);
+                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod, activeAssembly);
                 else
-                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod).MakeModified((from m in customModifierHolder.CustomModifiers
-                                                                                                      select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
+                    return this.ObtainTypeReference(typeIdentity, activeType, activeMethod, activeAssembly).MakeModified((from m in customModifierHolder.CustomModifiers
+                                                                                                                          select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod, activeAssembly), m.Required)).ToArray());
             else
                 if (customModifierHolder.CustomModifiers.Count == 0)
-                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod));
+                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod, activeAssembly));
                 else
-                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod)).MakeModified((from m in customModifierHolder.CustomModifiers
-                                                                                                                       select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod), m.Required)).ToArray());
+                    return preModifier(this.ObtainTypeReference(typeIdentity, activeType, activeMethod, activeAssembly)).MakeModified((from m in customModifierHolder.CustomModifiers
+                                                                                                                                       select new TypeModification(() => this.ObtainTypeReference(m.ModifierType, activeType, activeMethod, activeAssembly), m.Required)).ToArray());
         }
 
-        private IType ObtainTypeReference(ICliMetadataValueOrClassTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataValueOrClassTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
-            return this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod);
+            return this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod, activeAssembly);
         }
 
-        private IType ObtainTypeReference(ICliMetadataGenericInstanceTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataGenericInstanceTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
-            var type = this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod);
+            var type = this.ObtainTypeReference(typeIdentity.Target, activeType, activeMethod, activeAssembly);
+
             if (type is IGenericType)
             {
                 return ((IGenericType)type).MakeGenericClosure((from t in typeIdentity.GenericParameters
-                                                                select this.ObtainTypeReference(t, activeType, activeMethod)).ToArray());
+                                                                select this.ObtainTypeReference(t, activeType, activeMethod, activeAssembly)).ToArray());
             }
             else if (type is IEnumType && type.Parent is IGenericType &&
                 ((IGenericType)type.Parent).GenericParameters.Count == typeIdentity.GenericParameters.Count)
             {
                 var parentType = (IGenericType)type.Parent;
                 var parent = parentType.MakeGenericClosure((from t in typeIdentity.GenericParameters
-                                                            select this.ObtainTypeReference(t, activeType, activeMethod)).ToArray());
+                                                            select this.ObtainTypeReference(t, activeType, activeMethod, activeAssembly)).ToArray());
                 if (parent is ITypeParent)
                 {
                     var typeParent = (ITypeParent)parent;
@@ -1158,9 +1242,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new InvalidOperationException();
         }
 
-        private IType ObtainTypeReference(ICliMetadataVectorArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        private IType ObtainTypeReference(ICliMetadataVectorArrayTypeSignature typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
-            return this.ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod).MakeArray();
+            return this.ObtainTypeReference(typeIdentity.ElementType, activeType, activeMethod, activeAssembly).MakeArray();
         }
 
         #endregion
@@ -1258,7 +1342,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (this.RuntimeEnvironment.UseCoreLibrary)
             {
                 var assembly = cliType.Assembly;
-                if (assembly.UniqueIdentifier == this.RuntimeEnvironment.CoreLibraryIdentifier)
+                if (assembly.UniqueIdentifier.Equals(this.RuntimeEnvironment.CoreLibraryIdentifier))
                     return DiscernCoreTypeKind(metadata.Namespace, metadata.Name);
                 return RuntimeCoreType.None;
             }
@@ -1316,13 +1400,319 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             return RuntimeCoreType.None;
         }
-        public ITypeIdentityMetadataService MetadatumHandler
+        public IIdentityMetadataService MetadatumHandler
         {
             get
             {
-                return this.metadataService ?? (this.metadataService = new MetadataService(this));
+                return this.GetService<IIdentityMetadataService>(IdentityServiceGuids.MetadatumService);
             }
         }
 
+
+        public IEnumerable<IType> GetCoreTypeInterfaces(RuntimeCoreType coreType, IAssembly relativeAssembly = null)
+        {
+
+            ICliRuntimeEnvironmentInfo runtimeInfo = this.RuntimeEnvironment;
+            if (relativeAssembly is ICliAssembly)
+            {
+                var cliAssembly = (ICliAssembly)relativeAssembly;
+                runtimeInfo = cliAssembly.RuntimeEnvironment;
+            }
+            switch (coreType)
+            {
+                case RuntimeCoreType.Array:
+                    if (runtimeInfo.UseCoreLibrary)
+                    {
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "ICloneable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections", "IList", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections", "ICollection", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections", "IEnumerable", 0), relativeAssembly);
+                        switch (runtimeInfo.Version & CliFrameworkVersion.VersionMask)
+                        {
+                            case CliFrameworkVersion.v4_0_30319:
+                            case CliFrameworkVersion.v4_5:
+                                yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections", "IStructuralComparable", 0), relativeAssembly);
+                                yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections", "IStructuralEquatable", 0), relativeAssembly);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "ICloneable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections", "IList", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections", "ICollection", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections", "IEnumerable", 0), relativeAssembly);
+                        switch (runtimeInfo.Version & CliFrameworkVersion.VersionMask)
+                        {
+                            case CliFrameworkVersion.v4_0_30319:
+                            case CliFrameworkVersion.v4_5:
+                                yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections", "IStructuralComparable", 0), relativeAssembly);
+                                yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections", "IStructuralEquatable", 0), relativeAssembly);
+                                break;
+                        }
+                    }
+                    break;
+                case RuntimeCoreType.Boolean:
+                case RuntimeCoreType.Char:
+                    if (runtimeInfo.UseCoreLibrary)
+                    {
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IComparable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IConvertible", 0), relativeAssembly);
+                        switch (runtimeInfo.Version & CliFrameworkVersion.VersionMask)
+                        {
+                            case CliFrameworkVersion.v2_0_50727:
+                            case CliFrameworkVersion.v3_0:
+                            case CliFrameworkVersion.v3_5:
+                            case CliFrameworkVersion.v4_0_30319:
+                            case CliFrameworkVersion.v4_5:
+                                yield return ((IGenericType)ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IComparable", 1), relativeAssembly)).MakeGenericClosure(ObtainTypeReference(coreType, relativeAssembly));
+                                yield return ((IGenericType)ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IEquatable", 1), relativeAssembly)).MakeGenericClosure(ObtainTypeReference(coreType, relativeAssembly));
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IComparable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IConvertible", 0), relativeAssembly);
+                        switch (runtimeInfo.Version & CliFrameworkVersion.VersionMask)
+                        {
+                            case CliFrameworkVersion.v2_0_50727:
+                            case CliFrameworkVersion.v3_0:
+                            case CliFrameworkVersion.v3_5:
+                            case CliFrameworkVersion.v4_0_30319:
+                            case CliFrameworkVersion.v4_5:
+                                yield return ((IGenericType)ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IComparable", 1), relativeAssembly)).MakeGenericClosure(ObtainTypeReference(coreType, relativeAssembly));
+                                yield return ((IGenericType)ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IEquatable", 1), relativeAssembly)).MakeGenericClosure(ObtainTypeReference(coreType, relativeAssembly));
+                                break;
+                        }
+                    }
+                    break;
+                case RuntimeCoreType.Decimal:
+                    if ((runtimeInfo.Version & (CliFrameworkVersion.v4_0_30319 | CliFrameworkVersion.v4_5)) != (CliFrameworkVersion)0)
+                        if (runtimeInfo.UseCoreLibrary)
+                            yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.Serialization", "IDeserializationCallback", 0), relativeAssembly);
+                        else
+                            yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Runtime.Serialization", "IDeserializationCallback", 0), relativeAssembly);
+
+                    goto case RuntimeCoreType.Single;
+                case RuntimeCoreType.Double:
+                case RuntimeCoreType.Single:
+                case RuntimeCoreType.SByte:
+                case RuntimeCoreType.Byte:
+                case RuntimeCoreType.Int16:
+                case RuntimeCoreType.UInt16:
+                case RuntimeCoreType.Int32:
+                case RuntimeCoreType.UInt32:
+                case RuntimeCoreType.Int64:
+                case RuntimeCoreType.UInt64:
+                    if (runtimeInfo.UseCoreLibrary)
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IFormattable", 0), relativeAssembly);
+                    else
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IFormattable", 0), relativeAssembly);
+                    goto case RuntimeCoreType.Boolean;
+                case RuntimeCoreType.RootEnum:
+                    if (runtimeInfo.UseCoreLibrary)
+                    {
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IFormattable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IComparable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "IConvertible", 0), relativeAssembly);
+                    }
+                    else
+                    {
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IFormattable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IComparable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IConvertible", 0), relativeAssembly);
+                    }
+                    break;
+                case RuntimeCoreType.String:
+
+                    if (runtimeInfo.UseCoreLibrary)
+                    {
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections", "IEnumerable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System", "ICloneable", 0), relativeAssembly);
+                        switch (runtimeInfo.Version & CliFrameworkVersion.VersionMask)
+                        {
+                            case CliFrameworkVersion.v2_0_50727:
+                            case CliFrameworkVersion.v3_0:
+                            case CliFrameworkVersion.v3_5:
+                            case CliFrameworkVersion.v4_0_30319:
+                            case CliFrameworkVersion.v4_5:
+                                yield return ((IGenericType)ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Collections.Generic", "IEnumerable", 1), relativeAssembly)).MakeGenericClosure(ObtainTypeReference(RuntimeCoreType.Char, relativeAssembly));
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections", "IEnumerable", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "ICloneable", 0), relativeAssembly);
+                        switch (runtimeInfo.Version & CliFrameworkVersion.VersionMask)
+                        {
+                            case CliFrameworkVersion.v2_0_50727:
+                            case CliFrameworkVersion.v3_0:
+                            case CliFrameworkVersion.v3_5:
+                            case CliFrameworkVersion.v4_0_30319:
+                            case CliFrameworkVersion.v4_5:
+                                yield return ((IGenericType)ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IEnumerable", 1), relativeAssembly)).MakeGenericClosure(ObtainTypeReference(RuntimeCoreType.Char, relativeAssembly));
+                                break;
+                        }
+                    }
+                    goto case RuntimeCoreType.Char;
+                case RuntimeCoreType.Type:
+                    if (runtimeInfo.UseCoreLibrary)
+                    {
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.InteropServices", "_Type", 0), relativeAssembly);
+                        yield return ObtainTypeReference(runtimeInfo.CoreLibraryIdentifier.GetTypeIdentifier("System.Reflection", "IReflect", 0), relativeAssembly);
+                    }
+                    else
+                    {
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Runtime.InteropServices", "_Type", 0), relativeAssembly);
+                        yield return ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Reflection", "IReflect", 0), relativeAssembly);
+                    }
+                    break;
+            }
+        }
+
+        private bool UserServiceIs<TService>(Guid service)
+            where TService :
+                IIdentityService
+        {
+            return supportedServices[service] is TService;
+        }
+
+        private bool SupportsUserService(Guid service)
+        {
+            IIdentityService serviceTemp;
+            if (supportedServices.TryGetValue(service, out serviceTemp))
+                return serviceTemp != null;
+            return false;
+        }
+
+        #region IServiceProvider<ITypeIdentityService> Members
+
+        public bool SupportsService(Guid service)
+        {
+            IIdentityService serviceTemp;
+            if (supportedServices.TryGetValue(service, out serviceTemp))
+                return serviceTemp != null;
+            return false;
+        }
+
+        /// <summary>
+        /// Registers a <paramref name="service"/> by the 
+        /// <paramref name="serviceGuid"/> provided.
+        /// </summary>
+        /// <typeparam name="TService">The type of <see cref="IIdentityService"/>
+        /// to register.</typeparam>
+        /// <param name="serviceGuid">The <see cref="Guid"/> of the service to register
+        /// to aid in looking it up.</param>
+        /// <param name="service">The <typeparamref name="TService"/> to actually 
+        /// register.</param>
+        protected void RegisterService<TService>(Guid serviceGuid, TService service)
+            where TService :
+                class,                
+                IIdentityService
+        {
+            if (service == null)
+                throw new ArgumentNullException(ThrowHelper.GetArgumentName(ArgumentWithException.service));
+            IIdentityService previousService = null;
+            this.supportedServices.TryGetValue(serviceGuid, out previousService);
+
+            this.supportedServices[serviceGuid] = service;
+            if (previousService != null)
+            {
+                lock (cachedServices)
+                {
+                    var deadCacheEntries = (from entry in this.cachedServices
+                                            where entry.Keys.Key1 == serviceGuid &&
+                                                  !entry.Keys.Key2.IsAssignableFrom(service.GetType())
+                                            select entry.Keys).ToArray();
+                    var replaceableCacheEntries = (from entry in this.cachedServices
+                                                   where entry.Keys.Key1 == serviceGuid &&
+                                                         entry.Keys.Key2 != typeof(TService) &&
+                                                         entry.Keys.Key2.IsAssignableFrom(service.GetType())
+                                                   select entry.Keys).ToArray();
+                    foreach (var deadEntry in deadCacheEntries)
+                        this.cachedServices.Remove(deadEntry.Key1, deadEntry.Key2);
+                    foreach (var replaceEntry in replaceableCacheEntries)
+                        this.cachedServices[replaceEntry.Key1, replaceEntry.Key2] = service;
+                    this.cachedServices[serviceGuid, typeof(TService)] = service;
+                }
+            }
+        }
+
+
+        public bool ServiceIs<TService>(Guid service)
+            where TService :
+                IIdentityService
+        {
+            if (this.SupportsUserService(service))
+                return UserServiceIs<TService>(service);
+            throw new InvalidOperationException("Service not supported.");
+        }
+
+        public TService GetService<TService>(Guid service)
+            where TService :
+                IIdentityService
+        {
+            IIdentityService result;
+            lock (cachedServices)
+            {
+                if (this.cachedServices.TryGetValue(service, typeof(TService), out result))
+                    return (TService)result;
+                else
+                    if (this.SupportsUserService(service))
+                        if (!UserServiceIs<TService>(service))
+                            throw new InvalidOperationException(string.Format("Service of type '{0}' does not support expected type '{1}'.", supportedServices[service].GetType(), typeof(TService)));
+                        else
+                            result = this.supportedServices[service];
+                    else
+                        throw new InvalidOperationException("Service not supported.");
+                this.cachedServices.TryAdd(service, typeof(TService), result);
+            }
+            return (TService)result;
+        }
+
+        public bool TryGetService<TService>(Guid serviceGuid, out TService service)
+            where TService :
+                IIdentityService
+        {
+            IIdentityService result;
+            lock (cachedServices)
+            {
+                if (this.cachedServices.TryGetValue(serviceGuid, typeof(TService), out result))
+                {
+                    service = (TService)result;
+                    return true;
+                }
+                else if (this.SupportsUserService(serviceGuid))
+                    if (!UserServiceIs<TService>(serviceGuid))
+                    {
+                        service = default(TService);
+                        return false;
+                    }
+                    else
+                    {
+                        service = (TService)this.supportedServices[serviceGuid];
+                        this.cachedServices.TryAdd(serviceGuid, typeof(TService), result = service);
+                        return true;
+                    }
+                else
+                {
+                    service = default(TService);
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
+        public event EventHandler<CliAssemblyLoadedEventArgs> AssemblyLoaded;
+
+        protected virtual void OnAssemblyLoaded(CliAssemblyLoadedEventArgs args)
+        {
+            var assemblyLoaded = AssemblyLoaded;
+            if (assemblyLoaded != null)
+                assemblyLoaded(this, args);
+        }
     }
 }

@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -14,12 +14,11 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
-    [DebuggerDisplay("Metadata sets: {Count}")]
+    [DebuggerDisplay("Metadata sets: {Count}, Metadatum count: {FullCount}")]
     public partial class MetadataDefinitionCollection :
         ControlledCollection<IMetadataDefinition>,
         IMetadataDefinitionCollection
     {
-        private ITypeIdentityManager manager;
         private Wrapper wrapper;
         /// <summary>
         /// Creates a new <see cref="MetadataDefinitionCollection"/> with
@@ -27,19 +26,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <param name="parent">The <see cref="IIntermediateMetadataEntity"/>
         /// which needs the attribute collection series.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public MetadataDefinitionCollection(IIntermediateMetadataEntity parent, ITypeIdentityManager identityManager)
+        /// <param name="owningAssembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the entity which requires metadata.</param>
+        public MetadataDefinitionCollection(IIntermediateMetadataEntity parent, IIntermediateAssembly owningAssembly)
         {
-            this.manager = identityManager;
             this.Parent = parent;
+            this.OwningAssembly = owningAssembly;
         }
 
-        public MetadataDefinitionCollection(MetadataDefinitionCollection wrapped, IIntermediateMetadataEntity parent, ITypeIdentityManager identityManager)
+        public MetadataDefinitionCollection(MetadataDefinitionCollection wrapped, IIntermediateMetadataEntity parent, IIntermediateAssembly owningAssembly)
             : base(wrapped.baseList)
         {
-            this.manager = identityManager;
+            this.OwningAssembly = owningAssembly;
             this.Parent = parent;
         }
 
@@ -207,9 +205,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return wrapper;
         }
 
-        public ITypeIdentityManager IdentityManager
+        public IIntermediateIdentityManager IdentityManager
         {
-            get { return this.manager; }
+            get { return this.OwningAssembly.IdentityManager; }
         }
+
+        public IIntermediateAssembly OwningAssembly { get; private set; }
     }
 }

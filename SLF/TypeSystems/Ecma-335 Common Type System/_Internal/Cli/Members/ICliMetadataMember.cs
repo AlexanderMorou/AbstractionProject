@@ -1,4 +1,5 @@
-﻿using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
+﻿using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
-    internal interface ICliMetadataMember
+    internal interface ICliMetadataMember :
+        ICliDeclaration
     {
-        ICliMetadataTableRow MetadataEntry { get; }
     }
 }

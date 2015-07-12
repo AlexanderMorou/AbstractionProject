@@ -25,16 +25,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         protected partial class ParametersDictionary :
             IntermediateParameterMemberDictionary<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>>
         {
-            private ITypeIdentityManager identityManager;
-            public ParametersDictionary(TIntermediateIndexer parent, ITypeIdentityManager identityManager)
+            private IIntermediateAssembly assembly;
+            public ParametersDictionary(TIntermediateIndexer parent, IIntermediateAssembly assembly)
                 : base(parent)
             {
-                this.identityManager = identityManager;
+                this.assembly = assembly;
             }
 
             protected override IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent> GetNewParameter(string name, IType parameterType, ParameterCoercionDirection direction)
             {
-                ParameterMember result = new ParameterMember(Parent, this.identityManager) { Direction = direction, ParameterType = parameterType };
+                ParameterMember result = new ParameterMember(Parent, this.assembly) { Direction = direction, ParameterType = parameterType };
                 result.AssignName(name);
                 return result;
             }

@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -30,9 +30,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions.Lambda
         /// <param name="paramNames">A series of <see cref="String"/> 
         /// elements that make up the names of the parameters for the
         /// lambda expression.</param>
+        /// <param name="targetAssembly">The <see cref="IAssembly"/>
+        /// which helps provide context for the lambda expression.</param>
         /// <returns>A new <see cref="ILambdaSimpleExpression"/> 
         /// instance with the parameters as provided.</returns>
-        public static ILambdaSimpleExpression GetSimpleLambda(IExpression expression, params string[] paramNames)
+        public static ILambdaSimpleExpression GetSimpleLambda(IExpression expression, IAssembly targetAssembly, params string[] paramNames)
         {
             throw new NotImplementedException();
         }

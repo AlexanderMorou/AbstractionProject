@@ -4,6 +4,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             IFieldParent<TField, TFieldParent>
     {
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
+        private CliMetadataCollection metadata;
 
         internal CliFieldMember(TFieldParent parent, ICliMetadataFieldTableRow metadataEntry, IGeneralMemberUniqueIdentifier uniqueIdentifier)
             : base(parent, metadataEntry)
@@ -41,5 +43,54 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         protected abstract IType OnGetFieldType();
+
+        protected abstract _ICliManager _IdentityManager { get; }
+
+        #region IMetadataEntity Members
+
+        public IMetadataCollection Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this._IdentityManager);
+                return this.metadata;
+            }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
+        }
+
+        #endregion
+
+        #region IFieldMember Members
+
+        public FieldMemberAttributes Attributes
+        {
+            get
+            {
+                return (ReadOnly ? FieldMemberAttributes.ReadOnly : FieldMemberAttributes.None) | (Constant ? FieldMemberAttributes.Constant : FieldMemberAttributes.None);
+            }
+        }
+
+        public bool ReadOnly
+        {
+            get
+            {
+                return ((MetadataEntry.FieldAttributes & FieldAttributes.InitOnly) == FieldAttributes.InitOnly);
+            }
+        }
+
+        public bool Constant
+        {
+            get
+            {
+                return ((MetadataEntry.FieldAttributes & FieldAttributes.Literal) == FieldAttributes.Literal);
+            }
+        }
+
+        #endregion
     }
 }

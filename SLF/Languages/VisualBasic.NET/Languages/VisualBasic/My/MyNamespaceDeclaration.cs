@@ -30,18 +30,45 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
         {
             var result = base.InitializeClasses();
             IIntermediateClassType myApplicationClass = new MyApplicationClass(this);
+            IIntermediateClassType myComputerClass = new MyComputerClass(this);
+            IIntermediateClassType myProjectClass = new MyProjectClass(this);
             result._Add(myApplicationClass.UniqueIdentifier, myApplicationClass);
+            result._Add(myComputerClass.UniqueIdentifier, myComputerClass);
+            result._Add(myProjectClass.UniqueIdentifier, myProjectClass);
             return result;
+        }
+
+        protected override void OnSetName(string value)
+        {
+            throw new NotSupportedException();
         }
 
         #region IMyNamespaceDeclaration Members
 
         public IMyApplicationClass MyApplication
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return (IMyApplicationClass)this.Classes[this.Assembly.UniqueIdentifier.GetTypeIdentifier("My", "MyApplication", 0)];
+            }
         }
 
         #endregion
 
+
+
+        public IMyComputerClass MyComputer
+        {
+            get
+            {
+                return (IMyComputerClass)this.Classes[this.Assembly.UniqueIdentifier.GetTypeIdentifier("My", "MyComputer", 0)];
+            }
+        }
+
+        public IMyProjectClass MyProject
+        {
+            get {
+                return (IMyProjectClass)this.Classes[this.Assembly.UniqueIdentifier.GetTypeIdentifier("My", "MyProject", 0)];
+            }
+        }
     }
 }

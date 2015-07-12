@@ -9,6 +9,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
+using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -21,6 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private CliAssembly assembly;
         private ICliMetadataTypeDefinitionTableRow metadataEntry;
         private ILockedTypeCollection implInterfaces;
+        private string fullName;
         internal CliTypeBase(CliAssembly assembly, ICliMetadataTypeDefinitionTableRow metadataEntry)
         {
             this.assembly = assembly;
@@ -35,7 +37,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return (ITypeParent)this.assembly.IdentityManager.ObtainTypeReference(this.MetadataEntry.DeclaringType);
         }
 
-        internal CliManager IdentityManager { get { return (CliManager)base.IdentityManager; } }
+        internal new CliManager IdentityManager { get { return (CliManager)base.IdentityManager; } }
 
         protected override bool CanCacheImplementsList
         {
@@ -75,7 +77,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override AccessLevelModifiers OnGetAccessLevel()
         {
-            throw new NotImplementedException();
+            var visibility = this.MetadataEntry.TypeAttributes & TypeAttributes.VisibilityMask;
+            switch (visibility)
+            {
+                case TypeAttributes.NestedAssembly:
+                    return AccessLevelModifiers.Internal;
+                case TypeAttributes.NestedFamANDAssem:
+                    return AccessLevelModifiers.ProtectedAndInternal;
+                case TypeAttributes.NestedFamORAssem:
+                    return AccessLevelModifiers.ProtectedOrInternal;
+                case TypeAttributes.NestedFamily:
+                    return AccessLevelModifiers.Protected;
+                case TypeAttributes.NestedPrivate:
+                    return AccessLevelModifiers.Private;
+                case TypeAttributes.NestedPublic:
+                    return AccessLevelModifiers.Public;
+                case TypeAttributes.Public:
+                    return AccessLevelModifiers.Public;
+            }
+            return AccessLevelModifiers.PrivateScope;
+        }
+
+        public override string FullName
+        {
+            get
+            {
+                return fullName ?? (fullName = base.FullName);
+            }
         }
 
         protected override IAssembly OnGetAssembly()
@@ -112,32 +140,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return null;
                 switch (this.metadataEntry.ExtendsSource)
                 {
-                    case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeDefinition:
-                    case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeReference:
+                    case CliMetadataTypeDefOrRefTag.TypeDefinition:
+                    case CliMetadataTypeDefOrRefTag.TypeReference:
+                        /* *
+                         * Obtain the base-type reference, if it's a type from the current
+                         * assembly the process is straight forward, otherwise, it will load
+                         * the referenced assembly.
+                         * */
                         return this.IdentityManager.ObtainTypeReference(this.metadataEntry.Extends);
-                    case AllenCopeland.Abstraction.Slf.Cli.Metadata.CliMetadataTypeDefOrRefTag.TypeSpecification:
+                    case CliMetadataTypeDefOrRefTag.TypeSpecification:
+                        /* *
+                         * Disambiguate the base type with the active
+                         * type as a reference point.
+                         * */
                         return this.IdentityManager.ObtainTypeReference((ICliMetadataTypeSpecificationTableRow)this.metadataEntry.Extends, this, null);
                 }
                 throw new InvalidOperationException();
             }
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
         }
 
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIdentityManager OnGetManager()
         {
             return this.assembly.IdentityManager;
         }
 
         protected override string OnGetName()
         {
-            //if (this.metadata.Parent!=null)
-            //    if (this.metadata.NamespaceIndex > 0)
-            //        return this.metadata.Name
             return this.UniqueIdentifier.Name;
         }
 

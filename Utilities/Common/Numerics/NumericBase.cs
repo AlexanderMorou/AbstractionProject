@@ -4,7 +4,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -423,31 +423,31 @@ namespace AllenCopeland.Abstraction.Numerics
         }
 
         /// <summary>
-        /// Creates a new <see cref="DuosexagesimalBase"/>, base-62,
+        /// Creates a new <see cref="SexagesimalBase"/>, base-60,
         /// instance with the intrinsic <paramref name="value"/>
         /// provided.
         /// </summary>
         /// <param name="value">The <see cref="String"/> value to parse
-        /// into base-62.</param>
-        /// <returns>A new <see cref="DuosexagesimalBase"/>
+        /// into base-60.</param>
+        /// <returns>A new <see cref="SexagesimalBase"/>
         /// instance.</returns>
-        public static DuosexagesimalBase GetBase62(string value)
+        public static SexagesimalBase GetBase60(string value)
         {
-            return new DuosexagesimalBase(value);
+            return new SexagesimalBase(value);
         }
 
         /// <summary>
-        /// Creates a new <see cref="DuosexagesimalBase"/>, base-62,
+        /// Creates a new <see cref="SexagesimalBase"/>, base-60,
         /// instance with the intrinsic <paramref name="value"/>
         /// provided.
         /// </summary>
         /// <param name="value">The intrinsic <see cref="BigInteger"/> 
-        /// base-62 value.</param>
-        /// <returns>A new <see cref="DuosexagesimalBase"/>
+        /// base-60 value.</param>
+        /// <returns>A new <see cref="SexagesimalBase"/>
         /// instance.</returns>
-        public static DuosexagesimalBase GetBase62(BigInteger value)
+        public static SexagesimalBase GetBase60(BigInteger value)
         {
-            return new DuosexagesimalBase(value);
+            return new SexagesimalBase(value);
         }
 
         /// <summary>

@@ -27,11 +27,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         public class test3 { public abstract class test4 : TypeBase<IGeneralGenericTypeUniqueIdentifier> { } }
 
+        private ControlledDictionary<ICliMetadataExportedTypeTableRow, ICliMetadataTypeDefinitionTableRow> exportTableLookup;
         private CliManager identityManager;
         private ICliMetadataRoot metadataRoot;
         private _AssemblyInformation assemblyInformation;
         private IStrongNamePublicKeyInfo strongNameInfo;
-        private IAssemblyUniqueIdentifier uniqueIdentifier;
         private IControlledCollection<ICliMetadataTypeDefinitionTableRow> _types;
         private CliNamespaceKeyedTree namespaceInformation;
         private new CliModuleDictionary Modules { get { return (CliModuleDictionary)base.Modules; } }
@@ -43,9 +43,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             this.metadataRoot = metadata.MetadataRoot;
             this.MetadataEntry = metadata;
-            this.uniqueIdentifier = uniqueIdentifier;
             this.strongNameInfo = strongNameInfo;
             this.identityManager = identityManager;
+            this.UniqueIdentifier = new CliAssemblyUniqueIdentifier(uniqueIdentifier, this.FrameworkVersion);
         }
 
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         protected override IMetadataCollection InitializeCustomAttributes()
         {
-            throw new NotImplementedException();
+            return new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
         }
 
         protected override IDelegateTypeDictionary InitializeDelegates()
@@ -138,11 +138,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.strongNameInfo;
         }
 
-        public override IAssemblyUniqueIdentifier UniqueIdentifier
-        {
-            get { return this.uniqueIdentifier; }
-        }
-
         public CliManager IdentityManager
         {
             get
@@ -204,9 +199,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     var imRE = this.identityManager.RuntimeEnvironment;
                     if (imRE.Version != this.FrameworkVersion ||
                         imRE.Platform != this.Platform)
-                        this.runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(this.Platform, this.FrameworkVersion, imRE.ResolveCurrent, imRE.UseCoreLibrary, imRE.UseGlobalAccessCache, imRE.AdditionalPaths.ToArray());
+                        this.runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(this.Platform, this.FrameworkVersion, imRE.ResolveCurrent, this.AssemblyInformation.AssemblyName == "mscorlib" || (this.References.Keys.FirstOrDefault(k => k.Name == "mscorlib" && imRE.UseCoreLibrary)) != null, imRE.UseGlobalAccessCache, imRE.AdditionalPaths.ToArray());
                     else
-                        this.runtimeEnvironment = imRE;
+                    {
+                        if ((this.AssemblyInformation.AssemblyName == "mscorlib" || this.References.Keys.FirstOrDefault(k => k.Name == "mscorlib") != null) &&
+                            !imRE.UseCoreLibrary)
+                            this.runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(this.Platform, this.FrameworkVersion, imRE.ResolveCurrent, true, imRE.UseGlobalAccessCache, imRE.AdditionalPaths.ToArray());
+                        else if (imRE.UseCoreLibrary)
+                            this.runtimeEnvironment = CliGateway.GetRuntimeEnvironmentInfo(this.Platform, this.FrameworkVersion, imRE.ResolveCurrent, false, imRE.UseGlobalAccessCache, imRE.AdditionalPaths.ToArray());
+                        else
+                            this.runtimeEnvironment = imRE;
+                    }
                 }
                 return this.runtimeEnvironment;
             }
@@ -236,7 +239,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal void InitializeCommon()
         {
-            const int CLIMETADATA_TYPEDEFINITION_MODULE_INDEX = 0x00000001;
             ICliMetadataModuleTableRow[] modules = this.Modules.GetMetadata();
 
             var typeTables = (from moduleRow in modules
@@ -265,12 +267,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             ICliMetadataTypeDefinitionTable moduleTypes = typeTables[0];
             for (int typeIndex = 0, moduleIndex = 0, moduleOffset = 0; typeIndex < types.Length; typeIndex++, moduleOffset++)
             {
+            moduleCheck:
                 if (moduleOffset >= moduleTypes.Count)
                 {
                     moduleIndex++;
                     if (moduleIndex < typeTables.Length)
                         moduleTypes = typeTables[moduleIndex];
                     moduleOffset = 0;
+                    goto moduleCheck;
                 }
                 var typeRow = types[typeIndex];
                 if ((typeRow.TypeAttributes & TypeAttributes.VisibilityMask) == TypeAttributes.NotPublic ||
@@ -299,7 +303,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 int topLevelCount = nonNestedCounts[0];
                 int noModuleCount = 0;
                 for (int typeIndex = 0; typeIndex < topLevelCount; typeIndex++)
-                    if (topLevelRows[typeIndex].Index != CLIMETADATA_TYPEDEFINITION_MODULE_INDEX)
+                    if (topLevelRows[typeIndex].Index != CliMetadataTypeDefinitionTableReader.__COR_TYPEDEFINITION_MODULE_INDEX__)
                         noModuleCount++;
 
                 if (topLevelRows.Length != noModuleCount)
@@ -311,7 +315,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                      * have to inject checks elsewhere to filter it out.
                      * */
                     for (int typeIndex = 0, cOffset = 0; typeIndex < topLevelCount; typeIndex++)
-                        if (topLevelRows[typeIndex].Index != CLIMETADATA_TYPEDEFINITION_MODULE_INDEX)
+                        if (topLevelRows[typeIndex].Index != CliMetadataTypeDefinitionTableReader.__COR_TYPEDEFINITION_MODULE_INDEX__)
                             topLevelRowsActual[cOffset++] = topLevelRows[typeIndex];
 
                     Array.Sort(topLevelRowsActual, _CompareTo_);
@@ -431,11 +435,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name, string moduleName)
         {
-            return CliCommon.FindTypeImplementation(@namespace, name, moduleName, this.NamespaceInformation, this.Modules);
+            return CliCommon.FindTypeImplementation(this.IdentityManager, this, @namespace, name, moduleName, this.NamespaceInformation, this.Modules);
         }
 
         public ICliMetadataTypeDefinitionTableRow FindType(IGeneralTypeUniqueIdentifier uniqueIdentifier)
         {
+            if (uniqueIdentifier.ParentIdentifier != null)
+            {
+                var cliType = IdentityManager.ObtainTypeReference(this.FindType(uniqueIdentifier.ParentIdentifier));
+                if (cliType is ICliTypeParent)
+                {
+                    var clipt = (ICliTypeParent)cliType;
+                    return clipt.FindType(uniqueIdentifier);
+                }
+            }
             if (uniqueIdentifier.Name.Contains('`'))
                 return this.FindType(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name);
             else if (uniqueIdentifier is IGenericTypeUniqueIdentifier)
@@ -452,7 +465,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public ICliMetadataTypeDefinitionTableRow FindType(string @namespace, string name)
         {
-            return CliCommon.FindTypeImplementation(@namespace, name, this.NamespaceInformation);
+            return CliCommon.FindTypeImplementation(this.IdentityManager, this, @namespace, name, this.NamespaceInformation);
         }
 
         public INamespaceDeclaration GetNamespace(string @namespace)
@@ -565,12 +578,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return this.IdentityManager;
             }
         }
+
+        public ControlledDictionary<ICliMetadataExportedTypeTableRow, ICliMetadataTypeDefinitionTableRow> ExportTableLookup
+        {
+            get
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.exportTableLookup == null)
+                        this.exportTableLookup = new ControlledDictionary<ICliMetadataExportedTypeTableRow, ICliMetadataTypeDefinitionTableRow>();
+                    return this.exportTableLookup;
+                }
+            }
+        }
+
         _ICliManager _ICliAssembly.IdentityManager
         {
             get
             {
                 return this.IdentityManager;
             }
+        }
+
+        protected override IAssemblyUniqueIdentifier OnGetUniqueIdentifier()
+        {
+            return this.UniqueIdentifier;
+        }
+
+        public new ICliAssemblyUniqueIdentifier UniqueIdentifier { get; private set; }
+
+        protected override IIdentityManager OnGetIdentityManager()
+        {
+            return this.IdentityManager;
         }
     }
 }

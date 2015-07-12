@@ -6,7 +6,7 @@ using System.Linq;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -57,5 +57,44 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                             where element.Value.Entry.Parent == parent
                             select element.Key);
         }
+
+        #region IIntermediateFullMemberDictionary Members
+
+        public int GetCountFor(IIntermediateMemberParent parent)
+        {
+            int result=0;
+            foreach (var member in this.Values)
+                if (member.Entry != null &&
+                    member.Entry.Parent == parent)
+                    result++;
+            return result;
+        }
+
+        #endregion
+
+
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning <paramref name="context"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning <paramref name="context"/>.</returns>
+        /// <param name="context">The <see cref="IIntermediateMemberParent"/> which denotes
+        /// the owning context that is relevant to the request.</param>
+        public IEnumerable<KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IIntermediateMember>>> ExclusivelyOnParent(IIntermediateMemberParent context)
+        {
+            foreach (var element in this)
+                if (element.Value.Entry.Parent == context)
+                    yield return element;
+                else if (element is IIntermediateSegmentableDeclaration)
+                {
+                    var segMem = (IIntermediateSegmentableDeclaration)element.Value.Entry;
+                    foreach (IIntermediateMember partial in segMem.Parts)
+                        if (partial.Parent == context)
+                            yield return new KeyValuePair<IGeneralMemberUniqueIdentifier, MasterDictionaryEntry<IIntermediateMember>>(element.Key, new MasterDictionaryEntry<IIntermediateMember>(element.Value.Subordinate, partial));
+                }
+        }
+
     }
 }

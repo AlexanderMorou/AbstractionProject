@@ -694,6 +694,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
 
         internal static ICliMetadataCustomAttribute ParseCustomAttribute(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliMetadataCustomAttributeTableRow target, uint dataLength)
         {
+            var assem = identityManager.GetRelativeAssembly(metadataRoot);
             long startIndex = reader.BaseStream.Position;
             var prolog = reader.ReadUInt16();
             if (prolog != 0x0001)
@@ -706,18 +707,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             for (int i = 0; i < parameters.Length; i++)
             {
                 var currentSigParam = caParams[i];
-                parameters[i] = ParseCustomAttributeParameter(reader, metadataRoot, identityManager, currentSigParam.ParameterType, startIndex, dataLength);
+                parameters[i] = ParseCustomAttributeParameter(reader, metadataRoot, identityManager, currentSigParam.ParameterType, startIndex, dataLength, assem);
             }
             if (reader.BaseStream.Position >= startIndex + dataLength)
                 return new CliMetadataCustomAttribute(parameters, null);
             int numNamed = reader.ReadUInt16();
             var namedParameters = new ICliMetadataCustomAttributeNamedParameter[numNamed];
             for (int i = 0; i < numNamed; i++)
-                namedParameters[i] = ParseCustomAttributeNamedParameter(reader, metadataRoot, identityManager, startIndex, dataLength);
+                namedParameters[i] = ParseCustomAttributeNamedParameter(reader, metadataRoot, identityManager, assem);
             return new CliMetadataCustomAttribute(parameters, namedParameters);
         }
 
-        internal static ICliMetadataCustomAttributeParameter ParseCustomAttributeParameter(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliMetadataTypeSignature type, long start, uint dataLength)
+        internal static ICliMetadataCustomAttributeParameter ParseCustomAttributeParameter(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliMetadataTypeSignature type, long start, uint dataLength, ICliAssembly assembly)
         {
             switch (type.TypeSignatureKind)
             {
@@ -726,7 +727,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     switch (nativeType.TypeKind)
                     {
                         case CliMetadataNativeTypes.Object:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.BoxedNativeType, ParseCustomAttributeBoxedType(reader, metadataRoot, identityManager, false));
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.BoxedNativeType, ParseCustomAttributeBoxedType(reader, metadataRoot, identityManager, false, assembly));
                         case CliMetadataNativeTypes.Boolean:
                         case CliMetadataNativeTypes.Char:
                         case CliMetadataNativeTypes.SByte:
@@ -740,7 +741,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                         case CliMetadataNativeTypes.Single:
                         case CliMetadataNativeTypes.Double:
                         case CliMetadataNativeTypes.String:
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, ParseCustomAttributeNativeValue(reader, nativeType.TypeKind, metadataRoot, identityManager));
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.NativeType, ParseCustomAttributeNativeValue(reader, nativeType.TypeKind, metadataRoot, identityManager, assembly));
                         case CliMetadataNativeTypes.Type:
                             return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.Type, DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot)));
                         default:
@@ -758,10 +759,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                                 throw new BadImageFormatException("Bad custom attribute format.");
                             var enumType = targetType.GetEnumBaseType();
                             reader.BaseStream.Position = pos;
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, ReadEnumValue(reader, enumType));
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.EnumValue, ParseCustomAttributeNativeValue(reader, GetEnumNativeType(enumType), metadataRoot, identityManager, assembly, false));
                         }
-                        else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type))
-                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.Type, DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot)));
+                        else if (identityManager.ObtainTypeReference(targetSig.Target) == identityManager.ObtainTypeReference(RuntimeCoreType.Type, assembly))
+                            return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.Type, DeserializeType(reader, identityManager, assembly));
                         throw new BadImageFormatException("Bad custom attribute format.");
                     }
                 case CliMetadataTypeSignatureKind.VectorArrayType:
@@ -794,12 +795,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                                 throw new BadImageFormatException("Bad custom attribute format.");
 
                         }
-                        return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.VectorArray, ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeTypeKind, arrayLevel));
+                        return new CliMetadataCustomAttributeParameter(CustomAttributeParameterValueType.VectorArray, ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeTypeKind, arrayLevel, assembly));
                     }
                 default:
                     throw new BadImageFormatException("Bad custom attribute format.");
             }
-            throw new NotImplementedException();
         }
 
         private static CliMetadataNativeTypes GetEnumNativeType(EnumerationBaseType enumBaseType)
@@ -840,41 +840,24 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             }
         }
 
-        private static object ReadEnumValue(EndianAwareBinaryReader reader, EnumerationBaseType enumType)
-        {
-            switch (enumType)
-            {
-                case EnumerationBaseType.Default:
-                    return reader.ReadInt32();
-                case EnumerationBaseType.SByte:
-                    return reader.ReadSByte();
-                case EnumerationBaseType.Byte:
-                    return reader.ReadByte();
-                case EnumerationBaseType.Int16:
-                    return reader.ReadInt16();
-                case EnumerationBaseType.UInt16:
-                    return reader.ReadUInt16();
-                case EnumerationBaseType.Int32:
-                    return reader.ReadInt32();
-                case EnumerationBaseType.UInt32:
-                    return reader.ReadUInt32();
-                case EnumerationBaseType.Int64:
-                    return reader.ReadInt64();
-                case EnumerationBaseType.UInt64:
-                    return reader.ReadUInt64();
-                case EnumerationBaseType.NativeInteger:
-                case EnumerationBaseType.NativeUnsignedInteger:
-#if x86
-                    return reader.ReadUInt32();
-#elif x64
-                    return reader.ReadUInt64();
-#endif
-                default:
-                    throw new BadImageFormatException("Bad custom attribute format.");
-            }
-        }
-
-        private static object ParseCustomAttributeArrayValue(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, CliMetadataNativeTypes nativeType, int arrayLevel)
+        /// <summary>
+        /// Parses an array from the stream of the <paramref name="reader"/>
+        /// provided, using the <paramref name="identityManager"/> to resolve the
+        /// serialized types.
+        /// </summary>
+        /// <param name="reader">The <see cref="EndianAwareBinaryReader"/> to use to 
+        /// parse the array value.</param>
+        /// <param name="metadataRoot">The <see cref="CliMetadataFixedRoot"/>
+        /// which contains the necessary information about the active assembly in the event
+        /// that deserialized types have no assembly present in the string.</param>
+        /// <param name="identityManager">The <see cref="_ICliManager"/> used to 
+        /// resolve the identity of types within the stream.</param>
+        /// <param name="nativeType">The <see cref="CliMetadataNativeTypes"/>
+        /// which denotes the type of the elements within the array to parse.</param>
+        /// <param name="arrayLevel">The nesting level of the possibly jagged array.</param>
+        /// <returns>An <see cref="Object"/> representing the array that was serialized into
+        /// the stream of <paramref name="reader"/></returns>
+        private static object ParseCustomAttributeArrayValue(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, CliMetadataNativeTypes nativeType, int arrayLevel, ICliAssembly assembly)
         {
             var numCases = reader.ReadInt32();
             Type arrayElementType;
@@ -934,14 +917,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             for (int i = 0; i < numCases; i++)
             {
                 if (arrayLevel == 1)
-                    currentArray.SetValue(ParseCustomAttributeNativeValue(reader, nativeType, metadataRoot, identityManager), i);
+                    currentArray.SetValue(ParseCustomAttributeNativeValue(reader, nativeType, metadataRoot, identityManager, assembly), i);
                 else
-                    currentArray.SetValue(ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeType, arrayLevel - 1), i);
+                    currentArray.SetValue(ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeType, arrayLevel - 1, assembly), i);
             }
             return currentArray;
         }
 
-        private static object ParseCustomAttributeNativeValue(EndianAwareBinaryReader reader, CliMetadataNativeTypes nativeType, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, bool encapsulateEnum = true, Action beforeParseValue = null)
+        /// <summary>
+        /// Deserializes a native type from the stream of the <paramref name="reader"/>
+        /// provided.
+        /// </summary>
+        /// <param name="reader">The <see cref="EndianAwareBinaryReader"/> to use to 
+        /// parse the native type.</param>
+        /// <param name="nativeType">The <see cref="CliMetadataNativeTypes"/>
+        /// used to denote the data type to parse from the stream of <paramref name="reader"/>.</param>
+        /// <param name="metadataRoot">The <see cref="CliMetadataFixedRoot"/>
+        /// which contains the necessary information about the active assembly in the event
+        /// that deserialized types have no assembly present in the string.</param>
+        /// <param name="identityManager">The <see cref="_ICliManager"/> used to 
+        /// resolve the identity of types within the stream.</param>
+        /// <param name="encapsulateEnum">Whether to encapsulate the type of enumeration types
+        /// within a tuple to denote the source type of the enumeration.</param>
+        /// <param name="beforeParseValue">An action necessary to be utilized just before 
+        /// parsing the value, in case information comes before the serialized value.</param>
+        /// <returns>An <see cref="Object"/> representing an instance of the <paramref name="nativeType"/>
+        /// provided.</returns>
+        private static object ParseCustomAttributeNativeValue(EndianAwareBinaryReader reader, CliMetadataNativeTypes nativeType, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliAssembly assembly, bool encapsulateEnum = true, Action beforeParseValue = null)
         {
             switch (nativeType)
             {
@@ -1000,10 +1002,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 case CliMetadataNativeTypes.Type:
                     if (beforeParseValue != null)
                         beforeParseValue();
-                    return DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
+                    return DeserializeType(reader, identityManager, assembly);
                 case CliMetadataNativeTypes.Object:
                 case CliMetadataNativeTypes.Boxed:
-                    return ParseCustomAttributeBoxedType(reader, metadataRoot, identityManager, encapsulateEnum, beforeParseValue);
+                    return ParseCustomAttributeBoxedType(reader, metadataRoot, identityManager, encapsulateEnum, assembly, beforeParseValue);
                 case CliMetadataNativeTypes.VectorArray:
                     {
                         byte current = (byte)nativeType;
@@ -1038,7 +1040,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                             case CliMetadataNativeTypes.Type:
                                 break;
                             case CliMetadataNativeTypes.EnumSignal:
-                                var enumType = DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
+                                var enumType = DeserializeType(reader, identityManager, assembly);
                                 isEnum = true;
                                 targetEnum = (IEnumType)enumType;
                                 var position = reader.BaseStream.Position;
@@ -1050,7 +1052,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                         }
                         if (beforeParseValue != null)
                             beforeParseValue();
-                        var result = ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeTypeKind, arrayLevel);
+                        var result = ParseCustomAttributeArrayValue(reader, metadataRoot, identityManager, nativeTypeKind, arrayLevel, assembly);
                         if (isEnum && encapsulateEnum)
                             return Tuple.Create((IType)targetEnum, result);
                         else
@@ -1058,14 +1060,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                     }
                 case CliMetadataNativeTypes.EnumSignal:
                     {
-                        var enumType = DeserializeType(reader, identityManager, identityManager.GetRelativeAssembly(metadataRoot));
+                        var enumType = DeserializeType(reader, identityManager, assembly);
                         IEnumType targetEnum = (IEnumType)enumType;
                         var position = reader.BaseStream.Position;
                         var valueType = targetEnum.ValueType;
                         reader.BaseStream.Position = position;
                         if (beforeParseValue != null)
                             beforeParseValue();
-                        var value = ParseCustomAttributeNativeValue(reader, GetEnumNativeType(valueType), metadataRoot, identityManager);
+                        var value = ParseCustomAttributeNativeValue(reader, GetEnumNativeType(valueType), metadataRoot, identityManager, assembly);
                         if (encapsulateEnum)
                             return Tuple.Create(targetEnum, value);
                         else
@@ -1078,7 +1080,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
                 throw new BadImageFormatException("Bad custom attribute format.");
         }
 
-        private static IType DeserializeType(EndianAwareBinaryReader reader, _ICliManager identityManager, _ICliAssembly relAssem)
+        /// <summary>
+        /// Deserializes a type from the stream of the <paramref name="reader"/> provided,
+        /// using the <paramref name="identityManager"/> to resolve the identity, and
+        /// the <paramref name="relAssem"/> to denote the active assembly for serialized
+        /// types which omit the assembly identity.
+        /// </summary>
+        /// <param name="reader">The <see cref="EndianAwareBinaryReader"/> to use to 
+        /// deserialize the type.</param>
+        /// <param name="identityManager">The <see cref="_ICliManager"/> used to 
+        /// resolve the identity of types within the stream.</param>
+        /// <param name="relAssem">The <see cref="_ICliAssembly"/> which denotes the
+        /// active assembly for serialized types which omit the assembly identity.</param>
+        /// <returns></returns>
+        private static IType DeserializeType(EndianAwareBinaryReader reader, _ICliManager identityManager, ICliAssembly relAssem)
         {
             var relAssemId = relAssem.UniqueIdentifier;
             var serializedTypeName = ReadSerializedString(reader);
@@ -1087,11 +1102,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             var parser = new TypeIdentityParser(serializedTypeName, new TIAssemblyIdentityRule(relAssemId.Name, new TIVersionRule(relAssemId.Version.Major, relAssemId.Version.Minor, relAssemId.Version.Build, relAssemId.Version.Revision), relAssemId.Culture, relAssemId.PublicKeyToken));
             var typeIdentity = parser.ParseQualifiedTypeName();
             var pos = reader.BaseStream.Position;
-            var decodedType = typeIdentity.DecodeParsedType(identityManager);
+            var decodedType = typeIdentity.DecodeParsedType(identityManager, relAssem);
             reader.BaseStream.Position = pos;
             return decodedType;
         }
-        internal static ICliMetadataCustomAttributeNamedParameter ParseCustomAttributeNamedParameter(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, long start, uint dataLength)
+
+        /// <summary>
+        /// Parses a named parameter from a custom attribute as defined by
+        /// the ECMA-335 specification.
+        /// </summary>
+        /// <param name="reader">The <see cref="EndianAwareBinaryReader"/> to use to 
+        /// parse the named parameter from.</param>
+        /// <param name="metadataRoot">The <see cref="CliMetadataFixedRoot"/>
+        /// which contains the necessary information about the active assembly in the event
+        /// that deserialized types have no assembly present in the string.</param>
+        /// <param name="identityManager">The <see cref="_ICliManager"/> used to 
+        /// resolve the identity of types within the stream.</param>
+        /// <returns>An instance implementing <see cref="ICliMetadataCustomAttributeNamedParameter"/>
+        /// which represents the deserialized named parameter.</returns>
+        internal static ICliMetadataCustomAttributeNamedParameter ParseCustomAttributeNamedParameter(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, ICliAssembly assembly)
         {
             var targetElement = reader.ReadByte();
             NamedParameterTargetType target = NamedParameterTargetType.NotSet;
@@ -1106,7 +1135,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             string name = null;
             CustomAttributeParameterValueType parameterType;
 
-            value = ParseCustomAttributeNativeValue(reader, propType, metadataRoot, identityManager, true, () => name = ReadSerializedString(reader));
+            value = ParseCustomAttributeNativeValue(reader, propType, metadataRoot, identityManager, assembly, true, () => name = ReadSerializedString(reader));
             switch (propType)
             {
                 case CliMetadataNativeTypes.Boolean:
@@ -1146,12 +1175,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Blobs
             return new CliMetadataCustomAttributeNamedParameter(name, target, parameterType, value);
         }
 
-        private static object ParseCustomAttributeBoxedType(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, bool encapsulateEnum, Action beforeParseValue = null)
+        private static object ParseCustomAttributeBoxedType(EndianAwareBinaryReader reader, CliMetadataFixedRoot metadataRoot, _ICliManager identityManager, bool encapsulateEnum, ICliAssembly assembly, Action beforeParseValue = null)
         {
+            if (beforeParseValue != null)
+                beforeParseValue();
             CliMetadataNativeTypes elementKind = (CliMetadataNativeTypes)reader.ReadByte();
-            return ParseCustomAttributeNativeValue(reader, elementKind, metadataRoot, identityManager, encapsulateEnum, beforeParseValue);
+            return ParseCustomAttributeNativeValue(reader, elementKind, metadataRoot, identityManager, assembly, encapsulateEnum);
         }
 
+        /// <summary>
+        /// Parses a SerString from the ECMA-335 specification.
+        /// </summary>
+        /// <param name="reader">The <see cref="EndianAwareBinaryReader"/>
+        /// to read the data from.</param>
+        /// <returns>A <see cref="String"/> deserialized from the stream of the
+        /// <paramref name="reader"/>.</returns>
         internal static string ReadSerializedString(EndianAwareBinaryReader reader)
         {
             if (reader.PeekByte() == 0xFF)

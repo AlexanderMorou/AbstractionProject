@@ -16,74 +16,107 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private KeysCollection keys;
         private ValuesCollection values;
 
-        internal IntermediateAssemblyReferenceDictionary(IAssemblyReferenceCollection references) 
+        internal IntermediateAssemblyReferenceDictionary(IAssemblyReferenceCollection references)
         {
             this.references = references;
         }
 
         public IControlledCollection<IAssemblyUniqueIdentifier> Keys
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return this.keys ?? (this.keys = new KeysCollection(this));
+            }
         }
 
         public IControlledCollection<IAssembly> Values
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return this.values ?? (this.values = new ValuesCollection(this));
+            }
         }
 
         public IAssembly this[IAssemblyUniqueIdentifier key]
         {
-            get { throw new NotImplementedException(); }
+            get {
+                int index = this.Keys.IndexOf(key);
+                if (index == -1)
+                    throw new KeyNotFoundException();
+                return this.values[index];
+            }
         }
 
         public bool ContainsKey(IAssemblyUniqueIdentifier key)
         {
-            throw new NotImplementedException();
+            return this.Keys.Contains(key);
         }
 
         public bool TryGetValue(IAssemblyUniqueIdentifier key, out IAssembly value)
         {
-            throw new NotImplementedException();
+            int index = this.Keys.IndexOf(key);
+            if (index == -1)
+            {
+                value = null;
+                return false;
+            }
+            value = this.values[index];
+            return true;
         }
 
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get {
+                return this.references.Count;
+            }
         }
 
         public bool Contains(KeyValuePair<IAssemblyUniqueIdentifier, IAssembly> item)
         {
-            throw new NotImplementedException();
+            IAssembly check;
+            if (this.TryGetValue(item.Key, out check) && check == item.Value)
+                return true;
+            return false;
         }
 
         public void CopyTo(KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>[] array, int arrayIndex = 0)
         {
-            throw new NotImplementedException();
+            ThrowHelper.CopyToCheck(array, arrayIndex, this.Count);
+            for (int index = 0; index < this.Count; index++)
+                array[arrayIndex + index] = this[index];
         }
 
         public KeyValuePair<IAssemblyUniqueIdentifier, IAssembly> this[int index]
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if (index < 0 || index >= this.Count)
+                    throw new ArgumentOutOfRangeException("index");
+                return new KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>(this.Keys[index], this.Values[index]);
+            }
         }
 
         public KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>[] ToArray()
         {
-            throw new NotImplementedException();
+            var result = new KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>[this.Count];
+            this.CopyTo(result);
+            return result;
         }
 
         public int IndexOf(KeyValuePair<IAssemblyUniqueIdentifier, IAssembly> element)
         {
-            throw new NotImplementedException();
+            int index = this.Keys.IndexOf(element.Key);
+            return index == -1 || this.Values[index] == element.Value ? index : -1;
         }
 
         public IEnumerator<KeyValuePair<IAssemblyUniqueIdentifier, IAssembly>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            for (int index = 0; index < this.Count; index++)
+                yield return this[index];
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
     }
 }

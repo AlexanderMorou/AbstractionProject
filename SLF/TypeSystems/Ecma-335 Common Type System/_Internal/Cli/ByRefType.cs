@@ -9,7 +9,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -292,7 +292,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#endregion
 
-        public ITypeIdentityManager IdentityManager { get { return manager; } }
+        public IIdentityManager IdentityManager { get { return manager; } }
 
         public override string ToString()
         {

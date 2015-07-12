@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using System.ComponentModel;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -175,14 +175,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
+            Check_ImplementedInterfaces();
+            return this._implementedInterfaces.GetLocked();
+        }
+
+        private void Check_ImplementedInterfaces()
+        {
             if (this._implementedInterfaces == null)
                 this._implementedInterfaces = new ImplementedInterfacesCollection(this);
-            return this._implementedInterfaces.GetLocked();
         }
 
         protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
         {
-            return this.OnGetImplementedInterfaces();
+            this.Check_ImplementedInterfaces();
+
+            return ((ImplementedInterfacesCollection)(_implementedInterfaces)).GetLocalLocked();
         }
 
         /// <summary>
@@ -194,7 +201,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 if (this.implementedInterfaces == null)
-                    this.implementedInterfaces = new TypeCollection();
+                {
+                    this.Check_ImplementedInterfaces();
+                    this.implementedInterfaces = ((ImplementedInterfacesCollection)(_implementedInterfaces)).Copy;
+                }
                 return this.implementedInterfaces;
             }
         }
@@ -419,50 +429,55 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private void CheckEvents()
         {
-            if (this.events == null)
-            {
-                this.events = this.InitializeEvents();
-                for (int i = 0; i < this.suspendLevel; i++)
-                    this.events.Suspend();
-            }
+            lock (this.SyncObject)
+                if (this.events == null)
+                {
+                    this.events = this.InitializeEvents();
+                    for (int i = 0; i < this.suspendLevel; i++)
+                        this.events.Suspend();
+                }
         }
 
         private void CheckIndexers()
         {
-            if (this.indexers == null)
-            {
-                this.indexers = this.InitializeIndexers();
-                for (int i = 0; i < this.suspendLevel; i++)
-                    this.indexers.Suspend();
-            }
+            lock (this.SyncObject)
+                if (this.indexers == null)
+                {
+                    this.indexers = this.InitializeIndexers();
+                    for (int i = 0; i < this.suspendLevel; i++)
+                        this.indexers.Suspend();
+                }
         }
 
         private void CheckProperties()
         {
-            if (this.properties == null)
-            {
-                this.properties = this.InitializeProperties();
-                for (int i = 0; i < this.suspendLevel; i++)
-                    this.properties.Suspend();
-            }
+            lock (this.SyncObject)
+                if (this.properties == null)
+                {
+                    this.properties = this.InitializeProperties();
+                    for (int i = 0; i < this.suspendLevel; i++)
+                        this.properties.Suspend();
+                }
         }
 
         private void CheckMethods()
         {
-            if (this.methods == null)
-            {
-                this.methods = this.InitializeMethods();
-                for (int i = 0; i < this.suspendLevel; i++)
-                    this.methods.Suspend();
-            }
+            lock (this.SyncObject)
+                if (this.methods == null)
+                {
+                    this.methods = this.InitializeMethods();
+                    for (int i = 0; i < this.suspendLevel; i++)
+                        this.methods.Suspend();
+                }
         }
 
         #endregion
 
         protected override void OnIdentifierChanged(IGeneralGenericTypeUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
-            if (this.uniqueIdentifier != null)
-                this.uniqueIdentifier = null;
+            lock (this.SyncObject)
+                if (this.uniqueIdentifier != null)
+                    this.uniqueIdentifier = null;
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 

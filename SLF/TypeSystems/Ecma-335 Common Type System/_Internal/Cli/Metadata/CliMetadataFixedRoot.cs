@@ -153,6 +153,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         /// </summary>
         public ICliMetadataTableStreamAndHeader TableStream { get { return this.tableStream; } }
 
+        /// <summary>
+        /// Reads the root structure from the metadata.
+        /// </summary>
+        /// <param name="header">The <see cref="CliHeader"/> which denotes the location of the information.</param>
+        /// <param name="originalStream">The <see cref="FileStream"/> being read from.</param>
+        /// <param name="reader">The <see cref="EndianAwareBinaryReader"/> which handles reads.</param>
+        /// <param name="relativeVirtualAddress">The <see cref="UInt32"/> value which denotes the relative
+        /// virtual address of the metadata header.</param>
+        /// <param name="sourceImage"></param>
         internal void Read(CliHeader header, FileStream originalStream, EndianAwareBinaryReader reader, uint relativeVirtualAddress, PEImage sourceImage)
         {
             this.originalStream = originalStream;
@@ -173,7 +182,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             this.sourceImage = sourceImage;
             for (int i = 0; i < streamCount; i++)
             {
-
                 var currentHeader = new CliMetadataStreamHeader();
                 currentHeader.Read(reader, sourceImage);
                 switch (currentHeader.Name)
@@ -182,32 +190,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                         if (this.strings != null)
                             goto sectionExists;
                         this.strings = new CliMetadataStringsHeaderAndHeap(currentHeader, sourceImage.SyncObject);
-                        ScanAndReadSection(sourceImage, strings, this.strings.Read);
+                        this.ScanAndReadSection(sourceImage, strings, this.strings.Read);
                         break;
                     case "#Blob":
                         if (this.blob != null)
                             goto sectionExists;
                         this.blob = new CliMetadataBlobHeaderAndHeap(currentHeader, this);
-                        ScanAndReadSection(sourceImage, blob, this.blob.Read);
+                        this.ScanAndReadSection(sourceImage, blob, this.blob.Read);
                         break;
                     case "#US":
                         if (this.userStrings != null)
                             goto sectionExists;
                         this.userStrings = new CliMetadataUserStringsHeaderAndHeap(currentHeader, sourceImage.SyncObject);
-                        ScanAndReadSection(sourceImage, userStrings, this.userStrings.Read);
+                        this.ScanAndReadSection(sourceImage, this.userStrings, this.userStrings.Read);
                         break;
                     case "#GUID":
                         if (this.guids != null)
                             goto sectionExists;
                         this.guids = new CliMetadataGuidHeaderAndHeap(currentHeader, sourceImage.SyncObject);
-                        ScanAndReadSection(sourceImage, guids, this.guids.Read);
+                        this.ScanAndReadSection(sourceImage, guids, this.guids.Read);
                         break;
                     case "#-": //https://github.com/jbevain/cecil/blob/master/Mono.Cecil.PE/ImageReader.cs#L378
                     case "#~":
                         if (this.tableStream != null)
                             goto sectionExists;
                         this.tableStream = new CliMetadataTableStreamAndHeader(currentHeader);
-                        ScanAndReadSection(sourceImage, tableStream, sdReader => this.tableStream.Read(sdReader, this));
+                        this.ScanAndReadSection(sourceImage, tableStream, sdReader => this.tableStream.Read(sdReader, this));
                         break;
                 }
                 continue;
@@ -281,10 +289,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             get
             {
                 if (this.propertySemantics == null)
+                {
+                    this.tableStream.MethodSemanticsTable.Read();
                     this.propertySemantics = (from s in this.TableStream.MethodSemanticsTable
                                               where s.AssociationSource == CliMetadataHasSemanticsTag.Property &&
                                                    (s.Semantics & MethodSemanticsAttributes.Getter | MethodSemanticsAttributes.Setter | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
                                               select s).ToArray().GetEnumerable();
+                }
                 return this.propertySemantics;
             }
         }
@@ -294,10 +305,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
             get
             {
                 if (this.eventSemantics == null)
+                {
+                    this.tableStream.MethodSemanticsTable.Read();
                     this.eventSemantics = (from s in this.TableStream.MethodSemanticsTable
                                            where s.AssociationSource == CliMetadataHasSemanticsTag.Event &&
                                                 (s.Semantics & MethodSemanticsAttributes.AddOn | MethodSemanticsAttributes.Fire | MethodSemanticsAttributes.RemoveOn | MethodSemanticsAttributes.Other) != MethodSemanticsAttributes.None
                                            select s).ToArray().GetEnumerable();
+                }
                 return this.eventSemantics;
             }
         }

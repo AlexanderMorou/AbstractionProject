@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -27,7 +27,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private string name;
         private int isDisposed = 0;
         private object syncObject = new object();
-
         #region IIntermediateDeclaration Members
 
         /// <summary>
@@ -290,5 +289,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public bool IsDisposed { get { return this.isDisposed == 1; } }
 
         protected object SyncObject { get { return this.syncObject; } }
+
+        internal bool IsNameLocked { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Ast.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
@@ -55,7 +56,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         private new IIntermediateCliManager IdentityManager { get { return (IIntermediateCliManager)base.IdentityManager; } }
 
-        private CommonVBTypeRefs CommonVBTypeRefs { get { return VisualBasic.CommonVBTypeRefs.GetCommonTypeRefs(this.IdentityManager); } }
+        internal CommonVBTypeRefs CommonVBTypeRefs { get { return VisualBasic.CommonVBTypeRefs.GetCommonTypeRefs(this.IdentityManager); } }
 
         public override SpecialClassModifier SpecialModifier
         {
@@ -72,7 +73,62 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                     this.GetRoot().SpecialModifier = value;
                     return;
                 }
-                base.SpecialModifier = value;
+                var original = this.SpecialModifier;
+                if (original != value)
+                {
+                    bool hidden = (value & SpecialClassModifier.HiddenModule) == SpecialClassModifier.HiddenModule;
+                    bool extensionTarget = (value & SpecialClassModifier.TypeExtensionSource) == SpecialClassModifier.TypeExtensionSource;
+                    bool wasHidden = (original & SpecialClassModifier.HiddenModule) == SpecialClassModifier.HiddenModule;
+                    bool wasExtensionTarget = (original & SpecialClassModifier.TypeExtensionSource) == SpecialClassModifier.TypeExtensionSource;
+                    List<IType> customAttributesToAdd = null;
+                    List<IType> customAttributesToRemove = null;
+                    if (hidden && !wasHidden)
+                    {
+                        if (!this.IsDefined(this.CommonVBTypeRefs.HideModuleNameAttribute))
+                        {
+                            customAttributesToAdd = new List<IType>();
+                            customAttributesToAdd.Add(this.CommonVBTypeRefs.HideModuleNameAttribute);
+                        }
+                    }
+                    else if (!hidden && wasHidden)
+                    {
+                        if (this.IsDefined(this.CommonVBTypeRefs.HideModuleNameAttribute))
+                        {
+                            customAttributesToRemove = new List<IType>();
+                            customAttributesToRemove.Add(this.CommonVBTypeRefs.HideModuleNameAttribute);
+                        }
+                    }
+                    if (extensionTarget && !wasExtensionTarget)
+                    {
+                        var extAttr = this.CommonVBTypeRefs.ExtensionAttribute;
+                        if (extAttr != null && !this.IsDefined(extAttr))
+                        {
+                            customAttributesToAdd = new List<IType>();
+                            customAttributesToAdd.Add(extAttr);
+                        }
+                    }
+                    else if (!extensionTarget && wasExtensionTarget)
+                    {
+                        if (this.IsDefined(this.CommonVBTypeRefs.ExtensionAttribute))
+                        {
+                            customAttributesToRemove = new List<IType>();
+                            customAttributesToRemove.Add(this.CommonVBTypeRefs.ExtensionAttribute);
+                        }
+                    }
+                    if (customAttributesToRemove != null && customAttributesToRemove.Count > 0)
+                    {
+                        var removeQuery = (from mSet in this.Metadata
+                                           from m in mSet
+                                           join toRemove in customAttributesToRemove on m.Type equals toRemove
+                                           select m).ToArray();
+                        foreach (var toRemove in removeQuery)
+                            this.Metadata.Remove(toRemove);
+                    }
+                    if (customAttributesToAdd != null && customAttributesToAdd.Count > 0)
+                        this.Metadata.Add((from toAdd in customAttributesToAdd
+                                           select new MetadatumDefinitionParameterValueCollection(toAdd)).ToArray());
+                    base.SpecialModifier = value;
+                }
             }
         }
 

@@ -4,15 +4,34 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Services;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
+    /// <summary>
+    /// Provides a series of default language services.
+    /// </summary>
     public static class DefaultLanguageServices
     {
+        /// <summary>
+        /// The default intermediate class creator service.
+        /// </summary>
         public static readonly IIntermediateTypeCtorLanguageService<IIntermediateClassType> IntermediateClassCreatorService = new DefaultIntermediateClassCreatorService();
+        /// <summary>
+        /// The default intermediate delegate creator service.
+        /// </summary>
         public static readonly IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> IntermediateDelegateCreatorService = new DefaultIntermediateDelegateCreatorService();
+        /// <summary>
+        /// The default intermediate enum creator service.
+        /// </summary>
         public static readonly IIntermediateTypeCtorLanguageService<IIntermediateEnumType> IntermediateEnumCreatorService = new DefaultIntermediateEnumCreatorService();
+        /// <summary>
+        /// The default intermediate interface creator service.
+        /// </summary>
         public static readonly IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType> IntermediateInterfaceCreatorService = new DefaultIntermediateInterfaceCreatorService();
+        /// <summary>
+        /// The default struct data type creator service.
+        /// </summary>
         public static readonly IIntermediateTypeCtorLanguageService<IIntermediateStructType> IntermediateStructCreatorService = new DefaultIntermediateStructCreatorService();
 
         internal static IIntermediateTypeCtorLanguageService<IIntermediateClassType> GetBoundIntermediateClassCreatorService(ILanguage language, ILanguageProvider provider)
@@ -46,10 +65,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             where TProvider :
                 ILanguageProvider
             where TIdentityManager :
-                IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+                IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+                IIntermediateIdentityManager
         {
             return new DefaultIntermediateAssemblyCreatorService<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity>(provider, language);
         }
+
         private class DefaultIntermediateClassCreatorService :
             IIntermediateTypeCtorLanguageService<IIntermediateClassType>
         {
@@ -67,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             #region IIntermediateTypeCtorLanguageService<IIntermediateClassType> Members
 
-            public IIntermediateClassType GetNew(string name, IIntermediateTypeParent parent)
+            public IIntermediateClassType New(string name, IIntermediateTypeParent parent)
             {
                 return new IntermediateClassType(name, parent);
             }
@@ -92,6 +113,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
 
         private class DefaultIntermediateDelegateCreatorService :
@@ -111,7 +141,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             #region IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> Members
 
-            public IIntermediateDelegateType GetNew(string name, IIntermediateTypeParent parent)
+            public IIntermediateDelegateType New(string name, IIntermediateTypeParent parent)
             {
                 return new IntermediateDelegateType(name, parent);
             }
@@ -136,6 +166,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
 
         private class DefaultIntermediateEnumCreatorService :
@@ -155,7 +194,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             #region IIntermediateTypeCtorLanguageService<IIntermediateEnumType> Members
 
-            public IIntermediateEnumType GetNew(string name, IIntermediateTypeParent parent)
+            public IIntermediateEnumType New(string name, IIntermediateTypeParent parent)
             {
                 return new IntermediateEnumType(name, parent);
             }
@@ -180,6 +219,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
 
         private class DefaultIntermediateInterfaceCreatorService :
@@ -199,7 +247,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             #region IIntermediateTypeCtorLanguageService<IIntermediateInterfaceType> Members
 
-            public IIntermediateInterfaceType GetNew(string name, IIntermediateTypeParent parent)
+            public IIntermediateInterfaceType New(string name, IIntermediateTypeParent parent)
             {
                 return new IntermediateInterfaceType(name, parent);
             }
@@ -224,6 +272,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
 
         private class DefaultIntermediateStructCreatorService :
@@ -243,7 +300,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
             #region IIntermediateTypeCtorLanguageService<IIntermediateStructType> Members
 
-            public IIntermediateStructType GetNew(string name, IIntermediateTypeParent parent)
+            public IIntermediateStructType New(string name, IIntermediateTypeParent parent)
             {
                 return new IntermediateStructType(name, parent);
             }
@@ -268,6 +325,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
 
         private class DefaultIntermediateAssemblyCreatorService<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
@@ -277,7 +343,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             where TProvider :
                 ILanguageProvider
             where TIdentityManager :
-                IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+                IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+                IIntermediateIdentityManager
         {
             #region IIntermediateAssemblyCtorLanguageService Members
 
@@ -316,6 +383,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages
                 this.Provider = provider;
                 this.Language = language;
             }
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
 
 

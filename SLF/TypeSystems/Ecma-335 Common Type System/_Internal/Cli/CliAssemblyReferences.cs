@@ -69,8 +69,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (this.kData[index] == null)
                     for (int tableIndex = 0, adjustedOffset = 0; tableIndex < this.referenceTables.Length; adjustedOffset += this.referenceTables[tableIndex++].Count)
                     {
-                        var currentTable = this.referenceTables[tableIndex];
-                        if (index >= adjustedOffset && index < adjustedOffset + currentTable.Length)
+                        ICliMetadataAssemblyRefTable currentTable = this.referenceTables[tableIndex];
+                        if (index >= adjustedOffset && index < adjustedOffset + currentTable.Count)
                             this.kData[index] = currentTable[index - adjustedOffset + 1];
                     }
         }
@@ -228,11 +228,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             lock (this.syncObject)
             {
                 int index = this.Keys.IndexOf(element.Key);
-                if (index != -1)
-                {
-                    if (this.Values[index] == element.Value)
-                        return index;
-                }
+                if (index != -1 && this.Values[index] == element.Value)
+                    return index;
             }
             return -1;
         }

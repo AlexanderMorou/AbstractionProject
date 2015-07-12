@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     switch (classification)
                     {
                         case TypeElementClassification.Nullable:
-                            classifiedTypeCache.Add(elementType, classification, result = ((IGenericType)this.manager.ObtainTypeReference(this.manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.NullableType))).MakeGenericClosure(elementType));
+                            classifiedTypeCache.Add(elementType, classification, result = ((IGenericType)this.manager.ObtainTypeReference(this.manager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.NullableType), elementType.Assembly)).MakeGenericClosure(elementType));
                             break;
                         case TypeElementClassification.Pointer:
                             classifiedTypeCache.Add(elementType, classification, result = new PointerType(elementType, this.manager));

@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -69,5 +70,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <paramref name="name"/>, <paramref name="genParamData"/> 
         /// and of the <paramref name="kind"/> provided.</returns>
         IIntermediateGenericType Add(string name, TypeKindGeneric kind, params GenericParameterData[] genParamData);
+
+        /// <summary>
+        /// Returns an <see cref="Int32"/> value denoting the
+        /// nubmer of types which belong to the 
+        /// <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
+        /// which contains the namespaces.</param>
+        /// <returns>An <see cref="Int32"/> value denoting the
+        /// nubmer of types which belong to the 
+        /// <paramref name="parent"/> provided.</returns>
+        int GetCountFor(IIntermediateTypeParent parent);
+
+        /// <summary>
+        /// Returns an <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning context, if applicable.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerable{T}"/> of <see cref="KeyValuePair{TKey, TValue}"/> elements
+        /// which are exclusively defined on the owning context, if applicable.</returns>
+        /// <remarks>If not applicable, all members are returned.</remarks>
+        IEnumerable<KeyValuePair<IGeneralTypeUniqueIdentifier, MasterDictionaryEntry<IIntermediateType>>> ExclusivelyOnParent();
     }
 }

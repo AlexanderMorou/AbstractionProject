@@ -243,7 +243,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 object item = base.Items[e.Index];
                 if (item is ImageObjectItem)
                 {
-                    ImageObjectItem imageItem = item as ImageObjectItem;
+                    ImageObjectItem imageItem = (ImageObjectItem)item;
                     SizeF stringSize = e.Graphics.MeasureString(imageItem.Text, this.Font);
                     e.ItemHeight = this.GetBaseItemHeight(e.Graphics, stringSize);
                     if (this.Style != null)
@@ -265,22 +265,17 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 object item = base.Items[e.Index];
                 if (item is ImageObjectItem)
                 {
-                    try
-                    {
-                        DrawItemState k = e.State;
+                    ImageObjectItem imageItem = (ImageObjectItem)item;
+                    DrawItemState k = e.State;
 
-                        if (!((ImageObjectItem)(item)).Enabled)
-                            k |= DrawItemState.Disabled;
-                        if (!this.Enabled)
-                            k |= DrawItemState.ComboBoxEdit;
-                        if (k != e.State)
-                            e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, k);
-                        if (this.Style != null)
-                            this.Style.OnDrawItemEvent(item as ImageObjectItem, e, this.Font);
-                    }
-                    catch (Exception ee) {
-                        MessageBox.Show(ee.Message + "\r\n" + ee.StackTrace);
-                    }
+                    if (!imageItem.Enabled)
+                        k |= DrawItemState.Disabled;
+                    if (!this.Enabled)
+                        k |= DrawItemState.ComboBoxEdit;
+                    if (k != e.State)
+                        e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, k);
+                    if (this.Style != null)
+                        this.Style.OnDrawItemEvent(imageItem, e, this.Font);
                 }
             }
             base.OnDrawItem(e);

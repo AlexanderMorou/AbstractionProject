@@ -10,11 +10,13 @@
  |  Sub-tool Version: 1.0.0.0                                  |
  \----------------------------------------------------------- */
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens;
+using System;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
 {
     
     // Module: RootModule
+    [Flags]
     internal enum TypeIdParserTokens
     {
         None = 0, 

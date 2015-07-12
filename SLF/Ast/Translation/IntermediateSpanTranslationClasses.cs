@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -11,6 +11,10 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Translation
 {
+    /// <summary>
+    /// Denotes the kind of span within the scope of a given written 
+    /// term.
+    /// </summary>
     public enum IntermediateSpanTranslationClasses
     {
         /// <summary>
@@ -53,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         UserStructType,
         /// <summary>
         /// The current group represents an operator
-        /// or series of operators..
+        /// or series of operators.
         /// </summary>
         Operator,
         /// <summary>
@@ -69,9 +73,71 @@ namespace AllenCopeland.Abstraction.Slf.Translation
         LiteralString,
         /// <summary>
         /// The current group represents a literal
+        /// which consists of a sequence of unicode
+        /// characters in its alternate form.
+        /// </summary>
+        LiteralStringAlternate,
+        /// <summary>
+        /// The current group represents a string of 
+        /// characters which adds context to the current scope.
+        /// </summary>
+        Comment,
+        /// <summary>
+        /// The current group represents a literal
         /// which consists of a single unicode
         /// character.
         /// </summary>
         LiteralCharacter,
+        /// <summary>
+        /// The current group represents a term which is
+        /// the name of a constructor.
+        /// </summary>
+        ConstructorName,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to a method.
+        /// </summary>
+        MethodReference,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to a parameter.
+        /// </summary>
+        ParameterReference,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to a property.
+        /// </summary>
+        PropertyReference,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to an event.
+        /// </summary>
+        EventReference,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to an indexer.
+        /// </summary>
+        IndexerReference,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to a field.
+        /// </summary>
+        FieldReference,
+        /// <summary>
+        /// The current group represents a term which is
+        /// a reference to a local variable.
+        /// </summary>
+        LocalReference,
+        /// <summary>
+        /// The group represents a term which is a
+        /// symbol, whose identity has not yet been resolved.
+        /// </summary>
+        Symbol,
+        /// <summary>
+        /// The group represents a term which is a label.
+        /// </summary>
+        Label,
+        GenericParameterReference,
     }
+
 }

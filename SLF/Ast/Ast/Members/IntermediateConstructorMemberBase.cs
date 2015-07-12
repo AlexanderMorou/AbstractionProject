@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -49,12 +49,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <paramnparam name="identityManager">The <see cref="ITypeIdentityManager"/> which is responsible for marshalling
         /// type identities in the current type model.</paramnparam>
         public IntermediateConstructorMemberBase(TIntermediateType parent)
-            : base(parent, parent.IdentityManager)
+            : base(parent, parent.Assembly)
         {
         }
 
+        /// <summary>
+        /// Creates a new <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
+        /// with the <paramref name="parent"/> and <paramref name="typeInitializer"/> provdied.
+        /// </summary>
+        /// <param name="parent">The <typeparamref name="TIntermediateType"/>
+        /// which the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/>
+        /// belongs to.</param>
+        /// <param name="typeInitializer">Whether the <see cref="IntermediateConstructorMemberBase{TCtor, TIntermediateCtor, TType, TIntermediateType}"/> 
+        /// is a type initializer</param>
         internal IntermediateConstructorMemberBase(TIntermediateType parent, bool typeInitializer)
-            : base(parent, parent.IdentityManager,typeInitializer)
+            : base(parent, parent.Assembly, typeInitializer)
         {
         }
 
@@ -479,7 +488,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// which defines a local through the <paramref name="localDeclaration"/>,
         /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.
         /// </summary>
-        /// <param name="localDeclaration">A <see cref="ILocalDeclarationStatement"/>
+        /// <param name="localDeclaration">A <see cref="ILocalDeclarationsStatement"/>
         /// which defines the local used within the scope of the iteration block.</param>
         /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
         /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
@@ -489,12 +498,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </param>
         /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
         /// which represents the operation..</returns>
-        public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
+        public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationsStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             return this.StatementContainer.Iterate(localDeclaration, condition, iterations);
         }
 
-        public ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
+        public ISimpleIterationBlockStatement Iterate(ILocalDeclarationsStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
         {
             return this.StatementContainer.Iterate(target, start, end, endExclusive, incremental);
         }
@@ -520,13 +529,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         /// <summary>
-        /// Creates an inserts a <see cref="ILocalDeclarationStatement"/> with the
+        /// Creates an inserts a <see cref="ILocalDeclarationsStatement"/> with the
         /// <paramref name="local"/> provided.
         /// </summary>
         /// <param name="local">The <see cref="ILocalMember"/> to declare.</param>
-        /// <returns>A new <see cref="ILocalDeclarationStatement"/>
+        /// <returns>A new <see cref="ILocalDeclarationsStatement"/>
         /// which aims to declare the <paramref name="local"/> provided.</returns>
-        public ILocalDeclarationStatement DefineLocal(ILocalMember local)
+        public ILocalDeclarationsStatement DefineLocal(ILocalMember local)
         {
             return this.StatementContainer.DefineLocal(local);
         }
@@ -1302,7 +1311,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        public abstract IIntermediateAssembly Assembly { get; }
+        public new abstract IIntermediateAssembly Assembly { get; }
 
         #endregion
 
@@ -1363,5 +1372,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             return visitor.Visit(this, context);
         }
+
+        public void Add(IStatement statement)
+        {
+            this.StatementContainer.Add(statement);
+        }
+
+        public bool AddAfter(IStatement statement, IStatement toAdd)
+        {
+            return this.StatementContainer.AddAfter(statement, toAdd);
+        }
+
+        public IWhileStatement While(IExpression condition)
+        {
+            return this.statementContainer.While(condition);
+        }
+
     }
 }

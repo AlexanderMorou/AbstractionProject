@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Utilities.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +8,17 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     public interface IIdentityManager<TTypeIdentity, TAssemblyIdentity> :
         ITypeIdentityManager<TTypeIdentity>,
-        IAssemblyIdentityManager<TAssemblyIdentity>
+        IAssemblyIdentityManager<TAssemblyIdentity>,
+        IIdentityManager
     {
 
+    }
+
+    public interface IIdentityManager :
+        ITypeIdentityManager,
+        IServiceProvider<IIdentityService>,
+        IAssemblyIdentityManager
+    {
     }
 
     /// <summary>
@@ -54,7 +63,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IAssembly ObtainAssemblyReference(IAssemblyUniqueIdentifier assemblyIdentity);
     }
 
-
     /// <summary>
     /// Defines properties and methods for obtaining a model specific representation
     /// of a <see cref="IType"/> relative to <typeparamref name="TTypeIdentity"/>
@@ -82,6 +90,25 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     public interface ITypeIdentityManager :
         IDisposable
     {
+        /// <summary>
+        /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
+        /// </summary>
+        /// <param name="coreType">The <see cref="RuntimeCoreType"/> which denotes the
+        /// core type to obtain a type reference of.</param>
+        /// <param name="relativeSource">The <see cref="IAssembly"/> which represents
+        /// the lookup scope for the type to retrieve.</param>
+        /// <returns>A <see cref="IType"/> relative to the <paramref name="coreType"/>
+        /// within the scope of <paramref name="relativeSource"/>.</returns>
+        IType ObtainTypeReference(RuntimeCoreType coreType, IAssembly relativeSource);
+        /// <summary>
+        /// Returns the series of <see cref="IType"/>s implemented by the
+        /// <paramref name="coreType"/>
+        /// </summary>
+        /// <param name="coreType">The <see cref="RuntimeCoreType"/>
+        /// to request the implemented interfaces of.</param>
+        /// <returns>A <see cref="IEnumerable{T}"/> of the interfaces
+        /// implemented by <paramref name="coreType"/>.</returns>
+        IEnumerable<IType> GetCoreTypeInterfaces(RuntimeCoreType coreType, IAssembly relativeAssembly = null);
         /// <summary>
         /// Returns the <see cref="IType"/> from the <paramref name="coreType"/>
         /// from the underlying model in which it exists.
@@ -115,10 +142,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// provided.</returns>
         IType ObtainTypeReference(IGeneralTypeUniqueIdentifier identifier);
         /// <summary>
-        /// Returns the <see cref="ITypeIdentityMetadataService"/> which handles 
+        /// Returns the <see cref="IIdentityMetadataService"/> which handles 
         /// marshalling information about metadata types.
         /// </summary>
-        ITypeIdentityMetadataService MetadatumHandler { get; }
+        IIdentityMetadataService MetadatumHandler { get; }
         /// <summary>
         /// Returns the <see cref="IStandardRuntimeEnvironmentInfo"/> necessary to 
         /// identify the target runtime.

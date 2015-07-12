@@ -142,7 +142,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
             {
                 if (sender is ImageMenuItem)
                 {
-                    ImageMenuItem clickedItem = sender as ImageMenuItem;
+                    ImageMenuItem clickedItem = (ImageMenuItem)sender;
                     if (clickedItem == null)
                         return;
                     if (clickedItem.Tag is Form)

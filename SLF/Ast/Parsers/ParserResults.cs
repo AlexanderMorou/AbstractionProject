@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
         where T :
             IConcreteNode
     {
-        private IParserSyntaxErrorCollection syntaxErrors;
+        private IParserSyntaxMessageCollection syntaxErrors;
         #region IParserResults<T> Members
 
         public bool Successful
@@ -25,7 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Parsers
             get { return !this.SyntaxErrors.HasErrors; }
         }
 
-        public IParserSyntaxErrorCollection SyntaxErrors
+        public IParserSyntaxMessageCollection SyntaxErrors
         {
             get {
                 if (this.syntaxErrors == null)

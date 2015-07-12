@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -127,9 +127,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         #region ISourceElement Members
 
         /// <summary>
-        /// Returns/sets the filename associated to the <see cref="EventReferenceExpression{TEvent, TEventParameter, TEventParent}"/>.
+        /// Returns/sets the <see cref="Uri"/> associated to the <see cref="EventReferenceExpression{TEvent, TEventParameter, TEventParent}"/>.
         /// </summary>
-        public string FileName { get; set; }
+        public Uri Location { get; set; }
 
         /// <summary>
         /// The <see cref="LineColumnPair"/> which denotes
@@ -203,9 +203,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         #region ISourceElement Members
 
         /// <summary>
-        /// Returns/sets the filename associated to the <see cref="UnboundEventReferenceExpression"/>.
+        /// Returns/sets the <see cref="Uri"/> associated to the <see cref="UnboundEventReferenceExpression"/>.
         /// </summary>
-        public string FileName { get; set; }
+        public Uri Location { get; set; }
 
         /// <summary>
         /// The <see cref="LineColumnPair"/> which denotes

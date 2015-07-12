@@ -1,5 +1,5 @@
 ﻿/*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -326,6 +326,103 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
+
+        public static IClassMethodMember ObtainBaseDefinition(this IClassMethodMember source)
+        {
+            return ObtainPreviousDefinition(source, true);
+        }
+
+        public static IClassMethodMember ObtainPreviousDefinition(IClassMethodMember source, bool recurse = false)
+        {
+
+            if (!source.IsOverride)
+                throw new InvalidOperationException();
+            for (IClassType p = source.Parent.BaseType; p != null; p = p.BaseType)
+                foreach (var methodMember in p.Methods.Values)
+                    if (methodMember.Name != source.Name ||
+                        methodMember.Parameters.Count != source.Parameters.Count ||
+                        (methodMember.IsGenericConstruct && source.IsGenericConstruct &&
+                         methodMember.TypeParameters.Count != source.TypeParameters.Count))
+                        continue;
+                    else
+                    {
+                        bool match = true;
+                        /* *
+                         * For the sake of source find operation,
+                         * the type-parameters will be mostly ignored to 
+                         * ensure that the base declaration is found.
+                         * *
+                         * If the signature matches, it's a valid override;
+                         * however, if the constraints upon the type-parameter
+                         * don't match, then that's the compiler's domain to
+                         * notify.
+                         * */
+                        for (int i = 0; i < source.Parameters.Count; i++)
+                        {
+                            /* *
+                             * Var variable declaration is helpful for 
+                             * cases like source.
+                             * */
+                            var targetParam = methodMember.Parameters.Values[i];
+                            var sourceParam = source.Parameters.Values[i];
+                            if (targetParam.Direction != sourceParam.Direction)
+                            {
+                                match = false;
+                                break;
+                            }
+                            else if (targetParam.ParameterType.IsGenericTypeParameter)
+                            {
+                                /* *
+                                 * Rewrite source code so that when the source parameter
+                                 * is a generic parameter, and its parent is the enclosing
+                                 * type, that the newly declared version is equal to the
+                                 * generic parameter defined in the inheritance chain.
+                                 * */
+                                if (!sourceParam.ParameterType.IsGenericTypeParameter)
+                                {
+                                    match = false;
+                                    break;
+                                }
+
+                                IGenericParameter sourceTParam = (IGenericParameter)sourceParam.ParameterType,
+                                                  targetTParam = (IGenericParameter)targetParam.ParameterType;
+                                if (targetTParam.Parent == methodMember)
+                                {
+                                    if (sourceTParam.Parent != source)
+                                    {
+                                        match = false;
+                                        break;
+                                    }
+                                    match = sourceTParam.Position == targetTParam.Position;
+                                }
+                                else if (targetTParam.Parent == source.Parent)
+                                {
+                                    if (sourceTParam.Parent != source.Parent)
+                                    {
+                                        match = false;
+                                        break;
+                                    }
+                                    match = sourceTParam.Position == targetTParam.Position;
+                                }
+                            }
+                            else
+                                match = targetParam.ParameterType.Equals(sourceParam.ParameterType);
+                            if (!match)
+                                break;
+                        }
+                        if (match)
+                        {
+                            if (methodMember.ReturnType == source.ReturnType)
+                            {
+                                if (recurse && methodMember.IsOverride)
+                                    return methodMember.BaseDefinition;
+                                else
+                                    return methodMember;
+                            }
+                        }
+                    }
+            throw new InvalidOperationException("match not found");
+        }
 
     }
 }

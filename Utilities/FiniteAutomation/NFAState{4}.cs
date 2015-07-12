@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -18,33 +18,33 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// </summary>
     /// <typeparam name="TCheck">The type of set used
     /// to represent the transition from state set to state set.</typeparam>
-    /// <typeparam name="TState">The kind of <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>
+    /// <typeparam name="TNFAState">The kind of <see cref="NFAState{TCheck, TNFAState, TDFAState, TSourceElement}"/>
     /// used to represent the non-deterministic elements of the
     /// automation.</typeparam>
-    /// <typeparam name="TDFA">The type used to construct
+    /// <typeparam name="TDFAState">The type used to construct
     /// a deterministic model of the current nondeterministic 
     /// automation.</typeparam>
     /// <typeparam name="TSourceElement">The kind of elements from the original
     /// parse tree which denote the source of the
-    /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>.</typeparam>
-    public partial class NFAState<TCheck, TState, TDFA, TSourceElement> :
-        FiniteAutomataState<TCheck, TState, List<TState>, TSourceElement>,
-        INFAState<TCheck, TState, TDFA, TSourceElement>,
-        IEquatable<TState>
+    /// <see cref="NFAState{TCheck, TNFAState, TDFAState, TSourceElement}"/>.</typeparam>
+    public partial class NFAState<TCheck, TNFAState, TDFAState, TSourceElement> :
+        FiniteAutomataState<TCheck, TNFAState, List<TNFAState>, TSourceElement>,
+        INFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
+        IEquatable<TNFAState>
         where TCheck :
             IFiniteAutomataSet<TCheck>,
             new()
-        where TState :
-            NFAState<TCheck, TState, TDFA, TSourceElement>
-        where TDFA :
-            FiniteAutomataState<TCheck, TDFA, TDFA, TSourceElement>,
-            IDFAState<TCheck, TDFA, TSourceElement>,
+        where TNFAState :
+            NFAState<TCheck, TNFAState, TDFAState, TSourceElement>
+        where TDFAState :
+            DFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
+            IDFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
             new()
         where TSourceElement :
             IFiniteAutomataSource
     {
-        private static Dictionary<int, List<TState>> flatlined = new Dictionary<int, List<TState>>();
-        private static List<TState> ToStringStack = new List<TState>();
+        private static Dictionary<int, List<TNFAState>> flatlined = new Dictionary<int, List<TNFAState>>();
+        private static List<TNFAState> ToStringStack = new List<TNFAState>();
 
         /// <summary>
         /// Initializes the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
@@ -53,20 +53,20 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// <returns>A new <see cref="FiniteAutomataMultiTargetTransitionTable{TCheck, TState}"/>
         /// representing the non-deterministic targets of the state's
         /// transitions.</returns>
-        protected override IFiniteAutomataTransitionTable<TCheck, TState, List<TState>> InitializeOutTransitionTable()
+        protected override IFiniteAutomataTransitionTable<TCheck, TNFAState, List<TNFAState>> InitializeOutTransitionTable()
         {
-            return new FiniteAutomataMultiTargetTransitionTable<TCheck, TState>();
+            return new FiniteAutomataMultiTargetTransitionTable<TCheck, TNFAState>();
         }
 
         /// <summary>
         /// Returns a multi-target transition table for the states
         /// leaving the automation.
         /// </summary>
-        public new IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> OutTransitions
+        public new IFiniteAutomataMultiTargetTransitionTable<TCheck, TNFAState> OutTransitions
         {
             get
             {
-                return (IFiniteAutomataMultiTargetTransitionTable<TCheck, TState>)(base.OutTransitions);
+                return (IFiniteAutomataMultiTargetTransitionTable<TCheck, TNFAState>)(base.OutTransitions);
             }
         }
 
@@ -74,35 +74,37 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Creates a version of the current
-        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/> which is 
+        /// <see cref="NFAState{TCheck, TNFAState, TDFAState, TSourceElement}"/> which is 
         /// deterministic by creating a left-side union on elements
         /// which overlap on their <typeparamref name="TCheck"/> 
         /// transition requirements.
         /// </summary>
-        /// <returns>A new <typeparamref name="TDFA"/> 
+        /// <returns>A new <typeparamref name="TDFAState"/> 
         /// instance which represents the current automation
         /// in a deterministic manner.</returns>
-        public TDFA DeterminateAutomata()
+        public TDFAState DeterminateAutomata()
         {
             DFAEntryTable entrySet = new DFAEntryTable(this.GetDFAState);
-            TDFA result = GetRootDFAState();
-            ReplicateSourcesToAlt<TDFA, TDFA>(result);
+            TDFAState result = GetRootDFAState();
+            if (!this.IgnoreSources)
+                ReplicateSourcesToAlt<TDFAState, TDFAState>(result);
+            result.IsReductionSite = this.IsReductionSite;
             ReplicateStateTransitions(result, this.OutTransitions, entrySet);
             result.IsEdge = this.IsEdge;
             return result;
         }
 
-        protected virtual TDFA GetDFAState()
+        protected virtual TDFAState GetDFAState()
         {
-            return new TDFA();
+            return new TDFAState();
         }
 
-        protected virtual TDFA GetRootDFAState()
+        protected virtual TDFAState GetRootDFAState()
         {
             return this.GetDFAState();
         }
 
-        private void ReplicateStateTransitions(TDFA result, IFiniteAutomataMultiTargetTransitionTable<TCheck, TState> table, DFAEntryTable entrySet)
+        private void ReplicateStateTransitions(TDFAState result, IFiniteAutomataMultiTargetTransitionTable<TCheck, TNFAState> table, DFAEntryTable entrySet)
         {
             /* *
              * For every transition on the current transition table,
@@ -119,14 +121,16 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 else
                 {
                     var newElement = entrySet.Add(transition, set);
-                    FiniteAutomataMultiTargetTransitionTable<TCheck, TState> mergedTable = new FiniteAutomataMultiTargetTransitionTable<TCheck, TState>();
+                    FiniteAutomataMultiTargetTransitionTable<TCheck, TNFAState> mergedTable = new FiniteAutomataMultiTargetTransitionTable<TCheck, TNFAState>();
                     foreach (var subState in set)
-                        foreach (var subTransition in subState.OutTransitions.Keys)
+                        foreach (var subTransition in subState.OutTransitions.Keys.ToArray())
                             mergedTable.Add(subTransition, subState.OutTransitions[subTransition]);
                     var curDFA = newElement.DFA;
                     result.MoveTo(transition, curDFA);
                     foreach (var item in set)
-                        item.ReplicateSourcesToAlt<TDFA, TDFA>(curDFA);
+                        if (!item.IgnoreSources)
+                            item.ReplicateSourcesToAlt<TDFAState, TDFAState>(curDFA);
+
                     curDFA.ReduceSources();
 
                     ReplicateStateTransitions(newElement.DFA, mergedTable, entrySet);
@@ -142,12 +146,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// </summary>
         /// <returns>A <see cref="IEnumerable{T}"/> which iterates
         /// the edge states of the current
-        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>.</returns>
-        public override sealed IEnumerable<TState> ObtainEdges()
+        /// <see cref="NFAState{TCheck, TNFAState, TDFAState, TSourceElement}"/>.</returns>
+        public override sealed IEnumerable<TNFAState> ObtainEdges()
         {
-            Stack<TState> toCheck = new Stack<TState>();
-            toCheck.Push((TState)this);
-            List<TState> considered = new List<TState>();
+            Stack<TNFAState> toCheck = new Stack<TNFAState>();
+            toCheck.Push((TNFAState)this);
+            List<TNFAState> considered = new List<TNFAState>();
             /* *
              * To avoid cyclic models, track the states passed
              * and yield only the edge states.
@@ -171,56 +175,61 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Creates a concatination between the current state's edges and
-        /// the <paramref name="target"/> <typeparamref name="TState"/>.
+        /// the <paramref name="target"/> <typeparamref name="TNFAState"/>.
         /// </summary>
-        /// <param name="target">The <typeparamref name="TState"/>
+        /// <param name="target">The <typeparamref name="TNFAState"/>
         /// to concatenate with the current state.</param>
-        public void Concat(TState target)
+        public void Concat(TNFAState target)
         {
             var edges = this.ObtainEdges().ToArray();
+            this.IsReductionSite = target.IsReductionSite || this.IsReductionSite;
             foreach (var transition in target.OutTransitions)
                 foreach (var edge in edges)
                 {
-                    target.ReplicateSources(edge);
+                    if (!target.IgnoreSources)
+                        target.ReplicateSources(edge);
                     foreach (var state in transition.Value)
                         edge.MoveTo(transition.Key, state);
                 }
             foreach (var edge in edges)
                 if (edge.IsEdge ^ target.IsEdge)
                     edge.IsEdge = target.IsEdge;
-                //if (target.IsEdge)
-                //    edge.IsEdge = true;
-                //else
-                //    edge.IsEdge = false;
         }
 
         /// <summary>
         /// Creates a union between the current state's transitions and
-        /// the <paramref name="target"/> <typeparamref name="TState"/>.
+        /// the <paramref name="target"/> <typeparamref name="TNFAState"/>.
         /// </summary>
-        /// <param name="target">The <typeparamref name="TState"/>
+        /// <param name="target">The <typeparamref name="TNFAState"/>
         /// to create a union with.</param>
-        public virtual void Union(TState target)
+        public virtual void Union(TNFAState target)
         {
             this.IsEdge = target.IsEdge || this.IsEdge;
+            this.IsReductionSite = target.IsReductionSite || this.IsReductionSite;
             foreach (var transition in target.OutTransitions)
                 foreach (var state in transition.Value)
                     this.MoveTo(transition.Key, state);
             base.UnifySources(target);
         }
 
+        protected override void UnifySources(TNFAState target)
+        {
+            if (!(this.IgnoreSources || target.IgnoreSources))
+                base.UnifySources(target);
+        }
+
         /// <summary>
         /// Creates a relative compliment between the current state's
         /// transitions and the edge points of the <paramref name="target"/>.
         /// </summary>
-        /// <param name="target">The <typeparamref name="TState"/>
+        /// <param name="target">The <typeparamref name="TNFAState"/>
         /// to create a relative compliment on.</param>
         /// <remarks>The edges of the <paramref name="target"/>
         /// and the current state that overlap are explicitly marked
         /// as non-edges.</remarks>
         /// <exception cref="System.NotImplementedException">
         /// thrown because it's not implemented.</exception>
-        public void RelativeComplement(TState target)
+        public void RelativeComplement(TNFAState target)
         {
             throw new NotImplementedException();
         }
@@ -229,40 +238,40 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Creates a transition from the current 
-        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>
+        /// <see cref="NFAState{TCheck, TNFAState, TDFAState, TSourceElement}"/>
         /// to the <paramref name="target"/> with the
         /// <paramref name="condition"/> for transition provided.
         /// </summary>
         /// <param name="condition">The <typeparamref name="TCheck"/>
         /// which restricts the move.</param>
-        /// <param name="target">The <typeparamref name="TState"/>
+        /// <param name="target">The <typeparamref name="TNFAState"/>
         /// to move into.</param>
-        public override void MoveTo(TCheck condition, TState target)
+        public override void MoveTo(TCheck condition, TNFAState target)
         {
-            this.OutTransitions.Add(condition, new List<TState>() { target });
-            target.MovedInto(condition, (TState)this);
+            this.OutTransitions.Add(condition, new List<TNFAState>() { target });
+            target.MovedInto(condition, (TNFAState)this);
         }
 
         #region IEquatable<TState> Members
         /// <summary>
         /// Determines whether the current 
-        /// <see cref="NFAState{TCheck, TState, TDFA, TSourceElement}"/>
+        /// <see cref="NFAState{TCheck, TNFAState, TDFAState, TSourceElement}"/>
         /// is equal to the <paramref name="other"/>.
         /// </summary>
-        /// <param name="other">The <typeparamref name="TState"/>
+        /// <param name="other">The <typeparamref name="TNFAState"/>
         /// to compare to.</param>
         /// <returns>true if the current state and the <paramref name="other"/>
         /// are equal; false, otherwise.</returns>
-        public bool Equals(TState other) { return object.ReferenceEquals(this, other); }
+        public bool Equals(TNFAState other) { return object.ReferenceEquals(this, other); }
 
         #endregion
 
         public override int CountStates()
         {
-            return CountStates((TState)this, new HashSet<TState>());
+            return CountStates((TNFAState)this, new HashSet<TNFAState>());
         }
 
-        private int CountStates(TState target, HashSet<TState> covered)
+        private int CountStates(TNFAState target, HashSet<TNFAState> covered)
         {
             if (covered.Contains(target))
                 return 0;
@@ -277,7 +286,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         public override string ToString()
         {
-            var thisTState = this as TState;
+            var thisTState = this as TNFAState;
             bool firstOnStack = ToStringStack.Count == 0;
             if (ToStringStack.Contains(thisTState))
                 return string.Format("* ({0})", this.StateValue);
@@ -344,9 +353,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
-        public static void FlatlineState(TState state, List<TState> result)
+        public bool IgnoreSources { get; set; }
+
+        public static void FlatlineState(TNFAState state, List<TNFAState> result)
         {
-            Stack<TState> targets = new Stack<TState>();
+            Stack<TNFAState> targets = new Stack<TNFAState>();
             targets.Push(state);
             while (targets.Count > 0)
             {
@@ -376,6 +387,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             //            FlatlineState(state, result);
             //        }
         }
+        /// <summary>
+        /// Returns/sets whether the resulted state is a reduction point.
+        /// </summary>
+        /// <remarks>Reduction sites reduce to their smallest form at all
+        /// times.</remarks>
+        public bool IsReductionSite { get; set; }
 
     }
 }

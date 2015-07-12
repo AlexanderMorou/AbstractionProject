@@ -5,8 +5,9 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions.Linq;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -126,22 +127,33 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <summary>
         /// Visits the <paramref name="binaryCoercion"/> provided.
         /// </summary>
-        /// <typeparam name="TCoercionParentIdentifier">The kind of identifier used to differentiate the
-        /// <paramref name="binaryCoercion"/> instance from its siblings.</typeparam>
         /// <typeparam name="TCoercionParent">
         /// The type of parent that contains the binary operation 
         /// coercion member in the current implementation.</typeparam>
         /// <param name="binaryCoercion">The <see cref="IBinaryOperatorCoercionMember{TCoercionParent}"/>
         /// to visit.</param>
-        void Visit<TCoercionParent>(IBinaryOperatorCoercionMember<TCoercionParent> binaryCoercion)
+        /// <typeparam name="TIntermediateCoercionParent">The intermediate variation of <typeparamref name="TCoercionParent"/>
+        /// which denotes the type of parent which contains the intermediate binary
+        /// operation coercion member in the current implementation.</typeparam>
+        void Visit<TCoercionParent, TIntermediateCoercionParent>(IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> binaryCoercion)
             where TCoercionParent :
-                ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
-        void Visit<TCoercionParent>(ITypeCoercionMember<TCoercionParent> typeCoercion)
+                ICoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            where TIntermediateCoercionParent :
+                IIntermediateCoercibleType<IBinaryOperatorUniqueIdentifier, IBinaryOperatorCoercionMember<TCoercionParent>, IIntermediateBinaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+                TCoercionParent;
+
+        void Visit<TCoercionParent, TIntermediateCoercionParent>(IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent> typeCoercion)
             where TCoercionParent :
-                ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>;
-        void Visit<TCoercionParent>(IUnaryOperatorCoercionMember<TCoercionParent> unaryCoercion)
+                ICoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, TCoercionParent>
+            where TIntermediateCoercionParent :
+                IIntermediateCoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+                TCoercionParent;
+        void Visit<TCoercionParent, TIntermediateCoercionParent>(IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent> unaryCoercion)
             where TCoercionParent :
-                ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>;
+                ICoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, TCoercionParent>
+            where TIntermediateCoercionParent :
+                IIntermediateCoercibleType<IUnaryOperatorUniqueIdentifier, IUnaryOperatorCoercionMember<TCoercionParent>, IIntermediateUnaryOperatorCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
+                TCoercionParent;
         #endregion
         #region Field member
         void Visit<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent>(IIntermediateFieldMember<TField, TIntermediateField, TFieldParent, TIntermediateFieldParent> field)
@@ -251,6 +263,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="rangeVariable">The <see cref="ILinqRangeVariable"/>
         /// to visit.</param>
         void Visit(ILinqRangeVariable rangeVariable);
+        /// <summary>
+        /// Visits the <paramref name="rangeVariable"/> provided.
+        /// </summary>
+        /// <param name="rangeVariable">The <see cref="ILinqTypedRangeVariable"/>
+        /// to visit.</param>
+        void Visit(ILinqTypedRangeVariable rangeVariable);
     }
     /// <summary>
     /// Defines properties and methods for visiting the various kinds of members

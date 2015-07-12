@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -37,23 +37,23 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         private GenericParameterDictionary typeParameters;
         private GenericTypeCache genericCache = null;
         private string _namespace;
-        private ITypeIdentityManager manager;
+        private IIdentityManager manager;
         //private IClassType baseType;
 
-        internal SymbolType(IExpression sourceExpression, ITypeIdentityManager manager)
+        internal SymbolType(IExpression sourceExpression, IIdentityManager manager)
         {
             this.sourceExpression = sourceExpression;
             this.sourceSelector = ExpressionSelection;
             this.manager = manager;
         }
 
-        internal SymbolType(IExpression sourceExpression, int tParamCount, ITypeIdentityManager manager)
+        internal SymbolType(IExpression sourceExpression, int tParamCount, IIdentityManager manager)
             : this(sourceExpression, manager, ExpandTParamNames(tParamCount))
         {
         }
 
 
-        internal SymbolType(IExpression sourceExpression, ITypeIdentityManager manager, params string[] tParamNames)
+        internal SymbolType(IExpression sourceExpression, IIdentityManager manager, params string[] tParamNames)
             : this(sourceExpression, manager)
         {
             if (tParamNames == null)
@@ -61,25 +61,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             this.typeParameters = new GenericParameterDictionary(this, tParamNames);
         }
 
-        internal SymbolType(string name, ITypeIdentityManager manager)
+        internal SymbolType(string name, IIdentityManager manager)
         {
             this.name = name;
             this.manager = manager;
         }
 
-        internal SymbolType(string name, int tParamCount)
-            : this(name, ExpandTParamNames(tParamCount))
+        internal SymbolType(string name, IIdentityManager identityManager, int tParamCount)
+            : this(name, identityManager, ExpandTParamNames(tParamCount))
         {
         }
 
-        internal SymbolType(string name, string _namespace)
-            : this(name)
+        internal SymbolType(string name, string _namespace, IIdentityManager identityManager)
+            : this(name, identityManager)
         {
             this._namespace = _namespace;
         }
 
-        internal SymbolType(string name, int tParamCount, string _namespace)
-            : this(name, tParamCount)
+        internal SymbolType(string name, int genericParameterCount, string _namespace, IIdentityManager identityManager)
+            : this(name, identityManager, genericParameterCount)
         {
             this._namespace = _namespace;
         }
@@ -93,10 +93,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         }
 
 
-        internal SymbolType(string name, params string[] tParamNames)
+        internal SymbolType(string name, IIdentityManager identityManager, params string[] tParamNames)
+            : this(name, identityManager)
         {
-            this.name = name;
-            if (tParamNames ==  null)
+            if (tParamNames == null)
                 return;
             this.typeParameters = new GenericParameterDictionary(this, tParamNames);
         }
@@ -215,6 +215,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             get { return true; }
         }
 
+        protected override bool OnGetIsNullable()
+        {
+            return true;
+        }
+
         protected override ILockedTypeCollection OnGetImplementedInterfaces()
         {
             return LockedTypeCollection.Empty;
@@ -267,7 +272,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
             }
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return new CustomAttributeCollection(this);
         }
@@ -475,7 +480,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
 
         #region ISourceElement Members
 
-        public string FileName { get; set; }
+        public Uri Location { get; set; }
 
         public LineColumnPair? Start { get; set; }
 
@@ -511,9 +516,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
         //        return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
         //}
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIdentityManager OnGetManager()
         {
-            return null;
+            return this.manager;
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -33,7 +33,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// provided</returns>
         public ICreateInstanceMemberAssignment Add(string name, IExpression value)
         {
-            var result = new CreateInstanceMemberAssignment(name, value);
+            var result = new CreateInstanceUnboundMemberAssignment(name, value);
             this._Add(name, result);
             return result;
         }
@@ -44,10 +44,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="assignment">The <see cref="ICreateInstanceMemberAssignmentDictionary"/>
         /// to insert.</param>
-        public void Add(ICreateInstanceMemberAssignment assignment)
+        public void Add(ICreateInstanceUnboundMemberAssignment assignment)
         {
 
-            this._Add(assignment.PropertyName, assignment);
+            this._Add(assignment.Name, assignment);
         }
 
         #endregion

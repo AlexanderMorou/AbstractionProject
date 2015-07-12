@@ -98,7 +98,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Modules
                 return this.Parent.Assembly;
             }
 
-            protected override ITypeIdentityManager OnGetManager()
+            protected override IIdentityManager OnGetManager()
             {
                 return this.Parent.IdentityManager;
             }

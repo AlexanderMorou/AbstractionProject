@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -19,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
     /// <summary>
     /// Provides a base class for <see cref="IType"/> implementations.
     /// </summary>
-    [DebuggerDisplay("Name = {UniqueIdentifierString}, FullName = {FullName}")]
+    [DebuggerDisplay("Name = {FullName}, FullName = {UniqueIdentifierString}")]
     public abstract class TypeBase<TIdentifier> :
         DeclarationBase<TIdentifier>,
         //_IConstructCacheRegistrar<IModifiedType, ITypeModifierSetEntry>,
@@ -647,7 +647,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 lock (this.syncObject)
                 {
                     if (this.customAttributes == null)
-                        this.customAttributes = this.InitializeCustomAttributes();
+                        this.customAttributes = this.InitializeMetadata();
                     return this.customAttributes;
                 }
             }
@@ -689,7 +689,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// </summary>
         /// <returns>A <see cref="IMetadataCollection"/> of
         /// attributes relative to the current instance.</returns>
-        protected abstract IMetadataCollection InitializeCustomAttributes();
+        protected abstract IMetadataCollection InitializeMetadata();
 
         /// <summary>
         /// Returns a <see cref="IEnumerable{T}"/> of the elements
@@ -763,10 +763,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         }
 
         /// <summary>
-        /// Returns the <see cref="ITypeIdentityManager"/> which was used
+        /// Returns the <see cref="IIdentityManager"/> which was used
         /// to construct the current <see cref="IType"/>.
         /// </summary>
-        public ITypeIdentityManager IdentityManager
+        public IIdentityManager IdentityManager
         {
             get
             {
@@ -774,7 +774,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
         }
 
-        protected abstract ITypeIdentityManager OnGetManager();
+        protected abstract IIdentityManager OnGetManager();
 
         #endregion
 
@@ -786,8 +786,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return this.UniqueIdentifier.ToString();
             }
         }
-
-
 
         #region IType Members
 

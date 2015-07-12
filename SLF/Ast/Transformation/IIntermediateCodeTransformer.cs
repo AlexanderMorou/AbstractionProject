@@ -23,6 +23,12 @@ namespace AllenCopeland.Abstraction.Slf.Transformation
         /// </summary>
         Ignore,
         /// <summary>
+        /// Denotes that the transformer might impact the item in question
+        /// but the compiler marshaling the transformations must 
+        /// investigate its internal structure.
+        /// </summary>
+        Investigate,
+        /// <summary>
         /// Denotes the transformer replaces the current entity with
         /// a new entity of the same kind, but the underlying 
         /// internal structure may change entirely.
@@ -59,7 +65,13 @@ namespace AllenCopeland.Abstraction.Slf.Transformation
         /// such that the scope of the container may change.
         /// </summary>
         Environment = 0x3000,
+    }
 
+    public enum TransformerKind
+    {
+        Linker,
+        LanguageFeature,
+        Obfuscator,
     }
 
     public interface IIntermediateCodeTransformer :
@@ -70,7 +82,6 @@ namespace AllenCopeland.Abstraction.Slf.Transformation
         IIntermediateTypeTransformer,
         IIntermediateInclusionTransformer
     {
-
     }
 
     /// <summary>
@@ -93,34 +104,46 @@ namespace AllenCopeland.Abstraction.Slf.Transformation
     {
     }
     public interface IPrimitiveTransformer :
-        IPrimitiveVisitor<TransformationKind, ITransformationContext>
+        IPrimitiveVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
     }
     public interface ILinqTransformer :
-        ILinqVisitor<TransformationKind, ITransformationContext>
+        ILinqVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
     }
 
     public interface IStatementTransformer :
-        IStatementVisitor<TransformationKind, ITransformationContext>
+        IStatementVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
 
     }
     public interface IIntermediateMemberTransformer :
-        IIntermediateMemberVisitor<TransformationKind, ITransformationContext>
+        IIntermediateMemberVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
     }
     public interface IIntermediateDeclarationTransformer :
-        IIntermediateDeclarationVisitor<TransformationKind, ITransformationContext>
+        IIntermediateDeclarationVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
     }
     public interface IIntermediateTypeTransformer :
-        IIntermediateTypeVisitor<TransformationKind, ITransformationContext>
+        IIntermediateTypeVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
     }
 
     public interface IIntermediateInclusionTransformer :
-        IIntermediateInclusionVisitor<TransformationKind, ITransformationContext>
+        IIntermediateInclusionVisitor<TransformationKind, ITransformationContext>,
+        IIntermediateTransformer
     {
+    }
+
+    public interface IIntermediateTransformer
+    {
+        TransformerKind Kind { get; }
     }
 }

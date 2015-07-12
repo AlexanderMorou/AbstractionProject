@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -101,7 +101,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <see cref="IIntermediateInstantiableType{TCtor, TIntermediateCtor, TEvent, TIntermediateEvent, TField, TIntermediateField, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
         new IIntermediateInstantiableTypeImplementedInterfaces<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> ImplementedInterfaces { get; }
-        new ITypeIdentityManager IdentityManager { get; }
+        new IIntermediateIdentityManager IdentityManager { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> in which the
+        /// <see cref="IIntermediateTypeParent"/> is defined.
+        /// </summary>
+        new IIntermediateAssembly Assembly { get; }
     }
     public interface IIntermediateInstantiableType :
         IIntermediateTypeParent,
@@ -140,5 +145,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <returns>A <see cref="IBoundSpecialReferenceExpression"/>
         /// which is bound to the current <see cref="IIntermediateInstantiableType"/>.</returns>
         IBoundSpecialReferenceExpression GetThis();
+        /// <summary>
+        /// Returns the <see cref="IIntermediateIdentityManager"/> which
+        /// helps resolve type identities.
+        /// </summary>
+        new IIntermediateIdentityManager IdentityManager { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> in which the
+        /// <see cref="IIntermediateTypeParent"/> is defined.
+        /// </summary>
+        new IIntermediateAssembly Assembly { get; }
+        bool HasTypeInitializer { get; }
     }
 }

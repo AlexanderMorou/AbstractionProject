@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -25,8 +25,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         where TCheck :
             IFiniteAutomataSet<TCheck>,
             new()
-        where TState :
-            IFiniteAutomataState<TCheck, TState>
     {
         private bool autoSegment;
 
@@ -123,6 +121,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                  * isn't exactly present in the current setup...
                  * */
                 base.AddInternal(check, target);
+        }
+
+        internal void SetAutoSegment(bool segment)
+        {
+            this.autoSegment = segment;
         }
 
         protected override List<TState> GetStateTarget(TState state)

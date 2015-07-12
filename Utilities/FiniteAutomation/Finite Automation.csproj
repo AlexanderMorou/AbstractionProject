@@ -8,7 +8,7 @@
     <ProjectGuid>{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllenCopeland.Abstraction.FiniteAutomata</RootNamespace>
+    <RootNamespace>AllenCopeland.Abstraction.Slf.FiniteAutomata</RootNamespace>
     <AssemblyName>_abs.util.automata</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -75,6 +75,7 @@
     <DocumentationFile>..\..\Build\x86\Release\_abs.util.automata.XML</DocumentationFile>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -86,6 +87,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DFAAdapter.cs" />
+    <Compile Include="DFAState+ConstructionContext.cs" />
+    <Compile Include="FiniteAutomataAdapter.cs" />
+    <Compile Include="FiniteAutomataExtensions.cs" />
+    <Compile Include="FiniteAutomataFlowGraph.cs" />
+    <Compile Include="IDFAAdapter.cs" />
+    <Compile Include="IDFAConstructionContext.cs" />
+    <Compile Include="IFiniteAutomataAdapter.cs" />
+    <Compile Include="INFAAdapter.cs" />
+    <Compile Include="IFiniteAutomataFlowGraphNode.cs" />
+    <Compile Include="NFAAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DFAState.cs" />
     <Compile Include="FiniteAutomataBitSet.cs" />
@@ -121,6 +133,7 @@
     <Compile Include="NFAState+DFAEntryTable.cs">
       <DependentUpon>NFAState{4}.cs</DependentUpon>
     </Compile>
+    <Compile Include="StateMachineWalker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common Utilities.csproj">
@@ -133,6 +146,10 @@
     <None Include="Allen Copeland.pfx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -21,10 +21,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         IDisposable
     {
         /// <summary>
-        /// Returns the <see cref="ITypeIdentityManager"/> which manages the 
+        /// Returns the <see cref="IIntermediateIdentityManager"/> which manages the 
         /// identity of types within the current context.
         /// </summary>
-        ITypeIdentityManager IdentityManager { get; }
+        IIntermediateIdentityManager IdentityManager { get; }
         /// <summary>
         /// Adds a blank <see cref="IMetadataDefinition"/> to the 
         /// <see cref="IMetadataDefinitionCollection"/> for expansion.

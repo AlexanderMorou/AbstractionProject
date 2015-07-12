@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Utilities.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// <summary>
     /// Defines properties and methods for working with a language service.
     /// </summary>
-    public interface ILanguageService
+    public interface ILanguageService :
+        IService<ILanguageService>
     {
         /// <summary>
         /// Returns the <see cref="ILanguageProvider"/> which maintains the
@@ -39,10 +41,5 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <see cref="ILanguageService"/> provides the service for.
         /// </summary>
         ILanguage Language { get; }
-        /// <summary>
-        /// Returns the <see cref="Guid"/> which denotes the specific 
-        /// service to retrieve.
-        /// </summary>
-        Guid ServiceGuid { get; }
     }
 }

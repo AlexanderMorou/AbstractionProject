@@ -1,23 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AllenCopeland.Abstraction.Slf._Internal.Languages;
+using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Slf.Ast.Cli;
+using AllenCopeland.Abstraction.Slf.Compilers;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Translation;
-using AllenCopeland.Abstraction.Slf.Compilers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using AllenCopeland.Abstraction.Slf.Abstract;
+using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
     internal partial class CoreVisualBasicProvider :
         VersionedLanguageProvider<IVisualBasicLanguage, ICoreVisualBasicProvider, VisualBasicVersion, IIntermediateCliManager, Type, Assembly>,
-        //IVisualBasicProvider<TAssembly, TProvider>
-        //VisualBasicProvider<ICoreVisualBasicAssembly, ICoreVisualBasicProvider>,
         ICoreVisualBasicProvider
     {
-        internal CoreVisualBasicProvider(VisualBasicVersion version, ITypeIdentityManager identityManager)
+        internal CoreVisualBasicProvider(VisualBasicVersion version, IIntermediateCliManager identityManager)
             : base(version, identityManager)
         {
             this.RegisterService<IIntermediateAssemblyCtorLanguageService<ICoreVisualBasicProvider, IVisualBasicLanguage, ICoreVisualBasicAssembly>>(LanguageGuids.Services.IntermediateAssemblyCreatorService, new AssemblyService(this));

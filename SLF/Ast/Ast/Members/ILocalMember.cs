@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,7 +17,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
     /// <summary>
     /// The kind of typing used on a series of locals in
-    /// a <see cref="ILocalDeclarationStatement"/>.
+    /// a <see cref="ILocalDeclarationsStatement"/>.
     /// </summary>
     public enum LocalTypingKind
     {
@@ -67,15 +67,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         bool AutoDeclare { get; set; }
         /// <summary>
-        /// Returns a <see cref="ILocalDeclarationStatement"/> relative to the
+        /// Returns a <see cref="ILocalDeclarationsStatement"/> relative to the
         /// current <see cref="ILocalMember"/>.
         /// </summary>
+        /// <param name="siblings">An <see cref="Array"/> of <see cref="ILocalMember"/> elements which are siblings to the 
+        /// <see cref="ILocalMember"/> being declared.</param>
         /// <remarks>The instance returned is a single-ton
         /// object per local.  Subsequent calls to this method
         /// yield the same instance.</remarks>
-        /// <returns>A <see cref="ILocalDeclarationStatement"/>
+        /// <returns>A <see cref="ILocalDeclarationsStatement"/>
         /// relative to the current <see cref="ILocalMember"/>.</returns>
-        ILocalDeclarationStatement GetDeclarationStatement();
+        ILocalDeclarationsStatement GetDeclarationStatement(params ILocalMember[] siblings);
     }
     /// <summary>
     /// Defines properties and methods for working with a local whose type is

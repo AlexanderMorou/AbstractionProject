@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -30,7 +30,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Returns/sets the filename associated to the <see cref="NamespaceInclusionScopeCoercion"/>.
         /// </summary>
-        public string FileName { get; set; }
+        public Uri Location { get; set; }
 
         /// <summary>
         /// The <see cref="LineColumnPair"/> which denotes

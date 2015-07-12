@@ -96,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
             #endregion
 
             #region IType Members
-            public ITypeIdentityManager IdentityManager { get { return this.original.IdentityManager; } }
+            public IIdentityManager IdentityManager { get { return this.original.IdentityManager; } }
 
             public TypeElementClassification ElementClassification
             {

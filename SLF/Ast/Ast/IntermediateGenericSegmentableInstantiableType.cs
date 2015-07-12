@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using System.ComponentModel;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -215,6 +215,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
 
         }
+
+        public bool HasTypeInitializer { get { return this.typeInitializer != null; } }
 
         #region IIntermediateCreatableParent<TCtor,TIntermediateCtor,TType,TIntermediateType> Members
 
@@ -1051,7 +1053,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         protected override ILockedTypeCollection OnGetDirectImplementedInterfaces()
         {
-            return this.ImplementedInterfaces.GetLocked();
+            return this.ImplementedInterfaces.GetLocked(true);
         }
 
         #region IIntermediateInstantiableType Members
@@ -1279,15 +1281,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     else if (this.Parent is INamespaceDeclaration)
                     {
                         if (this.TypeParametersInitialized)
-                            this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
+                            this.uniqueIdentifier = this.Assembly.UniqueIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, this.TypeParameters.Count);
                         else
-                            this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
-
+                            this.uniqueIdentifier = this.Assembly.UniqueIdentifier.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
                     }
                     else if (this.TypeParametersInitialized)
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
+                        this.uniqueIdentifier = this.Assembly.UniqueIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, this.TypeParameters.Count);
                     else
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
+                        this.uniqueIdentifier = this.Assembly.UniqueIdentifier.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
             return this.uniqueIdentifier;
         }
 

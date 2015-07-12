@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -71,6 +71,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="name"/> is null.</exception>
         TIntermediateType Add(string name);
         /// <summary>
+        /// Creates and adds a new <typeparamref name="TIntermediateType"/> 
+        /// instance with the <paramref name="format"/> and 
+        /// <paramref name="replacements"/> provided.
+        /// </summary>
+        /// <param name="format">The <see cref="String"/> value denoting the format to manage
+        /// the name of the result <typeparamref name="TIntermediateType"/>.</param>
+        /// <param name="replacements">The <see cref="String"/> array denoting the 
+        /// replacements within <paramref name="format"/> to use.</param>
+        /// <returns>A <typeparamref name="TIntermediateType"/> with the name constructed from
+        /// <paramref name="format"/> and <paramref name="replacements"/>.</returns>
+        TIntermediateType Add(string format, params object[] replacements);
+        /// <summary>
         /// Creates and inserts a new <typeparamref name="TIntermediateType"/> instance
         /// into the current <see cref="IIntermediateTypeDictionary{TTypeIdentifier, TType, TIntermediateType}"/>.
         /// </summary>
@@ -127,5 +139,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <paramref name="uniqueID"/> provided.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="uniqueID"/> is null.</exception>
         new TIntermediateType this[TTypeIdentifier uniqueID] { get; }
+
+        /// <summary>
+        /// Returns an <see cref="Int32"/> value denoting the
+        /// nubmer of types which belong to the 
+        /// <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateTypeParent"/>
+        /// which contains the namespaces.</param>
+        /// <returns>An <see cref="Int32"/> value denoting the
+        /// nubmer of types which belong to the 
+        /// <paramref name="parent"/> provided.</returns>
+        int GetCountFor(IIntermediateTypeParent parent);
     }
 }

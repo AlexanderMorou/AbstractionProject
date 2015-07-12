@@ -7,17 +7,19 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
 {
     public class MyApplicationClass :
-        MyVisualBasicClass<MyApplicationClass>
+        MyVisualBasicClass<MyApplicationClass>,
+        IMyApplicationClass
     {
         public MyApplicationClass(IIntermediateTypeParent parent)
             : base("MyApplication", parent)
         {
-            //new MetadatumDefinitionParameterValueCollection(CommonTypeRefs.EditorBrowsableAttribute) { (int)EditorBrowsableState.Never }
-            this.Metadata.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).GeneratedCodeAttribute) { "MyTemplate", string.Format("{0}.0.0.0", (int)this.Assembly.Provider.Version) });
+            this.Metadata.Add(new MetadatumDefinitionParameterValueCollection(CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).GeneratedCodeAttribute) { "MyTemplate", this.Assembly.Provider.Version.GetStringVersion() });
+            this.IsNameLocked = true;
         }
 
         private MyApplicationClass(MyApplicationClass root, IIntermediateTypeParent parent)
@@ -29,6 +31,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
         {
             return new MyApplicationClass(root, parent);
         }
+
         public override IClassType BaseType
         {
             get
@@ -39,7 +42,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
                     case AssemblyOutputType.ClassLibrary:
                         return CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).ApplicationBase;
                     case AssemblyOutputType.ConsoleApplication:
-                    case AssemblyOutputType.WinFormsApplication:
+                    case AssemblyOutputType.UserInterfaceApplication:
                         return CommonVBTypeRefs.GetCommonTypeRefs((ICliManager)this.IdentityManager).ConsoleApplicationBase;
                     default:
                         return base.BaseType;
@@ -48,6 +51,60 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My
             set
             {
                 throw new NotSupportedException();
+            }
+        }
+
+        public new IMyNamespaceDeclaration Parent
+        {
+            get { return ((IMyNamespaceDeclaration)(base.Parent)); }
+        }
+
+
+        /// <summary>
+        /// Returns the <see cref="IClassPropertyMember"/> which denotes the culture
+        /// of the running thread.
+        /// </summary>
+        public IClassPropertyMember Culture
+        {
+            get
+            {
+                return this.GetProperty("Culture");
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IClassPropertyMember"/> which denotes the entrypoint assembly's 
+        /// information.
+        /// </summary>
+        public IClassPropertyMember Info
+        {
+            get
+            {
+                return this.GetProperty("Info");
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IClassPropertyMember"/> which denotes the Log
+        /// instance for common logging functionality.
+        /// </summary>
+        public IClassPropertyMember Log
+        {
+            get
+            {
+                return this.GetProperty("Log");
+            }
+        }
+
+        /// <summary>
+        /// Returns the <see cref="IClassPropertyMember"/> which denotes the user-interface
+        /// culture of the running thread.
+        /// </summary>
+        public IClassPropertyMember UICulture
+        {
+            get
+            {
+                return this.GetProperty("UICulture");
             }
         }
     }

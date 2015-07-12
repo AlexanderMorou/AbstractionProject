@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -225,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <remarks>
         /// <para>C#: Expression "is" GenericParameter</para>
-        /// <para>Visual Basic.NET: "TypeOf" expression "Is" GenericParameter
+        /// <para>Visual Basic: "TypeOf" expression "Is" GenericParameter
         /// </para></remarks>
         TypeCheckOperation,
         /// <summary>
@@ -483,7 +483,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// expression which needs a series of type-parameters.
         /// </remarks>
         ExpressionToTypeCollectionFusion,
-
         /// <summary>
         /// The expression is a language integrated query expression
         /// used to string together a series of data sources, 
@@ -493,19 +492,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// to become basic CIL code.
         /// </summary>
         LinqExpression,
-
         /// <summary>
         /// The expression wraps a sub-expression and denotes the
         /// named parameter 
         /// </summary>
         NamedParameterReference,
-
         /// <summary>
         /// The expression operates upon the wrapped expression in order
         /// to modify it before it is sent to its recipient.
         /// </summary>
         WorkspaceExpression,
-
         /// <summary>
         /// The expression references a method parameter.
         /// </summary>
@@ -541,7 +537,46 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// within a language integrated query expression.
         /// </summary>
         RangeVariableReference,
+        /// <summary>
+        /// The expression represents a unary operation.
+        /// </summary>
         UnaryOperation,
+        /// <summary>
+        /// The expression represents a unary forward term, that is,
+        /// a unary expression with no operation.
+        /// </summary>
         UnaryForwardTerm, /* 1110110100100010000000 */
+        /// <summary>
+        /// The expression represents a mathematical expression which will
+        /// yield a constant value regardless of the circumstances.
+        /// </summary>
+        ConstantExpression,
+        /// <summary>
+        /// The Expression represents a decoration expression which
+        /// denotes the translator to create a new line at that point.
+        /// </summary>
+        /// <remarks><para>Some languages don't allow carriage returns
+        /// at the point requested.</para>
+        /// <para>In such a case, the new line should be ignored.</para></remarks>
+        NewLineExpression,
+        /// <summary>
+        /// The Expression represents a decoration expression which
+        /// denotes the translator to create a comment at that point.
+        /// </summary>
+        /// <remarks><para>Some languages don't allow inline comments.</para>
+        /// <para>In such a case, the comment should be ignored.</para></remarks>
+        CommentExpression,
+        /// <summary>
+        /// The expression represents a single or multiple decorations
+        /// on a given expression for the purposes of controlling the result
+        /// document flow.
+        /// </summary>
+        DecoratingExpression,
+        /// <summary>
+        /// The expression represents a the coercion of the flow of data into
+        /// or out of a method/indexer parameter.
+        /// </summary>
+        DirectionExpression,
+        DefaultValueExpression,
     }
 }

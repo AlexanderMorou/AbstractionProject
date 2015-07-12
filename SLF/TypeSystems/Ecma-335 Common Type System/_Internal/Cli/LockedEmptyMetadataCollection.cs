@@ -9,7 +9,7 @@ using System.Collections;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
     internal class LockedEmptyMetadataCollection :
-        ReadOnlyCollection<IMetadatum>,
+        ControlledCollection<IMetadatum>,
         IMetadataCollection
     {
         private IMetadataEntity parent;

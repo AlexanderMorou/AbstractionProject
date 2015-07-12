@@ -8,7 +8,7 @@
     <ProjectGuid>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AllenCopeland.Abstraction.Utilities</RootNamespace>
+    <RootNamespace>AllenCopeland.Abstraction</RootNamespace>
     <AssemblyName>_abs.util.common</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,7 +55,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>..\..\Build\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;x86</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;x86;MKD_SEVEN</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -70,7 +70,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\..\Build\x86\Release\</OutputPath>
-    <DefineConstants>TRACE;x86</DefineConstants>
+    <DefineConstants>TRACE;x86, MKD_SEVEN</DefineConstants>
     <Optimize>true</Optimize>
     <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
@@ -81,6 +81,8 @@
     <DocumentationFile>..\..\Build\x86\Release\_abs.util.common.XML</DocumentationFile>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -93,65 +95,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentWithException.cs" />
-    <Compile Include="Collections\ArrayReadOnlyCollection{T}.cs" />
-    <Compile Include="Collections\BitVector.cs" />
-    <Compile Include="Collections\ConcatenatedArrayReadOnlyCollection.cs" />
-    <Compile Include="Collections\CountableEnumerableWrapper.cs" />
-    <Compile Include="Collections\IArrayReadOnlyCollection.cs" />
-    <Compile Include="Collections\ICountableEnumerable.cs" />
-    <Compile Include="Collections\IMultikeyedDictionary`3.cs" />
-    <Compile Include="Collections\IMultikeyedDictionary`4.cs" />
-    <Compile Include="Collections\IMultikeyedDictionary`5.cs" />
-    <Compile Include="Collections\IMultikeyedDictionary`6.cs" />
-    <Compile Include="Collections\IMultikeyedDictionary`7.cs" />
-    <Compile Include="Collections\IMultikeyedDictionary`8.cs" />
-    <Compile Include="Collections\IReadonlyMultikeyedDictionary`3.cs" />
-    <Compile Include="Collections\IReadonlyMultikeyedDictionary`4.cs" />
-    <Compile Include="Collections\IReadonlyMultikeyedDictionary`5.cs" />
-    <Compile Include="Collections\IReadonlyMultikeyedDictionary`6.cs" />
-    <Compile Include="Collections\IReadonlyMultikeyedDictionary`7.cs" />
-    <Compile Include="Collections\IReadonlyMultikeyedDictionary`8.cs" />
-    <Compile Include="Collections\KeysValuePair`2.cs" />
-    <Compile Include="Collections\MultikeyedDictionaryKeys`2.cs" />
-    <Compile Include="Collections\MultikeyedDictionaryKeys`3.cs" />
-    <Compile Include="Collections\MultikeyedDictionaryKeys`4.cs" />
-    <Compile Include="Collections\MultikeyedDictionaryKeys`5.cs" />
-    <Compile Include="Collections\MultikeyedDictionaryKeys`6.cs" />
-    <Compile Include="Collections\MultikeyedDictionaryKeys`7.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`3+LevelOne.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`3.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`4+LevelOne.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`4+LevelTwo.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`4.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`5+LevelOne.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`5+LevelTwo.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`5+LevelThree.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`5.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`6+LevelOne.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`6+LevelTwo.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`6+LevelThree.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`6+LevelFour.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`6.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`7+LevelOne.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`7+LevelTwo.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`7+LevelThree.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`7+LevelFour.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`7+LevelFive.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`7.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8+LevelOne.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8+LevelTwo.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8+LevelThree.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8+LevelFour.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8+LevelFive.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8+LevelSix.cs" />
-    <Compile Include="Collections\MultikeyedDictionary`8.cs" />
-    <Compile Include="Collections\ReadonlyMultikeyedDictionary`3.cs" />
-    <Compile Include="Collections\ReadonlyMultikeyedDictionary`4.cs" />
-    <Compile Include="Collections\ReadonlyMultikeyedDictionary`5.cs" />
-    <Compile Include="Collections\ReadonlyMultikeyedDictionary`6.cs" />
-    <Compile Include="Collections\ReadonlyMultikeyedDictionary`7.cs" />
-    <Compile Include="Collections\ReadonlyMultikeyedDictionary`8.cs" />
-    <Compile Include="Collections\SubKeyNotFoundException.cs" />
+    <Compile Include="CurrentPreviousPair.cs" />
+    <Compile Include="Numerics\SexagesimalBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Numerics\HexadecimalBase.cs" />
+    <Compile Include="Tuples\SelectiveTuple{T1, T2}.cs" />
+    <Compile Include="Tuples\SelectiveTuple{T1, T2, T3}.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IO\BitVectorStream.cs" />
     <Compile Include="IO\EndianAwareBinaryWriter .cs" />
@@ -166,9 +116,7 @@
     <Compile Include="Numerics\CharacterBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Numerics\DuosexagesimalBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Numerics\DozenalBase.cs" />
     <Compile Include="Numerics\DWord.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -211,65 +159,130 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ThrowHelper.cs" />
-    <Compile Include="Arrays\Tweaks.cs" />
-    <Compile Include="Collections\_ISubordinateDictionaryMasterPass.cs" />
-    <Compile Include="Collections\ControlledCollection{T}.cs" />
-    <Compile Include="Collections\ControlledDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs">
-      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs">
-      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs">
-      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Collections\ControlledKeyedTree.cs" />
-    <Compile Include="Collections\ControlledKeyedTreeNode.cs" />
-    <Compile Include="Collections\CovariantReadOnlyCollection.cs" />
-    <Compile Include="Collections\GeneralExtensions.cs" />
-    <Compile Include="Collections\HashList{T}.cs" />
-    <Compile Include="Collections\IControlledStateCollection.cs" />
-    <Compile Include="Collections\IControlledStateCollection{T}.cs" />
-    <Compile Include="Collections\IControlledStateDictionary.cs" />
-    <Compile Include="Collections\IControlledStateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\IControlledStateKeyedTree.cs" />
-    <Compile Include="Collections\IControlledStateKeyedTreeNode.cs" />
-    <Compile Include="Collections\IKeyedTree.cs" />
-    <Compile Include="Collections\IKeyedTreeNode.cs" />
-    <Compile Include="Collections\IMasterDictionary.cs" />
-    <Compile Include="Collections\IMasterDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\ISubordinateDictionary.cs" />
-    <Compile Include="Collections\ISubordinateDictionary{4}.cs" />
-    <Compile Include="Collections\ISubordinateDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\KeyedTree.cs" />
-    <Compile Include="Collections\KeyedTreeNode.cs" />
-    <Compile Include="Collections\MasterDictionaryBase{TKey, TValue}.cs" />
-    <Compile Include="Collections\MasterDictionaryEntry.cs" />
-    <Compile Include="Collections\MutableDictionary.cs" />
-    <Compile Include="Collections\ReadOnlyCollection{T}.cs" />
-    <Compile Include="Collections\ReadOnlyCollectionGroup.cs" />
-    <Compile Include="Collections\ReadOnlyDictionary{TKey, TValue}.cs" />
-    <Compile Include="Collections\SimpleCollection{T}.cs" />
-    <Compile Include="Collections\SimpleDictionaryEnumerator{TKey, TValue}.cs" />
-    <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
-    <Compile Include="Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs">
-      <DependentUpon>SubordinateDictionary{TKey, TSValue, TMValue}.cs</DependentUpon>
-    </Compile>
     <Compile Include="EnumerableExtensions+SinglePass{T}.cs" />
     <Compile Include="EnumerableExtensions.cs" />
-    <Compile Include="Events\EventArgs{T}.cs" />
-    <Compile Include="Events\EventArgs{T1, T2}.cs" />
-    <Compile Include="Events\EventArgsR1{T}.cs" />
-    <Compile Include="Events\EventArgsR1{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1{T1, T2}.cs" />
-    <Compile Include="Events\EventArgsR1R2{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1R2{T1, T2}.cs" />
-    <Compile Include="Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR1R3{T1, T2, T3}.cs" />
-    <Compile Include="Events\EventArgsR2{T1, T2}.cs" />
-    <Compile Include="Events\EventArgsR2R3{T1, T2, T3}.cs" />
-    <Compile Include="Tuples\TupleHelper.cs" />
+    <Compile Include="Utilities\Arrays\ArrayBounds+LengthCollection.cs" />
+    <Compile Include="Utilities\Arrays\ArrayBounds.cs" />
+    <Compile Include="Utilities\Arrays\Tweaks.cs" />
+    <Compile Include="Utilities\Collections\ArrayReadOnlyCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\BitVector.cs" />
+    <Compile Include="Utilities\Collections\ConcatenatedArrayReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\ControlledCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\ControlledDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\ControlledKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\ControlledKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs">
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs">
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs">
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\CountableEnumerableWrapper.cs" />
+    <Compile Include="Utilities\Collections\CovariantReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\GeneralExtensions.cs" />
+    <Compile Include="Utilities\Collections\HashList{T}.cs" />
+    <Compile Include="Utilities\Collections\IArrayReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateCollection.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateDictionary.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\ICountableEnumerable.cs" />
+    <Compile Include="Utilities\Collections\IKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\ILockedLinkedList.cs" />
+    <Compile Include="Utilities\Collections\ILockedLinkedListNode.cs" />
+    <Compile Include="Utilities\Collections\IMasterDictionary.cs" />
+    <Compile Include="Utilities\Collections\IMasterDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{4}.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\KeyedTree.cs" />
+    <Compile Include="Utilities\Collections\KeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\KeysValuePair`2.cs" />
+    <Compile Include="Utilities\Collections\LockedLinkedList+Node.cs" />
+    <Compile Include="Utilities\Collections\LockedLinkedList.cs" />
+    <Compile Include="Utilities\Collections\MasterDictionaryBase{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\MasterDictionaryEntry.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`2.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`3.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`4.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`5.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`6.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`7.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`3+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`4+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`4+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelFour.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelFive.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelFour.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelFive.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelFour.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelSix.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\MutableDictionary.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyCollectionGroup.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\SimpleCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\SimpleDictionaryEnumerator{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\SubKeyNotFoundException.cs" />
+    <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs">
+      <DependentUpon>SubordinateDictionary{TKey, TSValue, TMValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
+    <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR2R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR2{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgs{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgs{T}.cs" />
+    <Compile Include="Utilities\Services\IServiceProvider{TServiceRoot}.cs" />
+    <Compile Include="Utilities\Services\IService{TServiceRoot}.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -289,6 +302,7 @@
       <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

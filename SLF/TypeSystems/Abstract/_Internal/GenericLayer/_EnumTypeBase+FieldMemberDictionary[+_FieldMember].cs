@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -56,19 +56,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #region IInstanceMember Members
 
-                public InstanceMemberFlags InstanceFlags
+                public InstanceMemberAttributes Attributes
                 {
-                    get { return Original.InstanceFlags; }
-                }
-
-                public bool IsStatic
-                {
-                    get { return Original.IsStatic; }
-                }
-
-                public bool IsHideBySignature
-                {
-                    get { return Original.IsHideBySignature; }
+                    get { return (InstanceMemberAttributes)Original.Attributes; }
                 }
 
                 #endregion

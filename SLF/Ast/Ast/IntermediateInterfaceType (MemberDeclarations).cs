@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Properties;
 using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateInterfaceMethodMember
         {
             public MethodMember(IIntermediateInterfaceType parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
             }
             protected override IInterfaceMethodMember OnMakeGenericMethod(IControlledTypeCollection genericReplacements)
@@ -172,7 +172,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
 
                     public _ValueParameter(PropertySetMethod parent)
-                        : base(parent, parent.Parent.IdentityManager)
+                        : base(parent, parent.Parent.Assembly)
                     {
                     }
 
@@ -284,12 +284,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
 
             internal IndexerMember(string name, TInstanceType parent)
-                : base(name, parent, parent.IdentityManager)
+                : base(name, parent, parent.Assembly)
             {
             }
 
             internal IndexerMember(TInstanceType parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
                 
             }
@@ -343,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     private ParameterMember original;
                     internal IndexerDependentParameter(ParameterMember original, MethodMember parent)
-                        : base(parent, parent.IdentityManager)
+                        : base(parent, parent.Assembly)
                     {
                         this.original = original;
                     }
@@ -362,10 +362,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     {
                         return this.original.Name;
                     }
-                    protected override void OnSetName(string name)
+
+                    protected override sealed void OnSetName(string name)
                     {
-                        throw new InvalidOperationException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name.");
+                        throw new NotSupportedException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name. Rationale: the parameters of the method mirror the types of the indexer; however, there's no guarantee, from a framework perspective, that the parameters even require names.");
                     }
+                    
                     public override ParameterCoercionDirection Direction
                     {
                         get
@@ -380,7 +382,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
                     protected override MetadataDefinitionCollection InitializeCustomAttributes()
                     {
-                        return new MetadataDefinitionCollection(this.original, this.identityManager);
+                        return new MetadataDefinitionCollection(this.original, this.assembly);
                     }
 
                     public override IGeneralMemberUniqueIdentifier UniqueIdentifier
@@ -420,6 +422,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         default:
                             throw new InvalidOperationException();
                     }
+                }
+
+                protected override sealed void OnSetName(string name)
+                {
+                    throw new NotSupportedException("Cannot set the name of a method of an indexer, set the indexer's name.");
                 }
 
                 protected override IntermediateParameterMemberDictionary<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IIntermediateMethodSignatureParameterMember<IInterfaceMethodMember, IIntermediateInterfaceMethodMember, IInterfaceType, IIntermediateInterfaceType>> InitializeParameters()
@@ -485,7 +492,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
 
                     public _ValueParameter(IndexerSetMethod parent)
-                        : base(parent, parent.IdentityManager)
+                        : base(parent, parent.Assembly)
                     {
                     }
 

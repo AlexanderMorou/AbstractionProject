@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -22,8 +22,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TType :
             ICreatableParent<TCtor, TType>
         where TIntermediateType :
-            TType,
-            IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>
+            IIntermediateCreatableSignatureParent<TCtor, TIntermediateCtor, TType, TIntermediateType>,
+            TType
     {
         protected class Parameter :
             IntermediateSignatureParameterMemberBase<IGeneralSignatureMemberUniqueIdentifier, TCtor, TIntermediateCtor, IConstructorParameterMember<TCtor, TType>, IIntermediateConstructorSignatureParameterMember<TCtor, TIntermediateCtor, TType, TIntermediateType>, TType, TIntermediateType>,
@@ -36,7 +36,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="parent">The <typeparamref name="TIntermediateCtor"/> which
             /// contains the <see cref="Parameter"/>.</param>
             public Parameter(TIntermediateCtor parent)
-                : base(parent, parent.Parent.IdentityManager)
+                : base(parent, parent.Parent.Assembly)
             {
             }
 

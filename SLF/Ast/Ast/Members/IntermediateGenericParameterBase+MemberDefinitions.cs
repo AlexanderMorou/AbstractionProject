@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -44,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="parent">The <typeparamref name="TIntermediateGenericParameter"/>
             /// in which the <see cref="ConstructorMember"/> is contained.</param>
             public ConstructorMember(TIntermediateGenericParameter parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
             }
 
@@ -72,14 +72,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateGenericParameterMethodMember<TGenericParameter, TIntermediateGenericParameter>
         {
             internal MethodMember(string name, TIntermediateGenericParameter parent)
-                : base(name, parent, parent.IdentityManager)
+                : base(name, parent, parent.Assembly)
             {
             }
 
             internal new bool _AreParametersInitialized{get{return base.AreParametersInitialized;}}
 
             internal MethodMember(TIntermediateGenericParameter parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
             }
 
@@ -99,12 +99,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IntermediateIndexerSignatureMember<IGenericParameterIndexerMember<TGenericParameter>, IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>, TGenericParameter, TIntermediateGenericParameter, IndexerMember.IndexerMethodMember>,
             IIntermediateGenericParameterIndexerMember<TGenericParameter, TIntermediateGenericParameter>
         {
-            internal IndexerMember(string name, TIntermediateGenericParameter parent, ITypeIdentityManager identityManager)
-                : base(name, parent, identityManager)
+            internal IndexerMember(string name, TIntermediateGenericParameter parent, IIntermediateAssembly assembly)
+                : base(name, parent, assembly)
             {
             }
-            internal IndexerMember(TIntermediateGenericParameter parent, ITypeIdentityManager identityManager)
-                : base(parent, identityManager)
+            internal IndexerMember(TIntermediateGenericParameter parent, IIntermediateAssembly assembly)
+                : base(parent, assembly)
             {
             }
 
@@ -152,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 private IndexerMember owner;
                 internal IndexerValueParameter(IndexerMember owner, IndexerSetMethodMember parent)
-                    : base(parent, parent.IdentityManager)
+                    : base(parent, parent.Assembly)
                 {
                     this.owner = owner;
                 }
@@ -197,7 +197,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 private ParametersDictionary.ParameterMember original;
                 internal IndexerDependentParameter(ParametersDictionary.ParameterMember original, IndexerMethodMember parent)
-                    : base(parent, parent.IdentityManager)
+                    : base(parent, parent.Assembly)
                 {
                     this.original = original;
                     this.original.IdentifierChanged += original_IdentifierChanged;
@@ -225,7 +225,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 }
                 protected override void OnSetName(string name)
                 {
-                    throw new InvalidOperationException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name.");
+                    throw new NotSupportedException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name. Rationale: the parameters of the method mirror the types of the indexer; however, there's no guarantee, from a framework perspective, that the parameters even require names.");
                 }
                 public override ParameterCoercionDirection Direction
                 {
@@ -241,7 +241,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
                 protected override MetadataDefinitionCollection InitializeCustomAttributes()
                 {
-                    return new MetadataDefinitionCollection(this.original, this.identityManager);
+                    return new MetadataDefinitionCollection(this.original, this.assembly);
                 }
 
                 public override IGeneralMemberUniqueIdentifier UniqueIdentifier

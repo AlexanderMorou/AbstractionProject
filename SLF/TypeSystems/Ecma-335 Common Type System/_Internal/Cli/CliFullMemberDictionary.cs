@@ -194,6 +194,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             if (memberIndex < 0 || memberIndex >= this.Count)
                 throw new ArgumentOutOfRangeException("memberIndex");
+            if (this.memberIdentifiers[memberIndex] != null)
+                return;
             switch (this.memberTypes[memberIndex])
             {
                 case CliMemberType.BinaryOperator:

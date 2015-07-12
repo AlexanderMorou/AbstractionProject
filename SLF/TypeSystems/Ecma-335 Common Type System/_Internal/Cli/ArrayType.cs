@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Diagnostics;
 using System.ComponentModel;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -53,7 +53,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         private IMetadataCollection customAttributes;
 
         private CliManager manager;
-
+        
         /// <summary>
         /// Creates a new <see cref="ArrayType"/> with the
         /// <paramref name="elementType"/> and <paramref name="rank"/>
@@ -81,12 +81,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal ArrayType(IType elementType, CliManager manager, int[] lowerBounds, uint[] lengths, int rank = -1)
         {
-            if (lowerBounds == null)
-                throw new ArgumentNullException("lowerBounds");
             this.elementType = elementType;
-            this.lowerBounds = new ArrayReadOnlyCollection<int>(lowerBounds);
-            this.lengths = new ArrayReadOnlyCollection<uint>(lengths);
-            this.rank = rank < 0 ? Math.Max(lowerBounds == null ? 0 : lowerBounds.Length, (lengths == null) ? 0 : lengths.Length) : rank;
+            this.lowerBounds = new ArrayReadOnlyCollection<int>(lowerBounds ?? new int[0]);
+            this.lengths = new ArrayReadOnlyCollection<uint>(lengths ?? new uint[0]);
+            this.rank = rank < 0 ?
+                Math.Max(
+                    lowerBounds == null ?
+                        0 :
+                        lowerBounds.Length,
+                    lengths == null ?
+                        0 :
+                        lengths.Length) :
+                rank;
             this.manager = manager;
         }
 
@@ -98,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal CliManager IdentityManager { get { return this.manager; } }
 
-        ITypeIdentityManager IType.IdentityManager
+        IIdentityManager IType.IdentityManager
         {
             get
             {
@@ -115,7 +121,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                for (int i = 0; i < this.rank; i++)
+                if (this.lowerBounds == null)
+                    return true;
+                for (int i = 0; i < this.lowerBounds.Count; i++)
                     if (this.lowerBounds[i] != 0)
                         return false;
                 return true;
@@ -289,26 +297,33 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private ILockedTypeCollection InitializeImplementedInterfaces()
         {
+            return this.implInterfaces != null ? this.implInterfaces : (this.implInterfaces = new LockedTypeCollection(GetImplementedInterfacesInternal()));
+        }
+
+        private IEnumerable<IInterfaceType> GetImplementedInterfacesInternal()
+        {
             var tAssem = this.Assembly;
-            throw new NotSupportedException();
-            //if (this.ArrayRank == 1)
-            //    return new LockedTypeCollection(
-            //            this.IdentityManager.ObtainTypeReference(typeof(ICloneable), tAssem),
-            //            this.IdentityManager.ObtainTypeReference(typeof(IList), tAssem),
-            //            this.IdentityManager.ObtainTypeReference(typeof(ICollection), tAssem),
-            //            this.IdentityManager.ObtainTypeReference(typeof(IEnumerable), tAssem),
-            //            ((IGenericType) this.IdentityManager.ObtainTypeReference((typeof(IList<>)), tAssem))
-            //                .MakeGenericClosure(this.ElementType),
-            //            ((IGenericType) this.IdentityManager.ObtainTypeReference((typeof(ICollection<>)), tAssem))
-            //                .MakeGenericClosure(this.ElementType),
-            //            ((IGenericType) this.IdentityManager.ObtainTypeReference((typeof(IEnumerable<>)), tAssem))
-            //                .MakeGenericClosure(this.ElementType));
-            //else
-            //    return new LockedTypeCollection(
-            //            this.IdentityManager.ObtainTypeReference(typeof(ICloneable), tAssem),
-            //            this.IdentityManager.ObtainTypeReference(typeof(IList), tAssem),
-            //            this.IdentityManager.ObtainTypeReference(typeof(ICollection), tAssem),
-            //            this.IdentityManager.ObtainTypeReference(typeof(IEnumerable), tAssem));
+            var arrayType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Array, tAssem);
+            foreach (var implInter in arrayType.ImplementedInterfaces)
+                yield return (IInterfaceType)implInter;
+
+            switch (this.IdentityManager.RuntimeEnvironment.Version & ~CliFrameworkVersion.ClientProfile)
+            {
+                case CliFrameworkVersion.v2_0_50727:
+                case CliFrameworkVersion.v3_0:
+                case CliFrameworkVersion.v3_5:
+                    yield return ((IInterfaceType)(this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IList", 1), tAssem))).MakeGenericClosure(this.ElementType);
+                    yield return ((IInterfaceType)(this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "ICollection", 1), tAssem))).MakeGenericClosure(this.ElementType);
+                    yield return ((IInterfaceType)(this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IEnumerable", 1), tAssem))).MakeGenericClosure(this.ElementType);
+                    break;
+                case CliFrameworkVersion.v4_0_30319:
+                case CliFrameworkVersion.v4_5:
+                    yield return ((IInterfaceType)(this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IReadOnlyList", 1), tAssem))).MakeGenericClosure(this.ElementType);
+                    yield return ((IInterfaceType)(this.IdentityManager.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System.Collections.Generic", "IReadOnlyCollection", 1), tAssem))).MakeGenericClosure(this.ElementType);
+                    goto case CliFrameworkVersion.v3_5;
+                default:
+                    break;
+            }
         }
 
         public IAssembly Assembly
@@ -454,7 +469,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get { return this.lengths; }
         }
-
 
         public IModifiedType MakeModified(TypeModification[] modifiers)
         {

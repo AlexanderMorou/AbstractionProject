@@ -18,12 +18,12 @@ using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Globalization;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Utilities.Collections;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -54,7 +54,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TAssembly :
             IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>
         where TIdentityManager :
-            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+            IIntermediateIdentityManager
     {
         /// <summary>
         /// Data member for <see cref="Metadata"/>.
@@ -150,7 +151,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <param name="rootAssembly">The <typeparamref name="TAssembly"/> from which
         /// the current <see cref="IntermediateAssembly{TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity}"/> is a part of.</param>
-        internal protected IntermediateAssembly(TAssembly rootAssembly)
+        protected IntermediateAssembly(TAssembly rootAssembly)
         {
             this.rootAssembly = rootAssembly;
         }
@@ -160,7 +161,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         /// <param name="name">The <see cref="String"/> representing the name of the
         /// assembly.</param>
-        internal protected IntermediateAssembly(string name)
+        protected IntermediateAssembly(string name)
         {
             this.name = name;
         }
@@ -731,8 +732,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     this.OnRenaming(renaming);
                     if (!renaming.Change)
                         return;
+                    var uniqueID = this.UniqueIdentifier;
                     this.name = value;
                     this.OnRenamed(new DeclarationNameChangedEventArgs(renaming.OldName, renaming.NewName));
+                    this.OnIdentifierChanged(uniqueID, DeclarationChangeCause.Name);
                 }
                 else
                     this.GetRoot().Name = value;
@@ -857,7 +860,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                         else
-                            this.attributes = new MetadataDefinitionCollection(this, this.IdentityManager);
+                            this.attributes = new MetadataDefinitionCollection(this, this);
                     return this.attributes;
                 }
                 else
@@ -1189,27 +1192,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        public override IAssemblyUniqueIdentifier UniqueIdentifier
+        protected override IAssemblyUniqueIdentifier OnGetUniqueIdentifier()
         {
-            get
+            if (this.IsDisposed)
+                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+            if (this.IsRoot)
             {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                if (this.IsRoot)
-                {
-                    if (this.uniqueIdentifier == null)
-                        this.uniqueIdentifier = TypeSystemIdentifiers.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
-                    return this.uniqueIdentifier;
-                }
-                else
-                    return this.GetRoot().UniqueIdentifier;
+                if (this.uniqueIdentifier == null)
+                    this.uniqueIdentifier = TypeSystemIdentifiers.GetAssemblyIdentifier(this.Name, this.AssemblyInformation.AssemblyVersion, this.AssemblyInformation.Culture);
+                return this.uniqueIdentifier;
             }
+            else
+                return this.GetRoot().UniqueIdentifier;
         }
 
         protected virtual void OnIdentifierChanged(IAssemblyUniqueIdentifier oldIdentifier, DeclarationChangeCause cause)
         {
             if (!this.IsRoot)
                 return;
+            this.uniqueIdentifier = null;
             var newIdentifier = this.UniqueIdentifier;
             var _identifierChanged = this._IdentifierChanged;
             if (_identifierChanged != null)
@@ -1303,12 +1304,25 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public override IType GetType(IGeneralTypeUniqueIdentifier identifier)
         {
-            throw new NotImplementedException();
+            MasterDictionaryEntry<IType> result;
+            if (identifier.Namespace != null)
+            {
+                if (this.Namespaces.PathExists(identifier.Namespace.Name))
+                {
+                    var nsTarget = this.Namespaces[identifier.Namespace.Name];
+                    if (nsTarget.Types.TryGetValue(identifier, out result))
+                        return result.Entry;
+                    return null;
+                }
+            }
+            else if (this.Types.TryGetValue(identifier, out result))
+                return result.Entry;                
+            return null;
         }
 
-        ITypeIdentityManager IIntermediateTypeParent.IdentityManager { get { return this.IdentityManager; } }
+        IIntermediateIdentityManager IIntermediateTypeParent.IdentityManager { get { return this.IdentityManager; } }
 
-        public TIdentityManager IdentityManager
+        public new TIdentityManager IdentityManager
         {
             get
             {
@@ -1338,5 +1352,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return visitor.Visit(this, context);
         }
 
+        protected override IIdentityManager OnGetIdentityManager()
+        {
+            return this.IdentityManager;
+        }
+
+        IIntermediateIdentityManager IIntermediateAssembly.IdentityManager { get { return this.IdentityManager; } }
     }
 }

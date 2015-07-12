@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -52,7 +52,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         private IndexerMemberDictionary indexers;
         private MethodMemberDictionary methods;
         private PropertyMemberDictionary properties;
-        private ITypeIdentityManager identityManager;
+        private IIntermediateIdentityManager identityManager;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>
@@ -64,7 +64,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/>
         /// which contains the <see cref="IntermediateGenericParameterBase{TGenericParameter, TIntermediateGenericParameter, TParent, TIntermediateParent}"/>.</param>
         /// <param name="identityManager">The <see cref="ITypeIdentityManager"/> which aids in type identity resolution.</param>
-        protected IntermediateGenericParameterBase(string name, TIntermediateParent parent, ITypeIdentityManager identityManager)
+        protected IntermediateGenericParameterBase(string name, TIntermediateParent parent, IIntermediateIdentityManager identityManager)
         {
             base.AssignName(name);
             this.identityManager = identityManager;
@@ -761,7 +761,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 lock (this.SyncObject)
                 {
                     if (this.metadata == null)
-                        this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
+                        this.metadata = new MetadataDefinitionCollection(this, this.Assembly);
                     return this.metadata;
                 }
             }
@@ -892,7 +892,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return visitor.Visit(this, context);
         }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIntermediateIdentityManager OnGetIntermediateManager()
         {
             lock (SyncObject)
                 return this.identityManager;

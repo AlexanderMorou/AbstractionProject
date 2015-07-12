@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -16,12 +16,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
     /// declaration statement.
     /// </summary>
     public interface IExplicitlyTypedLocalVariableDeclarationStatement :
-        ILocalDeclarationStatement
+        ILocalDeclarationsStatement
     {
         /// <summary>
         /// Returns/sets the <see cref="IType"/> representing the 
         /// kind of values that are defined by the 
-        /// <see cref="ILocalDeclarationStatement"/>.
+        /// <see cref="ILocalDeclarationsStatement"/>.
         /// </summary>
         IType LocalType { get; set; }
     }

@@ -705,6 +705,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
             string result = GetFormat(token, memberType);
             target.Write(result);
         }
+
         protected virtual void Write(string token, IMember member, bool declarePoint)
         {
             string result = GetFormat(token, member, declarePoint);

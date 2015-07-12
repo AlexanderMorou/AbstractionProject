@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -16,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         IterationBlockBaseStatement,
         IIterationDeclarationBlockStatement
     {
-        public IterationDeclarationBlockStatement(IBlockStatementParent parent, ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
+        public IterationDeclarationBlockStatement(IBlockStatementParent parent, ILocalDeclarationsStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
             : base(parent, condition, iterations)
         {
             this.LocalDeclaration = localDeclaration;
@@ -24,9 +24,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 
         #region IIterationDeclarationBlockStatement Members
 
-        public ILocalDeclarationStatement LocalDeclaration { get; set; }
+        public ILocalDeclarationsStatement LocalDeclaration { get; set; }
 
         #endregion
+
+
+        public override void Visit(IStatementVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
 
     }
 }

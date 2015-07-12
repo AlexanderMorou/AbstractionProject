@@ -89,5 +89,14 @@ namespace AllenCopeland.Abstraction.Slf.Transformation
 
         #endregion
 
+
+        #region IIntermediateTransformer Members
+
+        public TransformerKind Kind
+        {
+            get { return TransformerKind.Obfuscator; }
+        }
+
+        #endregion
     }
 }

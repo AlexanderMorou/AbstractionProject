@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Slf.Languages;
 using System.Globalization;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -42,7 +42,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TAssembly :
             IntermediateAssembly<TLanguage, TProvider, TAssembly, TIdentityManager, TTypeIdentity, TAssemblyIdentity>
         where TIdentityManager :
-            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+            IIntermediateIdentityManager
     {
         private static readonly IIntermediateVersion defaultVersion = new IntermediateVersion(1, 0);
         private IIntermediateVersion fileVersion;

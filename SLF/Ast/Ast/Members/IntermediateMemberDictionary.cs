@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Members
 {
@@ -135,5 +135,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
+
+        public override IEnumerable<KeyValuePair<TMemberIdentifier, TIntermediateMember>> ExclusivelyOnParent()
+        {
+            foreach (var memberKVP in this)
+                if (object.ReferenceEquals(memberKVP.Value.Parent, this.Parent))
+                    yield return memberKVP;
+                else if (memberKVP.Value is IIntermediateSegmentableDeclaration && ((IIntermediateSegmentableDeclaration)(memberKVP.Value)).Parts.Count > 0)
+                    foreach (TIntermediateMember partial in ((IIntermediateSegmentableDeclaration)(memberKVP.Value)).Parts)
+                        if (object.ReferenceEquals(partial.Parent, this.Parent))
+                            yield return new KeyValuePair<TMemberIdentifier, TIntermediateMember>(memberKVP.Key, partial);
+        }
     }
 }

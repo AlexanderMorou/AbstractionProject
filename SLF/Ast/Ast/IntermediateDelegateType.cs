@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Utilities.Events;
 using System.ComponentModel;
 
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -400,7 +400,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         protected bool AreParametersInitialized { get { return this.parameters != null; } }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIntermediateIdentityManager OnGetIntermediateManager()
         {
             return this.Parent.IdentityManager;
         }

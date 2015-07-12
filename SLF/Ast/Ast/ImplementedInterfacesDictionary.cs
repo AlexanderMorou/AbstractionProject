@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -155,28 +155,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
         #endregion
 
-        private IEnumerable<IType> GetEnumerableInternal()
+        private IEnumerable<IType> GetEnumerableInternal(bool direct = false)
         {
             HashSet<IType> yielded = new HashSet<IType>();
-            var grandParent = parent.BaseType;
-            if (grandParent != null)
-                foreach (var type in grandParent.ImplementedInterfaces)
-                    if (yielded.Add(type))
-                        yield return type;
+            if (!direct)
+            {
+                var grandParent = parent.BaseType;
+                if (grandParent != null)
+                    foreach (var type in grandParent.ImplementedInterfaces)
+                        if (yielded.Add(type))
+                            yield return type;
+            }
             foreach (var type in this.Copy)
                 if (yielded.Add(type))
                 {
                     yield return type;
-                    foreach (var subType in type.ImplementedInterfaces)
-                        if (yielded.Add(subType))
-                            yield return subType;
+                    if (!direct)
+                        foreach (var subType in type.ImplementedInterfaces)
+                            if (yielded.Add(subType))
+                                yield return subType;
                 }
         }
 
-        internal LockedVariant GetLocked()
+        internal LockedVariant GetLocked(bool direct = false)
         {
             if (this.locked == null)
-                this.locked = new LockedVariant(this);
+                this.locked = new LockedVariant(this, direct);
             return this.locked;
         }
 
@@ -211,6 +215,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private ITypeCollection copy;
         private LockedVariant locked;
         private IType parent;
+        private LockedLocalVariant localLocked;
 
         /// <summary>
         /// Creates a new ImplementedInterfacesCollection with the <paramref name="parent"/> provided.
@@ -222,7 +227,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             this.parent = parent;
         }
 
-        private ITypeCollection Copy
+        internal ITypeCollection Copy
         {
             get
             {
@@ -316,6 +321,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (this.locked == null)
                 this.locked = new LockedVariant(this);
             return this.locked;
+        }
+
+        internal LockedLocalVariant GetLocalLocked()
+        {
+            return this.localLocked ?? (this.localLocked = new LockedLocalVariant(this));
         }
 
         #region IEquatable<IControlledTypeCollection> Members

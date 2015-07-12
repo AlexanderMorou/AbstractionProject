@@ -5,7 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -85,7 +85,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 IIntermediateTypeCtorLanguageService<IIntermediateStructType> structService;
                 if (assembly.Provider.TryGetService(LanguageGuids.Services.StructServices.StructCreatorService, out structService))
-                    return structService.GetNew(name, this.Parent);
+                    return structService.New(name, this.Parent);
             }
             return new IntermediateStructType(name, this.Parent);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,11 +17,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
     /// <see cref="ICreateInstanceExpression"/>'s member
     /// assignment expression.
     /// </summary>
-    public class CreateInstanceMemberAssignment :
-        ICreateInstanceMemberAssignment
+    public class CreateInstanceUnboundMemberAssignment :
+        ICreateInstanceUnboundMemberAssignment
     {
         /// <summary>
-        /// Creates a new <see cref="CreateInstanceMemberAssignment"/>
+        /// Creates a new <see cref="CreateInstanceUnboundMemberAssignment"/>
         /// with the initial <paramref name="propertyName"/> and
         /// <paramref name="assignValue"/> provided.
         /// </summary>
@@ -31,31 +31,43 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="assignValue">The <see cref="IExpression"/>
         /// to assign the property relative to <paramref name="propertyName"/>
         /// to.</param>
-        public CreateInstanceMemberAssignment(string propertyName, IExpression assignValue)
+        public CreateInstanceUnboundMemberAssignment(string propertyName, IExpression assignValue)
         {
-            this.PropertyName = propertyName;
+            this.Name = propertyName;
             this.AssignValue = assignValue;
         }
 
-        #region ICreateInstanceMemberAssignment Members
-
+        #region ICreateInstanceUnboundMemberAssignment Members
         /// <summary>
         /// Returns/sets the <see cref="String"/>
         /// that designates the name of the property to assign to
         /// <see cref="AssignValue"/>.
         /// </summary>
-        public string PropertyName { get; set; }
+        public string Name { get; set; }
+        #endregion
+
+        #region ICreateInstanceMemberAssignment
 
         /// <summary>
-        /// Returns/sets the value to assign to the <see cref="PropertyName"/>.
+        /// Returns/sets the value to assign to the <see cref="Name"/>.
         /// </summary>
         public IExpression AssignValue { get; set; }
 
+        public void Visit(IExpressionVisitor visitor)
+        {
+            visitor.Visit(this);
+        }
+
+        public TResult Visit<TResult, TContext>(IExpressionVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
         #endregion
 
         public override string ToString()
         {
-            return string.Format("{0} = {1}", this.PropertyName, this.AssignValue);
+            return string.Format("{0} = {1}", this.Name, this.AssignValue);
         }
+
     }
 }

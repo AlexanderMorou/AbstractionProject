@@ -21,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
         private DOSHeader dosHeader;
         private CoffHeader coffHeader;
         private PEImageExtendedHeader extendedHeader;
-        private ReadOnlyCollection<CoffSection> sections;
+        private ControlledCollection<CoffSection> sections;
         private EndianAwareBinaryReader reader;
         string filename;
         private bool keepImageOpen;
@@ -75,7 +75,7 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
             CoffSection[] sections = new CoffSection[this.coffHeader.SectionCount];
             for (int i = 0; i < sections.Length; i++)
                 sections[i] = CoffSection.Read(reader, keepImageOpen);
-            this.sections = new ReadOnlyCollection<CoffSection>(sections);
+            this.sections = new ControlledCollection<CoffSection>(sections);
             this.keepImageOpen = keepImageOpen;
         }
 
@@ -155,26 +155,41 @@ namespace AllenCopeland.Abstraction.Slf.Platforms.WindowsNT
 
         private void DisposeReader()
         {
-            this.sync1.Item2.Close();
-            this.sync1.Item2.Dispose();
-            this.sync1.Item3.Close();
-            this.sync1.Item3.Dispose();
-            this.sync2.Item2.Close();
-            this.sync2.Item2.Dispose();
-            this.sync2.Item3.Close();
-            this.sync2.Item3.Dispose();
-            this.sync3.Item2.Close();
-            this.sync3.Item2.Dispose();
-            this.sync3.Item3.Close();
-            this.sync3.Item3.Dispose();
-            this.sync4.Item2.Close();
-            this.sync4.Item2.Dispose();
-            this.sync4.Item3.Close();
-            this.sync4.Item3.Dispose();
-            this.sync5.Item2.Close();
-            this.sync5.Item2.Dispose();
-            this.sync5.Item3.Close();
-            this.sync5.Item3.Dispose();
+            if (this.sync1 != null)
+            {
+                this.sync1.Item2.Close();
+                this.sync1.Item2.Dispose();
+                this.sync1.Item3.Close();
+                this.sync1.Item3.Dispose();
+            }
+            if (this.sync2 != null)
+            {
+                this.sync2.Item2.Close();
+                this.sync2.Item2.Dispose();
+                this.sync2.Item3.Close();
+                this.sync2.Item3.Dispose();
+            }
+            if (this.sync3 != null)
+            {
+                this.sync3.Item2.Close();
+                this.sync3.Item2.Dispose();
+                this.sync3.Item3.Close();
+                this.sync3.Item3.Dispose();
+            }
+            if (this.sync4 != null)
+            {
+                this.sync4.Item2.Close();
+                this.sync4.Item2.Dispose();
+                this.sync4.Item3.Close();
+                this.sync4.Item3.Dispose();
+            }
+            if (this.sync5 != null)
+            {
+                this.sync5.Item2.Close();
+                this.sync5.Item2.Dispose();
+                this.sync5.Item3.Close();
+                this.sync5.Item3.Dispose();
+            }
         }
 
         public object SyncObject { get { return this.syncObject; } }

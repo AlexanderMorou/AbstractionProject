@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -150,13 +150,13 @@ namespace AllenCopeland.Abstraction
         /// <param name="minPlaces">The minimum number of places the hexadecimal needs to have.</param>
         /// <returns>A <see cref="System.String"/> of a <paramref name="number"/> formatted into a 
         /// hexadecimal value.</returns>
-        internal static string FormatHexadecimal(this int number, int minPlaces)
+        public static string FormatHexadecimal(this int number, int minPlaces)
         {
             string r = string.Format(CultureInfo.CurrentCulture, "{0:x}", number);
             return string.Format(CultureInfo.CurrentCulture, "{0}{1}", '0'.Repeat(minPlaces - r.Length), r);
         }
 
-        internal static string FormatHexadecimal(this byte[] array)
+        public static string FormatHexadecimal(this byte[] array)
         {
             if (array == null)
                 return string.Empty;
@@ -164,6 +164,47 @@ namespace AllenCopeland.Abstraction
             foreach (byte b in array)
                 sb.Append(((int)b).FormatHexadecimal(2));
             return sb.ToString();
+        }
+
+        public static byte[] FromFormatHexadecimal(string text)
+        {
+            if (text.Length % 2 == 1)
+                throw new ArgumentException("text must be presented as two characters per byte.", "text");
+            byte[] result = new byte[text.Length / 2];
+            /* Perform initial data validation scan. */
+            foreach (var @char in text)
+                switch (@char)
+                {
+                    case '0':
+                    case '1':
+                    case '2':
+                    case '3':
+                    case '4':
+                    case '5':
+                    case '6':
+                    case '7':
+                    case '8':
+                    case '9':
+                    case 'A':
+                    case 'B':
+                    case 'C':
+                    case 'D':
+                    case 'E':
+                    case 'F':
+                    case 'a':
+                    case 'b':
+                    case 'c':
+                    case 'd':
+                    case 'e':
+                    case 'f':
+                        continue;
+                    default:
+                        throw new ArgumentOutOfRangeException("text", "Non hexadecimal value encountered.");
+                        break;
+                }
+            for (int byteIndex = 0; byteIndex < result.Length; byteIndex++)
+                result[byteIndex] = Convert.ToByte(text.Substring((byteIndex * 2), 2), 16);
+            return result;
         }
 
         internal static byte[] ToByteArray(this string source)
@@ -214,6 +255,20 @@ namespace AllenCopeland.Abstraction
                 rPath = path;
             return rPath;
         }
+
+        public static int LeftDiff(this string target, string other)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (other == null)
+                throw new ArgumentNullException("other");
+            int minLength = Math.Min(target.Length, other.Length);
+            for (int i = 0; i < minLength; i++)
+                if (target[i] != other[i])
+                    return i;
+            return minLength;
+        }
+
         /// <summary>
         /// Reverses the <paramref name="target"/> <see cref="String"/>.
         /// </summary>
@@ -290,7 +345,100 @@ namespace AllenCopeland.Abstraction
                 throw new ArgumentNullException("target");
             if (text == null)
                 throw new ArgumentNullException("text");
+            target.Matches(text);
             return target.Match(text).AsEnumerable();
+        }
+
+        public static IEnumerable<CurrentPreviousPair> IndicesOf(this string target, string search)
+        {
+            int last = 0;
+        nextIndex:
+            int current = target.IndexOf(search, last);
+            yield return new CurrentPreviousPair(last, current);
+            if (current != -1)
+            {
+                last = current + search.Length;
+                goto nextIndex;
+            }
+        }
+
+        public static string HtmlEncode(this string toEncode, bool encodeSpaces = true)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in toEncode)
+            {
+                switch (c)
+                {
+                    case '<':
+                        sb.Append("&lt;");
+                        break;
+                    case '>':
+                        sb.Append("&gt;");
+                        break;
+                    case '&':
+                        sb.Append("&amp;");
+                        break;
+                    case ' ':
+                    case '\xA0':
+                        if (encodeSpaces)
+                            sb.Append("&nbsp;");
+                        else
+                            sb.Append(c);
+                        break;
+                    default:
+                        if (c <= 127)
+                            sb.Append(c);
+                        else
+                            sb.AppendFormat("&#x{0:X};", (int)c);
+                        break;
+                }
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns the number of occurrences of <paramref name="substring"/> within the <paramref name="original"/> <see cref="String"/> provided.
+        /// </summary>
+        /// <param name="original">The <see cref="String"/> value to perform the count on.</param>
+        /// <param name="substring">The <see cref="String"/> to count the occurrences of.</param>
+        /// <returns>A <see cref="Int32"/> value of the number of occurrences of <paramref name="substring"/> within the <paramref name="original"/>
+        /// <see cref="String"/> provided.</returns>
+        public static int CountOccurrences(this string original, string substring)
+        {
+            if (string.IsNullOrEmpty(substring))
+                return 0;
+            if (substring.Length == 1) //Corner Case
+                return CountOccurrences(original, substring[0]);
+            if (string.IsNullOrEmpty(original) ||
+                substring.Length > original.Length)
+                return 0;
+            int substringCount = 0;
+            for (int charIndex = 0; charIndex < original.Length; charIndex++)
+            {
+                for (int subCharIndex = 0, secondaryCharIndex = charIndex; subCharIndex < substring.Length && secondaryCharIndex < original.Length; subCharIndex++, secondaryCharIndex++)
+                {
+                    if (substring[subCharIndex] != original[secondaryCharIndex])
+                        goto continueOuter;
+                }
+                charIndex += substring.Length - 1;
+                substringCount++;
+                if (charIndex + substring.Length >= original.Length)
+                    break;
+            continueOuter:
+                ;
+            }
+            return substringCount;
+        }
+
+        public static int CountOccurrences(this string original, char @char)
+        {
+            if (string.IsNullOrEmpty(original))
+                return 0;
+            int occurrenceCount = 0;
+            for (int charIndex = 0; charIndex < original.Length; charIndex++)
+                if (@char == original[charIndex])
+                    occurrenceCount++;
+            return occurrenceCount;
         }
     }
 }

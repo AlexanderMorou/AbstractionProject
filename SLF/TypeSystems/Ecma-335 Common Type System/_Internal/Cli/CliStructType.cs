@@ -23,8 +23,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         }
 
-        internal ICliAssembly Assembly { get { return (ICliAssembly)base.Assembly; } }
-
         protected override IStructCtorMember GetConstructor(ICliMetadataMethodDefinitionTableRow metadataEntry, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
         {
             return new CtorMember(this, metadataEntry, this.IdentityManager, uniqueIdentifier);

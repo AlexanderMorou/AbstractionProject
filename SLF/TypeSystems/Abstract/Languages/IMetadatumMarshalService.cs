@@ -10,6 +10,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// <summary>
     /// Denotes the kinds of targets for metadatum instances.
     /// </summary>
+    [Flags]
     public enum MetadatumTargets
     {
         None                = 0x00000000,

@@ -1,5 +1,6 @@
 ﻿using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Utilities.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             if (identityManager is ICliManager)
             {
                 var cliManager = (ICliManager)identityManager;
-                var metadatumRoot = cliManager.ObtainTypeReference(cliManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum));
+                var metadatumRoot = cliManager.ObtainTypeReference(cliManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.RootMetadatum), metadatumType.Assembly);
                 return metadatumRoot != null && metadatumRoot.IsAssignableFrom(metadatumType);
             }
             return false;
@@ -49,6 +50,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         public Guid ServiceGuid
         {
             get { return AbstractGateway.MetadatumMarshalServiceGuid; }
+        }
+
+        IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+        {
+            get
+            {
+                return this.Provider;
+            }
         }
     }
 }

@@ -582,7 +582,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
                             first = false;
                         else
                             result.AppendLine();
-                        result.Append(GetTerminableDocumentComment(ResolveDocumentationCommentLookups(tParam.DocumentationComment.HTMLEncode(false)), "typeparam", "name", tParam.Name));
+                        result.Append(GetTerminableDocumentComment(ResolveDocumentationCommentLookups(tParam.DocumentationComment.HtmlEncode(false)), "typeparam", "name", tParam.Name));
                     }
                 }
                 return result.ToString();
@@ -610,7 +610,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
                             first = false;
                         else
                             result.AppendLine();
-                        result.Append(GetTerminableDocumentComment(ResolveDocumentationCommentLookups(param.DocumentationComment.HTMLEncode(false)), "param", "name", param.Name));
+                        result.Append(GetTerminableDocumentComment(ResolveDocumentationCommentLookups(param.DocumentationComment.HtmlEncode(false)), "param", "name", param.Name));
                     }
                 return result.ToString();
             }
@@ -641,7 +641,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
                             first = false;
                         else
                             result.AppendLine();
-                        result.Append(ResolveDocumentationCommentLookups(GetTerminableDocumentComment(tParam.DocumentationComment.HTMLEncode(false), "typeparam", "name", tParam.Name)));
+                        result.Append(ResolveDocumentationCommentLookups(GetTerminableDocumentComment(tParam.DocumentationComment.HtmlEncode(false), "typeparam", "name", tParam.Name)));
                     }
 
                 return result.ToString();
@@ -997,9 +997,9 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
             if (Options.AutoComments)
             {
                 if (!string.IsNullOrEmpty(type.Summary))
-                    TranslateConceptComment(GetSummaryDocumentComment(ResolveDocumentationCommentLookups(type.Summary.HTMLEncode(false))), true);
+                    TranslateConceptComment(GetSummaryDocumentComment(ResolveDocumentationCommentLookups(type.Summary.HtmlEncode(false))), true);
                 if (!string.IsNullOrEmpty(type.Remarks))
-                    TranslateConceptComment(GetSummaryDocumentComment(ResolveDocumentationCommentLookups(type.Remarks.HTMLEncode(false))), true);
+                    TranslateConceptComment(GetSummaryDocumentComment(ResolveDocumentationCommentLookups(type.Remarks.HtmlEncode(false))), true);
                 if (innerComment != null)
                 {
                     var innerCommentValue = innerComment();
@@ -1014,7 +1014,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
             if (Options.AutoComments)
             {
                 if (autoCommentMember.Summary != null && autoCommentMember.Summary != string.Empty)
-                    TranslateConceptComment(GetSummaryDocumentComment(ResolveDocumentationCommentLookups(autoCommentMember.Summary.HTMLEncode(false))), true);
+                    TranslateConceptComment(GetSummaryDocumentComment(ResolveDocumentationCommentLookups(autoCommentMember.Summary.HtmlEncode(false))), true);
                 if (innerComment != null)
                 {
                     var innerCommentValue = innerComment();
@@ -1022,7 +1022,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
                         TranslateConceptComment(innerCommentValue, true);
                 }
                 if (autoCommentMember.Remarks != null && autoCommentMember.Remarks != string.Empty)
-                    TranslateConceptComment(GetRemarksDocumentComment(ResolveDocumentationCommentLookups(autoCommentMember.Remarks.HTMLEncode(false))), true);
+                    TranslateConceptComment(GetRemarksDocumentComment(ResolveDocumentationCommentLookups(autoCommentMember.Remarks.HtmlEncode(false))), true);
             }
         }
 

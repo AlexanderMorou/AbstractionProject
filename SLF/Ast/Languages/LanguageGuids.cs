@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// </summary>
         public static readonly Guid CSharp = SymLanguageType.CSharp;
         /// <summary>
-        /// The <see cref="Guid"/> for the Visual Basic.NET Language.
+        /// The <see cref="Guid"/> for the Visual Basic Language.
         /// </summary>
         public static readonly Guid VisualBasic = SymLanguageType.Basic;
         /// <summary>
@@ -31,6 +31,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// The <see cref="Guid"/> for the Objectified Intermediate Language Lexical Analysis program generator, aka: OILexer.
         /// </summary>
         public static readonly Guid Oilexer = new Guid(0xED13FCAD, 0xE20F, 0x4C81, 0xA6, 0xFE, 0xAF, 0xAD, 0xE2, 0x99, 0xB9, 0xC0);
+        /// <summary>
+        /// The <see cref="Guid"/> for the Toy language, aka: T*y++.
+        /// </summary>
+        public static readonly Guid ToySharp = new Guid(0x48E70036, 0xB1C8, 0x456C, 0xBB, 0xCD, 0xED, 0x5E, 0x3B, 0x5D, 0x48, 0x9D);
 
         /// <summary>
         /// Globally unique identifiers for the constructor
@@ -50,6 +54,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             /// </summary>
             /// <remarks>Guid = { 0xe701b831, 0x5a52, 0x47c1, { 0xa0, 0xf5, 0xa9, 0xb8, 0xb2, 0x7e, 0x55, 0xd3 } }</remarks>
             public static readonly Guid MetadatumMarshalService = AbstractGateway.MetadatumMarshalServiceGuid;
+
             public static class ClassServices
             {
                 /// <summary>

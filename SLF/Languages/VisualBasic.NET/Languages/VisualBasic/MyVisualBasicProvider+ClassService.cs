@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Utilities.Services;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
@@ -20,7 +21,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
             #region IIntermediateTypeCtorLanguageService<IIntermediateClassType> Members
 
-            public IIntermediateClassType GetNew(string name, IIntermediateTypeParent parent)
+            public IIntermediateClassType New(string name, IIntermediateTypeParent parent)
             {
                 return new MyVisualBasicClass(name, parent);
             }
@@ -47,6 +48,16 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
+
         }
     }
 }

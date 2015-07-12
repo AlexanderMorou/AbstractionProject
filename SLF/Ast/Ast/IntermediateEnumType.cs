@@ -8,12 +8,13 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using System.ComponentModel;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -25,6 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private IGeneralTypeUniqueIdentifier uniqueIdentifier;
         private FieldMemberDictionary fields;
         private IntermediateFullMemberDictionary members;
+        private EnumerationBaseType? valueType;
         /// <summary>
         /// Creates a new <see cref="IntermediateEnumType"/> with the
         /// <paramref name="name"/> and <paramref name="parent"/> 
@@ -41,6 +43,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected internal IntermediateEnumType(string name, IIntermediateTypeParent parent)
             : base(name, parent)
         {
+
         }
 
         /// <summary>
@@ -58,16 +61,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private void CheckFields()
         {
-            if (this.fields == null)
-                this.fields = new FieldMemberDictionary(this._Members, this);
+            lock (this.SyncObject)
+                if (this.fields == null)
+                    this.fields = new FieldMemberDictionary(this._Members, this);
         }
 
         private IntermediateFullMemberDictionary _Members
         {
             get
             {
-                if (this.members == null)
-                    this.members = new IntermediateFullMemberDictionary();
+                if (this.fields == null)
+                    if (this.members == null)
+                        this.members = new IntermediateFullMemberDictionary();
                 return this.members;
             }
         }
@@ -78,7 +83,54 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns/sets the <see cref="EnumerationBaseType"/> for the 
         /// <see cref="IIntermediateEnumType"/>.
         /// </summary>
-        public new EnumerationBaseType ValueType { get; set; }
+        public new EnumerationBaseType ValueType
+        {
+            get
+            {
+                if (this.valueType == null)
+                {
+                    if (this.Fields.Count == 0)
+                        return EnumerationBaseType.Int32;
+                    PrimitiveType maxPrimType = PrimitiveType.Null;
+                    foreach (var element in this.Fields.Values)
+                    {
+                        if (element.Value.ValueType == EnumValueType.Constant)
+                        {
+                            var primitiveValue = (IPrimitiveExpression)element.Value;
+                            if ((int)primitiveValue.PrimitiveType > (int)maxPrimType)
+                                maxPrimType = primitiveValue.PrimitiveType;
+                        }
+                    }
+                    switch (maxPrimType)
+                    {
+                        case PrimitiveType.Byte:
+                            return EnumerationBaseType.Byte;
+                        case PrimitiveType.SByte:
+                            return EnumerationBaseType.SByte;
+                        case PrimitiveType.Int16:
+                            return EnumerationBaseType.Int16;
+                        case PrimitiveType.UInt16:
+                            return EnumerationBaseType.UInt16;
+                        case PrimitiveType.Int32:
+                            return EnumerationBaseType.Int32;
+                        case PrimitiveType.UInt32:
+                            return EnumerationBaseType.UInt32;
+                        case PrimitiveType.Int64:
+                            return EnumerationBaseType.Int64;
+                        case PrimitiveType.UInt64:
+                            return EnumerationBaseType.UInt64;
+                        default:
+                            return EnumerationBaseType.Default;
+                    }
+                }
+                else
+                    return this.valueType.Value;
+            }
+            set
+            {
+                this.valueType = value;
+            }
+        }
 
         IIntermediateEnumFieldMemberDictionary IIntermediateEnumType.Fields
         {
@@ -215,9 +267,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public override IEnumerable<IGeneralDeclarationUniqueIdentifier> AggregateIdentifiers
         {
-            get {
+            get
+            {
                 if (this.fields == null)
-                    return TypeBase<IGeneralTypeUniqueIdentifier>.EmptyIdentifiers;
+                    if (this.fields == null)
+                        return TypeBase<IGeneralTypeUniqueIdentifier>.EmptyIdentifiers;
                 return this.Fields.Keys;
             }
         }
@@ -228,9 +282,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.uniqueIdentifier == null)
                 {
                     if (this.Parent is IType)
-                            this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, 0);
+                        this.uniqueIdentifier = ((IType)this.Parent).UniqueIdentifier.GetNestedIdentifier(this.Name, 0);
                     else if (this.Parent is INamespaceDeclaration)
-                            this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
+                        this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier(((INamespaceDeclaration)this.Parent).FullName, this.Name, 0);
                     else
                         this.uniqueIdentifier = TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, this.Name, 0);
                 }
@@ -244,7 +298,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             base.OnIdentifierChanged(oldIdentifier, cause);
         }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIntermediateIdentityManager OnGetIntermediateManager()
         {
             return this.Parent.IdentityManager;
         }

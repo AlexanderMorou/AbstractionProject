@@ -31,6 +31,7 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
+using AllenCopeland.Abstraction.Slf.Ast.Cli.Metadata;
 namespace CliMetadataReader
 {
     class Program
@@ -856,7 +857,7 @@ namespace CliMetadataReader
                 var ifCondition = tableRefNullCheck.IfThen(new ThisReferenceExpression().GetMethod("TryGetValue").Invoke(table.TableKindExpression, new DirectionExpression(FieldDirection.Out, tableRefLocal.GetReference())));
                 ifCondition.Assign(tableRefField.GetReference(), tableRefLocal.GetReference().Cast(currentClass.GetTypeReference()));
                 tableRefField.Summary = string.Format("Data member for @s:{0};.", tableRefProperty.Name);
-                tableRefProperty.Summary = string.Format("Returns the @S:{0}; for the module.", table.DeclaredTableClass.Name);
+                tableRefProperty.Summary = string.Format("Returns the @s:{0}; for the module.", table.DeclaredTableClass.Name);
                 tableRefProperty.Remarks = "May return null if the metadata is not present in the module.";
                 tableRefProperty.GetPart.Return(tableRefField.GetReference());
                 tableRefProperty.AccessLevel = DeclarationAccessLevel.Public;
@@ -1279,7 +1280,7 @@ namespace CliMetadataReader
                 var currentEncoding = encodingAndProperty.Encoding;
                 var currentProperty = encodingAndProperty.Property;
                 var commonProperty = currentEncoding.EncodingCommonType.Properties.AddNew(new TypedName(currentProperty.Name, currentProperty.PropertyType), true, false);
-                bool isList = currentProperty.PropertyType.TypeInstance.Equals(typeof(IReadOnlyCollection<>).GetTypeReference().TypeInstance);
+                bool isList = currentProperty.PropertyType.TypeInstance.Equals(typeof(IControlledCollection<>).GetTypeReference().TypeInstance);
                 commonProperty.Summary = string.Format("Returns the @s:{0};{3} {2} associated to the row encoded with @s:{1};.", currentProperty.PropertyType.TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true), true), currentEncoding.EncodingType.TypeInstance.GetTypeName(new IntermediateCodeTranslatorOptions(true)), lowerFirst(currentProperty.Name), isList ? " of" : string.Empty);
                 foreach (var item in encodingAndProperty.Set.Concat(new[] { encodingAndProperty.Property }))
                 {

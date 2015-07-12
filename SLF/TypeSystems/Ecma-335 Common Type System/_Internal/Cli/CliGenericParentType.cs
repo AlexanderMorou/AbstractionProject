@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                return (_ICliManager)base.IdentityManager;
+                return (CliManager)base.IdentityManager;
             }
         }
 

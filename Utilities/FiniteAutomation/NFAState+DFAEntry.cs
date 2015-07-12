@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -11,27 +11,29 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
-    partial class NFAState<TCheck, TState, TDFA, TSourceElement>
+    partial class NFAState<TCheck, TNFAState, TDFAState, TSourceElement>
         where TCheck :
             IFiniteAutomataSet<TCheck>,
             new()
-        where TState :
-            NFAState<TCheck, TState, TDFA, TSourceElement>
-        where TDFA :
-            FiniteAutomataState<TCheck, TDFA, TDFA, TSourceElement>,
-            IDFAState<TCheck, TDFA, TSourceElement>,
+        where TNFAState :
+            NFAState<TCheck, TNFAState, TDFAState, TSourceElement>
+        where TDFAState :
+            DFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
+            IDFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
             new()
         where TSourceElement :
             IFiniteAutomataSource
     {
         private class DFAEntry :
-            HashSet<TState>
+            HashSet<TNFAState>
         {
-            public TDFA DFA { get; private set; }
-            public DFAEntry(IEnumerable<TState> states, TDFA state)
+            public TDFAState DFA { get; private set; }
+            public TCheck Check { get; private set; }
+            public DFAEntry(List<TNFAState> states, TCheck check, TDFAState state)
                 : base(states)
             {
                 this.DFA = state;
+                state.PushContext(check, states);
                 bool noEdge = states.Any(p => p.ForcedNoEdge);
                 bool isEdge = states.Any(p => p.IsEdge);
                 if (noEdge)
@@ -39,7 +41,8 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 else if (isEdge)
                     this.DFA.IsEdge = true;
             }
-            public bool Equals(List<TState> sequence)
+
+            public bool Equals(List<TNFAState> sequence)
             {
                 return this.Count == sequence.Count &&
                        sequence.All(p => this.Contains(p));

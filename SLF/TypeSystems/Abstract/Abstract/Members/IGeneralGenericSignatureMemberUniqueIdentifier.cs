@@ -13,5 +13,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IGeneralSignatureMemberUniqueIdentifier,
         IEquatable<IGeneralGenericSignatureMemberUniqueIdentifier>
     {
+        string LanguageSpecificQualifier { get; }
     }
 }

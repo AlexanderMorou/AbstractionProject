@@ -70,7 +70,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                      * Flags shall have only those values set that are specified.
                      * */
                     resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata2004, hostAssembly, firstAssembly);
-                if (firstAssembly.NameIndex == 0)
+                if (firstAssembly.NameIndex == 0 || firstAssembly.Name == string.Empty)
                     /* *
                      * Name shall index a non-empty string in the String Heap.
                      * */
@@ -355,6 +355,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                         {
                             if (extendsTable.Contains(current))
                             {
+                                /* *
+                                 * A class shall not extend itself, or any of its children (i.e.,
+                                 * its derived classes), because this will introduce loops in the
+                                 * hierarchy tree.
+                                 * */
                                 resultErrorCollection.ModelError(CliWarningsAndErrors.CliMetadata0212, hostAssembly, typeDefinition);
                                 break;
                             }
@@ -383,8 +388,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
 
         private static bool ExtendsTarget(ICliMetadataTypeDefinitionTableRow typeDefinition, string nameSpace, string name)
         {
-
             var extends = typeDefinition.Extends;
+            if (extends == null)
+                return false;
             if (typeDefinition.ExtendsSource == CliMetadataTypeDefOrRefTag.TypeDefinition)
             {
                 var extendsDef = (ICliMetadataTypeDefinitionTableRow)extends;
@@ -398,9 +404,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
                 var extendsRef = (ICliMetadataTypeRefTableRow)extends;
                 if (!(extendsRef.Name == name &&
                     extendsRef.Namespace == nameSpace &&
-                    extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.AssemblyReference ||
-                    extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.ModuleReference ||
-                    extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.Module))
+                    (extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.AssemblyReference ||
+                     extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.ModuleReference ||
+                     extendsRef.ResolutionScope == CliMetadataResolutionScopeTag.Module)))
                     return false;
             }
             else

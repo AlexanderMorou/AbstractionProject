@@ -3,8 +3,9 @@ using AllenCopeland.Abstraction.Slf.Abstract.Modules;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -35,6 +36,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         IDisposable
     {
         /// <summary>
+        /// Returns itself.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        new IAssembly Assembly { get; }
+        /// <summary>
         /// Returns the <see cref="IAssemblyInformation"/> about the current <see cref="IAssembly"/>
         /// instance.
         /// </summary>
@@ -64,7 +70,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the <see cref="IControlledDictionary{TKey, TValue}">IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly></see> which 
         /// </summary>
         IControlledDictionary<IAssemblyUniqueIdentifier, IAssembly> References { get; }
-
         /// <summary>
         /// Returns the <see cref="IType"/> relative to the <paramref name="typeIdentifier"/>
         /// provided.
@@ -82,5 +87,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>An <see cref="IEnumerable{IType}"/> which steps through the types
         /// within the assembly.</returns>
         IEnumerable<IType> GetTypes();
+        /// <summary>
+        /// Returns the <see cref="IIdentityManager"/> which provides
+        /// context to assist in identity resolution, and services which
+        /// answer other questions.
+        /// </summary>
+        IIdentityManager IdentityManager { get; }
     }
 }

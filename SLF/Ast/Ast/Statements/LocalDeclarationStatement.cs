@@ -5,8 +5,9 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -14,23 +15,23 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Ast.Statements
 {
-    public class LocalDeclarationStatement :
+    public class LocalDeclarationsStatement :
         StatementBase, 
-        ILocalDeclarationStatement
+        ILocalDeclarationsStatement
     {
-        internal LocalDeclarationStatement(ILocalMember declaredLocal, IStatementParent parent)
+        internal LocalDeclarationsStatement(IEnumerable<ILocalMember> declaredLocals, IStatementParent parent)
             : base(parent)
         {
-            this.DeclaredLocal = declaredLocal;
+            this.DeclaredLocals = new ControlledCollection<ILocalMember>(declaredLocals.ToList());
         }
 
-        #region ILocalDeclarationStatement Members
+        #region ILocalDeclarationsStatement Members
 
         /// <summary>
-        /// Returns the <see cref="ILocalMember"/> declared by the 
-        /// <see cref="LocalDeclarationStatement"/>.
+        /// Returns the <see cref="IControlledCollection{T}"/> of <see cref="ILocalMember"/> elements declared by the 
+        /// <see cref="LocalDeclarationsStatement"/>.
         /// </summary>
-        public ILocalMember DeclaredLocal { get; private set; }
+        public IControlledCollection<ILocalMember> DeclaredLocals { get; private set; }
 
         #endregion
 
@@ -41,11 +42,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             visitor.Visit(this);
         }
 
+        public override TResult Visit<TResult, TContext>(IStatementVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
+
         public override string ToString()
         {
-            if (this.DeclaredLocal == null)
+            if (this.DeclaredLocals == null || this.DeclaredLocals.Count == 0)
                 return string.Empty;
-            return this.DeclaredLocal.ToString();
+            return string.Join(", ", this.DeclaredLocals);
         }
     }
 }

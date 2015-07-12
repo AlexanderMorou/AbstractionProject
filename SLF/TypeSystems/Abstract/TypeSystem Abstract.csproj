@@ -91,6 +91,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\AbstractGateway.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentSectionCollection.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentTable.cs" />
+    <Compile Include="Abstract\Documentation\IDocCommentTableHeaders.cs" />
+    <Compile Include="Abstract\IdentityServiceGuids.cs" />
+    <Compile Include="Abstract\IIdentityLastIsParamService.cs" />
+    <Compile Include="Abstract\IIdentityService.cs" />
+    <Compile Include="Abstract\ITypeNameBuilderService.cs" />
+    <Compile Include="Abstract\Members\IInstanceFieldMember.cs" />
+    <Compile Include="Abstract\Members\InstanceFieldMemberFlags.cs" />
+    <Compile Include="Abstract\TypeCollection`1.cs" />
     <Compile Include="Abstract\TypeSystemIdentifiers.cs" />
     <Compile Include="Abstract\AstIdentifier+IdentifierDefaults.cs">
       <DependentUpon>TypeSystemIdentifiers.cs</DependentUpon>
@@ -132,7 +142,7 @@
     <Compile Include="Abstract\IStrongNameKeyInfo.cs" />
     <Compile Include="Abstract\IStrongNamePrivateKeyInfo.cs" />
     <Compile Include="Abstract\IStrongNamePublicKeyInfo.cs" />
-    <Compile Include="Abstract\ITypeIdentityMetadataService.cs" />
+    <Compile Include="Abstract\IIdentityMetadataService.cs" />
     <Compile Include="Abstract\IVersion.cs" />
     <Compile Include="Abstract\Members\EventMethodType.cs" />
     <Compile Include="Abstract\Members\ExtendedMethodMemberFlags.cs" />
@@ -215,6 +225,7 @@
     <Compile Include="Languages\IVersionedLanguage{TVersion}.cs" />
     <Compile Include="Languages\SourceRelatedError.cs" />
     <Compile Include="Languages\SourceRelatedMessage.cs" />
+    <Compile Include="Languages\SourceRelatedWarning.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -384,7 +395,6 @@
     <Compile Include="Abstract\Members\IUnaryOperatorCoercionMemberDictionary.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorCoercionMemberDictionary`1.cs" />
     <Compile Include="Abstract\Members\IUnaryOperatorCoercionMember{2}.cs" />
-    <Compile Include="Abstract\Members\MemberKind.cs" />
     <Compile Include="Abstract\Members\ParameterDirection.cs" />
     <Compile Include="Abstract\Members\SignatureData.cs" />
     <Compile Include="Abstract\Members\SignaturesData.cs" />
@@ -407,16 +417,15 @@
     <Compile Include="Abstract\TypedNameSeries.cs" />
     <Compile Include="Abstract\IDeclarationUniqueIdentifier.cs" />
     <Compile Include="Abstract\ITypeUniqueIdentifier.cs" />
-    <Compile Include="_Internal\Abstract\EmptyFullMemberDictionary.cs" />
+    <Compile Include="_Internal\Abstract\Members\GenericMethodSignatureCache.cs" />
+    <Compile Include="_Internal\Abstract\Members\EmptyFullMemberDictionary.cs" />
     <Compile Include="_Internal\Abstract\GenericTypeCache.cs" />
     <Compile Include="_Internal\Abstract\ITypeModificationEntry.cs" />
-    <Compile Include="_Internal\Abstract\Members\ConstructorMemberBase{TCtor, TCtorParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\ConstructorMembers`2.cs" />
-    <Compile Include="_Internal\Abstract\Members\FieldMemberBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\FieldMembersBase{TField, TFieldParent}.cs" />
     <Compile Include="_Internal\Abstract\Members\FilteredSignatureMembers.cs" />
     <Compile Include="_Internal\Abstract\Members\FullMembersBase.cs" />
-    <Compile Include="_Internal\Abstract\Members\GenericParameterConstructorMemberBase`3.cs" />
+    <Compile Include="_Internal\Abstract\Members\GenericMethodCache.cs" />
     <Compile Include="_Internal\Abstract\Members\GroupedMembersBase{TParent, TItem}.cs" />
     <Compile Include="_Internal\Abstract\Members\IndexerMemberBase.cs" />
     <Compile Include="_Internal\Abstract\Members\IndexerSignatureMemberBase.cs" />
@@ -554,6 +563,7 @@
   <ItemGroup>
     <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
     <None Include="Abstract\Members\Member Abstractions.txt" />
+    <None Include="Resources\RandomRSAData.blob" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -565,9 +575,7 @@
   <ItemGroup>
     <Compile Include="Abstract\Members\IGeneralSignatureMemberUniqueIdentifier.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

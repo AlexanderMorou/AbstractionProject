@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 /*----------------------------------------\
 | Copyright © 2012 Allen Copeland Jr.     |
 |-----------------------------------------|
@@ -18,16 +19,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
     internal abstract partial class _MethodSignatureMemberBase<TSignature, TSignatureParent> :
         _MethodSignatureMemberBase<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>,
         IMethodSignatureMember<TSignature, TSignatureParent>,
-        _IGenericMethodSignatureRegistrar
+        _IGenericMethodSignatureRegistrar,
+        _IGenericParamParent
         where TSignature :
             IMethodSignatureMember<TSignature, TSignatureParent>
         where TSignatureParent :
             IMethodSignatureParent<TSignature, TSignatureParent>
     {
+        private object syncObject = new object();
         /// <summary>
         /// Data member for the generic parameters cache.
         /// </summary>
-        private Dictionary<IControlledTypeCollection, IMethodSignatureMember> genericCache = null;
+        private GenericMethodSignatureCache<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent> genericCache;
 
         internal _MethodSignatureMemberBase(TSignatureParent parent, TSignature original)
             : base(parent, original)
@@ -47,69 +50,36 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
 
         #region _IGenericMethodSignatureRegistrar Members
 
-        public void RegisterGenericMethodSignature(IMethodSignatureMember targetSignature, IControlledTypeCollection typeParameters)
+        public void RegisterGenericMethod(IMethodSignatureMember targetSignature, IControlledTypeCollection typeParameters)
         {
-            if (this.genericCache == null)
-                this.genericCache = new Dictionary<IControlledTypeCollection, IMethodSignatureMember>();
-            IMethodSignatureMember required = null;
-            if (this.ContainsGenericMethodSignature(typeParameters, ref required))
-                return;
-            genericCache.Add(typeParameters, targetSignature);
+            this.CheckGenericCache();
+            this.genericCache.RegisterGenericMethod(targetSignature, typeParameters);
         }
 
-        public void UnregisterGenericMethodSignature(IControlledTypeCollection typeParameters)
+        public void UnregisterGenericMethod(IControlledTypeCollection typeParameters)
         {
-            if (this.genericCache == null)
-                return;
-            IControlledTypeCollection match = null;
-            foreach (var itc in this.genericCache.Keys)
-                if (itc.SequenceEqual(typeParameters))
-                {
-                    match = itc;
-                    break;
-                }
-            //Nothing matched.
-            if (match == null)
-                return;
-            genericCache.Remove(match);
-            if (match is ILockedTypeCollection)
-                ((ILockedTypeCollection)(match)).Dispose();
-            else if (match is ITypeCollection)
-                try
-                {
-                    ((ITypeCollection)(match)).Clear();
-                }
-                /* *
-                 * Even being a type collection, it doesn't
-                 * support modification, the proper response
-                 * is not supported...?
-                 * */
-                catch (NotSupportedException)
-                {
-                }
+            this.CheckGenericCache();
+            this.genericCache.UnregisterGenericMethod(typeParameters);
+        }
+
+        private void CheckGenericCache()
+        {
+            lock (this.syncObject)
+                if (this.genericCache == null)
+                    this.genericCache = new GenericMethodSignatureCache<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>();
         }
 
         #endregion
 
-        private bool ContainsGenericMethodSignature(IControlledTypeCollection typeParameters, ref IMethodSignatureMember r)
-        {
-            if (this.genericCache == null)
-                return false;
-            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
-            if (fd == null)
-                return false;
-            r = this.genericCache[fd];
-            return true;
-        }
         public override sealed TSignature MakeGenericClosure(IControlledTypeCollection genericReplacements)
         {
             if (!this.IsGenericDefinition)
                 throw new InvalidOperationException();
-            IMethodSignatureMember k = null;
-            if (this.ContainsGenericMethodSignature(genericReplacements, ref k))
-                return ((TSignature)(k));
+            TSignature result = default(TSignature);
+            if (this.genericCache.ContainsGenericMethod(genericReplacements, ref result))
+                return result;
             /* *
-             * _IGenericMethodRegistrar handles cache.
+             * _IGenericMethodSignatureRegistrar handles cache.
              * */
             return this.OnMakeGenericMethod(genericReplacements);
         }
@@ -120,20 +90,62 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members
         {
             try
             {
-                if (this.genericCache != null)
-                {
-                    for (int i = 0; i < this.genericCache.Count; i++)
+                lock (this.syncObject)
+                    if (this.genericCache != null)
                     {
-                        var first = this.genericCache.Keys.ElementAt(0);
-                        this.genericCache[first].Dispose();
-                        this.genericCache.Remove(first);
+                        this.genericCache.Dispose();
+                        this.genericCache = null;
                     }
-                }
             }
             finally
             {
                 base.Dispose();
             }
         }
+
+        #region _IGenericParamParent Members
+
+        public void PositionalShift(int from, int to)
+        {
+            if (this.IsGenericConstruct && !this.IsGenericDefinition)
+            {
+                if (from < 0 || from >= this.GenericReplacementsImpl.Count)
+                    throw new ArgumentOutOfRangeException("from");
+                if (to < 0 || to >= this.GenericReplacementsImpl.Count)
+                    throw new ArgumentOutOfRangeException("to");
+                lock (this.syncObject)
+                {
+                    var items = this.GenericReplacementsImpl.ToArray();
+                    bool backwards = from > to;
+                    var item = items[from];
+                    if (backwards)
+                        for (int i = from; i > to; i--)
+                            items[i] = items[i - 1];
+                    else
+                        for (int i = from; i < to; i++)
+                            items[i] = items[i + 1];
+
+                    items[to] = item;
+                    this.GenericReplacementsImpl = new LockedTypeCollection(items);
+                }
+            }
+            this.CheckGenericCache();
+            this.genericCache.PositionalShift(from, to);
+        }
+        #endregion
+
+        #region _IGenericMethodSignatureRegistrar Members
+
+        public void RegisterGenericChild(IMethodSignatureParent parent, IMethodSignatureMember genericChild)
+        {
+            throw new NotSupportedException();
+        }
+
+        public void UnregisterGenericChild(IMethodSignatureParent parent)
+        {
+            throw new NotSupportedException();
+        }
+
+        #endregion
     }
 }

@@ -50,5 +50,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// The definition of the root metadatum type.
         /// </summary>
         RootMetadatum,
+
     }
 }

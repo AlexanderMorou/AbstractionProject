@@ -8,8 +8,9 @@ using AllenCopeland.Abstraction.Slf.Languages.VisualBasic.My;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Cst;
 using System.Reflection;
+using AllenCopeland.Abstraction.Slf.Ast.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -18,10 +19,11 @@ using System.Reflection;
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
     /// <summary>
-    /// 
+    /// Defines properties and methods for working with a Visual Basic
+    /// assembly defined for the Common Language Infrastructure.
     /// </summary>
     public abstract class VisualBasicAssembly<TAssembly, TProvider, TInstanceAssembly> :
-        IntermediateAssembly<IVisualBasicLanguage, TProvider, TInstanceAssembly, IIntermediateCliManager, Type, Assembly>,
+        IntermediateCliAssembly<IVisualBasicLanguage, TProvider, TInstanceAssembly, IIntermediateCliManager, Type, Assembly>,
         IVisualBasicAssembly<TAssembly, TProvider>
         where TInstanceAssembly :
             VisualBasicAssembly<TAssembly, TProvider, TInstanceAssembly>,
@@ -42,6 +44,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         protected VisualBasicAssembly(TInstanceAssembly root)
             : base(root)
         {
+            
         }
 
         #region IIntermediateAssembly<IVisualBasicLanguage,IVisualBasicStart,IVisualBasicProvider> Members

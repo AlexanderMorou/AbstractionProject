@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Properties;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -27,7 +27,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
     internal abstract class _GenericTypeBase<TTypeIdentifier, TType> :
         TypeBase<TTypeIdentifier, TType>,
         IGenericType<TTypeIdentifier, TType>,
-        _IGenericType,
+        _IGenericParamParent,
         IMassTargetHandler
         where TTypeIdentifier :
             IGenericTypeUniqueIdentifier
@@ -386,7 +386,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
             return other.Equals(this.IdentityManager.ObtainTypeReference(RuntimeCoreType.RootType));
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             if (this.IsDisposed)
                 throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
@@ -401,7 +401,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
         }
 
 
-        #region _IGenericType Members
+        #region _IGenericParamParent Members
 
         public void PositionalShift(int from, int to)
         {
@@ -452,7 +452,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
         #endregion
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIdentityManager OnGetManager()
         {
             return this.Original.IdentityManager;
         }

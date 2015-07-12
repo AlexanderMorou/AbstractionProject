@@ -36,28 +36,28 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeReference"/>
         /// table: When resolution scope is null, there shall be an ExportedType
-        /// table row for this type ({0}).
+        /// table row for this type (TYPE).
         /// </summary>
         public static readonly ICompilerReferenceError CliMetadata0101a = new CompilerReferenceError("When resolution scope is null, there shall be an ExportedType table row for this type ({0}).", 0x100101a);
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeReference"/>
         /// table: When resolution scope is a typeref token, if the current typeref
-        /// is a nested type ({0}).
+        /// is a nested type (TYPE).
         /// </summary>
         public static readonly ICompilerReferenceError CliMetadata0101b = new CompilerReferenceError("When resolution scope is a typeref token, if the current typeref is a nested type ({0}).", 0x100101b);
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeReference"/>
         /// table: When resolution scope is a moduleref token, the target type
-        /// ({0}) is defined in another module within the same assembly.
+        /// (TYPE) is defined in another module within the same assembly.
         /// </summary>
         public static readonly ICompilerReferenceError CliMetadata0101c = new CompilerReferenceError("When resolution scope is a moduleref token, the target type ({0}) is defined in another module within the same assembly.", 0x100101c);
         /// <summary>
         /// Provides a reference warning for a ECMA-335 metadata model warning
         /// which occurs within the <see cref="CliMetadataTableKinds.TypeReference"/>
         /// table: When resolution scope is a module token, the type referenced
-        /// ({0}) should be defined within the current module; though, this should
+        /// (TYPE_REFERENCE) should be defined within the current module; though, this should
         /// not occur in a CLI ("Compressed Metadata") module.
         /// </summary>
         public static readonly ICliReferenceWarning CliMetadata0101d = new CliReferenceWarning("When resolution scope is a module token, the type referenced ({0}) should be defined within the current module; though, this should not occur in a CLI (\"Compressed Metadata\") module.", CliWarningLevel.CliWarning, 0x10011d);
@@ -65,7 +65,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeReference"/>
         /// table: When resolution scope is an assemblyref, the type referenced
-        /// ({0}) should be defined within another assembly other than the current
+        /// (TYPE_REFERENCE) should be defined within another assembly other than the current
         /// module's assembly.
         /// </summary>
         public static readonly ICompilerReferenceError CliMetadata0101e = new CompilerReferenceError("When resolution scope is an assemblyref, the type referenced ({0}) should be defined within another assembly other than the current module's assembly.", 0x100101e);
@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeReference"/>
         /// table: When resolution scope is an assemblyref, the type referenced
-        /// ({0}) should be defined within another assembly ({1}) which cannot
+        /// (TYPE_REFERENCE) should be defined within another assembly (ASSEMBLY_REFERENCE) which cannot
         /// be found.
         /// </summary>
         public static readonly ICompilerReferenceError CliMetadata0101f = new CompilerReferenceError("When resolution scope is an assemblyref, the type referenced ({0}) should be defined within another assembly ({1}) which cannot be found.", 0x100101f);
@@ -191,7 +191,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeDefinition"/>
-        /// table: With exception of System.Object and the special class <Module>,
+        /// table: With exception of System.Object and the special class &lt;Module&gt;,
         /// for any Class, extends shall be a valid row in the TypeDef, TypeRef,
         /// or TypeSpec table, where valid means 1 &lt;= row &lt;= rowCount.
         /// </summary>
@@ -366,7 +366,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.TypeDefinition"/>
         /// table: If the type extends System.Enum, there shall be exactly one
-        /// instance field of a built-in integer type.
+        /// instance field of a built-in integer type. 
         /// </summary>
         public static readonly ICompilerReferenceError CliMetadata0233h = new CompilerReferenceError("If the type extends System.Enum, there shall be exactly one instance field of a built-in integer type.", 0x10023311);
         /// <summary>
@@ -548,7 +548,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.Cil
         /// <summary>
         /// Provides a reference error for a ECMA-335 metadata model error which
         /// occurs within the <see cref="CliMetadataTableKinds.Assembly"/> table:
-        /// The current culture '{0}' is invalid, ECMA 335 says that: if Culture
+        /// The current culture 'CULTURE' is invalid, ECMA 335 says that: if Culture
         /// is non-null, it shall index a single string from the list specified
         /// in ECMA-335: II.23.1.3
         /// </summary>

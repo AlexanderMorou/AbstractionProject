@@ -34,7 +34,29 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public bool PathExists(string path)
         {
-            throw new NotImplementedException();
+            string ns = path;
+
+            int lastIndex = 0;
+            CliNamespaceKeyedTree topLevel = this.info;
+        nextPart:
+            int next = ns.IndexOf('.', lastIndex);
+            if (next != -1)
+            {
+                string current = ns.Substring(lastIndex, next - lastIndex);
+                uint currentHash = (uint)current.GetHashCode();
+                if (topLevel.ContainsKey(currentHash))
+                    topLevel = topLevel[currentHash];
+                else
+                    return false;
+                lastIndex = next + 1;
+                goto nextPart;
+            }
+            else
+            {
+                string current = ns.Substring(lastIndex);
+                uint currentHash = (uint)current.GetHashCode();
+                return topLevel.ContainsKey(currentHash);
+            }
         }
 
         public INamespaceDeclaration this[string path]

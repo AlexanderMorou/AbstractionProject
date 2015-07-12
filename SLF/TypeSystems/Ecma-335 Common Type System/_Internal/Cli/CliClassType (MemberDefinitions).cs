@@ -80,18 +80,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IClassMethodMember BaseDefinition
             {
-                get { throw new NotImplementedException(); }
+                get { return AbstractGateway.ObtainBaseDefinition(this); }
             }
 
             public bool IsAsynchronous
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.Async) == ClassMethodMemberFlags.Async;
+                    return (this.Attributes & ClassMethodMemberFlags.Async) == ClassMethodMemberFlags.Async;
                 }
             }
 
-            public ClassMethodMemberFlags InstanceFlags { get {
+            public ClassMethodMemberFlags Attributes { get {
                 ClassMethodMemberFlags flags = ClassMethodMemberFlags.None;
                 if ((MetadataEntry.UsageDetails.VTableFlags & MethodVTableLayoutFlags.NewSlot) == MethodVTableLayoutFlags.NewSlot)
                     flags |= ClassMethodMemberFlags.HideByName;
@@ -111,13 +111,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             } }
 
-            ExtendedMethodMemberFlags IExtendedMethodMember.InstanceFlags { get { return ((ExtendedMethodMemberFlags)this.InstanceFlags) & ExtendedMethodMemberFlags.FlagsMask; } }
+            ExtendedMethodAttributes IExtendedMethodMember.Attributes { get { return ((ExtendedMethodAttributes)this.Attributes) & ExtendedMethodAttributes.FlagsMask; } }
 
-            ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
+            ExtendedMemberAttributes IExtendedInstanceMember.Attributes
             {
                 get
                 {
-                    return ((ExtendedInstanceMemberFlags)this.InstanceFlags) & ExtendedInstanceMemberFlags.FlagsMask;
+                    return ((ExtendedMemberAttributes)this.Attributes) & ExtendedMemberAttributes.FlagsMask;
                 }
             }
 
@@ -125,7 +125,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.Abstract) == ClassMethodMemberFlags.Abstract;
+                    return (this.Attributes & ClassMethodMemberFlags.Abstract) == ClassMethodMemberFlags.Abstract;
                 }
             }
 
@@ -133,7 +133,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.Virtual) == ClassMethodMemberFlags.Virtual;
+                    return (this.Attributes & ClassMethodMemberFlags.Virtual) == ClassMethodMemberFlags.Virtual;
                 }
             }
 
@@ -141,7 +141,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.Final) == ClassMethodMemberFlags.Final;
+                    return (this.Attributes & ClassMethodMemberFlags.Final) == ClassMethodMemberFlags.Final;
                 }
             }
 
@@ -149,15 +149,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.Override) == ClassMethodMemberFlags.Override;
+                    return (this.Attributes & ClassMethodMemberFlags.Override) == ClassMethodMemberFlags.Override;
                 }
             }
 
-            InstanceMemberFlags IInstanceMember.InstanceFlags
+            InstanceMemberAttributes IInstanceMember.Attributes
             {
                 get
                 {
-                    return ((InstanceMemberFlags)this.InstanceFlags) & InstanceMemberFlags.FlagsMask;
+                    return ((InstanceMemberAttributes)this.Attributes) & InstanceMemberAttributes.FlagsMask;
                 }
             }
 
@@ -165,7 +165,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.HideBySignature) == ClassMethodMemberFlags.HideBySignature;
+                    return (this.Attributes & ClassMethodMemberFlags.HideBySignature) == ClassMethodMemberFlags.HideBySignature;
                 }
             }
 
@@ -173,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 get
                 {
-                    return (this.InstanceFlags & ClassMethodMemberFlags.Static) == ClassMethodMemberFlags.Static;
+                    return (this.Attributes & ClassMethodMemberFlags.Static) == ClassMethodMemberFlags.Static;
                 }
             }
 
@@ -184,7 +184,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IClassMethodMember PreviousDefinition
             {
-                get { throw new NotImplementedException(); }
+                get { return AbstractGateway.ObtainPreviousDefinition(this); }
             }
 
             public bool IsExtensionMethod
@@ -200,7 +200,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 return new TypeParameter(this, metadataEntry, index);
             }
-            private class TypeParameter :
+            private new class TypeParameter :
                 CliMethodSignatureBase<IMethodParameterMember<IClassMethodMember, IClassType>, IClassMethodMember, IClassType>.TypeParameter
             {
                 public TypeParameter(MethodMember parent, ICliMetadataGenericParameterTableRow metadataEntry, int position)
@@ -215,12 +215,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return this.Parent.Assembly;
                 }
 
-                protected override ITypeIdentityManager OnGetManager()
+                protected override IIdentityManager OnGetManager()
                 {
                     return this.Parent.IdentityManager;
                 }
             }
 
+            public IEnumerable<IInterfaceType> Implementations
+            {
+                get {
+                    return GetImplementations(((ICliType)(this.Parent)).MetadataEntry, this.MetadataEntry, this.IdentityManager, this.Parent, this, this.Assembly);
+                }
+            }
         }
         private class IndexerMember :
             CliIndexerMember<IClassIndexerMember, IClassType>,
@@ -278,14 +284,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
             }
 
-            private CliManager IdentityManager { get { return (CliManager)this.Parent.IdentityManager; } }
+            protected CliManager IdentityManager { get { return (CliManager)this.Parent.IdentityManager; } }
 
 
-            public InstanceMemberFlags InstanceFlags
+            InstanceMemberAttributes IInstanceMember.Attributes
             {
                 get
                 {
-                    return CliCommon.GetFieldInstanceFlags(this.MetadataEntry.FieldAttributes);
+                    return (InstanceMemberAttributes)(this.Attributes & InstanceFieldMemberAttributes.FlagsMask);
                 }
             }
 
@@ -296,7 +302,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public bool IsStatic
             {
-                get { return (this.InstanceFlags & InstanceMemberFlags.Static) == InstanceMemberFlags.Static; }
+                get { return (this.Attributes & InstanceFieldMemberAttributes.Static) == InstanceFieldMemberAttributes.Static; }
             }
 
             public AccessLevelModifiers AccessLevel
@@ -316,6 +322,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 return IdentityManager.ObtainTypeReference(this.MetadataEntry.FieldType, this.MetadataEntry.FieldType.Type, this.Parent, null);
             }
+
+            protected override _ICliManager _IdentityManager
+            {
+                get { return this.IdentityManager; }
+            }
+        
+            #region IInstanceFieldMember Members
+
+            public new InstanceFieldMemberAttributes Attributes
+            {
+                get { 
+                    return CliCommon.GetFieldInstanceFlags(this.MetadataEntry.FieldAttributes);
+                }
+            }
+
+            #endregion
         }
         private class PropertyMember :
             CliPropertyMember<IClassPropertyMember, IClassType>,
@@ -328,7 +350,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             private class MethodMember :
                 CliClassType.MethodMember,
-                IPropertyMethodMember
+                IClassPropertyMethodMember
             {
                 private PropertyMethodType methodType;
                 public MethodMember(ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliAssembly assembly, IClassType parent, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier, PropertyMethodType methodType)

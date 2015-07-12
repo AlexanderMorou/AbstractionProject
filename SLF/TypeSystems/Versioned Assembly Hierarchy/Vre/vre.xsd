@@ -1,0 +1,479 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="VersionedRuntimeEnvironment"
+    targetNamespace="http://www.AlexanderMorou.com/schemas/VersionedRuntimeEnvironment/2015/vre.xsd"
+    elementFormDefault="qualified"
+    xmlns:vre="http://www.AlexanderMorou.com/schemas/VersionedRuntimeEnvironment/2015/vre.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:complexType name="EnvironmentVersions">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="InitialVersion" type="vre:EnvironmentInitialVersion" />
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="BreakingVersion" type="vre:EnvironmentBreakingVersion" />
+                <xs:element name="ServicePack" type="vre:EnvironmentServicePack" />
+                <xs:element name="MinorVersion" type="vre:EnvironmentMinorVersion" />
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypeParent">
+        <xs:sequence>
+            <xs:element name="Namespaces" type="vre:LibraryNamespaces" minOccurs="0" maxOccurs="1" />
+            <xs:element name="Types" type="vre:LibraryTypes" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="PublicKeyToken">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[A-Za-z0-9]+"/>
+            <xs:maxLength value="16"/>
+            <xs:minLength value="16"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="PublicKeyTokenDetails">
+        <xs:attribute name="Token" type="vre:PublicKeyToken" use="required"/>
+        <xs:attribute name="Id" type="xs:integer" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="PublicKeyTokens">
+        <xs:sequence>
+            <xs:element name="PublicKey" type="vre:PublicKeyTokenDetails" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LibraryNamespace">
+        <xs:complexContent>
+            <xs:extension base="vre:LibraryTypeParent">
+                <xs:attribute name="Name" type="xs:string"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="LibraryNamespaces">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="Namespace" type="vre:LibraryNamespace" minOccurs="1" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="MemberUseAttributes">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="instance"/>
+            <xs:enumeration value="static"/>
+            <xs:enumeration value="instance, async"/>
+            <xs:enumeration value="static, async"/>
+            <xs:enumeration value="instance, extension"/>
+            <xs:enumeration value="static, extension"/>
+            <xs:enumeration value="instance, async, extension"/>
+            <xs:enumeration value="static, async, extension"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="EnvironmentInitialVersion">
+        <xs:complexContent>
+            <xs:extension base="vre:EnvironmentMajorVersion"/>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="EnvironmentBreakingVersion">
+        <xs:complexContent>
+            <xs:extension base="vre:EnvironmentMajorVersion">
+                <xs:attribute name="Breaks" type="vre:EnvironmentVersionIdRef" use="required"/>
+                <xs:attribute name="BreaksServicePack" type="vre:EnvironmentVersionServicePack" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="EnvironmentMinorVersion">
+        <xs:complexContent>
+            <xs:extension base="vre:EnvironmentVersion">
+                <xs:attribute name="Id" type="vre:EnvironmentVersionId" use="required"/>
+                <xs:attribute name="BuiltUpon" type="vre:EnvironmentVersionIdRef"/>
+                <xs:attribute name="BuiltUponServicePack" type="vre:EnvironmentVersionServicePack"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="EnvironmentMajorVersion">
+        <xs:complexContent>
+            <xs:extension base="vre:EnvironmentVersion">
+                <xs:attribute name="Id" type="vre:EnvironmentVersionId" use="required"/>
+                <xs:attribute name="VersionString" type="vre:EnvironmentBuildVersionString"/>
+                <xs:attribute name="AlternateVersionStrings" type="vre:EnvironmentBuildVersionStrings"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="EnvironmentServicePack">
+        <xs:complexContent>
+            <xs:extension base="vre:EnvironmentVersion">
+                <xs:attribute name="BuiltUpon" type="vre:EnvironmentVersionIdRef"/>
+                <xs:attribute name="ServicePack" type="vre:EnvironmentVersionServicePack"/>
+                <xs:attribute name="BuiltUponServicePack" type="vre:EnvironmentVersionServicePack"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:simpleType name="EnvironmentVersionServicePack">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="SP[0-9]"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EnvironmentVersionId">
+        <xs:restriction base="xs:ID">
+            <xs:pattern value="v[0-9]+.[0-9]+(.[0-9]+(.[0-9]+)?)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EnvironmentVersionIdRef">
+        <xs:restriction base="xs:IDREF">
+            <xs:pattern value="v[0-9]+.[0-9]+(.[0-9]+(.[0-9]+)?)?"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EnvironmentBuildVersionString">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="(v[0-9]+.([0-9]+(.[0-9]+(.[0-9]+)?)?|x86ret)|retail)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LibraryVersionString">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="([0-9]+.([0-9]+(.[0-9]+(.[0-9]+)?)?|x86ret)|retail)"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EnvironmentBuildVersionStrings">
+        <xs:list itemType="vre:EnvironmentBuildVersionString"/>
+    </xs:simpleType>
+    <xs:complexType name="Concept">
+        <xs:attribute name="Name" type="xs:ID" use="required"/>
+        <xs:attribute name="Introduced" type="vre:EnvironmentVersionIdRef" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="Concepts">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="Concept" type="vre:Concept" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="HintPath">
+        <xs:attribute name="Path" type="xs:string"/>
+    </xs:complexType>
+    <xs:complexType name="HintPaths">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="HintPath" type="vre:HintPath" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EnvironmentVersion">
+        <xs:sequence>
+            <xs:element name="HintPaths" type="vre:HintPaths" minOccurs="0" maxOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypeIntroduced">
+        <xs:attribute name="Version" type="vre:EnvironmentVersionIdRef" use="required">
+            <xs:annotation><xs:documentation>Denotes the version the type was introduced.</xs:documentation></xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Library" type="vre:LibraryNameRef" use="required">
+            <xs:annotation><xs:documentation>Denotes the library the type was introduced in.</xs:documentation></xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="MemberIntroduced">
+        <xs:attribute name="Version" type="vre:EnvironmentVersionIdRef" use="required">
+            <xs:annotation><xs:documentation>Denotes the version the member was introduced.</xs:documentation></xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="MemberDeprecated">
+        <xs:attribute name="Version" type="vre:EnvironmentVersionIdRef" use="required">
+            <xs:annotation><xs:documentation>Denotes the version the member was deprecated.</xs:documentation></xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Error" type="xs:boolean">
+            <xs:annotation><xs:documentation>
+                Denotes whether the depreciated member will cause an error by using it.
+            </xs:documentation></xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypeForwarded">
+        <xs:attribute name="Version" type="vre:EnvironmentVersionIdRef" use="required">
+            <xs:annotation><xs:documentation>Denotes the version the type was forwarded.</xs:documentation></xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="ServicePack" type="vre:EnvironmentVersionServicePack" use="optional"/>
+        <xs:attribute name="Library" type="vre:LibraryNameRef" use="required">
+            <xs:annotation><xs:documentation>Denotes the library the type was forwarded to.</xs:documentation></xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypeDeprecated">
+        <xs:attribute name="Version" type="vre:EnvironmentVersionIdRef" use="required"><xs:annotation><xs:documentation>Denotes the version the type was deprecated.</xs:documentation></xs:annotation></xs:attribute>
+        <xs:attribute name="ServicePack" type="vre:EnvironmentVersionServicePack" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypeSupported">
+        <xs:attribute name="Version" type="vre:EnvironmentVersionIdRef" use="required"><xs:annotation><xs:documentation>Denotes the version the type was again supported.</xs:documentation></xs:annotation></xs:attribute>
+        <xs:attribute name="ServicePack" type="vre:EnvironmentVersionServicePack" use="optional"/>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypeHistory">
+        <xs:sequence>
+          <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="ForwardedTo" type="vre:LibraryTypeForwarded"/>
+            <xs:element name="Deprecated" type="vre:LibraryTypeDeprecated"/>
+            <xs:element name="Supported" type="vre:LibraryTypeSupported"/>
+          </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:attributeGroup name="MemberCommonAttributes">
+        <xs:attribute name="Name" type="xs:string" use="required"/>
+        <xs:attribute name="Use" type="vre:MemberUseAttributes" use="required"/>
+        <xs:attributeGroup ref="vre:MemberVersionHistory"/>
+    </xs:attributeGroup>
+    <xs:attributeGroup name="MemberVersionHistory">
+        <xs:attribute name="Introduced" type="vre:EnvironmentVersionIdRef" use="optional">
+            <xs:annotation><xs:documentation>Denotes the version the member was introduced.</xs:documentation></xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Depreciated" type="vre:EnvironmentVersionIdRef" use="optional">
+            <xs:annotation>
+                <xs:documentation>Denotes the version the member was depreciated.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="Deleted" type="vre:EnvironmentVersionIdRef" use="optional">
+            <xs:annotation>
+                <xs:documentation>Denotes the version the member was deleted.</xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:attributeGroup>
+    <xs:simpleType name="TypeKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Class"/>
+            <xs:enumeration value="Delegate"/>
+            <xs:enumeration value="Enumeration"/>
+            <xs:enumeration value="Interface"/>
+            <xs:enumeration value="Struct"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BinaryOperator">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Add"/>
+            <xs:enumeration value="Subtract"/>
+            <xs:enumeration value="Multiply"/>
+            <xs:enumeration value="Divide"/>
+            <xs:enumeration value="Modulus"/>
+            <xs:enumeration value="BitwiseAnd"/>
+            <xs:enumeration value="BitwiseOr"/>
+            <xs:enumeration value="ExclusiveOr"/>
+            <xs:enumeration value="LeftShift"/>
+            <xs:enumeration value="RightShift"/>
+            <xs:enumeration value="IsEqualTo"/>
+            <xs:enumeration value="IsNotEqualTo"/>
+            <xs:enumeration value="LessThan"/>
+            <xs:enumeration value="GreaterThan"/>
+            <xs:enumeration value="LessThanOrEqualTo"/>
+            <xs:enumeration value="GreaterThanOrEqualTo"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="UnaryOperator">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Plus"/>
+            <xs:enumeration value="Negation"/>
+            <xs:enumeration value="EvalutesToFalse"/>
+            <xs:enumeration value="EvalutesToTrue"/>
+            <xs:enumeration value="LogicalInversion"/>
+            <xs:enumeration value="Complement"/>
+            <xs:enumeration value="Increment"/>
+            <xs:enumeration value="Decrement"/> 
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="UnaryOperatorCoercion">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="input" type="vre:TypedName" />
+        </xs:sequence>
+        <xs:attribute name="Op" type="vre:UnaryOperator" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="BinaryOperatorCoercion">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="left" type="vre:TypedName" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="right" type="vre:TypedName" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="Op" type="vre:BinaryOperator" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="ConstructorMember">
+        <xs:complexContent>
+            <xs:extension base="vre:SignatureMember">
+                <xs:attributeGroup ref="vre:MemberVersionHistory"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="MethodMember">
+        <xs:complexContent>
+            <xs:extension base="vre:SignatureMember">
+                <xs:attributeGroup ref="vre:MemberCommonAttributes"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="IndexerMember">
+        <xs:complexContent>
+            <xs:extension base="vre:SignatureMember">
+                <xs:attributeGroup ref="vre:MemberCommonAttributes"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="PropertyMember">
+        <xs:attributeGroup ref="vre:MemberCommonAttributes"/>
+    </xs:complexType>
+    <xs:simpleType name="FieldMemberReadOnlyKind">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="none"/>
+            <xs:enumeration value="readOnly"/>
+            <xs:enumeration value="constant"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="FieldMember">
+        <xs:attributeGroup ref="vre:MemberCommonAttributes"/>
+        <xs:attribute name="ReadOnlyState" type="vre:FieldMemberReadOnlyKind" use="optional" default="none"/>
+    </xs:complexType>
+    <xs:complexType name="EventMember">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="DelegateType" type="vre:TypedName"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="vre:MemberCommonAttributes"/>
+    </xs:complexType>
+    <xs:simpleType name="TypeConversionRequirement">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Unknown"/>
+            <xs:enumeration value="Explicit"/>
+            <xs:enumeration value="Implicit"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TypeConversionDirection">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ToContainingType"/>
+            <xs:enumeration value="FromContainingType"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="TypeCoercion">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element type="vre:TypedName" name="In" maxOccurs="1" minOccurs="0"/>
+            <xs:element type="vre:TypedName" name="Out" maxOccurs="1" minOccurs="0"/>
+        </xs:sequence>
+        <xs:attribute type="vre:TypeConversionRequirement" name="Requirement" use="required"/>
+        <xs:attribute type="vre:TypeConversionDirection" name="Direction" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="LibraryType">
+        <xs:complexContent>
+            <xs:extension base="vre:LibraryTypeParent">
+                <xs:sequence minOccurs="0" maxOccurs="1">
+                    <xs:element name="VersionHistory" type="vre:LibraryTypeHistory" maxOccurs="1" minOccurs="0"/>
+                    <xs:choice minOccurs="0" maxOccurs="unbounded">
+                        <xs:element name="Method" type="vre:MethodMember"/>
+                        <xs:element name="Property" type="vre:PropertyMember"/>
+                        <xs:element name="Field" type="vre:FieldMember"/>
+                        <xs:element name="Indexer" type="vre:IndexerMember"/>
+                        <xs:element name="BinaryOp" type="vre:BinaryOperatorCoercion"/>
+                        <xs:element name="UnaryOp" type="vre:UnaryOperatorCoercion"/>
+                        <xs:element name="Ctor" type="vre:ConstructorMember"/>
+                        <xs:element name="Cctor" type="vre:ConstructorMember" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="Event" type="vre:EventMember" />
+                        <xs:element name="TypeCoercion" type="vre:TypeCoercion"/>
+                    </xs:choice>
+                </xs:sequence>
+                <xs:attribute name="Name" type="xs:string" use="required"><xs:annotation><xs:documentation>The name of the type.</xs:documentation></xs:annotation></xs:attribute>
+                <xs:attribute type="vre:EnvironmentVersionIdRef" name="Introduced"/>
+                <xs:attribute type="vre:LibraryNameRef" name="InitialLibrary"/>
+                <xs:attribute name="TypeKind" type="vre:TypeKind"/>
+                <xs:attribute name="TypeId" type="xs:int"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:complexType name="LibraryTypes">
+        <xs:sequence>
+            <xs:element name="Type" type="vre:LibraryType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Environment">
+        <xs:all>
+            <xs:element name="Versions" type="vre:EnvironmentVersions" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="Concepts" type="vre:Concepts" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="Languages" type="vre:Languages" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="Libraries" type="vre:Libraries"/>
+            <xs:element name="Namespaces" type="vre:LibraryNamespaces" minOccurs="0" maxOccurs="1" />
+            <xs:element name="Types" type="vre:LibraryTypes" minOccurs="0" maxOccurs="1" />
+            <xs:element name="PublicKeys" type="vre:PublicKeyTokens" minOccurs="0" maxOccurs="1"/>
+        </xs:all>
+        <xs:attribute name="Name" type="xs:string"/>
+        <xs:attribute name="CurrentVersion" type="vre:EnvironmentVersionIdRef" use="required"/>
+        <xs:attribute name="CurrentServicePack" type="vre:EnvironmentVersionServicePack" use="optional"/>
+    </xs:complexType>
+    <xs:simpleType name="LibraryNameDef">
+        <xs:restriction base="xs:ID">
+            <xs:pattern value="[A-Za-z][A-Za-z0-9.]+(.[A-Za-z][A-Za-z0-9.]+)*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="SignatureMember">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="Parameter" type="vre:TypedName" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="TypeElementClassification">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="None"/>
+            <xs:enumeration value="Array"/>
+            <xs:enumeration value="Nullable"/>
+            <xs:enumeration value="Pointer"/>
+            <xs:enumeration value="Reference"/>
+            <xs:enumeration value="GenericTypeDefinition"/>
+            <xs:enumeration value="ModifiedType"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="TypedName">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="Parent" type="vre:TypedName" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="GenericParameter" type="vre:TypedName" minOccurs="0" maxOccurs="unbounded"><xs:annotation><xs:documentation>Denotes a generic parameter of the type.</xs:documentation></xs:annotation></xs:element>
+            <xs:element name="Dimension" type="vre:ArrayDimension" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ElementType" type="vre:TypedName" minOccurs="0" maxOccurs="1"><xs:annotation><xs:documentation>Denotes the element of a given type which specifies further context if needed.</xs:documentation></xs:annotation></xs:element>
+        </xs:sequence>
+        <xs:attribute name="ElementClassification" type="vre:TypeElementClassification" default="None"><xs:annotation><xs:documentation>The classification of the type's element.</xs:documentation></xs:annotation></xs:attribute>
+        <xs:attribute name="Name" type="xs:string" use="optional"><xs:annotation><xs:documentation>The name of the type.</xs:documentation></xs:annotation></xs:attribute>
+        <xs:attribute name="Namespace" type="xs:string" use="optional"><xs:annotation><xs:documentation>The namespace of the type.</xs:documentation></xs:annotation></xs:attribute>
+        <xs:attribute name="Rank" type="xs:positiveInteger"/>
+        <xs:attribute name="TypeParamCount" type="xs:positiveInteger"/>
+    </xs:complexType>
+    <xs:simpleType name="LibraryNameRef">
+        <xs:restriction base="xs:IDREF">
+            <xs:pattern value="[A-Za-z][A-Za-z0-9.]+(.[A-Za-z][A-Za-z0-9.]+)*"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="ArrayDimension">
+        <xs:attribute name="Index" type="xs:integer" use="required" />
+        <xs:attribute name="LowerBounds" type="xs:integer" />
+        <xs:attribute name="Length" type="xs:integer" />
+    </xs:complexType>
+    <xs:complexType name="LibraryModule">
+        <xs:attribute type="xs:string" name="Name"/>
+    </xs:complexType>
+    <xs:complexType name="LibraryModules">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="ManifestModule" type="vre:LibraryModule" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="Module" type="vre:LibraryModule" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LibraryVersion">
+        <xs:attribute name="Runtime" type="vre:EnvironmentVersionIdRef"/>
+        <xs:attribute name="ServicePack" type="vre:EnvironmentVersionServicePack"/>
+        <xs:attribute name="Value" type="vre:LibraryVersionString"/>
+        <xs:attribute name="PublicKeyId" type="xs:integer" use="required"/>
+    </xs:complexType>
+    <xs:complexType name="LibraryVersionHistory">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="Version" type="vre:LibraryVersion" maxOccurs="unbounded" minOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Library">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:choice minOccurs="0" maxOccurs="2">
+                <xs:element name="Modules" type="vre:LibraryModules" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="VersionHistory" type="vre:LibraryVersionHistory"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute type="vre:LibraryNameDef" name="Name" use="required"/>
+        <xs:attribute type="vre:EnvironmentVersionIdRef" name="Introduced" use="required">
+            <xs:annotation><xs:documentation>Denotes the version the library was introduced.</xs:documentation></xs:annotation>
+        </xs:attribute>
+        <xs:attribute type="vre:EnvironmentVersionServicePack" name="IntroducedServicePack">
+            <xs:annotation><xs:documentation>Denotes the service pack of the version the library was introduced.</xs:documentation></xs:annotation>
+        </xs:attribute>
+     </xs:complexType>
+    <xs:complexType name="Language">
+        <xs:attribute name="Name" type="xs:ID" />
+    </xs:complexType>
+    <xs:complexType name="Libraries">
+        <xs:sequence minOccurs="1" maxOccurs="1">
+            <xs:element name="Library" type="vre:Library" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="Languages">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="Language" type="vre:Language" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Environment" type="vre:Environment"/>
+    <xs:element name="Languages" type="vre:Languages"/>
+    <xs:element name="Libraries" type="vre:Libraries"/>
+    <xs:element name="Types" type="vre:LibraryTypes"/>
+</xs:schema>

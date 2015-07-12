@@ -48,19 +48,19 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
         public override void OnDrawItem(IOwnerDrawnItemDrawEventArgs<TDrawnItem> e)
         {
             #region Colors
-            System.Drawing.Color TextAreaStartColor = SystemColors.Window;
-            System.Drawing.Color TextAreaEndColor = SystemColors.Control;
-            System.Drawing.Color TextAreaTopmost = SystemColors.Control;
-            System.Drawing.Color TextColor = SystemColors.MenuText;
-            System.Drawing.Color ImageAreaStartColor = SystemColors.Window;
-            System.Drawing.Color ImageAreaEndColor = SystemColors.ButtonFace.Adjust(-20, -20, -20);
-            System.Drawing.Color SelBorderColor = SystemColors.Highlight;
-            System.Drawing.Color SelAreaBackStartColor = Color.FromArgb((Math.Min((int)SelBorderColor.R + 120, (int)255)), (Math.Min((int)SelBorderColor.G + 120, (int)255)), (Math.Min((int)SelBorderColor.B + 120, (int)255)));
-            System.Drawing.Color SelAreaBackEndColor = Color.FromArgb((Math.Min((int)SelBorderColor.R + 80, (int)255)), (Math.Min((int)SelBorderColor.G + 80, (int)255)), (Math.Min((int)SelBorderColor.B + 80, (int)255)));
-            System.Drawing.Color SelTextAreaTopmost = SystemColors.Window;
-            System.Drawing.Color HighTextAreaTopmost = SelAreaBackStartColor;
-            System.Drawing.Color SelAreaForeColor = TextColor;
-            System.Drawing.Color DisabledText = SystemColors.GrayText;
+            Color TextAreaStartColor = SystemColors.Window;
+            Color TextAreaEndColor = SystemColors.Control;
+            Color TextAreaTopmost = SystemColors.Control;
+            Color TextColor = SystemColors.MenuText;
+            Color ImageAreaStartColor = SystemColors.Window;
+            Color ImageAreaEndColor = SystemColors.ButtonFace.Adjust(-20, -20, -20);
+            Color SelBorderColor = SystemColors.Highlight;
+            Color SelAreaBackStartColor = Color.FromArgb((Math.Min((int)SelBorderColor.R + 120, (int)255)), (Math.Min((int)SelBorderColor.G + 120, (int)255)), (Math.Min((int)SelBorderColor.B + 120, (int)255)));
+            Color SelAreaBackEndColor = Color.FromArgb((Math.Min((int)SelBorderColor.R + 80, (int)255)), (Math.Min((int)SelBorderColor.G + 80, (int)255)), (Math.Min((int)SelBorderColor.B + 80, (int)255)));
+            Color SelTextAreaTopmost = SystemColors.Window;
+            Color HighTextAreaTopmost = SelAreaBackStartColor;
+            Color SelAreaForeColor = TextColor;
+            Color DisabledText = SystemColors.GrayText;
             #endregion
             #region Brushes
             System.Drawing.Brush ImageBackAreaBrush = null;
@@ -323,7 +323,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                         }
                         else
                         {
-                            if ((!(ItemSeparator)) && ItemHasCheckBox)
+                            if (!ItemSeparator && ItemHasCheckBox)
                             {
                                 System.Drawing.Brush CheckedBackBrush;
                                 if (((IOwnerDrawnCheckBoxItem<TDrawnItem>)e.Item).CheckAreaHovered)
@@ -343,7 +343,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                         RectangleF FloatArea = new RectangleF(new PointF(4, ImageArea.Top + (ImageArea.Height - 16) / 2), new SizeF(16, 16));
                         e.Graphics.DrawImage(ItemDisabledImage, FloatArea);
                     }
-                    else if ((!(ItemSeparator)) && ItemHasCheckBox)
+                    else if (!ItemSeparator && ItemHasCheckBox)
                     {
                         System.Drawing.Brush CheckedBackBrush;
                         if (((IOwnerDrawnCheckBoxItem<TDrawnItem>)e.Item).CheckAreaHovered)

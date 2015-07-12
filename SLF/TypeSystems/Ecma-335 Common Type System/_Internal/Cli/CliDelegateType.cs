@@ -28,8 +28,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private CliAssembly _Assembly { get { return (CliAssembly)base.Assembly; } }
 
-        private CliManager IdentityManager { get { return this._Assembly.IdentityManager; } }
-
         protected override IDelegateType OnMakeGenericClosure(LockedTypeCollection lockedTypeParameters)
         {
             return new _DelegateTypeBase(this, lockedTypeParameters);
@@ -62,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 var method = this.SignatureMetadataEntry;
                 if (method == null)
                     throw new InvalidOperationException();
-                return this._Assembly.IdentityManager.ObtainTypeReference(method.Signature.ReturnType, this, null);
+                return this._Assembly.IdentityManager.ObtainTypeReference(method.Signature.ReturnType, this, null, this.Assembly);
             }
         }
 

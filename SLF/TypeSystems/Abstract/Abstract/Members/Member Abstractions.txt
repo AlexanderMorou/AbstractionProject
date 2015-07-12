@@ -5,3 +5,9 @@ Struct (ValueType) methods cannot be virtual (as they cannot be derived from).
 Interface methods are signature only, and have no accessibility flags defined.
 Enum fields do not have complex initializers, and cannot be of any type other
 than a primitive numeric value.
+
+
+
+^ The above is only relevant when targeting the .NET Common Language Runtime.
+  Java doesn't have structs, and allows enumerators to have methods, among
+  other functionality that seems nonsensical from a CLR perspective.

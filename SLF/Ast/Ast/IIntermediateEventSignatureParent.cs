@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -27,6 +27,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             TEventParent,
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
     {
+
         /// <summary>
         /// Returns the <see cref="IIntermediateEventSignatureMemberDictionary{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/>
         /// associated to the current <see cref="IIntermediateEventSignatureParent{TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent}"/>
@@ -55,6 +56,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent>,
             TEventParent
     {
+        /// <summary>
+        /// Returns the <see cref="IIntermediateAssembly"/> in which the
+        /// <see cref="IIntermediateEventSignatureParent{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/> is defined.
+        /// </summary>
+        new IIntermediateAssembly Assembly { get; }
         /// <summary>
         /// Returns the <see cref="IIntermediateEventSignatureMemberDictionary{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>
         /// associated to the current <see cref="IIntermediateEventSignatureParent{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent}"/>

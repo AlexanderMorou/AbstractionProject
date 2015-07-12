@@ -10,8 +10,10 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -33,7 +35,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// in the intermediate abstract syntax tree.</typeparam>
     public abstract partial class IntermediateMethodSignatureMemberBase<TSignature, TIntermediateSignature, TParent, TIntermediateParent> :
         IntermediateMethodSignatureMemberBase<IMethodSignatureParameterMember<TSignature, TParent>, IIntermediateMethodSignatureParameterMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>, TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
-        IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>
+        IIntermediateMethodSignatureMember<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
+        _IGenericMethodSignatureRegistrar
         where TSignature :
             class,
             IMethodSignatureMember<TSignature, TParent>
@@ -46,7 +49,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateMethodSignatureParent<TSignature, TIntermediateSignature, TParent, TIntermediateParent>,
             TParent
     {
-        private ITypeIdentityManager identityManager;
+        private GenericMethodSignatureCache<IMethodSignatureParameterMember<TSignature, TParent>, TSignature, TParent> genericMethodCache;
 
         internal bool _AreParametersInitialized { get { return base.AreParametersInitialized; } }
 
@@ -56,19 +59,27 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which owns the 
         /// <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent, ITypeIdentityManager identityManager)
-            : base(parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// and contains context relative to disambiguating type identities.</param>
+        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent, IIntermediateAssembly assembly)
+            : base(parent, assembly)
         {
-            this.identityManager = identityManager;            
         }
-
-        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent, ITypeIdentityManager identityManager)
-            : base(name, parent, identityManager)
+        /// <summary>
+        /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// with the <paramref name="name"/>, <paramref name="parent"/> and <paramref name="assembly"/> provided.
+        /// </summary>
+        /// <param name="name">The <see cref="String"/> value which denotes
+        /// the name of the <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
+        /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which owns the 
+        /// <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the <see cref="IntermediateMethodSignatureMemberBase{TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// and contains context relative to disambiguating type identities.</param>
+        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent, IIntermediateAssembly assembly)
+            : base(name, parent, assembly)
         {
-            this.identityManager = identityManager;
         }
 
         public override void Visit(IIntermediateMemberVisitor visitor)
@@ -79,6 +90,70 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         public override TResult Visit<TResult, TContext>(IIntermediateMemberVisitor<TResult, TContext> visitor, TContext context)
         {
             return visitor.Visit(this, context);
+        }
+
+        private void CheckGenericMethodCache()
+        {
+            lock (this.SyncObject)
+                if (this.genericMethodCache == null)
+                    this.genericMethodCache = new GenericMethodSignatureCache<IMethodSignatureParameterMember<TSignature, TParent>, TSignature, TParent>();
+        }
+
+        #region _IGenericMethodSignatureRegistrar Members
+
+        public void RegisterGenericChild(IMethodSignatureParent parent, IMethodSignatureMember genericChild)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.RegisterGenericChild(parent, genericChild);
+        }
+
+        public void UnregisterGenericChild(IMethodSignatureParent parent)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.UnregisterGenericChild(parent);
+        }
+
+        public void RegisterGenericMethod(IMethodSignatureMember targetSignature, IControlledTypeCollection typeParameters)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.RegisterGenericMethod(targetSignature, typeParameters);
+        }
+
+        public void UnregisterGenericMethod(IControlledTypeCollection typeParameters)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.UnregisterGenericMethod(typeParameters);
+        }
+
+        #endregion
+
+        internal override void OnRearranged(GenericParameterMovedEventArgs e)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.PositionalShift(e.From, e.To);
+        }
+
+        protected override bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TSignature r)
+        {
+            this.CheckGenericMethodCache();
+            return this.genericMethodCache.ContainsGenericMethod(typeParameters, ref r);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                lock (this.SyncObject)
+                {
+                    if (this.genericMethodCache != null)
+                        this.genericMethodCache.Dispose();
+                    this.genericMethodCache = null;
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
         }
     }
 
@@ -126,11 +201,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         private GenericParameterCollection genericParameters;
         /// <summary>
-        /// Data member for maintaining a single-ton view of the generic
-        /// closures of the generic series.
-        /// </summary>
-        private IDictionary<IControlledTypeCollection, TSignature> genericCache;
-        /// <summary>
         /// Data member for <see cref="ReturnType"/>.
         /// </summary>
         private IType returnType;
@@ -141,19 +211,19 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         private TypeParameterDictionary typeParameters;
         private MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes signatureTypes;
-        private IMetadataDefinitionCollection customAttributes;
-        private IMetadataCollection _customAttributes;
+        private IMetadataDefinitionCollection metadata;
+        private IMetadataCollection _metadata;
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
         /// with the <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which
         /// owns the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent, ITypeIdentityManager identityManager)
-            : base(parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// and contains context relative to disambiguating type identities.</param>
+        protected IntermediateMethodSignatureMemberBase(TIntermediateParent parent, IIntermediateAssembly assembly)
+            : base(parent, assembly)
         {
         }
 
@@ -165,11 +235,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateParent"/> which
         /// owns the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent, ITypeIdentityManager identityManager)
-            : base(name, parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>
+        /// and contains context relative to disambiguating type identities.</param>
+        protected IntermediateMethodSignatureMemberBase(string name, TIntermediateParent parent, IIntermediateAssembly assembly)
+            : base(name, parent, assembly)
         {
         }
 
@@ -294,7 +364,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (this.ContainsGenericMethod(genericReplacements, ref k))
                 return k;
             /* *
-             * _IGenericMethodRegistrar handles cache.
+             * _IGenericMethodRegistrar and _IGenericMethodSignatureRegistrar handle cache.
              * */
             var tK = this.OnMakeGenericMethod(genericReplacements);
             //CliCommon.VerifyTypeParameters<TSignatureParameter, TSignature, TParent>(this, genericReplacements);
@@ -318,16 +388,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             return this.MakeGenericClosure(typeParameters.ToLockedCollection());
         }
 
-        private bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TSignature r)
-        {
-            if (this.genericCache == null)
-                return false;
-            var fd = this.genericCache.Keys.FirstOrDefault(itc => itc.SequenceEqual(typeParameters));
-            if (fd == null)
-                return false;
-            r = this.genericCache[fd];
-            return true;
-        }
+        protected abstract bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TSignature r);
 
         /// <summary>
         /// Returns the original generic form of the current
@@ -423,27 +484,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             {
                 if (disposing)
                 {
-                    if (this.genericCache != null)
-                    {
-                        Parallel.ForEach(this.genericCache.Values.ToArray(), p =>
-                            p.Dispose());
-                        this.genericCache.Clear();
-                        this.genericCache = null;
-                    }
                     if (this.typeParameters != null)
                         this.typeParameters.Dispose();
                     this.returnType = null;
                     this.returnTypeMetadata = null;
                     this.uniqueIdentifier = null;
-                    if (this.customAttributes != null)
+                    if (this.metadata != null)
                     {
-                        this.customAttributes.Dispose();
-                        this.customAttributes = null;
+                        this.metadata.Dispose();
+                        this.metadata = null;
                     }
-                    if (this._customAttributes != null)
+                    if (this._metadata != null)
                     {
-                        this._customAttributes.Dispose();
-                        this._customAttributes = null;
+                        this._metadata.Dispose();
+                        this._metadata = null;
                     }
                 }
             }
@@ -464,6 +518,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 return this.typeParameters != null;
             }
         }
+
+        /// <summary>
+        /// Returns/sets the <see cref="String"/> value which
+        /// denotes language specific information about how to
+        /// uniquely qualify the <see cref="IntermediateMethodSignatureMemberBase{TSignatureParameter, TIntermediateSignatureParameter, TSignature, TIntermediateSignature, TParent, TIntermediateParent}"/>.
+        /// </summary>
+        public string LanguageSpecificQualifier
+        {
+            get
+            {
+                return this.languageSpecificQualifier;
+            }
+            set
+            {
+                this.languageSpecificQualifier = value;
+                this.OnIdentifierChanged(this.UniqueIdentifier, DeclarationChangeCause.Name);
+            }
+        }
         
         public override IGeneralGenericSignatureMemberUniqueIdentifier UniqueIdentifier
         {
@@ -475,13 +547,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     else
                         if (this.AreTypeParametersInitialized)
                             if (this.AreParametersInitialized)
-                                this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count, this.Parameters.ParameterTypes.ToArray());
+                                this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count, this.LanguageSpecificQualifier, this.Parameters.ParameterTypes.ToArray());
                             else
-                                this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count);
+                                this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.typeParameters.Count, this.LanguageSpecificQualifier);
                         else if (this.AreParametersInitialized)
-                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.Parameters.ParameterTypes.ToArray());
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.LanguageSpecificQualifier, this.Parameters.ParameterTypes.ToArray());
                         else
-                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name);
+                            this.uniqueIdentifier = TypeSystemIdentifiers.GetGenericSignatureIdentifier(this.Name, this.LanguageSpecificQualifier);
                 }
                 return this.uniqueIdentifier;
             }
@@ -527,6 +599,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         #region IIntermediateGenericType Members
         private event EventHandler<EventArgsR1<IIntermediateGenericParameter>> _TypeParameterAdded;
         private event EventHandler<EventArgsR1<IIntermediateGenericParameter>> _TypeParameterRemoved;
+        private string languageSpecificQualifier;
         event EventHandler<EventArgsR1<IIntermediateGenericParameter>> IIntermediateGenericParameterParent.TypeParameterAdded
         {
             add { _TypeParameterAdded += value; }
@@ -654,7 +727,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this.returnTypeMetadata = new MetadataDefinitionCollection(this, this.IdentityManager);
+                        this.returnTypeMetadata = new MetadataDefinitionCollection(this, this.Assembly);
                 return this.returnTypeMetadata;
             }
         }
@@ -679,12 +752,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this._customAttributes != null)
+                if (this._metadata != null)
                     if (this.IsDisposed)
                         throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
                     else
-                        this._customAttributes = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
-                return this._customAttributes;
+                        this._metadata = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                return this._metadata;
             }
         }
 
@@ -692,12 +765,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                if (this.customAttributes != null)
-                    if (this.IsDisposed)
-                        throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
-                    else
-                        this.customAttributes = new MetadataDefinitionCollection(this, this.IdentityManager);
-                return this.customAttributes;
+                lock (this.SyncObject)
+                {
+                    if (this.metadata == null)
+                        if (this.IsDisposed)
+                            throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                        else
+                            this.metadata = new MetadataDefinitionCollection(this, this.Assembly);
+                    return this.metadata;
+                }
             }
         }
 
@@ -711,5 +787,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             lock (this.SyncObject)
                 this.uniqueIdentifier = null;
         }
+
+        internal abstract void OnRearranged(GenericParameterMovedEventArgs e);
+        public string ReturnsText { get; set; }
+
     }
 }

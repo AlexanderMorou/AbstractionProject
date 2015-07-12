@@ -5,6 +5,9 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    /// <summary>
+    /// Describes the root types understood by most systems targeted by this framework.
+    /// </summary>
     public enum RuntimeCoreType
     {
         /// <summary>

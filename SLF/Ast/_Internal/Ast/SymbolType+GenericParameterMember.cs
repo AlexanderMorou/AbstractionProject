@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -97,7 +97,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                     get { return null; }
                 }
 
-                protected override IMetadataCollection InitializeCustomAttributes()
+                protected override IMetadataCollection InitializeMetadata()
                 {
                     return new CustomAttributeCollection(this);
                 }
@@ -358,7 +358,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                 //        return CliAssist.GetAttributeUsage(attribute).AllowMultiple;
                 //}
 
-                protected override ITypeIdentityManager OnGetManager()
+                protected override IIdentityManager OnGetManager()
                 {
                     return this.Parent.IdentityManager;
                 }

@@ -75,5 +75,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         }
 
         #endregion
+
+        public override TResult Visit<TResult, TContext>(IStatementVisitor<TResult, TContext> visitor, TContext context)
+        {
+            return visitor.Visit(this, context);
+        }
     }
 }

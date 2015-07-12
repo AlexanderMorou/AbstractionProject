@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -61,8 +61,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// intermediate member as a signature
     /// </summary>
     public interface IIntermediateSignatureMember :
-        IIntermediateMember,
         IIntermediateParameterParent,
+        IIntermediateMember,
         ISignatureMember
     {
     }

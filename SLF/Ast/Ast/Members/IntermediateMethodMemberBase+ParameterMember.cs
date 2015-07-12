@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /// <param name="parent">The <typeparamref name="TIntermediateMethod"/>
             /// which contains the <see cref="ParameterMember"/>.</param>
             public ParameterMember(TIntermediateMethod parent)
-                : base(parent, parent.IdentityManager)
+                : base(parent, parent.Assembly)
             {
             }
 
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 TAltParameter
         {
             internal ParameterMember(TIntermediateAltParameter original, TIntermediateMethod parent)
-                : base(original, parent, parent.IdentityManager)
+                : base(original, parent, parent.Assembly)
             {
             }
 

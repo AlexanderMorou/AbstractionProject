@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -32,6 +32,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateCoercibleType<ITypeCoercionUniqueIdentifier, ITypeCoercionMember<TCoercionParent>, IIntermediateTypeCoercionMember<TCoercionParent, TIntermediateCoercionParent>, TCoercionParent, TIntermediateCoercionParent>,
             TCoercionParent
     {
+        /// <summary>
+        /// Returns the parent of the <see cref="IIntermediateTypeCoercionMember{TCoercionParent, TIntermediateCoercionParent}"/>.
+        /// </summary>
+        new TIntermediateCoercionParent Parent { get; }
     }
     /// <summary>
     /// Defines properties and methods for working with a type-coercion member.
@@ -41,6 +45,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         IIntermediateCoercionMember,
         ITypeCoercionMember
     {
+        /// <summary>
+        /// Returns the <see cref="ILocalMember"/> which denotes the parameter
+        /// within the model that the input of the coercion.
+        /// </summary>
+        ILocalMember Incoming { get; }
         /// <summary>
         /// Returns/sets whether the conversion overload is implicit or explicit.
         /// </summary>

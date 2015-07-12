@@ -13,7 +13,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Arrays;
 using System.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -453,11 +453,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <see cref="RuntimeTypeHandle"/> of the provided <paramref name="target"/> at 
         /// runtime.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeOfExpression TypeOf(this string target)
+        public static TypeOfExpression TypeOf(this string target, IIdentityManager identityManager)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
-            return target.GetSymbolType().TypeOf();
+            return target.GetSymbolType(identityManager).TypeOf();
         }
 
         /// <summary>
@@ -465,13 +465,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// </summary>
         /// <param name="target">The <see cref="IExpressionFusionExpression"/> which needs a typeof
         /// expression.</param>
-        /// <param name="identityManager">The <see cref="ICliManager "/> which marshals
+        /// <param name="identityManager">The <see cref="IIdentityManager "/> which marshals
         /// identities of types within the type model.</param>
         /// <returns>A new <see cref="TypeOfExpression"/> instance which obtains the 
         /// <see cref="RuntimeTypeHandle"/> of the provided <paramref name="target"/> at 
         /// runtime.</returns>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="target"/> is null.</exception>
-        public static TypeOfExpression TypeOf(this IExpressionFusionExpression target, ITypeIdentityManager identityManager)
+        public static TypeOfExpression TypeOf(this IExpressionFusionExpression target, IIdentityManager identityManager)
         {
             if (target == null)
                 throw new ArgumentNullException("target");
@@ -896,5 +896,159 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         }
 
 
+        #region Decorations
+        #region Comments
+        public static IDecoratingExpression LeftComment(this IExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return LeftComment((IMemberParentReferenceDecoratingExpression)target, comment, args);
+            else if (target is IDecoratingExpression)
+                return LeftComment((IDecoratingExpression)target, comment, args);
+            return new DecoratingExpression(target, new CommentExpression(string.Format(comment, args), DecorationDisplaySide.LeftSide));
+        }
+
+        public static IDecoratingExpression LeftComment(IDecoratingExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new CommentExpression(string.Format(comment, args), DecorationDisplaySide.LeftSide));
+            return target;
+        }
+        public static IDecoratingExpression RightComment(this IExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return RightComment((IMemberParentReferenceDecoratingExpression)target, comment, args);
+            else if (target is IDecoratingExpression)
+                return RightComment((IDecoratingExpression)target, comment, args);
+            return new DecoratingExpression(target, new CommentExpression(string.Format(comment, args), DecorationDisplaySide.RightSide));
+        }
+
+        public static IDecoratingExpression RightComment(IDecoratingExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new CommentExpression(string.Format(comment, args), DecorationDisplaySide.RightSide));
+            return target;
+        }
+
+        public static IMemberParentReferenceDecoratingExpression LeftComment(this IMemberParentReferenceExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return LeftComment((IMemberParentReferenceDecoratingExpression)target, comment, args);
+            return new MemberParentReferenceDecoratingExpression(target, new CommentExpression(string.Format(comment, args), DecorationDisplaySide.LeftSide));
+        }
+
+        public static IMemberParentReferenceDecoratingExpression LeftComment(IMemberParentReferenceDecoratingExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new CommentExpression(string.Format(comment, args), DecorationDisplaySide.LeftSide));
+            return target;
+        }
+        public static IMemberParentReferenceDecoratingExpression RightComment(this IMemberParentReferenceExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return RightComment((IMemberParentReferenceDecoratingExpression)target, comment, args);
+            return new MemberParentReferenceDecoratingExpression(target, new CommentExpression(string.Format(comment, args), DecorationDisplaySide.RightSide));
+        }
+
+        public static IMemberParentReferenceDecoratingExpression RightComment(IMemberParentReferenceDecoratingExpression target, string comment, params object[] args)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new CommentExpression(string.Format(comment, args), DecorationDisplaySide.RightSide));
+            return target;
+        }
+        #endregion
+        #region NewLines
+        public static IDecoratingExpression LeftNewLine(this IExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return LeftNewLine((IMemberParentReferenceDecoratingExpression)target);
+            else if (target is IDecoratingExpression)
+                return LeftNewLine((IDecoratingExpression)target);
+            return new DecoratingExpression(target, new NewLineExpression(DecorationDisplaySide.LeftSide));
+        }
+
+        public static IDecoratingExpression LeftNewLine(IDecoratingExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new NewLineExpression(DecorationDisplaySide.LeftSide));
+            return target;
+        }
+        public static IDecoratingExpression RightNewLine(this IExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return RightNewLine((IMemberParentReferenceDecoratingExpression)target);
+            else if (target is IDecoratingExpression)
+                return RightNewLine((IDecoratingExpression)target);
+            return new DecoratingExpression(target, new NewLineExpression(DecorationDisplaySide.RightSide));
+        }
+
+        public static IDecoratingExpression RightNewLine(IDecoratingExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new NewLineExpression(DecorationDisplaySide.RightSide));
+            return target;
+        }
+
+        public static IMemberParentReferenceDecoratingExpression LeftNewLine(this IMemberParentReferenceExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return LeftNewLine((IMemberParentReferenceDecoratingExpression)target);
+            return new MemberParentReferenceDecoratingExpression(target, new NewLineExpression(DecorationDisplaySide.LeftSide));
+        }
+
+        public static IMemberParentReferenceDecoratingExpression LeftNewLine(IMemberParentReferenceDecoratingExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new NewLineExpression(DecorationDisplaySide.LeftSide));
+            return target;
+        }
+        public static IMemberParentReferenceDecoratingExpression RightNewLine(this IMemberParentReferenceExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            if (target is IMemberParentReferenceDecoratingExpression)
+                return RightNewLine((IMemberParentReferenceDecoratingExpression)target);
+            return new MemberParentReferenceDecoratingExpression(target, new NewLineExpression(DecorationDisplaySide.RightSide));
+        }
+
+        public static IMemberParentReferenceDecoratingExpression RightNewLine(IMemberParentReferenceDecoratingExpression target)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            target.Decorations.Add(new NewLineExpression(DecorationDisplaySide.RightSide));
+            return target;
+        }
+        #endregion
+        #endregion
+
+        public static IParameterReferenceExpression GetReference(this IParameterMember parameter)
+        {
+            return new ParameterReferenceExpression(parameter.Name);
+        }
+
+        public static IDirectionExpression Direct(this IExpression directed, ParameterCoercionDirection direction)
+        {
+            return new DirectionExpression(directed, direction);
+        }
     }
 }

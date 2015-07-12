@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using AllenCopeland.Abstraction.Slf.Languages;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 IIntermediateTypeCtorLanguageService<IIntermediateDelegateType> delegateService;
                 if (assembly.Provider.TryGetService(LanguageGuids.Services.IntermediateDelegateCreatorService, out delegateService))
-                    return delegateService.GetNew(name, this.Parent);
+                    return delegateService.New(name, this.Parent);
             }
             return new IntermediateDelegateType(name, this.Parent);
         }

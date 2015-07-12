@@ -60,7 +60,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/> relative to the 
         /// <paramref name="coreType"/> provided.</returns>
         /// <remarks><paramref name="relativeAssembly"/> can be null.</remarks>
-        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly relativeAssembly = null);
+        IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, IAssembly relativeAssembly = null);
 
         /// <summary>
         /// Returns the framework platform identity resolution
@@ -89,6 +89,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// resolution occurs.
         /// </summary>
         CliFrameworkVersion Version { get; }
+
         /// <summary>
         /// Returns the definition of the extension metadatum type.
         /// </summary>
@@ -132,7 +133,5 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// Returns the definition of the root metadatum type.
         /// </summary>
         IGeneralTypeUniqueIdentifier RootMetadatum { get; }
-
-
     }
 }

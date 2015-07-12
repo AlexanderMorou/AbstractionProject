@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using AllenCopeland.Abstraction.Slf.Abstract;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen Copeland Jr.                             |
+| Copyright © 2008-2015 Allen Copeland Jr.                             |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |

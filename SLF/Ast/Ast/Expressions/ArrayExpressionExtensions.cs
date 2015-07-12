@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return Tuple.Create(true, dimensions.ToArray(), elements.ToArray());
         }
 
-        public static byte[] ConvertToByteArray(this ICreateArrayDetailExpression createArrayExpression, ITypeIdentityManager relativeManager)
+        public static byte[] ConvertToByteArray(this ICreateArrayDetailExpression createArrayExpression, IIdentityManager relativeManager)
         {
             var expressionDetails = createArrayExpression.BreakdownExpression(e => e is IPrimitiveExpression);
             if (expressionDetails.Item1)
@@ -328,12 +328,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Int32"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this int[] target, ICliManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this int[] target, ICliManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<int>(identityManager, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<int>(identityManager, relativeAssembly, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -342,12 +345,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int32"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this int[,] target, ICliManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this int[,] target, ICliManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<int>(identityManager, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<int>(identityManager, relativeAssembly, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -355,12 +361,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int32"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this int[, ,] target, ICliManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this int[, ,] target, ICliManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<int>(identityManager, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<int>(identityManager, relativeAssembly, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -368,12 +377,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int32"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this int[, , ,] target, ICliManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this int[, , ,] target, ICliManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<int>(identityManager, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<int>(identityManager, relativeAssembly, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Int32"/> four-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this int[, , , ,] target, ICliManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<int>(identityManager, relativeAssembly, RuntimeCoreType.Int32, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -382,12 +410,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Byte"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this byte[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this byte[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<byte>(identityManager, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<byte>(identityManager, relativeAssembly, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -395,12 +426,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Byte"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this byte[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this byte[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<byte>(identityManager, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<byte>(identityManager, relativeAssembly, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -408,12 +442,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Byte"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this byte[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this byte[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<byte>(identityManager, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<byte>(identityManager, relativeAssembly, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -421,12 +458,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Byte"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this byte[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this byte[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<byte>(identityManager, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<byte>(identityManager, relativeAssembly, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Byte"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this byte[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<byte>(identityManager, relativeAssembly, RuntimeCoreType.Byte, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -435,12 +491,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="UInt32"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this uint[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this uint[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<uint>(identityManager, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<uint>(identityManager, relativeAssembly, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -448,12 +507,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt32"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this uint[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this uint[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<uint>(identityManager, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<uint>(identityManager, relativeAssembly, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -461,12 +523,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt32"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this uint[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this uint[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<uint>(identityManager, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<uint>(identityManager, relativeAssembly, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -474,12 +539,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt32"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this uint[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this uint[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<uint>(identityManager, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<uint>(identityManager, relativeAssembly, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="UInt32"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this uint[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<uint>(identityManager, relativeAssembly, RuntimeCoreType.UInt32, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -488,12 +572,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="SByte"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this sbyte[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this sbyte[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<sbyte>(identityManager, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<sbyte>(identityManager, relativeAssembly, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -501,12 +588,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="SByte"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this sbyte[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this sbyte[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<sbyte>(identityManager, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<sbyte>(identityManager, relativeAssembly, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -514,12 +604,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="SByte"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this sbyte[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this sbyte[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<sbyte>(identityManager, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<sbyte>(identityManager, relativeAssembly, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -527,12 +620,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="SByte"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this sbyte[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this sbyte[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<sbyte>(identityManager, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<sbyte>(identityManager, relativeAssembly, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="SByte"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this sbyte[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<sbyte>(identityManager, relativeAssembly, RuntimeCoreType.SByte, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -541,12 +653,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Int16"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this short[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this short[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<short>(identityManager, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<short>(identityManager, relativeAssembly, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -554,12 +669,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int16"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this short[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this short[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<short>(identityManager, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<short>(identityManager, relativeAssembly, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -567,12 +685,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int16"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this short[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this short[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<short>(identityManager, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<short>(identityManager, relativeAssembly, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -580,12 +701,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int16"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this short[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this short[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<short>(identityManager, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<short>(identityManager, relativeAssembly, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Int16"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this short[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<short>(identityManager, relativeAssembly, RuntimeCoreType.Int16, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -594,12 +734,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="UInt16"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ushort[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ushort[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ushort>(identityManager, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ushort>(identityManager, relativeAssembly, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -607,12 +750,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt16"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ushort[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ushort[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ushort>(identityManager, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ushort>(identityManager, relativeAssembly, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -620,12 +766,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt16"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ushort[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ushort[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ushort>(identityManager, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ushort>(identityManager, relativeAssembly, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -633,12 +782,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt16"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ushort[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ushort[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ushort>(identityManager, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ushort>(identityManager, relativeAssembly, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="UInt16"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ushort[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<ushort>(identityManager, relativeAssembly, RuntimeCoreType.UInt16, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -647,12 +815,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Int64"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this long[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this long[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<long>(identityManager, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<long>(identityManager, relativeAssembly, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -660,12 +831,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int64"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this long[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this long[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<long>(identityManager, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<long>(identityManager, relativeAssembly, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -673,12 +847,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int64"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this long[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this long[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<long>(identityManager, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<long>(identityManager, relativeAssembly, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -686,12 +863,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Int64"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this long[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this long[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<long>(identityManager, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<long>(identityManager, relativeAssembly, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Int64"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this long[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<long>(identityManager, relativeAssembly, RuntimeCoreType.Int64, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -700,12 +896,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="UInt64"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ulong[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ulong[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ulong>(identityManager, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ulong>(identityManager, relativeAssembly, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -713,12 +912,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt64"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ulong[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ulong[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ulong>(identityManager, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ulong>(identityManager, relativeAssembly, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -726,12 +928,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt64"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ulong[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ulong[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ulong>(identityManager, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ulong>(identityManager, relativeAssembly, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -739,12 +944,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="UInt64"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this ulong[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ulong[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<ulong>(identityManager, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<ulong>(identityManager, relativeAssembly, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="UInt64"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this ulong[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<ulong>(identityManager, relativeAssembly, RuntimeCoreType.UInt64, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -753,12 +977,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Single"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this float[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this float[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<float>(identityManager, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<float>(identityManager, relativeAssembly, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -766,12 +993,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Single"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this float[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this float[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<float>(identityManager, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<float>(identityManager, relativeAssembly, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -779,12 +1009,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Single"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this float[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this float[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<float>(identityManager, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<float>(identityManager, relativeAssembly, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -792,12 +1025,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Single"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this float[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this float[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<float>(identityManager, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<float>(identityManager, relativeAssembly, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Single"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this float[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<float>(identityManager, relativeAssembly, RuntimeCoreType.Single, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -806,12 +1058,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Double"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this double[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this double[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<double>(identityManager, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<double>(identityManager, relativeAssembly, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -819,12 +1074,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Double"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this double[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this double[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<double>(identityManager, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<double>(identityManager, relativeAssembly, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -832,12 +1090,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Double"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this double[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this double[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<double>(identityManager, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<double>(identityManager, relativeAssembly, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -845,12 +1106,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Double"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this double[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this double[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<double>(identityManager, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<double>(identityManager, relativeAssembly, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Double"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this double[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<double>(identityManager, relativeAssembly, RuntimeCoreType.Double, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -859,12 +1139,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="Decimal"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this decimal[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this decimal[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<decimal>(identityManager, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<decimal>(identityManager, relativeAssembly, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -872,12 +1155,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Decimal"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this decimal[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this decimal[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<decimal>(identityManager, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<decimal>(identityManager, relativeAssembly, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -885,12 +1171,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Decimal"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this decimal[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this decimal[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<decimal>(identityManager, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<decimal>(identityManager, relativeAssembly, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -898,12 +1187,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="Decimal"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this decimal[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this decimal[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<decimal>(identityManager, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<decimal>(identityManager, relativeAssembly, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="Decimal"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this decimal[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<decimal>(identityManager, relativeAssembly, RuntimeCoreType.Decimal, ExpressionExtensions.ToPrimitive);
         }
 
         /// <summary>
@@ -912,12 +1220,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The zero-indexed target <see cref="String"/> vector array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this string[] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this string[] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<string>(identityManager, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<string>(identityManager, relativeAssembly, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -925,12 +1236,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="String"/> two-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this string[,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this string[,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<string>(identityManager, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<string>(identityManager, relativeAssembly, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -938,12 +1252,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="String"/> three-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this string[, ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this string[, ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<string>(identityManager, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<string>(identityManager, relativeAssembly, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
         }
         /// <summary>
         /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
@@ -951,12 +1268,31 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <param name="target">The target <see cref="String"/> four-dimensional array to convert.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
         /// the <paramref name="target"/> array.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
-        public static ICreateArrayDetailExpression ToExpression(this string[, , ,] target, ITypeIdentityManager identityManager)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this string[, , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
         {
-            return target.ToExpression<string>(identityManager, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
+            return target.ToExpression<string>(identityManager, relativeAssembly, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
+        }
+        /// <summary>
+        /// Converts the <paramref name="target"/> array into a <see cref="ICreateArrayDetailExpression"/>.
+        /// </summary>
+        /// <param name="target">The target <see cref="String"/> five-dimensional array to convert.</param>
+        /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents
+        /// the <paramref name="target"/> array.</returns>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
+        /// which is responsible for maintaining type identity within the current type
+        /// model.</param>
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        public static ICreateArrayDetailExpression ToExpression(this string[, , , ,] target, IIdentityManager identityManager, IAssembly relativeAssembly = null)
+        {
+            return target.ToExpression<string>(identityManager, relativeAssembly, RuntimeCoreType.String, ExpressionExtensions.ToPrimitive);
         }
         #endregion
 
@@ -970,19 +1306,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         /// <typeparamref name="T"/> into <see cref="IExpression"/> instances.</param>
         /// <returns>A new <see cref="ICreateArrayDetailExpression"/> that represents the
         /// <paramref name="target"/> <see cref="Array"/>.</returns>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/>
         /// which is responsible for maintaining type identity within the current type
         /// model.</param>
         /// <param name="coreType">The <see cref="RuntimeCoreType"/>
         /// the elements within <paramref name="target"/> are.</param>
-        public static ICreateArrayDetailExpression ToExpression<T>(this Array target, ITypeIdentityManager identityManager, RuntimeCoreType coreType, Func<T, IExpression> expressionConverter)
+        /// <param name="relativeAssembly">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="identityManager"/> which helps disambiguate the data type
+        /// associated to the members of the <paramref name="target"/>.</param>
+        private static ICreateArrayDetailExpression ToExpression<T>(this Array target, IIdentityManager identityManager, IAssembly relativeAssembly, RuntimeCoreType coreType, Func<T, IExpression> expressionConverter)
         {
             /* *
              * Instantiate a create array expression with item
              * details.
              * */
             int arrayRank = target.Rank;
-            var result = new MalleableCreateArrayDetailExpression(identityManager.ObtainTypeReference(coreType), arrayRank);
+            var result = new MalleableCreateArrayDetailExpression(identityManager.ObtainTypeReference(coreType, relativeAssembly), arrayRank);
             /* *
              * Since the sizes are available, provide them
              * to the array detail.
@@ -1003,13 +1342,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 nestedDetails[i] = new MalleableCreateArrayNestedDetailExpression();
             int topRankIndex = arrayRank - 1;
             var topLevel = nestedDetails[topRankIndex];
+            int carriageReturnOrdinal = 1;
             /* *
              * The bounds increment lambda handles dimension spillover;
              * that is, when a rank's highest element is reached,
              * it's set back to one, when this occurs, the current definition
              * of the dimension is complete, and the next needs started.
              * */
-            Action<int, bool> boundsLambda = (rank, isIterationComplete) =>
+            OnBoundsIncrement boundsLambda = (rank, isIterationComplete) =>
             {
                 if (rank > 0)
                 {
@@ -1019,7 +1359,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                     else
                         nestedDetails[rank] = null;
                     if (rank == topRankIndex)
-                        topLevel = nestedDetails[topRankIndex];
+                        topLevel = nestedDetails[rank];
                 }
             };
 
@@ -1029,8 +1369,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
              * *
              * The bounds lambda handles divisioning.
              * */
+
             foreach (var indices in target.Iterate(onBoundsIncrement: boundsLambda))
-                topLevel.Details.Add(expressionConverter((T)target.GetValue(indices)));
+            {
+                bool addReturn = carriageReturnOrdinal % 25 == 0;
+                carriageReturnOrdinal++;
+                var current = expressionConverter((T)target.GetValue(indices));
+                if (addReturn)
+                    current = current.LeftNewLine();
+                topLevel.Details.Add(current);
+            }
             return result;
         }
     }

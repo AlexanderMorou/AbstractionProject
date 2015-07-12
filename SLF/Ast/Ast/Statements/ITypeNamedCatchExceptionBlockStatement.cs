@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -19,9 +19,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         ITypedCatchExceptionBlockStatement
     {
         /// <summary>
-        /// Returns the <see cref="ILocalDeclarationStatement"/> associated to the
+        /// Returns the <see cref="ILocalDeclarationsStatement"/> associated to the
         /// <see cref="ITypeNamedCatchExceptionBlockStatement"/>.
         /// </summary>
-        ILocalDeclarationStatement LocalVariable { get; }
+        ILocalDeclarationsStatement LocalVariable { get; }
     }
 }
