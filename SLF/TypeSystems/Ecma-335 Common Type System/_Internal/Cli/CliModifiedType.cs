@@ -8,9 +8,13 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
+    /// <summary>
+    /// Provides a modified type implementation.
+    /// </summary>
     internal partial class CliModifiedType :
         TypeBase<IModifiedTypeUniqueIdentifier>,
         IModifiedType
@@ -20,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// Returns the <see cref="ICliType"/> from which the current
         /// <see cref="CliModifiedType"/> originated.
         /// </summary>
-        private ICliType original;
+        private IType original;
 
         /// <summary>
         /// Data member describing the modifiers associated to the
@@ -30,11 +34,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private ModifierCollection modifierCollection;
 
-        public CliModifiedType(ICliType original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
+        public CliModifiedType(IType original, IControlledCollection<ICliMetadataCustomModifierSignature> modifiers)
         {
             this.original = original;
             this.modifiers = modifiers;
         }
+
         #region IModifiedType Members
 
         public IControlledCollection<TypeModification> Modifiers
@@ -144,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return this.original.Metadata;
         }
@@ -154,7 +159,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             get { return this.original.AggregateIdentifiers; }
         }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIdentityManager OnGetManager()
         {
             return this.original.IdentityManager;
         }

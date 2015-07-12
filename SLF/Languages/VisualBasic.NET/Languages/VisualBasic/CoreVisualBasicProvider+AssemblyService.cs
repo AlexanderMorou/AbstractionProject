@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Ast;
+using AllenCopeland.Abstraction.Utilities.Services;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
@@ -21,7 +22,9 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
             public ICoreVisualBasicAssembly New(string name)
             {
-                return new CoreVisualBasicAssembly(name, this.Provider);
+                var result = new CoreVisualBasicAssembly(name, this.Provider);
+                this.Provider.IdentityManager.AssemblyCreated(result);
+                return result;
             }
 
             #endregion
@@ -64,6 +67,15 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
             }
 
             #endregion
+
+            IServiceProvider<ILanguageService> IService<ILanguageService>.Provider
+            {
+                get
+                {
+                    return this.Provider;
+                }
+            }
+
         }
     }
 }

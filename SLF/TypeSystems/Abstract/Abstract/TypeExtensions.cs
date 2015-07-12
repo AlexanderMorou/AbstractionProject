@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -14,11 +14,6 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
-    internal enum TypeParameterDisplayMode
-    {
-        SystemStandard,
-        DebuggerStandard,
-    }
     /// <summary>
     /// Defines the source of type-replacements for the
     /// generic.
@@ -126,7 +121,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return new TypeCollection(array.Cast<IType>().ToArray());
         }
 
-        //public static ITypeCollection ToCollection(this IEnumerable<Type> set, ITypeIdentityManager manager)
+        //public static ITypeCollection ToCollection(this IEnumerable<Type> set, IIdentityManager manager)
         //{
 
         //}
@@ -168,6 +163,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             throw new ArgumentException("Unrecognized entity in member nesting chain.");
         }
 
+
         /// <summary>
         /// Debug method used to display the name of a type in a near CLR-identical manner.
         /// </summary>
@@ -181,7 +177,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// square brackets ('[' and ']'), and <see cref="TypeParameterDisplayMode.DebuggerStandard"/>
         /// shows angle brackets ('&lt;' and '&gt;').</param>
         /// <returns></returns>
-        internal static string BuildTypeName(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        public static string BuildTypeName(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
+        {
+            if (target == null)
+                throw new ArgumentNullException("target");
+            var identityManager = target.IdentityManager;
+            if (identityManager == null)
+                return target.Name;
+            ITypeNameBuilderService builderService;
+            if (identityManager.TryGetService(IdentityServiceGuids.TypeNameBuilderService, out builderService))
+                return builderService.BuildTypeName(target, shortFormGeneric, numericTypeParams, typeParameterDisplayMode);
+            return target.Name;
+        }
+        internal static string BuildTypeNameInternal(this IType target, bool shortFormGeneric = false, bool numericTypeParams = false, TypeParameterDisplayMode typeParameterDisplayMode = TypeParameterDisplayMode.SystemStandard)
         {
             switch (target.ElementClassification)
             {
@@ -250,7 +258,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                                     first = false;
                                 else
                                     sb.Append(",");
-                                bool addedDots = false;
+                                bool addedDots;
                                 if (addedDots = (i < lowerBoundCount))
                                     sb.AppendFormat("{0}...", lowerBounds[i]);
                                 if (i < lengthCount)
@@ -364,6 +372,28 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return false;
         }
 
+        internal static bool ContainsSymbols(this IType type)
+        {
+            if (type.IsGenericTypeParameter && !type.IsGenericConstruct)
+                return ((IGenericType)(type)).ContainsSymbols();
+            switch (type.ElementClassification)
+            {
+                case TypeElementClassification.Array:
+                case TypeElementClassification.Nullable:
+                case TypeElementClassification.Pointer:
+                case TypeElementClassification.Reference:
+                    return type.ElementType.ContainsSymbols();
+                    break;
+                case TypeElementClassification.ModifiedType:
+                    IModifiedType mType = type as IModifiedType;
+                    if (mType != null)
+                        return mType.ElementType.ContainsSymbols() || 
+                               mType.Modifiers.Any(k => k.ModifierType.ContainsSymbols());
+                    break;
+            }
+            return type is ISymbolType;
+        }
+
         internal static bool ContainsGenericParameters(this IType type)
         {
             if (type.IsGenericConstruct && type is IGenericType)
@@ -384,6 +414,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                     case TypeElementClassification.Pointer:
                     case TypeElementClassification.Reference:
                         return type.ElementType.ContainsGenericParameters();
+                    case TypeElementClassification.ModifiedType:
+                        IModifiedType mType = type as IModifiedType;
+                        if (mType != null)
+                            return mType.ElementType.ContainsGenericParameters() ||
+                                   mType.Modifiers.Any(k => k.ModifierType.ContainsGenericParameters());
+                        break;
                 }
                 return type.IsGenericTypeParameter;
             }
@@ -394,6 +430,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return collection.Any(current => current.ContainsGenericParameters());
         }
 
+        internal static bool ContainsSymbols(this IControlledTypeCollection collection)
+        {
+            return collection.Any(current => current.ContainsSymbols());
+        }
         /// <summary>
         /// Obtains the top-most element type of a jagged <paramref name="array"/>.
         /// </summary>
@@ -463,11 +503,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                      * uses.
                      * */
                     if ((parameterSource & TypeParameterSources.Method) == TypeParameterSources.Method &&
-                        ((IGenericParameter) (target)).Parent == null &&
+                        ((IGenericParameter) (target)).Parent is IMethodSignatureMember &&
                         ((IGenericParameter) (target)).Position < methodReplacements.Count)
                         return methodReplacements[((IGenericParameter) (target)).Position];
                     if ((parameterSource & TypeParameterSources.Type) == TypeParameterSources.Type &&
-                        ((IGenericParameter) (target)).Parent != null &&
+                        ((IGenericParameter) (target)).Parent is IGenericType &&
                         ((IGenericParameter) (target)).Position < typeReplacements.Count)
                         return typeReplacements[((IGenericParameter) (target)).Position];
                 }
@@ -492,7 +532,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                         break;
                     case TypeElementClassification.None:
                         if (target is IGenericType &&
-                           (parameterSource == TypeParameterSources.Type && ((IGenericType) (target)).GenericParameters.Count == typeReplacements.Count))
+                           (parameterSource == TypeParameterSources.Type && ((IGenericType) (target)).GenericParameters.Count == typeReplacements.Count) && target.IsGenericConstruct && typeReplacements.Count > 0)
                             return ((IGenericType) (target)).MakeGenericClosure(typeReplacements);
 
                         break;
@@ -512,31 +552,34 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// provided.</returns>
         public static INamespaceDeclaration GetThis(this INamespaceDictionary target, string path)
         {
-            if (path.Contains('.'))
-            {
-                INamespaceDeclaration insd = null;
-                var points = (from s in path.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
-                              select TypeSystemIdentifiers.GetDeclarationIdentifier(s)).ToArray();
-                StringBuilder sb = new StringBuilder();
-                bool first = true;
-
-                foreach (var s in points)
+            var pathVariants = path.NamespacePathBreakdown();
+            if (target.Parent is INamespaceDeclaration)
+                pathVariants = pathVariants.Except(((INamespaceDeclaration)(target.Parent)).FullName.NamespacePathBreakdown()).ToArray();
+            INamespaceDictionary currentDictionary = target;
+            foreach (var currentPath in pathVariants)
+                if (currentDictionary.ContainsKey(currentPath))
+                    currentDictionary = currentDictionary.Values[currentDictionary.Keys.IndexOf(currentPath)].Namespaces;
+                else
                 {
-                    if (first)
-                        first = false;
-                    else
-                        sb.Append('.');
-                    //The first is the dictionary calling this method.
-                    sb.Append(s);
-                    if (insd == null)
-                        insd = target.Values[target.Keys.GetIndexOf(TypeSystemIdentifiers.GetDeclarationIdentifier(sb.ToString()))];
-                    else
-                        insd = insd.Namespaces[TypeSystemIdentifiers.GetDeclarationIdentifier(sb.ToString())];
+                    currentDictionary=null;
+                    break;
                 }
-                return insd;
-            }
-            else
-                return target.Values[target.Keys.GetIndexOf(TypeSystemIdentifiers.GetDeclarationIdentifier(path))];
+            if (currentDictionary != null)
+                return currentDictionary.Parent as INamespaceDeclaration;
+            throw new ArgumentOutOfRangeException("path");
+        }
+
+        public static string GetNamespaceFinalPathPart(this string path)
+        {
+            if (!path.Contains('.'))
+                return path;
+            return path.Substring(path.IndicesOf(".").Last().Previous);
+        }
+
+        public static IEnumerable<IGeneralDeclarationUniqueIdentifier> NamespacePathBreakdown(this string path)
+        {
+            return from element in path.IndicesOf(".")
+                   select TypeSystemIdentifiers.GetDeclarationIdentifier(element.Current == -1 ? path : path.Substring(0, element.Current));
         }
 
         public static TypedNameSeries ToSeries(this IEnumerable<TypedName> target)

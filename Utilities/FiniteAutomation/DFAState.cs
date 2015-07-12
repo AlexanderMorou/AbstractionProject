@@ -1,15 +1,17 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Utilities.Collections;
+using AllenCopeland.Abstraction.Utilities.Arrays;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
     /// <summary>
@@ -17,32 +19,35 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// </summary>
     /// <typeparam name="TCheck">The kind of set used as a condition for
     /// transitioning between states.</typeparam>
-    /// <typeparam name="TState">The kind of dfa state used within the automation.</typeparam>
+    /// <typeparam name="TNFAState">The kind of nfa state used within the automation.</typeparam>
+    /// <typeparam name="TDFAState">The kind of dfa state used within the automation.</typeparam>
     /// <typeparam name="TSourceElement">The kind of element used to represent the sources
     /// within the deterministic finite automation.</typeparam>
-    public abstract class DFAState<TCheck, TState, TSourceElement> :
-        FiniteAutomataState<TCheck, TState, TState, TSourceElement>,
-        IDFAState<TCheck, TState, TSourceElement>
+    public abstract partial class DFAState<TCheck, TNFAState, TDFAState, TSourceElement> :
+        FiniteAutomataState<TCheck, TDFAState, TDFAState, TSourceElement>,
+        IDFAState<TCheck, TNFAState, TDFAState, TSourceElement>
         where TCheck :
-            class,
             IFiniteAutomataSet<TCheck>,
             new()
-        where TState :
-            DFAState<TCheck, TState, TSourceElement>
+        where TDFAState :
+            DFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
+            new()
+        where TNFAState :
+            NFAState<TCheck, TNFAState, TDFAState, TSourceElement>
         where TSourceElement :
             IFiniteAutomataSource
     {
-        private static List<TState> ToStringStack = new List<TState>();
+        private static List<TDFAState> ToStringStack = new List<TDFAState>();
 
         /// <summary>
         /// Initializes the <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TNodeTarget}"/>
-        /// for the current <see cref="DFAState{TCheck, TState, TSourceElement}"/>.
+        /// for the current <see cref="DFAState{TCheck, TDFAState, TNFAState, TSourceElement}"/>.
         /// </summary>
         /// <returns>A new <see cref="IFiniteAutomataTransitionTable{TCheck, TState, TForwardNodeTarget}"/>
         /// representing the state's outgoing transitions.</returns>
-        protected override IFiniteAutomataTransitionTable<TCheck, TState, TState> InitializeOutTransitionTable()
+        protected override IFiniteAutomataTransitionTable<TCheck, TDFAState, TDFAState> InitializeOutTransitionTable()
         {
-            return new FiniteAutomataSingleTargetTransitionTable<TCheck, TState>();
+            return new FiniteAutomataSingleTargetTransitionTable<TCheck, TDFAState>();
         }
 
         /// <summary>
@@ -50,36 +55,36 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// which denotes the table of single-target transition nodes going away
         /// from the current state.
         /// </summary>
-        public new FiniteAutomataSingleTargetTransitionTable<TCheck, TState> OutTransitions
+        public new FiniteAutomataSingleTargetTransitionTable<TCheck, TDFAState> OutTransitions
         {
             get
             {
-                return ((FiniteAutomataSingleTargetTransitionTable<TCheck, TState>)base.OutTransitions);
+                return ((FiniteAutomataSingleTargetTransitionTable<TCheck, TDFAState>)base.OutTransitions);
             }
         }
 
-        IFiniteAutomataSingleTargetTransitionTable<TCheck, TState> IDFAState<TCheck, TState, TSourceElement>.OutTransitions
+        IFiniteAutomataSingleTargetTransitionTable<TCheck, TDFAState> IDFAState<TCheck, TNFAState, TDFAState, TSourceElement>.OutTransitions
         {
             get
             {
-                return (IFiniteAutomataSingleTargetTransitionTable<TCheck, TState>)(base.OutTransitions);
+                return (IFiniteAutomataSingleTargetTransitionTable<TCheck, TDFAState>)(base.OutTransitions);
             }
         }
 
         /// <summary>
         /// Obtains the edges of the current
-        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>
+        /// <see cref="DFAState{TCheck, TDFAState, TNFAState, TSourceElement}"/>
         /// which are plausible points to terminate the current state.
         /// </summary>
         /// <returns>An <see cref="IEnumerable{T}"/> instance which
         /// yields the edges of the current 
-        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>.
+        /// <see cref="DFAState{TCheck, TDFAState, TNFAState, TSourceElement}"/>.
         /// </returns>
-        public override IEnumerable<TState> ObtainEdges()
+        public override IEnumerable<TDFAState> ObtainEdges()
         {
-            Stack<TState> toCheck = new Stack<TState>();
-            toCheck.Push((TState)this);
-            List<TState> considered = new List<TState>();
+            Stack<TDFAState> toCheck = new Stack<TDFAState>();
+            toCheck.Push((TDFAState)this);
+            List<TDFAState> considered = new List<TDFAState>();
             while (toCheck.Count > 0)
             {
                 var current = toCheck.Pop();
@@ -97,24 +102,24 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Creates a transition from the current 
-        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>
+        /// <see cref="DFAState{TCheck, TDFAState, TNFAState, TSourceElement}"/>
         /// to the <paramref name="target"/> with the
         /// <paramref name="condition"/> for transition provided.
         /// </summary>
         /// <param name="condition">The <typeparamref name="TCheck"/>
         /// which restricts the move.</param>
-        /// <param name="target">The <typeparamref name="TState"/>
+        /// <param name="target">The <typeparamref name="TDFAState"/>
         /// to move into.</param>
-        public override void MoveTo(TCheck condition, TState target)
+        public override void MoveTo(TCheck condition, TDFAState target)
         {
             this.OutTransitions.Add(condition, target);
-            target.MovedInto(condition, (TState)this);
+            target.MovedInto(condition, (TDFAState)this);
         }
 
-        private void MoveToInternal(TCheck condition, TState target)
+        private void MoveToInternal(TCheck condition, TDFAState target)
         {
             this.OutTransitions.AddInternal(condition, target);
-            target.MovedInto(condition, (TState)this);
+            target.MovedInto(condition, (TDFAState)this);
         }
 
         /// <summary>
@@ -124,10 +129,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// number of states in the deterministic automation.</returns>
         public override int CountStates()
         {
-            return CountStates((TState)this, new HashSet<TState>());
+            return CountStates((TDFAState)this, new HashSet<TDFAState>());
         }
 
-        private int CountStates(TState target, HashSet<TState> covered)
+        private int CountStates(TDFAState target, HashSet<TDFAState> covered)
         {
             if (covered.Contains(target))
                 return 0;
@@ -144,7 +149,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         /// <summary>
         /// Returns the string representation of the 
-        /// <see cref="DFAState{TCheck, TState, TSourceElement}"/>.
+        /// <see cref="DFAState{TCheck, TDFAState, TNFAState, TSourceElement}"/>.
         /// </summary>
         /// <returns>A <see cref="String"/> value representing
         /// the state.</returns>
@@ -155,7 +160,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         private string ToStringInternal()
         {
-            var thisTState = this as TState;
+            var thisTState = this as TDFAState;
             bool firstOnStack = ToStringStack.Count == 0;
             if (ToStringStack.Contains(thisTState))
                 return string.Format("* ({0})", this.StateValue);
@@ -165,12 +170,18 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 MemoryStream ms = new MemoryStream();
                 TextWriter tw = new StreamWriter(ms);
                 IndentedTextWriter itw = new IndentedTextWriter(tw);
+                var terminalSources = (from s in Sources
+                                       where s.Item2 == FiniteAutomationSourceKind.Final
+                                       select s.Item1).ToArray();
                 itw.Indent++;
                 if (this.OutTransitions != null && this.OutTransitions.Count > 0)
                 {
                     if (this.IsEdge)
                     {
-                        itw.Write("<END>");
+                        if (terminalSources.Length == 0)
+                            itw.Write("<END>");
+                        else
+                            itw.Write(string.Format("<END for {{{0}}}>", string.Join(", ", GetTerminalStrings(terminalSources))));
                         itw.WriteLine();
                     }
                     foreach (var subItem in this.OutTransitions)
@@ -192,7 +203,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 }
                 else
                 {
-                    itw.Write("<END>");
+                    if (terminalSources.Length == 0)
+                        itw.Write("<END>");
+                    else
+                        itw.Write(string.Format("<END for {{{0}}}>", string.Join(", ", GetTerminalStrings(terminalSources))));
                     itw.WriteLine();
                 }
                 itw.Indent--;
@@ -209,7 +223,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 ms.Dispose();
                 itw.Dispose();
                 if (firstOnStack)
-                    result = string.Format("Regular State Count: {0}\r\n {{Start {1}}}", this.CountStates().ToString(), this.StateValue) + "\r\n" + result;
+                    result = string.Format("Regular State Count: {0}\r\n {{Start {1}}}", this.CountStates(), this.StateValue) + "\r\n" + result;
                 return result;
             }
             finally
@@ -219,29 +233,65 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
+        private static IEnumerable<string> GetTerminalStrings(TSourceElement[] sources)
+        {
+            foreach (var source in sources)
+            {
+                var s = source.ToString();
+                if (s.Contains('\r') || s.Contains('\n'))
+                {
+                    int rIndex = s.IndexOf('\r');
+                    int nIndex = s.IndexOf('\r');
+                    int trimIndex = Math.Min(rIndex, nIndex);
+                    yield return s.Substring(0, trimIndex) + "...";
+                }
+                else
+                    yield return s;
+            }
+        }
+
         protected virtual IEnumerable<Tuple<TSourceElement, FiniteAutomationSourceKind>> ReduceSources(IEnumerable<Tuple<TSourceElement, FiniteAutomationSourceKind>> currentSources)
         {
             return currentSources;
         }
-        
-        protected static void Reduce(TState target, bool recognizer)
+
+        private List<TDFAState> GetReductionZone()
+        {
+            List<TDFAState> reductionZone = new List<TDFAState>();
+            GetReductionZone((TDFAState)(object)this, reductionZone, new List<TDFAState>());
+            return reductionZone;
+        }
+
+        private static void GetReductionZone(TDFAState origin, List<TDFAState> reductionZone, List<TDFAState> visited)
+        {
+            if (visited.Contains(origin))
+                return;
+            visited.Add(origin);
+            if (origin.IsReductionSite && !reductionZone.Contains(origin))
+                reductionZone.Add(origin);
+            foreach (var target in origin.OutTransitions.Values)
+                GetReductionZone(target, reductionZone, visited);
+        }
+
+        protected static void Reduce(TDFAState target, bool recognizer, Func<TDFAState, TDFAState, bool> additionalReducer = null)
         {
             int last = 0;
         Repeat:
-            Dictionary<TState, List<TState>> forwardDuplications = new Dictionary<TState, List<TState>>();
-            List<TState> flatForm = new List<TState>();
+            Dictionary<TDFAState, List<TDFAState>> forwardDuplications = new Dictionary<TDFAState, List<TDFAState>>();
+            List<TDFAState> flatForm = new List<TDFAState>();
             flatForm.Add(target);
             FlatlineState(target, flatForm);
             flatForm = flatForm.Distinct().ToList();
             bool[] found = new bool[flatForm.Count];
             Parallel.For(0, flatForm.Count, i =>
+            //for (int i = 0; i < flatForm.Count; i++)
             {
                 lock (found)
                 {
                     if (found[i])
                         return;
                 }
-                TState iItem = flatForm[i];
+                TDFAState iItem = flatForm[i];
                 /* *
                  * If the state is already being replaced,
                  * no need to check it again.
@@ -255,11 +305,44 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     if (RecognizerTerminalEquivalencyCheck(iItem, i, flatForm, found, forwardDuplications))
                         return;
                 //Merge forward.
-                StateEquivalencyCheck(iItem, i, flatForm, found, forwardDuplications);
+                StateEquivalencyCheck(iItem, i, flatForm, found, recognizer, forwardDuplications, additionalReducer);
             });
-            //for (int i = 0; i < flatForm.Count; i++)
-            //{
-            //}
+
+            var maxReduces = (from f in flatForm
+                              where f.IsReductionSite
+                              where !forwardDuplications.Values.Any(reducedSet => reducedSet.Contains(f))
+                              select f).ToArray();
+            var reductionZones = new ControlledDictionary<TDFAState, List<TDFAState>>();
+
+            foreach (var maximalReducer in maxReduces)
+            {
+                if (reductionZones.Values.Any(zone=>zone.Contains(maximalReducer)))
+                    continue;
+                reductionZones._Add(maximalReducer, (from k in maximalReducer.GetReductionZone()
+                                                     where !forwardDuplications.Values.Any(reducedSet => reducedSet.Contains(k))
+                                                     select k).ToList());
+            }
+            /* *
+             * Now we have the zones which need reduced to the max.
+             * *
+             * These are for optimization purposes where you know
+             * the order isn't important, but the data itself is.
+             * */
+            for (int i = 0; i < reductionZones.Count; i++)
+            {
+                var maxReduceSet = reductionZones.Values[i];
+                bool[] maxFound = new bool[maxReduceSet.Count];
+                for (int j = 0; j < maxReduceSet.Count; j++)
+                {
+                    var iItem = maxReduceSet[j];
+                    if (maxFound[j])
+                        continue;
+                    if (RecognizerTerminalEquivalencyCheck(iItem, i, maxReduceSet, maxFound, forwardDuplications))
+                        continue;
+                    StateEquivalencyCheck(iItem, j, maxReduceSet, maxFound, true, forwardDuplications, additionalReducer);
+                }
+            }
+
             /* *
              * Replace the states that are considered extraneous.
              * */
@@ -286,19 +369,19 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
-        private static void CondenseTransitions(TState target)
+        private static void CondenseTransitions(TDFAState target)
         {
-            List<TState> condenseStack = new List<TState>();
+            List<TDFAState> condenseStack = new List<TDFAState>();
             CondenseTransitions(target, condenseStack);
         }
 
-        private static void CondenseTransitions(TState target, List<TState> condenseStack)
+        private static void CondenseTransitions(TDFAState target, List<TDFAState> condenseStack)
         {
             if (condenseStack.Contains(target))
                 return;
             condenseStack.Add(target);
 
-            Dictionary<TState, List<TCheck>> stateTransitionLookup = new Dictionary<TState, List<TCheck>>();
+            Dictionary<TDFAState, List<TCheck>> stateTransitionLookup = new Dictionary<TDFAState, List<TCheck>>();
             /* *
              * Enumerate the transitions and create a reverse lookup
              * for the transitions.
@@ -321,7 +404,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             foreach (var condensed in condenseQuery)
             {
                 var transitionState = condensed.Key;
-                TCheck fullRange = null;
+                TCheck fullRange = default(TCheck);
                 foreach (var transition in condensed.Value)
                 {
                     transitionState.InTransitions.Remove(transition, target);
@@ -339,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 condenseStack.Clear();
         }
 
-        private static bool RecognizerTerminalEquivalencyCheck(TState targetState, int targetCompareIndex, List<TState> compare, bool[] found, Dictionary<TState, List<TState>> targetRedundancyLookup)
+        private static bool RecognizerTerminalEquivalencyCheck(TDFAState targetState, int targetCompareIndex, List<TDFAState> compare, bool[] found, Dictionary<TDFAState, List<TDFAState>> targetRedundancyLookup)
         {
             /* *
              * Merge behind.  Basically any edge which has equal incoming transitions
@@ -348,18 +431,18 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
              * */
             if (targetState.OutTransitions == null || targetState.OutTransitions.Count == 0)
             {
-                Parallel.For(targetCompareIndex + 1, compare.Count, j =>
-                //for (int j = targetCompareIndex + 1; j < compare.Count; j++)
+                //Parallel.For(targetCompareIndex + 1, compare.Count, j =>
+                for (int j = targetCompareIndex + 1; j < compare.Count; j++)
                 {
                     lock (found)
                         if (found[j])
-                            return;
-                   TState currentState = compare[j];
+                            continue;
+                    TDFAState currentState = compare[j];
                     if (currentState.OutTransitions != null && currentState.OutTransitions.Count > 0)
-                        return;
+                        continue;
                     if (currentState.InTransitions == null ||
                         currentState.InTransitions.Count != targetState.InTransitions.Count)
-                        return;
+                        continue;
                     /* *
                      * A bit different than the reverse.
                      * Only worry about cases where 
@@ -390,22 +473,22 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                                 break;
                         }
                         if (!match)
-                            return;
+                            continue;
                         if (targetState.IsEdge == currentState.IsEdge &&
                             currentState != targetState)
                         {
+                            lock (found)
+                                found[j] = true;
                             lock (targetRedundancyLookup)
                             {
-                                lock (found)
-                                    found[j] = true;
                                 if (!targetRedundancyLookup.ContainsKey(targetState))
-                                    targetRedundancyLookup.Add(targetState, new List<TState>());
+                                    targetRedundancyLookup.Add(targetState, new List<TDFAState>());
                                 if (!targetRedundancyLookup[targetState].Contains(currentState))
                                     targetRedundancyLookup[targetState].Add(currentState);
                             }
                         }
                     }
-                });
+                }//);
                 /* *
                  * The primary procedure that reduces the states
                  * utilizes a loop, states that contain no transitions
@@ -422,12 +505,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// automation and places them within the
         /// <paramref name="result"/> provided.
         /// </summary>
-        /// <param name="state">The <typeparamref name="TState"/>
+        /// <param name="state">The <typeparamref name="TDFAState"/>
         /// which represents the root state.</param>
         /// <param name="result">The <see cref="List{T}"/>
-        /// of <typeparamref name="TState"/>
+        /// of <typeparamref name="TDFAState"/>
         /// elements to populate.</param>
-        public static void FlatlineState(TState state, List<TState> result)
+        public static void FlatlineState(TDFAState state, List<TDFAState> result)
         {
             if (state == null)
                 throw new ArgumentNullException("state");
@@ -445,12 +528,32 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         }
 
 
-        private static void StateEquivalencyCheck(TState targetState, int targetCompareIndex, List<TState> compare, bool[] found, Dictionary<TState, List<TState>> targetRedundancyLookup)
+        private static void StateEquivalencyCheck(TDFAState targetState, int targetCompareIndex, List<TDFAState> compare, bool[] found, bool recognizer, Dictionary<TDFAState, List<TDFAState>> targetRedundancyLookup, Func<TDFAState, TDFAState, bool> additionalReducer)
         {
             Parallel.For(targetCompareIndex + 1, compare.Count, j =>
             //for (int j = targetCompareIndex + 1; j < compare.Count; j++)
             {
-                TState currentState = compare[j];
+                /* *
+                 * Allow the use of a custom reduction function.
+                 * *
+                 * This is to enable situations where the target machine
+                 * is better understood than the cautious state equivalency
+                 * performed here.
+                 * */
+                TDFAState currentState = compare[j];
+                if (additionalReducer != null)
+                {
+                    if (additionalReducer(targetState, currentState))
+                    {
+                        found[j] = true;
+                        lock (targetRedundancyLookup)
+                        {
+                            if (!targetRedundancyLookup.ContainsKey(targetState))
+                                targetRedundancyLookup.Add(targetState, new List<TDFAState>());
+                            targetRedundancyLookup[targetState].Add(currentState);
+                        }
+                    }
+                }
                 if (currentState.OutTransitions == null)
                     return;
                 if (currentState.OutTransitions.Count == 0)
@@ -470,16 +573,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     bool match = true;
                     for (int k = 0; k < currentState.OutTransitions.Count; k++)
                     {
-                        /* *
-                         * Should always be '1' on the count, regardless,
-                         * post DFA conversion but again, err on the side 
-                         * of caution.
-                         * */
                         var kTransition = currentState.OutTransitions.ElementAt(k);
                         /* *
                          * Obtain the transition for the target state,
                          * use the transition key vs. the index
-                         * since index equivalency shoulld exist, but 
+                         * since index equivalency should exist, but 
                          * future changes to the code might alter this
                          * truth.
                          * */
@@ -504,12 +602,17 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     if (targetState.IsEdge == currentState.IsEdge &&
                         currentState != targetState)
                     {
+                        if (!recognizer && !(currentState.IsReductionSite && targetState.IsReductionSite))
+                        {
+                            if (!(currentState.SourceCount == targetState.SourceCount && currentState.Sources.All(s => targetState.Sources.Contains(s))))
+                                return;
+                        }
                         lock (found)
                             found[j] = true;
                         lock (targetRedundancyLookup)
                         {
                             if (!targetRedundancyLookup.ContainsKey(targetState))
-                                targetRedundancyLookup.Add(targetState, new List<TState>());
+                                targetRedundancyLookup.Add(targetState, new List<TDFAState>());
                             targetRedundancyLookup[targetState].Add(currentState);
                         }
                     }
@@ -522,9 +625,9 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// </summary>
         /// <param name="replacement">The master state which is noted to be 
         /// equivalent to the <paramref name="original"/> provided.</param>
-        /// <param name="original">The <typeparamref name="TState"/> 
+        /// <param name="original">The <typeparamref name="TDFAState"/> 
         /// to replace.</param>
-        private static void ReplaceState(TState replacement, TState original)
+        private static void ReplaceState(TDFAState replacement, TDFAState original)
         {
             /* *
              * Build a table relative to the states which flow into
@@ -550,62 +653,84 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                             break;
                     }
                 });
-            Dictionary<TCheck, Dictionary<TCheck, HashSet<TState>>> inStates = new Dictionary<TCheck, Dictionary<TCheck, HashSet<TState>>>();
+            if (original.contextSize > 0)
+            {
+                var originalOverlappingContexts =
+                    (from replacementContext in (replacement.contexts ?? new ConstructionContext[0])
+                     where replacementContext != null
+                     from originalContext in original.contexts
+                     where originalContext != null
+                     where replacementContext.ConstructionCondition.Equals(originalContext.ConstructionCondition)
+                     select originalContext).Distinct().ToArray();
+                var originalNewContexts =
+                    (from originalContext in original.contexts
+                    where originalContext != null
+                    select originalContext).Except(originalOverlappingContexts).ToArray();
+                for (int i = 0; i < replacement.contextSize; i++)
+                {
+                    var replacementContext = replacement.contexts[i];
+                    for (int j = 0; j < originalOverlappingContexts.Length; j++)
+                    {
+                        if (originalOverlappingContexts[j].ConstructionCondition.Equals(replacementContext.ConstructionCondition))
+                            replacementContext.MergeWith(originalOverlappingContexts[j]);
+                    }
+                }
+                if (originalNewContexts.Length > 0)
+                {
+                    replacement.contexts = replacement.contexts.EnsureSpaceExists(replacement.contextSize, originalNewContexts.Length);
+                    originalNewContexts.CopyTo(replacement.contexts, replacement.contextSize);
+                    replacement.contextSize += originalNewContexts.Length;
+                }
+            }
+
+            Dictionary<TCheck, Dictionary<TCheck, HashSet<TDFAState>>> inStates = new Dictionary<TCheck, Dictionary<TCheck, HashSet<TDFAState>>>();
             foreach (var backCheck in original.InTransitions.Keys)
-                lock (backCheck)
-                    foreach (var backTarget in original.InTransitions[backCheck])
-                        foreach (var forwardCheck in backTarget.OutTransitions.Keys)
-                            lock (forwardCheck)
-                                if (backTarget.OutTransitions[forwardCheck] == original)
-                                {
-                                    /* *
-                                     * Because the number of states going into another state are
-                                     * 1:many, versus 1:1 for outgoing states, there's no guarantee
-                                     * that the same incoming condition for entering a state is the 
-                                     * same as the outgoing condition that's actually used.
-                                     * */
-                                    Dictionary<TCheck, HashSet<TState>> firstSet;
-                                    if (!inStates.TryGetValue(forwardCheck, out firstSet))
-                                        inStates.Add(forwardCheck, firstSet = new Dictionary<TCheck, HashSet<TState>>());
-                                    HashSet<TState> subSet;
-                                    if (!firstSet.TryGetValue(backCheck, out subSet))
-                                        firstSet.Add(backCheck, subSet = new HashSet<TState>());
-                                    if (!subSet.Contains(backTarget))
-                                        subSet.Add(backTarget);
-                                }
+                foreach (var backTarget in original.InTransitions[backCheck])
+                    foreach (var forwardCheck in backTarget.OutTransitions.Keys)
+                        if (backTarget.OutTransitions[forwardCheck] == original)
+                        {
+                            /* *
+                             * Because the number of states going into another state are
+                             * 1:many, versus 1:1 for outgoing states, there's no guarantee
+                             * that the same incoming condition for entering a state is the 
+                             * same as the outgoing condition that's actually used.
+                             * */
+                            Dictionary<TCheck, HashSet<TDFAState>> firstSet;
+                            if (!inStates.TryGetValue(forwardCheck, out firstSet))
+                                inStates.Add(forwardCheck, firstSet = new Dictionary<TCheck, HashSet<TDFAState>>());
+                            HashSet<TDFAState> subSet;
+                            if (!firstSet.TryGetValue(backCheck, out subSet))
+                                firstSet.Add(backCheck, subSet = new HashSet<TDFAState>());
+                            if (!subSet.Contains(backTarget))
+                                subSet.Add(backTarget);
+                        }
 
             foreach (var forwardCheck in inStates.Keys)
-            {
-                lock (forwardCheck)
-                    foreach (var backCheck in inStates[forwardCheck].Keys)
+                foreach (var backCheck in inStates[forwardCheck].Keys)
+                    foreach (var backState in inStates[forwardCheck][backCheck])
                     {
-                        lock (backCheck)
-                            foreach (var backState in inStates[forwardCheck][backCheck])
-                            {
-                                backState.OutTransitions.Remove(forwardCheck);
-                                /* *
-                                 * Collision checks on the DFA transition table are 
-                                 * performed to ensure that if a collision occurs
-                                 * an error is thrown to indicate a malformed
-                                 * request, since DFA states have one target
-                                 * per transition.
-                                 * *
-                                 * Perform an internal move-to to ensure
-                                 * un-necessary set computations aren't performed,
-                                 * since the logic above removes the un-needed
-                                 * targets from scope.
-                                 * */
-                                backState.MoveToInternal(forwardCheck, replacement);
-                            }
+                        backState.OutTransitions.Remove(forwardCheck);
+                        /* *
+                         * Collision checks on the DFA transition table are 
+                         * performed to ensure that if a collision occurs
+                         * an error is thrown to indicate a malformed
+                         * request, since DFA states have one target
+                         * per transition.
+                         * *
+                         * Perform an internal move-to to ensure
+                         * un-necessary set computations aren't performed,
+                         * since the logic above removes the un-needed
+                         * targets from scope.
+                         * */
+                        backState.MoveToInternal(forwardCheck, replacement);
                     }
-            }
         }
         public IEnumerable<TSourceElement> SourceSet
         {
             get
             {
                 List<TSourceElement> results = new List<TSourceElement>();
-                PropagateSources((TState)this, results, new List<TState>(), SourceSetPredicate);
+                PropagateSources((TDFAState)this, results, new List<TDFAState>(), SourceSetPredicate);
                 foreach (var source in results)
                     yield return source;
             }
@@ -613,7 +738,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         protected abstract bool SourceSetPredicate(TSourceElement source);
 
-        public static void PropagateSources(TState target, List<TSourceElement> results, List<TState> observed, Predicate<TSourceElement> limiter)
+        public static void PropagateSources(TDFAState target, List<TSourceElement> results, List<TDFAState> observed, Predicate<TSourceElement> limiter)
         {
             if (observed.Contains(target))
                 return;
@@ -630,6 +755,28 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         public void ReduceSources()
         {
             this.SetSources(this.ReduceSources(this.Sources).ToDictionary(p => p.Item1, p => p.Item2));
+        }
+
+        /// <summary>
+        /// Returns/sets whether the resulted state is a reduction point.
+        /// </summary>
+        /// <remarks>Reduction sites reduce to their smallest form at all
+        /// times.</remarks>
+        public bool IsReductionSite { get; set; }
+        internal void PushContext(TCheck condition, List<TNFAState> states)
+        {
+            this.contexts = this.contexts.EnsureSpaceExists(contextSize, 1);
+            this.contexts[this.contextSize++] = new ConstructionContext(condition, states);
+        }
+
+        public IEnumerable<IDFAConstructionContext<TCheck, TNFAState, TDFAState, TSourceElement>> ConstructionSources
+        {
+            get
+            {
+                for (int i = 0; i < this.contextSize; i++)
+                    if (this.contexts[i] != null)
+                        yield return this.contexts[i];
+            }
         }
 
     }

@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Properties;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -81,22 +81,28 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         /// <summary>
         /// Creates a new <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
-        /// with the <paramref name="name"/> and <paramref name="parent"/> provided.
+        /// with the <paramref name="name"/>, <paramref name="parent"/> and <paramref name="assembly"/> provided.
         /// </summary>
         /// <param name="name">The <see cref="String"/> value representing the unique name of the 
         /// <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/> which contains the
         /// <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public IntermediateIndexerSignatureMember(string name, TIntermediateIndexerParent parent, ITypeIdentityManager identityManager)
-            : base(name, parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/> which
+        /// contains the <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
+        public IntermediateIndexerSignatureMember(string name, TIntermediateIndexerParent parent, IIntermediateAssembly assembly)
+            : base(name, parent, assembly)
         {
         }
-
-        protected IntermediateIndexerSignatureMember(TIntermediateIndexerParent parent, ITypeIdentityManager identityManager)
-            : base(parent, identityManager)
+        /// <summary>
+        /// Creates a new <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>
+        /// with the <paramref name="parent"/> and <paramref name="assembly"/> provided.
+        /// </summary>
+        /// <param name="parent">The <typeparamref name="TIntermediateIndexerParent"/> which contains the
+        /// <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/> which
+        /// contains the <see cref="IntermediateIndexerSignatureMember{TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent, TMethodMember}"/>.</param>
+        protected IntermediateIndexerSignatureMember(TIntermediateIndexerParent parent, IIntermediateAssembly assembly)
+            : base(parent, assembly)
         {
         }
 
@@ -301,7 +307,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         protected override IntermediateParameterMemberDictionary<TIndexer, TIntermediateIndexer, IIndexerSignatureParameterMember<TIndexer, TIndexerParent>, IIntermediateIndexerSignatureParameterMember<TIndexer, TIntermediateIndexer, TIndexerParent, TIntermediateIndexerParent>> InitializeParameters()
         {
-            return new ParametersDictionary((TIntermediateIndexer)(object)this, this.IdentityManager);
+            return new ParametersDictionary((TIntermediateIndexer)(object)this, this.Assembly);
         }
 
         public override void Visit(IIntermediateMemberVisitor visitor)
@@ -350,7 +356,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                         else
-                            this.metadata = new MetadataDefinitionCollection(this, this.IdentityManager);
+                            this.metadata = new MetadataDefinitionCollection(this, this.Assembly);
                     return this.metadata;
                 }
             }

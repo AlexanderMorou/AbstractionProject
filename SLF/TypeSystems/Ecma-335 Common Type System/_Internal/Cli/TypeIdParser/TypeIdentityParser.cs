@@ -243,7 +243,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser
                         goto AppendNext;
                     goto typeParamPart;
                 case CommonSymbolCases.PointerCallout:
-                    elementClassifications.Add(new TIElementClassificationRule(TypeElementClassification.Pointer));
                     goto parseElementClassifications;
                 case CommonSymbolCases.ByRefCallout:
                     elementClassifications.Add(new TIElementClassificationRule(TypeElementClassification.Pointer));

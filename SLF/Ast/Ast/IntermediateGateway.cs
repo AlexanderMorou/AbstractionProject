@@ -18,12 +18,12 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Slf.Languages.Cil;
 using System.Runtime.CompilerServices;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -180,13 +180,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <returns>A <see cref="ISymbolType">symbol type</see>
         /// for the <paramref name="typeSymbol">type symbol</paramref>
         /// provided.</returns>
-        public static ISymbolType GetSymbolType(this string typeSymbol)
+        public static ISymbolType GetSymbolType(this string typeSymbol, IIdentityManager identityManager = null)
         {
             if (typeSymbol == null)
                 throw new ArgumentNullException("typeSymbol");
             ISymbolType result;
             if (!SymbolTypeCache.TryGetValue(typeSymbol, nullNamespace, 0, out result))
-                SymbolTypeCache.Add(typeSymbol, nullNamespace, 0, result = new SymbolType(typeSymbol));
+                SymbolTypeCache.Add(typeSymbol, nullNamespace, 0, result = new SymbolType(typeSymbol, identityManager));
             return result;
         }
 
@@ -204,16 +204,23 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <remarks>Used in cases where the source language needs a symbol representing
         /// a known type, typically a situation where the symbol or set of symbols is known
         /// to be a type by syntax.</remarks>
-        public static ISymbolType GetSymbolType(this string typeSymbol, int genericParameterCount)
+        public static ISymbolType GetSymbolType(this string typeSymbol, int genericParameterCount, IIdentityManager identityManager = null)
         {
-            return GetSymbolType(typeSymbol, nullNamespace);
+            if (typeSymbol == null)
+                throw new ArgumentNullException("typeSymbol");
+            if (genericParameterCount == 0)
+                throw new ArgumentNullException("genericParameterCount");
+            ISymbolType genericDefinition;
+            if (!SymbolTypeCache.TryGetValue(typeSymbol, nullNamespace, genericParameterCount, out genericDefinition))
+                SymbolTypeCache.Add(typeSymbol, nullNamespace, genericParameterCount, genericDefinition = new SymbolType(typeSymbol, identityManager, genericParameterCount));
+            return genericDefinition;
         }
 
-        public static ISymbolType GetSymbolType(this string typeSymbol, params IType[] genericParameters)
+        public static ISymbolType GetSymbolType(this string typeSymbol, IIdentityManager identityManager = null, params IType[] genericParameters)
         {
             return typeSymbol.GetSymbolType(genericParameters.ToCollection());
         }
-        public static ISymbolType GetSymbolType(this string typeSymbol, ITypeCollection genericParameters)
+        public static ISymbolType GetSymbolType(this string typeSymbol, ITypeCollection genericParameters, IIdentityManager identityManager = null)
         {
             if (typeSymbol == null)
                 throw new ArgumentNullException("typeSymbol");
@@ -222,32 +229,34 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             int count = genericParameters.Count;
             ISymbolType genericDefinition;
             if (!SymbolTypeCache.TryGetValue(typeSymbol, nullNamespace, count, out genericDefinition))
-                SymbolTypeCache.Add(typeSymbol, nullNamespace, count, genericDefinition = new SymbolType(typeSymbol, count));
+                SymbolTypeCache.Add(typeSymbol, nullNamespace, count, genericDefinition = new SymbolType(typeSymbol, identityManager, count));
             return genericDefinition.MakeGenericClosure(genericParameters);
         }
 
-        public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace)
+        public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace, IIdentityManager identityManager = null)
         {
             if (typeSymbol == null)
                 throw new ArgumentNullException("typeSymbol");
             if (@namespace == null)
-                throw new ArgumentNullException("namespace");
+                @namespace = nullNamespace;
             ISymbolType result;
             if (!SymbolTypeCache.TryGetValue(typeSymbol, @namespace, 0, out result))
-                SymbolTypeCache.Add(typeSymbol, @namespace, 0, result = new SymbolType(typeSymbol, @namespace));
+                SymbolTypeCache.Add(typeSymbol, @namespace, 0, result = new SymbolType(typeSymbol, @namespace == nullNamespace ? null : @namespace, identityManager));
             return result;
         }
 
-        public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace, ITypeCollection genericParameters)
+        public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace, ITypeCollection genericParameters, IIdentityManager identityManager = null)
         {
             if (typeSymbol == null)
                 throw new ArgumentNullException("typeSymbol");
+            if (@namespace == null)
+                @namespace = nullNamespace;
             if (genericParameters == null)
                 throw new ArgumentNullException("genericParameters");
             int count = genericParameters.Count;
             ISymbolType genericDefinition;
             if (!SymbolTypeCache.TryGetValue(typeSymbol, @namespace, count, out genericDefinition))
-                SymbolTypeCache.Add(typeSymbol, @namespace, count, genericDefinition = new SymbolType(typeSymbol, count, @namespace));
+                SymbolTypeCache.Add(typeSymbol, @namespace, count, genericDefinition = new SymbolType(typeSymbol, count, @namespace == nullNamespace ? null : @namespace, identityManager));
             return genericDefinition.MakeGenericClosure(genericParameters);
         }
 
@@ -273,7 +282,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public static ISymbolType GetSymbolType(this string typeSymbol, params string[] typeParameters)
         {
-            return typeSymbol.GetSymbolType(typeParameters.OnAll<string, ISymbolType>(GetSymbolType).ToCollection());
+            return typeSymbol.GetSymbolType(typeParameters.OnAll<string, ISymbolType>(v => GetSymbolType(v)).ToCollection());
         }
 
         public static IMethodReferenceStub GetMethod(this ISymbolType symbolType, string methodName, params string[] typeParameterNames)
@@ -286,7 +295,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public static ISymbolType GetSymbolType(this string typeSymbol, string @namespace, string[] typeParameters)
         {
-            return typeSymbol.GetSymbolType(@namespace, new TypeCollection(typeParameters.OnAll<string, ISymbolType>(GetSymbolType).Cast<IType>().ToArray()));
+            return typeSymbol.GetSymbolType(@namespace, new TypeCollection(typeParameters.OnAll<string, ISymbolType>(v => GetSymbolType(v)).Cast<IType>().ToArray()));
         }
         #endregion//*/
 
@@ -352,7 +361,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             where TIndexerParent :
                 IIndexerSignatureParent<TIndexer, TIndexerParent>
         {
-            return new IndexerSignatureReferenceExpression<TIndexer, TIndexerParent>(target, parameters, source);
+            return new IndexerSignatureReferenceExpression<TIndexer, TIndexerParent>(target, parameters, source, source.CheckSourceReferenceType());
+        }
+
+        internal static IIndexerReferenceExpression<TIndexer, TIndexerParent> GetIndexerReference<TIndexer, TIndexerParent>(this TIndexer target, IMemberParentReferenceExpression source, IEnumerable<IExpression> parameters)
+            where TIndexer :
+                IIndexerMember<TIndexer, TIndexerParent>
+            where TIndexerParent :
+                IIndexerParent<TIndexer, TIndexerParent>
+        {
+            if (target is IInstanceMember)
+            {
+                if (source == null)
+                    source = new AutoContextMemberSource((IInstanceMember)target);
+            }
+            return new IndexerReferenceExpression<TIndexer, TIndexerParent>(target, parameters, source, source.CheckSourceReferenceType());
         }
 
         internal static IPropertySignatureReferenceExpression<TProperty, TPropertyParent> GetPropertySignatureReference<TProperty, TPropertyParent>(this TProperty target, IMemberParentReferenceExpression source)
@@ -361,7 +384,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             where TPropertyParent :
                 IPropertySignatureParent<TProperty, TPropertyParent>
         {
-            return new PropertySignatureReferenceExpression<TProperty, TPropertyParent>(source, target);
+            return new PropertySignatureReferenceExpression<TProperty, TPropertyParent>(source, target, source.CheckSourceReferenceType());
         }
 
         internal static IPropertyReferenceExpression<TProperty, TPropertyParent> GetPropertyReference<TProperty, TPropertyParent>(this TProperty target, IMemberParentReferenceExpression source)
@@ -370,7 +393,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             where TPropertyParent :
                 IPropertyParent<TProperty, TPropertyParent>
         {
-            return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target);
+            if (target is IInstanceMember)
+            {
+                if (source == null)
+                    source = new AutoContextMemberSource((IInstanceMember)target);
+            }
+            return new PropertyReferenceExpression<TProperty, TPropertyParent>(source, target, source.CheckSourceReferenceType());
         }
 
         internal static IEventReferenceExpression<TEvent, TEventParameter, TEventParent> GetEventReference<TEvent, TEventParameter, TEventParent>(this TEvent @event, IMemberParentReferenceExpression source = null)
@@ -381,12 +409,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             where TEventParent :
                 IEventSignatureParent<TEvent, TEventParameter, TEventParent>
         {
-            if (@event is IIntermediateInstanceMember)
+            if (@event is IInstanceMember)
             {
                 if (source == null)
-                    source = new AutoContextMemberSource((IIntermediateInstanceMember)@event);
+                    source = new AutoContextMemberSource((IInstanceMember)@event);
             }
             return new EventReferenceExpression<TEvent, TEventParameter, TEventParent>(source, @event);
+        }
+
+        private static MethodReferenceType CheckSourceReferenceType(this IMemberParentReferenceExpression source)
+        {
+            return (source is ISpecialReferenceExpression && ((ISpecialReferenceExpression)(source)).Kind == SpecialReferenceKind.Self) ? MethodReferenceType.StandardMethodReference : MethodReferenceType.VirtualMethodReference;
         }
 
         internal static IPropertyReferenceExpression GetPropertyReference(this IPropertySignatureMember target, IMemberParentReferenceExpression source)
@@ -477,10 +510,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             where TParent :
                 ISignatureParent<IGeneralGenericSignatureMemberUniqueIdentifier, TSignature, TSignatureParameter, TParent>
         {
-            if (target is IIntermediateInstanceMember)
+            if (target is IInstanceMember)
             {
                 if (source == null)
-                    source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
+                    source = new AutoContextMemberSource((IInstanceMember)target);
             }
             return new MethodReferenceStub<TSignatureParameter, TSignature, TParent>(source, target, () => new MethodPointerReferenceExpression<TSignatureParameter, TSignature, TParent>.SignatureTypes(target));
         }
@@ -498,10 +531,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             where TFieldParent :
                 IFieldParent<TField, TFieldParent>
         {
-            if (target is IIntermediateInstanceMember)
+            if (target is IInstanceMember)
             {
                 if (source == null)
-                    source = new AutoContextMemberSource((IIntermediateInstanceMember)target);
+                    source = new AutoContextMemberSource((IInstanceMember)target);
+            }
+            else if (target is IEnumFieldMember && source == null)
+            {
+                var eField = (IEnumFieldMember)target;
+                source = eField.Parent.GetTypeExpression();
             }
             return new FieldReferenceExpression<TField, TFieldParent>(target, source);
         }
@@ -590,7 +628,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                      * there are type-parameters that are available.
                      * */
                     symbolReference = typedName.SymbolReference;
-            ObtainSymbol:
+                ObtainSymbol:
                     return DisambiguateFromType(containingType, symbolReference, referenceType);
             }
             return null;
@@ -639,11 +677,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     if (topScopeGenericType.TypeParameters.ContainsName(symbolReference))
                         return (IIntermediateGenericParameter)topScopeGenericType.TypeParameters[TypeSystemIdentifiers.GetGenericParameterIdentifier(symbolReference, true)];
                 }
-                if (containingType.Parent is IIntermediateType)
+                if (containingType.Parent is IIntermediateType && !(containingType is IIntermediateGenericParameter))
                     containingType = (IIntermediateType)containingType.Parent;
-                else if (containingType.Parent is IIntermediateMember)
+                else if (containingType.Parent is IIntermediateMember || containingType is IIntermediateGenericParameter)
                 {
-                    var containingMember = (IIntermediateMember)containingType.Parent;
+                    IIntermediateMember containingMember = null;
+                    var genericParamCurrent = (containingType as IIntermediateGenericParameter);
+                    if (genericParamCurrent != null)
+                        if (genericParamCurrent.Parent is IIntermediateGenericType)
+                            containingType = genericParamCurrent.Parent as IIntermediateGenericType;
+                        else if (!(genericParamCurrent.Parent is IIntermediateMember))
+                            goto breakBoth;
+                        else
+                        {
+                            containingMember = (IIntermediateMember)genericParamCurrent.Parent;
+                            goto skipContainingMember;
+                        }
+                    containingMember = (IIntermediateMember)containingType.Parent;
+                skipContainingMember:
                     while (containingMember != null)
                     {
                         /* *
@@ -753,11 +804,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return OtherSelector;
         }
 
-        private static DisambiguateFromSelector TypeSelector = 
-            (target, symbolReference, referenceType) => 
+        private static DisambiguateFromSelector TypeSelector =
+            (target, symbolReference, referenceType) =>
                 DisambiguateFromType((IIntermediateType)target, symbolReference, referenceType);
-        private static DisambiguateFromSelector MemberSelector = 
-            (target, symbolReference, referenceType) => 
+        private static DisambiguateFromSelector MemberSelector =
+            (target, symbolReference, referenceType) =>
                 DisambiguateFromMember((IIntermediateMember)target, symbolReference, referenceType);
         private static DisambiguateFromSelector OtherSelector =
             (target, symbolReference, referenceType) =>
@@ -1233,7 +1284,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                    select t;
         }
 
-        internal static string EscapeStringOrCharCILAndCS(this string toEscape, bool isString = true)
+        public static string EscapeStringOrCharCILAndCS(this string toEscape, bool isString = true)
         {
             StringBuilder sb = new StringBuilder((int)((float)(toEscape.Length + 8) * 1.1));
             if (isString)
@@ -1268,6 +1319,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     case '\0':
                         sb.Append(@"\0");
                         break;
+                    case '\t':
+                        sb.Append(@"\t");
+                        break;
+                    case '\v':
+                        sb.Append(@"\v");
+                        break;
                     case '\x85':
                         sb.Append("\\x85");
                         break;
@@ -1291,20 +1348,5 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return sb.ToString();
         }
 
-        public static IIntermediateCliManager CreateIdentityManager(ICliRuntimeEnvironmentInfo runtimeEnvironment)
-        {
-            return new IntermediateCliManager(runtimeEnvironment);
-        }
-
-
-        public static IIntermediateCliManager CreateIdentityManager(CliFrameworkPlatform platform, CliFrameworkVersion version = CliGateway.CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true, bool useGlobalAccessCache = true)
-        {
-            return CreateIdentityManager(CliGateway.GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache));
-        }
-
-        public static IIntermediateCliManager CreateIdentityManager(CliFrameworkPlatform platform, CliFrameworkVersion version, bool resolveCurrent, bool useCoreLibrary, bool useGlobalAccessCache, params string[] additionalResolutionPaths)
-        {
-            return CreateIdentityManager(CliGateway.GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache, additionalResolutionPaths));
-        }
     }
 }

@@ -35,7 +35,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             IGenericType IGenericTypeParameter.Parent { get { return this.Parent; } }
 
-            protected override ITypeIdentityManager OnGetManager()
+            protected override IIdentityManager OnGetManager()
             {
                 return this.Parent.IdentityManager;
             }

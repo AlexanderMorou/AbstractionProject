@@ -5,8 +5,17 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
+    /// <summary>
+    /// Defines properties and methods for working with
+    /// information about a standardized runtime environment.
+    /// </summary>
     public interface IStandardRuntimeEnvironmentInfo
     {
+        /// <summary>
+        /// Returns whether the runtime environment supports unsigned
+        /// 8-bit to 64-bit integers.
+        /// </summary>
+        bool SupportsUnsignedTypes { get; }
         /// <summary>
         /// Returns the <see cref="IGeneralTypeUniqueIdentifier"/> of the <paramref name="coreType"/>
         /// provided.
@@ -16,15 +25,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <returns>A <see cref="IGeneralTypeUniqueIdentifier"/> relative to the 
         /// <paramref name="coreType"/> provided.</returns>
         IGeneralTypeUniqueIdentifier GetCoreIdentifier(RuntimeCoreType coreType);
-        /// <summary>
-        /// Returns the series of <see cref="IType"/>s implemented by the
-        /// <paramref name="coreType"/>
-        /// </summary>
-        /// <param name="coreType">The <see cref="RuntimeCoreType"/>
-        /// to request the implemented interfaces of.</param>
-        /// <returns>A <see cref="IEnumerable{T}"/> of the interfaces
-        /// implemented by <paramref name="coreType"/>.</returns>
-        IEnumerable<IType> GetCoreTypeInterfaces(RuntimeCoreType coreType);
         /// <summary>
         /// Returns the definition of the root of all array types.
         /// </summary>
@@ -52,6 +52,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the definition of an unsigned byte.
         /// </summary>
+        /// <remarks>Returns null if <see cref="SupportsUnsignedTypes"/>
+        /// is false.</remarks>
         IGeneralTypeUniqueIdentifier Byte { get; }
         /// <summary>
         /// Returns the definition of a unicode character.
@@ -68,6 +70,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the definition of an unsigned 16-bit integer.
         /// </summary>
+        /// <remarks>Returns null if <see cref="SupportsUnsignedTypes"/>
+        /// is false.</remarks>
         IGeneralTypeUniqueIdentifier UInt16 { get; }
         /// <summary>
         /// Returns the definition of a signed 32-bit integer.
@@ -76,6 +80,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the definition of an unsigned 32-bit integer.
         /// </summary>
+        /// <remarks>Returns null if <see cref="SupportsUnsignedTypes"/>
+        /// is false.</remarks>
         IGeneralTypeUniqueIdentifier UInt32 { get; }
         /// <summary>
         /// Returns the definition of a signed 64-bit integer.
@@ -84,6 +90,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// <summary>
         /// Returns the definition of an unsigned 64-bit integer.
         /// </summary>
+        /// <remarks>Returns null if <see cref="SupportsUnsignedTypes"/>
+        /// is false.</remarks>
         IGeneralTypeUniqueIdentifier UInt64 { get; }
         /// <summary>
         /// Returns the  
@@ -106,6 +114,5 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// Returns the definition of the Type type.
         /// </summary>
         IGeneralTypeUniqueIdentifier TypeType { get; }
-
     }
 }

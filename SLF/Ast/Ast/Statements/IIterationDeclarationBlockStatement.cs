@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -15,9 +15,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         IIterationBlockBaseStatement
     {
         /// <summary>
-        /// Returns/sets the <see cref="ILocalDeclarationStatement"/> which executes once at the initialization
+        /// Returns/sets the <see cref="ILocalDeclarationsStatement"/> which executes once at the initialization
         /// of the iteration process.
         /// </summary>
-        ILocalDeclarationStatement LocalDeclaration { get; set; }
+        ILocalDeclarationsStatement LocalDeclaration { get; set; }
     }
 }

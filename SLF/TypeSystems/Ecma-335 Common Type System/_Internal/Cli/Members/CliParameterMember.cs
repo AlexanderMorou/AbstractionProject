@@ -49,9 +49,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 {
                     var sigParameter = this.parent.Signature.Parameters[this.index];
                     if (sigParameter.CustomModifiers.Count > 0)
-                        this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType).MakeModified(sigParameter.CustomModifiers.Resolve(this.parent.IdentityManager).ToArray());
+                        this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType, this.ActiveType, this.ActiveMethod).MakeModified(sigParameter.CustomModifiers.Resolve(this.parent.IdentityManager, this.ActiveType, this.ActiveMethod, this.Parent.Assembly).ToArray());
                     else
-                        this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType, this.ActiveType,this.ActiveMethod);
+                        this.parameterType = this.parent.IdentityManager.ObtainTypeReference(sigParameter.ParameterType, this.ActiveType, this.ActiveMethod, this.Parent.Assembly);
                 }
                 return this.parameterType;
             }

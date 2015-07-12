@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -96,5 +96,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// Returns whether the <see cref="IIntermediateType"/> is disposed.
         /// </summary>
         bool IsDisposed { get; }
+        /// <summary>
+        /// Returns the <see cref="IIntermediateIdentityManager"/> which
+        /// helps resolve type identities.
+        /// </summary>
+        new IIntermediateIdentityManager IdentityManager { get; }
+        /// <summary>
+        /// Returns/sets the <see cref="String"/> value denoting
+        /// the Summary text of the <see cref="IIntermediateType"/>.
+        /// </summary>
+        string SummaryText { get; set; }
+        /// <summary>
+        /// Returns/sets the <see cref="String"/> value denoting
+        /// the remarks text of the <see cref="IIntermediateType"/>.
+        /// </summary>
+        string RemarksText { get; set; }
     }
 }

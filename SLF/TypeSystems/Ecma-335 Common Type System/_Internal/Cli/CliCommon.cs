@@ -30,9 +30,13 @@ using SlotType = System.UInt64;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
+
     static partial class CliCommon
     {
         internal const string VersionString_1_0_3705 = "v1.0.3705";
+        internal const string VersionString_1_0_Alternate = "v1.x86ret";
+        internal const string VersionString_1_0_Alternate2 = "retail";
+        internal const string VersionString_1_0_Alternate3 = "COMPLUS";
         internal const string VersionString_1_1_4322 = "v1.1.4322";
         internal const string VersionString_2_0_50727 = "v2.0.50727";
         internal const string VersionString_3_0 = "v3.0";
@@ -42,11 +46,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal const string ConstructorName = ".ctor";
         internal const string ConstructorStaticName = ".cctor";
-
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 3705, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(2, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(4, 0, 0000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
 
         internal static Tuple<PEImage, CliMetadataFixedRoot> LoadAssemblyMetadata(string filename)
         {
@@ -125,10 +124,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public static IEnumerable<TypeModification> Resolve(this IEnumerable<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager)
+        public static IEnumerable<TypeModification> Resolve(this IEnumerable<ICliMetadataCustomModifierSignature> modifiers, _ICliManager manager, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             return from modifier in modifiers
-                   select new TypeModification(manager.ObtainTypeReference(modifier.ModifierType), modifier.Required);
+                   select new TypeModification(manager.ObtainTypeReference(modifier.ModifierType, activeType, activeMethod, activeAssembly), modifier.Required);
         }
 
         internal static Tuple<IAssemblyUniqueIdentifier, IStrongNamePublicKeyInfo, PEImage, CliMetadataFixedRoot, ICliMetadataAssemblyTableRow, string> CheckFilename(string directory, string filename, string extension)
@@ -213,7 +212,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             /* *
              * Obtain the StrongName info.
              * */
-            if (firstAssemblyRow.PublicKey.Length == 0)
+            if (firstAssemblyRow.PublicKey == null || firstAssemblyRow.PublicKey.Length == 0)
                 publicKeyInfo = null;
             else
                 publicKeyInfo = (IStrongNamePublicKeyInfo)StrongNameKeyPairHelper.LoadStrongNameKeyData(firstAssemblyRow.PublicKey, false);
@@ -365,15 +364,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                                 if (assemblyRef == null)
                                     return null;
                                 var assembly = manager.ObtainAssemblyReference(assemblyRef);
-                                if (assembly is _ICliAssembly)
-                                {
-                                    var cliAssembly = (ICliAssembly)assembly;
-                                    var typeDef = cliAssembly.FindType(typeRef.Namespace, typeRef.Name);
-                                    if (typeDef != null && (selectionPredicate == null || selectionPredicate(manager, typeDef)))
-                                        return typeDef;
-                                }
+                                string name = typeRef.Name;
+                                string nameSpace = typeRef.Namespace;
+                                return ObtainExportReference(manager, selectionPredicate, assembly, name, nameSpace);
                             }
-                            break;
                     }
                     break;
                 case CliMetadataTypeDefOrRefTag.TypeSpecification:
@@ -401,6 +395,56 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         }
                     }
                     break;
+            }
+            return null;
+        }
+
+        private static ICliMetadataTypeDefinitionTableRow ObtainExportReference(_ICliManager manager, Func<_ICliManager, ICliMetadataTypeDefinitionTableRow, bool> selectionPredicate, IAssembly assembly, string name, string nameSpace, bool checkInitial = true)
+        {
+            ICliMetadataExportedTypeTableRow originalExport = null;
+            _ICliAssembly originalAssembly = null;
+            bool first = true;
+        recheckExport:
+            if (assembly is _ICliAssembly)
+            {
+                var cliAssembly = (_ICliAssembly)(assembly);
+
+
+                ICliMetadataTypeDefinitionTableRow typeDef = null;
+                if (originalAssembly == null)
+                    originalAssembly = cliAssembly;
+
+                if ((first && checkInitial || !first))
+                {
+                    typeDef = cliAssembly.FindType(nameSpace, name);
+                    if (typeDef != null && (selectionPredicate == null || selectionPredicate(manager, typeDef)))
+                    {
+                        lock (originalAssembly.ExportTableLookup)
+                            if (originalExport != null && !originalAssembly.ExportTableLookup.ContainsKey(originalExport))
+                                originalAssembly.ExportTableLookup._Add(originalExport, typeDef);
+                        return typeDef;
+                    }
+                }
+                else if (first)
+                    first = false;
+                if (typeDef == null && cliAssembly.MetadataRoot.TableStream.ExportedTypeTable != null)
+                {
+                    var exportedType = cliAssembly.MetadataRoot.TableStream.ExportedTypeTable.FirstOrDefault(k => (k.Name == name) && (k.Namespace == nameSpace));
+                    if (originalExport == null)
+                        originalExport = exportedType;
+                    lock (originalAssembly.ExportTableLookup)
+                        if (originalExport != null && originalAssembly.ExportTableLookup.ContainsKey(originalExport))
+                        {
+                            typeDef = originalAssembly.ExportTableLookup[originalExport];
+                            return typeDef;
+                        }
+                    if (originalExport != null && exportedType != null && exportedType.ImplementationSource == CliMetadataImplementationTag.AssemblyReference)
+                    {
+                        ICliMetadataAssemblyRefTableRow implementationRef = (ICliMetadataAssemblyRefTableRow)(exportedType.Implementation);
+                        assembly = manager.ObtainAssemblyReference(implementationRef);
+                        goto recheckExport;
+                    }
+                }
             }
             return null;
         }
@@ -721,21 +765,21 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return result;
         }
 
-        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(IGeneralTypeUniqueIdentifier uniqueIdentifier, CliNamespaceKeyedTree topLevel)
+        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(_ICliManager identityManager, IAssembly assembly, IGeneralTypeUniqueIdentifier uniqueIdentifier, CliNamespaceKeyedTree topLevel)
         {
             if (uniqueIdentifier.Name.Contains('`'))
-                return FindTypeImplementation(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
+                return FindTypeImplementation(identityManager, assembly, uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
             else if (uniqueIdentifier is IGenericTypeUniqueIdentifier)
             {
                 var genericUniqueId = uniqueIdentifier as IGenericTypeUniqueIdentifier;
                 if (genericUniqueId.TypeParameters > 0)
-                    return FindTypeImplementation(uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier)(uniqueIdentifier)).TypeParameters), topLevel);
+                    return FindTypeImplementation(identityManager, assembly, uniqueIdentifier.Namespace.Name, string.Format("{0}`{1}", uniqueIdentifier.Name, ((IGenericTypeUniqueIdentifier)(uniqueIdentifier)).TypeParameters), topLevel);
             }
-            return FindTypeImplementation(uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
+            return FindTypeImplementation(identityManager, assembly, uniqueIdentifier.Namespace.Name, uniqueIdentifier.Name, topLevel);
         }
 
 
-        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(string @namespace, string name, string moduleName, CliNamespaceKeyedTree topLevel, IModuleDictionary moduleDictionary)
+        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(_ICliManager identityManager, IAssembly assembly, string @namespace, string name, string moduleName, CliNamespaceKeyedTree topLevel, IModuleDictionary moduleDictionary)
         {
             string ns = @namespace;
 
@@ -745,7 +789,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 return null;
             ICliModule cliModule = module as ICliModule;
             if (cliModule == null)
-                return null;
+                goto checkExports;
         nextPart:
             int next = ns.IndexOf('.', lastIndex);
             if (next != -1)
@@ -755,7 +799,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
-                    return null;
+                    goto checkExports;
                 lastIndex = next + 1;
                 goto nextPart;
             }
@@ -766,7 +810,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
-                    return null;
+                    goto checkExports;
             }
             if (topLevel._Types != null)
             {
@@ -774,10 +818,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (nsType.MetadataRoot == cliModule.Metadata.MetadataRoot && nsType.Name == name)
                         return nsType;
             }
-            return null;
+        checkExports:
+            return ObtainExportReference(identityManager, null, assembly, name, @namespace, false);
         }
 
-        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(string @namespace, string name, CliNamespaceKeyedTree topLevel)
+        public static ICliMetadataTypeDefinitionTableRow FindTypeImplementation(_ICliManager identityManager, IAssembly assembly, string @namespace, string name, CliNamespaceKeyedTree topLevel)
         {
             string ns = @namespace;
 
@@ -793,7 +838,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
-                    return null;
+                    goto checkExports;
                 lastIndex = next + 1;
                 goto nextPart;
             }
@@ -804,7 +849,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 if (topLevel.ContainsKey(currentHash))
                     topLevel = topLevel[currentHash];
                 else
-                    return null;
+                    goto checkExports;
             }
         typeSearch:
             if (topLevel != null && topLevel._Types != null)
@@ -814,7 +859,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     if (nsType.Name == name)
                         return nsType;
             }
-            return null;
+        checkExports:
+            return ObtainExportReference(identityManager, null, assembly, name, @namespace, false);
         }
 
         public static IBinaryOperatorUniqueIdentifier GetBinaryOperatorUniqueIdentifier(ICliMetadataTypeDefinitionTableRow owner, ICliMetadataMethodDefinitionTableRow metadata)
@@ -887,6 +933,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             switch (s)
             {
+                case CliCommon.VersionString_1_0_Alternate:
+                case CliCommon.VersionString_1_0_Alternate2:
+                case CliCommon.VersionString_1_0_Alternate3:
                 case CliCommon.VersionString_1_0_3705:
                     return CliFrameworkVersion.v1_0_3705;
                 case CliCommon.VersionString_1_1_4322:
@@ -904,6 +953,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 default:
                     throw new InvalidOperationException();
             }
+        }
+
+        public static string GetFrameworkStringFromVersion(CliFrameworkVersion version)
+        {
+            switch (version & (CliFrameworkVersion.VersionMask))
+            {
+                case CliFrameworkVersion.v1_1_4322:
+                    return CliCommon.VersionString_1_1_4322;
+                case CliFrameworkVersion.v2_0_50727:
+                    return CliCommon.VersionString_2_0_50727;
+                case CliFrameworkVersion.v3_0:
+                    return CliCommon.VersionString_3_0;
+                case CliFrameworkVersion.v3_5:
+                    return CliCommon.VersionString_3_5;
+                case CliFrameworkVersion.v4_0_30319:
+                    return CliCommon.VersionString_4_0_30319;
+                case CliFrameworkVersion.v4_5:
+                    return CliCommon.VersionString_4_5;
+            }
+            return CliCommon.VersionString_1_0_3705;
         }
 
         public static RuntimeCoreType GetCoreType(this IType type) { return type.IdentityManager.ObtainCoreType(type); }
@@ -928,21 +997,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return depth;
         }
 
-        internal static Stack<IGeneralTypeUniqueIdentifier> GetNestingHierarchy(this IGeneralTypeUniqueIdentifier identifier)
+        public static InstanceFieldMemberAttributes GetFieldInstanceFlags(FieldAttributes fieldAttrs)
         {
-            var nestingHierarchy = new Stack<IGeneralTypeUniqueIdentifier>();
-            var id = (IGeneralTypeUniqueIdentifier)identifier;
-            while (id != null)
-            {
-                nestingHierarchy.Push(id);
-                id = id.ParentIdentifier;
-            }
-            return nestingHierarchy;
-        }
-
-        public static InstanceMemberFlags GetFieldInstanceFlags(FieldAttributes fieldAttrs)
-        {
-            return ((fieldAttrs & FieldAttributes.Static) == FieldAttributes.Static) ? InstanceMemberFlags.Static : InstanceMemberFlags.None;
+            return (((fieldAttrs & FieldAttributes.Static) == FieldAttributes.Static) ? InstanceFieldMemberAttributes.Static : InstanceFieldMemberAttributes.None) |
+                   (((fieldAttrs & FieldAttributes.InitOnly) == FieldAttributes.InitOnly) ? InstanceFieldMemberAttributes.ReadOnly : InstanceFieldMemberAttributes.None) |
+                   (((fieldAttrs & FieldAttributes.Literal) == FieldAttributes.Literal) ? InstanceFieldMemberAttributes.Constant : InstanceFieldMemberAttributes.None);
         }
 
         public static AccessLevelModifiers GetFieldAccessModifiers(FieldAttributes fieldAttrs)
@@ -991,7 +1050,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static IType ObtainTypeReference(this ICliMetadataPropertySignature signature, _ICliManager manager, ICliType activeType)
         {
-            var result = manager.ObtainTypeReference(signature.PropertyType, activeType, null);
+            var result = manager.ObtainTypeReference(signature.PropertyType, activeType, null, activeType == null ? null : activeType.Assembly);
             if (signature.CustomModifiers.Count > 0)
             {
                 result = result.MakeModified((from t in signature.CustomModifiers
@@ -1068,8 +1127,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return sb.ToString();
         }
 
-        public static IType DecodeParsedType(this ITIQualifiedTypeNameRule typeName, _ICliManager identityManager)
+        public static IType DecodeParsedType(this ITIQualifiedTypeNameRule typeName, ICliManager identityManager, IAssembly relAssem)
         {
+            var relativeAssembly = relAssem as ICliAssembly;
             IType currentType;
             var typeId = typeName.TypeIdentifier;
             var assemblyId = typeName.AssemblyIdentifier;
@@ -1081,14 +1141,19 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             if (typeId.Names.Count() > 1)
                 foreach (var name in typeId.Names.Skip(1))
                     currentTypeId = currentTypeId.GetNestedIdentifier(UnescapeName(name));
-            currentType = identityManager.ObtainTypeReference(currentTypeId);
+            currentType = identityManager.ObtainTypeReference(currentTypeId, relativeAssembly);
             if (typeId.HasTypeReplacements)
             {
                 if (currentType is IGenericType)
                 {
-                    var genericCurrent = (IGenericType)currentType;
-                    currentType = genericCurrent.MakeGenericClosure((from replacement in typeId.TypeReplacements
-                                                                     select DecodeParsedType(replacement.TypeIdentity, identityManager)).ToArray());
+                    if (currentType.IsGenericConstruct)
+                    {
+                        var genericCurrent = (IGenericType)currentType;
+                        currentType = genericCurrent.MakeGenericClosure((from replacement in typeId.TypeReplacements
+                                                                         select DecodeParsedType(replacement.TypeIdentity, identityManager, relativeAssembly)).ToArray());
+                    }
+                    else
+                        throw new ArgumentException(string.Format("Type {0} is not a generic type.", currentType.FullName), "typeName");
                 }
             }
             if (typeId.HasElementClassifications)

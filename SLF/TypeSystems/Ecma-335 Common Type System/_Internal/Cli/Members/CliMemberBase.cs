@@ -7,6 +7,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Cli;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract class CliMemberBase<TIdentifier, TParent, TMetadata> :
@@ -19,7 +20,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         where TMetadata :
             ICliMetadataTableRow
     {
+        /// <summary>
+        /// Data member for <see cref="MetadataEntry"/>.
+        /// </summary>
         private TMetadata metadataEntry;
+
+        /// <summary>
+        /// Creates a new <see cref="CliMemberBase{TIdentifier, TParent, TMetadata}"/>
+        /// with the <paramref name="parent"/> and <paramref name="metadataEntry"/> provided.
+        /// </summary>
+        /// <param name="parent">The <typeparamref name="TParent"/> which contains the
+        /// <see cref="CliMemberBase{TIdentifier, TParent, TMetadata}"/>.</param>
+        /// <param name="metadataEntry">The <typeparamref name="TMetadata"/> which
+        /// contains the information about the member the <see cref="CliMemberBase{TIdentifier, TParent, TMetadata}"/>
+        /// represents.</param>
         public CliMemberBase(TParent parent, TMetadata metadataEntry)
             : base(parent)
         {
@@ -31,9 +45,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         /// <see cref="CliMemberBase{TIdentifier, TParent, TMetadata}"/> was
         /// derived.
         /// </summary>
+        /// <value><see cref="metadataEntry"/></value>
         protected TMetadata MetadataEntry { get { return this.metadataEntry; } }
 
-        ICliMetadataTableRow ICliMetadataMember.MetadataEntry
+        ICliMetadataTableRow ICliDeclaration.MetadataEntry
         {
             get { return this.MetadataEntry; }
         }

@@ -8,53 +8,63 @@ using AllenCopeland.Abstraction.Utilities.Properties;
 
 namespace AllenCopeland.Abstraction.Numerics
 {
-    public static class NumericCommon
+    public static class NumericExtensions
     {
         internal static byte[] bitCounts = LoadBitLookup();
 
         private static byte[] LoadBitLookup()
         {
             byte[] result = new byte[ushort.MaxValue + 1];
-            GZipStream gzStream = new GZipStream(new MemoryStream(Resources.BitCounts, false), CompressionMode.Decompress);
-            gzStream.Read(result, 0, result.Length);
-            gzStream.Dispose();
+            using (GZipStream gzStream = new GZipStream(new MemoryStream(Resources.BitCounts, false), CompressionMode.Decompress))
+                gzStream.Read(result, 0, result.Length);
             return result;
         }
 
-        public static byte CountBits(this ulong value)
+        public static byte CountBits(this ushort target)
         {
-            uint loDWord = (uint) (value & 0xFFFFFFFF);
-            uint hiDWord = (uint) (value >> 32);
-            /* *
-             * Select out the individual words used to retrieve
-             * information from the cache.
-             * */
-            ushort loDWordLoWord = (ushort) (loDWord & 0xFFFF);
-            ushort loDWordHiWord = (ushort) ((loDWord >> (sizeof(ushort) * 8)));
-            ushort hiDWordLoWord = (ushort) (hiDWord & 0xFFFF);
-            ushort hiDWordHiWord = (ushort) ((hiDWord >> (sizeof(ushort) * 8)));
-            return (byte) (bitCounts[loDWordLoWord] + bitCounts[loDWordHiWord] + bitCounts[hiDWordLoWord] + bitCounts[hiDWordHiWord]);
+            return ((byte)(bitCounts[target]));
         }
-
-        public static byte CountBits(this uint value)
+        public static byte CountBits(this short target)
         {
-            /* *
-             * Select out the hi and lo words used to retrieve
-             * information from the cache.
-             * */
-            ushort loword = (ushort) (value & 0xFFFF);
-            ushort hiword = (ushort) ((value >> (sizeof(ushort) * 8)));
-            return (byte) (bitCounts[loword] + bitCounts[hiword]);
+            return ((byte)(bitCounts[target]));
         }
-
-        public static byte CountBits(this ushort value)
+        public static byte CountBits(this uint target)
         {
-            return bitCounts[value];
+            return ((byte)(
+                bitCounts[target & 0xFFFF] +
+                bitCounts[(target >> 0x10) & 0xFFFF]));
+        }
+        public static byte CountBits(this int target)
+        {
+            return ((byte)(
+                bitCounts[target & 0xFFFF] +
+                bitCounts[(target >> 0x10) & 0xFFFF]));
+        }
+        public static byte CountBits(this ulong target)
+        {
+            return ((byte)(
+                bitCounts[((int)(target & 0xFFFF))] +
+                bitCounts[((int)((target >> 0x10) & 0xFFFF))] +
+                bitCounts[((int)((target >> 0x20) & 0xFFFF))] +
+                bitCounts[((int)((target >> 0x30) & 0xFFFF))]));
+        }
+        public static byte CountBits(this long target)
+        {
+            return ((byte)(
+                bitCounts[((int)(target & 0xFFFF))] +
+                bitCounts[((int)((target >> 0x10) & 0xFFFF))] +
+                bitCounts[((int)((target >> 0x20) & 0xFFFF))] +
+                bitCounts[((int)((target >> 0x30) & 0xFFFF))]));
         }
 
         public static byte CountBits(this byte value)
         {
             return bitCounts[value];
+        }
+
+        public static byte CountBits(this sbyte value)
+        {
+            return bitCounts[unchecked((byte)value)];
         }
 
         /// <summary>

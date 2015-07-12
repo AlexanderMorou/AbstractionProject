@@ -27,10 +27,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         const string s_gac64 = "GAC_64";
 
 
-        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 3300, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         private static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", TypeSystemIdentifiers.GetVersion(4, 0, 0, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
-        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = TypeSystemIdentifiers.GetAssemblyIdentifier("System", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1 = TypeSystemIdentifiers.GetAssemblyIdentifier("System", TypeSystemIdentifiers.GetVersion(1, 0, 3300, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        private static readonly IAssemblyUniqueIdentifier systemIdentifierV1_1 = TypeSystemIdentifiers.GetAssemblyIdentifier("System", TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV2 = TypeSystemIdentifiers.GetAssemblyIdentifier("System", TypeSystemIdentifiers.GetVersion(2, 0, 0, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
         private static readonly IAssemblyUniqueIdentifier systemIdentifierV4 = TypeSystemIdentifiers.GetAssemblyIdentifier("System", TypeSystemIdentifiers.GetVersion(4, 0, 0, 0), CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
 
@@ -62,11 +64,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         //#region ICliRuntimeEnvironmentInfo Members
 
-        public bool ResolveCurrent { get; private set; }
+        public bool ResolveCurrent { get; protected set; }
 
-        public CliFrameworkPlatform Platform { get; private set; }
+        public CliFrameworkPlatform Platform { get; protected set; }
 
-        public CliFrameworkVersion Version { get; private set; }
+        public CliFrameworkVersion Version { get; protected set; }
 
         //#endregion
 
@@ -89,6 +91,14 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         private IEnumerable<string> GetResolutionPaths()
         {
+            if (!UseCoreLibrary)
+            {
+                if (ResolveCurrent)
+                    yield return Directory.GetCurrentDirectory();
+                if (additionalResolutionPaths != null && additionalResolutionPaths.Length > 0)
+                    foreach (var path in additionalResolutionPaths)
+                        yield return path;
+            }
             string runtimeDir;
             string[] parts;
             int frIndex;
@@ -132,7 +142,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         yield return gdi(parts.Add("WPF"));
                         break;
                     case CliFrameworkVersion.v4_5:
-                    case CliFrameworkVersion.v4_5 | CliFrameworkVersion.ClientProfile:
                         parts[vIndex] = CliCommon.VersionString_4_5;
                         yield return gdi(parts);
                         break;
@@ -140,13 +149,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             else
                 yield return runtimeDir;
-
-            if (ResolveCurrent)
-                yield return Directory.GetCurrentDirectory();
-            if (additionalResolutionPaths != null && additionalResolutionPaths.Length > 0)
+            if (UseCoreLibrary)
             {
-                foreach (var path in additionalResolutionPaths)
-                    yield return path;
+                if (ResolveCurrent)
+                    yield return Directory.GetCurrentDirectory();
+                if (additionalResolutionPaths != null && additionalResolutionPaths.Length > 0)
+                    foreach (var path in additionalResolutionPaths)
+                        yield return path;
             }
         }
 
@@ -204,8 +213,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 switch (Version & ~CliFrameworkVersion.ClientProfile)
                 {
                     case CliFrameworkVersion.v1_0_3705:
-                    case CliFrameworkVersion.v1_1_4322:
                         return mscorlibIdentifierv1;
+                    case CliFrameworkVersion.v1_1_4322:
+                        return mscorlibIdentifierv1_1;
                     case CliFrameworkVersion.v2_0_50727:
                     case CliFrameworkVersion.v3_0:
                     case CliFrameworkVersion.v3_5:
@@ -228,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         //#region ICliRuntimeEnvironmentInfo Members
 
 
-        public bool UseGlobalAccessCache { get; private set; }
+        public bool UseGlobalAccessCache { get; protected set; }
 
         private IEnumerable<string> _gacLocationFor(IAssemblyUniqueIdentifier uniqueIdentifier)
         {
@@ -273,6 +283,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         case CliFrameworkPlatform.x64Platform:
                             yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gac64, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, pktHex);
                             break;
+                        default:
+#if x86
+                            /* *
+                             * Logic: if someone is requesting the ANY platform, the
+                             * x86 platform is chosen because the x86 variant of the
+                             * library is used.
+                             * */
+                            goto case CliFrameworkPlatform.x86Platform;
+#elif x64
+                            goto case CliFrameworkPlatform.x64Platform;
+#endif
+                            break;
                     }
                     yield return string.Format("{0}{1}{2}{1}{3}{1}{4}_{5}__{6}", string.Join(Path.DirectorySeparatorChar.ToString(), parts), Path.DirectorySeparatorChar, s_gacAny, uniqueIdentifier.Name, fVer, uniqueIdentifier.Version, pktHex);
                     goto case CliFrameworkVersion.v3_5;
@@ -285,7 +307,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.GetDirectoryInformationSet(_gacLocationFor(uniqueIdentifier));
         }
 
-        public bool UseCoreLibrary { get; private set; }
+        public bool UseCoreLibrary { get; protected set; }
 
         //#endregion
 
@@ -306,10 +328,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.UseCoreLibrary)
-                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
-                else
-                    return TypeSystemIdentifiers.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
+                switch (this.Version & CliFrameworkVersion.VersionMask)
+                {
+                    case CliFrameworkVersion.v1_0_3705:
+                    case CliFrameworkVersion.v1_1_4322:
+                    case CliFrameworkVersion.v2_0_50727:
+                    case CliFrameworkVersion.v3_0:
+                    case CliFrameworkVersion.v3_5:
+                        return null;
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_5:
+                        if (this.UseCoreLibrary)
+                            return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
+                        else
+                            return TypeSystemIdentifiers.GetTypeIdentifier("System.Threading.Tasks", "Task", 0);
+                }
+                return null;
             }
         }
 
@@ -317,10 +351,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.UseCoreLibrary)
-                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
-                else
-                    return TypeSystemIdentifiers.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
+                switch (this.Version & CliFrameworkVersion.VersionMask)
+                {
+                    case CliFrameworkVersion.v1_0_3705:
+                    case CliFrameworkVersion.v1_1_4322:
+                        return null;
+                    case CliFrameworkVersion.v2_0_50727:
+                    case CliFrameworkVersion.v3_0:
+                    case CliFrameworkVersion.v3_5:
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_5:
+                        if (this.UseCoreLibrary)
+                            return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
+                        else
+                            return TypeSystemIdentifiers.GetTypeIdentifier("System.Threading.Tasks", "Task", 1);
+                }
+                return null;
             }
         }
 
@@ -339,10 +385,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.UseCoreLibrary)
-                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
-                else
-                    return TypeSystemIdentifiers.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
+                switch (this.Version & CliFrameworkVersion.VersionMask)
+                {
+                    case CliFrameworkVersion.v1_0_3705:
+                    case CliFrameworkVersion.v1_1_4322:
+                        return null;
+                    case CliFrameworkVersion.v2_0_50727:
+                    case CliFrameworkVersion.v3_0:
+                    case CliFrameworkVersion.v3_5:
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_5:
+                        if (this.UseCoreLibrary)
+                            return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
+                        else
+                            return TypeSystemIdentifiers.GetTypeIdentifier("System.Runtime.CompilerServices", "CompilerGeneratedAttribute", 0);
+                }
+                return null;
             }
         }
 
@@ -404,10 +462,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.UseCoreLibrary)
-                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Nullable", 1);
-                else
-                    return TypeSystemIdentifiers.GetTypeIdentifier("System", "Nullable", 1);
+                switch (this.Version & CliFrameworkVersion.VersionMask)
+                {
+                    case CliFrameworkVersion.v1_0_3705:
+                    case CliFrameworkVersion.v1_1_4322:
+                        return null;
+                    case CliFrameworkVersion.v2_0_50727:
+                    case CliFrameworkVersion.v3_0:
+                    case CliFrameworkVersion.v3_5:
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_5:
+                        if (this.UseCoreLibrary)
+                            return this.CoreLibraryIdentifier.GetTypeIdentifier("System", "Nullable", 1);
+                        else
+                            return TypeSystemIdentifiers.GetTypeIdentifier("System", "Nullable", 1);
+                }
+                return null;
             }
         }
 
@@ -641,39 +711,39 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
         }
 
-        public IEnumerable<IType> GetCoreTypeInterfaces(RuntimeCoreType coreType)
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region ICliRuntimeEnvironmentInfo Members
 
-        public IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, ICliAssembly assembly)
+        public IGeneralTypeUniqueIdentifier GetCoreIdentifier(CliRuntimeCoreType coreType, IAssembly assembly)
         {
+            ICliRuntimeEnvironmentInfo currentRuntime;
+            if (assembly is ICliAssembly)
+                currentRuntime = ((ICliAssembly)(assembly)).RuntimeEnvironment;
+            else
+                currentRuntime = this;
             switch (coreType)
             {
                 case CliRuntimeCoreType.RootMetadatum:
-                    return RootMetadatum;
+                    return currentRuntime.RootMetadatum;
                 case CliRuntimeCoreType.AsynchronousTask:
-                    return AsynchronousTask;
+                    return currentRuntime.AsynchronousTask;
                 case CliRuntimeCoreType.AsynchronousTaskOfT:
-                    return AsynchronousTaskOfT;
+                    return currentRuntime.AsynchronousTaskOfT;
                 case CliRuntimeCoreType.CompilerGeneratedMetadatum:
-                    return CompilerGeneratedMetadatum;
+                    return currentRuntime.CompilerGeneratedMetadatum;
                 case CliRuntimeCoreType.Delegate:
-                    return Delegate;
+                    return currentRuntime.Delegate;
                 case CliRuntimeCoreType.MulticastDelegate:
-                    return MulticastDelegate;
+                    return currentRuntime.MulticastDelegate;
                 case CliRuntimeCoreType.NullableBaseType:
-                    return NullableBaseType;
+                    return currentRuntime.NullableBaseType;
                 case CliRuntimeCoreType.NullableType:
-                    return NullableType;
+                    return currentRuntime.NullableType;
                 case CliRuntimeCoreType.ParamArrayMetadatum:
-                    return ParamArrayMetadatum;
+                    return currentRuntime.ParamArrayMetadatum;
                 case CliRuntimeCoreType.ExtensionMetadatum:
-                    return ExtensionMetadatum;
+                    return currentRuntime.ExtensionMetadatum;
                 default:
                     throw new ArgumentOutOfRangeException("coreType");
             }
@@ -712,12 +782,32 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                if (this.UseCoreLibrary)
-                    return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "ExtensionAttribute", 0);
-                else
-                    return TypeSystemIdentifiers.GetTypeIdentifier("System.Runtime.CompilerServices", "ExtensionAttribute", 0);
+                switch (this.Version & CliFrameworkVersion.VersionMask)
+                {
+                    case CliFrameworkVersion.v1_0_3705:
+                    case CliFrameworkVersion.v1_1_4322:
+                    case CliFrameworkVersion.v2_0_50727:
+                    case CliFrameworkVersion.v3_0:
+                        return null;
+                    case CliFrameworkVersion.v3_5:
+                    case CliFrameworkVersion.v4_0_30319:
+                    case CliFrameworkVersion.v4_5:
+                        if (this.UseCoreLibrary)
+                            return this.CoreLibraryIdentifier.GetTypeIdentifier("System.Runtime.CompilerServices", "ExtensionAttribute", 0);
+                        else
+                            return TypeSystemIdentifiers.GetTypeIdentifier("System.Runtime.CompilerServices", "ExtensionAttribute", 0);
+                }
+                return null;
             }
         }
 
+
+        public bool SupportsUnsignedTypes
+        {
+            get
+            {
+                return true;
+            }
+        }
     }
 }

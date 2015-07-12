@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -49,16 +49,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         new ITypeCollection ImplementedInterfaces { get; }
         /// <summary>
-        /// Returns the <see cref="ITypeIdentityManager"/> which is responsible for marshalling
-        /// type identities in the current type model.
-        /// </summary>
-        new ITypeIdentityManager IdentityManager { get; }
-        /// <summary>
         /// Returns the <see cref="IIntermediateAssembly"/> in which
         /// the <see cref="IIntermediateInterfaceType"/> is declared
         /// </summary>
         new IIntermediateAssembly Assembly { get; }
-
+        /// <summary>
+        /// Returns the <see cref="IIntermediateIdentityManager"/> which
+        /// helps resolve type identities.
+        /// </summary>
+        new IIntermediateIdentityManager IdentityManager { get; }
     }
     /* *
      *    /// <summary>

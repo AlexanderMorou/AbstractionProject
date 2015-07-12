@@ -9,8 +9,9 @@ using AllenCopeland.Abstraction.Slf.Cst;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Ast.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -26,6 +27,20 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         private VisualBasicLanguage()
         {
+        }
+
+        IMyVisualBasicProvider ILanguage<IVisualBasicLanguage, IMyVisualBasicProvider>.GetProvider(IIdentityManager identityManager)
+        {
+            if (!(identityManager is IIntermediateCliManager))
+                throw new ArgumentException("Wrong kind of identity manager", "identityManager");
+            return this.GetMyProvider(VisualBasicVersion.CurrentVersion, (IIntermediateCliManager)identityManager);
+        }
+
+        ICoreVisualBasicProvider ILanguage<IVisualBasicLanguage, ICoreVisualBasicProvider>.GetProvider(IIdentityManager identityManager)
+        {
+            if (!(identityManager is IIntermediateCliManager))
+                throw new ArgumentException("Wrong kind of identity manager", "identityManager");
+            return this.GetProvider(VisualBasicVersion.CurrentVersion, (IIntermediateCliManager)identityManager);
         }
 
         #region IVisualBasicLanguage Members
@@ -60,6 +75,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
             CliFrameworkVersion frameworkVersion = CliGateway.CurrentVersion;
             switch (version)
             {
+                case VisualBasicVersion.Version07:
+                    frameworkVersion = CliFrameworkVersion.v1_0_3705;
+                    break;
+                case VisualBasicVersion.Version07_1:
+                    frameworkVersion = CliFrameworkVersion.v1_1_4322;
+                    break;
                 case VisualBasicVersion.Version08:
                     frameworkVersion = CliFrameworkVersion.v2_0_50727;
                     break;
@@ -75,7 +96,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
                 default:
                     throw new ArgumentOutOfRangeException("version");
             }
-            var identityManager = new IntermediateCliManager(CliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, frameworkVersion));
+            var identityManager = new IntermediateCliManager(IntermediateCliGateway.GetRuntimeEnvironmentInfo(CliGateway.CurrentPlatform, frameworkVersion));
             return identityManager;
         }
 
@@ -114,7 +135,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 
         public string Name
         {
-            get { return "Visual Basic.NET"; }
+            get { return "Visual Basic"; }
         }
 
         ILanguageProvider ILanguage.GetProvider()
@@ -172,6 +193,32 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         }
 
         #endregion
+
+        public ICoreVisualBasicProvider GetProvider(IIntermediateCliManager identityManager)
+        {
+            return this.GetProvider(VisualBasicVersion.CurrentVersion, identityManager);
+        }
+
+        public IMyVisualBasicProvider GetMyProvider(IIntermediateCliManager identityManager)
+        {
+            switch (identityManager.RuntimeEnvironment.Version & ~CliFrameworkVersion.ClientProfile)
+            {
+                case CliFrameworkVersion.v1_0_3705:
+                    return this.GetMyProvider(VisualBasicVersion.Version07, identityManager);
+                case CliFrameworkVersion.v1_1_4322:
+                    return this.GetMyProvider(VisualBasicVersion.Version08, identityManager);
+                case CliFrameworkVersion.v2_0_50727:
+                case CliFrameworkVersion.v3_0:
+                case CliFrameworkVersion.v3_5:
+                    return this.GetMyProvider(VisualBasicVersion.Version09, identityManager);
+                case CliFrameworkVersion.v4_0_30319:
+                    return this.GetMyProvider(VisualBasicVersion.Version10, identityManager);
+                case CliFrameworkVersion.v4_5:
+                    return this.GetMyProvider(VisualBasicVersion.Version11, identityManager);
+                default:
+                    return this.GetMyProvider(VisualBasicVersion.CurrentVersion, identityManager);
+            }
+        }
 
     }
 }

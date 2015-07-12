@@ -15,7 +15,7 @@ using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Languages;
 using AllenCopeland.Abstraction.Utilities.Events;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -43,6 +43,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
         }
 
+
+        public ExtendedMemberAttributes ImplicitAttributes
+        {
+            get
+            {
+                return this.Attributes | (this.IsStatic ? ExtendedMemberAttributes.Static : ExtendedMemberAttributes.None);
+            }
+        }
 
         public class EventMethodMember :
             IntermediateClassMethodMember<TInstanceIntermediateType>,
@@ -114,7 +122,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public IntermediateClassCtorMember(TInstanceIntermediateType parent, bool typeInitializer = false)
             : base(parent, typeInitializer)
         {
-
         }
 
         public override IIntermediateAssembly Assembly
@@ -137,6 +144,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         public IntermediateClassIndexerMember(string name, TInstanceIntermediateType parent)
             : base(name, parent)
         {
+        }
+
+        public ExtendedMemberAttributes ImplicitAttributes
+        {
+            get
+            {
+                return this.Attributes | (this.IsStatic ? ExtendedMemberAttributes.Static : ExtendedMemberAttributes.None);
+            }
         }
 
         protected override void OnParameterAdded(EventArgsR1<IIntermediateIndexerParameterMember<IClassIndexerMember, IIntermediateClassIndexerMember, IClassType, IIntermediateClassType>> e)
@@ -180,9 +195,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return "value";
             }
 
-            protected override void OnSetName(string name)
+            protected override sealed void OnSetName(string name)
             {
-                throw new InvalidOperationException("Cannot set the name of the value parameter of the set method of an indexer.");
+                throw new NotSupportedException("Cannot set the name of the value parameter of the set method of an indexer, this is typically set by the target language.");
             }
 
             public override IType ParameterType
@@ -234,10 +249,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             {
                 return this.original.Name;
             }
-            protected override void OnSetName(string name)
+
+            protected override sealed void OnSetName(string name)
             {
-                throw new InvalidOperationException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name.");
+                throw new NotSupportedException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name. Rationale: the parameters of the method mirror the types of the indexer; however, there's no guarantee, from a framework perspective, that the parameters even require names.");
             }
+
             public override ParameterCoercionDirection Direction
             {
                 get
@@ -252,7 +269,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             protected override MetadataDefinitionCollection InitializeCustomAttributes()
             {
-                return new MetadataDefinitionCollection(this.original, this.identityManager);
+                return new MetadataDefinitionCollection(this.original, this.assembly);
             }
 
             public override IGeneralMemberUniqueIdentifier UniqueIdentifier
@@ -344,6 +361,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     return true;
                 }
+            }
+
+            protected override sealed void OnSetName(string name)
+            {
+                throw new NotSupportedException("Cannot set the name of a method of an indexer, set the indexer's name.  Rationale: indexer method names are usually set by the language, values provided through get_Name() are for reference only.");
             }
 
             protected IntermediateClassIndexerMember<TInstanceIntermediateType> Owner
@@ -599,6 +621,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
+        public ExtendedMemberAttributes ImplicitAttributes
+        {
+            get
+            {
+                return this.Attributes | (this.IsStatic ? ExtendedMemberAttributes.Static : ExtendedMemberAttributes.None);
+            }
+        }
+
         protected override IntermediateClassPropertyMember<TInstanceIntermediateType>.PropertyMethodMember GetMethodMember(PropertyMethodType methodType)
         {
             switch (methodType)
@@ -618,9 +648,61 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TInstanceIntermediateType :
             IntermediateClassType<TInstanceIntermediateType>
     {
+        private bool readOnly;
+        private bool constant;
         public IntermediateClassFieldMember(string name, TInstanceIntermediateType parent)
             : base(name, parent)
         {
+        }
+
+        public InstanceFieldMemberAttributes ImplicitAttributes
+        {
+            get
+            {
+                return this.Attributes | (this.IsStatic ? InstanceFieldMemberAttributes.Static : InstanceFieldMemberAttributes.None);
+            }
+        }
+        public new bool ReadOnly
+        {
+            get
+            {
+                return this.readOnly;
+            }
+            set
+            {
+                if (value && constant)
+                    constant = false;
+                this.readOnly = value;
+            }
+        }
+
+        public new bool Constant
+        {
+            get
+            {
+                return this.constant;
+            }
+            set
+            {
+                if (value && readOnly)
+                    this.readOnly = false;
+                this.constant = value;
+            }
+        }
+
+        protected override bool OnGetReadonly()
+        {
+            return this.ReadOnly;
+        }
+
+        protected override bool OnGetConstant()
+        {
+            return this.Constant;
+        }
+
+        public new InstanceFieldMemberAttributes Attributes
+        {
+            get { return ((InstanceFieldMemberAttributes)base.Attributes) | (Constant ? InstanceFieldMemberAttributes.Constant : InstanceFieldMemberAttributes.None) | (ReadOnly ? InstanceFieldMemberAttributes.ReadOnly : InstanceFieldMemberAttributes.None); }
         }
     }
 
@@ -633,8 +715,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TInstanceIntermediateType :
             IntermediateClassType<TInstanceIntermediateType>
     {
+        private TypeCollection<IInterfaceType> implementationTypes;
         /// <summary>
-        /// Data member for <see cref="InstanceFlags"/>.
+        /// Data member for <see cref="Attributes"/>.
         /// </summary>
         private ClassMethodMemberFlags instanceFlags;
         /// <summary>
@@ -702,7 +785,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #endregion
 
-
         protected override void OnSetReturnType(IType value)
         {
             base.OnSetReturnType(value);
@@ -732,11 +814,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
         }
 
-        ExtendedMethodMemberFlags IExtendedMethodMember.InstanceFlags
+        ExtendedMethodAttributes IExtendedMethodMember.Attributes
         {
             get
             {
-                return (ExtendedMethodMemberFlags)this.InstanceFlags & ExtendedMethodMemberFlags.FlagsMask;
+                return (ExtendedMethodAttributes)this.Attributes & ExtendedMethodAttributes.FlagsMask;
             }
         }
 
@@ -865,7 +947,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                if (Parent.SpecialModifier != SpecialClassModifier.None)
+                var specialModifier = Parent.SpecialModifier;
+                if ((specialModifier & SpecialClassModifier.Static) == SpecialClassModifier.Static ||
+                    (specialModifier & SpecialClassModifier.Module) == SpecialClassModifier.Module)
                     return true;
                 return IsExplicitStatic;
             }
@@ -893,9 +977,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IInstanceMember Members
 
-        InstanceMemberFlags IInstanceMember.InstanceFlags
+        InstanceMemberAttributes IInstanceMember.Attributes
         {
-            get { return ((InstanceMemberFlags)this.instanceFlags) & InstanceMemberFlags.FlagsMask; }
+            get { return ((InstanceMemberAttributes)this.instanceFlags) & InstanceMemberAttributes.FlagsMask; }
         }
 
         #endregion
@@ -903,24 +987,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         #region IExtendedInstanceMember Members
 
         /// <summary>
-        /// Returns the <see cref="ExtendedInstanceMemberFlags"/> that determine how the
+        /// Returns the <see cref="ExtendedMemberAttributes"/> that determine how the
         /// <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/> is shown in its scope and inherited 
         /// scopes.
         /// </summary>
-        ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
+        ExtendedMemberAttributes IExtendedInstanceMember.Attributes
         {
-            get { return (ExtendedInstanceMemberFlags)this.InstanceFlags; }
+            get { return (ExtendedMemberAttributes)this.Attributes; }
         }
 
         #endregion
 
         #region IClassMethodMember Members
 
-        public ClassMethodMemberFlags InstanceFlags
+        public ClassMethodMemberFlags Attributes
         {
             get
             {
                 return this.instanceFlags;
+            }
+        }
+
+        public ClassMethodMemberFlags ImplicitAttributes
+        {
+            get
+            {
+                return this.Attributes | (this.IsStatic ? ClassMethodMemberFlags.Static : ClassMethodMemberFlags.None);
             }
         }
 
@@ -936,7 +1028,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         private IClassMethodMember ObtainPreviousDefinition()
         {
-            throw new NotImplementedException();
+            return AbstractGateway.ObtainPreviousDefinition(this);
         }
 
         /// <summary>
@@ -947,89 +1039,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is not an overridden member.</exception>
         public IClassMethodMember BaseDefinition
         {
-            get {
-                if (!this.IsOverride)
-                    throw new InvalidOperationException();
-                for (IClassType p = this.Parent.BaseType; p != null; p = p.BaseType)
-                    foreach (var methodMember in p.Methods.Values)
-                        if (methodMember.Name != this.Name ||
-                            methodMember.Parameters.Count != this.Parameters.Count ||
-                            (methodMember.IsGenericConstruct && this.IsGenericConstruct && 
-                             methodMember.TypeParameters.Count != this.TypeParameters.Count))
-                            continue;
-                        else
-                        {
-                            bool match = true;
-                            /* *
-                             * For the sake of this find operation,
-                             * the type-parameters will be mostly ignored to 
-                             * ensure that the base declaration is found.
-                             * *
-                             * If the signature matches, it's a valid override;
-                             * however, if the constraints upon the type-parameter
-                             * don't match, then that's the compiler's domain to
-                             * notify.
-                             * */
-                            for (int i = 0; i < this.Parameters.Count; i++)
-                            {
-                                /* *
-                                 * Var variable declaration is helpful for 
-                                 * cases like this.
-                                 * */
-                                var targetParam = methodMember.Parameters.Values[i];
-                                var sourceParam = this.Parameters.Values[i];
-                                if (targetParam.Direction != sourceParam.Direction)
-                                {
-                                    match = false;
-                                    break;
-                                }
-                                else if (targetParam.ParameterType.IsGenericTypeParameter)
-                                {
-                                    /* *
-                                     * Rewrite this code so that when the source parameter
-                                     * is a generic parameter, and its parent is the enclosing
-                                     * type, that the newly declared version is equal to the
-                                     * generic parameter defined in the inheritance chain.
-                                     * */
-                                    if (!sourceParam.ParameterType.IsGenericTypeParameter)
-                                    {
-                                        match = false;
-                                        break;
-                                    }
-
-                                    IGenericParameter sourceTParam = (IGenericParameter)sourceParam.ParameterType,
-                                                      targetTParam = (IGenericParameter)targetParam.ParameterType;
-                                    if (targetTParam.Parent == methodMember)
-                                    {
-                                        if (sourceTParam.Parent != this)
-                                        {
-                                            match = false;
-                                            break;
-                                        }
-                                        match = sourceTParam.Position == targetTParam.Position;
-                                    }
-                                    else if (targetTParam.Parent == this.Parent)
-                                    {
-                                        if (sourceTParam.Parent != this.Parent)
-                                        {
-                                            match = false;
-                                            break;
-                                        }
-                                        match = sourceTParam.Position == targetTParam.Position;
-                                    }
-                                }
-                                else
-                                    match = targetParam.ParameterType.Equals(sourceParam.ParameterType);
-                                if (!match)
-                                    break;
-                            }
-                            if (match)
-                                if (methodMember.IsOverride)
-                                    return methodMember.BaseDefinition;
-                                else
-                                    return methodMember;
-                        }
-                throw new InvalidOperationException("match not found");
+            get
+            {
+                return AbstractGateway.ObtainBaseDefinition(this);
             }
         }
 
@@ -1045,6 +1057,22 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is a candidate for asynchrony.
         /// </summary>
         public bool IsAsynchronousCandidate { get; private set; }
+
+        IEnumerable<IInterfaceType> IExtendedMethodMember.Implementations
+        {
+            get
+            {
+                return from t in this.Implementations
+                       where t is IInterfaceType
+                       select (IInterfaceType)t;
+            }
+        }
+
+        public ITypeCollection Implementations
+        {
+            get { return this.implementationTypes ?? (this.implementationTypes = new TypeCollection<IInterfaceType>()); }
+        }
+
     }
 
 }

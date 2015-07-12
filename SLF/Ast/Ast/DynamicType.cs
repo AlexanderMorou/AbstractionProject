@@ -15,9 +15,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     public class DynamicType :
         TypeBase<IGeneralTypeUniqueIdentifier, DynamicType>
     {
-        private ITypeIdentityManager manager;
+        private IIdentityManager manager;
 
-        private DynamicType(ITypeIdentityManager manager) { this.manager = manager; }
+        private DynamicType(IIdentityManager manager) { this.manager = manager; }
 
         protected override bool Equals(DynamicType other)
         {
@@ -84,7 +84,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get { return null; }
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return null;
         }
@@ -104,7 +104,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return TypeSystemIdentifiers.GetTypeIdentifier((IGeneralDeclarationUniqueIdentifier)null, "dynamic");
         }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIdentityManager OnGetManager()
         {
             return this.manager;
         }

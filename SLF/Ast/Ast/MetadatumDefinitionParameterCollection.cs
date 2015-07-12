@@ -4,8 +4,11 @@ using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Abstract.Modules;
+using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -19,13 +22,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     {
         private int namelessParamCount = 0;
 
-        private  ITypeIdentityManager manager;
-
         private HashSet<string> namedParameterNames = new HashSet<string>();
         /// <summary>
         /// Data member holding onto the boolean type relative to the active scope.
         /// </summary>
         private  IType booleanType;
+        private  IType charType;
         private  IType stringType;
         private  IType typeType;
         private  IType byteType;
@@ -39,26 +41,41 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private  IType singleType;
         private  IType doubleType;
         private  IType decimalType;
+        
         /// <summary>
         /// Returns the <see cref="IMetadatumDefinition"/> which contains the <see cref="MetadatumDefinitionParameterCollection"/>
         /// </summary>
-        public IMetadatumDefinition Parent { get; private set; }
+        public MetadatumDefinition Parent { get; private set; }
+
+        IMetadatumDefinition IMetadataDefinitionParameterCollection.Parent
+        {
+            get
+            {
+                return this.Parent;
+            }
+        }
+
+        private IIntermediateAssembly OwningAssembly
+        {
+            get
+            {
+                return this.Parent.OwningAssembly;
+            }
+        }
+
         /// <summary>
-        /// Creates a new <see cref="MetadatumDefinitionParameterCollection"/> with the <paramref name="parent"/>
-        /// provided.
+        /// Creates a new <see cref="MetadatumDefinitionParameterCollection"/> with
+        /// the <paramref name="parent"/> provided.
         /// </summary>
-        /// <param name="parent">The <see cref="IMetadatumDefinition"/> which contains the <see cref="MetadatumDefinitionParameterCollection"/></param>
+        /// <param name="parent">The <see cref="MetadatumDefinition"/> which contains
+        /// the <see cref="MetadatumDefinitionParameterCollection"/></param>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="parent"/>
         /// is null.</exception>
-        /// <param name="manager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        internal MetadatumDefinitionParameterCollection(IMetadatumDefinition parent, ITypeIdentityManager manager)
+        internal MetadatumDefinitionParameterCollection(MetadatumDefinition parent)
         {
             if (parent == null)
                 throw new ArgumentNullException("parent");
             this.Parent = parent;
-            this.manager = manager;
         }
 
         /* *
@@ -73,6 +90,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             namelessParamCount++;
             return parameter;
         }
+
+        private IMetadatumDefinitionExpressionParameter AddInternal(IExpression value)
+        {
+            var parameter = new MetadatumDefinitionExpressionParameter(value, this);
+            base.baseList.Add(parameter);
+            namelessParamCount++;
+            return parameter;
+        }
+
         private IMetadatumDefinitionNamedParameter<T> AddInternal<T>(string name, T value, IType valueType)
         {
             if (namedParameterNames.Contains(name))
@@ -97,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Boolean"/> parameter.</returns>
         public IMetadatumDefinitionParameter<bool> Add(bool value)
         {
-            return AddInternal(value, this.booleanType ?? (this.booleanType = this.manager.ObtainTypeReference(RuntimeCoreType.Boolean)));
+            return AddInternal(value, this.booleanType ?? (this.booleanType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Boolean)));
         }
 
         /// <summary>
@@ -108,7 +134,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="String"/> parameter.</returns>
         public IMetadatumDefinitionParameter<string> Add(string value)
         {
-            return AddInternal(value, this.stringType ?? (this.stringType = this.manager.ObtainTypeReference(RuntimeCoreType.String)));
+            return AddInternal(value, this.stringType ?? (this.stringType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.String)));
         }
 
         /// <summary>
@@ -119,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Type"/> parameter.</returns>
         public IMetadatumDefinitionParameter<Type> Add(Type value)
         {
-            return AddInternal(value, this.typeType ?? (this.typeType = this.manager.ObtainTypeReference(RuntimeCoreType.Type)));
+            return AddInternal(value, this.typeType ?? (this.typeType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Type)));
         }
 
         /// <summary>
@@ -130,7 +156,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Byte"/> parameter.</returns>
         public IMetadatumDefinitionParameter<byte> Add(byte value)
         {
-            return AddInternal(value, this.byteType ?? (this.byteType = this.manager.ObtainTypeReference(RuntimeCoreType.Byte)));
+            return AddInternal(value, this.byteType ?? (this.byteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Byte)));
         }
 
         /// <summary>
@@ -141,7 +167,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="SByte"/> parameter.</returns>
         public IMetadatumDefinitionParameter<sbyte> Add(sbyte value)
         {
-            return AddInternal(value, this.sbyteType ?? (this.sbyteType = this.manager.ObtainTypeReference(RuntimeCoreType.SByte)));
+            return AddInternal(value, this.sbyteType ?? (this.sbyteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte)));
         }
 
         /// <summary>
@@ -152,7 +178,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="UInt16"/> parameter.</returns>
         public IMetadatumDefinitionParameter<ushort> Add(ushort value)
         {
-            return AddInternal(value, this.uint16Type ?? (this.uint16Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt16)));
+            return AddInternal(value, this.uint16Type ?? (this.uint16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt16)));
         }
 
         /// <summary>
@@ -163,7 +189,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Int16"/> parameter.</returns>
         public IMetadatumDefinitionParameter<short> Add(short value)
         {
-            return AddInternal(value, this.int16Type ?? (this.int16Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int16)));
+            return AddInternal(value, this.int16Type ?? (this.int16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int16)));
         }
 
         /// <summary>
@@ -174,7 +200,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Int32"/> parameter.</returns>
         public IMetadatumDefinitionParameter<int> Add(int value)
         {
-            return AddInternal(value, this.int32Type ?? (this.int32Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int32)));
+            return AddInternal(value, this.int32Type ?? (this.int32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32)));
         }
 
         /// <summary>
@@ -185,7 +211,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="UInt32"/> parameter.</returns>
         public IMetadatumDefinitionParameter<uint> Add(uint value)
         {
-            return AddInternal(value, this.uint32Type ?? (this.uint32Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt32)));
+            return AddInternal(value, this.uint32Type ?? (this.uint32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt32)));
         }
 
         /// <summary>
@@ -196,7 +222,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Int64"/> parameter.</returns>
         public IMetadatumDefinitionParameter<long> Add(long value)
         {
-            return AddInternal(value, this.int64Type ?? (this.int64Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int64)));
+            return AddInternal(value, this.int64Type ?? (this.int64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int64)));
         }
 
         /// <summary>
@@ -207,7 +233,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="UInt64"/> parameter.</returns>
         public IMetadatumDefinitionParameter<ulong> Add(ulong value)
         {
-            return AddInternal(value, this.uint64Type ?? (this.uint64Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt64)));
+            return AddInternal(value, this.uint64Type ?? (this.uint64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64)));
         }
 
         /// <summary>
@@ -218,7 +244,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Single"/> parameter.</returns>
         public IMetadatumDefinitionParameter<float> Add(float value)
         {
-            return AddInternal(value, this.singleType ?? (this.singleType = this.manager.ObtainTypeReference(RuntimeCoreType.Single)));
+            return AddInternal(value, this.singleType ?? (this.singleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Single)));
         }
 
         /// <summary>
@@ -229,7 +255,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Double"/> parameter.</returns>
         public IMetadatumDefinitionParameter<double> Add(double value)
         {
-            return AddInternal(value, this.doubleType ?? (this.doubleType = this.manager.ObtainTypeReference(RuntimeCoreType.Double)));
+            return AddInternal(value, this.doubleType ?? (this.doubleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Double)));
         }
 
         /// <summary>
@@ -240,7 +266,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// as a <see cref="Decimal"/> parameter.</returns>
         public IMetadatumDefinitionParameter<decimal> Add(decimal value)
         {
-            return AddInternal(value, this.decimalType ?? (this.decimalType = this.manager.ObtainTypeReference(RuntimeCoreType.Decimal)));
+            return AddInternal(value, this.decimalType ?? (this.decimalType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Decimal)));
         }
 
         /// <summary>
@@ -257,7 +283,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<bool> Add(string name, bool value)
         {
-            return AddInternal(name, value, this.booleanType ?? (this.booleanType = this.manager.ObtainTypeReference(RuntimeCoreType.Boolean)));
+            return AddInternal(name, value, this.booleanType ?? (this.booleanType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Boolean)));
         }
 
         /// <summary>
@@ -274,7 +300,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<string> Add(string name, string value)
         {
-            return AddInternal(name, value, this.stringType ?? (this.stringType = this.manager.ObtainTypeReference(RuntimeCoreType.String)));
+            return AddInternal(name, value, this.stringType ?? (this.stringType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.String)));
         }
 
         /// <summary>
@@ -291,7 +317,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<Type> Add(string name, Type value)
         {
-            return AddInternal(name, value, this.typeType ?? (this.typeType = this.manager.ObtainTypeReference(RuntimeCoreType.Type)));
+            return AddInternal(name, value, this.typeType ?? (this.typeType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Type)));
         }
 
         /// <summary>
@@ -308,7 +334,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<byte> Add(string name, byte value)
         {
-            return AddInternal(name, value, this.byteType ?? (this.byteType = this.manager.ObtainTypeReference(RuntimeCoreType.Byte)));
+            return AddInternal(name, value, this.byteType ?? (this.byteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Byte)));
         }
 
         /// <summary>
@@ -326,7 +352,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<sbyte> Add(string name, sbyte value)
         {
-            return AddInternal(name, value, this.sbyteType ?? (this.sbyteType = this.manager.ObtainTypeReference(RuntimeCoreType.SByte)));
+            return AddInternal(name, value, this.sbyteType ?? (this.sbyteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte)));
         }
 
         /// <summary>
@@ -343,7 +369,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<short> Add(string name, short value)
         {
-            return AddInternal(name, value, this.int16Type ?? (this.int16Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int16)));
+            return AddInternal(name, value, this.int16Type ?? (this.int16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int16)));
         }
 
         /// <summary>
@@ -361,7 +387,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<ushort> Add(string name, ushort value)
         {
-            return AddInternal(name, value, this.uint16Type ?? (this.uint16Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt16)));
+            return AddInternal(name, value, this.uint16Type ?? (this.uint16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt16)));
         }
 
         /// <summary>
@@ -378,7 +404,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<int> Add(string name, int value)
         {
-            return AddInternal(name, value, this.int32Type ?? (this.int32Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int32)));
+            return AddInternal(name, value, this.int32Type ?? (this.int32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32)));
         }
 
         /// <summary>
@@ -396,7 +422,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<uint> Add(string name, uint value)
         {
-            return AddInternal(name, value, this.uint32Type ?? (this.uint32Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt32)));
+            return AddInternal(name, value, this.uint32Type ?? (this.uint32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt32)));
         }
 
         /// <summary>
@@ -413,7 +439,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<long> Add(string name, long value)
         {
-            return AddInternal(name, value, this.int64Type ?? (this.int64Type = this.manager.ObtainTypeReference(RuntimeCoreType.Int64)));
+            return AddInternal(name, value, this.int64Type ?? (this.int64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int64)));
         }
 
         /// <summary>
@@ -431,7 +457,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         [CLSCompliant(false)]
         public IMetadatumDefinitionNamedParameter<ulong> Add(string name, ulong value)
         {
-            return AddInternal(name, value, this.uint64Type ?? (this.uint64Type = this.manager.ObtainTypeReference(RuntimeCoreType.UInt64)));
+            return AddInternal(name, value, this.uint64Type ?? (this.uint64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64)));
         }
 
         /// <summary>
@@ -448,7 +474,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<float> Add(string name, float value)
         {
-            return AddInternal(name, value, this.singleType ?? (this.singleType = this.manager.ObtainTypeReference(RuntimeCoreType.Single)));
+            return AddInternal(name, value, this.singleType ?? (this.singleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Single)));
         }
 
         /// <summary>
@@ -465,7 +491,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<double> Add(string name, double value)
         {
-            return AddInternal(name, value, this.doubleType ?? (this.doubleType = this.manager.ObtainTypeReference(RuntimeCoreType.Double)));
+            return AddInternal(name, value, this.doubleType ?? (this.doubleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Double)));
         }
 
         /// <summary>
@@ -482,7 +508,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is null.</exception>
         public IMetadatumDefinitionNamedParameter<decimal> Add(string name, decimal value)
         {
-            return AddInternal(name, value, this.decimalType ?? (this.decimalType = this.manager.ObtainTypeReference(RuntimeCoreType.Decimal)));
+            return AddInternal(name, value, this.decimalType ?? (this.decimalType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Decimal)));
         }
 
         #endregion
@@ -494,35 +520,39 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             switch (Type.GetTypeCode(typeof(T)))
             {
                 case TypeCode.Boolean:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Boolean));
+                    return this.AddInternal(value, this.booleanType ?? (this.booleanType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Boolean, this.OwningAssembly)));
                 case TypeCode.Byte:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Byte));
+                    return this.AddInternal(value, this.byteType ?? (this.byteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Byte, this.OwningAssembly)));
                 case TypeCode.Char:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Char));
+                    return this.AddInternal(value, this.charType ?? (this.charType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Char, this.OwningAssembly)));
                 //case TypeCode.DateTime:
-                //    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Date));
+                //    return this.AddInternal(value, this.DateType ?? (this.DateType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Date, this.OwningAssembly)));
                 case TypeCode.Decimal:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Decimal));
+                    return this.AddInternal(value, this.decimalType ?? (this.decimalType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Decimal, this.OwningAssembly)));
                 case TypeCode.Double:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Double));
+                    return this.AddInternal(value, this.doubleType ?? (this.doubleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Double, this.OwningAssembly)));
                 case TypeCode.Int16:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Int16));
+                    return this.AddInternal(value, this.int16Type ?? (this.int16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int16, this.OwningAssembly)));
                 case TypeCode.Int32:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Int32));
+                    return this.AddInternal(value, this.int32Type ?? (this.int32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32, this.OwningAssembly)));
                 case TypeCode.Int64:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Int64));
+                    return this.AddInternal(value, this.int64Type ?? (this.int64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int64, this.OwningAssembly)));
                 case TypeCode.SByte:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.SByte));
+                    return this.AddInternal(value, this.sbyteType ?? (this.sbyteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte, this.OwningAssembly)));
                 case TypeCode.Single:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.Single));
+                    return this.AddInternal(value, this.singleType ?? (this.singleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Single, this.OwningAssembly)));
                 case TypeCode.String:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.String));
+                    return this.AddInternal(value, this.stringType ?? (this.stringType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.String, this.OwningAssembly)));
                 case TypeCode.UInt16:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt16));
+                    return this.AddInternal(value, this.uint16Type ?? (this.uint16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt16, this.OwningAssembly)));
                 case TypeCode.UInt32:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt32));
+                    return this.AddInternal(value, this.uint32Type ?? (this.uint32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt32, this.OwningAssembly)));
                 case TypeCode.UInt64:
-                    return this.AddInternal(value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt64));
+                    return this.AddInternal(value, this.uint64Type ?? (this.uint64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64, this.OwningAssembly)));
+                case TypeCode.Object:
+                    if (typeof(T) == typeof(IExpression))
+                        return this.AddInternal((IExpression)value);
+                    break;
             }
             throw new InvalidOperationException("Type code not supported.");
         }
@@ -533,35 +563,35 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             switch (Type.GetTypeCode(typeof(T)))
             {
                 case TypeCode.Boolean:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Boolean));
+                    return this.AddInternal(name, value, this.booleanType ?? (this.booleanType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Boolean, this.OwningAssembly)));
                 case TypeCode.Byte:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Byte));
+                    return this.AddInternal(name, value, this.byteType ?? (this.byteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Byte, this.OwningAssembly)));
                 case TypeCode.Char:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Char));
+                    return this.AddInternal(name, value, this.charType ?? (this.charType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Char, this.OwningAssembly)));
                 //case TypeCode.DateTime:
-                //    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Date));
+                //    return this.AddInternal(name, value, this.DateType ?? (this.DateType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Date, this.OwningAssembly)));
                 case TypeCode.Decimal:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Decimal));
+                    return this.AddInternal(name, value, this.decimalType ?? (this.decimalType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Decimal, this.OwningAssembly)));
                 case TypeCode.Double:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Double));
+                    return this.AddInternal(name, value, this.doubleType ?? (this.doubleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Double, this.OwningAssembly)));
                 case TypeCode.Int16:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Int16));
+                    return this.AddInternal(name, value, this.int16Type ?? (this.int16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int16, this.OwningAssembly)));
                 case TypeCode.Int32:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Int32));
+                    return this.AddInternal(name, value, this.int32Type ?? (this.int32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int32, this.OwningAssembly)));
                 case TypeCode.Int64:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Int64));
+                    return this.AddInternal(name, value, this.int64Type ?? (this.int64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Int64, this.OwningAssembly)));
                 case TypeCode.SByte:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.SByte));
+                    return this.AddInternal(name, value, this.sbyteType ?? (this.sbyteType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.SByte, this.OwningAssembly)));
                 case TypeCode.Single:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.Single));
+                    return this.AddInternal(name, value, this.singleType ?? (this.singleType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.Single, this.OwningAssembly)));
                 case TypeCode.String:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.String));
+                    return this.AddInternal(name, value, this.stringType ?? (this.stringType = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.String, this.OwningAssembly)));
                 case TypeCode.UInt16:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt16));
+                    return this.AddInternal(name, value, this.uint16Type ?? (this.uint16Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt16, this.OwningAssembly)));
                 case TypeCode.UInt32:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt32));
+                    return this.AddInternal(name, value, this.uint32Type ?? (this.uint32Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt32, this.OwningAssembly)));
                 case TypeCode.UInt64:
-                    return this.AddInternal(name, value, this.manager.ObtainTypeReference(RuntimeCoreType.UInt64));
+                    return this.AddInternal(name, value, this.uint64Type ?? (this.uint64Type = this.IdentityManager.ObtainTypeReference(RuntimeCoreType.UInt64, this.OwningAssembly)));
             }
             throw new InvalidOperationException("Type code not supported.");
         }
@@ -727,5 +757,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (namedParameterChangedName != null)
                 namedParameterChangedName(this, new EventArgsR1<IMetadatumDefinitionNamedParameter>(item));
         }
+
+        private IIntermediateIdentityManager IdentityManager { get { return this.OwningAssembly.IdentityManager; } }
     }
 }

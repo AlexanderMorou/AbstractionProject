@@ -75,15 +75,13 @@
     <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Name with a comma[,]+-&amp; ">
-      <HintPath>..\..\..\..\..\..\Users\Allen Copeland\Desktop\TestIL\Name with a comma[,]+-&amp; .exe</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <!--x86 Platform-->
@@ -94,6 +92,12 @@
     <!--Debug-->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractionTestDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AbstractionTestDialog.Designer.cs">
+      <DependentUpon>AbstractionTestDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -103,6 +107,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="TestLinkerResult.cs" />
+    <Compile Include="TestLinkerVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SLF\Ast\Abstract Syntax Tree.csproj">
@@ -113,9 +119,17 @@
       <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
       <Name>Abstraction Compiler Services</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Ecma-335 Abstract Syntax Tree\Ecma-335 Abstract Syntax Tree.csproj">
+      <Project>{961977fe-07e8-40dd-a738-db8dce6cc482}</Project>
+      <Name>Ecma-335 Abstract Syntax Tree</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\CSharp\CSharp.csproj">
       <Project>{a5e27b08-e854-40d5-b88b-0f10d1ca64af}</Project>
       <Name>CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Languages\Toy++\Toy++.csproj">
+      <Project>{1b7fa174-1829-4ae4-b935-d2e47ac3f4fb}</Project>
+      <Name>Toy++</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SLF\Languages\VisualBasic.NET\VisualBasic.NET.csproj">
       <Project>{9c89419d-f2a1-4882-8408-6708a038e025}</Project>
@@ -143,6 +157,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AbstractionTestDialog.resx">
+      <DependentUpon>AbstractionTestDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

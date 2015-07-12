@@ -71,10 +71,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
         public bool Equals(TypeModification other)
         {
-            return  other.isRequiredType == this.isRequiredType &&
-                   (other.modifierType   ==               null  && 
-                     this.modifierType   ==               null) ||
-                    other.modifierType   !=               null  && 
+            return  other.isRequiredType == this.isRequiredType  &&
+                   (other.modifierType   ==                null  && 
+                     this.modifierType   ==                null) ||
+                    other.modifierType   !=                null  && 
                     other.modifierType.Equals(this.modifierType);
         }
 

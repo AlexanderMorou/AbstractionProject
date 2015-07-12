@@ -41,13 +41,19 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// to <see cref="ICliAssembly"/> instances that are referenced by the current <see cref="ICliAssembly"/>.
         /// </summary>
         IControlledDictionary<ICliMetadataAssemblyRefTableRow, ICliAssembly> CliReferences { get; }
-
         /// <summary>
         /// Returns the <see cref="CliFrameworkVersion"/> which the <see cref="ICliAssembly"/>
         /// targets.
         /// </summary>
         CliFrameworkVersion FrameworkVersion { get; }
-
+        /// <summary>
+        /// The <see cref="ICliManager"/> which handles type and assembly identity resolution.
+        /// </summary>
         ICliManager IdentityManager { get; }
+        /// <summary>
+        /// Returns the <see cref="ICliAssemblyUniqueIdentifier"/> which uniquely distinguishes the 
+        /// current <see cref="ICliAssembly"/> from others.
+        /// </summary>
+        new ICliAssemblyUniqueIdentifier UniqueIdentifier { get; }
     }
 }

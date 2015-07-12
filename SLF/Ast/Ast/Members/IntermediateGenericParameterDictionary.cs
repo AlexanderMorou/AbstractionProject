@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -56,6 +57,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             this.Parent = parent;
         }
+
+        internal abstract IType Disambiguate(IType ambiguousType);
 
         #region IIntermediateGenericParameterDictionary<TGenericParameter,TIntermediateGenericParameter,TParent,TIntermediateParent> Members
 
@@ -109,14 +112,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             if (this.ContainsKey(defaultParamId))
                 throw new ArgumentException("genericParameterData");
             foreach (var ctorSig in genericParameterData.Constructors.Signatures)
-                result.Constructors.Add(ctorSig.Parameters.ToSeries());
-            foreach (var eventGroup in genericParameterData.Events)
+                result.Constructors.Add(TransposeTypedNames(ctorSig.Parameters.ToSeries(), result));
+            var disambiguatedEvents = TransposeTypedNames(genericParameterData.Events, result);
+            foreach (var eventGroup in disambiguatedEvents)
                 result.Events.Add(eventGroup);
             IControlledTypeCollection typeParameters = null;
             IControlledTypeCollection methodTypeParameters = null;
             foreach (var constraint in genericParameterData.Constraints)
                 if (constraint.ContainsSymbols())
-                    result.Constraints.Add(constraint.SimpleSymbolDisambiguation(result));
+                    if (constraint.ContainsGenericParameters())
+                        result.Constraints.Add(Disambiguate(constraint).SimpleSymbolDisambiguation(result));
+                    else
+                        result.Constraints.Add(constraint.SimpleSymbolDisambiguation(result));
+                else if (constraint.ContainsGenericParameters())
+                    result.Constraints.Add(Disambiguate(constraint));
                 else
                     result.Constraints.Add(constraint);
             //foreach (var propertyGroup in genericParameterData.Properties)
@@ -126,6 +135,35 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             this._Add(defaultParamId, result);
             this.Keys[index] = result.UniqueIdentifier;
             return result;
+        }
+
+        private TypedNameSeries TransposeTypedNames(TypedNameSeries series, TIntermediateGenericParameter target)
+        {
+            return new TypedNameSeries((from s in series
+                                        select TransposeTypedName(s, target)).ToArray());
+                   
+        }
+
+        private TypedName TransposeTypedName(TypedName original, TIntermediateGenericParameter target)
+        {
+            if (original.Source == TypedNameSource.TypeReference)
+                return TransposeTypedName(new TypedName(original.Name, original.SymbolReference.GetSymbolType(), original.Direction), target);
+            else if (original.Source == TypedNameSource.TypeReference)
+            {
+                var type = original.TypeReference;
+                type = TransposeType(type, target);
+                return new TypedName(original.Name, type, original.Direction);
+            }
+            return original;
+        }
+
+        private IType TransposeType(IType type, TIntermediateGenericParameter target)
+        {
+            if (type.ContainsGenericParameters())
+                type = Disambiguate(type);
+            if (type.ContainsSymbols())
+                type = type.SimpleSymbolDisambiguation(target);
+            return type;
         }
 
         #endregion
@@ -239,36 +277,70 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IGenericParameterUniqueIdentifier[] currentKeys = new IGenericParameterUniqueIdentifier[result.Length];
             Parallel.For(0, genericParameterData.Length, i =>
             {
-                var currentParameterData = genericParameterData[i];
-                var current = this.GetNew(currentParameterData.Name);
-                var currentUniqueId = TypeSystemIdentifiers.GetGenericParameterIdentifier(i + this.Count, currentParameterData.Name, Parent is IType);
+                var currentName = genericParameterData[i].Name;
+                var current = this.GetNew(currentName);
+                var currentUniqueId = TypeSystemIdentifiers.GetGenericParameterIdentifier(i + this.Count, currentName, Parent is IType);
                 if (this.ContainsKey(currentUniqueId) ||
                     currentKeys.Contains(currentUniqueId))
                     throw new ArgumentException("genericParameterData");
-                foreach (var ctorSig in currentParameterData.Constructors.Signatures)
-                    current.Constructors.Add(ctorSig.Parameters.ToSeries());
-                foreach (var eventGroup in currentParameterData.Events)
-                    current.Events.Add(eventGroup);
-                //result.Properties.Add
-                foreach (var method in currentParameterData.Methods.Signatures)
-                    current.Methods.Add(new TypedName(method.Name, method.ReturnType), method.Parameters.ToSeries());
                 currentKeys[i] = currentUniqueId;
                 result[i] = current;
             });
-            
-            //Parallel.For(0, genericParameterData.Length, i =>
-            for (int i = 0; i < genericParameterData.Length; i++)
-                this._Add(currentKeys[i], result[i]);
-            for (int i = 0; i < genericParameterData.Length; i++)
+            this._AddRange((from i in 0.RangeTo(genericParameterData.Length)
+                            select new KeyValuePair<IGenericParameterUniqueIdentifier, TGenericParameter>(currentKeys[i], result[i])));
+            //Parallel.For(0, genericParameterData.Length, i=>
+            for (int i  = 0; i < genericParameterData.Length; i++)
             {
                 var currentParameterData = genericParameterData[i];
                 var current = result[i];
                 foreach (var constraint in currentParameterData.Constraints)
-                    if (constraint.ContainsSymbols())
-                        current.Constraints.Add(constraint.SimpleSymbolDisambiguation(current));
-                    else
-                        current.Constraints.Add(constraint);
-            }//);
+                    current.Constraints.Add(TransposeType(constraint, current));
+                foreach (var ctorSig in currentParameterData.Constructors.Signatures)
+                    current.Constructors.Add(TransposeTypedNames(ctorSig.Parameters.ToSeries(), current));
+                foreach (var eventGroup in TransposeTypedNames(currentParameterData.Events, current))
+                    current.Events.Add(eventGroup);
+                foreach (var indexerSig in currentParameterData.Indexers.Signatures)
+                    current.Indexers.Add(TransposeTypedName(new TypedName(indexerSig.Name, indexerSig.ReturnType), current), TransposeTypedNames(indexerSig.Parameters.ToSeries(), current));
+                //result.Properties.Add
+                foreach (var method in currentParameterData.Methods.Signatures)
+                    current.Methods.Add(TransposeTypedName(new TypedName(method.Name, method.ReturnType), current), TransposeTypedNames(method.Parameters.ToSeries(), current));
+            }//*/);
+            
+            //Parallel.For(0, genericParameterData.Length, i =>
+            //for (int i = 0; i < genericParameterData.Length; i++)
+            //{
+            //    var currentParameterData = genericParameterData[i];
+            //    var current = result[i];
+            //    foreach (var constraint in currentParameterData.Constraints)
+            //        if (constraint.ContainsSymbols())
+            //            current.Constraints.Add(constraint.SimpleSymbolDisambiguation(current));
+            //        else
+            //            current.Constraints.Add(constraint);
+            //    foreach (var ctor in current.Constructors.Values)
+            //        foreach (var param in ctor.Parameters.Values)
+            //            if (param.ParameterType.ContainsSymbols())
+            //                param.ParameterType = param.ParameterType.SimpleSymbolDisambiguation(current);
+            //    foreach (var method in current.Methods.Values)
+            //    {
+            //        foreach (var param in method.Parameters.Values)
+            //            if (param.ParameterType.ContainsSymbols())
+            //                param.ParameterType = param.ParameterType.SimpleSymbolDisambiguation(current);
+            //        if (method.ReturnType.ContainsSymbols())
+            //            method.ReturnType = method.ReturnType.SimpleSymbolDisambiguation(current);
+            //    }
+            //    foreach (var property in current.Properties.Values)
+            //        if (property.PropertyType.ContainsSymbols())
+            //            property.PropertyType = property.PropertyType.SimpleSymbolDisambiguation(current);
+
+            //    foreach (var indexer in current.Indexers.Values)
+            //    {
+            //        if (indexer.PropertyType.ContainsSymbols())
+            //            indexer.PropertyType = indexer.PropertyType.SimpleSymbolDisambiguation(current);
+            //        foreach (var param in indexer.Parameters.Values)
+            //            if (param.ParameterType.ContainsSymbols())
+            //                param.ParameterType = param.ParameterType.SimpleSymbolDisambiguation(current);
+            //    }
+            //}//);
             return result;
         }
 
@@ -278,6 +350,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         protected override sealed bool ShouldDispose(TIntermediateGenericParameter declaration)
         {
             return true;
+        }
+
+        public override IEnumerable<KeyValuePair<IGenericParameterUniqueIdentifier, TIntermediateGenericParameter>> ExclusivelyOnParent()
+        {
+            foreach (var element in this)
+                yield return new KeyValuePair<IGenericParameterUniqueIdentifier, TIntermediateGenericParameter>(element.Key, element.Value);
         }
     }
 }

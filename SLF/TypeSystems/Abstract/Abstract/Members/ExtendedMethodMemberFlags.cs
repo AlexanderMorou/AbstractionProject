@@ -6,18 +6,19 @@ using System.Text;
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     [Flags]
-    public enum ExtendedMethodMemberFlags
+    public enum ExtendedMethodAttributes :
+        long
     {
         /// <summary>
         /// No flags are set relative to the instance
         /// member modifier flags.
         /// </summary>
-        None = ExtendedInstanceMemberFlags.None,
+        None = ExtendedMemberAttributes.None,
         /// <summary>
         /// Member is a static member.
         /// </summary>
         /* 0000000000111000000001 */
-        Static = ExtendedInstanceMemberFlags.Static,
+        Static = ExtendedMemberAttributes.Static,
         /* 00111001000010 */
         /// <summary>
         /// Member is a virtual (overridable) member.
@@ -26,12 +27,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /* *
          * virtual methods declare 'virtual' and 'newslot'.
          * */
-        Virtual = ExtendedInstanceMemberFlags.Virtual,
+        Virtual = ExtendedMemberAttributes.Virtual,
         /// <summary>
         /// Member is an abstract member.
         /// </summary>
         /* 0000011001010000000100 */
-        Abstract = ExtendedInstanceMemberFlags.Abstract,
+        Abstract = ExtendedMemberAttributes.Abstract,
         /// <summary>
         /// Member is an overridden member.
         /// </summary>
@@ -40,40 +41,40 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
          * overridden members declare 'virtual' and no
          * 'newslot'.
          * */
-        Override = ExtendedInstanceMemberFlags.Override,
+        Override = ExtendedMemberAttributes.Override,
         /// <summary>
         /// Member hides base's definition
         /// by signature.
         /// </summary>
-        /* 0011000000000000010000 */
+        /* 0000 00100000 00000000 00000000 00010000 */
         /* *
          * Hides the previous definition by signature.
          * Default value for instance/static members;
          * neither virtual nor newslot attributes are used
          * by default.
          * */
-        HideBySignature = ExtendedInstanceMemberFlags.HideBySignature,
+        HideBySignature = ExtendedMemberAttributes.HideBySignature,
         /* 0101000000000000100000 */
         /// <summary>
         /// Member hides base's definition by name.
         /// </summary>
-        HideByName = ExtendedInstanceMemberFlags.HideByName,
+        HideByName = ExtendedMemberAttributes.HideByName,
         /// <summary>
         /// Member is final (removes the ability for 
         /// inheritors to override).
         /// </summary>
-        /* 1000000000000001000000 */
+        /* 000001000000010000000100000001000000 */
         /* *
          * As the name implies, final specifies the final 
          * attribute along with virtual, to indicate
          * that it's a sealed override.
          * */
-        Final = ExtendedInstanceMemberFlags.Final,
+        Final = ExtendedMemberAttributes.Final,
         /// <summary>
         /// Method is asynchronous in nature.
         /// </summary>
-        /* 0000000000000100000000 */
-        Async = 0x100,
-        FlagsMask = ExtendedInstanceMemberFlags.FlagsMask | Async,
+        /* 011000000000000000000000000100000000 */
+        Async = 0x600000100,
+        FlagsMask = ExtendedMemberAttributes.FlagsMask | Async,
     }
 }

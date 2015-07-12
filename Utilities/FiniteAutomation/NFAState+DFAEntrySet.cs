@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -11,15 +11,15 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
-    partial class NFAState<TCheck, TState, TDFA, TSourceElement>
+    partial class NFAState<TCheck, TNFAState, TDFAState, TSourceElement>
         where TCheck :
             IFiniteAutomataSet<TCheck>,
             new()
-        where TState :
-            NFAState<TCheck, TState, TDFA, TSourceElement>
-        where TDFA :
-            FiniteAutomataState<TCheck, TDFA, TDFA, TSourceElement>,
-            IDFAState<TCheck, TDFA, TSourceElement>,
+        where TNFAState :
+            NFAState<TCheck, TNFAState, TDFAState, TSourceElement>
+        where TDFAState :
+            DFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
+            IDFAState<TCheck, TNFAState, TDFAState, TSourceElement>,
             new()
         where TSourceElement :
             IFiniteAutomataSource
@@ -32,11 +32,11 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             {
                 this.Condition = condition;
             }
-            public bool Contains(List<TState> set)
+            public bool Contains(List<TNFAState> set)
             {
                 return this.Any(p => p.Equals(set));
             }
-            public DFAEntry this[List<TState> set]
+            public DFAEntry this[List<TNFAState> set]
             {
                 get
                 {

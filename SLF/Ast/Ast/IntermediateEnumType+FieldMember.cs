@@ -8,8 +8,9 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
+using AllenCopeland.Abstraction.Utilities.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -22,13 +23,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// <summary>
         /// Provides a base field member for an intermediate enumeration.
         /// </summary>
-        [DebuggerDisplay("{Name} = {Value},")]
+        [DebuggerDisplay("{Name,nq} = {Value},")]
         protected sealed partial class FieldMember :
             IntermediateMemberBase<IGeneralMemberUniqueIdentifier, IEnumType, IIntermediateEnumType>,
             IIntermediateEnumFieldMember
         {
             private IGeneralMemberUniqueIdentifier uniqueIdentifier;
             private IIntermediateEnumFieldValue value;
+            private IMetadataDefinitionCollection metadata;
+            private IMetadataCollection metadataBack;
+
             internal FieldMember(string name, IntermediateEnumType parent)
                 : base(parent)
             {
@@ -50,25 +54,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 {
                     this.value = value;
                 }
-            }
-
-            #endregion
-
-            #region IInstanceMember Members
-
-            public InstanceMemberFlags InstanceFlags
-            {
-                get { return InstanceMemberFlags.None; }
-            }
-
-            public bool IsHideBySignature
-            {
-                get { return false; }
-            }
-
-            public bool IsStatic
-            {
-                get { return false; }
             }
 
             #endregion
@@ -139,7 +124,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             /// that leads up to it.</returns>
             public IFieldReferenceExpression GetReference(IMemberParentReferenceExpression source)
             {
-                return new ReferenceExpression(this, source);
+                if (source != null)
+                    throw new ArgumentOutOfRangeException("source");
+                return new ReferenceExpression(this, this.Parent.GetTypeExpression());
             }
 
             #endregion
@@ -167,6 +154,71 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         this.uniqueIdentifier = TypeSystemIdentifiers.GetMemberIdentifier(this.Name);
                     return this.uniqueIdentifier; }
             }
+            public IIntermediateIdentityManager IdentityManager
+            {
+                get { return this.Parent.IdentityManager; }
+            }
+
+
+            IMetadataCollection IMetadataEntity.Metadata
+            {
+                get
+                {
+                    lock (this.SyncObject)
+                    {
+                        if (this.metadataBack != null)
+                            if (this.IsDisposed)
+                                throw new InvalidOperationException(Utilities.Properties.Resources.ObjectStateThrowMessage);
+                            else
+                                this.metadataBack = ((MetadataDefinitionCollection)(this.Metadata)).GetWrapper();
+                        return this.metadataBack;
+                    }
+                }
+            }
+
+            public IMetadataDefinitionCollection Metadata
+            {
+                get
+                {
+                    lock (this.SyncObject)
+                    {
+                        if (this.metadata == null)
+                            if (this.IsDisposed)
+                                throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                            else
+                                this.metadata = new MetadataDefinitionCollection(this, this.Parent.Assembly);
+                        return this.metadata;
+                    }
+                }
+            }
+
+            public bool IsDefined(IType metadatumType)
+            {
+                return this.Metadata.Contains(metadatumType);
+            }
+
+            #region IFieldMember Members
+
+            public bool ReadOnly
+            {
+                get { return false; }
+            }
+
+            public bool Constant
+            {
+                get { return true; }
+            }
+
+            #endregion
+
+            #region IEnumFieldMember Members
+
+            public FieldMemberAttributes Attributes
+            {
+                get { return FieldMemberAttributes.Constant; }
+            }
+
+            #endregion
         }
     }
 }

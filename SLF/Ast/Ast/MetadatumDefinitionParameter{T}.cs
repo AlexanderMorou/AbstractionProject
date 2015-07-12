@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,9 +18,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// <typeparam name="T">The type of value the <see cref="MetadatumDefinitionParameter{T}"/>
     /// is.</typeparam>
     public class MetadatumDefinitionParameter<T> :
+        PrimitiveExpression<T>,
         IMetadatumDefinitionParameter<T>
     {
-        private T value;
         private IType valueType;
         internal MetadatumDefinitionParameterCollection Owner { get; private set; }
         /// <summary>
@@ -34,46 +35,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which represents the type of <paramref name="value"/>
         /// within the current typing model.</param>
         internal MetadatumDefinitionParameter(T value, MetadatumDefinitionParameterCollection owner, IType valueType)
+            : base(value)
         {
-            this.value = value;
             this.valueType = valueType;
             this.Owner = owner;
         }
-
-        #region IMetadatumDefinitionParameter<T> Members
-
-        /// <summary>
-        /// Returns/sets the <typeparamref name="T"/> 
-        /// value defined on one of the 
-        /// <see cref="MetadatumDefinition"/>'s
-        /// constructor argument(s).
-        /// </summary>
-        public T Value
-        {
-            get
-            {
-                return this.value;
-            }
-            set
-            {
-                if (this.value.Equals(value))
-                    return;
-                this.value = value;
-                if (this.Owner != null)
-                    this.Owner.OnItemValueChanged(this);
-            }
-        }
-
-        #endregion
-
-        #region IMetadatumDefinitionParameter Members
-
-        object IMetadatumDefinitionParameter.Value
-        {
-            get { return this.Value; }
-        }
-
-        #endregion
 
         #region IDisposable Members
 
@@ -82,7 +48,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             try
             {
                 this.Owner = null;
-                this.value = default(T);
+                base.Value = default(T);
             }
             finally
             {
@@ -91,14 +57,42 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         }
 
         #endregion
-        public override string ToString()
-        {
-            return this.Value.ToString();
-        }
 
         public IType ParameterType
         {
             get { return this.valueType; }
         }
+
+        #region IPrimitiveExpression Members
+
+        object IPrimitiveExpression.Value
+        {
+            get
+            {
+                return this.Value;
+            }
+            set
+            {
+                if (value is T)
+                    base.Value = (T)value;
+                throw new ArgumentException(string.Format("Invalid type for value, should be '{0}', but got a(n) '{1}'.", typeof(T), value == null ? "null" : value.GetType().FullName), "value");
+            }
+        }
+
+        object IMetadatumDefinitionParameter.Value
+        {
+            get
+            {
+                return this.Value;
+            }
+            set
+            {
+                if (value is T)
+                    base.Value = (T)value;
+                throw new ArgumentException(string.Format("Invalid type for value, should be '{0}', but got a(n) '{1}'.", typeof(T), value == null ? "null" : value.GetType().FullName), "value");
+            }
+        }
+
+        #endregion
     }
 }

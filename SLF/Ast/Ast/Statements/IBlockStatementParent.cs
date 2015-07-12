@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -28,7 +28,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         IIntermediateTypeParent,
         IIntermediateMemberParent
     {
-        
+        void Add(IStatement statement);
+        bool AddAfter(IStatement statement, IStatement toAdd);
         /// <summary>
         /// Inserts and returns a new <see cref="IReturnStatement"/>
         /// with no value as its result.
@@ -58,6 +59,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IConditionBlockStatement"/> with the
         /// <see cref="IExpression"/> <paramref name="condition"/> provided.</returns>
         IConditionBlockStatement If(IExpression condition);
+
+        /// <summary>
+        /// Inserts and returns a new <see cref="IWhileStatement"/> instance which relates
+        /// to the <paramref name="condition"/> provided.
+        /// </summary>
+        /// <param name="condition">
+        /// The <see cref="IExpression"/> which must evaluate to true for the block of the
+        /// <see cref="IWhileStatement"/> to be evaluated.
+        /// </param>
+        /// <returns>A new <see cref="IWhileStatement"/> instance which relates
+        /// to the <paramref name="condition"/> provided.</returns>
+        IWhileStatement While(IExpression condition);
 
         /// <summary>
         /// Inserts and returns a new <see cref="ISwitchStatement"/> instance
@@ -331,7 +344,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// which defines a local through the <paramref name="localDeclaration"/>,
         /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.
         /// </summary>
-        /// <param name="localDeclaration">A <see cref="ILocalDeclarationStatement"/>
+        /// <param name="localDeclaration">A <see cref="ILocalDeclarationsStatement"/>
         /// which defines the local used within the scope of the iteration block.</param>
         /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
         /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
@@ -341,7 +354,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// </param>
         /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
         /// which represents the operation.</returns>
-        IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations);
+        IIterationDeclarationBlockStatement Iterate(ILocalDeclarationsStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations);
 
         /// <summary>
         /// Creates, inserts and returns a new <see cref="ISimpleIterationBlockStatement"/>
@@ -350,7 +363,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// where perhaps the <paramref name="endExclusive"/>, using the optional
         /// <paramref name="incremental"/>.
         /// </summary>
-        /// <param name="target">The <see cref="ILocalDeclarationStatement"/> which 
+        /// <param name="target">The <see cref="ILocalDeclarationsStatement"/> which 
         /// defines the local to use for the duration of the block.</param>
         /// <param name="start">The <see cref="IExpression"/> that denotes the starting
         /// position of the loop.</param>
@@ -363,7 +376,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// between <paramref name="start"/> and <paramref name="end"/>.</param>
         /// <returns>A new <see cref="ISimpleIterationBlockStatement"/> which
         /// represents the operation.</returns>
-        ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null);
+        ISimpleIterationBlockStatement Iterate(ILocalDeclarationsStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null);
 
         /// <summary>
         /// Creates, inserts and returns a new 
@@ -383,13 +396,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         IEnumerateSetBreakableBlockStatement Enumerate(string targetName, IExpression source);
 
         /// <summary>
-        /// Creates an inserts a <see cref="ILocalDeclarationStatement"/> with the
+        /// Creates an inserts a <see cref="ILocalDeclarationsStatement"/> with the
         /// <paramref name="local"/> provided.
         /// </summary>
         /// <param name="local">The <see cref="ILocalMember"/> to declare.</param>
-        /// <returns>A new <see cref="ILocalDeclarationStatement"/>
+        /// <returns>A new <see cref="ILocalDeclarationsStatement"/>
         /// which aims to declare the <paramref name="local"/> provided.</returns>
-        ILocalDeclarationStatement DefineLocal(ILocalMember local);
+        ILocalDeclarationsStatement DefineLocal(ILocalMember local);
         /// <summary>
         /// Defines a <see cref="ILabelStatement"/> with the 
         /// <paramref name="name"/> provided.

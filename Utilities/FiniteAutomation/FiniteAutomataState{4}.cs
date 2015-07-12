@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -204,21 +204,26 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// number of states in the automation.</returns>
         public abstract int CountStates();
 
+        public void Enumerate()
+        {
+            int startIndex = 0;
+            this.Enumerate(ref startIndex);
+        }
+
         /// <summary>
         /// Iterates and assigns all elements within the state transition
         /// scope their uniqueness value.
         /// </summary>
-        public void Enumerate()
+        public void Enumerate(ref int startIndex)
         {
-            int state = 0;
             List<TState> enumStack = new List<TState>();
-            this.EnumerateSet(ref state, enumStack);
-            this.Enumerate(ref state, enumStack);
+            this.EnumerateSet(ref startIndex, enumStack);
+            this.Enumerate(ref startIndex, enumStack);
             var edges = this.ObtainEdges();
             foreach (var edge in edges)
             {
                 if (edge.StateValue == -1)
-                    edge.StateValue = state++;
+                    edge.StateValue = startIndex++;
             }
         }
 
@@ -307,7 +312,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             this.sources[source] |= FiniteAutomationSourceKind.Final;
         }
 
-        protected void UnifySources(TState target)
+        protected virtual void UnifySources(TState target)
         {
             foreach (TSourceElement source in target.sources.Keys)
                 if (!this.sources.ContainsKey(source))

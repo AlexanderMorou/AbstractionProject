@@ -29,7 +29,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TProvider :
             ILanguageProvider
         where TIdentityManager :
-            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+            IIntermediateIdentityManager
     {
         private TLanguage language;
         private TProvider provider;

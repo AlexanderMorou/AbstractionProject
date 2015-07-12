@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -37,5 +37,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// is a candidate for asynchrony.
         /// </summary>
         bool IsAsynchronousCandidate { get; }
+        /// <summary>
+        /// Returns the <see cref="ITypeCollection"/> of <see cref="IInterfaceType"/>
+        /// elements which the current <see cref="IIntermediateClassMethodMember"/>
+        /// implements.
+        /// </summary>
+        new ITypeCollection Implementations { get; }
+        /// <summary>
+        /// Returns the implicit <see cref="ClassMethodMemberFlags"/> that determine how the
+        /// <see cref="IIntermediateClassMethodMember"/> is shown in its scope and inherited scopes.
+        /// </summary>
+        ClassMethodMemberFlags ImplicitAttributes { get; }
     }
 }

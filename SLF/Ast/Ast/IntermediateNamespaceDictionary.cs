@@ -7,12 +7,12 @@ using AllenCopeland.Abstraction.Slf._Internal;
 using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -102,9 +102,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.path, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.path));
             if (path.Contains("."))
             {
-                IGeneralDeclarationUniqueIdentifier[] names =
-                    (from subKey in path.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
-                     select TypeSystemIdentifiers.GetDeclarationIdentifier(subKey)).ToArray();
+                var pathVariants = path.NamespacePathBreakdown();
+                if (this.Parent is INamespaceDeclaration)
+                    pathVariants = pathVariants.Except(((INamespaceDeclaration)(this.Parent)).FullName.NamespacePathBreakdown()).ToArray();
+                var names = pathVariants.ToArray();
                 //It was comprised of dots only.
                 if (names.Length == 0)
                     throw ThrowHelper.ObtainArgumentException(ArgumentWithException.path, ExceptionMessageId.PathCannotBeDotsOnly);
@@ -119,7 +120,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     {
                         if (!hadNonExistant)
                             hadNonExistant = true;
-                        parent = parent.Namespaces.Add(names[i].Name);
+                        parent = parent.Namespaces.Add(names[i].Name.GetNamespaceFinalPathPart());
                     }
                 //The path already exists.
                 if (!hadNonExistant)
@@ -143,33 +144,6 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             if (key == string.Empty)
                 throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.key));
             return this.ContainsKey(TypeSystemIdentifiers.GetDeclarationIdentifier(key));
-        }
-
-        public override bool ContainsKey(IGeneralDeclarationUniqueIdentifier key)
-        {
-            if (key == null)
-                throw new ArgumentNullException("key");
-            if (key.Name == string.Empty)
-                throw ThrowHelper.ObtainArgumentException(ArgumentWithException.key, ExceptionMessageId.ArgumentCannotBeEmpty, ThrowHelper.GetArgumentName(ArgumentWithException.key));
-            if (!key.Name.Contains("."))
-                return base.ContainsKey(key);
-            else
-            {
-                IGeneralDeclarationUniqueIdentifier[] keys =
-                    (from subKey in key.Name.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)
-                     select TypeSystemIdentifiers.GetDeclarationIdentifier(subKey)).ToArray();
-                if (keys.Length == 0)
-                    throw new ArgumentException("keys");
-                if (keys.Length == 1)
-                    return this.ContainsKey(keys[0]);
-                IIntermediateNamespaceParent parent = this.parent;
-                for (int i = 0; i < keys.Length; i++)
-                    if (!parent.Namespaces.ContainsKey(keys[i]))
-                        return false;
-                    else
-                        parent = parent.Namespaces[keys[i]];
-                return true;
-            }
         }
 
         /// <summary>
@@ -197,7 +171,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public bool PathExists(string path)
         {
-            return this.ContainsKey(path);
+            var pathVariants = path.NamespacePathBreakdown();
+            if (this.Parent is INamespaceDeclaration)
+                pathVariants = pathVariants.Except(((INamespaceDeclaration)(this.Parent)).FullName.NamespacePathBreakdown()).ToArray();
+            IIntermediateNamespaceDictionary current = this;
+            foreach (var currentPath in pathVariants)
+            {
+                if (!current.ContainsKey(currentPath))
+                    return false;
+                current = current[currentPath].Namespaces;
+            }
+            return true;
         }
 
         INamespaceDeclaration INamespaceDictionary.this[string path]
@@ -213,6 +197,35 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected override bool ShouldDispose(IIntermediateNamespaceDeclaration declaration)
         {
             return declaration.Parent == parent;
+        }
+
+        #region IIntermediateNamespaceDictionary Members
+
+
+        public int GetCountFor(IIntermediateNamespaceParent parent)
+        {
+            int result = 0;
+            foreach (var element in this.Values)
+                if (element.Parent == parent)
+                    result++;
+                else
+                    foreach (var part in element.Parts)
+                        if (part.Parent == parent)
+                            result++;
+            return result;
+        }
+
+        #endregion
+
+        public override IEnumerable<KeyValuePair<IGeneralDeclarationUniqueIdentifier, IIntermediateNamespaceDeclaration>> ExclusivelyOnParent()
+        {
+            foreach (var nsKVP in this)
+                if (nsKVP.Value.Parent == this.Parent)
+                    yield return nsKVP;
+                else if (nsKVP.Value.Parts.Count > 0)
+                    foreach (var partial in nsKVP.Value.Parts)
+                        if (partial.Parent == this.Parent)
+                            yield return new KeyValuePair<IGeneralDeclarationUniqueIdentifier, IIntermediateNamespaceDeclaration>(nsKVP.Key, partial);
         }
     }
 }

@@ -141,7 +141,7 @@ namespace AllenCopeland.Abstraction
             }
         }
 
-        private static string GetExceptionMessage(ExceptionMessageId message, params string[] replacements)
+        public static string GetExceptionMessage(ExceptionMessageId message, params string[] replacements)
         {
             switch (message)
             {

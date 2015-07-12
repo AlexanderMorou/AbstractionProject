@@ -6,6 +6,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf._Internal.GenericLayer;
+using AllenCopeland.Abstraction.Slf.Cli;
+using System.Reflection;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -29,9 +31,28 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new NotImplementedException();
         }
 
+        private new CliManager IdentityManager
+        {
+            get
+            {
+                return (CliManager)base.IdentityManager;
+            }
+        }
         public SpecialClassModifier SpecialModifier
         {
-            get { throw new NotImplementedException(); }
+            get {
+                if ((this.MetadataEntry.TypeAttributes & (TypeAttributes.Sealed | TypeAttributes.Abstract)) == (TypeAttributes.Sealed | TypeAttributes.Abstract))
+                {
+                    if (this.Metadata.Contains(this.IdentityManager.ObtainTypeReference(CliRuntimeCoreType.ExtensionMetadatum, this.Assembly)))
+                        return SpecialClassModifier.TypeExtensionSource;
+                    return SpecialClassModifier.Static;
+                }
+                else if ((MetadataEntry.TypeAttributes & TypeAttributes.Sealed) == TypeAttributes.Sealed)
+                    return SpecialClassModifier.Sealed;
+                else if ((MetadataEntry.TypeAttributes & TypeAttributes.Abstract) == TypeAttributes.Abstract)
+                    return SpecialClassModifier.Sealed;
+                return SpecialClassModifier.None;
+            }
         }
 
         public new IClassType BaseType

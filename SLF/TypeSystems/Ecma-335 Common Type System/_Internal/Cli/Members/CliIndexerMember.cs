@@ -209,67 +209,67 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
 
-        public ExtendedInstanceMemberFlags InstanceFlags
+        public ExtendedMemberAttributes Attributes
         {
             get
             {
                 var methodSemantics = this.MetadataEntry.Methods.FirstOrDefault();
                 if (methodSemantics == null)
-                    return ExtendedInstanceMemberFlags.None;
+                    return ExtendedMemberAttributes.None;
                 var method = methodSemantics.Method;
                 if (method == null)
-                    return ExtendedInstanceMemberFlags.None;
-                ExtendedInstanceMemberFlags flags = ExtendedInstanceMemberFlags.None;
+                    return ExtendedMemberAttributes.None;
+                ExtendedMemberAttributes flags = ExtendedMemberAttributes.None;
                 if ((method.UsageDetails.VTableFlags & MethodVTableLayoutFlags.NewSlot) == MethodVTableLayoutFlags.NewSlot)
-                    flags |= ExtendedInstanceMemberFlags.HideByName;
+                    flags |= ExtendedMemberAttributes.HideByName;
                 if ((method.UsageDetails.UsageFlags & MethodUseFlags.Abstract) == MethodUseFlags.Abstract)
-                    flags |= ExtendedInstanceMemberFlags.Abstract;
+                    flags |= ExtendedMemberAttributes.Abstract;
 
                 if ((method.UsageDetails.UsageFlags & MethodUseFlags.Final) == MethodUseFlags.Final)
-                    flags |= ExtendedInstanceMemberFlags.Final;
+                    flags |= ExtendedMemberAttributes.Final;
                 if ((method.UsageDetails.UsageFlags & MethodUseFlags.Static) == MethodUseFlags.Static)
-                    flags |= ExtendedInstanceMemberFlags.Static;
+                    flags |= ExtendedMemberAttributes.Static;
                 if ((method.UsageDetails.UsageFlags & MethodUseFlags.Virtual) == MethodUseFlags.Virtual)
-                    flags |= ExtendedInstanceMemberFlags.Virtual;
+                    flags |= ExtendedMemberAttributes.Virtual;
                 if (method.UsageDetails.VTableFlags == MethodVTableLayoutFlags.ReuseSlot)
-                    flags |= ExtendedInstanceMemberFlags.Override;
+                    flags |= ExtendedMemberAttributes.Override;
                 return flags;
             }
         }
 
         public bool IsAbstract
         {
-            get { return (InstanceFlags & ExtendedInstanceMemberFlags.Abstract) == ExtendedInstanceMemberFlags.Abstract; }
+            get { return (Attributes & ExtendedMemberAttributes.Abstract) == ExtendedMemberAttributes.Abstract; }
         }
 
         public bool IsVirtual
         {
-            get { return (InstanceFlags & ExtendedInstanceMemberFlags.Virtual) == ExtendedInstanceMemberFlags.Virtual; }
+            get { return (Attributes & ExtendedMemberAttributes.Virtual) == ExtendedMemberAttributes.Virtual; }
         }
 
         public bool IsFinal
         {
-            get { return (InstanceFlags & ExtendedInstanceMemberFlags.Final) == ExtendedInstanceMemberFlags.Final; }
+            get { return (Attributes & ExtendedMemberAttributes.Final) == ExtendedMemberAttributes.Final; }
         }
 
         public bool IsOverride
         {
-            get { return (InstanceFlags & ExtendedInstanceMemberFlags.Override) == ExtendedInstanceMemberFlags.Override; }
+            get { return (Attributes & ExtendedMemberAttributes.Override) == ExtendedMemberAttributes.Override; }
         }
 
-        InstanceMemberFlags IInstanceMember.InstanceFlags
+        InstanceMemberAttributes IInstanceMember.Attributes
         {
-            get { return (InstanceMemberFlags)this.InstanceFlags & InstanceMemberFlags.FlagsMask; }
+            get { return (InstanceMemberAttributes)this.Attributes & InstanceMemberAttributes.FlagsMask; }
         }
 
         public bool IsHideBySignature
         {
-            get { return (this.InstanceFlags & ExtendedInstanceMemberFlags.HideBySignature) == ExtendedInstanceMemberFlags.HideBySignature; }
+            get { return (this.Attributes & ExtendedMemberAttributes.HideBySignature) == ExtendedMemberAttributes.HideBySignature; }
         }
 
         public bool IsStatic
         {
-            get { return (this.InstanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static; }
+            get { return (this.Attributes & ExtendedMemberAttributes.Static) == ExtendedMemberAttributes.Static; }
         }
 
         public override string ToString()

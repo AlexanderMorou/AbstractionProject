@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Services;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
@@ -25,7 +26,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
     /// <typeparam name="TTypeIdentity">The identity relative to the model
     /// in which the <see cref="IType"/> instances are created from.</typeparam>
     /// <typeparam name="TAssemblyIdentity">The  type used in the containing model
-    /// to represent <typeparamref name="TAssembly"/> instances.</typeparam>
+    /// to represent assembly instances.</typeparam>
     public abstract class LanguageProvider<TLanguage, TProvider, TIdentityManager, TTypeIdentity, TAssemblyIdentity> :
         ILanguageProvider<TLanguage, TProvider>,
         ILanguageProvider
@@ -34,17 +35,30 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         where TProvider :
             ILanguageProvider<TLanguage, TProvider>
         where TIdentityManager :
-            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+            IIntermediateIdentityManager
 
     {
         #region Data members
 
+        /// <summary>
+        /// Data member for supported services beyond the default services.
+        /// </summary>
         private Dictionary<Guid, ILanguageService> supportedServices;
+        /// <summary>
+        /// Data member representing the default services used to construct classes, delegates, et al.
+        /// </summary>
         private Dictionary<Guid, ILanguageService> defaultServices;
+        /// <summary>
+        /// Data member used to cache services of various types.
+        /// </summary>
         private MultikeyedDictionary<Guid, Type, ILanguageService> cachedServices;
-        private ITypeIdentityManager identityManager;
+        /// <summary>
+        /// The identity manager used to resolve assembly and type identities.
+        /// </summary>
+        private IIdentityManager identityManager;
         #endregion
-        protected LanguageProvider(ITypeIdentityManager identityManager)
+        protected LanguageProvider(IIdentityManager identityManager)
         {
             var defaultServices = new Dictionary<Guid, ILanguageService>();
             var cachedServices = new MultikeyedDictionary<Guid, Type, ILanguageService>();
@@ -162,7 +176,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <summary>
         /// Provides the root implementation of the 
         /// <see cref="GetService(Guid)"/> method since the constraints
-        /// on <see cref="ILanguageProvider.GetService(Guid)"/> and 
+        /// on <see cref="IServiceProvider{ILanguageService}.GetService(Guid)"/> and 
         /// <see cref="ILanguageProvider{TLanguage, TProvider}"/> are different.
         /// </summary>
         /// <typeparam name="TService">The type of <see cref="ILanguageService{TLanguage, TProvider}"/>
@@ -198,6 +212,14 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return (TService)result;
         }
 
+        /// <summary>
+        /// Internal implementation of <see cref="TryGetService{TService}"/> with the <paramref name="serviceGuid"/> and
+        /// <paramref name="service"/> provided.
+        /// </summary>
+        /// <typeparam name="TService">The type of the service in question.</typeparam>
+        /// <param name="serviceGuid">The <see cref="Guid"/> of the service to attempt to retrieve.</param>
+        /// <param name="service">The <typeparamref name="TService"/> to retrieve.</param>
+        /// <returns>true, if the service is implemented, and of the proper type (<typeparamref name="TService"/>); false, otherwise.</returns>
         protected virtual bool TryGetServiceImpl<TService>(Guid serviceGuid, out TService service)
             where TService :
                 ILanguageService
@@ -210,36 +232,35 @@ namespace AllenCopeland.Abstraction.Slf.Languages
                     service = (TService)result;
                     return true;
                 }
-                else
-                    if (this.SupportsUserService(serviceGuid))
-                        if (!UserServiceIs<TService>(serviceGuid))
-                        {
-                            service = default(TService);
-                            return false;
-                        }
-                        else
-                        {
-                            service = (TService)this.supportedServices[serviceGuid];
-                            this.cachedServices.TryAdd(serviceGuid, typeof(TService), result);
-                            return true;
-                        }
-                    else if (this.SupportsDefaultService(serviceGuid))
-                        if (!DefaultServiceIs<TService>(serviceGuid))
-                        {
-                            service = default(TService);
-                            return false;
-                        }
-                        else
-                        {
-                            service = (TService)this.defaultServices[serviceGuid];
-                            this.cachedServices.TryAdd(serviceGuid, typeof(TService), result);
-                            return true;
-                        }
-                    else
+                else if (this.SupportsUserService(serviceGuid))
+                    if (!UserServiceIs<TService>(serviceGuid))
                     {
                         service = default(TService);
                         return false;
                     }
+                    else
+                    {
+                        service = (TService)this.supportedServices[serviceGuid];
+                        this.cachedServices.TryAdd(serviceGuid, typeof(TService), result);
+                        return true;
+                    }
+                else if (this.SupportsDefaultService(serviceGuid))
+                    if (!DefaultServiceIs<TService>(serviceGuid))
+                    {
+                        service = default(TService);
+                        return false;
+                    }
+                    else
+                    {
+                        service = (TService)this.defaultServices[serviceGuid];
+                        this.cachedServices.TryAdd(serviceGuid, typeof(TService), result);
+                        return true;
+                    }
+                else
+                {
+                    service = default(TService);
+                    return false;
+                }
             }
             
         }
@@ -255,6 +276,8 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// to check for.</param>
         /// <returns>true, if the <paramref name="service"/> requested is assignable
         /// from the <typeparamref name="TService"/> provided.</returns>
+        /// <exception cref="InvalidOperationException">The <paramref name="service"/>
+        /// provided is not supported.</exception>
         protected virtual bool ServiceIsImpl<TService>(Guid service)
             where TService :
                 ILanguageService
@@ -284,12 +307,12 @@ namespace AllenCopeland.Abstraction.Slf.Languages
             return SupportsUserService(service) || SupportsDefaultService(service);
         }
 
-        bool ILanguageProvider.ServiceIs<TService>(Guid service)
+        bool IServiceProvider<ILanguageService>.ServiceIs<TService>(Guid service)
         {
             return this.ServiceIsImpl<TService>(service);
         }
 
-        TService ILanguageProvider.GetService<TService>(Guid service)
+        TService IServiceProvider<ILanguageService>.GetService<TService>(Guid service)
         {
             return this.GetServiceImpl<TService>(service);
         }
@@ -347,11 +370,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
 
         #endregion
 
-        bool ILanguageProvider.TryGetService<TService>(Guid serviceGuid, out TService service)
+        bool IServiceProvider<ILanguageService>.TryGetService<TService>(Guid serviceGuid, out TService service)
         {
             return TryGetServiceImpl<TService>(serviceGuid, out service);
         }
 
-        public ITypeIdentityManager IdentityManager { get { return this.identityManager; } }
+        public IIdentityManager IdentityManager { get { return this.identityManager; } }
     }
 }

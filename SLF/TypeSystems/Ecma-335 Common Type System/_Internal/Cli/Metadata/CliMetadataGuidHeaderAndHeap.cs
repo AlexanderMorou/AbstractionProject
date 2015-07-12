@@ -24,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata
         {
             this.syncObject = syncObject;
         }
-        public uint Add(Guid value)
+        internal uint Add(Guid value)
         {
             this.data = this.data.EnsureSpaceExists(count, 1);
             this.hashCodes = this.hashCodes.EnsureSpaceExists(count, 1);

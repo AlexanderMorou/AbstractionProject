@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -19,6 +19,26 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
     /// </summary>
     public interface IStatementVisitor
     {
+        /// <summary>
+        /// Visits the using <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IUsingBlockStatement"/> to visit.</param>
+        void Visit(IUsingBlockStatement statement);
+        /// <summary>
+        /// Visits the using <paramref name="statement"/> expression provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IUsingExpressionBlockStatement"/> to visit.</param>
+        void Visit(IUsingExpressionBlockStatement statement);
+        /// <summary>
+        /// Visits the throw <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IThrowStatement"/> to visit.</param>
+        void Visit(IThrowStatement statement);
+        /// <summary>
+        /// Visits the lock <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ILockStatement"/> to visit.</param>
+        void Visit(ILockStatement statement);
         /// <summary>
         /// Visits the block <paramref name="statement"/> provided.
         /// </summary>
@@ -70,6 +90,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <param name="statement">The <see cref="IGoToStatement"/> to visit.</param>
         void Visit(IGoToStatement statement);
         /// <summary>
+        /// Visits the goto <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IGoToCaseStatement"/> to visit.</param>
+        void Visit(IGoToCaseStatement statement);
+        /// <summary>
         /// Visits the jump target <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="IJumpTarget"/> to visit.</param>
@@ -79,6 +104,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// </summary>
         /// <param name="statement">The <see cref="IIterationBlockStatement"/> to visit.</param>
         void Visit(IIterationBlockStatement statement);
+        /// <summary>
+        /// Visits the iteration block <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IIterationDeclarationBlockStatement"/> to visit.</param>
+        void Visit(IIterationDeclarationBlockStatement statement);
         /// <summary>
         /// Visits the jump <paramref name="statement"/> provided.
         /// </summary>
@@ -117,8 +147,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <summary>
         /// Visits the <paramref name="statement"/> provided.
         /// </summary>
-        /// <param name="statement">The <see cref="ILocalDeclarationStatement"/> to visit.</param>
-        void Visit(ILocalDeclarationStatement statement);
+        /// <param name="statement">The <see cref="ILocalDeclarationsStatement"/> to visit.</param>
+        void Visit(ILocalDeclarationsStatement statement);
         /// <summary>
         /// Visits the change event handler <paramref name="statement"/> provided.
         /// </summary>
@@ -160,6 +190,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <param name="statement">The <see cref="ICommentStatement"/>
         /// to visit.</param>
         void Visit(ICommentStatement statement);
+
+        void Visit(IYieldReturnStatement statement);
+        void Visit(IYieldBreakStatement statement);
+        void Visit(IWhileStatement whileStatement);
     }
     
     /// <summary>
@@ -260,6 +294,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// relative to the implementation of the visitor.</returns>
         TResult Visit(IGoToStatement statement, TContext context);
         /// <summary>
+        /// Visits the goto <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IGoToCaseStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IGoToCaseStatement statement, TContext context);
+        /// <summary>
         /// Visits the jump target <paramref name="statement"/> provided.
         /// </summary>
         /// <param name="statement">The <see cref="IJumpTarget"/> to visit.</param>
@@ -343,12 +386,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <summary>
         /// Visits the <paramref name="statement"/> provided.
         /// </summary>
-        /// <param name="statement">The <see cref="ILocalDeclarationStatement"/> to visit.</param>
+        /// <param name="statement">The <see cref="ILocalDeclarationsStatement"/> to visit.</param>
         /// <param name="context">The <typeparamref name="TContext"/> relative to the current
         /// implementation.</param>
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
-        TResult Visit(ILocalDeclarationStatement statement, TContext context);
+        TResult Visit(ILocalDeclarationsStatement statement, TContext context);
         /// <summary>
         /// Visits the change event handler <paramref name="statement"/> provided.
         /// </summary>
@@ -402,5 +445,68 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>Returns the value of <typeparamref name="TResult"/>
         /// relative to the implementation of the visitor.</returns>
         TResult Visit(ICommentStatement statement, TContext context);
+        /// <summary>
+        /// Visits the using <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IUsingBlockStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IUsingBlockStatement statement, TContext context);
+        /// <summary>
+        /// Visits the using <paramref name="statement"/> expression provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IUsingExpressionBlockStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IUsingExpressionBlockStatement statement, TContext context);
+        /// <summary>
+        /// Visits the throw <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IThrowStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IThrowStatement statement, TContext context);
+        /// <summary>
+        /// Visits the lock <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="ILockStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(ILockStatement statement, TContext context);
+        /// <summary>
+        /// Visits the yield return <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IYieldReturnStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IYieldReturnStatement statement, TContext context);
+        /// <summary>
+        /// Visits the yield break <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IYieldBreakStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/>
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IYieldBreakStatement statement, TContext context);
+        /// <summary>
+        /// Visits the yield break <paramref name="statement"/> provided.
+        /// </summary>
+        /// <param name="statement">The <see cref="IWhileStatement"/> to visit.</param>
+        /// <param name="context">The <typeparamref name="TContext"/> relative to the current
+        /// implementation.</param>
+        /// <returns>Returns the value of <typeparamref name="TResult"/> 
+        /// relative to the implementation of the visitor.</returns>
+        TResult Visit(IWhileStatement whileStatement, TContext context);
     }
 }

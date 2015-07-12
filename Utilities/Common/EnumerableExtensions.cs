@@ -21,5 +21,15 @@ namespace AllenCopeland.Abstraction.Utilities
         {
             return new SinglePassEnumerable<T>(target);
         }
+
+        public static IEnumerable<T> OddIndices<T>(this IEnumerable<T> series)
+        {
+            return series.Where((element, index) => index % 2 != 0);
+        }
+
+        public static IEnumerable<T> EvenIndices<T>(this IEnumerable<T> series)
+        {
+            return series.Where((element, index) => index % 2 == 0);
+        }
     }
 }

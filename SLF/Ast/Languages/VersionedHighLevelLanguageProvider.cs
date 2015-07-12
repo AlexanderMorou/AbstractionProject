@@ -20,10 +20,11 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         where TProvider :
             ILanguageProvider<TLanguage, TProvider>
         where TIdentityManager : 
-            IIdentityManager<TTypeIdentity, TAssemblyIdentity>
+            IIdentityManager<TTypeIdentity, TAssemblyIdentity>,
+            IIntermediateIdentityManager
     {
 
-        public VersionedLanguageProvider(TVersion version, ITypeIdentityManager identityManager)
+        public VersionedLanguageProvider(TVersion version, TIdentityManager identityManager)
             : base(identityManager)
         {
             this.Version = version;

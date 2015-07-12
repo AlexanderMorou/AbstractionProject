@@ -11,7 +11,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Properties;
 using AllenCopeland.Abstraction.Utilities.Events;
 using System.Reflection;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -30,23 +30,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
          * Created upon request.
          * */
         private Attribute wrappedAttribute;
-        private IIntermediateMetadataEntity declarationPoint;
+        private MetadataDefinition parent;
         private MetadatumDefinitionParameterCollection parameters;
         /// <summary>
         /// Data member for <see cref="Type"/>.
         /// </summary>
         private IType type;
-        /// <summary>
-        /// The <see cref="ITypeIdentityManager"/> from which parameter
-        /// types are derived.
-        /// </summary>
-        private ITypeIdentityManager manager;
 
         /// <summary>
         /// Creates a new <see cref="MetadatumDefinition"/>
         /// with the <paramref name="declarationPoint"/> provided.
         /// </summary>
-        /// <param name="declarationPoint">The <see cref="IIntermediateMetadataEntity"/>
+        /// <param name="parent">The <see cref="MetadataDefinition"/>
         /// on which the current <see cref="MetadatumDefinition"/>
         /// is declared.</param>
         /// <param name="data">The <see cref="MetadatumDefinitionParameterValueCollection"/>
@@ -57,35 +52,30 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// which does not have properties, or is not an attribute.</exception>
         /// <exception cref="System.ArgumentNullException"><paramref name="declarationPoint"/> is null; -or-
         /// <paramref name="data"/>'s <see cref="MetadatumDefinitionParameterValueCollection.MetadatumType"/> is null.</exception>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public MetadatumDefinition(IIntermediateMetadataEntity declarationPoint, MetadatumDefinitionParameterValueCollection data, ITypeIdentityManager identityManager)
+        public MetadatumDefinition(MetadataDefinition parent, MetadatumDefinitionParameterValueCollection data)
         {
             if (data == null)
                 throw new ArgumentNullException("data");
             if (data.MetadatumType == null)
                 throw new ArgumentNullException(string.Format(CultureInfo.CurrentCulture, Resources.Exception_ArgumentNull_CustomAttribute_ctor_data, "data"), "data");
-            if ((identityManager.MetadatumHandler.IsMetadatum(data.MetadatumType) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
+            this.parent = parent;
+            if ((this.OwningAssembly.IdentityManager.MetadatumHandler.GetTypeMetadatumRepresentation(data.MetadatumType) & TypeMetadatumRepresentation.IsMetadata) != TypeMetadatumRepresentation.IsMetadata)
                 throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
-            this.declarationPoint = declarationPoint;
-            this.manager = identityManager;
             this.type = data.MetadatumType;
             this.AddSeries(data);
-            //if (!this.VerifyAttributeType())
-            //    throw new ArgumentException("data");
         }
-#if false
+        //*
+#if false//*/
         private bool VerifyAttributeType()
         {
-            if (this.metadatumType is ICompiledType)
+            if (this.type is ICliType)
             {
-                if (this.metadatumType is ICreatableParent)
+                if (this.type is ICreatableParent)
                 {
                     if (this.parameters != null)
                     {
                         if (this.Parameters.Any(q => q is IMetadatumDefinitionNamedParameter))
-                            if (!(this.metadatumType is IPropertyParent))
+                            if (!(this.type is IPropertyParent))
                                 return false;
                             else
                             {
@@ -93,7 +83,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                                     from p in this.Parameters
                                     where p is IMetadatumDefinitionNamedParameter
                                     select (IMetadatumDefinitionNamedParameter)p;
-                                IPropertyParent propertyParent = ((IPropertyParent)(this.metadatumType));
+                                IPropertyParent propertyParent = ((IPropertyParent)(this.type));
                                 foreach (var propertyValue in namedParameters)
                                     if (!propertyParent.Properties.ContainsKey(propertyValue.Name))
                                         return false;
@@ -105,10 +95,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                         ctorSignature =
                             from r in this.Parameters
                             where !(r is IMetadatumDefinitionNamedParameter)
-                            select r.Value.GetType().GetTypeReference();
+                            select r.ParameterType;
                     else
                         ctorSignature = TypeCollection.Empty;
-                    ICreatableParent creatableParent = (ICreatableParent)this.metadatumType;
+                    ICreatableParent creatableParent = (ICreatableParent)this.type;
                     if (creatableParent.Constructors.Find(false, ctorSignature.ToCollection()).Count == 0)
                         return false;
                 }
@@ -116,16 +106,24 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     return false;
                 return true;
             }
-            else if (this.metadatumType is IIntermediateClassType)
+            else if (this.type is IIntermediateClassType)
             {
                 return true;
             }
             else
                 return false;
         }
-#endif
+        /*
+#endif//*/
+        
         #region IMetadatumDefinition Members
 
+        /// <summary>
+        /// Returns the <see cref="IType"/> which defines the kind of
+        /// metadatum that is generated.
+        /// </summary>
+        /// <remarks>In ECMA-335 this is an <see cref="IClassType"/>; however
+        /// in Java this is an interface with a </remarks>
         public IType Type
         {
             get
@@ -140,7 +138,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     throw new ArgumentNullException("value");
                 if (this.wrappedAttribute != null)
                     this.wrappedAttribute = null;
-                if ((manager.MetadatumHandler.IsMetadatum(value) & TypeIsMetadata.Yes) != TypeIsMetadata.Yes)
+                if ((OwningAssembly.IdentityManager.MetadatumHandler.GetTypeMetadatumRepresentation(value) & TypeMetadatumRepresentation.IsMetadata) != TypeMetadatumRepresentation.IsMetadata)
                     throw new ArgumentException(Resources.Exception_Argument_CustomAttribute_Type_MustBeAttribute, "value");
                 this.type = value;
                 //if (!this.VerifyAttributeType())
@@ -154,7 +152,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public IIntermediateMetadataEntity DeclarationPoint
         {
-            get { return this.declarationPoint; }
+            get { return this.parent.Parent.Parent; }
         }
 
         /// <summary>
@@ -173,7 +171,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void CheckParameters()
         {
             if (this.parameters == null)
-                this.parameters = new MetadatumDefinitionParameterCollection(this, manager);
+                this.parameters = new MetadatumDefinitionParameterCollection(this);
         }
 
         #endregion
@@ -237,11 +235,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IDisposable Members
 
+        /// <summary>
+        /// Disposes the <see cref="MetadatumDefinition"/>.
+        /// </summary>
         public void Dispose()
         {
             if (this.parameters != null)
-                this.Parameters.Dispose();
-            this.declarationPoint = null;
+            {
+                this.parameters.Dispose();
+                this.parameters = null;
+            }
+            this.parent = null;
             this.type = null;
             this.wrappedAttribute = null;
         }
@@ -259,6 +263,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         public override string ToString()
         {
+
             return string.Format("{0}({1})", this.Type.BuildTypeName(true, false, TypeParameterDisplayMode.DebuggerStandard), string.Join(", ", this.Parameters));
         }
 
@@ -284,5 +289,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                     }
             }
         }
+
+        public IIntermediateAssembly OwningAssembly { get { return this.parent.OwningAssembly; } }
     }
 }

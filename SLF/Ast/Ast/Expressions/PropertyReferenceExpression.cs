@@ -6,8 +6,9 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
+using System.Diagnostics;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -24,6 +25,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
     /// abstract type system.</typeparam>
     /// <typeparam name="TPropertyParent">The type which owns the properties
     /// in the abstract type system.</typeparam>
+    [DebuggerDisplay("{ToString(),nq} ({TypeLookupAidString,nq})")]
     public class PropertyReferenceExpression<TProperty, TPropertyParent> :
         MemberParentReferenceExpressionBase,
         IPropertyReferenceExpression<TProperty, TPropertyParent>
@@ -124,6 +126,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
             return visitor.Visit(this, context);
         }
 
+        private string TypeLookupAidString
+        {
+            get
+            {
+                return TypeLookupAid.ToString();
+            }
+        }
         protected override IType TypeLookupAid
         {
             get
@@ -243,6 +252,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
         public override TResult Visit<TContext, TResult>(IExpressionVisitor<TResult, TContext> visitor, TContext context)
         {
             return visitor.Visit(this, context);
+        }
+
+        private string TypeLookupAidString
+        {
+            get
+            {
+                return TypeLookupAid.ToString();
+            }
         }
 
         protected override IType TypeLookupAid

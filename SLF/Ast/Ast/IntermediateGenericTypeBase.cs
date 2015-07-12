@@ -14,7 +14,7 @@ using AllenCopeland.Abstraction.Utilities.Events;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -303,6 +303,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public override void Dispose()
         {
+
             const int DISP_STATE_NONE = 0;
             const int DISP_STATE_DISPOSING = 1;
             const int DISP_STATE_DISPOSED = 2;
@@ -422,7 +423,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 int baseLine = (gpC - this.TypeParameters.Count);
                 int realFrom = baseLine + from,
                     realTo = baseLine + to;
-                foreach (var element in this.genericCache.Cast<_IGenericType>())
+                foreach (var element in this.genericCache.Cast<_IGenericParamParent>())
                     element.PositionalShift(realFrom, realTo);
             }
         }

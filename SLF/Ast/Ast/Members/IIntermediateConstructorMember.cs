@@ -4,7 +4,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -81,5 +81,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// parent/local constructor.
         /// </summary>
         ICallParameterSet CascadeMembers { get; }
+        /// <summary>
+        /// Returns whether the <see cref="IIntermediateConstructorMember"/> is static.
+        /// </summary>
+        bool IsStaticConstructor { get; }
     }
 }

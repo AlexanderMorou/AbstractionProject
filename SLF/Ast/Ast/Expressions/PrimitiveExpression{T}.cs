@@ -10,7 +10,7 @@ using AllenCopeland.Abstraction.Slf._Internal.Ast;
 using AllenCopeland.Abstraction.Slf.Ast;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -188,21 +188,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Expressions
                 case PrimitiveType.Boolean:
                     return string.Format("{0}", value);
                 case PrimitiveType.Byte:
-                    return string.Format("((byte)({0}))", value);
+                    return string.Format("((byte)(0x{0,2:X}))", value).Replace(' ', '0');
                 case PrimitiveType.SByte:
                     return string.Format("((sbyte)({0}))", value);
                 case PrimitiveType.Int16:
                     return string.Format("((short)({0}))", value);
                 case PrimitiveType.UInt16:
-                    return string.Format("((ushort)({0}))", value);
+                    return string.Format("((ushort)(0x{0,4:X}))", value).Replace(' ', '0');
                 case PrimitiveType.Int32:
                     return string.Format("{0}", value);
                 case PrimitiveType.UInt32:
-                    return string.Format("{0}U", value);
+                    return string.Format("0x{0,8:X}U", value).Replace(' ', '0');
                 case PrimitiveType.Int64:
                     return string.Format("{0}L", value);
                 case PrimitiveType.UInt64:
-                    return string.Format("{0}UL", value);
+                    return string.Format("0x{0,16:X}UL", value).Replace(' ', '0');
                 case PrimitiveType.Decimal:
                     return string.Format("{0}M", value);
                 case PrimitiveType.Float:

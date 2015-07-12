@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -53,25 +53,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                     }
                 }
 
-                public ClassMethodMemberFlags InstanceFlags
+                public ClassMethodMemberFlags Attributes
                 {
                     get
                     {
-                        return this.Original.InstanceFlags;
+                        return this.Original.Attributes;
                     }
                 }
 
-                ExtendedMethodMemberFlags IExtendedMethodMember.InstanceFlags
+                ExtendedMethodAttributes IExtendedMethodMember.Attributes
                 {
                     get
                     {
-                        return (ExtendedMethodMemberFlags)this.InstanceFlags & ExtendedMethodMemberFlags.FlagsMask;
+                        return (ExtendedMethodAttributes)this.Attributes & ExtendedMethodAttributes.FlagsMask;
                     }
                 }
 
-                ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
+                ExtendedMemberAttributes IExtendedInstanceMember.Attributes
                 {
-                    get { return (ExtendedInstanceMemberFlags)this.InstanceFlags ^ ExtendedInstanceMemberFlags.FlagsMask; }
+                    get { return (ExtendedMemberAttributes)this.Attributes ^ ExtendedMemberAttributes.FlagsMask; }
                 }
 
                 public bool IsStatic
@@ -125,11 +125,11 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 #endregion
 
                 #region IInstanceMember Members
-                InstanceMemberFlags IInstanceMember.InstanceFlags
+                InstanceMemberAttributes IInstanceMember.Attributes
                 {
                     get
                     {
-                        return ((IInstanceMember)(this.Original)).InstanceFlags;
+                        return ((IInstanceMember)(this.Original)).Attributes;
                     }
                 }
                 #endregion
@@ -185,6 +185,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
                 }
 
                 #endregion
+
+                public IEnumerable<IInterfaceType> Implementations
+                {
+                    get
+                    {
+                        foreach (var impl in this.Original.Implementations)
+                            yield return (IInterfaceType)ResolveType(impl);
+                    }
+                }
 
             }
         }

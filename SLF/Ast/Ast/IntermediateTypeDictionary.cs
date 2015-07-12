@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
 using AllenCopeland.Abstraction.Utilities.Collections;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -173,6 +173,35 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         protected override sealed bool ShouldDispose(TIntermediateType v)
         {
             return v.Parent == parent;
+        }
+
+        #region IIntermediateTypeDictionary<TTypeIdentifier,TType,TIntermediateType> Members
+
+        public int GetCountFor(IIntermediateTypeParent parent)
+        {
+            int result = 0;
+            foreach (var element in this.Values)
+                if (element.Parent == parent)
+                    result++;
+            return result;
+        }
+
+        #endregion
+
+        public TIntermediateType Add(string format, params object[] replacements)
+        {
+            return this.Add(string.Format(format, replacements));
+        }
+
+        public override IEnumerable<KeyValuePair<TTypeIdentifier, TIntermediateType>> ExclusivelyOnParent()
+        {
+            foreach (var typeKVP in this)
+                if (typeKVP.Value.Parent == this.Parent)
+                    yield return typeKVP;
+                else if (typeKVP.Value is IIntermediateSegmentableDeclaration && ((IIntermediateSegmentableDeclaration)(typeKVP.Value)).Parts.Count > 0)
+                    foreach (TIntermediateType partial in ((IIntermediateSegmentableDeclaration)(typeKVP.Value)).Parts)
+                        if (partial.Parent == this.Parent)
+                            yield return new KeyValuePair<TTypeIdentifier, TIntermediateType>(typeKVP.Key, partial);
         }
     }
 }

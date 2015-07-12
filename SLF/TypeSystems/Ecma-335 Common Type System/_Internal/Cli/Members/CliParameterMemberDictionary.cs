@@ -27,6 +27,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private _ICliManager manager;
         private TParent parent;
         private ICliMetadataMethodSignature signature;
+        private IMethodSignatureMember activeMethod;
+        public CliParameterMemberDictionary(_ICliManager manager, uint methodIndex, ICliMetadataRoot metadataRoot, TParent parent, IMethodSignatureMember activeMethod)
+            : this(manager, methodIndex, metadataRoot, parent)
+        {
+            this.activeMethod = activeMethod;
+        }
         public CliParameterMemberDictionary(_ICliManager manager, uint methodIndex, ICliMetadataRoot metadataRoot, TParent parent, int dropoff = 0)
         {
             this.manager = manager;
@@ -82,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 
         public IControlledTypeCollection ParameterTypes
         {
-            get { return new CliSignatureTypeCollection(this.manager, this.signature); }
+            get { return new CliSignatureTypeCollection(this.manager, this.signature, ((object)this.parent) == this.activeMethod ? this.activeMethod.Parent as IType : this.parent as IType, this.activeMethod); }
         }
 
         #endregion
@@ -107,5 +113,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return TypeSystemIdentifiers.GetMemberIdentifier(metadata.Name);
         }
+
     }
 }

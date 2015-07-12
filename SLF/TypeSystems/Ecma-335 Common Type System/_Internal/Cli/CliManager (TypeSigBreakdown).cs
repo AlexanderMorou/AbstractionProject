@@ -45,12 +45,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType));
         }
 
+        public IType ObtainTypeReference(CliRuntimeCoreType coreType, ICliAssembly assembly)
+        {
+            return this.ObtainTypeReference(this.RuntimeEnvironment.GetCoreIdentifier(coreType, assembly), assembly);
+        }
+
         //#region ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow> Members
 
-        public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod)
+        public IType ObtainTypeReference(ICliMetadataTypeSpecificationTableRow typeIdentity, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null)
         {
             if (typeIdentity.Signature is ICliMetadataTypeSignature)
-                return this.ObtainTypeReference((ICliMetadataTypeSignature)typeIdentity.Signature, activeType, activeMethod);
+                return this.ObtainTypeReference((ICliMetadataTypeSignature)typeIdentity.Signature, activeType, activeMethod, activeAssembly);
             throw new NotSupportedException();
         }
 
@@ -63,6 +68,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(ICliMetadataNativeTypeSignature typeIdentity, ICliAssembly assembly)
         {
+            var runtimeEnvironmentInfo = assembly.RuntimeEnvironment;
             switch (typeIdentity.TypeKind)
             {
                 case CliMetadataNativeTypes.Boolean:
@@ -95,17 +101,17 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return this.ObtainTypeReference(RuntimeCoreType.VoidType, assembly);
                 case CliMetadataNativeTypes.TypedByReference:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
-                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"));
+                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "TypedReference"), assembly);
                     else
-                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "TypedReference"));
+                        return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "TypedReference"), assembly);
                 case CliMetadataNativeTypes.NativeInteger:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
-                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"));
+                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "IntPtr"), assembly);
                     else
                         return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "IntPtr"), assembly);
                 case CliMetadataNativeTypes.NativeUnsignedInteger:
                     if (this.RuntimeEnvironment.UseCoreLibrary)
-                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"));
+                        return this.ObtainTypeReference(this.RuntimeEnvironment.CoreLibraryIdentifier.GetTypeIdentifier("System", "UIntPtr"), assembly);
                     else
                         return this.ObtainTypeReference(TypeSystemIdentifiers.GetTypeIdentifier("System", "UIntPtr"), assembly);
                 case CliMetadataNativeTypes.Object:
@@ -125,6 +131,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public IType ObtainTypeReference(IGeneralTypeUniqueIdentifier typeIdentity)
         {
+            return ObtainTypeReference(typeIdentity, null);
             /* *
              * With no assembly as a guide, a guess has to be made.
              * */
@@ -154,6 +161,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             throw new TypeLoadException(string.Format("Could not load {0}.", typeIdentity.ToString()));
         }
 
+
         public IType ObtainTypeReference(IGeneralTypeUniqueIdentifier typeIdentity, IAssembly originatingAssembly)
         {
             /* *
@@ -172,14 +180,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 }
                 if (originatingAssembly != null)
                 {
+                    var originatingSearch = originatingAssembly.GetType(typeIdentity);
+                    if (originatingSearch != null)
+                        return originatingSearch;
                     foreach (var assembly in originatingAssembly.References.Values)
                     {
                         var test = assembly.GetType(typeIdentity);
                         if (test != null)
                             return test;
                     }
-                        //if ((type = assembly.FindType(typeIdentity)) != null)
-                        //    return this.ObtainTypeReference(type);
                 }
             }
             else

@@ -224,15 +224,11 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 object item = base.Items[e.Index];
                 if (item is ImageObjectItem)
                 {
-                    ImageObjectItem imageItem = item as ImageObjectItem;
+                    ImageObjectItem imageItem = (ImageObjectItem)item;
                     SizeF stringSize = e.Graphics.MeasureString(imageItem.Text, this.Font);
                     e.ItemHeight = this.GetBaseItemHeight(e.Graphics, stringSize);
-                    try
-                    {
-                        if (this.Style != null)
-                            this.Style.OnMeasureItemEvent(imageItem, ref e, this.Font);
-                    }
-                    catch (Exception er) { MessageBox.Show(System.String.Format("{0}\r\n\r\n{1}", er.Message, er.StackTrace)); }
+                    if (this.Style != null)
+                        this.Style.OnMeasureItemEvent(imageItem, ref e, this.Font);
                 }
             }
             base.OnMeasureItem(e);
@@ -249,19 +245,13 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 object item = base.Items[e.Index];
                 if (item is ImageObjectItem)
                 {
-                    try
-                    {
-                        DrawItemState diState = e.State;
-                        if ((item as ImageObjectItem).Checked)
-                            diState |= DrawItemState.Checked;
-                        DrawItemEventArgs newArgs = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, diState);
-                        if (this.Style != null)
-                            this.Style.OnDrawItemEvent(item as ImageObjectItem, newArgs, this.Font);
-                    }
-                    catch (Exception ee)
-                    {
-                        MessageBox.Show(ee.Message + "\r\n" + ee.StackTrace);
-                    }
+                    ImageObjectItem imageItem = (ImageObjectItem)item;
+                    DrawItemState diState = e.State;
+                    if (imageItem.Checked)
+                        diState |= DrawItemState.Checked;
+                    DrawItemEventArgs newArgs = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, diState);
+                    if (this.Style != null)
+                        this.Style.OnDrawItemEvent(imageItem, newArgs, this.Font);
                 }
             }
             base.OnDrawItem(e);

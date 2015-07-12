@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Compilers;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Utilities
 {
@@ -625,6 +625,31 @@ namespace AllenCopeland.Abstraction.Utilities
                 item19, item20, item21)));
         }
         #endregion // TupleHelper methods
+        public static void Split<T1>(this Tuple<T1> target, out T1 item1)
+        {
+            item1 = target.Item1;
+        }
+        public static void Split<T1, T2>(this Tuple<T1, T2> target, out T1 item1, out T2 item2)
+        {
+            item1 = target.Item1;
+            item2 = target.Item2;
+        }
+        public static void Split<T1, T2, T3>(this Tuple<T1, T2, T3> target, out T1 item1, out T2 item2, out  T3 item3)
+        {
+            item1 = target.Item1;
+            item2 = target.Item2;
+            item3 = target.Item3;
+        }
+
+        public static void Split<T1, T2, T3, T4>(this Tuple<T1, T2, T3, T4> target, out T1 item1, out T2 item2, out  T3 item3, out T4 item4)
+        {
+            item1 = target.Item1;
+            item2 = target.Item2;
+            item3 = target.Item3;
+            item4 = target.Item4;
+        }
+
     }
+
     // Module: RootModule
 }

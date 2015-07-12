@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -78,6 +78,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         {
         }
 
+        public TypedName(string format, IType reference, params object[] args)
+            : this(string.Format(format, args), reference, ParameterCoercionDirection.In)
+        {
+
+        }
+
         /// <summary>
         /// Creates a new <see cref="TypedName"/> with the
         /// <paramref name="name"/> and symbol type 
@@ -95,6 +101,46 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
         /// or <paramref name="reference"/> is null.</exception>
         public TypedName(string name, string reference)
             : this(name, reference, ParameterCoercionDirection.In)
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="TypedName"/> with the
+        /// <paramref name="name"/>, <paramref name="runtimeType"/>, <paramref name="identityManager"/>
+        /// and optional <paramref name="relativeSource"/>.
+        /// </summary>
+        /// <param name="name">The <see cref="System.String"/>
+        /// which relates to the name of the <see cref="TypedName"/>.</param>
+        /// <param name="runtimeType">The <see cref="RuntimeCoreType"/> relative to the 
+        /// identity of the type to retrieve from the <paramref name="identityManager"/>.</param>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/> responsible for
+        /// disambiguating the <paramref name="runtimeType"/>.</param>
+        /// <param name="relativeSource">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="runtimeType"/> used for context, which either contains the type
+        /// or references the assembly containing the type.</param>
+        public TypedName(string name, RuntimeCoreType runtimeType, IIdentityManager identityManager, IAssembly relativeSource = null)
+            : this(name, identityManager.ObtainTypeReference(runtimeType, relativeSource))
+        {
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="TypedName"/> with the
+        /// <paramref name="name"/>, <paramref name="runtimeType"/>, <paramref name="identityManager"/>,
+        /// <paramref name="direction"/>, and optional <paramref name="relativeSource"/>.
+        /// </summary>
+        /// <param name="name">The <see cref="System.String"/>
+        /// which relates to the name of the <see cref="TypedName"/>.</param>
+        /// <param name="runtimeType">The <see cref="RuntimeCoreType"/> relative to the 
+        /// identity of the type to retrieve from the <paramref name="identityManager"/>.</param>
+        /// <param name="identityManager">The <see cref="IIdentityManager"/> responsible for
+        /// disambiguating the <paramref name="runtimeType"/>.</param>
+        /// <param name="direction">The <see cref="ParameterCoercionDirection"/>
+        /// which indicates how the type should be directed.</param>
+        /// <param name="relativeSource">The <see cref="IAssembly"/> relative to the
+        /// <paramref name="runtimeType"/> used for context, which either contains the type
+        /// or references the assembly containing the type.</param>
+        public TypedName(string name, RuntimeCoreType runtimeType, IIdentityManager identityManager, ParameterCoercionDirection direction, IAssembly relativeSource = null)
+            : this(name, identityManager.ObtainTypeReference(runtimeType, relativeSource), direction)
         {
         }
 

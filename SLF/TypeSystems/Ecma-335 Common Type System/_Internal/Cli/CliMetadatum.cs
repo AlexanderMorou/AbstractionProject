@@ -2,6 +2,7 @@
 using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
+using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
@@ -35,7 +36,18 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             this.identityManager = identityManager;
             this.parameters = new Lazy<IEnumerable<Tuple<IType, object>>>(() => this.GetParameters().SinglePass(), true);
             this.namedParameters = new Lazy<IEnumerable<Tuple<IType, string, object>>>(() => this.GetNamedParameters().SinglePass(), true); ;
+            
         }
+
+        public CliMetadatum(ICliMetadataCustomAttributeTableRow metadataEntry, _ICliAssembly owner)
+        {
+            this.declarationPoint = owner;
+            this.metadataEntry = metadataEntry;
+            this.identityManager = owner.IdentityManager;
+            this.parameters = new Lazy<IEnumerable<Tuple<IType, object>>>(() => this.GetParameters().SinglePass(), true);
+            this.namedParameters = new Lazy<IEnumerable<Tuple<IType, string, object>>>(() => this.GetNamedParameters().SinglePass(), true); ;
+        }
+
         public IType Type
         {
             get
@@ -59,24 +71,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 case CliMetadataCustomAttributeTypeTag.MethodDefinition:
                     ICliMetadataMethodDefinitionTableRow methodDefinition = (ICliMetadataMethodDefinitionTableRow)metadataEntryCtor;
                     var tdTable = metadataEntry.MetadataRoot.TableStream.TypeDefinitionTable;
-                    for (int i = 1, c = tdTable.Count; i <= c; i++)
-                    {
-                        if (i == c)
-                        {
-                            typeDef = tdTable[i];
-                            break;
-                        }
-                        else
-                        {
-                            var current = tdTable[i];
-                            var next = tdTable[i + 1];
-                            if (methodDefinition.Index >= current.MethodStartIndex && methodDefinition.Index < next.MethodStartIndex)
-                            {
-                                typeDef = current;
-                                break;
-                            }
-                        }
-                    }
+                    uint typeIndex = tdTable.GetTypeFromMethodIndex(methodDefinition.Index);
+                    typeDef = tdTable[(int)typeIndex];
                     break;
                 case CliMetadataCustomAttributeTypeTag.MemberReference:
                     ICliMetadataMemberReferenceTableRow reference = (ICliMetadataMemberReferenceTableRow)metadataEntryCtor;
@@ -152,7 +148,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 var fixedParameterValue = fixedParameterValues[i];
                 var fixedParameter = fixedParameters[i];
-                yield return Tuple.Create(identityManager.ObtainTypeReference(fixedParameter.ParameterType, this.ActiveType, null), fixedParameterValue.Value);
+                yield return Tuple.Create(identityManager.ObtainTypeReference(fixedParameter.ParameterType, this.ActiveType, null, this.declarationPoint as IAssembly), fixedParameterValue.Value);
             }
         }
 
@@ -169,10 +165,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                 switch (namedParameter.ValueType)
                 {
                     case CustomAttributeParameterValueType.String:
-                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String), namedParameter.Name, namedParameter.Value);
+                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                         break;
                     case CustomAttributeParameterValueType.BoxedNativeType:
-                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType), namedParameter.Name, namedParameter.Value);
+                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                         break;
                     case CustomAttributeParameterValueType.EnumValue:
                         {
@@ -183,31 +179,31 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         {
                             Type t = namedParameter.Value.GetType();
                             if (t == typeof(int))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int32), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int32, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(uint))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt32), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt32, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(short))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int16), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int16, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(ushort))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt16), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt16, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(byte))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Byte), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Byte, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(sbyte))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.SByte), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.SByte, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(long))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int64), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Int64, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(ulong))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt64), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.UInt64, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(float))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Single), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Single, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(double))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Double), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Double, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(string))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.String, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(bool))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Boolean), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Boolean, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t == typeof(object))
-                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType), namedParameter.Name, namedParameter.Value);
+                                yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.RootType, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                             else if (t.IsGenericType)
                             {
                                 var tupleValue = (Tuple<IType, object>)namedParameter.Value;
@@ -216,7 +212,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                         }
                         break;
                     case CustomAttributeParameterValueType.Type:
-                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Type), namedParameter.Name, namedParameter.Value);
+                        yield return Tuple.Create(identityManager.ObtainTypeReference(RuntimeCoreType.Type, this.ActiveType.Assembly), namedParameter.Name, namedParameter.Value);
                         break;
                     case CustomAttributeParameterValueType.VectorArray:
                         {
@@ -229,37 +225,37 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                             }
                             IType rootType = null;
                             if (t == typeof(int))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int32);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int32, this.ActiveType.Assembly);
                             else if (t == typeof(uint))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt32);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt32, this.ActiveType.Assembly);
                             else if (t == typeof(string))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.String);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.String, this.ActiveType.Assembly);
                             else if (t == typeof(bool))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Boolean);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Boolean, this.ActiveType.Assembly);
                             else if (t == typeof(short))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int16);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int16, this.ActiveType.Assembly);
                             else if (t == typeof(ushort))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt16);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt16, this.ActiveType.Assembly);
                             else if (t == typeof(byte))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Byte);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Byte, this.ActiveType.Assembly);
                             else if (t == typeof(sbyte))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.SByte);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.SByte, this.ActiveType.Assembly);
                             else if (t == typeof(long))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int64);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Int64, this.ActiveType.Assembly);
                             else if (t == typeof(ulong))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt64);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.UInt64, this.ActiveType.Assembly);
                             else if (t == typeof(float))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Single);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Single, this.ActiveType.Assembly);
                             else if (t == typeof(double))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Double);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Double, this.ActiveType.Assembly);
                             else if (t == typeof(object))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.RootType);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.RootType, this.ActiveType.Assembly);
                             else if (t == typeof(IType))
-                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Type);
+                                rootType = identityManager.ObtainTypeReference(RuntimeCoreType.Type, this.ActiveType.Assembly);
                             else if (t.IsGenericType)
                             {
-                                rootType = (IType)t.GetProperty("Item1").GetMethod.Invoke(namedParameter.Value, null);
-                                var value = t.GetProperty("Item2").GetMethod.Invoke(namedParameter.Value, null);
+                                rootType = (IType)t.GetProperty("Item1").GetGetMethod(false).Invoke(namedParameter.Value, null);
+                                var value = t.GetProperty("Item2").GetGetMethod(false).Invoke(namedParameter.Value, null);
                                 t = value.GetType();
                                 while (t.IsArray)
                                 {

@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -58,11 +58,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/> which
         /// contains the <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        protected IntermediateSignatureMemberBase(TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
-            : base(parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the intermediate signature member and contains context relative
+        /// to disambiguating type identities.</param>
+        protected IntermediateSignatureMemberBase(TIntermediateSignatureParent parent, IIntermediateAssembly assembly)
+            : base(parent, assembly)
         {
         }
 
@@ -74,11 +74,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateSignatureParent"/> which
         /// contains the <see cref="IntermediateSignatureMemberBase{TSignatureIdentifier, TSignature, TIntermediateSignature, TSignatureParameter, TIntermediateSignatureParameter, TSignatureParent, TIntermediateSignatureParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        protected IntermediateSignatureMemberBase(string name, TIntermediateSignatureParent parent, ITypeIdentityManager identityManager)
-            : base(name, parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the intermediate signature member and contains context relative
+        /// to disambiguating type identities.</param>
+        protected IntermediateSignatureMemberBase(string name, TIntermediateSignatureParent parent, IIntermediateAssembly assembly)
+            : base(name, parent, assembly)
         {
         }
 

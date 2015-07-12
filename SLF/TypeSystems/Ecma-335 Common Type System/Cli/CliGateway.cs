@@ -11,12 +11,18 @@ using AllenCopeland.Abstraction.Slf.Platforms.WindowsNT;
 using AllenCopeland.Abstraction.Slf._Internal.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser;
+using AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Rules;
+using AllenCopeland.Abstraction.Globalization;
 
 namespace AllenCopeland.Abstraction.Slf.Cli
 {
     public static class CliGateway
     {
-        public const CliFrameworkVersion CurrentVersion = CliFrameworkVersion.v4_5;
+        public const CliFrameworkVersion CurrentVersion = CliFrameworkVersion.CurrentVersion;
+        /// <summary>
+        /// Denotes the current platform the <see cref="CliGateway"/> type was compiled against.
+        /// </summary>
 #if x86
         public const CliFrameworkPlatform CurrentPlatform = CliFrameworkPlatform.x86Platform;
 #elif x64
@@ -32,8 +38,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
             return new _Version(version.MajorVersion, version.MinorVersion, version.BuildNumber, version.RevisionNumber);
         }
 
-
-        public static ICliManager CreateIdentityManager(CliFrameworkPlatform platform, CliFrameworkVersion version = CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true, bool useGlobalAccessCache = true)
+        public static ICliManager CreateIdentityManager(CliFrameworkPlatform platform, CliFrameworkVersion version = CliGateway.CurrentVersion, bool resolveCurrent = true, bool useCoreLibrary = true, bool useGlobalAccessCache = true)
         {
             return CreateIdentityManager(GetRuntimeEnvironmentInfo(platform, version, resolveCurrent, useCoreLibrary, useGlobalAccessCache));
         }
@@ -79,10 +84,15 @@ namespace AllenCopeland.Abstraction.Slf.Cli
 
         public static bool IsFullAssembly(string filename)
         {
-            return _IsFullAssembly(filename);
+            return _IsCliLibrary(filename);
         }
 
-        private unsafe static bool _IsFullAssembly(string filename)
+        public static bool IsCliLibrary(string fileName)
+        {
+            return _IsCliLibrary(fileName, false);
+        }
+
+        private unsafe static bool _IsCliLibrary(string filename, bool requireAssemblyTable = true)
         {
             FileStream peStream = null;
             PEImage image = null;
@@ -113,7 +123,7 @@ namespace AllenCopeland.Abstraction.Slf.Cli
                 metadataSection.SectionDataReader.BaseStream.Seek(metadataSectionScan.Offset, SeekOrigin.Begin);
                 metadataRoot = new CliMetadataFixedRoot();
                 metadataRoot.Read(header, peStream, headerSection.SectionDataReader, header.Metadata.RelativeVirtualAddress, image);
-                if (metadataRoot.TableStream.AssemblyTable == null)
+                if (requireAssemblyTable && metadataRoot.TableStream.AssemblyTable == null)
                     return false;
                 return true;
             }
@@ -138,6 +148,43 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         public static IType GetTypeReference(this Type target, ICliManager identityManager)
         {
             return identityManager.ObtainTypeReference(target);
+        }
+
+        internal static readonly IVersion v1Version = TypeSystemIdentifiers.GetVersion(1, 0, 3300, 0);
+        internal static readonly IVersion v1_1Version = TypeSystemIdentifiers.GetVersion(1, 0, 5000, 0);
+        internal static readonly IVersion v2Version = TypeSystemIdentifiers.GetVersion(2, 0, 0000, 0);
+        internal static readonly IVersion v3Version = TypeSystemIdentifiers.GetVersion(3, 0, 0000, 0);
+        internal static readonly IVersion v3_5Version = TypeSystemIdentifiers.GetVersion(3, 5, 0000, 0);
+        internal static readonly IVersion v4Version = TypeSystemIdentifiers.GetVersion(4, 0, 0000, 0);
+        internal static readonly IVersion v4_5Version = TypeSystemIdentifiers.GetVersion(4, 5, 0000, 0);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", v1Version, CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv1_1 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", v1_1Version, CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv2 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", v2Version, CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+        internal static readonly IAssemblyUniqueIdentifier mscorlibIdentifierv4 = TypeSystemIdentifiers.GetAssemblyIdentifier("mscorlib", v4Version, CultureIdentifiers.None, StrongNameKeyPairHelper.StandardPublicKeyToken);
+
+        public static IType ParseTypeIdentifier(string typeIdentifier, ICliManager identityManager, IAssembly relativeAssembly = null)
+        {
+            var relativeAssemblyId = relativeAssembly == null ? null : relativeAssembly.UniqueIdentifier;
+            TypeIdentityParser currentParser = new TypeIdentityParser(typeIdentifier, relativeAssemblyId != null ? new TIAssemblyIdentityRule(relativeAssemblyId.Name, new TIVersionRule(relativeAssemblyId.Version.Major, relativeAssemblyId.Version.Minor, relativeAssemblyId.Version.Build, relativeAssemblyId.Version.Revision), relativeAssemblyId.Culture, relativeAssemblyId.PublicKeyToken) : null);
+            var typeIdentity = currentParser.ParseQualifiedTypeName();
+            return typeIdentity.DecodeParsedType(identityManager, relativeAssembly);
+        }
+
+        public static IAssemblyUniqueIdentifier GetCoreLibraryIdentifier(CliFrameworkVersion version)
+        {
+            switch (version & CliFrameworkVersion.VersionMask)
+            {
+                case CliFrameworkVersion.v1_1_4322:
+                    return mscorlibIdentifierv1_1;
+                case CliFrameworkVersion.v2_0_50727:
+                case CliFrameworkVersion.v3_0:
+                case CliFrameworkVersion.v3_5:
+                    return mscorlibIdentifierv2;
+                case CliFrameworkVersion.v4_0_30319:
+                case CliFrameworkVersion.v4_5:
+                    return mscorlibIdentifierv4;
+            }
+            return mscorlibIdentifierv1;
         }
     }
 }

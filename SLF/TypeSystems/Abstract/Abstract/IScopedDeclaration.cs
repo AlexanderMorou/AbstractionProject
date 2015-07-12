@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -56,10 +56,18 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
      * restrictions are listed in each element's documentation 
      * comments.
      * */
-    [SuppressMessage("Microsoft.Usage", "CA2217:DoNotMarkEnumsWithFlags")]
-    [FlagsAttribute]
+    [FlagsAttribute,
+     SuppressMessage("Microsoft.Usage", "CA2217:DoNotMarkEnumsWithFlags", Justification = "Overlapping bits on fields indicate invalid relationshpis: this is by design.")]
     public enum AccessLevelModifiers
     {
+        /// <summary>
+        /// No access level modifiers have been defined on the element.
+        /// </summary>
+        /// <remarks>Language implementors should yield the default value in this case,
+        /// if no keyword is necessary for specifying the default, then none should be given.
+        /// An example is in C# and explicit interface implementations.
+        /// Access modifiers in this case are illegal.</remarks>
+        NoneOrUndefined = 0,
         /// <summary>
         /// Declaration is accessable to the inheritance family at or below the current inheritance 
         /// threshold only in the defining assembly (<seealso cref="Type.IsNestedFamANDAssem"/>).

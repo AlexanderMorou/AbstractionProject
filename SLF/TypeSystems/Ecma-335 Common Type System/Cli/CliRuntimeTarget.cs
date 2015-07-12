@@ -22,23 +22,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         {
             get
             {
-                switch (this.version)
-                {
-                    case CliFrameworkVersion.v1_0_3705:
-                        return CliCommon.mscorlibIdentifierv1;
-                        break;
-                    case CliFrameworkVersion.v1_1_4322:
-                        return CliCommon.mscorlibIdentifierv1_1;
-                        break;
-                    case CliFrameworkVersion.v2_0_50727:
-                    case CliFrameworkVersion.v3_0:
-                    case CliFrameworkVersion.v3_5:
-                        return CliCommon.mscorlibIdentifierv2;
-                    case CliFrameworkVersion.v4_0_30319:
-                    case CliFrameworkVersion.v4_5:
-                        return CliCommon.mscorlibIdentifierv4;
-                }
-                throw new InvalidOperationException();
+                return CliGateway.GetCoreLibraryIdentifier(this.version);
             }
         }
 

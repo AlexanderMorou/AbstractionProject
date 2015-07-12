@@ -21,14 +21,14 @@ namespace AllenCopeland.Abstraction.IO
         public override byte ReadByte()
         {
             if (bitEndianness)
-                return base.ReadByte().EndianChange(NumericCommon.SystemEndianness, targetEndianness);
+                return base.ReadByte().EndianChange(NumericExtensions.SystemEndianness, targetEndianness);
             return base.ReadByte();
         }
 
         public override sbyte ReadSByte()
         {
             if (bitEndianness)
-                return base.ReadSByte().EndianChange(NumericCommon.SystemEndianness, targetEndianness);
+                return base.ReadSByte().EndianChange(NumericExtensions.SystemEndianness, targetEndianness);
             return base.ReadSByte();
         }
 
@@ -38,7 +38,7 @@ namespace AllenCopeland.Abstraction.IO
             {
                 byte[] result = base.ReadBytes(count);
                 for (int i = 0; i < result.Length; i++)
-                    result[i] = result[i].EndianChange(NumericCommon.SystemEndianness, targetEndianness);
+                    result[i] = result[i].EndianChange(NumericExtensions.SystemEndianness, targetEndianness);
                 return result;
             }
             else
@@ -47,44 +47,44 @@ namespace AllenCopeland.Abstraction.IO
 
         public override char ReadChar()
         {
-            return (char)(((ushort) base.ReadChar()).EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness));
+            return (char)(((ushort) base.ReadChar()).EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness));
         }
 
         public override short ReadInt16()
         {
-            return base.ReadInt16().EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            return base.ReadInt16().EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
         }
 
         public override int ReadInt32()
         {
-            return base.ReadInt32().EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            return base.ReadInt32().EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
         }
 
         public override long ReadInt64()
         {
-            return base.ReadInt64().EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            return base.ReadInt64().EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
         }
 
         public override ushort ReadUInt16()
         {
-            return base.ReadUInt16().EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            return base.ReadUInt16().EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
         }
 
         public override uint ReadUInt32()
         {
-            return base.ReadUInt32().EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            return base.ReadUInt32().EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
         }
 
         public override ulong ReadUInt64()
         {
-            return base.ReadUInt64().EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            return base.ReadUInt64().EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
         }
 
         public override double ReadDouble()
         {
             double result = base.ReadDouble();
             ulong resultD = BitConverter.ToUInt64(BitConverter.GetBytes(result), 0);
-            resultD.EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            resultD.EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
             return BitConverter.ToDouble(BitConverter.GetBytes(resultD), 0);
         }
 
@@ -92,7 +92,7 @@ namespace AllenCopeland.Abstraction.IO
         {
             var result = base.ReadSingle();
             uint resultD = BitConverter.ToUInt32(BitConverter.GetBytes(result), 0);
-            resultD.EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+            resultD.EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
             return BitConverter.ToSingle(BitConverter.GetBytes(resultD), 0);
         }
 
@@ -101,7 +101,7 @@ namespace AllenCopeland.Abstraction.IO
             int result = base.Read(buffer, index, count);
             if (bitEndianness)
                 for (int i = index; i < index + count; i++)
-                    buffer[i] = buffer[i].EndianChange(NumericCommon.SystemEndianness, targetEndianness);
+                    buffer[i] = buffer[i].EndianChange(NumericExtensions.SystemEndianness, targetEndianness);
             return result;
         }
 
@@ -109,7 +109,7 @@ namespace AllenCopeland.Abstraction.IO
         {
             var result = base.ReadChars(count);
             for (int i = 0; i < result.Length; i++)
-                result[i] = (char) ((uint) result[i]).EndianChange(NumericCommon.SystemEndianness, targetEndianness, bitEndianness);
+                result[i] = (char) ((uint) result[i]).EndianChange(NumericExtensions.SystemEndianness, targetEndianness, bitEndianness);
             return result;
         }
 

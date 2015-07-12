@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AllenCopeland.Abstraction.Numerics;
+using AllenCopeland.Abstraction.Utilities.Collections;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -7,14 +9,17 @@ using System.Threading;
 #if x64
 using SlotType = System.UInt64;
 #elif x86
+#if Word16
+using SlotType = System.UInt16;
+#else
 using SlotType = System.UInt32;
+#endif
 #endif
 
 namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 {
-    using AllenCopeland.Abstraction.Utilities.Collections;
-    using OperationSignature = Action<uint, uint, uint, uint, uint, uint, bool, bool, SlotType[], SlotType[], SlotType[]>;
 
+    //using OperationSignature = Action<uint, uint, uint, uint, uint, uint, bool, bool, SlotType[], SlotType[], SlotType[]>;
     /// <summary>
     /// Provides a base implementation of a 
     /// <see cref="IFiniteAutomataSet{TCheck}"/> whose individual elements
@@ -23,12 +28,88 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
     /// <typeparam name="TCheck">The direct inheritor of the 
     /// <see cref="FiniteAutomataBitSet{TCheck}"/> used as a result
     /// of set operations.</typeparam>
-    public partial class FiniteAutomataBitSet<TCheck> :
+    public abstract partial class FiniteAutomataBitSet<TCheck> :
         IFiniteAutomataSet<TCheck>
         where TCheck :
             FiniteAutomataBitSet<TCheck>,
             new()
     {
+#if x86
+#if Word16
+        /// <summary>
+        /// Denotes the set operation delegate in an effort to simplify the parameter intake of a set operation.
+        /// </summary>
+        /// <param name="leftOffset">The offset of the <paramref name="leftWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="rightOffset">The offset of the <paramref name="rightWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="leftLength">The number of bits the <paramref name="leftWorkingSet"/> is.</param>
+        /// <param name="rightLength">The number of bits the <paramref name="rightWorkingSet"/> is.</param>
+        /// <param name="minimumOffset">The <see cref="Int32"/> value denoting the minimum 
+        /// offset between <paramref name="leftOffset"/> and <paramref name="rightOffset"/></param>
+        /// <param name="newLength">The new number of bits within the <paramref name="resultWorkingSet"/>.</param>
+        /// <param name="leftIsNegativeSet">Whether the left set is a negative set.</param>
+        /// <param name="rightIsNegativeSet">Whether the right set is a negative set.</param>
+        /// <param name="leftWorkingSet">The <see cref="UInt16"/> array which denotes
+        /// the first set to perform the operation on.
+        /// </param>
+        /// <param name="rightWorkingSet">The <see cref="UInt16"/> array which denotes
+        /// the second set to perform the operation on.</param>
+        /// <param name="resultWorkingSet">The <see cref="UInt16"/> array which denotes
+        /// result set of the operation.</param>
+#else
+        /// <summary>
+        /// Denotes the set operation delegate in an effort to simplify the parameter intake of a set operation.
+        /// </summary>
+        /// <param name="leftOffset">The offset of the <paramref name="leftWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="rightOffset">The offset of the <paramref name="rightWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="leftLength">The number of bits the <paramref name="leftWorkingSet"/> is.</param>
+        /// <param name="rightLength">The number of bits the <paramref name="rightWorkingSet"/> is.</param>
+        /// <param name="minimumOffset">The <see cref="Int32"/> value denoting the minimum 
+        /// offset between <paramref name="leftOffset"/> and <paramref name="rightOffset"/></param>
+        /// <param name="newLength">The new number of bits within the <paramref name="resultWorkingSet"/>.</param>
+        /// <param name="leftIsNegativeSet">Whether the left set is a negative set.</param>
+        /// <param name="rightIsNegativeSet">Whether the right set is a negative set.</param>
+        /// <param name="leftWorkingSet">The <see cref="UInt32"/> array which denotes
+        /// the first set to perform the operation on.
+        /// </param>
+        /// <param name="rightWorkingSet">The <see cref="UInt32"/> array which denotes
+        /// the second set to perform the operation on.</param>
+        /// <param name="resultWorkingSet">The <see cref="UInt32"/> array which denotes
+        /// result set of the operation.</param>
+#endif
+#elif x64
+        /// <summary>
+        /// Denotes the set operation delegate in an effort to simplify the parameter intake of a set operation.
+        /// </summary>
+        /// <param name="leftOffset">The offset of the <paramref name="leftWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="rightOffset">The offset of the <paramref name="rightWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="leftLength">The number of bits the <paramref name="leftWorkingSet"/> is.</param>
+        /// <param name="rightLength">The number of bits the <paramref name="rightWorkingSet"/> is.</param>
+        /// <param name="minimumOffset">The <see cref="Int32"/> value denoting the minimum 
+        /// offset between <paramref name="leftOffset"/> and <paramref name="rightOffset"/></param>
+        /// <param name="resultLength">The new number of bits within the <paramref name="resultWorkingSet"/>.</param>
+        /// <param name="leftIsNegativeSet">Whether the left set is a negative set.</param>
+        /// <param name="rightIsNegativeSet">Whether the right set is a negative set.</param>
+        /// <param name="leftWorkingSet">The <see cref="UInt64"/> array which denotes
+        /// the first set to perform the operation on.
+        /// </param>
+        /// <param name="rightWorkingSet">The <see cref="UInt64"/> array which denotes
+        /// the second set to perform the operation on.</param>
+        /// <param name="resultWorkingSet">The <see cref="UInt64"/> array which denotes
+        /// result set of the operation.</param>
+#endif
+        private delegate void SetOperation(uint leftOffset, uint rightOffset, uint leftLength, uint rightLength, uint minimumOffset, uint resultLength, bool leftIsNegativeSet, bool rightIsNegativeSet, SlotType[] leftWorkingSet, SlotType[] rightWorkingSet, SlotType[] resultWorkingSet);
         /// <summary>
         /// Data member for <see cref="IsNegativeSet"/>.
         /// </summary>
@@ -58,31 +139,26 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         private static int intersectionCacheHits = 0;
         private static int symmetricDifferenceCacheHits = 0;
 
-#if x86 
-        protected const SlotType SlotBitCount = 0x20;
-        protected const SlotType ShiftValue = 1U;
-#elif x64
-        protected const SlotType SlotBitCount = 0x40;
-        protected const SlotType ShiftValue = 1UL;
-#endif
         private static object unionCacheLock = new object();
         private static object intersectCacheLock = new object();
         private static object symmetricDiffCacheLock = new object();
-
+        /// <summary>
+        /// 
+        /// </summary>
         private const SlotType SlotMaxValue = SlotType.MaxValue;
-        private static OperationSignature unionOp = UnionProcess;
-        private static OperationSignature intersectOp = IntersectionProcess;
-        private static OperationSignature symmetricDifferenceOp = SymmetricDifferenceProcess;
+        private static SetOperation unionOp = UnionProcess;
+        private static SetOperation intersectOp = IntersectionProcess;
+        private static SetOperation symmetricDifferenceOp = SymmetricDifferenceProcess;
         private SlotType[] values;
         private SlotType lastMask;
         private SlotType lastMod;
-        protected void Set(SlotType[] values, uint offset, uint length, uint fullLength, bool isNegativeSet = false, bool reduce = true)
+        protected void Set(SlotType[] values, uint offset, uint length, bool isNegativeSet = false, bool reduce = true)
         {
             this.isNegativeSet = isNegativeSet;
             this.values = values;
             this.offset = offset;
             this.length = length;
-            this.lastMod = SlotBitCount;
+            this.lastMod = FiniteAutomataExtensions.SlotBitCount;
             this.lastMask = SlotMaxValue;
             this.fullLength = fullLength;
             if (reduce)
@@ -91,7 +167,6 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         private static bool gettingSD = false;
         public FiniteAutomataBitSet()
         {
-
             if (NullInst == null && !gettingSD)
             {
                 gettingSD = true;
@@ -137,27 +212,15 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         public override int GetHashCode()
         {
             int r = (int)(this.offset ^ this.length);
-            if (this.values != null) {
+            if (this.values != null) 
                 r ^= ~this.values.Length;
-            }
-                //for (int i = 0; i < this.values.Length; i++)
-                //    r ^= this.values[i].GetHashCode();
             return r;
         }
 
         #region IFiniteAutomataSet<TCheck> Members
 
-        /// <summary>
-        /// Determines whether the current <see cref="FiniteAutomataBitSet{TCheck}"/>
-        /// contains no elements from the full set.
-        /// </summary>
-        public bool IsEmpty
-        {
-            get
-            {
-                return ((this.values == null) || (this.length == 0)) && (!(this.isNegativeSet));
-            }
-        }
+        /// <summary>Determines whether the current <see cref="FiniteAutomataBitSet{TCheck}"/> contains no elements from the full set.</summary>
+        public bool IsEmpty { get { return ((this.values == null) || (this.length == 0)) && (!(this.isNegativeSet)); } }
 
         /// <summary>
         /// Creates a union of the current <see cref="FiniteAutomataBitSet{TCheck}"/> and the
@@ -175,7 +238,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 return tThis;
             if (other == null)
                 return (TCheck)this;
-            return SetOperation((TCheck)(this), other, unionOp, (li, ri) => li || ri, GetCheck, ref unionCacheHits, unionCacheLock, UnionCache);
+            return ProcessSetOperation((TCheck)(this), other, unionOp, (li, ri) => li || ri, GetCheck, ref unionCacheHits, unionCacheLock, UnionCache);
         }
 
         /// <summary>
@@ -195,10 +258,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             if (other == null)
             {
                 var result = new TCheck();
-                result.Set(null, 0, 0, this.FullLength);
+                result.Set(null, 0, 0);
                 return result;
             }
-            return SetOperation(tThis, other, intersectOp, (li, ri) => li && ri, GetCheck, ref intersectionCacheHits, intersectCacheLock, IntersectCache);
+            return ProcessSetOperation(tThis, other, intersectOp, (li, ri) => li && ri, GetCheck, ref intersectionCacheHits, intersectCacheLock, IntersectCache);
         }
         /// <summary>
         /// Returns the complement of the current <see cref="FiniteAutomataBitSet{TCheck}"/>.
@@ -215,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 this.complement.length = this.length;
                 this.complement.lastMask = this.lastMask;
                 this.complement.lastMod = this.lastMod;
-                this.complement.fullLength = this.fullLength;
+                //this.complement.fullLength = this.FullLength;
                 this.complement.complement = (TCheck)this;
                 this.complement.isNegativeSet = !this.isNegativeSet;
             }
@@ -238,7 +301,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 return NullInst;
             if (other == null)
                 return (TCheck)this;
-            return SetOperation((TCheck)this, other, symmetricDifferenceOp, (li, ri) => li ^ ri, GetCheck, ref symmetricDifferenceCacheHits, symmetricDiffCacheLock, SymmetricDifferenceCache);
+            return ProcessSetOperation((TCheck)this, other, symmetricDifferenceOp, (li, ri) => li ^ ri, GetCheck, ref symmetricDifferenceCacheHits, symmetricDiffCacheLock, SymmetricDifferenceCache);
         }
 
         /// <summary>
@@ -281,40 +344,19 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// <summary>
         /// Returns the number of bits within the subset.
         /// </summary>
-        public uint Length
-        {
-            get
-            {
-                return this.length;
-            }
-        }
+        public uint Length { get { return this.length; } }
 
         /// <summary>
         /// Returns the number of bits within the full set.
         /// </summary>
-        public uint FullLength
-        {
-            get
-            {
-                return this.fullLength;
-            }
-            protected set
-            {
-                this.fullLength = value;
-            }
-        }
+        public uint FullLength { get { return OnGetFullLength(); } /*protected set { this.fullLength = value; } */}
+
+        internal abstract uint OnGetFullLength();
 
         /// <summary>
-        /// Returns the number of bits from the full set
-        /// which are skipped because no pertinent data exists.
+        /// Returns the number of bits from the full set which are skipped because no pertinent data exists.
         /// </summary>
-        public uint Offset
-        {
-            get
-            {
-                return this.offset;
-            }
-        }
+        public uint Offset { get { return this.offset; } }
 
         /// <summary>
         /// Returns whether the current subset is a negative set.
@@ -352,12 +394,12 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         {
             get
             {
-                if (index < 0 || index >= this.fullLength)
+                if (index < 0 || index >= this.FullLength)
                     throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
                 else if (index < this.offset || index >= this.offset + this.length)
                     return this.isNegativeSet;
-                SlotType indexShift = ((SlotType)(index - this.Offset));
-                return ((this.values[indexShift / SlotBitCount] & (SlotType)(ShiftValue << ((int)(indexShift % SlotBitCount)))) != 0) ^ this.isNegativeSet;
+                uint indexShift = index - this.Offset;
+                return ((this.values[indexShift / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << ((int)(indexShift % FiniteAutomataExtensions.SlotBitCount)))) != 0) ^ this.isNegativeSet;
             }
         }
 
@@ -365,8 +407,8 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         {
             if (index < this.Offset || index >= this.Offset + this.Length)
                 throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
-            SlotType indexShift = ((SlotType)(index - this.Offset));
-            return ((this.values[indexShift / SlotBitCount] & (SlotType)(ShiftValue << ((int)(indexShift % SlotBitCount)))) != 0);
+            uint indexShift = index - this.Offset;
+            return ((this.values[indexShift / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << ((int)(indexShift % FiniteAutomataExtensions.SlotBitCount)))) != 0);
         }
 
         /// <summary>
@@ -409,9 +451,9 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             return true;
         }
 
-        private static TCheck SetOperation(
-            TCheck left, TCheck right, 
-            OperationSignature @operator,
+        private static TCheck ProcessSetOperation(
+            TCheck left, TCheck right,
+            SetOperation @operator,
             Func<bool, bool, bool> inversionPredicate,
             Func<TCheck> checkCreator,
             ref int cacheHits,
@@ -423,44 +465,43 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             if (!dictionaryCache.TryGetValue(left, right, out operation))
             {
 
-                /* left offset */   uint     lo  = left.offset,
-               /* right offset */            ro  = right.offset,
-             /* minimum offset */            mo  = Math.Min(lo, ro);
-                /* left length */   uint     ll  = left.length,
-               /* right length */            rl  = right.length,
-                 /* new length */            nl  = Math.Max(lo + ll, ro + rl);
-              /* left inverted */   bool     li  = left.isNegativeSet,
-             /* right inverted */            ri  = right.isNegativeSet;
-       /* out Int32 set length */   uint     oil = (uint)(Math.Ceiling(((double)(nl - mo)) / SlotBitCount));
-           /* left working set */ SlotType[] lws = left.values,
-          /* right working set */            rws = right.values,
-            /* out working set */            ows = oil > 0 ? new SlotType[oil] : null;
+                /* left offset */   uint                 leftOffset = left.offset,
+               /* right offset */                       rightOffset = right.offset,
+             /* minimum offset */                     minimumOffset = Math.Min(leftOffset, rightOffset);
+                /* left length */   uint                 leftLength = left.length,
+               /* right length */                       rightLength = right.length,
+                 /* new length */                   resultSetLength = Math.Max(leftOffset + leftLength, rightOffset + rightLength);
+              /* left inverted */   bool          leftIsNegativeSet = left.isNegativeSet,
+             /* right inverted */                rightIsNegativeSet = right.isNegativeSet;
+       /* out Int32 set length */   uint               resultLength = (uint)(Math.Ceiling(((double)(resultSetLength - minimumOffset)) / FiniteAutomataExtensions.SlotBitCount));
+           /* left working set */   SlotType[]       leftWorkingSet = left.values,
+          /* right working set */                   rightWorkingSet = right.values,
+            /* out working set */                  resultWorkingSet = resultLength > 0 ? new SlotType[resultLength] : null;
 
-                /* *
-                 * Eases code management when setup/finalization
-                 * logic is in one place.
-                 * *
-                 * Loops and other logic out-sourced to @operator(...).
-                 * */
-                @operator(lo, ro, ll, rl, mo, nl, li, ri, lws, rws, ows);
-                /* *
-                 * Different bitwise operations have different rules
-                 * for whether the result set is inverted.
-                 * */
-                bool invert = inversionPredicate(li, ri);
+                /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+                 * Eases code management when setup/finalization logic is in one place.   *
+                 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+                 * Loops and other logic out-sourced to @operator(...).                   *
+                 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+                @operator(leftOffset, rightOffset, leftLength, rightLength, minimumOffset, resultSetLength, leftIsNegativeSet, rightIsNegativeSet, leftWorkingSet, rightWorkingSet, resultWorkingSet);
+                /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+                 * Different bitwise operations have different rules for whether the result set is  *
+                 * inverted.                                                                        *
+                 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+                bool invert = inversionPredicate(leftIsNegativeSet, rightIsNegativeSet);
                 if (invert)
                     //If it is inverted, flip the bits of each subset.
-                    for (int i = 0; i < oil; i++)
-                        ows[i] = ~ows[i];
+                    for (int i = 0; i < resultLength; i++)
+                        resultWorkingSet[i] = (SlotType)~resultWorkingSet[i];
                 operation = checkCreator();
-                operation.offset = mo;
-                operation.length = nl - mo;
+                operation.offset = minimumOffset;
+                operation.length = resultSetLength - minimumOffset;
                 operation.isNegativeSet = invert;
-                operation.fullLength = Math.Max(left.fullLength, right.fullLength);
+                //operation.fullLength = Math.Max(left.FullLength, right.FullLength);
 
-                SlotType lastMod = (SlotType)operation.length % SlotBitCount;
+                SlotType lastMod = (SlotType)(operation.length % FiniteAutomataExtensions.SlotBitCount);
                 if (lastMod == 0)
-                    if (nl == 0)
+                    if (resultSetLength == 0)
                     {
                         operation.lastMod = 0;
                         operation.lastMask = 0;
@@ -468,27 +509,30 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                     else
                     {
                         operation.lastMask = SlotMaxValue;
-                        operation.lastMod = SlotBitCount;
+                        operation.lastMod = FiniteAutomataExtensions.SlotBitCount;
                     }
                 else
                 {
                     operation.lastMod = lastMod;
-                    operation.lastMask = (SlotType)(ShiftValue << (int)lastMod) - 1;
+                    operation.lastMask = (SlotType)((FiniteAutomataExtensions.ShiftValue << (int)lastMod) - 1);
                 }
-                if (invert && oil > 0)
-                    /* *
-                     * On inverted sets, fix the excessive '1' bits that shouldn't be there,
-                     * but get placed due to the lazy nature of the method employed.
-                     * */
-                    ows[ows.Length - 1] &= operation.lastMask;
-                if (oil > 0)
-                    operation.values = ows;
+                if (invert && resultLength > 0)
+                    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+                     * On inverted sets, fix the excessive '1' bits that shouldn't be there, but get placed   *
+                     * due to the lazy nature of the method employed.                                         *
+                     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * **
+                     * This fixup is to ensure counts return correctly based on the last element in the set.  *
+                     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+                    resultWorkingSet[resultWorkingSet.Length - 1] &= operation.lastMask;
+                if (resultLength > 0)
+                    operation.values = resultWorkingSet;
                 else
                     operation.values = null;
-                /* *
-                 * Reduction especially necessary for exclusive operations
-                 * which only select parts.
-                 * */
+                /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+                 * Reduction especially necessary for exclusive operations which only select parts.         *
+                 * It goes beyond the scope of this method to handle both individual operations and minimal *
+                 * sets at once.                                                                            *
+                 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
                 operation.Reduce();
                 if (operation.IsEmpty)
                 {
@@ -497,12 +541,13 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 }
                 lock (dictionaryCache)
                 {
-                    dictionaryCache.Add(left, right, operation);
-                    dictionaryCache.Add(right, left, operation);
+                    dictionaryCache.TryAdd(left, right, operation);
+                    dictionaryCache.TryAdd(right, left, operation);
                 }
             }
             else lock(cacheLock)
                 cacheHits++;
+            Debug.Assert(operation != null);
             return operation;
         }
 
@@ -522,23 +567,22 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 }
                 return;
             }
-            SlotType first = SlotMaxValue;
-            SlotType last = SlotMaxValue;
-            for (SlotType i = 0; i < (SlotType)this.values.Length; i++)
+            SlotType first  = SlotMaxValue;
+            SlotType last   = SlotMaxValue;
+            for (uint i = 0; i < (SlotType)this.values.Length; i++)
             {
-                if (this.values[i] == 0)
+                SlotType current = this.values[i];
+                if (current == 0)
                     continue;
-                SlotType currentSize = i == (SlotType)(this.values.Length - 1) ? this.lastMod : SlotBitCount;
-                for ( uint j = 0; j < currentSize; j++)
-                {
-                    if (((this.values[i] & (SlotType)(ShiftValue << (int)j)) != 0))
+                SlotType currentSize = i == (SlotType)(this.values.Length - 1) ? this.lastMod : FiniteAutomataExtensions.SlotBitCount;
+                for (uint j = 0; j < currentSize; j++)
+                    if (((current & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)j)) != 0))
                     {
-                        SlotType curIndex = i * SlotBitCount + j;
+                        SlotType curIndex = (SlotType)(i * FiniteAutomataExtensions.SlotBitCount + j);
                         if (first == SlotMaxValue)
-                            first = i * SlotBitCount + j;
+                            first = (SlotType)(i * FiniteAutomataExtensions.SlotBitCount + j);
                         last = curIndex;
                     }
-                }
             }
             /* *
              * Make sure the reduction is necessary.
@@ -546,54 +590,53 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             if (first == 0 &&
                 last == (this.length - 1))
                 return;
-            /* *
-             * If there was no element hit, there's no data.
-             * It's highly unlikely the current subset is  
-             * 2^[32 or 64] elements.
-             * */
+            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+             * If there was no element hit, there's no data. It's *highly unlikely* the current *
+             * subset is exactly 2^[31 or 63]+ elements.                                        *
+             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
             if (last == SlotMaxValue)
                 goto _Nullset;
-            SlotType   finalCount = ((last - first) + 1);
-            SlotType   finalSetSize = (SlotType)Math.Ceiling(((double)(finalCount)) / SlotBitCount);
+            SlotType     finalCount = (SlotType)((last - first) + 1);
+            SlotType   finalSetSize = (SlotType)((finalCount + (FiniteAutomataExtensions.SlotBitCount - 1)) / FiniteAutomataExtensions.SlotBitCount);
             if (finalSetSize == 0)
                 goto _Nullset;
-            SlotType   bitShift = first % (int)SlotBitCount;
-            SlotType   indexOffset = first / (int)SlotBitCount;
-            SlotType   checkHeight = (SlotType)Math.Ceiling(((double)(last + 1)) / SlotBitCount);
-            SlotType[] resultSet = new SlotType[finalSetSize];
-            for (SlotType i = indexOffset; i < checkHeight; i++)
+            SlotType       bitShift = (SlotType)(first % (int)FiniteAutomataExtensions.SlotBitCount);
+                uint    indexOffset = (uint)(first / (int)FiniteAutomataExtensions.SlotBitCount);
+            SlotType    checkHeight = (SlotType)Math.Ceiling(((double)(last + 1)) / FiniteAutomataExtensions.SlotBitCount);
+            SlotType[]    resultSet = new SlotType[finalSetSize];
+            for (uint slotIndex = indexOffset; slotIndex < checkHeight; slotIndex++)
             {
-                SlotType currentSize = i == (SlotType)(this.values.Length - 1) ? this.lastMod : SlotBitCount;
-                for (uint j = 0; j < currentSize; j++)
+                SlotType currentSize = slotIndex == (SlotType)(this.values.Length - 1) ? this.lastMod : FiniteAutomataExtensions.SlotBitCount;
+                for (uint slotBitIndex = 0; slotBitIndex < currentSize; slotBitIndex++)
                 {
-                    SlotType curIndex = i * SlotBitCount + j;
-                    SlotType resultSetIndex = (curIndex - first) / SlotBitCount;
-                    SlotType resultIndex = i * SlotBitCount + j - bitShift;
-                    if ((this.values[i] & (SlotType)(ShiftValue << (int)j)) != 0)
-                        resultSet[resultSetIndex] |= (SlotType)(ShiftValue << (int)(resultIndex % SlotBitCount));
+                    SlotType       curIndex = (SlotType)(slotIndex * FiniteAutomataExtensions.SlotBitCount + slotBitIndex);
+                    SlotType resultSetIndex = (SlotType)((curIndex - first) / FiniteAutomataExtensions.SlotBitCount);
+                    SlotType    resultIndex = (SlotType)(slotIndex * FiniteAutomataExtensions.SlotBitCount + slotBitIndex - bitShift);
+                    if ((this.values[slotIndex] & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)slotBitIndex)) != 0)
+                        resultSet[resultSetIndex] |= (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)(resultIndex % FiniteAutomataExtensions.SlotBitCount));
                 }
             }
-            SlotType lastMod = finalCount % (int)SlotBitCount;
-            if (lastMod == 0)
+            SlotType lastSlotModulus  = (SlotType)(finalCount % (int)FiniteAutomataExtensions.SlotBitCount);
+            if (lastSlotModulus == 0)
             {
                 this.lastMask = SlotMaxValue;
-                this.lastMod  = SlotBitCount;
+                this.lastMod  = FiniteAutomataExtensions.SlotBitCount;
             }
             else
             {
-                this.lastMask = (SlotType)(ShiftValue << (int)lastMod) - 1;
-                this.lastMod = lastMod;
+                this.lastMask   = (SlotType)((FiniteAutomataExtensions.ShiftValue << (int)lastSlotModulus) - 1);
+                this.lastMod    = lastSlotModulus;
             }
             this.offset += (uint)first;
             this.values = resultSet;
             this.length = (uint)finalCount;
             return;
-        _Nullset:
-            this.values = null;
-            this.offset = 0;
-            this.lastMod = 0;
-            this.lastMask = 0;
-            this.length = 0;
+        _Nullset: /* The set is empty, so there's no need to store anything to represent it. */
+            this.values     = null;
+            this.offset     = 0;
+            this.lastMod    = 0;
+            this.lastMask   = 0;
+            this.length     = 0;
         }
 
         /// <summary>
@@ -610,8 +653,8 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             {
                 if (this.values == null)
                     return !this.isNegativeSet;
-                SlotType exclusivePoint = this.values.Length < 2 ? 0 : (SlotType)(this.values.Length - 1);
-                for (SlotType i = 0; i < exclusivePoint; i++)
+                SlotType exclusivePoint = (SlotType)(this.values.Length < 2 ? 0 : (SlotType)(this.values.Length - 1));
+                for (uint i = 0; i < exclusivePoint; i++)
                     if (this.IsNegativeSet)
                     {
                         if (this.values[i] != SlotMaxValue)
@@ -640,63 +683,114 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             {
                 if (this.values == null)
                     return this.isNegativeSet;
-                SlotType exclusivePoint = this.values.Length < 2 ? 0 : (SlotType)(this.values.Length - 1);
-                for (SlotType i = 0; i < exclusivePoint; i++)
+                SlotType exclusivePoint = (SlotType)(this.values.Length < 2 ? 0 : (SlotType)(this.values.Length - 1));
+                for (uint bitIndex = 0; bitIndex < exclusivePoint; bitIndex++)
                     if (this.IsNegativeSet)
                     {
-                        if (this.values[i] != SlotType.MinValue)
+                        if (this.values[bitIndex] != SlotType.MinValue)
                             return false;
                     }
-                    else if (this.values[i] != SlotMaxValue)
+                    else if (this.values[bitIndex] != SlotMaxValue)
                         return false;
                 return ((this.values[this.values.Length - 1] & lastMask) == lastMask);
             }
         }
 
         [DebuggerStepThrough]
-        private static void UnionProcess(uint lo, uint ro, uint ll, uint rl, uint mo, uint nl, bool li, bool ri, SlotType[] lws, SlotType[] rws, SlotType[] ows)
+        private static void UnionProcess(uint leftOffset, uint rightOffset, uint leftLength, uint rightLength, uint minimumOffset, uint newLength, bool leftIsNegativeSet, bool rightIsNegativeSet, SlotType[] leftWorkingSet, SlotType[] rightWorkingSet, SlotType[] resultWorkingSet)
         {
-            if (ows == null)
+            if (resultWorkingSet == null)
                 return;
-            for (SlotType i = mo; i < nl; i++)
+            for (uint bitIndex = minimumOffset; bitIndex < newLength; bitIndex++)
             {
-                SlotType lri = i - lo, //left relative index.
-                         rri = i - ro, //right relative index.
-                         ori = i - mo; //out relative index.
-                if (((lri >= 0 && lri < ll) && ((lws[lri / SlotBitCount] & (SlotType)(ShiftValue << (int)(lri % SlotBitCount))) != 0)) ^ li ||
-                    ((rri >= 0 && rri < rl) && ((rws[rri / SlotBitCount] & (SlotType)(ShiftValue << (int)(rri % SlotBitCount))) != 0)) ^ ri)
-                    ows[ori / SlotBitCount] |= (SlotType)(ShiftValue << (int)(ori % SlotBitCount));
+                uint leftRelativeIndex      = (uint)(bitIndex - leftOffset), 
+                     rightRelativeIndex     = (uint)(bitIndex - rightOffset),
+                     resultRelativeIndex    = (uint)(bitIndex - minimumOffset); 
+                if (((leftRelativeIndex >= 0 && leftRelativeIndex < leftLength) && ((leftWorkingSet[leftRelativeIndex / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)(leftRelativeIndex % FiniteAutomataExtensions.SlotBitCount))) != 0)) ^ leftIsNegativeSet ||
+                    ((rightRelativeIndex >= 0 && rightRelativeIndex < rightLength) && ((rightWorkingSet[rightRelativeIndex / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)(rightRelativeIndex % FiniteAutomataExtensions.SlotBitCount))) != 0)) ^ rightIsNegativeSet)
+                    resultWorkingSet[resultRelativeIndex / FiniteAutomataExtensions.SlotBitCount] |= (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)(resultRelativeIndex % FiniteAutomataExtensions.SlotBitCount));
             }
         }
 
-        private static void IntersectionProcess(uint lo, uint ro, uint ll, uint rl, uint mo, uint nl, bool li, bool ri, SlotType[] lws, SlotType[] rws, SlotType[] ows)
+        private static void IntersectionProcess(uint leftOffset, uint rightOffset, uint leftLength, uint rightLength, uint minimumOffset, uint newLength, bool leftIsNegativeSet, bool rightIsNegativeSet, SlotType[] leftWorkingSet, SlotType[] rightWorkingSet, SlotType[] resultWorkingSet)
         {
-            if (ows == null)
+            if (resultWorkingSet == null)
                 return;
-            for (SlotType i = mo; i < nl; i++)
+            for (uint bitIndex = minimumOffset; bitIndex < newLength; bitIndex++)
             {
-                int lri = (int)(i - lo), //left relative index.
-                    rri = (int)(i - ro), //right relative index.
-                    ori = (int)(i - mo); //out relative index.
-                if (((lri >= 0 && lri < ll) && ((lws[(SlotType)lri / SlotBitCount] & (SlotType)(ShiftValue << (int)((SlotType)lri % SlotBitCount))) != 0)) ^ li &&
-                    ((rri >= 0 && rri < rl) && ((rws[(SlotType)rri / SlotBitCount] & (SlotType)(ShiftValue << (int)((SlotType)rri % SlotBitCount))) != 0)) ^ ri)
-                    ows[(SlotType)ori / SlotBitCount] |= (SlotType)(ShiftValue << (int)((SlotType)ori % SlotBitCount));
+                uint leftRelativeIndex      = (bitIndex - leftOffset),
+                     rightRelativeIndex     = (bitIndex - rightOffset),
+                     resultRelativeIndex    = (bitIndex - minimumOffset);
+                if (((leftRelativeIndex >= 0 && leftRelativeIndex < leftLength) && ((leftWorkingSet[(SlotType)leftRelativeIndex / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)((SlotType)leftRelativeIndex % FiniteAutomataExtensions.SlotBitCount))) != 0)) ^ leftIsNegativeSet &&
+                    ((rightRelativeIndex >= 0 && rightRelativeIndex < rightLength) && ((rightWorkingSet[(SlotType)rightRelativeIndex / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)((SlotType)rightRelativeIndex % FiniteAutomataExtensions.SlotBitCount))) != 0)) ^ rightIsNegativeSet)
+                    resultWorkingSet[(SlotType)resultRelativeIndex / FiniteAutomataExtensions.SlotBitCount] |= (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)((SlotType)resultRelativeIndex % FiniteAutomataExtensions.SlotBitCount));
             }
         }
 
+#if x86
+        /// <summary>
+        /// Performs a symmetric difference on a <paramref name="leftWorkingSet"/> and <paramref name="rightWorkingSet"/> with the result within the
+        /// <paramref name="resultWorkingSet"/>.
+        /// </summary>
+        /// <param name="leftOffset">The offset of the <paramref name="leftWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="rightOffset">The offset of the <paramref name="rightWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="leftLength">The number of bits the <paramref name="leftWorkingSet"/> is.</param>
+        /// <param name="rightLength">The number of bits the <paramref name="rightWorkingSet"/> is.</param>
+        /// <param name="minimumOffset">The <see cref="Int32"/> value denoting the minimum 
+        /// offset between <paramref name="leftOffset"/> and <paramref name="rightOffset"/></param>
+        /// <param name="newLength">The new number of bits within the <paramref name="resultWorkingSet"/>.</param>
+        /// <param name="leftIsNegativeSet">Whether the left set is a negative set.</param>
+        /// <param name="rightIsNegativeSet">Whether the right set is a negative set.</param>
+        /// <param name="leftWorkingSet">The <see cref="Int32"/> array which denotes
+        /// the first set to perform the operation on.
+        /// </param>
+        /// <param name="rightWorkingSet">The <see cref="Int32"/> array which denotes
+        /// the second set to perform the operation on.</param>
+        /// <param name="resultWorkingSet">The <see cref="Int32"/> array which denotes
+        /// result set of the operation.</param>
+#elif x64
+        /// <summary>
+        /// Performs a symmetric difference on a <paramref name="leftWorkingSet"/> and <paramref name="rightWorkingSet"/> with the result within the
+        /// <paramref name="resultWorkingSet"/>.
+        /// </summary>
+        /// <param name="leftOffset">The offset of the <paramref name="leftWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="rightOffset">The offset of the <paramref name="rightWorkingSet"/> relative to
+        /// the start bit of the full set for the current type of 
+        /// <typeparamref name="TCheck"/>.</param>
+        /// <param name="leftLength">The number of bits the <paramref name="leftWorkingSet"/> is.</param>
+        /// <param name="rightLength">The number of bits the <paramref name="rightWorkingSet"/> is.</param>
+        /// <param name="minimumOffset">The <see cref="Int32"/> value denoting the minimum 
+        /// offset between <paramref name="leftOffset"/> and <paramref name="rightOffset"/></param>
+        /// <param name="resultLength">The new number of bits within the <paramref name="resultWorkingSet"/>.</param>
+        /// <param name="leftIsNegativeSet">Whether the left set is a negative set.</param>
+        /// <param name="rightIsNegativeSet">Whether the right set is a negative set.</param>
+        /// <param name="leftWorkingSet">The <see cref="Int64"/> array which denotes
+        /// the first set to perform the operation on.
+        /// </param>
+        /// <param name="rightWorkingSet">The <see cref="Int64"/> array which denotes
+        /// the second set to perform the operation on.</param>
+        /// <param name="resultWorkingSet">The <see cref="Int64"/> array which denotes
+        /// result set of the operation.</param>
+#endif
         [DebuggerStepThrough]
-        private static void SymmetricDifferenceProcess(uint lo, uint ro, uint ll, uint rl, uint mo, uint nl, bool li, bool ri, SlotType[] lws, SlotType[] rws, SlotType[] ows)
+        private static void SymmetricDifferenceProcess(uint leftOffset, uint rightOffset, uint leftLength, uint rightLength, uint minimumOffset, uint newLength, bool leftIsNegativeSet, bool rightIsNegativeSet, SlotType[] leftWorkingSet, SlotType[] rightWorkingSet, SlotType[] resultWorkingSet)
         {
-            if (ows == null)
+            if (resultWorkingSet == null)
                 return;
-            for (SlotType i = mo; i < nl; i++)
+            for (uint bitIndex = minimumOffset; bitIndex < newLength; bitIndex++)
             {
-                SlotType lri = i - lo, //left relative index.
-                         rri = i - ro, //right relative index.
-                         ori = i - mo; //out relative index.
-                if (((lri >= 0 && lri < ll) && ((lws[lri / SlotBitCount] &  (SlotType)(ShiftValue  << (int)(lri % SlotBitCount))) != 0)) ^ li ^
-                    ((rri >= 0 && rri < rl) && ((rws[rri / SlotBitCount] & (SlotType)(ShiftValue << (int)(rri % SlotBitCount))) != 0)) ^ ri)
-                    ows[ori / SlotBitCount] |= (SlotType)(ShiftValue << (int)(ori % SlotBitCount));
+                uint leftRelativeIndex      = (bitIndex - leftOffset),
+                     rightRelativeIndex     = (bitIndex - rightOffset),
+                     resultRelativeIndex    = (bitIndex - minimumOffset);
+                if (((leftRelativeIndex >= 0 && leftRelativeIndex < leftLength) && ((leftWorkingSet[leftRelativeIndex / FiniteAutomataExtensions.SlotBitCount] &  (SlotType)(FiniteAutomataExtensions.ShiftValue  << (int)(leftRelativeIndex % FiniteAutomataExtensions.SlotBitCount))) != 0)) ^ leftIsNegativeSet ^
+                    ((rightRelativeIndex >= 0 && rightRelativeIndex < rightLength) && ((rightWorkingSet[rightRelativeIndex / FiniteAutomataExtensions.SlotBitCount] & (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)(rightRelativeIndex % FiniteAutomataExtensions.SlotBitCount))) != 0)) ^ rightIsNegativeSet)
+                    resultWorkingSet[resultRelativeIndex / FiniteAutomataExtensions.SlotBitCount] |= (SlotType)(FiniteAutomataExtensions.ShiftValue << (int)(resultRelativeIndex % FiniteAutomataExtensions.SlotBitCount));
             }
         }
 
@@ -706,13 +800,9 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
         /// instance of the elements from both the <paramref name="left"/> set
         /// and the <paramref name="right"/> set.
         /// </summary>
-        /// <param name="left">The left <typeparamref name="TCheck"/> 
-        /// set of the operation.</param>
-        /// <param name="right">The right <typeparamref name="TCheck"/> 
-        /// set of the operation.</param>
-        /// <returns>A new <typeparamref name="TCheck"/> instance
-        /// as a union of the <paramref name="left"/> and
-        /// <paramref name="right"/> sets.</returns>
+        /// <param name="left">The left <typeparamref name="TCheck"/> set of the operation.</param>
+        /// <param name="right">The right <typeparamref name="TCheck"/> set of the operation.</param>
+        /// <returns>A new <typeparamref name="TCheck"/> instance as a union of the <paramref name="left"/> and <paramref name="right"/> sets.</returns>
         public static TCheck operator |(FiniteAutomataBitSet<TCheck> left, FiniteAutomataBitSet<TCheck> right)
         {
             if (Object.ReferenceEquals(left, null))
@@ -733,15 +823,10 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 throw new ArgumentException(string.Format("left or right must be an instance of TCheck ({0})", typeof(TCheck).Name), "left");
         }
 
-        /// <summary>
-        /// Obtains the complement of the <paramref name="operand"/> provided.
-        /// </summary>
-        /// <param name="operand">The <see cref="FiniteAutomataBitSet{TCheck}"/>
-        /// instance to obtain the complement of.</param>
-        /// <returns>A new <typeparamref name="TCheck"/> which represents the
-        /// complement of the <paramref name="operand"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">thrown when the
-        /// <paramref name="operand"/> is null.</exception>
+        /// <summary>Obtains the complement of the <paramref name="operand"/> provided.</summary>
+        /// <param name="operand">The <see cref="FiniteAutomataBitSet{TCheck}"/> instance to obtain the complement of.</param>
+        /// <returns>A new <typeparamref name="TCheck"/> which represents the complement of the <paramref name="operand"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">thrown when the <paramref name="operand"/> is null.</exception>
         public static TCheck operator ~(FiniteAutomataBitSet<TCheck> operand)
         {
             if (operand == null)
@@ -795,7 +880,7 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
                 if (right is TCheck)
                     return (TCheck)right;
                 else
-                    throw new ArgumentException(string.Format("left or right must be an instance of TCheck ({0})", typeof(TCheck).Name), "left");
+                    throw new ArgumentException(string.Format("left or right must be an instance of TCheck ({0})", typeof(TCheck).Name), "right");
             else if (Object.ReferenceEquals(right, null))
                 if (left is TCheck)
                     return (TCheck)left;
@@ -910,28 +995,38 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
 
         private static int Sum(params IMultikeyedDictionary<TCheck, TCheck, TCheck>[] set)
         {
-            //An example of how to abuse C#'s new features.
             int result = 0;
             foreach (var dict in set)
                 result += dict.Count;
             return result;
         }
 
+        /// <summary>Counts the number of bits within the set which are set, irrespective of whether the set is a negative set.</summary>
+        /// <returns>A <see cref="UInt32"/> value denoting the number of bits, which are set, within the <see cref="FiniteAutomataBitSet{TCheck}"/>.</returns>
+        /// <remarks>The number of bits observed are noted by <see cref="Length"/>.  The <see cref="FullLength"/> of the whole set is not considered.</remarks>
         public uint CountTrue()
         {
             uint r = 0;
-            for (uint i = this.Offset; i < this.Offset + this.Length; i++)
-                if (this[i])
-                    r++;
+            if (this.values == null)
+                return 0;
+            for (int i = 0; i < this.values.Length; i++)
+                r += this.values[i].CountBits();
             return r;
         }
 
+        /// <summary>Counts the number of bits within the set which are not set, irrespective of whether the set is a negative set.</summary>
+        /// <returns>A <see cref="UInt32"/> value denoting the number of bits, which are not set, within the <see cref="FiniteAutomataBitSet{TCheck}"/>.</returns>
+        /// <remarks>The number of bits observed are noted by <see cref="Length"/>.  The <see cref="FullLength"/> of the whole set is not considered.</remarks>
         public uint CountFalse()
         {
             uint r = 0;
-            for (uint i = this.Offset; i < this.Offset + this.Length; i++)
-                if (!this[i])
-                    r++;
+            if (this.values == null)
+                return 0;
+            for (int i = 0; i < this.values.Length; i++)
+                if (i == this.values.Length - 1)
+                    r += (~this.values[i] & this.lastMask).CountBits();
+                else
+                    r += (~this.values[i]).CountBits();
             return r;
         }
 
@@ -946,18 +1041,25 @@ namespace AllenCopeland.Abstraction.Slf.FiniteAutomata
             }
         }
 
-
-        protected void Mirror(TCheck set)
+        internal static void ClearCache()
         {
-            if (set == null)
-                return;
-            this.values = set.values;
-            this.offset = set.offset;
-            this.lastMask = set.lastMask;
-            this.lastMod = set.lastMod;
-            this.length = set.length;
-            this.fullLength = set.FullLength;
-            this.complement = set.complement;
+            lock (FiniteAutomataBitSet<TCheck>.intersectCacheLock)
+                FiniteAutomataBitSet<TCheck>.IntersectCache.Clear();
+            lock (FiniteAutomataBitSet<TCheck>.unionCacheLock)
+                FiniteAutomataBitSet<TCheck>.UnionCache.Clear();
+            lock (FiniteAutomataBitSet<TCheck>.symmetricDiffCacheLock)
+                FiniteAutomataBitSet<TCheck>.SymmetricDifferenceCache.Clear();
+            FiniteAutomataBitSet<TCheck>.NullInst = null;
+            gettingSD = false;
         }
+
+        internal static Func<TCheck, TCheck, TCheck> UnionAggregateDelegate = (a, b) =>
+        {
+            if (a == null || a.IsEmpty)
+                return b;
+            if (b == null || b.IsEmpty)
+                return a;
+            return a | b;
+        };
     }
 }

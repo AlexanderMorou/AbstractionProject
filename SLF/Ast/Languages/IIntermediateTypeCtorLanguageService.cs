@@ -34,7 +34,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// which contians the <typeparamref name="TType"/>.</param>
         /// <returns>A new <typeparamref name="TType"/> bound to the <paramref name="parent"/>
         /// provided.</returns>
-        TType GetNew(string name, IIntermediateTypeParent parent);
+        TType New(string name, IIntermediateTypeParent parent);
     }
 
 }

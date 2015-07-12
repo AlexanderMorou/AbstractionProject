@@ -82,7 +82,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         public bool IsGenericDefinition
         {
-            get { return true; }
+            get {
+                return this.IsGenericConstruct;
+            }
         }
 
         IGenericParameterDictionary IGenericParamParent.TypeParameters

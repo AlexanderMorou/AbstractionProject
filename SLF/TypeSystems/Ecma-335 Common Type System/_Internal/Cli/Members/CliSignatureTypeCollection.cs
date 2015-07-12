@@ -6,6 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using System.Collections;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf.Abstract.Members;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
@@ -15,7 +16,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private ICliMetadataMethodSignature signature;
         private IType[] signatureTypes;
         private _ICliManager manager;
-        public CliSignatureTypeCollection(_ICliManager manager, ICliMetadataMethodSignature signature)
+        public CliSignatureTypeCollection(_ICliManager manager, ICliMetadataMethodSignature signature, IType activeType, IMethodSignatureMember activeMethod)
         {
             if (manager == null)
                 throw new ArgumentNullException("manager");
@@ -23,6 +24,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
                 throw new ArgumentNullException("signature");
             this.manager = manager;
             this.signatureTypes = new IType[signature.Parameters.Count];
+            this.ActiveType = activeType;
+            this.ActiveMethod = activeMethod;
+            this.signature = signature;
         }
 
         #region IControlledTypeCollection Members
@@ -102,7 +106,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private void InitializeItemAt(int typeIndex)
         {
             var param = this.signature.Parameters[typeIndex];
-            this.signatureTypes[typeIndex] = new CliModifiedType((ICliType)manager.ObtainTypeReference(param.ParameterType), param.CustomModifiers);
+            IAssembly owningAssembly;
+            if (this.ActiveType == null)
+                owningAssembly = this.ActiveType.Assembly;
+            else
+                owningAssembly = this.ActiveMethod.Parent as IAssembly;
+            this.signatureTypes[typeIndex] = new CliModifiedType(manager.ObtainTypeReference(param.ParameterType, this.ActiveType, this.ActiveMethod, owningAssembly), param.CustomModifiers);
         }
 
         public void CopyTo(IType[] array, int arrayIndex = 0)
@@ -171,5 +180,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         }
 
         #endregion
+
+        public IType ActiveType { get; set; }
+
+        public IMethodSignatureMember ActiveMethod { get; set; }
     }
 }

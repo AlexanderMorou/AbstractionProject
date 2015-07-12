@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Utilities.Arrays;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
 using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -22,7 +24,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     {
         private IGeneralMemberUniqueIdentifier uniqueIdentifier;
         private IBoundLocalReferenceExpression singletonLocal = null;
-        private ILocalDeclarationStatement singletonDeclaration = null;
+        private ILocalDeclarationsStatement singletonDeclaration = null;
         public LocalMember(string name, IBlockStatementParent parent, LocalTypingKind typingMethod)
             : base(name, parent)
         {
@@ -49,10 +51,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public LocalTypingKind TypingMethod { get; private set; }
 
-        public ILocalDeclarationStatement GetDeclarationStatement()
+        public ILocalDeclarationsStatement GetDeclarationStatement(params ILocalMember[] siblings)
         {
             if (this.singletonDeclaration == null)
-                this.singletonDeclaration = new LocalDeclarationStatement(this, this.Parent);
+                this.singletonDeclaration = new LocalDeclarationsStatement(this.AsEnumerable().Concat(siblings), this.Parent);
             return this.singletonDeclaration;
         }
 

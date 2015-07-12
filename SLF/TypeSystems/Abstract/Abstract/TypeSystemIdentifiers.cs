@@ -95,6 +95,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return GetGenericSignatureIdentifier(name, 0, signature);
         }
 
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, string languageSpecificQualifier, params IType[] signature)
+        {
+            return GetGenericSignatureIdentifier(name, 0, languageSpecificQualifier, signature);
+        }
+
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, string languageSpecificQualifier, IEnumerable<IType> signature)
+        {
+            return new DefaultGenericSignatureMemberUniqueIdentifier(name, typeParameters: typeParams, parameters: signature, languageSpecificQualifier: languageSpecificQualifier);
+        }
+
         public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, IEnumerable<IType> signature)
         {
             return new DefaultGenericSignatureMemberUniqueIdentifier(name, typeParameters: typeParams, parameters: signature);
@@ -105,6 +115,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             return GetGenericSignatureIdentifier(name, typeParams, (IEnumerable<IType>)signature);
         }
 
+        public static IGeneralGenericSignatureMemberUniqueIdentifier GetGenericSignatureIdentifier(string name, int typeParams, string languageSpecificQualifier, params IType[] signature)
+        {
+            return GetGenericSignatureIdentifier(name, typeParams, languageSpecificQualifier, (IEnumerable<IType>)signature);
+        }
         public static IBinaryOperatorUniqueIdentifier GetBinaryOperatorBothIdentifier(CoercibleBinaryOperators @operator)
         {
             return GetBinaryOperatorBothIdentifier(@operator);
@@ -233,5 +247,16 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 return GetTypeIdentifier(TypeSystemIdentifiers.GetDeclarationIdentifier(@namespace), name, typeParameters);
         }
 
+        public static Stack<IGeneralTypeUniqueIdentifier> GetNestingHierarchy(this IGeneralTypeUniqueIdentifier identifier)
+        {
+            var nestingHierarchy = new Stack<IGeneralTypeUniqueIdentifier>();
+            var id = (IGeneralTypeUniqueIdentifier)identifier;
+            while (id != null)
+            {
+                nestingHierarchy.Push(id);
+                id = id.ParentIdentifier;
+            }
+            return nestingHierarchy;
+        }
     }
 }

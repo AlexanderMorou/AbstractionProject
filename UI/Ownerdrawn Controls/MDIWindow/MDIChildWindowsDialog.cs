@@ -214,7 +214,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
         {
             //Retrieve the active selection, and ensure that inheritors adhered to the 
             //base functionality behind the Activate Button.
-            System.Windows.Forms.Form[] selection = this.Selection;
+            Form[] selection = this.Selection;
             if (selection.Length == 1)
             {
                 /* *
@@ -223,14 +223,8 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                  * ignores types differing from System.Windows.Forms.Form.
                  * */
                 if (selection[0] != null)
-                {
                     this.Action = ActionToPerform.Activate;
-                    this.Close();
-                }
-                else
-                {
-                    this.Close();
-                }
+                this.Close();
             }
         }
 
@@ -241,7 +235,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
         /// <param name="e">The event arguments.  This parameter contains no event data.</param>
         protected virtual void WindowsCloseButton_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Form[] selection = this.Selection;
+            Form[] selection = this.Selection;
             if (selection == null)
             {
                 this.Close();
@@ -256,7 +250,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
         /// <param name="e">The event arguments.  This parameter contains no event data.</param>
         protected virtual void WindowsTileHorizontallyButton_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Form[] selection = this.Selection;
+            Form[] selection = this.Selection;
             if (selection == null || selection.Length < 2)
             {
                 this.Close();
@@ -273,7 +267,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
         /// <param name="e">The event arguments.  This parameter contains no event data.</param>
         protected virtual void WindowsTileVerticallyButton_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.Form[] selection = this.Selection;
+            Form[] selection = this.Selection;
             if (selection == null || selection.Length < 2)
             {
                 this.Close();

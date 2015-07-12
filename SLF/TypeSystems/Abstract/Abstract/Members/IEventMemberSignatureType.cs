@@ -15,7 +15,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
     /// <summary>
     /// Defines a shell interface used to filter auto-types out during translation
-    /// to languages (such as Visual Basic.NET).
+    /// to languages (such as Visual Basic).
     /// </summary>
     /// <remarks>Type should -never- appear as a <see cref="IEventSignatureMember.SignatureType"/>
     /// value of a compiled event member.</remarks>

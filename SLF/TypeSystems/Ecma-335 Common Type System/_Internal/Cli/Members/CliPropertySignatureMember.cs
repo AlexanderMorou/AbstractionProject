@@ -39,7 +39,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         public IPropertySignatureMethodMember GetMethod
         {
             get {
-                if (this.getMethod == null)
+                if (this.getMethod == null && CanRead)
                     return this.GetPropertyMethod(PropertyMethodType.GetMethod);
                 return this.getMethod;
             }
@@ -51,7 +51,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                if (this.setMethod == null)
+                if (this.setMethod == null && CanWrite)
                     return this.GetPropertyMethod(PropertyMethodType.SetMethod);
                 return this.setMethod;
             }

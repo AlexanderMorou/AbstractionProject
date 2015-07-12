@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -64,6 +64,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
 
 
+            protected override void OnRearranged(GenericParameterMovedEventArgs e)
+            {
+                this.Parent.OnRearranged(e);
+                base.OnRearranged(e);
+            }
+
             #region IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember> Members
 
             IMethodSignatureMember IGenericParameterDictionary<IMethodSignatureGenericTypeParameterMember,IMethodSignatureMember>.Parent
@@ -76,6 +82,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             protected override sealed IIntermediateMethodSignatureGenericTypeParameterMember GetNew(string name)
             {
                 return new TypeParameter(name, this.Parent);
+            }
+
+            internal override IType Disambiguate(IType ambiguousType)
+            {
+                var parentType = this.Parent.Parent as IGenericType;
+                var typeGenericParameters = parentType == null ? (IControlledTypeCollection)null : (IControlledTypeCollection)parentType.GenericParameters;
+                return ambiguousType.Disambiguify(typeGenericParameters, this.Parent.GenericParameters, typeGenericParameters != null ? TypeParameterSources.Both : TypeParameterSources.Method);
             }
         }
     }

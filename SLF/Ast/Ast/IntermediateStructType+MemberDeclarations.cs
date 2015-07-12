@@ -12,8 +12,9 @@ using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Slf.Languages;
+using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -200,7 +201,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             }
             protected override void OnSetName(string name)
             {
-                throw new InvalidOperationException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name.");
+                throw new NotSupportedException("Cannot set the name of a parameter of a method of an indexer, set the indexer's parameter name. Rationale: the parameters of the method mirror the types of the indexer; however, there's no guarantee, from a framework perspective, that the parameters even require names.");
             }
             public override ParameterCoercionDirection Direction
             {
@@ -216,7 +217,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             protected override MetadataDefinitionCollection InitializeCustomAttributes()
             {
-                return new MetadataDefinitionCollection(this.original, this.identityManager);
+                return new MetadataDefinitionCollection(this.original, this.assembly);
             }
 
             public override IGeneralMemberUniqueIdentifier UniqueIdentifier
@@ -409,10 +410,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TInstanceIntermediateType :
             IntermediateStructType<TInstanceIntermediateType>
     {
+        private TypeCollection<IInterfaceType> implementationTypes;
         /// <summary>
-        /// Data member for <see cref="InstanceFlags"/>.
+        /// Data member for <see cref="Attributes"/>.
         /// </summary>
-        private ExtendedMethodMemberFlags instanceFlags;
+        private ExtendedMethodAttributes instanceFlags;
 
         public IntermediateStructMethodMember(TInstanceIntermediateType parent)
             : base(parent)
@@ -448,16 +450,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return ((this.instanceFlags & ExtendedMethodMemberFlags.Abstract) == ExtendedMethodMemberFlags.Abstract);
+                return ((this.instanceFlags & ExtendedMethodAttributes.Abstract) == ExtendedMethodAttributes.Abstract);
             }
             set
             {
                 if (this.IsAbstract == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedMethodMemberFlags.Abstract;
+                    this.instanceFlags |= ExtendedMethodAttributes.Abstract;
                 else
-                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Abstract;
+                    this.instanceFlags &= ~ExtendedMethodAttributes.Abstract;
             }
         }
 
@@ -469,7 +471,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return ((this.instanceFlags & ExtendedMethodMemberFlags.Virtual) == ExtendedMethodMemberFlags.Virtual);
+                return ((this.instanceFlags & ExtendedMethodAttributes.Virtual) == ExtendedMethodAttributes.Virtual);
             }
             set
             {
@@ -486,16 +488,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return ((this.instanceFlags & ExtendedMethodMemberFlags.Final) == ExtendedMethodMemberFlags.Final);
+                return ((this.instanceFlags & ExtendedMethodAttributes.Final) == ExtendedMethodAttributes.Final);
             }
             set
             {
                 if (this.IsFinal == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedMethodMemberFlags.Final;
+                    this.instanceFlags |= ExtendedMethodAttributes.Final;
                 else
-                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Final;
+                    this.instanceFlags &= ~ExtendedMethodAttributes.Final;
             }
         }
 
@@ -507,16 +509,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return ((this.instanceFlags & ExtendedMethodMemberFlags.Override) == ExtendedMethodMemberFlags.Override);
+                return ((this.instanceFlags & ExtendedMethodAttributes.Override) == ExtendedMethodAttributes.Override);
             }
             set
             {
                 if (this.IsOverride == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedMethodMemberFlags.Override;
+                    this.instanceFlags |= ExtendedMethodAttributes.Override;
                 else
-                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Override;
+                    this.instanceFlags &= ~ExtendedMethodAttributes.Override;
             }
         }
 
@@ -532,16 +534,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return ((this.instanceFlags & ExtendedMethodMemberFlags.HideBySignature) == ExtendedMethodMemberFlags.HideBySignature);
+                return ((this.instanceFlags & ExtendedMethodAttributes.HideBySignature) == ExtendedMethodAttributes.HideBySignature);
             }
             set
             {
                 if (this.IsHideBySignature == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedMethodMemberFlags.HideBySignature;
+                    this.instanceFlags |= ExtendedMethodAttributes.HideBySignature;
                 else
-                    this.instanceFlags &= ~ExtendedMethodMemberFlags.HideBySignature;
+                    this.instanceFlags &= ~ExtendedMethodAttributes.HideBySignature;
             }
         }
 
@@ -560,9 +562,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 if (this.IsStatic == value)
                     return;
                 if (value)
-                    this.instanceFlags |= ExtendedMethodMemberFlags.Static;
+                    this.instanceFlags |= ExtendedMethodAttributes.Static;
                 else
-                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Static;
+                    this.instanceFlags &= ~ExtendedMethodAttributes.Static;
             }
         }
 
@@ -570,7 +572,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return ((this.instanceFlags & ExtendedMethodMemberFlags.Static) == ExtendedMethodMemberFlags.Static);
+                return ((this.instanceFlags & ExtendedMethodAttributes.Static) == ExtendedMethodAttributes.Static);
             }
         }
 
@@ -579,11 +581,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region IInstanceMember Members
 
-        InstanceMemberFlags IInstanceMember.InstanceFlags
+        InstanceMemberAttributes IInstanceMember.Attributes
         {
             get
             {
-                return ((InstanceMemberFlags)this.instanceFlags) & InstanceMemberFlags.FlagsMask;
+                return ((InstanceMemberAttributes)this.instanceFlags) & InstanceMemberAttributes.FlagsMask;
             }
         }
 
@@ -595,18 +597,18 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             get
             {
-                return (this.instanceFlags & ExtendedMethodMemberFlags.Async) == ExtendedMethodMemberFlags.Async;
+                return (this.instanceFlags & ExtendedMethodAttributes.Async) == ExtendedMethodAttributes.Async;
             }
             set
             {
                 if (value)
-                    this.instanceFlags |= ExtendedMethodMemberFlags.Async;
+                    this.instanceFlags |= ExtendedMethodAttributes.Async;
                 else
-                    this.instanceFlags &= ~ExtendedMethodMemberFlags.Async;
+                    this.instanceFlags &= ~ExtendedMethodAttributes.Async;
             }
         }
 
-        public ExtendedMethodMemberFlags InstanceFlags
+        public ExtendedMethodAttributes Attributes
         {
             get
             {
@@ -645,15 +647,15 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
 
         /// <summary>
-        /// Returns the <see cref="ExtendedInstanceMemberFlags"/> that determine how the
+        /// Returns the <see cref="ExtendedMemberAttributes"/> that determine how the
         /// <see cref="IntermediateClassMethodMember{TInstanceIntermediateType}"/> is shown in its scope and inherited 
         /// scopes.
         /// </summary>
-        ExtendedInstanceMemberFlags IExtendedInstanceMember.InstanceFlags
+        ExtendedMemberAttributes IExtendedInstanceMember.Attributes
         {
             get
             {
-                return (ExtendedInstanceMemberFlags)this.InstanceFlags & ExtendedInstanceMemberFlags.FlagsMask;
+                return (ExtendedMemberAttributes)this.Attributes & ExtendedMemberAttributes.FlagsMask;
             }
         }
 
@@ -674,6 +676,21 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// is a candidate for asynchrony.
         /// </summary>
         public bool IsAsynchronousCandidate { get; private set; }
+
+        IEnumerable<IInterfaceType> IExtendedMethodMember.Implementations
+        {
+            get {
+                return from t in this.Implementations
+                       where t is IInterfaceType
+                       select (IInterfaceType)t;
+            }
+        }
+
+        public ITypeCollection Implementations
+        {
+            get { return this.implementationTypes ?? (this.implementationTypes = new TypeCollection<IInterfaceType>()); }
+        }
+
     }
 
     public class IntermediateStructFieldMember<TInstanceIntermediateType> :
@@ -682,9 +699,54 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         where TInstanceIntermediateType :
             IntermediateStructType<TInstanceIntermediateType>
     {
+        private bool readOnly;
+        private bool constant;
         public IntermediateStructFieldMember(string name, TInstanceIntermediateType parent)
             : base(name, parent)
         {
+        }
+
+        public new bool ReadOnly
+        {
+            get
+            {
+                return this.readOnly;
+            }
+            set
+            {
+                if (value && constant)
+                    constant = false;
+                this.readOnly = value;
+            }
+        }
+
+        public new bool Constant
+        {
+            get
+            {
+                return this.constant;
+            }
+            set
+            {
+                if (value && readOnly)
+                    this.readOnly = false;
+                this.constant = value;
+            }
+        }
+
+        protected override bool OnGetReadonly()
+        {
+            return this.ReadOnly;
+        }
+
+        protected override bool OnGetConstant()
+        {
+            return this.Constant;
+        }
+
+        public new InstanceFieldMemberAttributes Attributes
+        {
+            get { return ((InstanceFieldMemberAttributes)base.Attributes) | (Constant ? InstanceFieldMemberAttributes.Constant : InstanceFieldMemberAttributes.None) | (ReadOnly ? InstanceFieldMemberAttributes.ReadOnly : InstanceFieldMemberAttributes.None); }
         }
     }
 

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using System.ComponentModel;
+using System.Diagnostics;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -16,7 +18,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
     /// <summary>
     /// Provides a base block statement.
     /// </summary>
-    public class BlockStatementBase :
+    public abstract class BlockStatementBase :
         BlockStatementParentContainer,
         IBlockStatement
     {
@@ -43,12 +45,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// through <see cref="IStatementVisitor.Visit(IBlockStatement)"/>.</remarks>
         /// <exception cref="System.ArgumentNullException">thrown when <paramref name="visitor"/>
         /// is null.</exception>
-        public virtual void Visit(IStatementVisitor visitor)
-        {
-            if (visitor == null)
-                throw new ArgumentNullException("visitor");
-            visitor.Visit(this);
-        }
+        public abstract void Visit(IStatementVisitor visitor);
 
         /// <summary>
         /// Returns the <see cref="IBlockStatementParent"/> which
@@ -59,6 +56,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             get
             {
                 return this.parent;
+            }
+        }
+
+        public override IIntermediateIdentityManager IdentityManager
+        {
+            get
+            {
+                return this.Parent.IdentityManager;
             }
         }
 
@@ -77,6 +82,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             get { return this.Parent.IndexOf(this); }
         }
         #endregion
+
+        public abstract TResult Visit<TResult, TContext>(IStatementVisitor<TResult, TContext> visitor, TContext context);
 
     }
 }

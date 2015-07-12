@@ -41,6 +41,22 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             this.metadataEntry = metadataEntry;
         }
 
+        private IMethodSignatureMember ActiveMethod
+        {
+            get
+            {
+                return this.Parent as IMethodSignatureMember;
+            }
+        }
+
+        private IType ActiveType
+        {
+            get
+            {
+                return ActiveMethod == null ? this.parent as IType : this.ActiveMethod.Parent as IType;
+            }
+        }
+
         private static ICliMetadataMethodDefinitionTableRow CreateDefaultCtorEntry()
         {
             throw new NotImplementedException();
@@ -227,7 +243,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get
             {
                 return this.constraints ?? (this.constraints = (from c in this.metadataEntry.Constraints
-                                                                select this.IdentityManager.ObtainTypeReference(c.Constraint, (this.Parent as IType), null)).ToLockedCollection());
+                                                                select this.IdentityManager.ObtainTypeReference(c.Constraint, this.ActiveType, this.ActiveMethod)).ToLockedCollection());
             }
         }
 
@@ -439,7 +455,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
         }

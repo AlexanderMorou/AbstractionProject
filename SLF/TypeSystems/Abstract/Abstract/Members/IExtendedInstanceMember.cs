@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -13,28 +13,21 @@ using System.Text;
 
 namespace AllenCopeland.Abstraction.Slf.Abstract.Members
 {
-    //[FlagsAttribute]
-    //public enum NameHere
-    //{
-    //    /* 0000000000111000000001 */
-    //    Static = 0xe01,
-    //    /* 0000000111001000000010 */
-    //    Virtual = 0x7202,
-    //    /* 0000011001010000000100 */
-    //    Abstract = 0x19404,
-    //    /* 0000101010100000001000 */
-    //    Override = 0x2a808,
-    //    /* 0011000000000000010000 */
-    //    HideBySig = 0xc0010,
-    //    /* 0101000000000000100000 */
-    //    HideByName = 0x140020,
-    //    /* 1000000000000001000000 */
-    //    Final = 0x200040,
-    //    /* 1110110100000010000000 */
-    //    Extension = 0x3b4080,
-    //    /* 0000000000000100000000 */
-    //    Async = 0x100,
-    //}
+    /* *
+     * [FlagsAttribute]
+     *  public enum NameHere
+     *  {
+	 *      /* 000000000000000000001111100000000001 / Static = 0xf801,
+	 *      /* 000000000000000111110000100000000010 / Virtual = 0x1f0802,
+	 *      /* 000000000011111000010001000000000100 / Abstract = 0x3e11004,
+	 *      /* 000000011100001000100010000000001000 / Override = 0x1c222008,
+	 *      /* 000000100000000000000000000000010000 / HideBySig = 0x20000010,
+	 *      /* 000000100000000000000000000000100000 / HideByName = 0x20000020,
+	 *      /* 000001000000010000000100000001000000 / Final = 0x40404040,
+	 *      /* 000111000100100001000000000010000000 / Extension = 0x1C4840080,
+	 *      /* 011000000000000000000000000100000000 / Async = 0x600000100,
+     *  }
+     * */
     /// <summary>
     /// Flags relative to the management of 
     /// current member status and future
@@ -43,8 +36,8 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// to be used.
     /// </summary>
     [Flags]
-    public enum ExtendedInstanceMemberFlags :
-        int
+    public enum ExtendedMemberAttributes :
+        long
     {
         /// <summary>
         /// No flags are set relative to the instance
@@ -54,48 +47,48 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// Member is a static member.
         /// </summary>
-        /* 0000000000111000000001 */
-        Static = InstanceMemberFlags.Static,
+        /* 000000000000000000001111100000000001 */
+        Static = InstanceMemberAttributes.Static,
         /* 00111001000010 */
         /// <summary>
         /// Member is a virtual (overridable) member.
         /// </summary>
-        /* 0000000111001000000010 */
+        /* 000000000000000111110000100000000010 */
         /* *
          * virtual methods declare 'virtual' and 'newslot'.
          * */
-        Virtual   = 0x7202,
+        Virtual   = 0x1f0802,
         /// <summary>
         /// Member is an abstract member.
         /// </summary>
-        /* 0000011001010000000100 */
-        Abstract  = 0x19404,
+        /* 000000000011111000010001000000000100 */
+        Abstract  = 0x3e11004,
         /// <summary>
         /// Member is an overridden member.
         /// </summary>
-        /* 0000101010100000001000 */
+        /* 000000011100001000100010000000001000 */
         /* *
          * overridden members declare 'virtual' and no
          * 'newslot'.
          * */
-        Override  = 0x2a808,
+        Override  = 0x1c222008,
         /// <summary>
         /// Member hides base's definition
         /// by signature.
         /// </summary>
-        /* 0011000000000000010000 */
+        /* 00100000 00000000 00000000 00010000 */
         /* *
          * Hides the previous definition by signature.
          * Default value for instance/static members;
          * neither virtual nor newslot attributes are used
          * by default.
          * */
-        HideBySignature = InstanceMemberFlags.HideBySignature,
+        HideBySignature = InstanceMemberAttributes.HideBySignature,
         /* 0101000000000000100000 */
         /// <summary>
         /// Member hides base's definition by name.
         /// </summary>
-        HideByName = InstanceMemberFlags.HideByName,
+        HideByName = InstanceMemberAttributes.HideByName,
         /// <summary>
         /// Member is final (removes the ability for 
         /// inheritors to override).
@@ -106,12 +99,12 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
          * attribute along with virtual, to indicate
          * that it's a sealed override.
          * */
-        Final     = 0x200040,
+        Final     = 0x40404040,
         /// <summary>
         /// The mask which selects the members from the current
         /// enumeration.
         /// </summary>
-        FlagsMask = InstanceMemberFlags.FlagsMask | Virtual | Abstract | Override | Final,
+        FlagsMask = InstanceMemberAttributes.FlagsMask | Virtual | Abstract | Override | Final,
     }
     /// <summary>
     /// Defines properties and methods for working with an extended 
@@ -121,10 +114,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IInstanceMember
     {
         /// <summary>
-        /// Returns the <see cref="ExtendedInstanceMemberFlags"/> that determine how the
+        /// Returns the <see cref="ExtendedMemberAttributes"/> that determine how the
         /// <see cref="IExtendedInstanceMember"/> is shown in its scope and inherited scopes.
         /// </summary>
-        new ExtendedInstanceMemberFlags InstanceFlags { get; }
+        new ExtendedMemberAttributes Attributes { get; }
         /// <summary>
         /// Returns whether the <see cref="IExtendedInstanceMember"/> is 
         /// abstract (must be implemented, or is not yet 

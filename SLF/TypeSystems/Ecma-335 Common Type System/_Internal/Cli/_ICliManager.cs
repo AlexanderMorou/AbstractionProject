@@ -59,7 +59,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// which is active in the resolution scope.</param>
         /// <returns>A <see cref="IType"/> relative to the 
         /// <paramref name="signature"/> provided.</returns>
-        IType ObtainTypeReference(ICliMetadataTypeSignature signature, IType activeType, IMethodSignatureMember activeMethod);
+        IType ObtainTypeReference(ICliMetadataTypeSignature signature, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null);
 
         /// <summary>
         /// Obtains the <see cref="IType"/> associated to the
@@ -73,7 +73,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         /// which is active in the resolution scope.</param>
         /// <returns>A <see cref="IType"/> relative to the 
         /// <paramref name="signature"/> provided.</returns>
-        IType ObtainTypeReference(ICliMetadataParamSignature signature, IType activeType, IMethodSignatureMember activeMethod);
-        IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow signature, IType activeType, IMethodSignatureMember activeMethod);
+        IType ObtainTypeReference(ICliMetadataParamSignature signature, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null);
+        IType ObtainTypeReference(ICliMetadataTypeDefOrRefRow signature, IType activeType, IMethodSignatureMember activeMethod, IAssembly activeAssembly = null);
     }
 }

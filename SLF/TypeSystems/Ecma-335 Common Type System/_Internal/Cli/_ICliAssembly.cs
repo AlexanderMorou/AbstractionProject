@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Collections;
 
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 {
@@ -14,5 +15,6 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     {
         INamespaceDeclaration GetNamespace(string @namespace);
         new _ICliManager IdentityManager { get; }
+        ControlledDictionary<ICliMetadataExportedTypeTableRow, ICliMetadataTypeDefinitionTableRow> ExportTableLookup { get; }
     }
 }

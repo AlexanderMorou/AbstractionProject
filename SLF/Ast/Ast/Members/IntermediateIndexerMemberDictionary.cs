@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Properties;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -90,7 +90,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// contains the same signature.</exception>
         public TIntermediateIndexer Add(IType returnType, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
         {
-            return this.Add(new TypedName(null, returnType), parameters);
+            return this.Add(new TypedName(null, returnType), parameters, canGet, canSet);
         }
 
         /// <summary>
@@ -110,7 +110,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <exception cref="System.ArgumentException">thrown another
         /// member within the <see cref="IIntermediateIndexerMemberDictionary"/>
         /// contains the same signature.</exception>
-        public TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true) {
+        public TIntermediateIndexer Add(TypedName nameAndReturn, TypedNameSeries parameters, bool canGet = true, bool canSet = true)
+        {
             var result = this.GetNew(nameAndReturn, parameters, canGet, canSet);
             base._Add(result.UniqueIdentifier, result);
             return result;

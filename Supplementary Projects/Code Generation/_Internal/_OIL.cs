@@ -56,7 +56,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen._Internal
             }
             return resultBuilder.ToString();
         }
-        public static string HTMLEncode(this string toEncode, bool encodeSpaces = true)
+        public static string HtmlEncode(this string toEncode, bool encodeSpaces = true)
         {
             StringBuilder sb = new StringBuilder();
             foreach (char c in toEncode)
@@ -78,6 +78,8 @@ namespace AllenCopeland.Abstraction.OldCodeGen._Internal
                         else
                             sb.Append(" ");
                         break;
+                    case '\t':
+
                     default:
                         if (c <= 0xFF)
                             sb.Append(c);

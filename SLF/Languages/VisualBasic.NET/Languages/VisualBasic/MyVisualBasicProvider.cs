@@ -8,6 +8,8 @@ using AllenCopeland.Abstraction.Slf.Translation;
 using AllenCopeland.Abstraction.Slf.Compilers;
 using System.Reflection;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Languages;
+using AllenCopeland.Abstraction.Slf.Ast.Cli;
 
 namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
 {
@@ -17,7 +19,7 @@ namespace AllenCopeland.Abstraction.Slf.Languages.VisualBasic
         //VisualBasicProvider<IMyVisualBasicAssembly, IMyVisualBasicProvider>,
         IMyVisualBasicProvider
     {
-        internal MyVisualBasicProvider(VisualBasicVersion version, ITypeIdentityManager identityManager)
+        internal MyVisualBasicProvider(VisualBasicVersion version, IIntermediateCliManager identityManager)
             : base(version, identityManager)
         {
             this.RegisterService<IIntermediateAssemblyCtorLanguageService<IMyVisualBasicProvider, IVisualBasicLanguage, IMyVisualBasicAssembly>>(LanguageGuids.Services.IntermediateAssemblyCreatorService, new AssemblyService(this));

@@ -1243,7 +1243,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 get;
                 private set;
             }
+
             private int? parameterCount;
+
             public int ParameterCount
             {
                 get
@@ -1307,19 +1309,28 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             //#endregion
 
 
-            public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IType> parameters)
+            public DefaultGenericSignatureMemberUniqueIdentifier(string name, int typeParameters, IEnumerable<IType> parameters, string languageSpecificQualifier = null)
             {
                 this.Name = name;
                 this.TypeParameters = typeParameters;
                 this.Parameters = parameters;
+                this.LanguageSpecificQualifier = languageSpecificQualifier;
             }
 
             public override int GetHashCode()
             {
-                if (this.Name == null)
-                    return -2 ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
+                if (this.LanguageSpecificQualifier == null)
+                {
+                    if (this.Name == null)
+                        return -4 ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -6;
+                    else
+                        return this.Name.GetHashCode() ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -6;
+                }
                 else
-                    return this.Name.GetHashCode() ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -3;
+                    if (this.Name == null)
+                        return -2 ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -4 ^ this.LanguageSpecificQualifier.GetHashCode();
+                    else
+                        return this.Name.GetHashCode() ^ this.IsGenericConstruct.GetHashCode() ^ this.ParameterCount.GetHashCode() ^ this.TypeParameters.GetHashCode() ^ -4 ^ this.LanguageSpecificQualifier.GetHashCode();
             }
 
             public override string ToString()
@@ -1334,6 +1345,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 {
                     builder.Append(parentName);
                     builder.Append("::");
+                }
+                if (this.LanguageSpecificQualifier != null)
+                {
+                    builder.Append(this.LanguageSpecificQualifier);
+                    builder.Append('.');
                 }
                 builder.Append(this.Name);
                 builder.Append('(');
@@ -1352,9 +1368,11 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 builder.Append(')');
                 return builder.ToString();
             }
+
+            public string LanguageSpecificQualifier { get; set; }
         }
 
-        private class DefaultAssemblyUniqueIdentifier :
+        internal class DefaultAssemblyUniqueIdentifier :
             IAssemblyUniqueIdentifier
         {
             private IMultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier> GenericTypeCache = new MultikeyedDictionary<string, int, IGeneralGenericTypeUniqueIdentifier>();
@@ -1366,6 +1384,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
                 this.Culture = cultureIdentifier;
                 this.PublicKeyToken = publicKeyToken;
             }
+
             //#region IAssemblyUniqueIdentifier Members
 
             public IVersion Version
@@ -1400,7 +1419,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             //#region IEquatable<IAssemblyUniqueIdentifier> Members
 
-            public bool Equals(IAssemblyUniqueIdentifier other)
+            public virtual bool Equals(IAssemblyUniqueIdentifier other)
             {
                 if (this.PublicKeyToken == null && other.PublicKeyToken != null ||
                     this.PublicKeyToken != null && other.PublicKeyToken == null)
@@ -1450,7 +1469,6 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
 
             #region IAssemblyUniqueIdentifier Members
 
-
             public IGeneralTypeUniqueIdentifier GetTypeIdentifier(IGeneralDeclarationUniqueIdentifier @namespace, string name)
             {
                 if (name.Contains('`'))
@@ -1486,6 +1504,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             }
 
             #endregion
+
         }
     }
 }

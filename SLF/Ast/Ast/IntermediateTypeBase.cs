@@ -12,12 +12,12 @@ using System.ComponentModel;
 using AllenCopeland.Abstraction.Utilities;
 using AllenCopeland.Abstraction.Slf._Internal.Cli;
 using AllenCopeland.Abstraction.Utilities.Events;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -154,7 +154,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public virtual new IIntermediateAssembly Assembly
         {
-            get {
+            get
+            {
                 if (this.parent != null)
                     return this.Parent.Assembly;
                 else
@@ -259,6 +260,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             if (value == this.name)
                 return;
+            if (this.IsNameLocked)
+                throw new InvalidOperationException("Name is read-only.");
             var uniqueIdentifier = this.UniqueIdentifier;
             DeclarationRenamingEventArgs renaming = new DeclarationRenamingEventArgs(this.name, value);
             this.OnRenaming(renaming);
@@ -363,7 +366,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             return this.OnGetIntermediateMembers();
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return new IntermediateTypeMetadataCollection(this);
         }
@@ -383,7 +386,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         private void CheckCustomAttributes()
         {
             if (this.customAttributes == null)
-                this.customAttributes = new MetadataDefinitionCollection(this, this.IdentityManager);
+                this.customAttributes = new MetadataDefinitionCollection(this, this.Assembly);
         }
 
         #endregion
@@ -523,6 +526,32 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         public event EventHandler<EventArgs<IType, IType>> BaseTypeChanged;
 
+        protected override sealed IIdentityManager OnGetManager()
+        {
+            return this.OnGetIntermediateManager();
+        }
 
+        protected abstract IIntermediateIdentityManager OnGetIntermediateManager();
+
+
+        public new IIntermediateIdentityManager IdentityManager
+        {
+            get
+            {
+                return this.OnGetIntermediateManager();
+            }
+        }
+
+        internal virtual bool IsNameLocked { get; set; }
+        /// <summary>
+        /// Returns/sets the <see cref="String"/> value denoting
+        /// the Summary text of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
+        /// </summary>
+        public virtual string SummaryText { get; set; }
+        /// <summary>
+        /// Returns/sets the <see cref="String"/> value denoting
+        /// the remarks text of the <see cref="IntermediateTypeBase{TTypeIdentifier, TType, TIntermediateType}"/>.
+        /// </summary>
+        public virtual string RemarksText { get; set; }
     }
 }

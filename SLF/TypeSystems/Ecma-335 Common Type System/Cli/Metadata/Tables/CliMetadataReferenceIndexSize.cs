@@ -9,7 +9,8 @@ namespace AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables
     /// Determines the size of reference index
     /// read from the metadata stream.
     /// </summary>
-    public enum CliMetadataReferenceIndexSize
+    public enum CliMetadataReferenceIndexSize :
+        byte
     {
         /// <summary>
         /// The reference indexes are word-sized or two (2)

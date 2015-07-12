@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -35,8 +35,26 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// Defines properties and methods for working with a field member.
     /// </summary>
     public interface IFieldMember :
+        IMetadataEntity,
         IMember
     {
+        /// <summary>
+        /// Returns the <see cref="FieldMemberAttributes"/> that determine how the
+        /// <see cref="IFieldMember"/> is shown in its scope and inherited scopes.
+        /// </summary>
+        new FieldMemberAttributes Attributes { get; }
+        /// <summary>
+        /// Returns whether the <see cref="IFieldMember"/> is read-only.
+        /// </summary>
+        /// <remarks>Read-only fields can only be initialized during the 
+        /// constructor phase of a type or instance.</remarks>
+        bool ReadOnly { get; }
+        /// <summary>
+        /// Returns whether the <see cref="IFieldMember"/> is a constant value.
+        /// </summary>
+        /// <remarks>Constant values are evaluated at compile-time and folded into
+        /// a single value of the appropriate data-type.</remarks>
+        bool Constant { get; }
         /// <summary>
         /// Returns the type of data stored in the field.
         /// </summary>

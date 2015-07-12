@@ -25,6 +25,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         private IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier;
         private _ICliManager identityManager;
         private ParameterDictionary parameters;
+        private CliMetadataCollection metadata;
         protected CliConstructorMember(TCtorParent parent, ICliMetadataMethodDefinitionTableRow metadataEntry, _ICliManager identityManager, IGeneralSignatureMemberUniqueIdentifier uniqueIdentifier)
             : base(parent, metadataEntry)
         {
@@ -61,7 +62,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             get {
                 if (this.Signature.Parameters.Count == 0)
                     return false;
-                return this.Parameters.Values.Last().IsDefined(this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum)));
+                return this.Parameters.Values.Last().IsDefined(this.IdentityManager.ObtainTypeReference(this.IdentityManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum), this.Assembly));
             }
         }
 
@@ -112,5 +113,25 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             return string.Format("constructor {0}::{1}", this.Parent, this.UniqueIdentifier);
         }
+
+        #region IMetadataEntity Members
+
+        public IMetadataCollection Metadata
+        {
+            get
+            {
+                if (this.metadata == null)
+                    this.metadata = new CliMetadataCollection(this.MetadataEntry.CustomAttributes, this, this.IdentityManager);
+                return this.metadata;
+            }
+        }
+
+        public bool IsDefined(IType metadatumType)
+        {
+            return this.Metadata.Contains(metadatumType);
+        }
+
+        #endregion
+
     }
 }

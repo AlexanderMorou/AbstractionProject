@@ -162,7 +162,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 if (this.onRemoveMethod == null)
                     this.onRemoveMethod = this.InitializeOnRemoveMethodSignature();
-                return this.onAddMethod;
+                return this.onRemoveMethod;
             }
         }
 

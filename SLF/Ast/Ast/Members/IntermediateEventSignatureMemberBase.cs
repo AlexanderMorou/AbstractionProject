@@ -6,7 +6,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using AllenCopeland.Abstraction.Slf.Cli;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -39,14 +39,14 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         where TEventParent :
             IEventSignatureParent<TEvent, TEventParent>
         where TIntermediateEventParent :
-            TEventParent,
-            IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>
+            IIntermediateEventSignatureParent<TEvent, TIntermediateEvent, TEventParent, TIntermediateEventParent>,
+            TEventParent
         where TMethodSignature :
             class,
             IIntermediateMethodSignatureMember
     {
         public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent) :
-            base(parent, parent.IdentityManager)
+            base(parent)
         {
         }
 
@@ -119,11 +119,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">A <typeparamref name="TIntermediateEventParent"/> instance
         /// which owns the current <see cref="IntermediateEventSignatureMemberBase{TEvent, TIntermediateEvent, TEventParameter, TIntermediateEventParameter, TEventParent, TIntermediateEventParent, TMethodSignature}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent, ITypeIdentityManager identityManager)
-            : base(parent, identityManager)
+        public IntermediateEventSignatureMemberBase(TIntermediateEventParent parent)
+            : base(parent, parent.Assembly)
         {
         }
 
@@ -281,7 +278,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                         if (this.IsDisposed)
                             throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
                         else
-                            this.metadata = new MetadataDefinitionCollection(this, this.Parent.IdentityManager);
+                            this.metadata = new MetadataDefinitionCollection(this, this.Parent.Assembly);
                     return this.metadata;
                 }
             }

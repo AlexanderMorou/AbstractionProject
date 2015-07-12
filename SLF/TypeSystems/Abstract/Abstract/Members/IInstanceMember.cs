@@ -1,6 +1,6 @@
 ﻿using System;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -11,7 +11,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
     /// Whether the instance member is static or hide by signature.
     /// </summary>
     [Flags]
-    public enum InstanceMemberFlags
+    public enum InstanceMemberAttributes
     {
         /// <summary>
         /// Member has no intance flags defined.
@@ -20,19 +20,19 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// Member is a static member.
         /// </summary>
-        /* 0000000000111000000001 */
-        Static      = 0xe01,
+        /* 000000000000000000001111100000000001 */
+        Static      = 0xf801,
         /// <summary>
         /// Member hides base's definition by signature only.
         /// </summary>
-        /* 0011000000000000010000 */
-        HideBySignature = 0xc0010,
+        /* 0000 00100000 00000000 00000000 00010000 */
+        HideBySignature = 0x20000010,
         /// <summary>
         /// Member hides base's definition by name, removing all
         /// previous identities under the name.
         /// </summary>
-        /* 0101000000000000100000 */
-        HideByName = 0x140020,
+        /* 000000100000000000000000000000100000 */
+        HideByName = 0x20000020,
         /// <summary>
         /// The instance member flags mask.
         /// </summary>
@@ -46,10 +46,10 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         IMember
     {
         /// <summary>
-        /// Returns the <see cref="ExtendedInstanceMemberFlags"/> that determine how the
-        /// <see cref="IExtendedInstanceMember"/> is shown in its scope and inherited scopes.
+        /// Returns the <see cref="InstanceMemberAttributes"/> that determine how the
+        /// <see cref="IInstanceMember"/> is shown in its scope and inherited scopes.
         /// </summary>
-        InstanceMemberFlags InstanceFlags { get; }
+        InstanceMemberAttributes Attributes { get; }
         /// <summary>
         /// Returns whether the <see cref="IInstanceMember"/>
         /// hides the original definition completely.

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Utilities.Services;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -12,7 +13,8 @@ using AllenCopeland.Abstraction.Slf.Abstract;
 
 namespace AllenCopeland.Abstraction.Slf.Languages
 {
-    public interface ILanguageProvider
+    public interface ILanguageProvider :
+        IServiceProvider<ILanguageService>
     {
         /// <summary>
         /// Returns the <see cref="ILanguage"/>
@@ -33,49 +35,10 @@ namespace AllenCopeland.Abstraction.Slf.Languages
         /// <paramref name="name"/> is <see cref="String.Empty"/>.</exception>
         IAssembly CreateAssembly(string name);
         /// <summary>
-        /// Returns whether the <see cref="ILanguageProvider"/> 
-        /// supports the <paramref name="service"/> provided.
-        /// </summary>
-        /// <param name="service">The <see cref="Guid"/> unique to the
-        /// service requested.</param>
-        /// <returns>true, if the service is supported; false, otherwise.</returns>
-        bool SupportsService(Guid service);
-        /// <summary>
-        /// Returns whether the <paramref name="service"/>
-        /// provided is assignable from the <typeparamref name="TService"/>
-        /// provided.
-        /// </summary>
-        /// <typeparam name="TService">The kind of service to check against the
-        /// active service in play.</typeparam>
-        /// <param name="service">The <see cref="Guid"/> of the service
-        /// to check for.</param>
-        /// <returns>true, if the <paramref name="service"/> requested is assignable
-        /// from the <typeparamref name="TService"/> provided.</returns>
-        bool ServiceIs<TService>(Guid service)
-            where TService :
-                ILanguageService;
-        /// <summary>
-        /// Obtains a <typeparamref name="TService"/> by its
-        /// <paramref name="service"/> <see cref="Guid"/>.
-        /// </summary>
-        /// <typeparam name="TService">The type of <see cref="ILanguageService"/>
-        /// to retrieve.</typeparam>
-        /// <param name="service">The <see cref="Guid"/> unique to the
-        /// service requested.</param>
-        /// <returns>The <typeparamref name="TService"/> by the <paramref name="service"/>
-        /// <see cref="Guid"/> provided.</returns>
-        TService GetService<TService>(Guid service)
-            where TService :
-                ILanguageService;
-
-        bool TryGetService<TService>(Guid serviceGuid, out TService service)
-            where TService :
-                ILanguageService;
-        /// <summary>
-        /// Returns the <see cref="ITypeIdentityManager"/> which maintains
+        /// Returns the <see cref="IIdentityManager"/> which maintains
         /// the identity of types within the current type model.
         /// </summary>
-        ITypeIdentityManager IdentityManager { get; }
+        IIdentityManager IdentityManager { get; }
     }
 
     public interface ILanguageProvider<TLanguage, TProvider> :

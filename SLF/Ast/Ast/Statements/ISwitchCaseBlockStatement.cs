@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -37,5 +37,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// represents the default case
         /// </summary>
         bool IsDefault { get; set; }
+        /// <summary>
+        /// Returns/sets whether the <see cref="ISwitchCaseBlockStatement"/> should
+        /// have a new line after each of its <see cref="Cases"/>.
+        /// </summary>
+        /// <remarks>A given language's compliance with this property is optional.</remarks>
+        bool LineBreakAfterEachCase { get; set; }
+        IGoToCaseStatement GetGoTo(IStatementParent gotoContainer);
     }
 }

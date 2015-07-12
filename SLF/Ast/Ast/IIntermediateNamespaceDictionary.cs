@@ -4,7 +4,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Ast;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -58,5 +58,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// the path of the <see cref="IIntermediateNamespaceDeclaration"/> to retrieve.</param>
         /// <returns></returns>
         new IIntermediateNamespaceDeclaration this[string path] { get; }
+        /// <summary>
+        /// Returns an <see cref="Int32"/> value denoting the
+        /// nubmer of namespaces which belong to the 
+        /// <paramref name="parent"/> provided.
+        /// </summary>
+        /// <param name="parent">The <see cref="IIntermediateNamespaceParent"/>
+        /// which contains the namespaces.</param>
+        /// <returns>An <see cref="Int32"/> value denoting the
+        /// nubmer of namespaces which belong to the 
+        /// <paramref name="parent"/> provided.</returns>
+        int GetCountFor(IIntermediateNamespaceParent parent);
     }
 }

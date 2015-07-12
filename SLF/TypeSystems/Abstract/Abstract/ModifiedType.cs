@@ -5,6 +5,7 @@ using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf._Internal.Abstract;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf.Abstract
 {
     internal class ModifiedType :
@@ -104,7 +105,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             throw new NotImplementedException();
         }
 
-        protected override IMetadataCollection InitializeCustomAttributes()
+        protected override IMetadataCollection InitializeMetadata()
         {
             return this.original.Metadata;
         }
@@ -114,7 +115,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract
             get { return this.original.AggregateIdentifiers; }
         }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override IIdentityManager OnGetManager()
         {
             return this.original.IdentityManager;
         }

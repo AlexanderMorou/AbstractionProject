@@ -57,7 +57,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 return new TypeParameter(this, metadataEntry, index);
             }
-            private class TypeParameter :
+            private new class TypeParameter :
                 CliMethodSignatureBase<IMethodSignatureParameterMember<IInterfaceMethodMember, IInterfaceType>, IInterfaceMethodMember, IInterfaceType>.TypeParameter
             {
                 public TypeParameter(Method parent, ICliMetadataGenericParameterTableRow metadataEntry, int position)
@@ -72,7 +72,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
                     return this.Parent.Assembly;
                 }
 
-                protected override ITypeIdentityManager OnGetManager()
+                protected override IIdentityManager OnGetManager()
                 {
                     return this.Parent.IdentityManager;
                 }

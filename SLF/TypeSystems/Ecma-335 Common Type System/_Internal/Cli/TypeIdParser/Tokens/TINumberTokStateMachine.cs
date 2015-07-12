@@ -61,16 +61,20 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.TypeIdParser.Tokens
                     if (('0' <= @char) && (@char <= '9'))
                         goto MOVETOSTATE1;
                     break;
+                case 1:
+                    if (('0' <= @char) && (@char <= '9'))
+                        goto NOMINAL_EXIT;
+                    break;
+
             }
             return false;
         MOVETOSTATE1:
             this.state = 1;
             this.exitState = true;
-            goto TERMINAL_EXIT;
-        TERMINAL_EXIT:
+        NOMINAL_EXIT:
             this.Push(@char);
             this.exitlength = this.actualSize;
-            return false;
+            return true;
         }
         
         public string GetCapture()

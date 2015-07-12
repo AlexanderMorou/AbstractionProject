@@ -220,7 +220,7 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 object item = base.Items[index];
                 if (item is ImageObjectItem)
                 {
-                    ImageObjectItem imageItem = item as ImageObjectItem;
+                    ImageObjectItem imageItem = (ImageObjectItem)item;
                     SizeF stringSize = e.Graphics.MeasureString(imageItem.Text, this.Font);
                     e.ItemHeight = this.GetBaseItemHeight(e.Graphics, stringSize);
                     if (this.Style != null)
@@ -243,13 +243,14 @@ namespace AllenCopeland.Abstraction.OwnerDrawnControls
                 object item = base.Items[index];
                 if (item is ImageObjectItem)
                 {
+                    ImageObjectItem imageItem = (ImageObjectItem)item;
                     DrawItemState newState = e.State;
-                    if (!((ImageObjectItem)(item)).Enabled)
+                    if (!imageItem.Enabled)
                         newState |= DrawItemState.Disabled;
                     if (newState != e.State)
                         e = new DrawItemEventArgs(e.Graphics, e.Font, e.Bounds, e.Index, newState);
                     if (this.Style != null)
-                        this.Style.OnDrawItemEvent(item as ImageObjectItem, e, this.Font);
+                        this.Style.OnDrawItemEvent(imageItem, e, this.Font);
                 }
             }
             base.OnDrawItem(e);

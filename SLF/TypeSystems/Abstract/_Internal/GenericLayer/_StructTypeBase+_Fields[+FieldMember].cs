@@ -5,7 +5,7 @@ using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
 using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 /*---------------------------------------------------------------------\
-| Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
 |----------------------------------------------------------------------|
 | The Abstraction Project's code is provided under a contract-release  |
 | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -35,9 +35,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #region IInstanceMember Members
 
-                public InstanceMemberFlags InstanceFlags
+                InstanceMemberAttributes IInstanceMember.Attributes
                 {
-                    get { return Original.InstanceFlags; }
+                    get { return ((InstanceMemberAttributes)(this.Attributes)) & InstanceMemberAttributes.FlagsMask; }
                 }
 
                 public bool IsStatic
@@ -52,6 +52,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.GenericLayer
 
                 #endregion
 
+                public InstanceFieldMemberAttributes Attributes { get { return this.Original.Attributes; } }
 
                 #region IScopedDeclaration Members
 

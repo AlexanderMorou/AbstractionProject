@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -15,7 +15,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
     /// The functional kind of a statement.
     /// </summary>
     [Flags]
-    public enum StatementKinds
+    public enum StatementKinds :
+        ulong
     {
         
         None                                = 0x0000000000000000,
@@ -101,7 +102,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// </summary>
         /// <remarks>Upon completion of the statement block
         /// the used component is disposed.</remarks>
-        UsingStatement                      = 0x0000000000000400,
+        UsingBlockStatement                 = 0x0000000000000400,
         /// <summary>
         /// The statement repeats the block until the condition
         /// for the iteration is false.
@@ -210,8 +211,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// </summary>
         AwaitStatement                      = 0x0000000020000000,
         /// <summary>
+        /// The statement represents a monitor enter/exit block.
+        /// </summary>
+        LockStatement                       = 0x0000000040000000,
+        /// <summary>
+        /// The statement represents a using statement where the 
+        /// expression targeted as a resource acquisition is disposed upon exit.
+        /// </summary>
+        UsingExpressionStatement            = 0x0000000080000000,
+        /// <summary>
         /// All statements.
         /// </summary>
-        All                                 = 0x000000003FFFFFFF,
+        All                                 = 0x00000000FFFFFFFF,
     }
 }

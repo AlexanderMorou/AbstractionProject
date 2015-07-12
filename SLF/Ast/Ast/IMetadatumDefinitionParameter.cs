@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using AllenCopeland.Abstraction.Slf.Abstract;
+using AllenCopeland.Abstraction.Slf.Ast.Expressions;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -17,18 +18,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     /// custom attribute definition parameter.
     /// </summary>
     public interface IMetadatumDefinitionParameter :
+        IExpression,
         IDisposable
     {
-        /// <summary>
-        /// Returns the <see cref="IMetadatumDefinitionParameter"/>
-        /// value defined on one of the <see cref="IMetadatumDefinition"/>'s
-        /// constructor argument(s).
-        /// </summary>
-        object Value { get; }
+        object Value { get; set; }
         /// <summary>
         /// Returns the <see cref="IType"/> which denotes the kind of
         /// <see cref="Value"/>.
         /// </summary>
+        /// <remarks>If the parameter value is supposed to be an
+        /// expression, this can be null if binding has not occurred.</remarks>
         IType ParameterType { get; }
     }
 }

@@ -8,15 +8,23 @@ using AllenCopeland.Abstraction.Slf.Cli.Metadata;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Tables;
 using AllenCopeland.Abstraction.Slf.Cli.Metadata.Blobs;
 using AllenCopeland.Abstraction.Slf.Cli;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
 namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
 {
     internal abstract class CliMethodSignatureBase<TSignature, TSignatureParent> :
-        CliMethodSignatureBase<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>
+        CliMethodSignatureBase<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>,
+        _IGenericMethodSignatureRegistrar
         where TSignature :
             IMethodSignatureMember<TSignature, TSignatureParent>
         where TSignatureParent :
             IMethodSignatureParent<TSignature, TSignatureParent>
     {
+        /// <summary>
+        /// Data member for maintaining a single-ton view of the generic
+        /// closures of the generic series.
+        /// </summary>
+        private GenericMethodSignatureCache<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent> genericCache;
 
         protected CliMethodSignatureBase(ICliMetadataMethodDefinitionTableRow metadata, _ICliAssembly assembly, TSignatureParent parent, IGeneralGenericSignatureMemberUniqueIdentifier uniqueIdentifier)
             : base(metadata, assembly, parent, uniqueIdentifier)
@@ -36,7 +44,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             private new CliMethodSignatureBase<TSignature, TSignatureParent> Parent { get { return ((CliMethodSignatureBase<TSignature, TSignatureParent>) (object) base.Parent); } }
 
             public ParameterMemberDictionary(CliMethodSignatureBase<TSignature, TSignatureParent> signature)
-                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot, (TSignature)(object)signature)
+                : base(signature.IdentityManager, signature.MetadataEntry.Index, signature.MetadataEntry.MetadataRoot, (TSignature)(object)signature, signature)
             {
             }
 
@@ -82,6 +90,48 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             {
                 return this.UniqueIdentifier.ToString();
             }
+        }
+
+
+        private void CheckGenericCache()
+        {
+            if (this.genericCache == null)
+                this.genericCache = new GenericMethodSignatureCache<IMethodSignatureParameterMember<TSignature, TSignatureParent>, TSignature, TSignatureParent>();
+        }
+
+
+        #region _IGenericMethodSignatureRegistrar Members
+
+        public void RegisterGenericChild(IMethodSignatureParent parent, IMethodSignatureMember genericChild)
+        {
+            this.CheckGenericCache();
+            this.genericCache.RegisterGenericChild(parent, genericChild);
+        }
+
+        public void UnregisterGenericChild(IMethodSignatureParent parent)
+        {
+            this.CheckGenericCache();
+            this.genericCache.UnregisterGenericChild(parent);
+        }
+
+        public void RegisterGenericMethod(IMethodSignatureMember targetSignature, IControlledTypeCollection typeParameters)
+        {
+            this.CheckGenericCache();
+            this.genericCache.RegisterGenericMethod(targetSignature, typeParameters);
+        }
+
+        public void UnregisterGenericMethod(IControlledTypeCollection typeParameters)
+        {
+            this.CheckGenericCache();
+            this.genericCache.UnregisterGenericMethod(typeParameters);
+        }
+
+        #endregion
+
+        protected override bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TSignature r)
+        {
+            this.CheckGenericCache();
+            return this.genericCache.ContainsGenericMethod(typeParameters, ref r);
         }
     }
 

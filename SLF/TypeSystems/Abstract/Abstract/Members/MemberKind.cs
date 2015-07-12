@@ -20,7 +20,7 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// <summary>
         /// The member is a method.
         /// </summary>
-        Method,
+        Method = ((MemberKind)TypeKind.Last) + 1,
         /// <summary>
         /// The member is a method parameter.
         /// </summary>
@@ -123,5 +123,9 @@ namespace AllenCopeland.Abstraction.Slf.Abstract.Members
         /// overloads.
         /// </summary>
         UnaryExpressionCoercionMember,
+        /// <summary>
+        /// Denotes the last element of <see cref="MemberKind"/>
+        /// </summary>
+        Last,
     }
 }

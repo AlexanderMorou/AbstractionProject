@@ -21,8 +21,10 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         IIdentityManager<ICliMetadataTypeDefinitionTableRow, ICliMetadataAssemblyTableRow>,
         IIdentityManager<ICliMetadataTypeRefTableRow, ICliMetadataAssemblyRefTableRow>,
         ITypeIdentityManager<ICliMetadataTypeSpecificationTableRow>,
-        ITypeIdentityManager<ICliMetadataTypeDefOrRefRow>
+        ITypeIdentityManager<ICliMetadataTypeDefOrRefRow>,
+        IDisposable
     {
+        event EventHandler Disposed;
         /// <summary>
         /// Obtains a <see cref="ICopmiledAssembly"/> reference by the filename.
         /// </summary>
@@ -42,13 +44,13 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <summary>
         /// Returns the <see cref="IType"/> from the <paramref name="coreType"/> provided.
         /// </summary>
-        /// <param name="coreType">The <see cref="RuntimeCoreType"/> which denotes the
+        /// <param name="coreType">The <see cref="CliRuntimeCoreType"/> which denotes the
         /// core type to obtain a type reference of.</param>
         /// <param name="relativeSource">The <see cref="IAssembly"/> which represents
         /// the lookup scope for the type to retrieve.</param>
         /// <returns>A <see cref="IType"/> relative to the <paramref name="coreType"/>
         /// within the scope of <paramref name="relativeSource"/>.</returns>
-        IType ObtainTypeReference(RuntimeCoreType coreType, IAssembly relativeSource);
+        IType ObtainTypeReference(CliRuntimeCoreType coreType, IAssembly relativeSource);
         /// <summary>
         /// Returns the <see cref="IType"/> from the <paramref name="uniqueIdentifier"/> provided.
         /// </summary>
@@ -60,5 +62,6 @@ namespace AllenCopeland.Abstraction.Slf.Cli
         /// <returns>A <see cref="IType"/> relative to the <paramref name="uniqueIdentifier"/>
         /// within the scope of <paramref name="relativeSource"/>.</returns>
         IType ObtainTypeReference(IGeneralTypeUniqueIdentifier uniqueIdentifier, IAssembly relativeSource);
+        event EventHandler<CliAssemblyLoadedEventArgs> AssemblyLoaded;
     }
 }

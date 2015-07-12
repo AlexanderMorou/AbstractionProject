@@ -5,7 +5,7 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -48,7 +48,7 @@ namespace AllenCopeland.Abstraction.Numerics
         }
         internal int NumPlaces(BigInteger value)
         {
-            var l = value == 0 ? 0 : BigInteger.Log10(value) / Math.Log10(this.baseEntities.Count);
+            var l = value == 0 ? 0 : BigInteger.Log10(value) / BigInteger.Log10(this.baseEntities.Count);
             if (((int)l) == l)
                 return ((int)(l + 1));
             return (int)Math.Ceiling(l);

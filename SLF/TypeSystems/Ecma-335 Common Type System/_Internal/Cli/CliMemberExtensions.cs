@@ -236,15 +236,38 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
         internal static IBinaryOperatorUniqueIdentifier GetBinaryOperatorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
-            var left = manager.ObtainTypeReference(methodDef.Signature.Parameters[0].ParameterType, owner, null);
-            var right = manager.ObtainTypeReference(methodDef.Signature.Parameters[1].ParameterType, owner, null);
+            var left = manager.ObtainTypeReference(methodDef.Signature.Parameters[0].ParameterType, owner, null, owner == null ? null : owner.Assembly);
+            var right = manager.ObtainTypeReference(methodDef.Signature.Parameters[1].ParameterType, owner, null, owner == null ? null : owner.Assembly);
             BinaryOpCoercionContainingSide containingSide =
                 (left == owner && right == owner) ? BinaryOpCoercionContainingSide.Both :
                     left == owner ? BinaryOpCoercionContainingSide.LeftSide :
                     right == owner ? BinaryOpCoercionContainingSide.RightSide : BinaryOpCoercionContainingSide.Invalid;
             IType otherSide = containingSide == BinaryOpCoercionContainingSide.LeftSide ?
-                right : containingSide == BinaryOpCoercionContainingSide.RightSide ?
-                left : owner;
+                  right : containingSide == BinaryOpCoercionContainingSide.RightSide ?
+                  left : owner;
+            if (containingSide == BinaryOpCoercionContainingSide.Invalid)
+            {
+                /* *
+                 * Fix for generic types which have binary operators which contain the owner's type-parameters as part of a closure.
+                 * This is effectively redundant 
+                 * */
+                var genericOwner = owner as IGenericType;
+                if (genericOwner != null)
+                {
+                    if (genericOwner.IsGenericConstruct && genericOwner.IsGenericDefinition)
+                    {
+                        var genericOwnerSelfClosure = genericOwner.MakeGenericClosure((from IGenericParameter gp in genericOwner.TypeParameters.Values
+                                                                                       select (IType)gp).ToArray());
+                        containingSide =
+                            (left  == genericOwnerSelfClosure && right == genericOwnerSelfClosure) ? BinaryOpCoercionContainingSide.Both :
+                             left  == genericOwnerSelfClosure ? BinaryOpCoercionContainingSide.LeftSide :
+                             right == genericOwnerSelfClosure ? BinaryOpCoercionContainingSide.RightSide : BinaryOpCoercionContainingSide.Invalid;
+                    }
+                    otherSide = containingSide == BinaryOpCoercionContainingSide.LeftSide ?
+                                right : containingSide == BinaryOpCoercionContainingSide.RightSide ?
+                                left : genericOwner;
+                }
+            }
             switch (methodDef.Name)
             {
                 case CliCommon.BinaryOperatorNames.Addition:
@@ -287,13 +310,13 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
         internal static ISignatureMemberUniqueIdentifier GetCtorIdentifier(ICliMetadataMethodDefinitionTableRow methodDef, IType owner, _ICliManager manager)
         {
             return TypeSystemIdentifiers.GetCtorSignatureIdentifier((from p in methodDef.Signature.Parameters
-                                                             select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
+                                                             select manager.ObtainTypeReference(p.ParameterType, owner, null, owner == null ? null : owner.Assembly)).SinglePass());
         }
 
         internal static ISignatureMemberUniqueIdentifier GetEventIdentifier(ICliMetadataEventTableRow eventDef, IType owner, _ICliManager manager)
         {
-            return TypeSystemIdentifiers.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType, owner, null)).Parameters.Values
-                                                                        select p.ParameterType).SinglePass());
+            return TypeSystemIdentifiers.GetSignatureIdentifier(eventDef.Name, (from p in ((IDelegateType)manager.ObtainTypeReference(eventDef.SignatureType, owner, null, owner == null ? null : owner.Assembly)).Parameters.Values
+                                                                                select p.ParameterType).SinglePass());
         }
 
         internal static IMemberUniqueIdentifier GetFieldIdentifier(ICliMetadataFieldTableRow fieldDef)
@@ -320,7 +343,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             }
             if (targetMethod != null)
                 return TypeSystemIdentifiers.GetSignatureIdentifier(indexerDef.Name, (from p in (knockOffLast ? targetMethod.Signature.Parameters.Take(targetMethod.Signature.Parameters.Count - 1) : targetMethod.Signature.Parameters)
-                                                                              select manager.ObtainTypeReference(p.ParameterType, owner, null)).SinglePass());
+                                                                                      select manager.ObtainTypeReference(p.ParameterType, owner, null, owner == null ? null : owner.Assembly)).SinglePass());
             else
                 return TypeSystemIdentifiers.GetSignatureIdentifier(indexerDef.Name);
         }
@@ -330,10 +353,10 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             bool typeParamCheck = methodDef.MetadataRoot.TableStream.GenericParameterTable != null;
             if (typeParamCheck)
                 return TypeSystemIdentifiers.GetGenericSignatureIdentifier(methodDef.Name, methodDef.TypeParameters.Count, (from p in methodDef.Signature.Parameters
-                                                                                                                            select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
+                                                                                                                            select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter(), owner == null ? null : owner.Assembly)).SinglePass());
             else
                 return TypeSystemIdentifiers.GetGenericSignatureIdentifier(methodDef.Name, 0, (from p in methodDef.Signature.Parameters
-                                                                                               select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter())).SinglePass());
+                                                                                               select manager.ObtainTypeReference(p.ParameterType, owner, memberGetter(), owner == null ? null : owner.Assembly)).SinglePass());
         }
 
         internal static IMemberUniqueIdentifier GetPropertyIdentifier(ICliMetadataPropertyTableRow propertyDef)
@@ -346,8 +369,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var coercionParameter = methodDef.Signature.Parameters.FirstOrDefault();
             if (coercionParameter == null)
                 return null;
-            var coercionType = manager.ObtainTypeReference(coercionParameter.ParameterType, owner, null);
-            var returnType = manager.ObtainTypeReference(methodDef.Signature.ReturnType, owner, null);
+            var coercionType = manager.ObtainTypeReference(coercionParameter.ParameterType, owner, null, owner == null ? null : owner.Assembly);
+            var returnType = manager.ObtainTypeReference(methodDef.Signature.ReturnType, owner, null, owner == null ? null : owner.Assembly);
             if (coercionType == null || returnType == null)
                 return null;
             var genericOwner = owner as IGenericType;
@@ -447,7 +470,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             var lastParam = @params.Count == 0 ? (TParameter)null : @params[@params.Keys[@params.Count - 1]];
             if (lastParam == null)
                 return false;
-            return lastParam.IsDefined(manager.ObtainTypeReference(manager.RuntimeEnvironment.ParamArrayMetadatum));
+            return lastParam.IsDefined(manager.ObtainTypeReference(assembly.RuntimeEnvironment.ParamArrayMetadatum, assembly));
         }
 
         internal static AccessLevelModifiers ObtainAccessLevelModifiers(this IEnumerable<ICliMetadataMethodDefinitionTableRow> methods)

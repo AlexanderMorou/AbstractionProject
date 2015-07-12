@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Utilities.Properties;
 using System.ComponentModel;
 using AllenCopeland.Abstraction.Slf.Ast.Modules;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -100,6 +100,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 return this.GetRoot().Name;
         }
 
+        /// <summary>
+        /// Implementation which sets the name of the <see cref="IntermediateGenericSegmentableType{TTypeIdentifier, TType, TIntermediateType, TInstanceIntermediateType}"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="String"/> value representing the unique
+        /// name of the type within the current context.</param>
         protected override void OnSetName(string value)
         {
             if (this.IsRoot)
@@ -179,6 +184,20 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get { return this.rootType == null; }
         }
 
+        /// <summary>
+        /// Returns whether the current type is a generic type with <see cref="GenericParameters"/>.
+        /// </summary>
+        public override bool IsGenericConstruct
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return base.IsGenericConstruct;
+                else
+                    return this.GetRoot().IsGenericConstruct;
+            }
+        }
+
         IIntermediateSegmentableDeclaration IIntermediateSegmentableDeclaration.GetRoot()
         {
             return this.GetRoot();
@@ -226,6 +245,44 @@ namespace AllenCopeland.Abstraction.Slf.Ast
             get
             {
                 return this.parts != null;
+            }
+        }
+
+        public override string SummaryText
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return base.SummaryText;
+                else
+                    return this.GetRoot().SummaryText;
+            }
+            set
+            {
+                if (this.IsRoot)
+                    base.SummaryText = value;
+                else
+                    this.GetRoot().SummaryText = value;
+                
+            }
+        }
+
+        public override string RemarksText
+        {
+            get
+            {
+                if (this.IsRoot)
+                    return base.RemarksText;
+                else
+                    return this.GetRoot().RemarksText;
+            }
+            set
+            {
+                if (this.IsRoot)
+                    base.RemarksText = value;
+                else
+                    this.GetRoot().RemarksText = value;
+
             }
         }
     }

@@ -119,7 +119,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
             }
         }
 
-        public ExtendedInstanceMemberFlags InstanceFlags
+        public ExtendedMemberAttributes Attributes
         {
             get { throw new NotImplementedException(); }
         }
@@ -129,7 +129,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return (this.InstanceFlags & ExtendedInstanceMemberFlags.Abstract) == ExtendedInstanceMemberFlags.Abstract;
+                return (this.Attributes & ExtendedMemberAttributes.Abstract) == ExtendedMemberAttributes.Abstract;
             }
         }
 
@@ -137,7 +137,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return (this.InstanceFlags & ExtendedInstanceMemberFlags.Virtual) == ExtendedInstanceMemberFlags.Virtual;
+                return (this.Attributes & ExtendedMemberAttributes.Virtual) == ExtendedMemberAttributes.Virtual;
             }
         }
 
@@ -145,7 +145,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return (this.InstanceFlags & ExtendedInstanceMemberFlags.Final) == ExtendedInstanceMemberFlags.Final;
+                return (this.Attributes & ExtendedMemberAttributes.Final) == ExtendedMemberAttributes.Final;
             }
         }
 
@@ -153,15 +153,15 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return (this.InstanceFlags & ExtendedInstanceMemberFlags.Override) == ExtendedInstanceMemberFlags.Override;
+                return (this.Attributes & ExtendedMemberAttributes.Override) == ExtendedMemberAttributes.Override;
             }
         }
 
-        InstanceMemberFlags IInstanceMember.InstanceFlags
+        InstanceMemberAttributes IInstanceMember.Attributes
         {
             get
             {
-                return ((InstanceMemberFlags)this.InstanceFlags) & InstanceMemberFlags.FlagsMask;
+                return ((InstanceMemberAttributes)this.Attributes) & InstanceMemberAttributes.FlagsMask;
             }
         }
 
@@ -169,7 +169,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return (this.InstanceFlags & ExtendedInstanceMemberFlags.HideBySignature) == ExtendedInstanceMemberFlags.HideBySignature;
+                return (this.Attributes & ExtendedMemberAttributes.HideBySignature) == ExtendedMemberAttributes.HideBySignature;
             }
         }
 
@@ -177,7 +177,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli.Members
         {
             get
             {
-                return ((this.InstanceFlags & ExtendedInstanceMemberFlags.Static) == ExtendedInstanceMemberFlags.Static);
+                return ((this.Attributes & ExtendedMemberAttributes.Static) == ExtendedMemberAttributes.Static);
             }
         }
 

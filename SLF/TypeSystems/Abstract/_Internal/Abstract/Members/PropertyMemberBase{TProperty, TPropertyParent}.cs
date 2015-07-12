@@ -1,7 +1,7 @@
 ﻿using AllenCopeland.Abstraction.Slf.Abstract;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -225,26 +225,26 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         public abstract bool IsAbstract { get; }
 
         /// <summary>
-        /// Returns the <see cref="ExtendedInstanceMemberFlags"/> that determine how the
+        /// Returns the <see cref="ExtendedMemberAttributes"/> that determine how the
         /// <see cref="IExtendedInstanceMember"/> is shown in its scope and inherited scopes.
         /// </summary>
-        public ExtendedInstanceMemberFlags InstanceFlags
+        public ExtendedMemberAttributes Attributes
         {
             get
             {
-                ExtendedInstanceMemberFlags imfs = ExtendedInstanceMemberFlags.None;
+                ExtendedMemberAttributes imfs = ExtendedMemberAttributes.None;
                 if (this.IsStatic)
-                    imfs |= ExtendedInstanceMemberFlags.Static;
+                    imfs |= ExtendedMemberAttributes.Static;
                 if (this.IsVirtual)
-                    imfs |= ExtendedInstanceMemberFlags.Virtual;
+                    imfs |= ExtendedMemberAttributes.Virtual;
                 if (this.IsOverride)
-                    imfs |= ExtendedInstanceMemberFlags.Override;
+                    imfs |= ExtendedMemberAttributes.Override;
                 if (this.IsFinal)
-                    imfs |= ExtendedInstanceMemberFlags.Final;
+                    imfs |= ExtendedMemberAttributes.Final;
                 if (this.IsHideBySignature)
-                    imfs |= ExtendedInstanceMemberFlags.HideBySignature;
+                    imfs |= ExtendedMemberAttributes.HideBySignature;
                 if (this.IsAbstract)
-                    imfs |= ExtendedInstanceMemberFlags.Abstract;
+                    imfs |= ExtendedMemberAttributes.Abstract;
                 return imfs;
             }
         }
@@ -263,9 +263,9 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Abstract.Members
         protected abstract AccessLevelModifiers AccessLevelImpl { get; }
         #region IInstanceMember Members
 
-        InstanceMemberFlags IInstanceMember.InstanceFlags
+        InstanceMemberAttributes IInstanceMember.Attributes
         {
-            get { return (InstanceMemberFlags)this.InstanceFlags; }
+            get { return (InstanceMemberAttributes)this.Attributes; }
         }
 
         #endregion

@@ -7,7 +7,7 @@ using AllenCopeland.Abstraction.Utilities.Events;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Slf.Abstract;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             TGrandParent
     {
         private IntermediateParameterMemberDictionary<TParent, TIntermediateParent, TParameter, TIntermediateParameter> parameters;
-        private ITypeIdentityManager identityManager;
+        private IIntermediateAssembly assembly;
 
         /// <summary>
         /// Creates a new <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>
@@ -63,13 +63,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateGrandParent"/>
         /// which contains the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public IntermediateParameterParentMemberBase(TIntermediateGrandParent parent, ITypeIdentityManager identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the parameter parent member.</param>
+        public IntermediateParameterParentMemberBase(TIntermediateGrandParent parent, IIntermediateAssembly assembly)
             : base(parent)
         {
-            this.identityManager = identityManager;
+            this.assembly = assembly;
         }
 
         /// <summary>
@@ -80,13 +79,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateGrandParent"/>
         /// which contains the <see cref="IntermediateParameterParentMemberBase{TParentIdentifier, TParent, TIntermediateParent, TParameter, TIntermediateParameter, TGrandParent, TIntermediateGrandParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public IntermediateParameterParentMemberBase(string name, TIntermediateGrandParent parent, ITypeIdentityManager identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/>
+        /// which contains the parameter parent member.</param>
+        public IntermediateParameterParentMemberBase(string name, TIntermediateGrandParent parent, IIntermediateAssembly assembly)
             : base(name, parent)
         {
-            this.identityManager = identityManager;
+            this.assembly = assembly;
         }
 
         /// <summary>
@@ -217,10 +215,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 var lastParam = this.parameters.Values.LastOrDefault();
                 if (lastParam == null)
                     return false;
-                var cliManager = this.identityManager as ICliManager;
-                if (cliManager == null)
+                IIdentityVariableLengthParameterService lastIsParams;
+                if (this.IdentityManager.TryGetService<IIdentityVariableLengthParameterService>(IdentityServiceGuids.VariableLengthParameterService, out lastIsParams))
+                    return lastIsParams.LastIsVariableLengthParameter(this);
+                else
                     return false;
-                return lastParam.Metadata.Contains(cliManager.ObtainTypeReference(cliManager.RuntimeEnvironment.GetCoreIdentifier(CliRuntimeCoreType.ParamArrayMetadatum)));
             }
         }
 
@@ -305,6 +304,9 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         #endregion
 
-        public ITypeIdentityManager IdentityManager { get { return this.identityManager; } }
+        public IIntermediateAssembly Assembly { get { return this.assembly; } }
+
+        public IIntermediateIdentityManager IdentityManager { get { return this.Assembly.IdentityManager; } }
+
     }
 }

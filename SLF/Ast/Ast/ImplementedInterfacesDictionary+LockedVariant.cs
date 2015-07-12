@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -57,9 +57,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         internal class LockedVariant :
             ILockedTypeCollection
         {
-
-            public LockedVariant(ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> parent)
+            private bool direct;
+            public LockedVariant(ImplementedInterfacesDictionary<TEvent, TIntermediateEvent, TIndexer, TIntermediateIndexer, TMethod, TIntermediateMethod, TProperty, TIntermediateProperty, TType, TIntermediateType> parent, bool direct = false)
             {
+                this.direct = direct;
                 this.Parent = parent;
             }
 
@@ -87,7 +88,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public int IndexOf(IType type)
             {
-                return this.Parent.IndexOf(type);
+                return this.Parent.GetEnumerableInternal(direct).GetIndexOf(type);
             }
 
             #endregion
@@ -96,7 +97,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public int Count
             {
-                get { return this.Parent.Count; }
+                get
+                {
+
+                    return this.Parent.GetEnumerableInternal(direct).Count();
+                }
             }
 
             public bool Contains(IType item)
@@ -111,12 +116,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public IType this[int index]
             {
-                get { return ((IControlledTypeCollection)this.Parent)[index]; }
+                get { return this.Parent.GetEnumerableInternal(direct).ElementAt(index); }
             }
 
             public IType[] ToArray()
             {
-                return ((IControlledTypeCollection)this.Parent).ToArray();
+                return this.Parent.GetEnumerableInternal(direct).ToArray();
             }
 
             #endregion
@@ -125,7 +130,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
             public IEnumerator<IType> GetEnumerator()
             {
-                return ((IControlledTypeCollection)this.Parent).GetEnumerator();
+                return this.Parent.GetEnumerableInternal(direct).GetEnumerator();
             }
 
             #endregion
@@ -168,6 +173,91 @@ namespace AllenCopeland.Abstraction.Slf.Ast
     }
     partial class ImplementedInterfacesCollection
     {
+        internal class LockedLocalVariant :
+            ILockedTypeCollection
+        {
+            private ImplementedInterfacesCollection parent;
+
+            internal LockedLocalVariant(ImplementedInterfacesCollection parent)
+            {
+                this.parent = parent;
+            }
+
+            public bool IsDisposed
+            {
+                get { return this.parent == null; }
+            }
+
+            public int IndexOf(IType type)
+            {
+                if (this.parent.copy == null)
+                    return -1;
+                return this.parent.Copy.IndexOf(type);
+            }
+
+            public int Count
+            {
+                get { return this.parent.Count; }
+            }
+
+            public bool Contains(IType item)
+            {
+                if (this.parent.copy == null)
+                    return false;
+                return this.parent.copy.Contains(item);
+            }
+
+            public void CopyTo(IType[] array, int arrayIndex = 0)
+            {
+                if (this.parent.copy != null)
+                    this.parent.copy.CopyTo(array, arrayIndex);
+            }
+
+            public IType this[int index]
+            {
+                get {
+                    if (this.parent.copy == null)
+                        throw new ArgumentOutOfRangeException("index");
+                    return this.parent.copy[index];
+                }
+            }
+
+            public IType[] ToArray()
+            {
+                if (this.parent.copy == null)
+                    return new IType[0];
+                return this.parent.copy.ToArray();
+            }
+
+            public IEnumerator<IType> GetEnumerator()
+            {
+                if (this.parent.copy == null)
+                    yield break;
+                foreach (var element in this.parent.copy)
+                    yield return element;
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+
+            public bool Equals(IControlledTypeCollection other)
+            {
+                if (this.parent.copy == null)
+                    return other != null && other.Count == 0;
+                if (other == null)
+                    return false;
+                if (object.ReferenceEquals(other, this))
+                    return true;
+                return this.SequenceEqual(other);
+            }
+
+            public void Dispose()
+            {
+                this.parent = null;
+            }
+        }
         internal class LockedVariant :
             ILockedTypeCollection
         {

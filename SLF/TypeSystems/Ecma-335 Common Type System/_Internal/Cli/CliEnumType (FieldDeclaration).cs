@@ -12,7 +12,8 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
     partial class CliEnumType
     {
         private class FieldMember :
-            CliFieldMember<IEnumFieldMember, IEnumType>
+            CliFieldMember<IEnumFieldMember, IEnumType>,
+            IEnumFieldMember
         {
             internal FieldMember(CliEnumType parent, ICliMetadataFieldTableRow metadataEntry, IGeneralMemberUniqueIdentifier uniqueIdentifier)
                 : base(parent, metadataEntry, uniqueIdentifier)
@@ -23,6 +24,12 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
             {
                 return IdentityManager.ObtainTypeReference(this.MetadataEntry.FieldType, this.MetadataEntry.FieldType.Type, this.Parent.Parent is IGenericType ? (IType)this.Parent.Parent : null, null);
             }
+
+            protected override _ICliManager _IdentityManager
+            {
+                get { return this.IdentityManager; }
+            }
+
         }
     }
 }

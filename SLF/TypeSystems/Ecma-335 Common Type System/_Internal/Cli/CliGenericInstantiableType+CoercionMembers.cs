@@ -173,7 +173,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IType ReturnType
             {
-                get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null); }
+                get { return this.IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null, this.Parent.Assembly); }
             }
 
             #region IMetadataEntity Members
@@ -355,7 +355,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Cli
 
             public IType ResultedType
             {
-                get { return this._IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null); }
+                get { return this._IdentityManager.ObtainTypeReference(this.MetadataEntry.Signature.ReturnType, this.Parent, null, this.Parent.Assembly); }
             }
 
 

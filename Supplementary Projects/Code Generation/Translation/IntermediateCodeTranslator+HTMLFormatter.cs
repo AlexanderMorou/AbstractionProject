@@ -103,27 +103,27 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
 
             public string FormatCommentToken(string commentToken)
             {
-                return string.Format("<span style=\"color:{0};\">{1}</span>", commentColor, commentToken.HTMLEncode());
+                return string.Format("<span style=\"color:{0};\">{1}</span>", commentColor, commentToken.HtmlEncode());
             }
 
             public string FormatStringToken(string strToken)
             {
-                return string.Format("<span style=\"color:green;\">{0}</span>", strToken.HTMLEncode());
+                return string.Format("<span style=\"color:green;\">{0}</span>", strToken.HtmlEncode());
             }
 
             public string FormatOperatorToken(string oprToken)
             {
-                return string.Format("<span style=\"color:{0};\">{1}</span>", operatorColor, oprToken.HTMLEncode());
+                return string.Format("<span style=\"color:{0};\">{1}</span>", operatorColor, oprToken.HtmlEncode());
             }
 
             public string FormatNumberToken(string numberToken)
             {
-                return string.Format("<span style=\"color:{0};\">{1}</span>", numberColor, numberToken.HTMLEncode());
+                return string.Format("<span style=\"color:{0};\">{1}</span>", numberColor, numberToken.HtmlEncode());
             }
 
             public string FormatOtherToken(string otherToken)
             {
-                return string.Format("<span style=\"color:{0};\">{1}</span>", textColor, otherToken.HTMLEncode());
+                return string.Format("<span style=\"color:{0};\">{1}</span>", textColor, otherToken.HtmlEncode());
             }
 
             public string FormatMemberNameToken(string memberToken, TranslatorFormatterMemberType memberType, IType parent)
@@ -252,7 +252,7 @@ namespace AllenCopeland.Abstraction.OldCodeGen.Translation
                     memberType = TranslatorFormatterMemberType.Local;
                 }
                 var activeType = options.BuildTrail.FirstOrDefault(p => p is IDeclaredType) as IDeclaredType;
-                string result = token.HTMLEncode();
+                string result = token.HtmlEncode();
                 if (declarePoint)
                 {
                     string targetName = string.Format("m:{0}::{1}", activeType.GetTypeName(options, true), GetMemberUniqueIdentifier(member).Replace("<", "[").Replace(">", "]").Replace("(", "%28").Replace(")", "%29"));

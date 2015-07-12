@@ -101,6 +101,10 @@
       <Project>{02607dc2-e98b-43ae-b906-fe151a70a68d}</Project>
       <Name>Abstract Syntax Tree</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Ecma-335 Abstract Syntax Tree\Ecma-335 Abstract Syntax Tree.csproj">
+      <Project>{961977fe-07e8-40dd-a738-db8dce6cc482}</Project>
+      <Name>Ecma-335 Abstract Syntax Tree</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\SLF\TypeSystems\Abstract\TypeSystem Abstract.csproj">
       <Project>{161eaa8c-20c6-4b82-925a-4b8b112910ab}</Project>
       <Name>TypeSystem Abstract</Name>

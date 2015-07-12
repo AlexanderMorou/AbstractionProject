@@ -55,7 +55,7 @@ namespace AllenCopeland.Abstraction.Slf._Internal.Ast
                                 MetadatumInfo usage;
                                 if (!usageInformation.TryGetValue(metadatum.Type, out usage))
                                     usageInformation.Add(metadatum.Type, usage = currentType.IdentityManager.MetadatumHandler.GetMetadatumInfo(metadatum.Type));
-                                if (usage.IsMetadatum == TypeIsMetadata.No)
+                                if (usage.MetadatumRepresentation == TypeMetadatumRepresentation.IsNotMetadata)
                                     continue;
                                 if (!usage.Repeatable)
                                 {

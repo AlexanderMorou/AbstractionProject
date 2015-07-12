@@ -8,7 +8,7 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -475,7 +475,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// which defines a local through the <paramref name="localDeclaration"/>,
         /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.
         /// </summary>
-        /// <param name="localDeclaration">A <see cref="ILocalDeclarationStatement"/>
+        /// <param name="localDeclaration">A <see cref="ILocalDeclarationsStatement"/>
         /// which defines the local used within the scope of the iteration block.</param>
         /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
         /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
@@ -486,7 +486,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
         /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
         /// which defines a local through the <paramref name="localDeclaration"/>,
         /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.</returns>
-        public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
+        public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationsStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             var iterationBlock = new IterationDeclarationBlockStatement(this.Owner, localDeclaration, condition, iterations);
             lock (this.syncObject)
@@ -494,7 +494,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             return iterationBlock;
         }
 
-        public ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
+        public ISimpleIterationBlockStatement Iterate(ILocalDeclarationsStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
         {
             var initializer = start;
             throw new NotImplementedException();
@@ -523,7 +523,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             return enumerateSet;
         }
 
-        public ILocalDeclarationStatement DefineLocal(ILocalMember local)
+        public ILocalDeclarationsStatement DefineLocal(ILocalMember local)
         {
             var localDeclaration = local.GetDeclarationStatement();
             lock (this.syncObject)
@@ -1427,14 +1427,35 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Statements
             }
         }
 
-        public virtual ITypeIdentityManager IdentityManager { get { return this.Owner.IdentityManager; } }
-
+        public virtual IIntermediateIdentityManager IdentityManager { get { 
+            return this.Owner.IdentityManager; } }
 
         public IEnumerable<IType> GetTypes()
         {
             if (this.types == null)
                 return new IType[0];
             return this._Types.GetTypes();
+        }
+
+        public void Add(IStatement statement)
+        {
+            this.baseList.Add(statement);
+        }
+
+        public bool AddAfter(IStatement statement, IStatement toAdd)
+        {
+            var indexOfCurrentStatement = this.IndexOf(statement);
+            if (indexOfCurrentStatement == -1)
+                return false;
+            this.baseList.Insert(indexOfCurrentStatement + 1, toAdd);
+            return true;
+        }
+
+        public IWhileStatement While(IExpression condition)
+        {
+            var whileStatement = new WhileStatement(this.Owner ?? this, condition);
+            this.baseList.Add(whileStatement);
+            return whileStatement;
         }
     }
 }

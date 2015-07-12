@@ -11,8 +11,10 @@ using AllenCopeland.Abstraction.Slf.Ast.Statements;
 using AllenCopeland.Abstraction.Utilities.Collections;
 using AllenCopeland.Abstraction.Slf.Cli;
 using AllenCopeland.Abstraction.Utilities;
+using AllenCopeland.Abstraction.Slf._Internal.GenericLayer.Members;
+using AllenCopeland.Abstraction.Slf._Internal.Abstract.Members;
  /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
+ | Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
  |----------------------------------------------------------------------|
  | The Abstraction Project's code is provided under a contract-release  |
  | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
@@ -32,7 +34,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
     /// in the intermediate abstract syntax tree.</typeparam>
     public abstract partial class IntermediateMethodMemberBase<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent> :
         IntermediateMethodSignatureMemberBase<IMethodParameterMember<TMethod, TMethodParent>, IIntermediateMethodParameterMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>, TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
-        IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>
+        IIntermediateMethodMember<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
+        _IGenericMethodRegistrar
         where TMethod : 
             class,
             IMethodMember<TMethod, TMethodParent>
@@ -45,18 +48,17 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             IIntermediateMethodParent<TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent>,
             TMethodParent
     {
-
+        private GenericMethodCache<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent> genericMethodCache;
         /// <summary>
         /// Creates a new <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> with the
         /// <paramref name="parent"/> provided.
         /// </summary>
         /// <param name="parent">The <typeparamref name="TIntermediateMethodParent"/> which owns the 
         /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public IntermediateMethodMemberBase(TIntermediateMethodParent parent, ITypeIdentityManager identityManager)
-            : base(parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/> in which
+        /// the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> is contained.</param>
+        public IntermediateMethodMemberBase(TIntermediateMethodParent parent, IIntermediateAssembly assembly)
+            : base(parent, assembly)
         {
 
         }
@@ -69,11 +71,10 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
         /// <param name="parent">The <typeparamref name="TIntermediateMethodParent"/> which owns the 
         /// <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/>.</param>
-        /// <param name="identityManager">The <see cref="ITypeIdentityManager"/>
-        /// which is responsible for maintaining type identity within the current type
-        /// model.</param>
-        public IntermediateMethodMemberBase(string name, TIntermediateMethodParent parent, ITypeIdentityManager identityManager)
-            : base(name, parent, identityManager)
+        /// <param name="assembly">The <see cref="IIntermediateAssembly"/> in which
+        /// the <see cref="IntermediateMethodMemberBase{TMethod, TIntermediateMethod, TMethodParent, TIntermediateMethodParent}"/> is contained.</param>
+        public IntermediateMethodMemberBase(string name, TIntermediateMethodParent parent, IIntermediateAssembly assembly)
+            : base(name, parent, assembly)
         {
 
         }
@@ -82,26 +83,33 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         private BlockStatementParentContainer statementContainer;
 
-        private BlockStatementParentContainer StatementContainer
+        internal BlockStatementParentContainer StatementContainer
         {
             get
             {
-                this.CheckStatementContainer();
-                return this.statementContainer;
+                lock (this.SyncObject)
+                {
+                    this.CheckStatementContainer();
+                    return this.statementContainer;
+                }
             }
         }
 
         public IEnumerable<IType> GetTypes()
         {
-            if (this.statementContainer == null)
-                return new IType[0];
-            return this.statementContainer.GetTypes();
+            lock (this.SyncObject)
+            {
+                if (this.statementContainer == null)
+                    return new IType[0];
+                return this.statementContainer.GetTypes();
+            }
         }
 
         private void CheckStatementContainer()
         {
-            if (this.statementContainer == null)
-                this.statementContainer = new BlockStatementParentContainer(this);
+            lock (this.SyncObject)
+                if (this.statementContainer == null)
+                    this.statementContainer = new BlockStatementParentContainer(this);
         }
 
         #region IBlockStatementParent Members
@@ -483,7 +491,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// which defines a local through the <paramref name="localDeclaration"/>,
         /// a continuation <paramref name="condition"/> and a series of <paramref name="iterations"/>.
         /// </summary>
-        /// <param name="localDeclaration">A <see cref="ILocalDeclarationStatement"/>
+        /// <param name="localDeclaration">A <see cref="ILocalDeclarationsStatement"/>
         /// which defines the local used within the scope of the iteration block.</param>
         /// <param name="condition">The <see cref="Boolean"/> <see cref="IExpression"/>
         /// which denotes the condition to evaluate prior to executing the iteration's block body.</param>
@@ -493,12 +501,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// </param>
         /// <returns>A new <see cref="IIterationDeclarationBlockStatement"/>
         /// which represents the operation..</returns>
-        public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
+        public IIterationDeclarationBlockStatement Iterate(ILocalDeclarationsStatement localDeclaration, IExpression condition, IEnumerable<IStatementExpression> iterations)
         {
             return this.StatementContainer.Iterate(localDeclaration, condition, iterations);
         }
 
-        public ISimpleIterationBlockStatement Iterate(ILocalDeclarationStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
+        public ISimpleIterationBlockStatement Iterate(ILocalDeclarationsStatement target, IExpression start, IExpression end, bool endExclusive = true, IExpression incremental = null)
         {
             return this.StatementContainer.Iterate(target, start, end, endExclusive, incremental);
         }
@@ -524,13 +532,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         }
 
         /// <summary>
-        /// Creates an inserts a <see cref="ILocalDeclarationStatement"/> with the
+        /// Creates an inserts a <see cref="ILocalDeclarationsStatement"/> with the
         /// <paramref name="local"/> provided.
         /// </summary>
         /// <param name="local">The <see cref="ILocalMember"/> to declare.</param>
-        /// <returns>A new <see cref="ILocalDeclarationStatement"/>
+        /// <returns>A new <see cref="ILocalDeclarationsStatement"/>
         /// which aims to declare the <paramref name="local"/> provided.</returns>
-        public ILocalDeclarationStatement DefineLocal(ILocalMember local)
+        public ILocalDeclarationsStatement DefineLocal(ILocalMember local)
         {
             return this.StatementContainer.DefineLocal(local);
         }
@@ -1160,10 +1168,13 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             /* *
              * If the container is null, there are no elements to copy.
              * */
-            if (this.statementContainer == null)
-                return;
+            lock (this.SyncObject)
+            {
+                if (this.statementContainer == null)
+                    return;
 
-            this.statementContainer.CopyTo(array, arrayIndex);
+                this.statementContainer.CopyTo(array, arrayIndex);
+            }
         }
 
         /// <summary>
@@ -1179,13 +1190,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             get
             {
-                /* *
-                 * Self-securing, if there's no container instance, 
-                 * the count will be zero; thus, no index is valid.
-                 * */
-                if (index < 0 || index >= this.Count)
-                    throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
-                return this.statementContainer[index];
+                lock (this.SyncObject)
+                {
+                    /* *
+                     * Self-securing, if there's no container instance, 
+                     * the count will be zero; thus, no index is valid.
+                     * */
+                    if (index < 0 || index >= this.Count)
+                        throw ThrowHelper.ObtainArgumentOutOfRangeException(ArgumentWithException.index);
+                    return this.statementContainer[index];
+                }
             }
         }
 
@@ -1200,9 +1214,12 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
              * No need to construct the container to return an
              * empty array.
              * */
-            if (this.statementContainer == null)
-                return new IStatement[0];
-            return this.statementContainer.ToArray();
+            lock (this.SyncObject)
+            {
+                if (this.statementContainer == null)
+                    return new IStatement[0];
+                return this.statementContainer.ToArray();
+            }
         }
 
         /// <summary>
@@ -1217,13 +1234,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         /// otherwise.</returns>
         public int IndexOf(IStatement element)
         {
-            /* *
-             * Can't return the index of a statement that can't 
-             * exist within a null statement container.
-             * */
-            if (this.statementContainer == null)
-                return -1;
-            return this.statementContainer.IndexOf(element);
+            lock (this.SyncObject)
+            {
+                /* *
+                 * Can't return the index of a statement that can't 
+                 * exist within a null statement container.
+                 * */
+                if (this.statementContainer == null)
+                    return -1;
+                return this.statementContainer.IndexOf(element);
+            }
         }
 
         #endregion
@@ -1232,8 +1252,11 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
 
         public IEnumerator<IStatement> GetEnumerator()
         {
-            this.CheckStatementContainer();
-            return this.statementContainer.GetEnumerator();
+            lock (this.SyncObject)
+            {
+                this.CheckStatementContainer();
+                return this.statementContainer.GetEnumerator();
+            }
         }
 
         #endregion
@@ -1324,7 +1347,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
             }
         }
 
-        public abstract IIntermediateAssembly Assembly { get; }
+        public new abstract IIntermediateAssembly Assembly { get; }
 
         #endregion
 
@@ -1390,10 +1413,16 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
         {
             try
             {
-                if (this.statementContainer != null)
+                lock (this.SyncObject)
                 {
-                    this.statementContainer.baseList.Clear();
-                    this.statementContainer = null;
+                    if (this.genericMethodCache != null)
+                        this.genericMethodCache.Dispose();
+                    this.genericMethodCache = null;
+                    if (this.statementContainer != null)
+                    {
+                        this.statementContainer.baseList.Clear();
+                        this.statementContainer = null;
+                    }
                 }
             }
             finally
@@ -1401,5 +1430,71 @@ namespace AllenCopeland.Abstraction.Slf.Ast.Members
                 base.Dispose(disposing);
             }
         }
+
+        private void CheckGenericMethodCache()
+        {
+            lock (this.SyncObject)
+                if (this.genericMethodCache == null)
+                    this.genericMethodCache = new GenericMethodCache<IMethodParameterMember<TMethod, TMethodParent>, TMethod, TMethodParent>();
+        }
+
+        #region _IGenericMethodRegistrar Members
+
+        public void RegisterGenericChild(IMethodParent parent, IMethodMember genericChild)
+        {
+            /* *
+             * Used when the generic method is a part of a type which is generic.
+             * */
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.RegisterGenericChild(parent, genericChild);
+        }
+
+        public void UnregisterGenericChild(IMethodParent parent)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.UnregisterGenericChild(parent);
+        }
+
+        public void RegisterGenericMethod(IMethodMember target, IControlledTypeCollection typeParameters)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.RegisterGenericMethod(target, typeParameters);
+        }
+
+        public void UnregisterGenericMethod(IControlledTypeCollection typeParameters)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.UnregisterGenericMethod(typeParameters);
+        }
+
+        #endregion
+
+        protected override bool ContainsGenericMethod(IControlledTypeCollection typeParameters, ref TMethod r)
+        {
+            this.CheckGenericMethodCache();
+            return this.genericMethodCache.ContainsGenericMethod(typeParameters, ref r);
+        }
+
+        internal override void OnRearranged(GenericParameterMovedEventArgs e)
+        {
+            this.CheckGenericMethodCache();
+            this.genericMethodCache.PositionalShift(e.From, e.To);
+        }
+
+        public void Add(IStatement statement)
+        {
+            this.StatementContainer.Add(statement);
+        }
+
+        public bool AddAfter(IStatement statement, IStatement toAdd)
+        {
+            return this.StatementContainer.AddAfter(statement, toAdd);
+        }
+
+        public IWhileStatement While(IExpression condition)
+        {
+            return this.statementContainer.While(condition);
+        }
+
     }
 }

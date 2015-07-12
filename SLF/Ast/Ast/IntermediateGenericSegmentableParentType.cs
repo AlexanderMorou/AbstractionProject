@@ -8,12 +8,12 @@ using AllenCopeland.Abstraction.Slf.Ast.Members;
 using AllenCopeland.Abstraction.Slf.Abstract.Members;
 using AllenCopeland.Abstraction.Utilities.Properties;
 using System.ComponentModel;
- /*---------------------------------------------------------------------\
- | Copyright © 2008-2013 Allen C. [Alexander Morou] Copeland Jr.        |
- |----------------------------------------------------------------------|
- | The Abstraction Project's code is provided under a contract-release  |
- | basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
- \-------------------------------------------------------------------- */
+/*---------------------------------------------------------------------\
+| Copyright © 2008-2015 Allen C. [Alexander Morou] Copeland Jr.        |
+|----------------------------------------------------------------------|
+| The Abstraction Project's code is provided under a contract-release  |
+| basis.  DO NOT DISTRIBUTE and do not use beyond the contract terms.  |
+\-------------------------------------------------------------------- */
 
 namespace AllenCopeland.Abstraction.Slf.Ast
 {
@@ -256,7 +256,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
 
         #region Member Check Methods
 
-        private static void SuspendCheck<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType>(IntermediateTypeDictionary<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
+        private static void SuspendCheck<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType>(object syncObject, IntermediateTypeDictionary<TNestedTypeIdentifier, TNestedType, TIntermediateNestedType> dictionary, int suspendLevel)
             where TNestedTypeIdentifier :
                 ITypeUniqueIdentifier,
                 IGeneralTypeUniqueIdentifier
@@ -267,77 +267,86 @@ namespace AllenCopeland.Abstraction.Slf.Ast
                 IIntermediateType,
                 TNestedType
         {
-            if (suspendLevel <= 0)
-                return;
-            if (dictionary == null)
-                throw new ArgumentNullException("dictionary");
-            for (int i = 0; i < suspendLevel; i++)
-                dictionary.Suspend();
+            lock (syncObject)
+            {
+                if (suspendLevel <= 0)
+                    return;
+                if (dictionary == null)
+                    throw new ArgumentNullException("dictionary");
+                for (int i = 0; i < suspendLevel; i++)
+                    dictionary.Suspend();
+            }
         }
 
         private void CheckClasses()
         {
-            if (this.classes == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.classes = this.InitializeClasses();
-                SuspendCheck(this.classes, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.classes == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.classes = this.InitializeClasses();
+                    SuspendCheck(this.SyncObject, this.classes, this.suspendLevel);
+                }
         }
 
         private void CheckDelegates()
         {
-            if (this.delegates == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.delegates = this.InitializeDelegates();
-                SuspendCheck(this.delegates, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.delegates == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.delegates = this.InitializeDelegates();
+                    SuspendCheck(this.SyncObject, this.delegates, this.suspendLevel);
+                }
         }
 
         private void CheckEnums()
         {
-            if (this.enums == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.enums = this.InitializeEnums();
-                SuspendCheck(this.enums, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.enums == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.enums = this.InitializeEnums();
+                    SuspendCheck(this.SyncObject, this.enums, this.suspendLevel);
+                }
         }
 
         private void CheckInterfaces()
         {
-            if (this.interfaces == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.interfaces = this.InitializeInterfaces();
-                SuspendCheck(this.interfaces, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.interfaces == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.interfaces = this.InitializeInterfaces();
+                    SuspendCheck(this.SyncObject, this.interfaces, this.suspendLevel);
+                }
         }
 
         private void CheckStructs()
         {
-            if (this.structs == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.structs = this.InitializeStructs();
-                SuspendCheck(this.structs, this.suspendLevel);
-            }
+            lock (this.SyncObject)
+                if (this.structs == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.structs = this.InitializeStructs();
+                    SuspendCheck(this.SyncObject, this.structs, this.suspendLevel);
+                }
         }
 
         private void Check_Types()
         {
-            if (this.types == null)
-            {
-                if (this.IsDisposed)
-                    throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
-                this.types = this.InitializeTypes();
-            }
+            lock (this.SyncObject)
+                if (this.types == null)
+                {
+                    if (this.IsDisposed)
+                        throw new InvalidOperationException(Resources.ObjectStateThrowMessage);
+                    this.types = this.InitializeTypes();
+                }
         }
         #endregion
 
@@ -383,7 +392,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             IntermediateDelegateTypeDictionary result;
             if (this.IsRoot)
-                result  = new IntermediateDelegateTypeDictionary(this, this._Types);
+                result = new IntermediateDelegateTypeDictionary(this, this._Types);
             else
                 result = new IntermediateDelegateTypeDictionary(this, this._Types, (IntermediateDelegateTypeDictionary)this.GetRoot().Delegates);
             if (this.IsLocked)
@@ -431,7 +440,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         {
             IntermediateInterfaceTypeDictionary result;
             if (this.IsRoot)
-                result  = new IntermediateInterfaceTypeDictionary(this, this._Types);
+                result = new IntermediateInterfaceTypeDictionary(this, this._Types);
             else
                 result = new IntermediateInterfaceTypeDictionary(this, this._Types, (IntermediateInterfaceTypeDictionary)this.GetRoot().Interfaces);
             if (this.IsLocked)
@@ -491,7 +500,8 @@ namespace AllenCopeland.Abstraction.Slf.Ast
              * form from their symbol state, if they have not, this will
              * obviously not work.
              * */
-            int baseLine = -this.GenericParameters.Count;
+            int gpC = this.GenericParameters.Count;
+            int baseLine = (gpC - this.TypeParameters.Count);
             int realFrom = baseLine + from;
             int realTo = baseLine + to;
             foreach (var element in from subTypeEntry in this._Types.Values
@@ -688,7 +698,7 @@ namespace AllenCopeland.Abstraction.Slf.Ast
         /// </summary>
         protected bool AreTypesInitialized { get { return this.types != null; } }
 
-        protected override ITypeIdentityManager OnGetManager()
+        protected override sealed IIntermediateIdentityManager OnGetIntermediateManager()
         {
             return this.Parent.IdentityManager;
         }
