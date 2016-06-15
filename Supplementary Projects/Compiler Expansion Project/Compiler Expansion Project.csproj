@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1E25A355-CB2E-4BAE-9B61-BE9EAE5471AC}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Compiler_Expansion_Project</RootNamespace>
+    <AssemblyName>Compiler Expansion Project</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SLF\Ast\Abstract Syntax Tree.csproj">
+      <Project>{02607dc2-e98b-43ae-b906-fe151a70a68d}</Project>
+      <Name>Abstract Syntax Tree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+      <Project>{df6044a9-ae48-4ac2-a170-eb839bb0058c}</Project>
+      <Name>Abstraction Compiler Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Ecma-335 Abstract Syntax Tree\Ecma-335 Abstract Syntax Tree.csproj">
+      <Project>{961977fe-07e8-40dd-a738-db8dce6cc482}</Project>
+      <Name>Ecma-335 Abstract Syntax Tree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Languages\CSharp\CSharp.csproj">
+      <Project>{a5e27b08-e854-40d5-b88b-0f10d1ca64af}</Project>
+      <Name>CSharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{a94a88da-2500-4372-a433-a07ac3bfa05f}</Project>
+      <Name>Metadata Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\TypeSystems\Abstract\TypeSystem Abstract.csproj">
+      <Project>{161eaa8c-20c6-4b82-925a-4b8b112910ab}</Project>
+      <Name>TypeSystem Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SLF\TypeSystems\Ecma-335 Common Type System\Ecma-335 Common Type System.csproj">
+      <Project>{d455d4ff-54fd-431e-bd27-43da130a0faa}</Project>
+      <Name>Ecma-335 Common Type System</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Common\Common Utilities.csproj">
+      <Project>{b449e1f5-149c-4f47-bbfc-a82eee96471a}</Project>
+      <Name>Common Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\FiniteAutomation\Finite Automation.csproj">
+      <Project>{ecc67b87-6eba-4f40-baae-fe838ff8afa3}</Project>
+      <Name>Finite Automation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Numerics\Numerics.csproj">
+      <Project>{ee0bb74e-bcaa-4797-87b0-4d67124f74e6}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Security\Security.csproj">
+      <Project>{6323d970-b8ab-4d69-9f9c-05a73b2f1d66}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

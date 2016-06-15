@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{ECC67B87-6EBA-4F40-BAAE-FE838FF8AFA3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction</RootNamespace>
+    <AssemblyName>_abs.util.automata</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, x64</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\..\Build\x64\Release\</OutputPath>
+    <DefineConstants>x64</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <DocumentationFile>..\..\..\Build\x64\Release\_abs.util.automata.xml</DocumentationFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, x86,DEBUG_SNK</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <DocumentationFile>
+    </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
+    <DefineConstants>x86</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <DocumentationFile>..\..\..\Build\x86\Release\_abs.util.automata.xml</DocumentationFile>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\Build\Any-Cpu\Release\</OutputPath>
+    <DefineConstants>x86</DefineConstants>
+    <DocumentationFile>..\..\..\Build\Any-Cpu\Release\_abs.util.automata.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\Any-Cpu\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, x86, DEBUG_SNK, PLATFORM_ANY</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Slf\FiniteAutomata\DFAAdapter.cs" />
+    <Compile Include="Slf\FiniteAutomata\DFAState+ConstructionContext.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataAdapter.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataExtensions.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataFlowGraph.cs" />
+    <Compile Include="Slf\FiniteAutomata\IDFAAdapter.cs" />
+    <Compile Include="Slf\FiniteAutomata\IDFAConstructionContext.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataAdapter.cs" />
+    <Compile Include="Slf\FiniteAutomata\INFAAdapter.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataFlowGraphNode.cs" />
+    <Compile Include="Slf\FiniteAutomata\NFAAdapter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Slf\FiniteAutomata\DFAState.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataBitSet.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataMultiTargetTransitionTable{2}.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataSingleTargetTransitionTable.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataState{4}.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataTransitionNode{TCheck, TTarget}.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataTransitionTable{3}.cs" />
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataTransitionTable+KeysCollection.cs">
+      <DependentUpon>FiniteAutomataTransitionTable{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomataTransitionTable+ValuesCollection.cs">
+      <DependentUpon>FiniteAutomataTransitionTable{3}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Slf\FiniteAutomata\FiniteAutomationSourceKind.cs" />
+    <Compile Include="Slf\FiniteAutomata\IDFAState.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataMultiTargetTransitionTable.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataSection.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataSet.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataSingleTargetTransitionTable.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataSource.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataState.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataTransitionNode.cs" />
+    <Compile Include="Slf\FiniteAutomata\IFiniteAutomataTransitionTable.cs" />
+    <Compile Include="Slf\FiniteAutomata\INFAState.cs" />
+    <Compile Include="Slf\FiniteAutomata\NFAState{4}.cs" />
+    <Compile Include="Slf\FiniteAutomata\NFAState+DFAEntry.cs">
+      <DependentUpon>NFAState{4}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Slf\FiniteAutomata\NFAState+DFAEntrySet.cs">
+      <DependentUpon>NFAState{4}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Slf\FiniteAutomata\NFAState+DFAEntryTable.cs">
+      <DependentUpon>NFAState{4}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Slf\FiniteAutomata\StateMachineWalker.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common Utilities.csproj">
+      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Name>Common Utilities</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Numerics\Numerics.csproj">
+      <Project>{ee0bb74e-bcaa-4797-87b0-4d67124f74e6}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

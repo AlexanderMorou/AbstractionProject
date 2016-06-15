@@ -1,0 +1,5 @@
+C:\Projects\Code\C#\Abstraction\Build\Any-Cpu\Debug\_abs.slf.typesystems.cli.dll
+C:\Projects\Code\C#\Abstraction\Build\Any-Cpu\Debug\_abs.slf.typesystems.cli.pdb
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Ecma-335 Common Type System\obj\Debug\Ecma-335 Common Type System.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Ecma-335 Common Type System\obj\Debug\_abs.slf.typesystems.cli.dll
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Ecma-335 Common Type System\obj\Debug\_abs.slf.typesystems.cli.pdb

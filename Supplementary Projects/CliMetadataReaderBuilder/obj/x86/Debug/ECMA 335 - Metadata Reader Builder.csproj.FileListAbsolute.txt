@@ -1,0 +1,32 @@
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\CliMetadataReaderBuilder.exe.config
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\CliMetadataReaderBuilder.exe
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\CliMetadataReaderBuilder.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.ast.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.cli.ast.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.languages.csharp.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.typesystems.abstract.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.typesystems.cli.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.util.common.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.util.numerics.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.utilities.sec.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.metadata.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.compilerservices.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.util.automata.dll
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.ast.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.cli.ast.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.languages.csharp.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.languages.csharp.xml
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.typesystems.abstract.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.typesystems.cli.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.util.common.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.util.numerics.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.utilities.sec.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.metadata.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.slf.compilerservices.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\bin\Debug\_abs.util.automata.pdb
+C:\Projects\Code\C#\Abstraction\Build\x86\Debug\CliMetadataReaderBuilder.exe.config
+C:\Projects\Code\C#\Abstraction\Build\x86\Debug\CliMetadataReaderBuilder.exe
+C:\Projects\Code\C#\Abstraction\Build\x86\Debug\CliMetadataReaderBuilder.pdb
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\obj\x86\Debug\ECMA 335 - Metadata Reader Builder.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\obj\x86\Debug\CliMetadataReaderBuilder.exe
+C:\Projects\Code\C#\Abstraction\Supplementary Projects\CliMetadataReaderBuilder\obj\x86\Debug\CliMetadataReaderBuilder.pdb

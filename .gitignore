@@ -3,3 +3,22 @@
 ################################################################################
 
 /Libraries/Slf/Ast/obj
+/Libraries/Slf/Compilers/Abstraction Compiler Services/obj
+/Libraries/Slf/Compilers/Platforms/Windows/obj
+/Libraries/Slf/Ecma-335 Abstract Syntax Tree/obj
+/Libraries/Slf/Languages/CSharp/obj
+/Libraries/Slf/Languages/VisualBasic.NET/obj
+/Libraries/Slf/Metadata/Metadata Library/obj
+/Libraries/UI/Ownerdrawn Controls/obj
+/Libraries/Utilities/Common/obj
+/Libraries/Utilities/FiniteAutomation/obj
+/Libraries/Utilities/IO/obj
+/Libraries/Utilities/Numerics/obj
+/Libraries/Utilities/Security/obj
+/RSATests/bin
+/RSATests/obj
+/Build
+/Supplementary Projects/Compiler Expansion Project/bin
+/Supplementary Projects/Compiler Expansion Project/obj
+/Supplementary Projects/Simple Disassembler
+/Supplementary Projects/_abs.excel.lst.automation

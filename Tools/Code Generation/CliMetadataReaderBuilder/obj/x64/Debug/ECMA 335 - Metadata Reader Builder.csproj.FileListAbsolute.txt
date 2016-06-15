@@ -1,0 +1,6 @@
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\CliMetadataReaderBuilder.exe.config
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\CliMetadataReaderBuilder.exe
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\CliMetadataReaderBuilder.pdb
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\CliMetadataReaderBuilder\obj\x64\Debug\ECMA 335 - Metadata Reader Builder.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\CliMetadataReaderBuilder\obj\x64\Debug\CliMetadataReaderBuilder.exe
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\CliMetadataReaderBuilder\obj\x64\Debug\CliMetadataReaderBuilder.pdb

@@ -1,0 +1,7 @@
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\_abs.slf.typesystems.mva.dll
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\_abs.slf.typesystems.mva.pdb
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Versioned Assembly Hierarchy\obj\x64\Debug\Versioned Assemblies.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Versioned Assembly Hierarchy\obj\x64\Debug\AllenCopeland.Abstraction.Slf.Properties.Resources.resources
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Versioned Assembly Hierarchy\obj\x64\Debug\Versioned Assemblies.csproj.GenerateResource.Cache
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Versioned Assembly Hierarchy\obj\x64\Debug\_abs.slf.typesystems.mva.dll
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Versioned Assembly Hierarchy\obj\x64\Debug\_abs.slf.typesystems.mva.pdb

@@ -1,0 +1,671 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D455D4FF-54FD-431E-BD27-43DA130A0FAA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
+    <AssemblyName>_abs.slf.typesystems.cli</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\..\Build\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;x86, FV_4_6</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+    <BaseAddress>4390912</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\..\Build\x86\Release\</OutputPath>
+    <DefineConstants>x86, FV_4_5</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\..\..\..\Build\x86\Release\_abs.slf.typesystems.cli.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\Build\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;x64, FV_4_5</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\..\..\Build\x64\Release\</OutputPath>
+    <DefineConstants>x64, FV_4_5</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>none</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>..\..\..\..\Build\x64\Release\_abs.slf.typesystems.cli.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly Condition="'$(Configuration)' == 'Release'">true</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\..\Build\Any-Cpu\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;x86, FV_4_6, PLATFORM_ANY</DefineConstants>
+    <BaseAddress>4390912</BaseAddress>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\..\Build\Any-Cpu\Release\</OutputPath>
+    <DefineConstants>x86, FV_4_5</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\..\..\Build\Any-Cpu\Release\_abs.slf.typesystems.cli.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <!--x86 Platform-->
+    <!--Release-->
+    <!--Debug-->
+    <!--x64 Platform-->
+    <!--Release-->
+    <!--Debug-->
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cli\CliAssemblyLoadedEventArgs.cs" />
+    <Compile Include="Cli\Documentation\CliDocumentationCore.cs" />
+    <Compile Include="Cli\ICliAssemblyUniqueIdentifier.cs" />
+    <Compile Include="Cli\ICliFlagsEnumerationEntry.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomAttribute.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomAttributeArgument.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilBinaryOperation.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilBranchInstruction{T}.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICilLocalStackInstruction.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICliLoadStringInstruction.cs" />
+    <Compile Include="Cli\Metadata\Instructions\ICliSwitchInstruction.cs" />
+    <Compile Include="Cli\Metadata\Instructions\IReferenceInstruction.cs" />
+    <Compile Include="Cli\Metadata\Instructions\IStackInstruction.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyUniqueIdentifier.cs" />
+    <Compile Include="_Internal\Cli\CliClassType %28MemberDefinitions%29.cs" />
+    <Compile Include="_Internal\Cli\CliEnumType %28FieldDeclaration%29.cs" />
+    <Compile Include="_Internal\Cli\CliFlagsEnumeration.cs" />
+    <Compile Include="Cli\CliFlagsEnumerationEntry.cs" />
+    <Compile Include="Cli\CliGateway.cs" />
+    <Compile Include="Cli\CliRuntimeCoreType.cs" />
+    <Compile Include="Cli\CliRuntimeTarget.cs" />
+    <Compile Include="Cli\ICliDeclaration.cs" />
+    <Compile Include="Cli\ICliDelegateType.cs" />
+    <Compile Include="Cli\ICliGenericTypeParameter.cs" />
+    <Compile Include="Cli\ICliRuntimeTarget.cs" />
+    <Compile Include="Cli\ICliType.cs" />
+    <Compile Include="Cli\ICliTypeParent.cs" />
+    <Compile Include="Cli\Metadata\Blobs\CliMetadataTypeSignatureKind.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataMemberRefSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandAloneCommonMethodSignature.cs" />
+    <Compile Include="Cli\Metadata\MethodImplementationDetails.cs" />
+    <Compile Include="Cli\Metadata\MethodUseDetails.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionClause.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodExceptionTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeader.cs" />
+    <Compile Include="Languages\CliMetadatumService.cs" />
+    <Compile Include="_Internal\Cli\CliEnumType.cs" />
+    <Compile Include="_Internal\Cli\CliManager+TypeNameService.cs" />
+    <Compile Include="_Internal\Cli\Members\CliConstructorMember+ParameterDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliConstructorMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliConstructorMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliDependentParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliDependentParameterMemberDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliDependentParameterMemberDictionary+ValueCollection.cs" />
+    <Compile Include="_Internal\Cli\Members\CliFieldMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliGenericParameterMember+DefaultCtorEntry.cs" />
+    <Compile Include="_Internal\Cli\Members\CliGenericParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliGenericParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliInterfaceType %28MemberDefinitions%29.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerSignatureMember+ParameterDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertyMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertyMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertySignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventSignatureMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliPropertySignatureMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerSignatureMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerMember+ParameterDictionary+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliIndexerMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventMember+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventMember.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomAttribute.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomAttributeNamedParameter.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomAttributeParameter.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodSpecSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Instructions\CilOpCodeDetails.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Instructions\_ICilStackInstructions.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeLockedTableRowEx.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeTableReader %28LookupAid%29.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeTableReader+TaggedEntryCollection.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody %28Instruction Visitor%29.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodBody.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodExceptionTable.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodHeaderSection.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTableSubset.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodHeaderSection.cs" />
+    <Compile Include="Languages\Cil\CliReferenceWarning.cs" />
+    <Compile Include="Languages\Cil\CliWarningLevel.cs" />
+    <Compile Include="Languages\Cil\CliWarningsAndErrors.cs" />
+    <Compile Include="Languages\Cil\ICliReferenceWarning.cs" />
+    <Compile Include="_Internal\Cli\ArrayType.cs" />
+    <Compile Include="_Internal\Cli\ByRefType.cs" />
+    <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliAbstractAssemblyReferences.cs" />
+    <Compile Include="_Internal\Cli\CliClassType.cs" />
+    <Compile Include="_Internal\Cli\CliClassTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliDelegateType+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliDelegateType+ParameterMember.cs" />
+    <Compile Include="_Internal\Cli\CliDelegateType.cs" />
+    <Compile Include="_Internal\Cli\CliDelegateTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliEnumTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliFullMemberDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullMemberDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliFullTypeDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullTypeDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliFullTypeDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliGenericInstantiableType+CoercionMembers.cs" />
+    <Compile Include="_Internal\Cli\CliGenericInstantiableType.cs" />
+    <Compile Include="_Internal\Cli\CliGenericParentType.cs" />
+    <Compile Include="_Internal\Cli\CliInterfaceType.cs" />
+    <Compile Include="_Internal\Cli\CliInterfaceTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliManager+TypeCache.cs" />
+    <Compile Include="_Internal\Cli\CliMemberExtensions.cs" />
+    <Compile Include="_Internal\Cli\CliMemberType.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataCollection.cs" />
+    <Compile Include="_Internal\Cli\CliMetadatum.cs" />
+    <Compile Include="_Internal\Cli\CliModifiedType+ModifierCollection.cs" />
+    <Compile Include="_Internal\Cli\CliStructType %28MemberDefinitions%29.cs" />
+    <Compile Include="_Internal\Cli\CliStructType.cs" />
+    <Compile Include="_Internal\Cli\CliStructTypeDictionary.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\CliTypeDictionary`2.cs" />
+    <Compile Include="_Internal\Cli\CliManager+MetadataService.cs" />
+    <Compile Include="_Internal\Cli\Members\CliBinaryOperatorMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventSignatureMember+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliEventSignatureMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliFieldMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodMemberBase+ParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodMemberBase.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase.cs" />
+    <Compile Include="_Internal\Cli\CliModifiedType.cs" />
+    <Compile Include="_Internal\Cli\Members\CliMethodSignatureBase+ParameterMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliParameterMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliParameterMember.cs" />
+    <Compile Include="_Internal\Cli\Members\CliSignatureTypeCollection.cs" />
+    <Compile Include="_Internal\Cli\Members\CliTypeCoercionMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\CliUnaryOperatorMemberDictionary.cs" />
+    <Compile Include="_Internal\Cli\Members\ICliMetadataMember.cs" />
+    <Compile Include="_Internal\Cli\Members\_ICliMethodSignatureParent.cs" />
+    <Compile Include="_Internal\Cli\Members\_ICliParameterParent.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap+BlobEntry.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cli\Metadata\ICliMetadataBlobEntry.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataBlobHeaderAndHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataBlobHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataGuidHeaderAndHeap.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodBody.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataRoot.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataStringsHeader.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataStringsHeaderAndHeap.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataTableStreamAndHeader.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataUserStringsHeaderAndHeap.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyOSTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyProcessorTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyProcessorTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyRefOSTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyRefOSTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyRefProcessorTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyRefProcessorTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyRefTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyRefTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataAssemblyTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataClassLayoutTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataClassLayoutTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataConstantTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataConstantTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataCustomAttributeTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataCustomAttributeTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataDeclSecurityTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataDeclSecurityTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataEventMapTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataEventMapTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataEventTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataEventTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataExportedTypeTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataExportedTypeTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldLayoutTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldLayoutTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldMarshalTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldMarshalTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldRVATable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldRVATableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFieldTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFileTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataFileTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataGenericParamConstraintTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataGenericParamConstraintTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataGenericParameterTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataGenericParameterTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataImportMapTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataImportMapTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataInterfaceImplTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataInterfaceImplTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataManifestResourceTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataManifestResourceTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMemberReferenceTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMemberReferenceTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodDefinitionTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodDefinitionTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodImplTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodImplTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodSemanticsTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodSemanticsTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodSpecificationTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodSpecificationTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataModuleReferenceTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataModuleReferenceTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataModuleTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataModuleTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataNestedClassTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataNestedClassTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataParameterTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataParameterTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataPropertyMapTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataPropertyMapTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataPropertyTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataPropertyTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataStandAloneSigTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataStandAloneSigTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeDefinitionTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeDefinitionTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeRefTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeRefTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeSpecificationTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeSpecificationTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataCustomAttributeTypeRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasConstantRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasCustomAttributeRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasDeclSecurityRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasFieldMarshalRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataHasSemanticsRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataImplementationRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMemberForwardedRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMemberRefParentRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataMethodDefOrRefRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataResolutionScopeRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeDefOrRefRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTypeOrMethodDefRow.cs" />
+    <Compile Include="Cli\Metadata\_ICliMetadataBlobEntry.cs" />
+    <Compile Include="Cli\Modules\ICliModule.cs" />
+    <Compile Include="_Internal\Cli\CliAssembly.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyReferences+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyReferences+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliAssemblyReferences.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase+GenericParameter.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase.cs" />
+    <Compile Include="_Internal\Cli\CliManager %28TypeSigBreakdown%29.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceKeyedTree.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceKeyedTreeNode.cs" />
+    <Compile Include="_Internal\Cli\CliTypeBase.cs" />
+    <Compile Include="_Internal\Cli\CliGenericTypeBase+TypeParameterDictionary.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayShapeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataArrayTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataCustomModifierSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataElementTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataFieldSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataFunctionPointerTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataGenericParameterSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataGenericTypeInstanceSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataLocalVarEntrySignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataLocalVarFullEntrySignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataLocalVarSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodDefSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodRefSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\CliMetadataMethodSigConventions.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataMethodSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataNativeTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataParamSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataElementTypeAndModifiersSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataPropertySignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataReturnTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataStandAloneMethodSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataValueOrClassTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataVarArgParamSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\CliMetadataVectorArrayTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataArrayShapeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataArrayTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomModifier.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataCustomModifierTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataElementTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataFieldSig.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataFunctionPointerTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataGenericParameterSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataGenericTypeInstanceSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataLocalVarEntrySignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataMethodSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneLocalVarSig.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataMethodDefSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataMethodRefSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataMethodSpec.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataNativeTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataParam.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataPropertySig.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneMethodSig.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataStandaloneSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataTypeSpecSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataValueOrClassTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataVectorArrayTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataReturnTypeSignature.cs" />
+    <Compile Include="Cli\Metadata\Blobs\ICliMetadataPointerTypeSignature.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Blobs\SignatureParser.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataValidator.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadata[TableStream]AndHeader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyOSLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyProcessorTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyProcessorLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyRefOSTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyRefOSLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyRefProcessorTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyRefProcessorLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyRefTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyRefLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataAssemblyLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataClassLayoutTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataClassLayoutLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataConstantTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataConstantLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataCustomAttributeLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataDeclSecurityTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataDeclSecurityLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventMapTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventMapLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataEventLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataExportedTypeTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataExportedTypeLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldLayoutTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldLayoutLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldMarshalTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldMarshalLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldRVATableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldRVALockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFieldLockedTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\CliMetadataFileAttributes.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFileTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataFileLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataGenericParamConstraintTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataGenericParamConstraintLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataGenericParameterTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataGenericParameterLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataImportMapTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataImportMapLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataInterfaceImplTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataInterfaceImplLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazySequentialSet.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazySet.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataManifestResourceTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataManifestResourceLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMemberReferenceTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMemberReferenceLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodDefinitionLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodImplTable.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodImplLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodSemanticsTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodSemanticsLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodSpecificationTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataMethodSpecificationLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataModuleReferenceTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataModuleReferenceLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataModuleTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataModuleLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataNestedClassTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataNestedClassLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataParameterTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataParameterLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyMapTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyMapLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataPropertyLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataStandAloneSigLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeDefinitionLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeRefTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeRefLockedTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeSpecificationTableReader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataTypeSpecificationLockedTableRow.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTable.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTableRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataTableStreamAnd[Header].cs" />
+    <Compile Include="_Internal\Cli\CliCommon.cs" />
+    <Compile Include="_Internal\Cli\CliManager.cs" />
+    <Compile Include="_Internal\Cli\CliRuntimeEnvironmentInfo.cs" />
+    <Compile Include="Cli\Metadata\BitEncodedIndexTypes.cs" />
+    <Compile Include="Cli\Metadata\Blobs\SignatureKinds.cs" />
+    <Compile Include="Cli\Metadata\ICliMetadataStreamHeader.cs" />
+    <Compile Include="Cli\Metadata\Tables\MethodSemanticsAttributes.cs" />
+    <Compile Include="Cli\Metadata\PlatformInvokeAttributes.cs" />
+    <Compile Include="Cli\Metadata\Tables\CliMetadataReferenceIndexSize.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\CliMetadataLazyTable.cs" />
+    <Compile Include="_Internal\Cli\CliCommon+BinaryOperatorNames.cs" />
+    <Compile Include="_Internal\Cli\CliCommon+TypeCoercionNames.cs" />
+    <Compile Include="_Internal\Cli\CliCommon+UnaryOperatorNames.cs" />
+    <Compile Include="_Internal\Cli\CliAssembly+_AssemblyInformation.cs" />
+    <Compile Include="Cli\FrameworkPlatform.cs" />
+    <Compile Include="Cli\FrameworkVersion.cs" />
+    <Compile Include="Cli\ICliManager.cs" />
+    <Compile Include="Cli\ICliRuntimeEnvironmentInfo.cs" />
+    <Compile Include="Cli\ICliAssembly.cs" />
+    <Compile Include="Cli\Metadata\AssemblyFlags.cs" />
+    <Compile Include="Cli\Metadata\AssemblyHashAlgorithm.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Cli\Metadata\CliMetadataHeapSizes.cs" />
+    <Compile Include="Cli\Metadata\Tables\CliMetadataTableKinds.cs" />
+    <Compile Include="Cli\Metadata\CilOpcode.cs" />
+    <Compile Include="Cli\Metadata\CilOpcodeInstruction.cs" />
+    <Compile Include="Cli\Metadata\CliHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataBlobTypeHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataGuidHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataFixedRoot.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataStreamHeader.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataStringsHeaderAndHeap.cs" />
+    <Compile Include="_Internal\Cli\Metadata\CliMetadataUserStringsHeaderAndHeap.cs" />
+    <Compile Include="Cli\Metadata\CliRuntimeFlags.cs" />
+    <Compile Include="Cli\Metadata\Tables\MethodHeaderFlags.cs" />
+    <Compile Include="Cli\Metadata\Tables\MethodSectionFlags.cs" />
+    <Compile Include="Cli\Metadata\MetadataValidationRuleCategory.cs" />
+    <Compile Include="Cli\Metadata\CliMetadataNativeTypes.cs" />
+    <Compile Include="Cli\Metadata\ValidCultureIdentifiers.cs" />
+    <Compile Include="Cli\Metadata\VtableFixup.cs" />
+    <Compile Include="Cli\Metadata\VtableFixupKind.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceDeclaration.cs" />
+    <Compile Include="_Internal\Cli\CliNamespaceDictionary.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+KeysCollection.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary+ValuesCollection.cs" />
+    <Compile Include="_Internal\Cli\CliMetadataDrivenDictionary.cs" />
+    <Compile Include="Cli\Metadata\Tables\ICliMetadataTableIndexedRow.cs" />
+    <Compile Include="_Internal\Cli\Metadata\Tables\ICilInstructionVisitor.cs" />
+    <Compile Include="_Internal\Cli\Modules\CliModule.cs" />
+    <Compile Include="_Internal\Cli\Modules\CliModuleDictionary.cs" />
+    <Compile Include="_Internal\Cli\Modules\CliModuleMethod.cs" />
+    <Compile Include="_Internal\Cli\PointerType.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\ITIAssemblyIdentityRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\ITIElementClassificationRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\ITIQualifiedTypeNameRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\ITITypeIdentityRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\ITITypeParameterIdentityRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\ITIVersionRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\TIAssemblyIdentityRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\TIElementClassificationRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\TIQualifiedTypeNameRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\TITypeIdentityRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\TITypeParameterIdentityRule.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Rules\TIVersion.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\AssemblyTerminalCases.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\CharStream.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\CommonSymbolCases.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TIAssemblyTerminalsTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TICommonSymbolsTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TICultureIdentifierTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TIHexQWordTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TINestedQualifiedAssemblyIdentifierTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TINumberTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TIQualifiedAssemblyIdentifierTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TIQualifiedIdentifierTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TIWhitespaceTokStateMachine.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TokenTransition.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TokenTransitions+AssemblyTerminals.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TokenTransitions+Captures.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TokenTransitions+CommonSymbols.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TokenTransitions.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TypeIdParserScanData+CaptureEntry.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TypeIdParserScanData+Entry.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TypeIdParserScanData+SubsetEntry.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TypeIdParserScanData+SubsetField.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TypeIdParserScanData.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\Tokens\TypeIdParserTokens.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\TypeIdentityParser+Scanner.cs" />
+    <Compile Include="_Internal\Cli\TypeIdParser\TypeIdentityParser.cs" />
+    <Compile Include="_Internal\Cli\_ICliAssembly.cs" />
+    <Compile Include="_Internal\Cli\_ICliManager.cs" />
+    <Compile Include="_Internal\Cli\_ICliMemberParent.cs" />
+    <Compile Include="_Internal\Cli\_ICliTypeParent.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Utilities\Common\Common Utilities.csproj">
+      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Name>Common Utilities</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\FiniteAutomation\Finite Automation.csproj">
+      <Project>{ecc67b87-6eba-4f40-baae-fe838ff8afa3}</Project>
+      <Name>Finite Automation</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\IO\IO.csproj">
+      <Project>{7e0c02fe-e029-4520-8afc-3fbe69bad1cf}</Project>
+      <Name>IO</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\Numerics\Numerics.csproj">
+      <Project>{ee0bb74e-bcaa-4797-87b0-4d67124f74e6}</Project>
+      <Name>Numerics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\Security\Security.csproj">
+      <Project>{6323d970-b8ab-4d69-9f9c-05a73b2f1d66}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+      <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
+      <Name>Abstraction Compiler Services</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Compilers\Platforms\Windows\Windows.csproj">
+      <Project>{f38e10c6-78fc-4064-9f71-c9ecc0a1d4a2}</Project>
+      <Name>Windows</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
+      <Name>Metadata Library</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Abstract\TypeSystem Abstract.csproj">
+      <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
+      <Name>TypeSystem Abstract</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

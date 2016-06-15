@@ -1,0 +1,6 @@
+C:\Projects\Code\C#\Abstraction\Build\x86\Release\_abs.slf.typesystems.abstract.xml
+C:\Projects\Code\C#\Abstraction\Build\x86\Release\_abs.slf.typesystems.abstract.dll
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Abstract\obj\x86\Release\TypeSystem Abstract.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Abstract\obj\x86\Release\AllenCopeland.Abstraction.Slf.Properties.Resources.resources
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Abstract\obj\x86\Release\TypeSystem Abstract.csproj.GenerateResource.Cache
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Abstract\obj\x86\Release\_abs.slf.typesystems.abstract.dll

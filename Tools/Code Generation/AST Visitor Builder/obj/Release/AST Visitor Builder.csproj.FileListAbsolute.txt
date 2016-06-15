@@ -1,0 +1,9 @@
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\bin\Release\AST Visitor Builder.exe.config
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\bin\Release\AST Visitor Builder.exe
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\bin\Release\AST Visitor Builder.pdb
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\obj\Release\AST Visitor Builder.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Build\Any-Cpu\Release\_abs.tools.visitorbuilder.exe.config
+C:\Projects\Code\C#\Abstraction\Build\Any-Cpu\Release\_abs.tools.visitorbuilder.exe
+C:\Projects\Code\C#\Abstraction\Build\Any-Cpu\Release\_abs.tools.visitorbuilder.pdb
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\obj\Release\_abs.tools.visitorbuilder.exe
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\obj\Release\_abs.tools.visitorbuilder.pdb

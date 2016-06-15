@@ -1,0 +1,6 @@
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\obj\x64\Debug\AST Visitor Builder.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\_abs.tools.visitorbuilder.exe.config
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\_abs.tools.visitorbuilder.exe
+C:\Projects\Code\C#\Abstraction\Build\x64\Debug\_abs.tools.visitorbuilder.pdb
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\obj\x64\Debug\_abs.tools.visitorbuilder.exe
+C:\Projects\Code\C#\Abstraction\Tools\Code Generation\AST Visitor Builder\obj\x64\Debug\_abs.tools.visitorbuilder.pdb

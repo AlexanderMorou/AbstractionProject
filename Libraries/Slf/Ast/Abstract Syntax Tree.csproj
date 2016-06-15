@@ -1,0 +1,1158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02607DC2-E98B-43AE-B906-FE151A70A68D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction.Slf</RootNamespace>
+    <AssemblyName>_abs.slf.ast</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly Condition="'$(Configuration)' == 'Release'">true</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TYPESYSTEM_CLI, x64, NO_ANONYMOUS</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\..\Build\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NO_ANONYMOUS, TYPESYSTEM_CLI, x64</DefineConstants>
+    <DocumentationFile>..\..\..\Build\x64\Release\_abs.slf.ast.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TYPESYSTEM_CLI, x86</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
+    <NoWarn>
+    </NoWarn>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NO_ANONYMOUS, TYPESYSTEM_CLI, x86</DefineConstants>
+    <DocumentationFile>..\..\..\Build\x86\Release\_abs.slf.ast.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\Build\Any-Cpu\Release\</OutputPath>
+    <DefineConstants>TRACE;NO_ANONYMOUS, TYPESYSTEM_CLI, x86</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\..\Build\Any-Cpu\Release\_abs.slf.ast.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\Any-Cpu\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;TYPESYSTEM_CLI, x86, PLATFORM_ANY</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <WarningsAsErrors>0162, 0108, 0649, 1712, 1573, 1574, 1572</WarningsAsErrors>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ast\DefaultAssemblyFilenameVisitor.cs" />
+    <Compile Include="Ast\DefaultIntermediateIdentifierLanguageQualifierService.cs" />
+    <Compile Include="Ast\Expressions\AwaitExpression.cs" />
+    <Compile Include="Ast\Expressions\BlockExpression.cs" />
+    <Compile Include="Ast\Expressions\CommentExpression.cs" />
+    <Compile Include="Ast\Expressions\DecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\DecorationExpression.cs" />
+    <Compile Include="Ast\Expressions\DefaultValueExpression.cs" />
+    <Compile Include="Ast\Expressions\DirectionExpression.cs" />
+    <Compile Include="Ast\Expressions\ExplicitStringLiteralDecorationExpression.cs" />
+    <Compile Include="Ast\Expressions\IAwaitExpression.cs" />
+    <Compile Include="Ast\Expressions\IBlockExpression.cs" />
+    <Compile Include="Ast\Expressions\ICommentExpression.cs" />
+    <Compile Include="Ast\Expressions\ICommonExpressionVisitor`2.cs" />
+    <Compile Include="Ast\Expressions\IDecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\IDecorationExpression.cs" />
+    <Compile Include="Ast\Expressions\IDefaultValueExpression.cs" />
+    <Compile Include="Ast\Expressions\IExplicitStringLiteralDecorationExpression.cs" />
+    <Compile Include="Ast\Expressions\IExpressionContextualVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\IExpressionVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\IExpressionVisitor`2.cs" />
+    <Compile Include="Ast\Expressions\IMemberParentReferenceDecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\INewLineExpression.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveContextualVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveVisitor`2.cs" />
+    <Compile Include="Ast\Expressions\Lambda\LambdaTypedExpression.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqBodyContextualVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqBodyVisitor.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqBodyVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqBodyVisitor`2.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqClauseContextualVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqClauseVisitor.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqClauseVisitor`1.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqClauseVisitor`2.cs" />
+    <Compile Include="Ast\Expressions\MemberParentReferenceDecoratingExpression.cs" />
+    <Compile Include="Ast\Expressions\NewLineExpression.cs" />
+    <Compile Include="Ast\IInclusionContextualVisitor`1.cs" />
+    <Compile Include="Ast\IInclusionVisitor.cs" />
+    <Compile Include="Ast\IInclusionVisitor`1.cs" />
+    <Compile Include="Ast\IInclusionVisitor`2.cs" />
+    <Compile Include="Ast\IIntermediateClassImplementedInterfaces.cs" />
+    <Compile Include="Ast\IIntermediateClassInterfaceMapping.cs" />
+    <Compile Include="Ast\IIntermediateCodeVisitor.cs" />
+    <Compile Include="Ast\IIntermediateDeclarationContextualVisitor`1.cs" />
+    <Compile Include="Ast\IIntermediateDeclarationVisitor`1.cs" />
+    <Compile Include="Ast\IIntermediateDeclarationVisitor`2.cs" />
+    <Compile Include="Ast\IIntermediateIdentityManager.cs" />
+    <Compile Include="Ast\IIntermediateTypeContextualVisitor`1.cs" />
+    <Compile Include="Ast\IIntermediateTypeVisitor`1.cs" />
+    <Compile Include="Ast\IIntermediateTypeVisitor`2.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionExpressionParameter.cs" />
+    <Compile Include="Ast\IntermediateClassType+ImplementedInterfacesDictionary+Map.cs" />
+    <Compile Include="Ast\IntermediateClassType+ImplementedInterfacesDictionary.cs" />
+    <Compile Include="Ast\Expressions\CreateArrayByteStream.cs" />
+    <Compile Include="Ast\IIntermediateDelegateTypeParameterDictionary.cs" />
+    <Compile Include="Ast\IIntermediateVersion.cs" />
+    <Compile Include="Ast\IntermediateAssembly.cs" />
+    <Compile Include="Ast\IntermediateAssemblyReferenceDictionary+KeysCollection.cs" />
+    <Compile Include="Ast\IntermediateAssemblyReferenceDictionary+ValuesCollection.cs" />
+    <Compile Include="Ast\IntermediateAssemblyReferenceDictionary.cs" />
+    <Compile Include="Ast\IntermediateVersion.cs" />
+    <Compile Include="Ast\Members\IIntermediateMemberContextualVisitor`1.cs" />
+    <Compile Include="Ast\Members\IIntermediateMemberVisitor`1.cs" />
+    <Compile Include="Ast\Members\IIntermediateMemberVisitor`2.cs" />
+    <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary+ParameterMember.cs" />
+    <Compile Include="Ast\Members\IntermediateIndexerSignatureMember+ParametersDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateIndexerSignatureMember.cs" />
+    <Compile Include="Ast\MetadatumDefinition+AttributeWrapper+AttributeCollection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Ast\MetadatumDefinitionExpressionParameter.cs" />
+    <Compile Include="Ast\Statements\BlockStatement.cs" />
+    <Compile Include="Ast\Statements\ExplicitStringLiteralStatement.cs" />
+    <Compile Include="Ast\Statements\GoToCaseStatement.cs" />
+    <Compile Include="Ast\Statements\IExplicitStringLiteralStatement.cs" />
+    <Compile Include="Ast\Statements\IGoToCaseStatement.cs" />
+    <Compile Include="Ast\Statements\ILockStatement.cs" />
+    <Compile Include="Ast\Statements\IStatementContextualVisitor`1.cs" />
+    <Compile Include="Ast\Statements\IStatementVisitor`1.cs" />
+    <Compile Include="Ast\Statements\IStatementVisitor`2.cs" />
+    <Compile Include="Ast\Statements\IThrowStatement.cs" />
+    <Compile Include="Ast\Statements\IUsingStatement.cs" />
+    <Compile Include="Ast\Statements\IWhileStatement.cs" />
+    <Compile Include="Ast\Statements\IYieldBreakStatement.cs" />
+    <Compile Include="Ast\Statements\IYieldReturnStatement.cs" />
+    <Compile Include="Ast\Statements\LockStatement.cs" />
+    <Compile Include="Ast\Statements\StatementExtensions.cs" />
+    <Compile Include="Ast\Statements\ThrowStatement.cs" />
+    <Compile Include="Ast\Statements\TryStatement.cs" />
+    <Compile Include="Ast\Statements\TypedCatchExceptionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\UsingStatement.cs" />
+    <Compile Include="Ast\Statements\WhileStatement.cs" />
+    <Compile Include="Ast\Statements\YieldBreakStatement.cs" />
+    <Compile Include="Ast\Statements\YieldReturnStatement.cs" />
+    <Compile Include="Ast\Walkers\MethodEquivalenceWalker.cs" />
+    <Compile Include="Ast\Walkers\StackedMethodEquivalenceWalker.cs" />
+    <Compile Include="Compilers\IAnonymousTypePatternAid.cs" />
+    <Compile Include="Compilers\IAssemblyCompilationContext.cs" />
+    <Compile Include="Compilers\ICompilationContext.cs" />
+    <Compile Include="Compilers\IMalleableAssemblyCompilationContext.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Compilers\IntermediateCompilerBase.cs" />
+    <Compile Include="Compilers\MalleableAssemblyCompilationContext.cs" />
+    <Compile Include="Compilers\PrimitiveTypeSizes.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Ast\DeclarationIdentifierChangeEventArgs.cs" />
+    <Compile Include="Ast\DynamicType.cs" />
+    <Compile Include="Ast\IIntermediateInstantiableType`15.cs" />
+    <Compile Include="Ast\IIntermediateStructImplementedInterfaces.cs" />
+    <Compile Include="Ast\IIntermediateStructInterfaceMapping.cs" />
+    <Compile Include="Ast\IntermediateGateway+SimpleSymbolDisambiguationWorker.cs" />
+    <Compile Include="Ast\IntermediateStructType+ImplementedInterfacesDictionary+Map.cs" />
+    <Compile Include="Ast\IntermediateStructType+ImplementedInterfacesDictionary.cs" />
+    <Compile Include="Ast\IntermediateSignatureMemberMapping.cs" />
+    <Compile Include="Ast\Statements\BoundChangeEventSignatureHandlerStatement.cs" />
+    <Compile Include="Ast\Statements\IBoundChangeEventSignatureHandlerStatement.cs" />
+    <Compile Include="Languages\AllenCopelandLanguageVendor.cs" />
+    <Compile Include="Languages\CSharp\CSharpLanguageVersion.cs" />
+    <Compile Include="Languages\DefaultLanguageServices.cs" />
+    <Compile Include="Languages\Expressions\ExpressionExtensions.cs" />
+    <Compile Include="Languages\Expressions\IExpressionService.cs" />
+    <Compile Include="Languages\IAllenCopelandLanguageVendor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Languages\IIntermediateNamespaceCtorLanguageService.cs" />
+    <Compile Include="Languages\IParameterArrayDeterminationService.cs" />
+    <Compile Include="Languages\IIntermediateAssemblyCtorLanguageService.cs" />
+    <Compile Include="Languages\IIntermediateCoercionMemberCtorLanguageService.cs" />
+    <Compile Include="Languages\IIntermediateFieldMemberCtorSesrvice.cs" />
+    <Compile Include="Languages\IIntermediateIdentifierLanguageQualifierService.cs" />
+    <Compile Include="Languages\IIntermediateMemberCtorLanguageService.cs" />
+    <Compile Include="Languages\IIntermediateTypeCtorLanguageService.cs" />
+    <Compile Include="Languages\ILanguageASTTranslator.cs" />
+    <Compile Include="Languages\ILanguageAsynchronousQueryService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Languages\ILanguageCSTTranslator.cs" />
+    <Compile Include="Languages\ILanguageParser.cs" />
+    <Compile Include="Languages\IMicrosoftLanguageVendor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Languages\LanguageGuids.cs" />
+    <Compile Include="Languages\LanguageProvider.cs" />
+    <Compile Include="Languages\LanguageVendorBase.cs" />
+    <Compile Include="Languages\LanguageVendors.cs" />
+    <Compile Include="Languages\MicrosoftLanguageVendor.cs" />
+    <Compile Include="Languages\ParameterArrayDeterminationServiceBase.cs" />
+    <Compile Include="Languages\ToySharp\ToySharpLanguageVersion.cs" />
+    <Compile Include="Languages\VersionedHighLevelLanguageProvider.cs" />
+    <Compile Include="Languages\VisualBasic\VisualBasicVersion.cs" />
+    <Compile Include="Parsers\IntermediateParserOptions.cs" />
+    <Compile Include="Parsers\IParserSyntaxMessage.cs" />
+    <Compile Include="Parsers\IParserSyntaxWarning.cs" />
+    <Compile Include="Parsers\INamedStreamInfo.cs" />
+    <Compile Include="Parsers\ParserSyntaxWarning.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Transformation\IntermediateCodeTransformerBuilder.cs" />
+    <Compile Include="Transformation\IntermediateTypeReferenceGathererHandler.cs" />
+    <Compile Include="Transformation\TransformationImpact.cs" />
+    <Compile Include="Transformation\VisitorBuilder.cs" />
+    <Compile Include="Transformation\VisitorImplementationBuilder.cs" />
+    <Compile Include="Transformation\VisitorImplementationTargetDetail.cs" />
+    <Compile Include="Transformation\VisitorModelExtensions.cs" />
+    <Compile Include="Transformation\VisitorTargetDetail.cs" />
+    <Compile Include="Translation\DefaultCodeTranslatorFormatterProvider.cs" />
+    <Compile Include="Translation\HtmlCodeFormatterProvider.cs" />
+    <Compile Include="Translation\IIntermediateCodeNameProvider.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslatorFormatter.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslatorFormatterProvider.cs" />
+    <Compile Include="Translation\IIntermediateDeclarationReferenceHandler.cs" />
+    <Compile Include="Translation\IntermediateCodeTranslatorBase %28Translate Signatures%29.cs" />
+    <Compile Include="Translation\IntermediateCodeTranslatorBase %28Visitor Signatures%29.cs" />
+    <Compile Include="Translation\IntermediateCodeTranslatorOptions.cs" />
+    <Compile Include="Translation\IntermediateNameRequestDetails.cs" />
+    <Compile Include="Translation\IntermediateTypeReferenceGatherer.cs" />
+    <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection+Enumerator.cs" />
+    <Compile Include="_Internal\Ast\_IIntermediateGenericType.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\ILinqBodyBuilderParent.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqBodyBuilderBase.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedOrderByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqDirectedThenByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqFromBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqFusionBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqJoinBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqLetBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqOrderByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailGroupBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTailSelectBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqThenByBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedFromBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqTypedJoinBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\Expressions\Linq\LinqWhereBodyBuilder.cs" />
+    <Compile Include="_Internal\Ast\IntermediateTypeMetadataCollection.cs" />
+    <Compile Include="_Internal\Ast\SymbolType.cs" />
+    <Compile Include="_Internal\Ast\SymbolType+CustomAttributeCollection.cs">
+      <DependentUpon>SymbolType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary+KeysCollection.cs">
+      <DependentUpon>SymbolType+GenericParameterDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary+ValuesCollection.cs">
+      <DependentUpon>SymbolType+GenericParameterDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterDictionary.cs">
+      <DependentUpon>SymbolType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\Ast\SymbolType+GenericParameterMember.cs">
+      <DependentUpon>SymbolType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_Internal\DictionaryHelpers.cs" />
+    <Compile Include="Compilers\AnonymousTypeDisplayStyle.cs" />
+    <Compile Include="Compilers\AnonymousTypeMember.cs" />
+    <Compile Include="Compilers\AnonymousTypePatternAid.cs" />
+    <Compile Include="Compilers\AssemblyOutputType.cs" />
+    <Compile Include="Compilers\DebugSupport.cs" />
+    <Compile Include="Cst\ICSharpCompilationUnit.cs" />
+    <Compile Include="Linkers\AssemblyReference.cs" />
+    <Compile Include="Linkers\AssemblyReferenceAliasCollection.cs" />
+    <Compile Include="Linkers\AssemblyReferenceCollection.cs" />
+    <Compile Include="Linkers\IAssemblyReference.cs" />
+    <Compile Include="Linkers\IAssemblyReferenceAliasCollection.cs" />
+    <Compile Include="Linkers\IAssemblyReferenceCollection.cs" />
+    <Compile Include="Linkers\IGenericConstructSymbolLookupTable.cs" />
+    <Compile Include="Linkers\ILinkerSymbol.cs" />
+    <Compile Include="Linkers\INamedSymbolLookupTable.cs" />
+    <Compile Include="Linkers\INamespaceSymbol.cs" />
+    <Compile Include="Linkers\IScopeAggregate.cs" />
+    <Compile Include="Linkers\ISubScopeAggregate.cs" />
+    <Compile Include="Linkers\ISymbolLookupTable.cs" />
+    <Compile Include="Ast\_IMetadatumDefinitionParameterCollection.cs" />
+    <Compile Include="Ast\AnonymousType.cs" />
+    <Compile Include="Ast\MetadatumDefinition.cs" />
+    <Compile Include="Ast\MetadatumDefinition+AttributeWrapper.cs">
+      <DependentUpon>MetadatumDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\MetadatumDefinition+ParameterValueCollection.cs">
+      <DependentUpon>MetadatumDefinition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\MetadataDefinition.cs" />
+    <Compile Include="Ast\MetadataDefinitionCollection.cs" />
+    <Compile Include="Ast\MetadatumDefinitionCollectionSeries+Wrapper.cs">
+      <DependentUpon>MetadataDefinitionCollection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\MetadatumDefinitionNamedParameter{T}.cs" />
+    <Compile Include="Ast\MetadatumDefinitionNamedParameterValue.cs" />
+    <Compile Include="Ast\MetadatumDefinitionParameter{T}.cs" />
+    <Compile Include="Ast\MetadatumDefinitionParameterCollection.cs" />
+    <Compile Include="Ast\MetadatumDefinitionParameterValue.cs" />
+    <Compile Include="Ast\DataSizeType.cs" />
+    <Compile Include="Ast\DeclarationNameChangedEventArgs.cs" />
+    <Compile Include="Ast\DeclarationRenamingEventArgs.cs" />
+    <Compile Include="Ast\Expressions\AssignmentExpression.cs" />
+    <Compile Include="Ast\Expressions\AutoContextMemberSource.cs" />
+    <Compile Include="Ast\Expressions\BinaryOperationKind.cs" />
+    <Compile Include="Ast\Expressions\BoundSpecialReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\CallNamedParameterDictionary.cs" />
+    <Compile Include="Ast\Expressions\CallParameterSet.cs" />
+    <Compile Include="Ast\Expressions\CallParameterSet+IndexedParameterCollection.cs">
+      <DependentUpon>CallParameterSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Expressions\CallParameterSet+NamedParametersDictionary.cs">
+      <DependentUpon>CallParameterSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Expressions\ConstructorInvokeExpression.cs" />
+    <Compile Include="Ast\Expressions\ConstructorPointerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\ConstructorReferenceStub.cs" />
+    <Compile Include="Ast\Expressions\CreateArrayDetailExpression.cs" />
+    <Compile Include="Ast\Expressions\CreateArrayExpression.cs" />
+    <Compile Include="Ast\Expressions\CreateArrayNestedDetailExpression.cs" />
+    <Compile Include="Ast\Expressions\CreateInstanceExpression.cs" />
+    <Compile Include="Ast\Expressions\CreateInstanceMemberAssignment.cs" />
+    <Compile Include="Ast\Expressions\CreateInstanceMemberAssignmentDictionary.cs" />
+    <Compile Include="Ast\Expressions\EventReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\ExpressionBase.cs" />
+    <Compile Include="Ast\Expressions\ExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\ExpressionException.cs" />
+    <Compile Include="Ast\Expressions\ExpressionExtensions.cs" />
+    <Compile Include="Ast\Expressions\ExpressionFusionExpression.cs" />
+    <Compile Include="Ast\Expressions\ExpressionKinds.cs" />
+    <Compile Include="Ast\Expressions\ExpressionToCommaFusionExpression.cs" />
+    <Compile Include="Ast\Expressions\ExpressionToCommaTypeReferenceFusionExpression.cs" />
+    <Compile Include="Ast\Expressions\FieldReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\FixedLengthMalleableExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\IAnonymousMethodExpression.cs" />
+    <Compile Include="Ast\Expressions\IAssignmentExpression.cs" />
+    <Compile Include="Ast\Expressions\IAssignTargetExpression.cs" />
+    <Compile Include="Ast\Expressions\IBinaryOperationExpression.cs" />
+    <Compile Include="Ast\Expressions\IBoundLocalReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IBoundMemberReference.cs" />
+    <Compile Include="Ast\Expressions\IBoundSpecialReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IBoundTypeOfExpression.cs" />
+    <Compile Include="Ast\Expressions\IBoundWorkspaceExpression.cs" />
+    <Compile Include="Ast\Expressions\ICallNamedParameterDictionary.cs" />
+    <Compile Include="Ast\Expressions\ICallParameterSet.cs" />
+    <Compile Include="Ast\Expressions\ICommaExpression.cs" />
+    <Compile Include="Ast\Expressions\IConditionalExpression.cs" />
+    <Compile Include="Ast\Expressions\IConstructorInvokeExpression.cs" />
+    <Compile Include="Ast\Expressions\IConstructorPointerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IConstructorReferenceStub.cs" />
+    <Compile Include="Ast\Expressions\ICreateAnonymousType.cs" />
+    <Compile Include="Ast\Expressions\ICreateAnonymousTypeMemberAssignment.cs" />
+    <Compile Include="Ast\Expressions\ICreateAnonymousTypeMemberAssignmentDictionary.cs" />
+    <Compile Include="Ast\Expressions\ICreateArrayDetailExpression.cs" />
+    <Compile Include="Ast\Expressions\ICreateArrayExpression.cs" />
+    <Compile Include="Ast\Expressions\ICreateArrayNestedDetailExpression.cs" />
+    <Compile Include="Ast\Expressions\ICreateInstanceExpression.cs" />
+    <Compile Include="Ast\Expressions\ICreateInstanceMemberAssignment.cs" />
+    <Compile Include="Ast\Expressions\ICreateInstanceMemberAssignmentDictionary.cs" />
+    <Compile Include="Ast\Expressions\IDelegateInvokeExpression.cs" />
+    <Compile Include="Ast\Expressions\IDelegateReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IDirectionExpression.cs" />
+    <Compile Include="Ast\Expressions\IEventInvokeExpression.cs" />
+    <Compile Include="Ast\Expressions\IEventReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IExpression.cs" />
+    <Compile Include="Ast\Expressions\IExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\IExpressionFusionExpression.cs" />
+    <Compile Include="Ast\Expressions\IExpressionToCommaFusionExpression.cs" />
+    <Compile Include="Ast\Expressions\IExpressionToCommaTypeReferenceFusionExpression.cs" />
+    <Compile Include="Ast\Expressions\IExpressionVisitor.cs" />
+    <Compile Include="Ast\Expressions\IFieldReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IFixedLengthMalleableExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\IFusionCommaTargetExpression.cs" />
+    <Compile Include="Ast\Expressions\IFusionTargetExpression.cs" />
+    <Compile Include="Ast\Expressions\IFusionTermExpression.cs" />
+    <Compile Include="Ast\Expressions\IFusionTypeCollectionTargetExpression.cs" />
+    <Compile Include="Ast\Expressions\IIndexerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveVisitor.cs" />
+    <Compile Include="Ast\Expressions\ILocalReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IMalleableCreateArrayDetailExpression.cs" />
+    <Compile Include="Ast\Expressions\IMalleableCreateArrayExpression.cs" />
+    <Compile Include="Ast\Expressions\IMalleableCreateArrayNestedDetailExpression.cs" />
+    <Compile Include="Ast\Expressions\IMalleableExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\IMalleableSpecialReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IMalleableStatementExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\IMalleableTypeOfExpression.cs" />
+    <Compile Include="Ast\Expressions\IMalleableWorkspaceExpression.cs" />
+    <Compile Include="Ast\Expressions\IMemberParentReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IMemberReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IMethodInvokeExpression.cs" />
+    <Compile Include="Ast\Expressions\IMethodPointerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IMethodReferenceStub.cs" />
+    <Compile Include="Ast\Expressions\INamedParameterExpression.cs" />
+    <Compile Include="Ast\Expressions\INaryOperandExpression.cs" />
+    <Compile Include="Ast\Expressions\IndexerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\InvalidIncrementTargetException.cs" />
+    <Compile Include="Ast\Expressions\InvalidInvertTargetException.cs" />
+    <Compile Include="Ast\Expressions\IParameterReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IParenthesizedExpression.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveExpression.cs" />
+    <Compile Include="Ast\Expressions\IPrimitiveExpression{T}.cs" />
+    <Compile Include="Ast\Expressions\IPropertyReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\ISpecialReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IStatementExpression.cs" />
+    <Compile Include="Ast\Expressions\IStaticGetMemberHandleExpression.cs" />
+    <Compile Include="Ast\Expressions\ISymbolExpression.cs" />
+    <Compile Include="Ast\Expressions\ITypeCastExpression.cs" />
+    <Compile Include="Ast\Expressions\ITypeOfExpression.cs" />
+    <Compile Include="Ast\Expressions\ITypeReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\IUnaryOperationExpression.cs" />
+    <Compile Include="Ast\Expressions\IUnaryOperationPrimaryTerm.cs" />
+    <Compile Include="Ast\Expressions\IVariadicTypeCastExpression.cs" />
+    <Compile Include="Ast\Expressions\IWorkspaceExpression.cs" />
+    <Compile Include="Ast\Expressions\IWorkspaceScopeExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaBody.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaBodySimple.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaBodyStatement.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaSimpleExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaStatementExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypedExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypedExpressionParameterMember.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypedExpressionParameterMemberDictionary.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypedSimpleExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypedStatementExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypeInferredExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypeInferredExpressionParameterMemberDictionary.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypeInferredSimpleExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypeInferredStatementExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\ILambdaTypeInferredExpressiondParameterMember.cs" />
+    <Compile Include="Ast\Expressions\Lambda\LambdaExpression.cs" />
+    <Compile Include="Ast\Expressions\Lambda\LambdaExpressionKind.cs" />
+    <Compile Include="Ast\Expressions\Lambda\LambdaExtensions.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqBodyBuilder.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqClauseCollection.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqExpression.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqFromClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqFusionBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqFusionBodyBuilder.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqFusionGroupBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqFusionSelectBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqGroupBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqJoinClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqLetClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqOrderByClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqOrderedBodyBuilder.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqOrderingPairCollection.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqRangeVariable.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqRangeVariableReference.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqSelectBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqTailBodyBuilder.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqTypedFromClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqTypedJoinClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqTypedRangeVariable.cs" />
+    <Compile Include="Ast\Expressions\Linq\ILinqWhereClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqClauseBase.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqClauseCollection.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqExpression.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqFromClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqFusionGroupBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqFusionSelectBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqGroupBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqHelper.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqJoinClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqLetClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqOrderByClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqOrderingPair.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqOrderingPairCollection.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqRangeVariable.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqRangeVariable+Reference.cs">
+      <DependentUpon>LinqRangeVariable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Expressions\Linq\LinqSelectBody.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqTypedFromClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqTypedJoinClause.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqTypedRangeVariable.cs" />
+    <Compile Include="Ast\Expressions\Linq\LinqWhereClause.cs" />
+    <Compile Include="Ast\Expressions\MalleableExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\MalleableStatementExpressionCollection.cs" />
+    <Compile Include="Ast\Expressions\MemberParentReferenceExpressionBase.cs" />
+    <Compile Include="Ast\Expressions\MethodInvokeExpression.cs" />
+    <Compile Include="Ast\Expressions\MethodPointerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\MethodReferenceStub.cs" />
+    <Compile Include="Ast\Expressions\MethodReferenceType.cs" />
+    <Compile Include="Ast\Expressions\NamedParameterExpression.cs" />
+    <Compile Include="Ast\Expressions\OperatorPrecedences.cs" />
+    <Compile Include="Ast\Expressions\ParameterReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\ParenthesizedExpression.cs" />
+    <Compile Include="Ast\Expressions\PrimitiveExpression{T}.cs" />
+    <Compile Include="Ast\Expressions\PrimitiveNullExpression.cs" />
+    <Compile Include="Ast\Expressions\PropertyReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\SpecialReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\Symbol.cs" />
+    <Compile Include="Ast\Expressions\SymbolExpression.cs" />
+    <Compile Include="Ast\Expressions\TypeCastExpression.cs" />
+    <Compile Include="Ast\Expressions\TypeOfExpression.cs" />
+    <Compile Include="Ast\Expressions\TypeReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\UnaryOperationExpression.cs" />
+    <Compile Include="Ast\Expressions\UnboundIndexerReferenceExpression.cs" />
+    <Compile Include="Ast\Expressions\UnboundPropertyReferenceExpression.cs" />
+    <Compile Include="Ast\IAnonymousTypeCollection.cs" />
+    <Compile Include="Ast\IAnonymousTypeManager.cs" />
+    <Compile Include="Ast\IMetadatumDefinition.cs" />
+    <Compile Include="Ast\IMetadataDefinition.cs" />
+    <Compile Include="Ast\IMetadataDefinitionCollection.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionNamedParameter.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionNamedParameter{T}.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionParameter.cs" />
+    <Compile Include="Ast\IMetadatumDefinitionParameter{T}.cs" />
+    <Compile Include="Ast\IMetadataDefinitionParameterCollection.cs" />
+    <Compile Include="Ast\_IMetadatumDefinitionParameterValue.cs" />
+    <Compile Include="Ast\IDataSizeType.cs" />
+    <Compile Include="Ast\IIntermediateAssembly.cs" />
+    <Compile Include="Ast\IIntermediateAssembly`2.cs" />
+    <Compile Include="Ast\IIntermediateAssemblyInformation.cs" />
+    <Compile Include="Ast\IIntermediateAssemblySet.cs" />
+    <Compile Include="Ast\IIntermediateClassType.cs" />
+    <Compile Include="Ast\IIntermediateClassTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateTreeVisitor.cs" />
+    <Compile Include="Ast\IIntermediateCoercibleType.cs" />
+    <Compile Include="Ast\IIntermediateCreatableSignatureType.cs" />
+    <Compile Include="Ast\IIntermediateCreatableType.cs" />
+    <Compile Include="Ast\IIntermediateCustomAttributedDeclaration.cs" />
+    <Compile Include="Ast\IIntermediateDeclaration.cs" />
+    <Compile Include="Ast\IIntermediateDeclarationDictionary.cs" />
+    <Compile Include="Ast\IIntermediateDeclarationVisitor.cs" />
+    <Compile Include="Ast\IIntermediateDelegateType.cs" />
+    <Compile Include="Ast\IIntermediateDelegateTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateEnumType.cs" />
+    <Compile Include="Ast\IIntermediateEnumTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateEventParent.cs" />
+    <Compile Include="Ast\IIntermediateEventSignatureParent.cs" />
+    <Compile Include="Ast\IIntermediateFullDeclarationDictionary.cs" />
+    <Compile Include="Ast\IIntermediateFullTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateGenericParameterParent.cs" />
+    <Compile Include="Ast\IIntermediateGenericType.cs" />
+    <Compile Include="Ast\IIntermediateGenericTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateGroupedDeclarationDictionary.cs" />
+    <Compile Include="Ast\IIntermediateIndexerParent.cs" />
+    <Compile Include="Ast\IIntermediateIndexerSignatureParent.cs" />
+    <Compile Include="Ast\IIntermediateInstantiableTypeImplementedInterfaces.cs" />
+    <Compile Include="Ast\IIntermediateInterfaceMemberMapping.cs" />
+    <Compile Include="Ast\IIntermediateInterfaceType.cs" />
+    <Compile Include="Ast\IIntermediateInterfaceTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateNamespaceDeclaration.cs" />
+    <Compile Include="Ast\IIntermediateNamespaceDictionary.cs" />
+    <Compile Include="Ast\IIntermediateNamespaceParent.cs" />
+    <Compile Include="Ast\IIntermediatePropertyParent.cs" />
+    <Compile Include="Ast\IIntermediatePropertySignatureParentType.cs" />
+    <Compile Include="Ast\IIntermediateScopedDeclaration.cs" />
+    <Compile Include="Ast\IIntermediateSegmentableDeclaration.cs" />
+    <Compile Include="Ast\IIntermediateSegmentableDeclarationPartCollection.cs" />
+    <Compile Include="Ast\IIntermediateSegmentableType.cs" />
+    <Compile Include="Ast\IIntermediateStructType.cs" />
+    <Compile Include="Ast\IIntermediateStructTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateTopLevelFieldMember.cs" />
+    <Compile Include="Ast\IIntermediateTopLevelMethodMember.cs" />
+    <Compile Include="Ast\IIntermediateType.cs" />
+    <Compile Include="Ast\IIntermediateTypeDictionary.cs" />
+    <Compile Include="Ast\IIntermediateTypeParent.cs" />
+    <Compile Include="Ast\IIntermediateTypeVisitor.cs" />
+    <Compile Include="Ast\ILambdaSignatureType.cs" />
+    <Compile Include="Ast\ImplementedInterfacesDictionary.cs" />
+    <Compile Include="Ast\ImplementedInterfacesDictionary+LockedVariant.cs">
+      <DependentUpon>ImplementedInterfacesDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\INamedInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Ast\INamedInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\INamespaceInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Ast\INamespaceInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\IntermediateAssembly{TAssembly}.cs" />
+    <Compile Include="Ast\IntermediateAssembly+PartsCollection.cs">
+      <DependentUpon>IntermediateAssembly{TAssembly}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateAssemblyInformation.cs" />
+    <Compile Include="Ast\IntermediateClassType.cs" />
+    <Compile Include="Ast\IntermediateClassType+MemberDeclarations.cs">
+      <DependentUpon>IntermediateClassType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateClassTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateDeclarationBase.cs" />
+    <Compile Include="Ast\IntermediateDeclarationDictionary.cs" />
+    <Compile Include="Ast\IntermediateDeclarationDictionary+ValuesCollection.cs">
+      <DependentUpon>IntermediateDeclarationDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateDelegateType.cs" />
+    <Compile Include="Ast\IntermediateDelegateType+ParameterDictionary.cs">
+      <DependentUpon>IntermediateDelegateType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateDelegateType+ParameterMember.cs">
+      <DependentUpon>IntermediateDelegateType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateDelegateTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateEnumType.cs" />
+    <Compile Include="Ast\IntermediateEnumType+FieldMember.cs">
+      <DependentUpon>IntermediateEnumType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateEnumType+FieldMember+FieldValue.cs">
+      <DependentUpon>IntermediateEnumType+FieldMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateEnumType+FieldMember+ReferenceExpression.cs">
+      <DependentUpon>IntermediateEnumType+FieldMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateEnumType+FieldMemberDictionary.cs">
+      <DependentUpon>IntermediateEnumType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateEnumTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateFullDeclarationDictionary.cs" />
+    <Compile Include="Ast\IntermediateFullDeclarationDictionary+ValuesCollection.cs">
+      <DependentUpon>IntermediateFullDeclarationDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateFullTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateGateway.cs" />
+    <Compile Include="Ast\IntermediateGateway+CreateAssemblyDynamicBridge.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGateway+CreateIntermediateAssemblyBridge.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGateway+DefaultATPatternAid.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGateway+ICreateAssemblyBridge{T}.cs">
+      <DependentUpon>IntermediateGateway.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGenericSegmentableInstantiableType.cs" />
+    <Compile Include="Ast\IntermediateGenericSegmentableInstantiableType+MemberDefinitions.cs">
+      <DependentUpon>IntermediateGenericSegmentableInstantiableType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGenericSegmentableInstantiableType+MemberDictionaries.cs">
+      <DependentUpon>IntermediateGenericSegmentableInstantiableType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGenericSegmentableParentType.cs" />
+    <Compile Include="Ast\IntermediateGenericSegmentableType.cs" />
+    <Compile Include="Ast\IntermediateGenericTypeBase.cs" />
+    <Compile Include="Ast\IntermediateGenericTypeBase+GenericParameterCollection.cs">
+      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGenericTypeBase+TypeParameter.cs">
+      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGenericTypeBase+TypeParameterDictionary.cs">
+      <DependentUpon>IntermediateGenericTypeBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateGenericTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateGroupedDeclarationDictionary.cs" />
+    <Compile Include="Ast\IntermediateGroupedDeclarationDictionary+ValuesCollection.cs">
+      <DependentUpon>IntermediateGroupedDeclarationDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateInterfaceType.cs" />
+    <Compile Include="Ast\IntermediateInterfaceType %28MemberDeclarations%29.cs">
+      <DependentUpon>IntermediateInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateInterfaceType %28MemberDictionaries%29.cs">
+      <DependentUpon>IntermediateInterfaceType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateInterfaceTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateNamespaceDeclaration.cs" />
+    <Compile Include="Ast\IntermediateNamespaceDictionary.cs" />
+    <Compile Include="Ast\IntermediateSegmentableDeclarationBase.cs" />
+    <Compile Include="Ast\IntermediateSegmentableDeclarationParts.cs" />
+    <Compile Include="Ast\IntermediateSegmentableTypePartCollection.cs" />
+    <Compile Include="Ast\IntermediateStructType.cs" />
+    <Compile Include="Ast\IntermediateStructType+MemberDeclarations.cs">
+      <DependentUpon>IntermediateStructType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\IntermediateStructTypeDictionary.cs" />
+    <Compile Include="Ast\IntermediateTopLevelFieldMember.cs" />
+    <Compile Include="Ast\IntermediateTopLevelFieldMemberDictionary.cs" />
+    <Compile Include="Ast\IntermediateTopLevelMethodMember.cs" />
+    <Compile Include="Ast\IntermediateTopLevelMethodMemberDictionary.cs" />
+    <Compile Include="Ast\IntermediateTypeBase.cs" />
+    <Compile Include="Ast\IntermediateTypeDictionary.cs" />
+    <Compile Include="Ast\IPrivateImplementationDetails.cs" />
+    <Compile Include="Ast\IRenameScopeCoercion.cs" />
+    <Compile Include="Ast\IScopeCoercion.cs" />
+    <Compile Include="Ast\IScopeCoercionCollection.cs" />
+    <Compile Include="Ast\IStaticInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\ITypeInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Ast\ITypeInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\IVersionedHighLevelIntermediateAssembly.cs" />
+    <Compile Include="Ast\Members\GenericParameterMovedEventArgs.cs" />
+    <Compile Include="Ast\Members\IIntermediateBinaryOperatorCoercionMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateBinaryOperatorCoercionMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateClassCtorMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateClassEventMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateClassFieldMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateClassIndexerMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateClassMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateClassPropertyMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateCoercionMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateConstructorMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateConstructorMemberCollection.cs" />
+    <Compile Include="Ast\Members\IIntermediateConstructorParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateConstructorSignatureMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateConstructorSignatureMemberCollection.cs" />
+    <Compile Include="Ast\Members\IIntermediateDelegateTypeParameterDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateDelegateTypeParamMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateEnumFieldConstantValue.cs" />
+    <Compile Include="Ast\Members\IIntermediateEnumFieldExpressionValue.cs" />
+    <Compile Include="Ast\Members\IIntermediateEnumFieldMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateEnumFieldMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateEnumFieldValue.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventParamMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventSignatureMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateEventSignatureParamMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateExtendedInstanceMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateFieldMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateFieldMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateFieldParent.cs" />
+    <Compile Include="Ast\Members\IIntermediateFullMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameter.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterConstructorMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterConstructorMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterEventMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterEventMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterIndexerMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterIndexerMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterMethodMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterPropertyMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericParameterPropertyMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateGenericTypeParameter.cs" />
+    <Compile Include="Ast\Members\IIntermediateGroupedMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateIndexerMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateIndexerMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateIndexerParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateIndexerSignatureMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateIndexerSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateIndexerSignatureParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateInstanceMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateInterfaceEventMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateInterfaceIndexerMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateInterfaceMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateInterfacePropertyMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMemberDictionary.cs" />
+    <Compile Include="Ast\IIntermediateMemberParent.cs" />
+    <Compile Include="Ast\Members\IIntermediateMemberVisitor.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodParent.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodSignatureGenericTypeParamMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodSignatureMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodSignatureParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateMethodSignatureParent.cs" />
+    <Compile Include="Ast\Members\IIntermediateParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateParameterMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateParameterParent.cs" />
+    <Compile Include="Ast\Members\IIntermediatePropertyMember.cs" />
+    <Compile Include="Ast\Members\IIntermediatePropertyMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediatePropertyMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediatePropertySignatureMember.cs" />
+    <Compile Include="Ast\Members\IIntermediatePropertySignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediatePropertySignatureMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateSignatureMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateSignatureParameterMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateSignatureParent.cs" />
+    <Compile Include="Ast\Members\IIntermediateStructCtorMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateStructEventMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateStructFieldMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateStructIndexerMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateStructMethodMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateStructPropertyMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateTypeCoercionMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateTypeCoercionMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IIntermediateUnaryOperatorCoercionMember.cs" />
+    <Compile Include="Ast\Members\IIntermediateUnaryOperatorCoercionMemberDictionary.cs" />
+    <Compile Include="Ast\Members\ILocalMember.cs" />
+    <Compile Include="Ast\Members\ILocalMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateCoercionMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateConstructorMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateConstructorMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateConstructorSignatureMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateConstructorSignatureMemberBase+Parameter.cs">
+      <DependentUpon>IntermediateConstructorSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateConstructorSignatureMemberBase+ParameterDictionary.cs">
+      <DependentUpon>IntermediateConstructorSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateConstructorSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateEnumFieldAutomaticValue.cs" />
+    <Compile Include="Ast\Members\IntermediateEventMember.cs" />
+    <Compile Include="Ast\Members\IntermediateEventMember+ParameterDictionary.cs">
+      <DependentUpon>IntermediateEventMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateEventMember+ParameterMember.cs">
+      <DependentUpon>IntermediateEventMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateEventMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateEventSignatureMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateEventSignatureMemberBase+_Parameters.cs">
+      <DependentUpon>IntermediateEventSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateEventSignatureMemberBase+_Parameters+Parameter.cs">
+      <DependentUpon>IntermediateEventSignatureMemberBase+_Parameters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateEventSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateEventSignatureParameterMember.cs" />
+    <Compile Include="Ast\Members\IntermediateFieldMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateFieldMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateFullMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateGenericParameterBase.cs" />
+    <Compile Include="Ast\Members\IntermediateGenericParameterBase+MemberDefinitions.cs">
+      <DependentUpon>IntermediateGenericParameterBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateGenericParameterBase+MemberDictionaries.cs">
+      <DependentUpon>IntermediateGenericParameterBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateGenericParameterDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateGenericTypeParameterBase{TTypeIdentifier, TType, TIntermediateType}.cs" />
+    <Compile Include="Ast\Members\IntermediateGroupedMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateGroupedSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateIndexerMember.cs" />
+    <Compile Include="Ast\Members\IntermediateIndexerMember+ParameterMembersDictionary.cs">
+      <DependentUpon>IntermediateIndexerMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateIndexerMember+ParameterMembersDictionary+ParameterMember.cs">
+      <DependentUpon>IntermediateIndexerMember+ParameterMembersDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateIndexerMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateIndexerSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateMethodMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateMethodMemberBase+ParameterDictionary.cs">
+      <DependentUpon>IntermediateMethodMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodMemberBase+ParameterMember.cs">
+      <DependentUpon>IntermediateMethodMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberBase+GenericParameterCollection.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberBase+Parameter.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberBase+ParameterDictionary.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberBase+TypeParameterDictionary.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberBase+TypeParameterDictionary+TypeParameter.cs">
+      <DependentUpon>IntermediateMethodSignatureMemberBase+TypeParameterDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\IntermediateMethodSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateParameterMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateParameterMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateParameterParentMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediatePropertyMember.cs" />
+    <Compile Include="Ast\Members\IntermediatePropertyMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediatePropertySignatureMember.cs" />
+    <Compile Include="Ast\Members\IntermediatePropertySignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateSignatureMemberBase.cs" />
+    <Compile Include="Ast\Members\IntermediateSignatureMemberDictionary.cs" />
+    <Compile Include="Ast\Members\IntermediateSignatureParameterMemberBase.cs" />
+    <Compile Include="Ast\Members\LocalMember.cs" />
+    <Compile Include="Ast\Members\LocalMember+ReferenceExpression.cs">
+      <DependentUpon>LocalMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Members\LocalMemberDictionary.cs" />
+    <Compile Include="Ast\Members\TypedLocalMember.cs" />
+    <Compile Include="Ast\Members\TypedLocalMember+ReferenceExpression.cs">
+      <DependentUpon>TypedLocalMember.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Modules\IIntermediateModule.cs" />
+    <Compile Include="Ast\Modules\IIntermediateModuleDictionary.cs" />
+    <Compile Include="Ast\Modules\IIntermediateModuleGlobalField.cs" />
+    <Compile Include="Ast\Modules\IIntermediateModuleGlobalFieldDictionary.cs" />
+    <Compile Include="Ast\Modules\IIntermediateModuleGlobalMethod.cs" />
+    <Compile Include="Ast\Modules\IIntermediateModuleGlobalMethodDictionary.cs" />
+    <Compile Include="Ast\Modules\IntermediateModule.cs" />
+    <Compile Include="Ast\Modules\IntermediateModuleDictionary.cs" />
+    <Compile Include="Ast\Modules\IntermediateModuleDictionary+AbstractValueCollection.cs">
+      <DependentUpon>IntermediateModuleDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Modules\IntermediateModuleGlobalField.cs" />
+    <Compile Include="Ast\Modules\IntermediateModuleGlobalFieldDictionary.cs" />
+    <Compile Include="Ast\Modules\IntermediateModuleGlobalMethod.cs" />
+    <Compile Include="Ast\Modules\IntermediateModuleGlobalMethodDictionary.cs" />
+    <Compile Include="Ast\NamedInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Ast\NamedInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\NamespaceInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Ast\NamespaceInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\PrivateImplementationDetails.cs" />
+    <Compile Include="Ast\ScopeCoercionCollection.cs" />
+    <Compile Include="Ast\Statements\BlockStatementBase.cs" />
+    <Compile Include="Ast\Statements\BlockStatementLabelDictionary.cs" />
+    <Compile Include="Ast\Statements\BlockStatementParentContainer.cs" />
+    <Compile Include="Ast\Statements\BlockStatementScopeLabelDictionary.cs" />
+    <Compile Include="Ast\Statements\BlockStatementScopeLabelDictionary+KeysCollection.cs">
+      <DependentUpon>BlockStatementScopeLabelDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Statements\BlockStatementScopeLabelDictionary+ValuesCollection.cs">
+      <DependentUpon>BlockStatementScopeLabelDictionary.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ast\Statements\BreakableConditionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\BreakableConditionContinuationStatement.cs" />
+    <Compile Include="Ast\Statements\BreakExit.cs" />
+    <Compile Include="Ast\Statements\BreakStatement.cs" />
+    <Compile Include="Ast\Statements\CallFusionStatement.cs" />
+    <Compile Include="Ast\Statements\CallMethodStatement.cs" />
+    <Compile Include="Ast\Statements\ChangeEventHandlerStatement.cs" />
+    <Compile Include="Ast\Statements\CommentStatement.cs" />
+    <Compile Include="Ast\Statements\ConditionContinuationStatement.cs" />
+    <Compile Include="Ast\Statements\ConditionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\EnumerateSetBreakableBlockStatement.cs" />
+    <Compile Include="Ast\Statements\ExpressionStatement.cs" />
+    <Compile Include="Ast\Statements\GoToStatement.cs" />
+    <Compile Include="Ast\Statements\IBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IBlockStatementLabelDictionary.cs" />
+    <Compile Include="Ast\Statements\IBlockStatementParent.cs" />
+    <Compile Include="Ast\Statements\IBreakableBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IBreakableConditionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IBreakableConditionContinuationStatement.cs" />
+    <Compile Include="Ast\Statements\IBreakableStatement.cs" />
+    <Compile Include="Ast\Statements\IBreakExit.cs" />
+    <Compile Include="Ast\Statements\IBreakStatement.cs" />
+    <Compile Include="Ast\Statements\ICallFusionStatement.cs" />
+    <Compile Include="Ast\Statements\ICallMethodStatement.cs" />
+    <Compile Include="Ast\Statements\IChangeEventHandlerStatement.cs" />
+    <Compile Include="Ast\Statements\ICommentStatement.cs" />
+    <Compile Include="Ast\Statements\IConditionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IConditionContinuationStatement.cs" />
+    <Compile Include="Ast\Statements\IEnumerateSetBreakableBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IExplicitlyTypedLocalVariableDeclarationStatement.cs" />
+    <Compile Include="Ast\Statements\IExpressionStatement.cs" />
+    <Compile Include="Ast\Statements\IGoToStatement.cs" />
+    <Compile Include="Ast\Statements\IIterationBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IIterationDeclarationBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IJumpStatement.cs" />
+    <Compile Include="Ast\Statements\IJumpTarget.cs" />
+    <Compile Include="Ast\Statements\ILabelStatement.cs" />
+    <Compile Include="Ast\Statements\ILocalDeclarationStatement.cs" />
+    <Compile Include="Ast\Statements\IReturnStatement.cs" />
+    <Compile Include="Ast\Statements\ISimpleIterationBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IStatement.cs" />
+    <Compile Include="Ast\Statements\IStatementParent.cs" />
+    <Compile Include="Ast\Statements\IStatements.cs" />
+    <Compile Include="Ast\Statements\IStatementVisitor.cs" />
+    <Compile Include="Ast\Statements\ISwitchCaseBlockStatement.cs" />
+    <Compile Include="Ast\Statements\ISwitchStatement.cs" />
+    <Compile Include="Ast\Statements\IterationBlockBaseStatement.cs" />
+    <Compile Include="Ast\Statements\IterationBlockStatement.cs" />
+    <Compile Include="Ast\Statements\IterationDeclarationBlockStatement.cs" />
+    <Compile Include="Ast\Statements\ITopBlockStatement.cs" />
+    <Compile Include="Ast\Statements\ITryStatement.cs" />
+    <Compile Include="Ast\Statements\ITypedCatchExceptionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\ITypeNamedCatchExceptionBlockStatement.cs" />
+    <Compile Include="Ast\Statements\JumpStatement.cs" />
+    <Compile Include="Ast\Statements\LabelStatement.cs" />
+    <Compile Include="Ast\Statements\LocalDeclarationStatement.cs" />
+    <Compile Include="Ast\Statements\ReturnStatement.cs" />
+    <Compile Include="Ast\Statements\StatementBase.cs" />
+    <Compile Include="Ast\Statements\StatementKind.cs" />
+    <Compile Include="Ast\Statements\SwitchCaseBlockStatement.cs" />
+    <Compile Include="Ast\Statements\SwitchStatement.cs" />
+    <Compile Include="Ast\StaticInclusionScopeCoercion.cs" />
+    <Compile Include="Ast\TypeInclusionRenameScopeCoercion.cs" />
+    <Compile Include="Ast\TypeInclusionScopeCoercion.cs" />
+    <Compile Include="Parsers\IParserResults{T}.cs" />
+    <Compile Include="Parsers\IParserSyntaxError.cs" />
+    <Compile Include="Parsers\IParserSyntaxMessageCollection.cs" />
+    <Compile Include="Parsers\ParserResults.cs" />
+    <Compile Include="Parsers\ParserSyntaxError.cs" />
+    <Compile Include="Parsers\ParserSyntaxErrorCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslator.cs" />
+    <Compile Include="Translation\IIntermediateCodeTranslatorOptions.cs" />
+    <Compile Include="Translation\IntermediateBlockTranslationClasses.cs" />
+    <Compile Include="Translation\IntermediateCodeTranslatorBase.cs" />
+    <Compile Include="Translation\IntermediateSpanTranslationClasses.cs" />
+    <Compile Include="_Internal\GenericLayer\_SymbolType.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utilities\Common\Common Utilities.csproj">
+      <Project>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</Project>
+      <Name>Common Utilities</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\FiniteAutomation\Finite Automation.csproj">
+      <Project>{ecc67b87-6eba-4f40-baae-fe838ff8afa3}</Project>
+      <Name>Finite Automation</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Numerics\Numerics.csproj">
+      <Project>{ee0bb74e-bcaa-4797-87b0-4d67124f74e6}</Project>
+      <Name>Numerics</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Utilities\Security\Security.csproj">
+      <Project>{6323d970-b8ab-4d69-9f9c-05a73b2f1d66}</Project>
+      <Name>Security</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Metadata\Metadata Library\Metadata Library.csproj">
+      <Project>{A94A88DA-2500-4372-A433-A07AC3BFA05F}</Project>
+      <Name>Metadata Library</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\TypeSystems\Abstract\TypeSystem Abstract.csproj">
+      <Project>{161EAA8C-20C6-4B82-925A-4B8B112910AB}</Project>
+      <Name>TypeSystem Abstract</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Compilers\Abstraction Compiler Services\Abstraction Compiler Services.csproj">
+      <Project>{DF6044A9-AE48-4AC2-A170-EB839BB0058C}</Project>
+      <Name>Abstraction Compiler Services</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" Condition="'$(Configuration)' == 'Release'" />
+    <None Include="Ast\Statements\Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>AllenCopeland.Abstraction.Slf.Ast.Properties</CustomToolNamespace>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Ast\Expressions\Linq\Linq - ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Compilers\Compiler Warnings and Errors.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="_Internal\Ast\Documentation\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

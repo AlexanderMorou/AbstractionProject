@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B449E1F5-149C-4F47-BBFC-A82EEE96471A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AllenCopeland.Abstraction</RootNamespace>
+    <AssemblyName>_abs.util.common</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SignAssembly Condition="'$(Configuration)' == 'Release'">true</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition="'$(Configuration)' == 'Release'">Allen Copeland.pfx</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\x64\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS+, x64, MKD_FOUR</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>..\..\..\Build\x64\Release\</OutputPath>
+    <DefineConstants>x64</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+    <DocumentationFile>..\..\..\Build\x64\Release\_abs.util.common.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\x86\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS+, x86, MKD_FOUR</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>false</CodeAnalysisFailOnMissingRules>
+    <DocumentationFile>
+    </DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>..\..\..\Build\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;x86, MKD_FOUR</DefineConstants>
+    <Optimize>true</Optimize>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisIgnoreBuiltInRuleSets>true</CodeAnalysisIgnoreBuiltInRuleSets>
+    <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+    <DocumentationFile>..\..\..\Build\x86\Release\_abs.util.common.xml</DocumentationFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <OutputPath>..\..\..\Build\Any-Cpu\Release\</OutputPath>
+    <DefineConstants>TRACE;x86, MKD_FOUR</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DocumentationFile>..\..\..\Build\Any-Cpu\Release\_abs.util.common.xml</DocumentationFile>
+    <Optimize>true</Optimize>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisFailOnMissingRules>true</CodeAnalysisFailOnMissingRules>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>..\..\..\Build\Any-Cpu\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS, x86, PLATFORM_ANY, MKD_FOUR</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArgumentWithException.cs" />
+    <Compile Include="CurrentPreviousPair.cs" />
+    <Compile Include="Tuples\SelectiveTuple{T1, T2}.cs" />
+    <Compile Include="Tuples\SelectiveTuple{T1, T2, T3}.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="MiscHelperMethods.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="StringHandling.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ThrowHelper.cs" />
+    <Compile Include="EnumerableExtensions+SinglePass{T}.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Utilities\Arrays\ArrayBounds+LengthCollection.cs" />
+    <Compile Include="Utilities\Arrays\ArrayBounds.cs" />
+    <Compile Include="Utilities\Arrays\Tweaks.cs" />
+    <Compile Include="Utilities\Collections\ArrayReadOnlyCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\ConcatenatedArrayReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\ControlledCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\ControlledDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\ControlledKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\ControlledKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+KeysCollection.cs">
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+SharedLocals.cs">
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\ControlledStateDictionary{TKey, TValue}+ValuesCollection.cs">
+      <DependentUpon>ControlledDictionary{TKey, TValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\CountableEnumerableWrapper.cs" />
+    <Compile Include="Utilities\Collections\CovariantReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\GeneralExtensions.cs" />
+    <Compile Include="Utilities\Collections\HashList{T}.cs" />
+    <Compile Include="Utilities\Collections\IArrayReadOnlyCollection.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateCollection.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateDictionary.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IControlledStateKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\ICountableEnumerable.cs" />
+    <Compile Include="Utilities\Collections\IKeyedTree.cs" />
+    <Compile Include="Utilities\Collections\IKeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\ILockedLinkedList.cs" />
+    <Compile Include="Utilities\Collections\ILockedLinkedListNode.cs" />
+    <Compile Include="Utilities\Collections\IMasterDictionary.cs" />
+    <Compile Include="Utilities\Collections\IMasterDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\IMultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\IReadonlyMultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{4}.cs" />
+    <Compile Include="Utilities\Collections\ISubordinateDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\KeyedTree.cs" />
+    <Compile Include="Utilities\Collections\KeyedTreeNode.cs" />
+    <Compile Include="Utilities\Collections\KeysValuePair`2.cs" />
+    <Compile Include="Utilities\Collections\LockedLinkedList+Node.cs" />
+    <Compile Include="Utilities\Collections\LockedLinkedList.cs" />
+    <Compile Include="Utilities\Collections\MasterDictionaryBase{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\MasterDictionaryEntry.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`2.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`3.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`4.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`5.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`6.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionaryKeys`7.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`3+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`4+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`4+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelFour.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelFive.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelFour.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelFive.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelFour.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelOne.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelSix.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelThree.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8+LevelTwo.cs" />
+    <Compile Include="Utilities\Collections\MultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\MutableDictionary.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyCollectionGroup.cs" />
+    <Compile Include="Utilities\Collections\ReadOnlyDictionary{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`3.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`4.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`5.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`6.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`7.cs" />
+    <Compile Include="Utilities\Collections\ReadonlyMultikeyedDictionary`8.cs" />
+    <Compile Include="Utilities\Collections\SimpleCollection{T}.cs" />
+    <Compile Include="Utilities\Collections\SimpleDictionaryEnumerator{TKey, TValue}.cs" />
+    <Compile Include="Utilities\Collections\SubKeyNotFoundException.cs" />
+    <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}+KC.cs">
+      <DependentUpon>SubordinateDictionary{TKey, TSValue, TMValue}.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\Collections\SubordinateDictionary{TKey, TSValue, TMValue}.cs" />
+    <Compile Include="Utilities\Collections\_ISubordinateDictionaryMasterPass.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R2{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR1{T}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR2R3{T1, T2, T3}.cs" />
+    <Compile Include="Utilities\Events\EventArgsR2{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgs{T1, T2}.cs" />
+    <Compile Include="Utilities\Events\EventArgs{T}.cs" />
+    <Compile Include="Utilities\Services\IServiceProvider{TServiceRoot}.cs" />
+    <Compile Include="Utilities\Services\IService{TServiceRoot}.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>AllenCopeland.Abstraction.Utilities.Properties</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Allen Copeland.pfx" />
+    <None Include="Resources\BitCounts" />
+    <None Include="Resources\RandomRSAData.blob" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IO\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

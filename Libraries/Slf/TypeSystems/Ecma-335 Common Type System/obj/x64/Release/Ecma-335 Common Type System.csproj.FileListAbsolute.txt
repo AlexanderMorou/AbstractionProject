@@ -1,0 +1,4 @@
+C:\Projects\Code\C#\Abstraction\Build\x64\Release\_abs.slf.typesystems.cli.xml
+C:\Projects\Code\C#\Abstraction\Build\x64\Release\_abs.slf.typesystems.cli.dll
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Ecma-335 Common Type System\obj\x64\Release\Ecma-335 Common Type System.csprojResolveAssemblyReference.cache
+C:\Projects\Code\C#\Abstraction\Libraries\SLF\TypeSystems\Ecma-335 Common Type System\obj\x64\Release\_abs.slf.typesystems.cli.dll
